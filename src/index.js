@@ -8,6 +8,8 @@ import App from './App';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 import './asserts/styles/index.scss'
+import "antd/dist/antd.css";
+
 
 const store = createStore(rootReducer)
 
@@ -17,7 +19,7 @@ ReactDOM.render(
     <Provider store={store}>
         <App />
     </Provider>,
-document.getElementById('root'));
+    document.getElementById('root'));
 
 
 serviceWorker.unregister();

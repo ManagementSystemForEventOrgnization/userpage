@@ -1,0 +1,36 @@
+
+.footer{
+    background-color: $brown;
+    b{
+        @include large-text;
+    }
+    // label{
+    //   @include small-text;
+    // }
+    
+
+     .col .iconCard{
+        border: $borderFrame;
+        padding: 5px 0px 0px 0px ;
+        margin: 0px 5px;
+        .iconText{
+            @include small-text;
+            p{
+                margin: 2px 4px 0px 10px;
+                
+            }
+        }
+
+        .icon{
+            font-size: 32px !important; 
+        }
+    }
+    Button{
+        background-color: $blueLight;
+        margin: 5px;
+        icon{
+            font-size: 32px !important; 
+        } 
+    }
+ 
+}
