@@ -1,6 +1,13 @@
 import React from 'react';
 import { Input, Tooltip, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {
+    UserOutlined,
+    PlusOutlined,
+    MoneyCollectOutlined,
+    CalendarOutlined,
+    ProfileOutlined,
+    LogoutOutlined
+} from '@ant-design/icons';
 
 const { Search } = Input;
 
@@ -14,22 +21,38 @@ class Header extends React.Component {
     }
 
     render() {
-        const userInfor = <div>
-            <p><b>user name:</b> Hoang Nhi</p>
+        const userInfor = <div style={{ width: '140px' }}>
+            <Button className="mt-1" icon={<MoneyCollectOutlined />}>
+                Vé đã đặt
+            </Button>
+            <Button className="mt-1" icon={<CalendarOutlined />}>
+                Sự kiện đã tạo
+            </Button>
+            <Button className="mt-1" icon={<ProfileOutlined />}>
+                Trang cá nhân
+            </Button>
+            <Button className="mt-1" icon={<LogoutOutlined />}>
+                Đăng xuất
+            </Button>
         </div>;
         return (
             <div>
-                <nav className="nav header fixed-top">
+                <nav className="nav header ">
                     <a className="nav-link active" href="#">Active</a>
-                    <a className="nav-link" href="#">Link</a>
-                    <a className="nav-link" href="#">Link</a>
                     <a className="nav-link" href="#">
                         <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
                     </a>
-                    <a className="nav-link float-right" href="#">
-                        <UserOutlined />
+                    <a className="nav-link" href="#">
+                        <Button type="primary" icon={<PlusOutlined />}>
+                            Tạo Sự Kiện
+                       </Button>
+                    </a>
+
+                    <a className="nav-link ml-auto" href="#">
                         <Tooltip className="mt-1 ml-1" placement="bottom" title={userInfor}>
-                            <label>username</label>
+                            <Button type="primary" icon={<UserOutlined />}>
+                                Hoàng Nhi
+                       </Button>
                         </Tooltip>
                     </a>
                 </nav>

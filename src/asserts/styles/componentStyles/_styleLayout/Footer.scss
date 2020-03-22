@@ -1,6 +1,7 @@
 
 .footer{
     background-color: $brown;
+    color: $item-color;
     b{
         @include large-text;
     }
