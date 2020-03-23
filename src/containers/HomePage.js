@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import Event from '../components/Event'
-import EventList from '../components/EventList'
+import EventList from '../components/EventList';
+import Banner from '../components/Banner';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class HomePage extends React.Component {
     render() {
         return (
             <div>
+                <Banner/>
                 <Event></Event>
             </div>
         )
