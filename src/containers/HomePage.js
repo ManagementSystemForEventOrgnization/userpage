@@ -15,6 +15,7 @@ class HomePage extends React.Component {
         return (
             <div>
                 <Event></Event>
+           
             </div>
         )
     }

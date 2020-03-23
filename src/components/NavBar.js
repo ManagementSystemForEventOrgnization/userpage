@@ -13,7 +13,8 @@ const typeOfEvents = [
     "Sân khấu-Nghệ thuật",
     "Tình nguyện",
     "Workshop",
-    "Talkshow"
+    "Talkshow",
+    
 ]
 
 
