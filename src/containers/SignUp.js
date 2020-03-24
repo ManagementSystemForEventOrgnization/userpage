@@ -2,11 +2,11 @@ import { connect } from 'react-redux'
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Row, Col } from 'antd';
-import { GooglePlusOutlined} from '@ant-design/icons';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { GoogleOutlined} from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined,UnlockOutlined } from '@ant-design/icons';
 import '../asserts/styles/componentStyles/Login.scss';
 
-class Login extends React.Component{
+class SignUp extends React.Component{
     constructor(props){
         super(props);
        
@@ -15,7 +15,7 @@ class Login extends React.Component{
 
         }
     }
-     HorizontalLoginForm = () => {
+     HorizontalSignUpForm = () => {
       const [form] = Form.useForm();
       const [, forceUpdate] = useState(); // To disable submit button at the beginning.
     
@@ -38,8 +38,20 @@ class Login extends React.Component{
     <div className="col" > 
       <p className="title">Event in your hand</p>
     <Form className="mt-4" form={this.form} name="horizontal_login"  onFinish={this.onFinish}>
+    <Form.Item
+        name="fullname"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your full name!',
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Full Name" />
+      </Form.Item>
+
       <Form.Item
-        name="Email"
+        name="email"
         rules={[
           {
             required: true,
@@ -47,7 +59,7 @@ class Login extends React.Component{
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input prefix={<MailOutlined  className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -59,37 +71,37 @@ class Login extends React.Component{
         ]}
       >
         <Input.Password 
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<LockOutlined  className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
-
         />
       </Form.Item>
-      <div className='ant-row'>
-        <div className="ant-col ant-col-12">
-        <Form.Item shouldUpdate>
+      <Form.Item
+        name="pass"
+        rules={[
+          {
+            required: true,
+            message: 'Please repeat your password!',
+          },
+        ]}
+      >
+        <Input.Password 
+          prefix={<UnlockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Repeat Password"
+        />
+      </Form.Item>
+        <Form.Item shouldUpdate >
         {() => (
-          <Button
+            <div style={{textAlign:"center"}}>
+                <Button block
             type="primary"
-            htmlType="submit"
-           
-          >
-            Đăng nhập
+            htmlType="submit">Đăng ký
           </Button>
+            </div>
         )}
       </Form.Item>
-      
-        </div>
-        <div className="ant-col ant-col-12  ">
-        <a href="#"  style={{float:"right"}}>Quên mật khẩu?</a>
-        </div>
-        </div>
-       <p style={{textAlign:"center"}}>OR</p>
-       <Button className=" title "  type="primary" icon={<GooglePlusOutlined className="seticon" />}>
-         
-      Đăng nhập với Google
-    </Button>
-    <p className="mt-2"  style={{textAlign:"center"}}>Bạn chưa có tài khoản? <span><a href="/signup">đăng ký ngay</a></span>  </p> 
+    <p className="mt-2"  style={{textAlign:"center"}}>Bạn đã có tài khoản? <span><a href="/login">Đăng nhập</a></span>  </p> 
     </Form>
         
     </div>
@@ -108,5 +120,5 @@ const mapStateToProps = state => ({
   });
   
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Login)
+  export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
   
