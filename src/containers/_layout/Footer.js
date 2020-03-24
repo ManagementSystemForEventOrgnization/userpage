@@ -9,7 +9,8 @@ import {
     LinkedinOutlined,
     GoogleOutlined,
     SkypeOutlined,
-    FlagOutlined
+    FlagOutlined,
+    InstagramOutlined ,
 } from '@ant-design/icons';
 
 import { Button, Radio } from 'antd';
@@ -121,12 +122,12 @@ class Footer extends React.Component {
                         </div>
                     </div>
                     <div className="col">
-                        <b>Ứng dụng Ticketbox</b>
+                        <b style={{fontWeight:"bold"}}>Follow Us</b>
                         <div>
-                            <Button type="primary" shape="circle" icon={<FacebookOutlined />} />
-                            <Button type="primary" shape="circle" icon={<SkypeOutlined />} />
-                            <Button type="primary" shape="circle" icon={<GoogleOutlined />} />
-                            <Button type="primary" shape="circle" icon={<LinkedinOutlined />} />
+                            <Button style={{ background: '#3B5998'}} shape="circle"  icon={<FacebookOutlined className=" fa-facebook social-network-icon"  />} />
+                            <Button style={{  background:'#4e92df'}}  shape="circle" icon={<SkypeOutlined className=" fa-twitter social-network-icon" />} />
+                            <Button style={{  background:'#EA4335'}} shape="circle" icon={<GoogleOutlined className=" fa-google social-network-icon"  />} />
+                            <Button  shape="circle" icon={<InstagramOutlined  className=" fa-instagram social-network-icon" />} />
                         </div>
                     </div>
                     <div className="col mb-3">

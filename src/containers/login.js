@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Row, Col } from 'antd';
-import { GoogleOutlined} from '@ant-design/icons';
+import { GooglePlusOutlined} from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../asserts/styles/componentStyles/Login.scss';
 
@@ -85,7 +85,7 @@ class Login extends React.Component{
         </div>
         </div>
        <p style={{textAlign:"center"}}>OR</p>
-       <Button className=" title "  type="primary" icon={<GoogleOutlined className="seticon" />}>
+       <Button className=" title "  type="primary" icon={<GooglePlusOutlined className="seticon" />}>
          
       Đăng nhập với Google
     </Button>
