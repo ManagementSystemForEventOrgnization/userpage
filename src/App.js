@@ -18,6 +18,7 @@ import CategoryDetail from './containers/CategoryDetail';
 import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/login';
+import Signup from'./containers/SignUp';
 require('dotenv').config()
 
 
@@ -39,6 +40,7 @@ function App() {
           <Route exact path="/:category/:id" component={EventDetail} />
         </Switch >
         <Route exact path="/login" component={Login}/>
+        <Route exact path="/signup" component={Signup}/>
       </Router>
   
       <Footer />
