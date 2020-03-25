@@ -1,13 +1,8 @@
 import React from 'react';
-import { Input, Tooltip, Button } from 'antd';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Input, Button } from 'antd';
 import {
-    UserOutlined,
-    PlusOutlined,
-    MoneyCollectOutlined,
-    CalendarOutlined,
-    ProfileOutlined,
-    LogoutOutlined
+    PlusOutlined
 } from '@ant-design/icons';
 
 import NavBar from '../../components/NavBar';
@@ -23,7 +18,7 @@ const typeOfEvents = [
     "Tình nguyện",
     "Workshop",
     "Talkshow"
-  ]
+]
 
 
 class Header extends React.Component {
@@ -36,45 +31,27 @@ class Header extends React.Component {
     }
 
     render() {
-        const userInfor = <div style={{ width: '140px' }}>
-            <Button className="mt-1" icon={<MoneyCollectOutlined />}>
-                Vé đã đặt
-            </Button>
-            <Button className="mt-1" icon={<CalendarOutlined />}>
-                Sự kiện đã tạo
-            </Button>
-            <Button className="mt-1" icon={<ProfileOutlined />}>
-                Trang cá nhân
-            </Button>
-            <Button className="mt-1" icon={<LogoutOutlined />}>
-                Đăng xuất
-            </Button>
-            
-            
-        </div>;
         return (
-        <div className="fixed-top  head">
-            <nav className="nav header navbar navbar-expand-lg ">
-                <Link className="mr-5 active" to='/'>HOME</Link>
+            <div className="header fixed-top">
+                <nav className="nav ">
+                    <Link to="" className="nav-link active" href="#">Active</Link>
+                    <Link to="" className="nav-link" href="#">
+                        <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
+                    </Link>
+                    <Link to="" className="nav-link" href="#">
+                        <Button type="primary" icon={<PlusOutlined />}>
+                            Tạo Sự Kiện
+                       </Button>
+                    </Link>
+                    <Link to="" className="nav-link ml-auto" href="#">
+                        {/* <UserNav></UserNav> */}
+                    </Link>
+                </nav>
 
-                
-                <Search className="ml-5" style={{width: 250}} placeholder="input search text" onSearch={value => console.log(value)} enterButton />
-                <Button className="ml-4" type="primary" icon={<PlusOutlined />}>
-                    Tạo Sự Kiện
-                </Button>
 
-                <Tooltip className="mt-1 ml-1 nav-link ml-auto" placement="bottom" title={userInfor}>
-                    <Button type="primary" icon={<UserOutlined />}>
-                        Hoàng Nhi
-                </Button>
-                </Tooltip>
-              
-            </nav>
+                <NavBar typeOfEvents={typeOfEvents} />
 
-       
-            <NavBar typeOfEvents={typeOfEvents}/>
-
-        </div>
+            </div>
         )
     }
 
