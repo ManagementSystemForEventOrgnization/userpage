@@ -6,14 +6,13 @@ import {
     MobileOutlined,
     DesktopOutlined,
     FacebookOutlined,
-    LinkedinOutlined,
     GoogleOutlined,
     SkypeOutlined,
     FlagOutlined,
     InstagramOutlined ,
 } from '@ant-design/icons';
 
-import { Button, Radio } from 'antd';
+import { Button } from 'antd';
 
 class Footer extends React.Component {
 
@@ -73,7 +72,7 @@ class Footer extends React.Component {
                         <div>
                             <b>Ứng dụng Ticketbox</b>
 
-                            <div class="row">
+                            <div className="row">
                                 <a href="#" className="col iconCard">
                                     <div className="row">
                                         <AppleOutlined className="icon col-2" />
@@ -99,7 +98,7 @@ class Footer extends React.Component {
                         <div>
                             <b>Ứng dụng check-in</b>
 
-                            <div class="row">
+                            <div className="row">
                                 <a href="#" className="col iconCard">
                                     <div className="row">
                                         <DesktopOutlined className="icon col-2" />

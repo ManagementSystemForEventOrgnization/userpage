@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch, Route
+  Switch, Route, Redirect
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux'
@@ -21,16 +21,6 @@ import Signup from'./containers/SignUp';
 import NavBar from './components/NavBar';
 require('dotenv').config()
 
-const typeOfEvents = [	
-  "Hội nghị",	
-  "Thể thao",	
-  "Du lịch",	
-  "Sân khấu-Nghệ thuật",	
-  "Tình nguyện",	
-  "Workshop",	
-  "Talkshow",	
-
-]
 
 function App() {
   const isLogin = false;
@@ -39,21 +29,26 @@ function App() {
 
     <div className="">
       <Router>
-        <Header />
-        <NavBar typeOfEvents={typeOfEvents}/>
-       
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/create" component={CreateEvent} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/:category" component={CategoryDetail} />
-          <Route exact path="/:category/:id" component={EventDetail} />
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/signup" component={Signup}/>
+            <Route exact path="/profile">
+                {isLogin ? <Profile/> : <Login/>}
+            </Route>
+
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/home">
+                <Redirect to="/" />
+            </Route>
+            <Route exact path="/:category" component={CategoryDetail} />
+            <Route exact path="/create">
+                {isLogin ? <CreateEvent/> : <Login/>}
+            </Route>
+            <Route exact path="/:category/:id" component={EventDetail} />
         </Switch >
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/signup" component={Signup}/>
+        
       </Router>
   
-      <Footer />
     </div >
 
   );
