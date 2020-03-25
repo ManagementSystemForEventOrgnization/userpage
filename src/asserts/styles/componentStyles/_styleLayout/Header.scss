@@ -4,6 +4,9 @@
 
    .header{
       background-image: $background-image-color;
+      .fixed-top{
+         z-index:105 ;
+      }
     
    }
 }
