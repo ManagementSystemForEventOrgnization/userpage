@@ -16,7 +16,7 @@ import Profile from './containers/Profile';
 import CategoryDetail from './containers/CategoryDetail';
 import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
-import Login from './containers/login';
+import Login from './containers/Login';
 import Signup from'./containers/SignUp';
 import NavBar from './components/NavBar';
 require('dotenv').config()
@@ -33,6 +33,8 @@ const typeOfEvents = [
 ]
 
 function App() {
+  const isLogin = false;
+
   return (
 
     <div className="">
