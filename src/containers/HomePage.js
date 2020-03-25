@@ -16,11 +16,12 @@ class HomePage extends React.Component {
     render() {
         return (
             <div>
-                <Header/>
-                <Banner/>
+                <Header />
+                <Banner />
                 <Event></Event>
-                <Footer/>
-           
+                <Footer />
+
+
             </div>
         )
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     PhoneOutlined,
     AppleOutlined,
@@ -9,7 +10,7 @@ import {
     GoogleOutlined,
     SkypeOutlined,
     FlagOutlined,
-    InstagramOutlined ,
+    InstagramOutlined,
 } from '@ant-design/icons';
 
 import { Button } from 'antd';
@@ -73,7 +74,7 @@ class Footer extends React.Component {
                             <b>Ứng dụng Ticketbox</b>
 
                             <div className="row">
-                                <a href="#" className="col iconCard">
+                                <Link to="" className="col iconCard">
                                     <div className="row">
                                         <AppleOutlined className="icon col-2" />
                                         <label className="iconText col-8">
@@ -81,8 +82,8 @@ class Footer extends React.Component {
                                             <p>APP STORE</p>
                                         </label>
                                     </div>
-                                </a>
-                                <a href="#" className="col iconCard">
+                                </Link>
+                                <Link to="" className="col iconCard">
                                     <div className="row">
                                         <AndroidOutlined className="icon col-2" />
                                         <label className="iconText col-8">
@@ -90,7 +91,7 @@ class Footer extends React.Component {
                                             <p>GOOGLE PLAY</p>
                                         </label>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -99,7 +100,7 @@ class Footer extends React.Component {
                             <b>Ứng dụng check-in</b>
 
                             <div className="row">
-                                <a href="#" className="col iconCard">
+                                <Link to="" className="col iconCard">
                                     <div className="row">
                                         <DesktopOutlined className="icon col-2" />
                                         <label className="iconText col-8">
@@ -107,8 +108,8 @@ class Footer extends React.Component {
                                             <p>DESTOP APP</p>
                                         </label>
                                     </div>
-                                </a>
-                                <a href="#" className="col iconCard">
+                                </Link>
+                                <Link to="" className="col iconCard">
                                     <div className="row">
                                         <MobileOutlined className="icon col-2" />
                                         <label className="iconText col-8">
@@ -116,17 +117,17 @@ class Footer extends React.Component {
                                             <p>MOBILE APP</p>
                                         </label>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
                     <div className="col">
-                        <b style={{fontWeight:"bold"}}>Follow Us</b>
+                        <b style={{ fontWeight: "bold" }}>Follow Us</b>
                         <div>
-                            <Button style={{ background: '#3B5998'}} shape="circle"  icon={<FacebookOutlined className=" fa-facebook social-network-icon"  />} />
-                            <Button style={{  background:'#4e92df'}}  shape="circle" icon={<SkypeOutlined className=" fa-twitter social-network-icon" />} />
-                            <Button style={{  background:'#EA4335'}} shape="circle" icon={<GoogleOutlined className=" fa-google social-network-icon"  />} />
-                            <Button  shape="circle" icon={<InstagramOutlined  className=" fa-instagram social-network-icon" />} />
+                            <Button style={{ background: '#3B5998' }} shape="circle" icon={<FacebookOutlined className=" fa-facebook social-network-icon" />} />
+                            <Button style={{ background: '#4e92df' }} shape="circle" icon={<SkypeOutlined className=" fa-twitter social-network-icon" />} />
+                            <Button style={{ background: '#EA4335' }} shape="circle" icon={<GoogleOutlined className=" fa-google social-network-icon" />} />
+                            <Button shape="circle" icon={<InstagramOutlined className=" fa-instagram social-network-icon" />} />
                         </div>
                     </div>
                     <div className="col mb-3">
