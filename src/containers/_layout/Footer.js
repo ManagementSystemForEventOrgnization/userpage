@@ -13,7 +13,7 @@ import {
     InstagramOutlined,
 } from '@ant-design/icons';
 
-import { Button, Radio } from 'antd';
+import { Button } from 'antd';
 
 class Footer extends React.Component {
 
@@ -26,7 +26,7 @@ class Footer extends React.Component {
 
     render() {
         return (
-            <div className=" footer p-3">
+            <div className=" footer p-3  ">
                 <div className="row">
                     <div className="col">
                         <b>Hotline hỗ trợ</b>

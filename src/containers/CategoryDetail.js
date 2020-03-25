@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
-
+import Header from './_layout/Header';
+import Footer from './_layout/Footer';
 
 
 class CategoryDetail extends React.Component{
@@ -13,7 +14,12 @@ class CategoryDetail extends React.Component{
 
     render(){
         return(
-            <h1>Categoty detail</h1>
+            <div className="category-detail">
+                <Header/>
+                <h1>Categoty detail</h1>
+                <Footer/>
+
+            </div>
         )
     }
 }

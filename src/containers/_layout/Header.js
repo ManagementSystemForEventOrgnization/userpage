@@ -5,8 +5,21 @@ import {
     PlusOutlined
 } from '@ant-design/icons';
 
-import UserNav from './UserNav'
+import NavBar from '../../components/NavBar';
+
+
 const { Search } = Input;
+
+const typeOfEvents = [
+    "Hội nghị",
+    "Thể thao",
+    "Du lịch",
+    "Sân khấu-Nghệ thuật",
+    "Tình nguyện",
+    "Workshop",
+    "Talkshow"
+]
+
 
 class Header extends React.Component {
 
@@ -19,7 +32,7 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="header">
+            <div className="header fixed-top">
                 <nav className="nav ">
                     <Link to="" className="nav-link active" href="#">Active</Link>
                     <Link to="" className="nav-link" href="#">
@@ -34,6 +47,9 @@ class Header extends React.Component {
                         {/* <UserNav></UserNav> */}
                     </Link>
                 </nav>
+
+
+                <NavBar typeOfEvents={typeOfEvents} />
 
             </div>
         )
