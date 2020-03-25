@@ -4,7 +4,7 @@ import Event from '../components/Event'
 import Banner from '../components/Banner';
 import Header from './_layout/Header';
 import Footer from './_layout/Footer';
-
+import EventList from './EventList';
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -18,10 +18,9 @@ class HomePage extends React.Component {
             <div>
                 <Header />
                 <Banner />
-                <Event></Event>
+                {/* <Event></Event> */}
+                <EventList></EventList>
                 <Footer />
-
-
             </div>
         )
     }

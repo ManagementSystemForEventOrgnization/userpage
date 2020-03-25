@@ -13,7 +13,7 @@ export default class UserNav extends Component {
         const imageUrl = "https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1412243/1160/772/m1/fpnw/wm0/lawyer-avatar-flat-icon-01-.jpg?1467280299&s=d7eb6ecfdcefaea78ca2cef1143c9dde";
 
         return (
-            <div className="user-nav">
+            <div className="user-nav ">
                 <input type="checkbox" id="menu" />
                 <label for="menu" className="menu">
                     <span><img src={imageUrl}></img></span>

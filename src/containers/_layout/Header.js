@@ -32,7 +32,7 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="header fixed-top">
+            <div className="header">
                 <nav className="nav ">
                     <Link to="" className="nav-link active" href="#">Active</Link>
                     <Link to="" className="nav-link" href="#">
