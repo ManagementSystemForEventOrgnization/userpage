@@ -18,7 +18,9 @@ import CategoryDetail from './containers/CategoryDetail';
 import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/login';
-import Signup from'./containers/SignUp';
+import Signup from './containers/SignUp';
+import UserNav from './containers/_layout/UserNav'
+
 require('dotenv').config()
 
 
@@ -26,12 +28,12 @@ function App() {
   return (
 
     <div className="">
-      <Header />
-     
-       
+
       <Router>
-        <NavBar/>
-       
+        <Header />
+        <UserNav></UserNav>
+        <NavBar />
+
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/create" component={CreateEvent} />
@@ -39,11 +41,12 @@ function App() {
           <Route exact path="/:category" component={CategoryDetail} />
           <Route exact path="/:category/:id" component={EventDetail} />
         </Switch >
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/signup" component={Signup}/>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Footer />
       </Router>
-  
-      <Footer />
+
+
     </div >
 
   );
