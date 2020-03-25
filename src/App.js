@@ -18,19 +18,27 @@ import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/login';
 import Signup from'./containers/SignUp';
+import NavBar from './components/NavBar';
 require('dotenv').config()
 
+const typeOfEvents = [	
+  "Hội nghị",	
+  "Thể thao",	
+  "Du lịch",	
+  "Sân khấu-Nghệ thuật",	
+  "Tình nguyện",	
+  "Workshop",	
+  "Talkshow",	
 
+]
 
 function App() {
   return (
 
     <div className="">
-      <Header />
-     
-       
       <Router>
-        <NavBar/>
+        <Header />
+        <NavBar typeOfEvents={typeOfEvents}/>
        
         <Switch>
           <Route exact path="/" component={HomePage} />
