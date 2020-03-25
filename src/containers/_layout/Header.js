@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 
 import NavBar from '../../components/NavBar';
+import UserNav from '../_layout/UserNav';
 
 
 const { Search } = Input;
@@ -32,8 +33,8 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="header fixed-top">
-                <nav className="nav ">
+            <div className="head fixed-top">
+                <nav className="nav header ">
                     <Link to="" className="nav-link active" href="#">Active</Link>
                     <Link to="" className="nav-link" href="#">
                         <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
@@ -43,9 +44,14 @@ class Header extends React.Component {
                             Tạo Sự Kiện
                        </Button>
                     </Link>
-                    <Link to="" className="nav-link ml-auto" href="#">
-                        {/* <UserNav></UserNav> */}
-                    </Link>
+                    {/* <Link to="" className="nav-link ml-auto" href="#">
+                    </Link> */}
+
+                    <div className="nav-link ml-auto user-nav" >
+                        <UserNav></UserNav>
+
+                    </div>
+
                 </nav>
 
 
