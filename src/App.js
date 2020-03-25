@@ -13,13 +13,13 @@ import Header from './containers/_layout/Header';
 import Footer from './containers/_layout/Footer';
 import HomePage from './containers/HomePage';
 import Profile from './containers/Profile';
-import NavBar from './components/NavBar';
 import CategoryDetail from './containers/CategoryDetail';
 import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/login';
 import Signup from'./containers/SignUp';
 require('dotenv').config()
+
 
 
 function App() {

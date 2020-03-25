@@ -26,7 +26,7 @@ class Footer extends React.Component {
 
     render() {
         return (
-            <div className=" footer p-3">
+            <div className=" footer p-3  ">
                 <div className="row">
                     <div className="col">
                         <b>Hotline hỗ trợ</b>

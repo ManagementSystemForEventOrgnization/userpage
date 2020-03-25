@@ -1,29 +1,20 @@
 import React from 'react';
 import { Menu } from 'antd';
 import {Link} from 'react-router-dom';
-import {
-    MailOutlined
-} from '@ant-design/icons';
-
-
-const typeOfEvents = [
-    "Hội nghị",
-    "Thể thao",
-    "Du lịch",
-    "Sân khấu-Nghệ thuật",
-    "Tình nguyện",
-    "Workshop",
-    "Talkshow",
-    
-]
-
 
 class NavBar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            current: typeOfEvents[0],
+            current: props[0],
         }
+    }
+
+    componentWillMount = () =>{
+        const{typeOfEvents} = this.props;
+        this.setState({
+            typeOfEvents,
+        })
     }
 
     handleClick = e => {
@@ -35,17 +26,20 @@ class NavBar extends React.Component{
 
 
     render(){
-        const {current} = this.state;
+        const {current, typeOfEvents} = this.state;
         return(
-        <Menu onClick={this.handleClick} selectedKeys={current} mode="horizontal">
-        {
-            typeOfEvents.map((item, index)=>
-            <Menu.Item key={index}>
-                {/* <MailOutlined /> */}
-                <Link to={item}>{item}</Link>
-            </Menu.Item>)
-        }
-      </Menu>);
+            <div className=" category-bar  shadow">
+                <Menu onClick={this.handleClick} selectedKeys={current} mode="horizontal">
+                    {
+                        typeOfEvents.map((item, index)=>
+                        <Menu.Item key={index}>
+                            {/* <MailOutlined /> */}
+                            <Link to={item}>{item}</Link>
+                        </Menu.Item>)
+                    }
+                </Menu>
+            </div>
+      );
     }
 }
 
