@@ -9,8 +9,6 @@ import { connect } from 'react-redux'
 
 
 import './App.css';
-import Header from './containers/_layout/Header';
-import Footer from './containers/_layout/Footer';
 import HomePage from './containers/HomePage';
 import Profile from './containers/Profile';
 import CategoryDetail from './containers/CategoryDetail';
@@ -18,7 +16,6 @@ import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/Login';
 import Signup from'./containers/SignUp';
-import NavBar from './components/NavBar';
 require('dotenv').config()
 
 
