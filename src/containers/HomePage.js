@@ -14,8 +14,8 @@ class HomePage extends React.Component {
     render() {
         return (
             <div>
-                <Event></Event>
-           
+                <EventList></EventList>
+
             </div>
         )
     }
