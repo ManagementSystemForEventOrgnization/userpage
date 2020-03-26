@@ -23,7 +23,7 @@
         }
 
         .icon{
-            font-size: 32px !important; 
+            font-size: $icon-size !important; 
         }
     }
     Button{
@@ -81,6 +81,8 @@
  
 }
 
-
-
-
+// .footer1{
+//     position: fixed;
+//     bottom: 0;
+//     width: 100%;
+// }

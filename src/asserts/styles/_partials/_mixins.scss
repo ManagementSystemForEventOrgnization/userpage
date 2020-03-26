@@ -73,3 +73,14 @@
     text-decoration: none;
   }
 }
+
+
+@mixin icon-image-style {
+  height: $icon-size;
+  width: $icon-size + 20px;
+  border-radius: 50%;
+  &::shadow{
+    background-color: #000;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,126 @@
+
+.user-nav{
+$base-duration: 500ms;
+
+// Colors
+$color-1: #0c697e;
+$color-2: #3498db;
+$color-3: #2ecc71;
+
+// Breakpoints
+$sm: new-breakpoint(min-width 320px);
+$med: new-breakpoint(min-width 768px);
+$lg: new-breakpoint(min-width 1024px);
+
+.icon {
+    font-size: $icon-size;
+}
+.menu {
+	position: fixed;
+	top: 1px;
+	right: 26px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 80px;
+	height: 50px;
+	border-radius: 50%;
+	transition: transform 250ms ease;
+	cursor: pointer;
+	z-index: 200;
+    img{
+        @include icon-image-style
+    }
+  
+    .userName{
+        font-weight: bold;
+        color: $white;
+    }
+}
+
+#menu {
+	display: none;
+	
+	&:checked ~ .menu {
+		background-color: transparent;
+		transform: rotate(360deg);
+		transition: transform 250ms ease;
+        
+       
+	}
+	
+	&:checked ~ .nav {
+		right: 0px;
+		transition: right $base-duration ease;
+	}
+	
+	&:checked ~ main {
+		transform: translateX(250px);
+		transition: transform $base-duration ease;
+	}
+}
+
+.nav {
+	position: fixed;
+	top: 0;
+	right: -210px;
+	width: 150px;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+	background-color: $color-1;
+	transition: left $base-duration ease;
+	z-index: 0;
+	
+	ul {
+		position: relative;
+		list-style-type: none;
+		margin: 100px 0;
+		padding: 0;
+		width: 100%;
+		li {
+			position: relative;
+			display: block;
+			border-bottom: 5px solid rgba(white,1);
+			.link{
+				position: relative;
+				display: block;
+				margin: 0;
+				padding: 15px 10px;
+				color: white;
+				font-size: $text-size;
+				font-weight: bold;
+				text-decoration: none;
+				text-transform: uppercase;
+				
+				&:before {
+					position: absolute;
+					content: '';
+					top: 0;
+					left: 0;
+					width: 0;
+					height: 100%;
+					transition: width 250ms ease;
+					z-index: -1;
+				}
+				
+				&:hover {
+					color: #444;
+					
+					&:before {
+						width: 100%;
+						height: 100%;
+						background-color: rgba(white,1);
+						transition: width 250ms ease;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+}
+
+

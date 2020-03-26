@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch, Route
+  Switch, Route, Redirect
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux'
@@ -9,41 +9,45 @@ import { connect } from 'react-redux'
 
 
 import './App.css';
-import Header from './containers/_layout/Header';
-import Footer from './containers/_layout/Footer';
 import HomePage from './containers/HomePage';
 import Profile from './containers/Profile';
-import NavBar from './components/NavBar';
 import CategoryDetail from './containers/CategoryDetail';
 import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
-import Login from './containers/login';
-import Signup from'./containers/SignUp';
+import Login from './containers/Login';
+import Signup from './containers/SignUp';
+import UserNav from './containers/_layout/UserNav'
+
 require('dotenv').config()
 
 
 function App() {
+  const isLogin = false;
+
   return (
 
     <div className="">
-      <Header />
-     
-       
-      <Router>
-        <NavBar/>
-       
+          <Router>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/create" component={CreateEvent} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/:category" component={CategoryDetail} />
-          <Route exact path="/:category/:id" component={EventDetail} />
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/signup" component={Signup}/>
+            <Route exact path="/profile">
+                {isLogin ? <Profile/> : <Login/>}
+            </Route>
+
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/home">
+                <Redirect to="/" />
+            </Route>
+            <Route exact path="/:category" component={CategoryDetail} />
+            <Route exact path="/create">
+                {isLogin ? <CreateEvent/> : <Login/>}
+            </Route>
+            <Route exact path="/:category/:id" component={EventDetail} />
         </Switch >
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/signup" component={Signup}/>
+        
       </Router>
   
-      <Footer />
     </div >
 
   );

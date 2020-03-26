@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import Event from '../components/Event'
-import EventList from '../components/EventList'
+import Banner from '../components/Banner';
+import Header from './_layout/Header';
+import Footer from './_layout/Footer';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -14,8 +16,12 @@ class HomePage extends React.Component {
     render() {
         return (
             <div>
+                <Header />
+                <Banner />
                 <Event></Event>
-           
+                <Footer />
+
+
             </div>
         )
     }

@@ -1,5 +1,15 @@
 
-.header{
-   background-image: $background-image-color;
- 
+.head{
+   margin-bottom: 10%;
+
+   .header{
+      background-image: $background-image-color;
+      // .fixed-top{
+      //    z-index:105 ;
+      // }
+    
+      .user-nav{
+         z-index: 1050 ;
+      }
+   }
 }
