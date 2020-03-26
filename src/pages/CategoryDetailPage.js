@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import Header from './_layout/Header';
-import Footer from './_layout/Footer';
-import EventList from '../components/EventList';
+import Header from '../containers/share/_layout/Header';
+import Footer from '../containers/share/_layout/Footer';
+// import EventList from '../components/EventList';
 
-class CategoryDetail extends React.Component {
+class CategoryDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,7 @@ class CategoryDetail extends React.Component {
             <div className="category-detail">
                 <Header />
                 <h1>Category detail</h1>
-                <EventList></EventList>
+                {/* <EventList></EventList> */}
                 <Footer />
             </div>
         )
@@ -34,4 +34,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetailPage)

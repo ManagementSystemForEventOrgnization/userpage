@@ -1,27 +1,53 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
     UserOutlined,
     LockOutlined,
     GooglePlusOutlined
 } from '@ant-design/icons';
 
-class Login extends React.Component {
+class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            txtEmail: '',
+            txtPassword: ''
         }
     }
 
-    onFinish = () => {
+    onChange = (e) => {
 
+        var target = e.target;
+        var name = target.name;
+        var value = target.type === 'checkbox' ? target.checked : target.value;
+
+        this.setState({
+            [name]: value
+        })
+    }
+
+    onFinish = (e) => {
+        var { txtEmail, txtPassword } = this.state;
+
+        if (txtEmail === "1" && txtPassword === "1") {
+            localStorage.setItem("user", JSON.stringify({
+                email: txtEmail,
+                password: txtPassword
+            }))
+        }
     }
 
     render() {
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
+
+        var { txtEmail, txtPassword } = this.state;
+        var loggedInnUser = localStorage.getItem("user");
+        if (loggedInnUser !== null) {
+            return <Redirect to="/"></Redirect>
+        }
+
         return (
             <div className="login">
                 <div className=" row"  >
@@ -43,11 +69,16 @@ class Login extends React.Component {
                                     },
                                 ]}
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />}
+                                    placeholder="Email"
+                                    name="txtEmail"
+                                    value={txtEmail}
+                                    onChange={this.onChange}
+                                />
                             </Form.Item>
 
                             <Form.Item
-                                name="password"
+                                name="Password"
                                 rules={[
                                     {
                                         required: true,
@@ -59,7 +90,9 @@ class Login extends React.Component {
                                     prefix={<LockOutlined className="site-form-item-icon" />}
                                     type="password"
                                     placeholder="Password"
-
+                                    name="txtPassword"
+                                    value={txtPassword}
+                                    onChange={this.onChange}
                                 />
                             </Form.Item>
                             <div className='ant-row'>
@@ -111,4 +144,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Zoom } from 'react-slideshow-image';
-import Event from '../components/Event';
+import EventCard from './EventCard';
 
 const images = [
     'https://static.rootsrated.com/image/upload/s--LbVVifxy--/t_rr_large_natural/a582hei6yo6itc6fvdjl.jpg',
@@ -29,7 +29,7 @@ export default class EventList extends Component {
                 <div className="slide-container">
                     <Zoom {...zoomOutProperties}>
                         {
-                            images.map((each, index) => <Event key={index} style={{ width: "100%" }} src={each} />)
+                            images.map((each, index) => <EventCard key={index} style={{ width: "100%" }} src={each} />)
                         }
                     </Zoom>
                 </div>

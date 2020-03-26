@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class Event extends Component {
+export default class EventCard extends Component {
     render() {
         return (
             <div className="ml-5 eventCard">

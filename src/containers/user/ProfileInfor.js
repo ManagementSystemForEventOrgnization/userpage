@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 
 
-class Profile extends React.Component{
+class ProfileInfor extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -28,5 +28,5 @@ const mapStateToProps = state => ({
   });
   
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+  export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor)
   
