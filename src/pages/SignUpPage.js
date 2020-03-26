@@ -10,7 +10,7 @@ import {
   
  } from '@ant-design/icons';
 
-class SignUp extends React.Component{
+class SignUpPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -119,5 +119,5 @@ const mapStateToProps = state => ({
   });
   
   
-  export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+  export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)
   
