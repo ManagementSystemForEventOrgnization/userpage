@@ -16,7 +16,6 @@ import EventDetail from './containers/EventDetail';
 import CreateEvent from './containers/CreateEvent';
 import Login from './containers/Login';
 import Signup from './containers/SignUp';
-import UserNav from './containers/_layout/UserNav'
 
 require('dotenv').config()
 

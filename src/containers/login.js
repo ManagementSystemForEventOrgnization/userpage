@@ -8,6 +8,8 @@ import {
     GooglePlusOutlined 
 } from '@ant-design/icons';
 
+import {userAction} from '../action/user.action';
+
 class Login extends React.Component{
     constructor(props){
         super(props);
@@ -16,9 +18,29 @@ class Login extends React.Component{
         }
     }
 
-    onFinish = () =>{
-
+    handleLogin = () =>{
+        const [email, password] = ["sang123@123", "123"];
+        userAction.login(email, password).then(res=>{
+            console.log(res);
+        })
+        
     }
+
+    handleLoginGG = () =>{
+        userAction.loginWithGoogle().then(res=>{
+            console.log(res);
+        })
+    }
+
+    // onFinish = () => {
+    //     const {handleLogin} = this.props;
+    //     const [email, password] = ["sang123@123", "123"];
+       
+
+    //     handleLogin(email, password).then(res=>{
+    //         console.log(res);
+    //     })
+    // }
 
 
 
@@ -35,7 +57,7 @@ class Login extends React.Component{
 
                     <p className="website-name">Event in your hand</p>
                     
-                    <Form className="mt-4" form={this.form} name="horizontal_login"  onFinish={this.onFinish}>
+                    <Form className="mt-4" form={this.form}>
                         <Form.Item
                             name="Email"
                             rules={[
@@ -70,7 +92,7 @@ class Login extends React.Component{
                                 {() => (
                                     <Button
                                         type="primary"
-                                        htmlType="submit"
+                                    //    onClick={this.onFinish}
                                     
                                     >
                                         Đăng nhập
@@ -85,14 +107,20 @@ class Login extends React.Component{
                         </div>
 
                         <p style={{textAlign:"center"}}>OR</p>
-                        <Button className=" title "  type="primary" icon={<GooglePlusOutlined className="seticon" />}>
-                        
+                        <Button className=" title "  
+                            onClick={this.handleLoginGG}
+                            type="primary" icon={<GooglePlusOutlined className="seticon" />}>
+                                
                             Đăng nhập với Google
                         </Button>
+
+                        <a className="title" href="/auth/google">Đăng nhập với Google</a>
 
                         <p className="mt-2"  style={{textAlign:"center"}}>Bạn chưa có tài khoản? <span><Link to="/signup">đăng ký ngay</Link></span>  </p> 
                     
                     </Form>
+
+                    <button onClick={this.handleLogin}> click</button>
 
                 </div>
                 </div>
@@ -106,12 +134,18 @@ class Login extends React.Component{
 const mapStateToProps = state => ({
     // map state of store to props
   
-  })
+})
   
-  const mapDispatchToProps = (dispatch) => ({
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        // handleLogin: (email, password) => {
+        //     dispatch(userAction.login(email, password))
+        // }
+      }
+}
+
+
+
   
-  });
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
   

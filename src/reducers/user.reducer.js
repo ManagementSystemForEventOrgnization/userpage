@@ -29,6 +29,12 @@ const user = (state = initialState, action) =>{
                 errMessage: action.error,
                 pending: false,
             }
+
+        case userConstant.LOGIN:
+            return{
+                ...state,
+                userInfo : action.user
+            }
         
         case userConstant.REGISTER_REQUEST: 
             return {
