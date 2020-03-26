@@ -4,7 +4,6 @@ import { Form, Input, Button } from 'antd';
 import { Row, Col } from 'antd';
 import { GooglePlusOutlined} from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import '../asserts/styles/componentStyles/Login.scss';
 
 class Login extends React.Component{
     constructor(props){
@@ -15,24 +14,15 @@ class Login extends React.Component{
 
         }
     }
-     HorizontalLoginForm = () => {
-      const [form] = Form.useForm();
-      const [, forceUpdate] = useState(); // To disable submit button at the beginning.
-    
-      useEffect(() => {
-        forceUpdate({});
-      }, []);
-    
-      const onFinish = values => {
-        console.log('Finish:', values);
-      };
-    }
+   
     render(){
+      const src="https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
         return(
+          <div className="login">
           <div  className="columns row"  >
      <div className="col "> 
     
-    <img  src='https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png'/>
+    <img  src={src}/>
 
     </div> 
     <div className="col" > 
@@ -93,7 +83,12 @@ class Login extends React.Component{
     </Form>
         
     </div>
-
+</div>
+        
+           <div>
+             
+           </div>
+     
       </div>
         )
     }

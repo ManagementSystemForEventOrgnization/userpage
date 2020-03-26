@@ -4,37 +4,39 @@ import { Form, Input, Button } from 'antd';
 import { Row, Col } from 'antd';
 import { GoogleOutlined} from '@ant-design/icons';
 import { UserOutlined, LockOutlined, MailOutlined,UnlockOutlined } from '@ant-design/icons';
-import '../asserts/styles/componentStyles/Login.scss';
+  import '../asserts/styles/componentStyles/Login.scss';
 
 class SignUp extends React.Component{
     constructor(props){
         super(props);
-       
-     
+    
         this.state = {
+          isOpen :true
 
         }
     }
-     HorizontalSignUpForm = () => {
-      const [form] = Form.useForm();
-      const [, forceUpdate] = useState(); // To disable submit button at the beginning.
     
-      useEffect(() => {
-        forceUpdate({});
-      }, []);
-    
-      const onFinish = values => {
-        console.log('Finish:', values);
-      };
+    onToggleConfirm=()=>{
+     this.setState( {
+         isOpen :! this.state.isOpen
+       }
+     )
+
+
     }
     render(){
-        return(
+      const {isOpen}=this.state;
+      const { Search } = Input;
+        return(    
           <div  className="columns row"  >
+           
      <div className="col "> 
     
     <img  src='https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png'/>
-
+      
     </div> 
+  {
+    isOpen  ?
     <div className="col" > 
       <p className="title">Event in your hand</p>
     <Form className="mt-4" form={this.form} name="horizontal_login"  onFinish={this.onFinish}>
@@ -96,7 +98,9 @@ class SignUp extends React.Component{
             <div style={{textAlign:"center"}}>
                 <Button block
             type="primary"
-            htmlType="submit">Đăng ký
+            htmlType="submit"
+            onClick={this.onToggleConfirm}
+            >Đăng ký
           </Button>
             </div>
         )}
@@ -104,9 +108,20 @@ class SignUp extends React.Component{
     <p className="mt-2"  style={{textAlign:"center"}}>Bạn đã có tài khoản? <span><a href="/login">Đăng nhập</a></span>  </p> 
     </Form>
         
-    </div>
-
-      </div>
+    </div> 
+   :
+   <div className="col">
+   <Search className=" SignUp Inputcode"
+      placeholder="input search text"
+      enterButton="Submit"
+      size="large"
+    
+    />  
+   </div>
+       
+     
+        }
+        </div>
         )
     }
 }
