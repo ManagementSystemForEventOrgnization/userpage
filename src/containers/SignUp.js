@@ -34,11 +34,12 @@ class SignUp extends React.Component{
        
         return(
             <div className="login">
-                <div  className=" row"  >
-                    <Link to="/" className="col "> 
-                        <img  src={urlIMG}/>
-                    </Link> 
+               
                     { isSendRegisterRequest ?
+                     <div  className=" row"  >
+                     <Link to="/" className="col "> 
+                         <img  src={urlIMG}/>
+                     </Link> 
                     <div className="col" > 
                         <p className="website-name">Event in your hand</p>
                         <Form className="mt-4" form={this.form} name="horizontal_login"  onFinish={this.onFinish}>
@@ -110,15 +111,16 @@ class SignUp extends React.Component{
                         </Form>
                 
                     </div>
+                   </div>
                     :
-                    <div className="col  " >
+                    <div >
                       <CheckCode></CheckCode>
                     </div>
                   
                   }
                 </div>
 
-            </div>
+           
          )
 
     
