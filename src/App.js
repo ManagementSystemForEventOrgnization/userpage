@@ -21,7 +21,7 @@ require('dotenv').config()
 
 
 function App() {
-  const isLogin = false;
+  const isLogin = localStorage.getItem("isLogined");
 
   return (
 

@@ -24,13 +24,14 @@ class Login extends React.Component{
             isFirstLoad: true,
             email: '',
             password: '',
+            error : false,
         }
     }
 
     handleLogin = () =>{
         const {email, password} = this.state;
         const {login} = this.props;
-        login("sang123@123", "123");
+        login("sang123@123456", "123456"); 
 
         this.setState({isFirstLoad:false});
 
@@ -49,6 +50,12 @@ class Login extends React.Component{
     onChange = e => {
         this.setState({
             [e.target.name]: e.target.value,
+        })
+    }
+
+    onFocus = () =>{
+        this.setState({
+            isFirstLoad: true
         })
     }
 
@@ -73,7 +80,7 @@ class Login extends React.Component{
                     <Form className="mt-2" form={this.form} >
 
                     <Form.Item>
-                        {!isFirstLoad && message &&
+                        {!isFirstLoad && message && 
                             <div className="error-message mt-2 mb-2">{message}</div>
                         }  
                     </Form.Item>
@@ -92,6 +99,7 @@ class Login extends React.Component{
                                 value={email}
                                 name="email"
                                 onChange={this.onChange}
+                                onFocus={this.onFocus}
                                 placeholder="Email" />
                         </Form.Item>
 
@@ -107,6 +115,7 @@ class Login extends React.Component{
                             <Input.Password 
                                 value={password}
                                 onChange={this.onChange}
+                                onFocus={this.onFocus}
                                 prefix={<LockOutlined className="site-form-item-icon" />}
                                 type="password"
                                 name="password"

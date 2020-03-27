@@ -5,7 +5,6 @@ const  login = (email, password) => {
     return dispatch => {
 
         dispatch(request());
-
         API
             .post(`/api/login`, {
                 email,
@@ -15,7 +14,10 @@ const  login = (email, password) => {
                 console.log(res);
                 if(!res.data.message){
                     dispatch(success(res.data))
-                }   
+                } 
+                else{
+                    dispatch(failure(res.data.message|| 'Tài khoản hoặc mật khẩu không đúng!' ));
+                }
             })
             .catch(error => {
                 console.log(error)

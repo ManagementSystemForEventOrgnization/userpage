@@ -17,6 +17,8 @@ const user = (state = initialState, action) =>{
                 
             }
         case userConstants.LOGIN_SUCCESS: 
+            console.log(action.user)
+            localStorage.setItem("isLogined", true);
             return {
                 ...state,
                 loggedIn: true,
@@ -24,6 +26,7 @@ const user = (state = initialState, action) =>{
                 userInfo: action.user,
             }
         case userConstants.LOGIN_FAILURE:
+            console.log(action.error)
             return{
                 ...state,
                 errMessage: action.error,
