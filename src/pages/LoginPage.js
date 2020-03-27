@@ -15,7 +15,7 @@ import {
 
 
 import {userActions} from '../action/user.action';
-
+import CheckCode from '../containers/share/CheckCode';
 
 class LoginPage extends React.Component{
     constructor(props){
@@ -25,13 +25,14 @@ class LoginPage extends React.Component{
             email: '',
             password: '',
             error : false,
+            showCheckCode: false,
         }
     }
 
     handleLogin = () =>{
         const {email, password} = this.state;
         const {login} = this.props;
-        login("sang123@123", "123456"); 
+        login("sang123@123", "123456");
 
         this.setState({isFirstLoad:false});
 
@@ -58,9 +59,20 @@ class LoginPage extends React.Component{
         })
     }
 
+    UNSAFE_componentWillReceiveProps = (nextProps)=>{
+        console.log(nextProps);
+        if(!nextProps.pending && !nextProps.message){
+            if(!nextProps.user.isActive ){
+                this.setState({
+                    showCheckCode: true,
+                })
+            }
+        }
+    }
+
     render(){
         const { message, pending} = this.props;
-        const {email, password, isFirstLoad} = this.state;
+        const {email, password, isFirstLoad, showCheckCode} = this.state;
         const active = email && password.trim();
         const clientID = process.env.REACT_APP_CLIENT_ID
 
@@ -76,6 +88,10 @@ class LoginPage extends React.Component{
 
                     <p className="website-name ">Event in your hand</p>
                     
+                    {
+                        showCheckCode ? 
+                        <CheckCode/> : 
+                        
                     <Form className="mt-2" form={this.form} >
 
                     <Form.Item>
@@ -160,6 +176,8 @@ class LoginPage extends React.Component{
                     
                     </Form>
 
+                    }
+                    
 
                 </div>
                 </div>
@@ -174,6 +192,7 @@ const mapStateToProps = state => {
     return { 
         message: state.user.errMessage,
         pending: state.user.pending,
+        user: state.user.userInfo
     };
 }
   

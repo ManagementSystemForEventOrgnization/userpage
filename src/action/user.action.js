@@ -12,12 +12,17 @@ const  login = (email, password) => {
             })
             .then(res => {
                 console.log(res);
+
                 if(!res.data.message){
-                    dispatch(success(res.data))
+                    dispatch(success(res.data));
+
                 } 
                 else{
                     dispatch(failure(res.data.message|| 'Tài khoản hoặc mật khẩu không đúng!' ));
                 }
+
+
+            
             })
             .catch(error => {
                 console.log(error)
