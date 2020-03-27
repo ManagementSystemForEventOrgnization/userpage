@@ -16,7 +16,7 @@ export default class UserNav extends Component {
             <div className="user-nav">
                 <input type="checkbox" id="menu" />
                 <label for="menu" className="menu">
-                    <span><img src={imageUrl}></img></span>
+                    <span><img src={imageUrl} alt="menu"></img></span>
                     <b className="userName" >{name}</b>
                 </label>
                 <nav className="nav">

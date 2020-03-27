@@ -29,7 +29,7 @@ class SignUp extends React.Component{
                    
                 <div  className=" row"  >
                     <Link to="/" className="col "> 
-                        <img  src={urlIMG}/>
+                        <img alt="logo" src={urlIMG}/>
                     </Link> 
 
                     <div className="col" > 
