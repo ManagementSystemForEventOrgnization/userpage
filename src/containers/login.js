@@ -28,9 +28,15 @@ class Login extends React.Component{
     }
 
     handleLogin = () =>{
-        const [email, password] = ["sang123@123", "123"];
-        userActions.login(email, password);
+        const {email, password} = this.state;
+        const {login} = this.props;
+        login("sang123@123", "123");
+
+        this.setState({isFirstLoad:false});
+
     }
+
+
 
 
     responseGoogle = (response) => {
@@ -47,9 +53,10 @@ class Login extends React.Component{
     }
 
     render(){
-        const { pending} = this.props;
-        const {email, password} = this.state;
+        const { message, pending} = this.props;
+        const {email, password, isFirstLoad} = this.state;
         const active = email && password.trim();
+        const clientID = process.env.REACT_APP_CLIENT_ID
 
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
         return(
@@ -61,9 +68,16 @@ class Login extends React.Component{
 
                 <div className="col " > 
 
-                    <p className="website-name mb-5">Event in your hand</p>
+                    <p className="website-name ">Event in your hand</p>
                     
-                    <Form className="mt-4" form={this.form} >
+                    <Form className="mt-2" form={this.form} >
+
+                    <Form.Item>
+                        {!isFirstLoad && message &&
+                            <div className="error-message mt-2 mb-2">{message}</div>
+                        }  
+                    </Form.Item>
+                    
                         <Form.Item
                             name="Email"
                             rules={[
@@ -107,9 +121,10 @@ class Login extends React.Component{
                                 {() => (
                                     <Button
                                         type="primary"
-                                        className="ml-5"
+                                        className="ml-5 mt-4"
                                         loading={pending}
                                         disabled={!active} 
+                                        onClick={this.handleLogin}
                                     >
                                         Đăng nhập
                                     </Button>
@@ -124,7 +139,7 @@ class Login extends React.Component{
 
                         <p style={{textAlign:"center"}}>HOẶC</p>
                         <GoogleLogin
-                            clientId= "287818477541-q905d77othv431di8tqv6a1hfkljl4aa.apps.googleusercontent.com"
+                            clientId= {clientID}
                             buttonText="Đăng nhập với Google"
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseGoogle}       
@@ -137,7 +152,7 @@ class Login extends React.Component{
                     
                     </Form>
 
-                    <button onClick={this.handleLogin}> click</button>
+                    {/* <button onClick={this.handleLogin}> click</button> */}
 
                 </div>
                 </div>
@@ -155,11 +170,9 @@ const mapStateToProps = state => {
     };
 }
   
-const mapDispatchToProps = (dispatch) => {
-    return {
-        login: (email, password) => dispatch(userActions.login(email,password)),
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+    login: (email, password) => dispatch(userActions.login(email,password))
+  });
 
 
 
