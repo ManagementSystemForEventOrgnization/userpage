@@ -17,7 +17,7 @@ import {
 import {userActions} from '../action/user.action';
 
 
-class Login extends React.Component{
+class LoginPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -31,7 +31,7 @@ class Login extends React.Component{
     handleLogin = () =>{
         const {email, password} = this.state;
         const {login} = this.props;
-        login("sang123@123456", "123456"); 
+        login("sang123@123", "123456"); 
 
         this.setState({isFirstLoad:false});
 
@@ -43,7 +43,6 @@ class Login extends React.Component{
     responseGoogle = (response) => {
         // const {loginWithGoogle} = this.props;
         console.log(response);
-
         //loginWithGoogle(response.Zi.access_token);
     }
 
@@ -147,6 +146,7 @@ class Login extends React.Component{
                         </div>
 
                         <p style={{textAlign:"center"}}>HOẶC</p>
+                                    
                         <GoogleLogin
                             clientId= {clientID}
                             buttonText="Đăng nhập với Google"
@@ -156,12 +156,10 @@ class Login extends React.Component{
                             icon={true}
                             className="button-login-google"
                         />
-
                         <p className="mt-2"  style={{textAlign:"center"}}>Bạn chưa có tài khoản? <span><Link to="/signup">Đăng ký ngay</Link></span>  </p> 
                     
                     </Form>
 
-                    {/* <button onClick={this.handleLogin}> click</button> */}
 
                 </div>
                 </div>
@@ -185,5 +183,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
   

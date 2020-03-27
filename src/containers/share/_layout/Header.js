@@ -5,8 +5,8 @@ import {
     PlusOutlined
 } from '@ant-design/icons';
 
-import NavBar from '../../components/NavBar';
-import UserNav from '../_layout/UserNav';
+import NavBar from '../../../components/NavBar'
+import UserNav from '../../../components/UserNav';
 
 
 const { Search } = Input;
@@ -35,18 +35,15 @@ class Header extends React.Component {
         return (
             <div className="head fixed-top">
                 <nav className="nav header ">
-                    <Link to="" className="nav-link active" href="#">Active</Link>
-                    <Link to="" className="nav-link" href="#">
+                    <Link to="" className="nav-link active">Active</Link>
+                    <Link to="" className="nav-link">
                         <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
                     </Link>
-                    <Link to="" className="nav-link" href="#">
+                    <Link to="" className="nav-link">
                         <Button type="primary" icon={<PlusOutlined />}>
                             Tạo Sự Kiện
                        </Button>
                     </Link>
-                    {/* <Link to="" className="nav-link ml-auto" href="#">
-                    </Link> */}
-
                     <div className="nav-link ml-auto user-nav" >
                         <UserNav></UserNav>
 
