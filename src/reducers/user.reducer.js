@@ -1,4 +1,4 @@
-import {userConstant} from '../constants/index';
+import {userConstants} from '../constants/index';
 
 const initialState = {
     logined : false,
@@ -10,47 +10,56 @@ const initialState = {
 
 const user = (state = initialState, action) =>{
     switch(action.type){
-        case userConstant.LOGIN_REQUEST: 
+        case userConstants.LOGIN_REQUEST: 
             return {
                 ...state,
                 pending: true,
                 
             }
-        case userConstant.LOGIN_SUCCESS: 
+        case userConstants.LOGIN_SUCCESS: 
+            console.log(action.user)
+            localStorage.setItem("isLogined", true);
             return {
                 ...state,
                 loggedIn: true,
                 pending: false,
                 userInfo: action.user,
             }
-        case userConstant.LOGIN_FAILURE:
-            return{
-                ...state,
-                errMessage: action.error,
-                pending: false,
-            }
-        
-        case userConstant.REGISTER_REQUEST: 
-            return {
-                ...state,
-                pending: true,
-                
-            }
-        case userConstant.REGISTER_SUCCESS: 
-            return {
-                ...state,
-                loggedIn: true,
-                pending: false,
-                userInfo: action.user,
-            }
-        case userConstant.REGISTER_FAILURE:
+        case userConstants.LOGIN_FAILURE:
+            console.log(action.error)
             return{
                 ...state,
                 errMessage: action.error,
                 pending: false,
             }
 
-        case userConstant.LOGOUT: 
+        case userConstants.LOGIN:
+            return{
+                ...state,
+                userInfo : action.user
+            }
+        
+        case userConstants.REGISTER_REQUEST: 
+            return {
+                ...state,
+                pending: true,
+                
+            }
+        case userConstants.REGISTER_SUCCESS: 
+            return {
+                ...state,
+                loggedIn: true,
+                pending: false,
+                userInfo: action.user,
+            }
+        case userConstants.REGISTER_FAILURE:
+            return{
+                ...state,
+                errMessage: action.error,
+                pending: false,
+            }
+
+        case userConstants.LOGOUT: 
             return {
                 ...state,
                 loggedIn: false,
