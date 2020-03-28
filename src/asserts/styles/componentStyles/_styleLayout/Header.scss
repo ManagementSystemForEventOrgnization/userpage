@@ -4,12 +4,15 @@
 
    .header{
       background-image: $background-image-color;
-      // .fixed-top{
-      //    z-index:105 ;
-      // }
-    
+      
       .user-nav{
          z-index: 1050 ;
+      }
+
+      .web-name{
+         font-weight: bolder;
+         color: $secondary-color;
+         font-size: 20px;
       }
    }
 }

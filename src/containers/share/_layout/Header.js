@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Input, Button } from 'antd';
 import {
@@ -27,26 +28,43 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // state variables 
+            isLogined: false,
         }
     }
 
+    UNSAFE_componentWillReceiveProps = (nextProps)=>{
+         if(nextProps.user){
+            this.setState({
+                isLogined: true,
+            })
+        }
+    }
+
+
     render() {
+        const {isLogined} = this.state;
         return (
             <div className="head fixed-top">
                 <nav className="nav header ">
-                    <Link to="" className="nav-link active">Active</Link>
-                    <Link to="" className="nav-link">
+                    <Link to="" className="nav-link active web-name mr-5">EVENT IN YOUR HAND</Link>
+                    <Link className="nav-link ml-5">
                         <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
                     </Link>
-                    <Link to="" className="nav-link">
-                        <Button type="primary" icon={<PlusOutlined />}>
-                            Tạo Sự Kiện
-                       </Button>
-                    </Link>
+                   
                     <div className="nav-link ml-auto user-nav" >
-                        <UserNav></UserNav>
-
+                        {   isLogined? 
+                            <UserNav/> : 
+                            <>
+                                <Link className="mr-3" to="/login" >
+                                    <Button >Đăng Nhập</Button>
+                                </Link>
+                                <Link to="/signup" >
+                                    <Button >Đăng Ký</Button>
+                                </Link>
+                            </>
+                        }
+                        
+                        
                     </div>
 
                 </nav>
@@ -61,4 +79,12 @@ class Header extends React.Component {
 }
 
 
-export default Header;
+
+const mapStateToProps = state => ({
+    user: state.user.userInfo
+})
+  
+
+  
+  
+export default connect(mapStateToProps, null)(Header)

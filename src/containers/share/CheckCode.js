@@ -49,12 +49,12 @@ class CheckCode extends React.Component{
 const mapStateToProps = state => ({
     // map state of store to props
   
-  })
+})
   
-  const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
    
-  });
+});
   
   
-  export default connect(mapStateToProps, mapDispatchToProps)(CheckCode)
+export default connect(mapStateToProps, mapDispatchToProps)(CheckCode)
   

@@ -25,27 +25,27 @@ const routes = [
     // },
     {
         path: '/event/:id',
-        exact: false,
+        exact: true,
         main: ({match, history}) => <EventDetailPage match={match} history={history}/>
     },
     {
         path: '/login',
-        exact: false,
+        exact: true,
         main: () => <LoginPage />
     },
     {
         path: '/signup',
-        exact: false,
+        exact: true,
         main: () => <SignUpPage />       
     },
     {
         path: '/profile',
-        exact: false,
+        exact: true,
         main: () => <ProfilePage />       
     },
     {
         path: '',
-        exact: false,
+        exact: true,
         main: () => <NotFoundPage />
     }
 ];
