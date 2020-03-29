@@ -2,7 +2,6 @@ import API from './axious.config';
 import {userConstants} from '../constants/index'
 
 const  login = (email, password) => {
-    console.log(email, password);
     return dispatch => {
         dispatch(request());
         API
@@ -34,16 +33,15 @@ const  login = (email, password) => {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
-const loginWithGoogle = (accessToken) => {
+const loginWithGoogle = (profile) => {
     return API
         .post(`/auth/google`,
         {
-            accessToken
+            profile
         }
         )
         .then(res => {
-            console.log(res)
-            return res
+            userConstants.LOGIN_GOOGLE(res.data)
         })
 }
 

@@ -41,8 +41,7 @@ class LoginPage extends React.Component{
 
     responseGoogle = (response) => {
         const {loginWithGoogle} = this.props;
-        console.log(response);
-        loginWithGoogle(response.Zi.access_token);
+        loginWithGoogle(response.Zw.profileObj);
     }
 
     onChange = e => {

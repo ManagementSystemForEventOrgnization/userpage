@@ -1,7 +1,7 @@
 import {userConstants} from '../constants/index';
 
 const initialState = {
-    logined : false,
+    isLogined : false,
     errMessage: null,
     successMessage: null,
     pending: false,
@@ -22,7 +22,7 @@ const user = (state = initialState, action) =>{
             action.user && localStorage.setItem("isLogined", true);
             return {
                 ...state,
-                loggedIn: true,
+                isLogined: action.user.isActive,
                 pending: false,
                 userInfo: action.user ,
                 errMessage: null,
@@ -33,6 +33,13 @@ const user = (state = initialState, action) =>{
                 ...state,
                 errMessage: action.error,
                 pending: false,
+            }
+
+        case userConstants.LOGIN_GOOGLE:
+            return{
+                ...state,
+                userInfo: action.user,
+                isLogined: true,
             }
 
 
@@ -69,7 +76,7 @@ const user = (state = initialState, action) =>{
         case userConstants.CHECK_CODE_SUCCESS: 
             return {
                 ...state,
-                loggedIn: true,
+                isLogined: true,
                 pending: false,
                 active: true,
             }
@@ -85,7 +92,7 @@ const user = (state = initialState, action) =>{
         case userConstants.LOGOUT: 
             return {
                 ...state,
-                loggedIn: false,
+                isLogined: false,
                 errMessage: null,
                 successMessage: null,
                 pending: false,

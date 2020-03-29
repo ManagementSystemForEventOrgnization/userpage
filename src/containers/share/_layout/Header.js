@@ -33,7 +33,7 @@ class Header extends React.Component {
     UNSAFE_componentWillReceiveProps = (nextProps)=>{
          if(nextProps.user){
             this.setState({
-                isLogined: true,
+                isLogined: nextProps.user.isLogined,
             })
         }
     }
