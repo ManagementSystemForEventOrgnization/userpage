@@ -5,52 +5,50 @@ const initialState = {
     errMessage: null,
     successMessage: null,
     pending: false,
-    userInfo: null
+    userInfo: null,
+    active: false,
 }
 
 const user = (state = initialState, action) =>{
     switch(action.type){
+
         case userConstants.LOGIN_REQUEST: 
             return {
                 ...state,
                 pending: true,
-                
+                errMessage: null
             }
         case userConstants.LOGIN_SUCCESS: 
-            console.log(action.user)
-            localStorage.setItem("isLogined", true);
+            action.user && localStorage.setItem("isLogined", true);
             return {
                 ...state,
                 loggedIn: true,
                 pending: false,
-                userInfo: action.user,
+                userInfo: action.user ,
+                errMessage: null,
+                active: action.user.isActive,
             }
         case userConstants.LOGIN_FAILURE:
-            console.log(action.error)
             return{
                 ...state,
                 errMessage: action.error,
                 pending: false,
             }
 
-        case userConstants.LOGIN:
-            return{
-                ...state,
-                userInfo : action.user
-            }
-        
+
+
         case userConstants.REGISTER_REQUEST: 
             return {
                 ...state,
                 pending: true,
-                
+                errMessage: null
             }
         case userConstants.REGISTER_SUCCESS: 
             return {
                 ...state,
-                loggedIn: true,
                 pending: false,
                 userInfo: action.user,
+                active: false,
             }
         case userConstants.REGISTER_FAILURE:
             return{
@@ -58,6 +56,31 @@ const user = (state = initialState, action) =>{
                 errMessage: action.error,
                 pending: false,
             }
+
+
+
+
+        case userConstants.CHECK_CODE_REQUEST: 
+            return {
+                ...state,
+                pending: true,
+                errMessage: null
+            }
+        case userConstants.CHECK_CODE_SUCCESS: 
+            return {
+                ...state,
+                loggedIn: true,
+                pending: false,
+                active: true,
+            }
+        case userConstants.CHECK_CODE_FAILURE:
+            return{
+                ...state,
+                errMessage: action.error,
+                pending: false,
+                active: false,
+            }
+
 
         case userConstants.LOGOUT: 
             return {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import {Input,  Button} from 'antd';
 
+import {userActions}  from '../../action/user.action';
 
 
 class CheckCode extends React.Component{
@@ -19,8 +20,25 @@ class CheckCode extends React.Component{
         })
     }
 
+    handleSendOTP = () =>{
+        const {code} = this.state;
+        const {checkCode} = this.props;
+        checkCode(code);
+    }
+
+    UNSAFE_componentWillReceiveProps = (nextProps)=>{
+        console.log(nextProps);
+        if(!nextProps.pending && !nextProps.message){
+            this.setState({
+                showCheckCode: true,
+            })
+        }
+        
+    }
+
     render(){
         const {code, err} = this.state;
+        const {pendding} = this.props;
         const disactive = err || !code.trim()
         return(
             <div className="col mt-5 check-code" >
@@ -38,7 +56,13 @@ class CheckCode extends React.Component{
                         onChange={this.onChange}
                         placeholder="Nhập mã code xác nhận  ..."/>
 
-                    <Button  size="large" type="primary" disabled={disactive}> Xác nhận</Button>
+                    <Button  
+                        size="large" 
+                        type="primary" 
+                        disabled={disactive}
+                        loading={pendding}
+                        onClick={this.handleSendOTP}
+                    > Xác nhận</Button>
                 </div>
 
             </div> 
@@ -47,13 +71,14 @@ class CheckCode extends React.Component{
 }
 
 const mapStateToProps = state => ({
-    // map state of store to props
-  
+    pendding : state.user.pendding,
+    message: state.user.errMessage,
 })
   
 const mapDispatchToProps = (dispatch) => ({
-   
+    checkCode: (code) => dispatch(userActions.checkCode(code))
 });
+
   
   
 export default connect(mapStateToProps, mapDispatchToProps)(CheckCode)

@@ -40,9 +40,9 @@ class LoginPage extends React.Component{
 
 
     responseGoogle = (response) => {
-        // const {loginWithGoogle} = this.props;
+        const {loginWithGoogle} = this.props;
         console.log(response);
-        //loginWithGoogle(response.Zi.access_token);
+        loginWithGoogle(response.Zi.access_token);
     }
 
     onChange = e => {
@@ -186,6 +186,7 @@ class LoginPage extends React.Component{
        )
     }
 }
+
 const mapStateToProps = state => {
     return { 
         message: state.user.errMessage,
@@ -196,7 +197,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = (dispatch) => ({
     login: (email, password) => dispatch(userActions.login(email,password))
-  });
+});
 
 
 

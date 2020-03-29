@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Form, Input, Button } from 'antd';
 import {Link} from 'react-router-dom';
-import CheckCode from '../containers/share/CheckCode'
 import { 
   UserOutlined,
   LockOutlined, 
@@ -11,24 +10,61 @@ import {
   
  } from '@ant-design/icons';
 
+import {userActions} from '../action/user.action';
+import CheckCode from '../containers/share/CheckCode'
+
+
+
 class SignUp extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-          isSendRegisterRequest :false
-
+          showCheckCode : false,
+          fullname: '',
+          email: '',
+          password: '',
+          retypePassword: '',
+          isFirstLoad: true,
+           
         }
     }
   
-    onSendRegisterRequest =()=>{
+    handleSignup =()=>{
+        const {email, password, fullname} = this.state;
+        const { register} = this.props;
         this.setState({
-            isSendRegisterRequest :!this.state.isSendRegisterRequest
+            isSendRegisterRequest :true
+        })
+        register(email, password, fullname);
+    }
+
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value,
         })
     }
 
-    render(){
+    onFocus = () =>{
+        this.setState({
+            isFirstLoad: true
+        })
+    }
 
-        const isSendRegisterRequest =true;
+    UNSAFE_componentWillReceiveProps = (nextProps)=>{
+        console.log(nextProps);
+        if(!nextProps.pending && !nextProps.message){
+            this.setState({
+                showCheckCode: true,
+            })
+        }
+        
+    }
+
+
+    render(){
+        const {fullname, email, password, retypePassword, isFirstLoad, showCheckCode} = this.state;
+        const {pending, message} = this.props;
+        const active = email && fullname && password.trim() && (password === retypePassword);
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
        
         return(
@@ -40,64 +76,85 @@ class SignUp extends React.Component{
                         <img  src={urlIMG} alt="logo"/>
                     </Link> 
                     <div className="col" > 
-                            <p className="website-name">Event in your hand</p> 
+                        <p className="website-name">Event in your hand</p> 
+
+                        {!isFirstLoad && message && 
+                            <div className="error-message mt-2 mb-2">{message}</div>
+                        }
+
                         {
-                            isSendRegisterRequest?
+                            !showCheckCode?
                         
                             <Form className="mt-4" form={this.form} name="horizontal_login"  onFinish={this.onFinish}>
                                 <Form.Item
-                                    name="fullname"
                                     rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your full name!',
+                                        message: 'Fullname là bắt buộc !',
                                     },
                                     ]}
                                 >
-                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Full Name" />
+                                    <Input 
+                                        name="fullname"
+                                        value={fullname}
+                                        onChange={this.onChange}
+                                        onFocus={this.onFocus}
+                                        prefix={<UserOutlined className="site-form-item-icon" />} 
+                                        placeholder="Họ và tên" />
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="email"
                                     rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your Email!',
+                                        message: 'Email là bắt buộc!',
                                     },
                                     ]}
                                 >
-                                    <Input prefix={<MailOutlined  className="site-form-item-icon" />} placeholder="Email" />
+                                    <Input 
+                                        prefix={<MailOutlined  className="site-form-item-icon" />} 
+                                        value={email}
+                                        name="email"
+                                        onChange={this.onChange}
+                                        onFocus={this.onFocus}
+                                        placeholder="Email" />
                                 </Form.Item>
                             
                                 <Form.Item
-                                    name="password"
                                     rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your password!',
+                                        message: 'Password là bắt buộc!',
                                     },
                                     ]}
                                 >
                                     <Input.Password 
                                     prefix={<LockOutlined  className="site-form-item-icon" />}
                                     type="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={this.onChange}
+                                    onFocus={this.onFocus}
                                     placeholder="Password"
                                     />
                                 </Form.Item>
                             
                                 <Form.Item
-                                    name="pass"
                                     rules={[
                                     {
                                         required: true,
-                                        message: 'Please repeat your password!',
+                                        message: 'Nhập lại password!',
                                     },
                                     ]}
                                 >
                                     <Input.Password 
                                     prefix={<UnlockOutlined className="site-form-item-icon" />}
                                     type="password"
-                                    placeholder="Repeat Password"
+                                    name="retypePassword"
+                                    value={retypePassword}
+                                    onChange={this.onChange}
+                                    onFocus={this.onFocus}
+                                    placeholder="Nhập lại password"
                                     />
                                 </Form.Item>
                             
@@ -105,10 +162,12 @@ class SignUp extends React.Component{
                                     {() => (
                                         <div style={{textAlign:"center"}}>
                                             <Button block
-                                        type="primary"
-                                        onClick={this.onSendRegisterRequest}
-                                        htmlType="submit">Đăng ký
-                                    </Button>
+                                                type="primary"
+                                                onClick={this.handleSignup}
+                                                disabled={!active}
+                                                loading = {pending}
+                                                >Đăng ký
+                                            </Button>
                                         </div>
                                     )}
                                 </Form.Item>
@@ -125,12 +184,17 @@ class SignUp extends React.Component{
             </div>)
     }
 }
-const mapStateToProps = state => ({
-    // map state of store to props
+const mapStateToProps = state => {
+    return { 
+        pending: state.user.pending,
+        message: state.user.errMessage,
+        user: state.user.userInfo,
+    };
+}
   
-  })
-  
-  const mapDispatchToProps = (dispatch) => ({
-  
-  });
-  export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+const mapDispatchToProps = (dispatch) => ({
+    register: (email, password, fullname) => dispatch(userActions.register(email,password, fullname))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

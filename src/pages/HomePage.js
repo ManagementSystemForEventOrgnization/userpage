@@ -4,6 +4,8 @@ import Footer from '../containers/share/_layout/Footer'
 import Banner from '../components/Banner'
 import EventList from '../containers/share/EventList'
 
+
+
 export default class HomePage extends Component {
     render() {
         return (
