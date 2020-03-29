@@ -2,8 +2,8 @@ import API from './axious.config';
 import {userConstants} from '../constants/index'
 
 const  login = (email, password) => {
+    console.log(email, password);
     return dispatch => {
-
         dispatch(request());
         API
             .post(`/api/login`, {
@@ -26,7 +26,7 @@ const  login = (email, password) => {
             })
             .catch(error => {
                 console.log(error)
-                return dispatch(failure('Tài khoản hoặc mật khẩu không đúng!' || 'Tài khoản hoặc mật khẩu không đúng!'));
+                return dispatch(failure('Tài khoản hoặc mật khẩu không đúng!'));
             })
     };
 

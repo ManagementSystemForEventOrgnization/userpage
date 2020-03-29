@@ -4,14 +4,23 @@
 
    .header{
       background-image: $background-image-color;
+
+      .search{
+         width: 300px;
+      }
       
       .user-nav{
          z-index: 1050 ;
+
+         .login{
+            font-weight: bold;
+            color: $white;
+         }
       }
 
       .web-name{
-         font-weight: bolder;
-         color: $secondary-color;
+         font-weight: bold;
+         color: $white;
          font-size: 20px;
       }
    }

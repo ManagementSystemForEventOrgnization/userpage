@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 
 export default class EventCard extends Component {
     render() {
+        const urlImgCard = "https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg";
+
         return (
             <div className="ml-5 eventCard">
                 <div className=" ml-4 movie_card" id="bright">
                     <div className="info_section">
                         <div className="movie_header">
-                            <img className="locandina" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" />
+                            <img className="locandina"  alt= "locandina" src={urlImgCard} />
                             <h1>Bright</h1>
                             <h4>2017, David Ayer</h4>
                             <span className="minutes">117 min</span>

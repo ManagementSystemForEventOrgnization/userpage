@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { Input, Button } from 'antd';
-import {
-    PlusOutlined
-} from '@ant-design/icons';
+import { Input } from 'antd';
+
 
 import NavBar from '../../../components/NavBar'
 import UserNav from '../../../components/UserNav';
@@ -47,19 +45,16 @@ class Header extends React.Component {
             <div className="head fixed-top">
                 <nav className="nav header ">
                     <Link to="" className="nav-link active web-name mr-5">EVENT IN YOUR HAND</Link>
-                    <Link className="nav-link ml-5">
-                        <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
-                    </Link>
-                   
+                    <Search className=" nav-link ml-5 search"  enterButton />
                     <div className="nav-link ml-auto user-nav" >
                         {   isLogined? 
                             <UserNav/> : 
                             <>
-                                <Link className="mr-3" to="/login" >
-                                    <Button >Đăng Nhập</Button>
+                                <Link className="mr-5 login" to="/login" >
+                                    Đăng Nhập
                                 </Link>
-                                <Link to="/signup" >
-                                    <Button >Đăng Ký</Button>
+                                <Link to="/signup" className="login mr-3" >
+                                   Đăng Ký
                                 </Link>
                             </>
                         }

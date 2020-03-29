@@ -21,15 +21,14 @@ class SignUp extends React.Component{
     }
   
     onSendRegisterRequest =()=>{
-     this.setState( {
-      isSendRegisterRequest :! this.state. isSendRegisterRequest
-       }
-     )
-      }
+        this.setState({
+            isSendRegisterRequest :!this.state.isSendRegisterRequest
+        })
+    }
 
     render(){
 
-        const  isSendRegisterRequest =true;
+        const isSendRegisterRequest =true;
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
        
         return(

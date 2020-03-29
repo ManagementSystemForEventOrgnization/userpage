@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { GoogleLogin } from 'react-google-login';
-
 import { Form, Input, Button } from 'antd';
 import {Link} from 'react-router-dom';
 import { 
@@ -30,9 +28,9 @@ class LoginPage extends React.Component{
     }
 
     handleLogin = () =>{
-        const {email, password} = this.state;
+        // const {email, password} = this.state;
         const {login} = this.props;
-        login("sang123@123", "123456");
+        login("sang123@123", "123");
 
         this.setState({isFirstLoad:false});
 
