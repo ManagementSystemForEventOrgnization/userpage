@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Menu, Dropdown, Button, message, Tooltip,Input, AutoComplete,Select,
-     Divider ,Card, Avatar, List } from 'antd';
+     Divider ,Card, Avatar, List, DatePicker } from 'antd';
 import { DownOutlined, UserOutlined ,FieldTimeOutlined,
     PlusOutlined, EditOutlined, EllipsisOutlined, SettingOutlined  } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -9,24 +9,29 @@ const { Search } = Input;
 
 const { Option } = Select;
 const { Meta } = Card;
-
+const { RangePicker } = DatePicker;
 let index = 0;
 class HistoryProfile extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-         
+          items: ['Tất cả địa điểm','Hồ Chí Minh', 'Hà Nội','Đà Nẵng'],
+    name: '',
         }
     }
     
-  
+    onNameChange = event => {
+      this.setState({
+        name: event.target.value,
+      });
+    };
      
 
     render(){
-     
+      const { items, name } = this.state;
         const data = [
           {
-            title: 'Tất cả',
+            title: 'Tất cả ',
           },
           {
             title: 'Hội nghị',
@@ -46,7 +51,7 @@ class HistoryProfile extends React.Component{
           {
             title: 'Talkshow',
           },
-          
+    
 
         ];
        const src= "https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg";
@@ -56,6 +61,8 @@ class HistoryProfile extends React.Component{
            <div className="row">
               
                <div className="col ">
+               <RangePicker   style={{ width: 205 ,fontWeight:'bold'}} />
+      
                <List
             itemLayout="horizontal"
     dataSource={data}
@@ -68,16 +75,31 @@ class HistoryProfile extends React.Component{
         />
       </List.Item>
                  )}
-               />,
+               />
+         <Select
+        style={{ width: 205 ,fontWeight:'bold'}}
+        placeholder="Tất cả địa điểm"
+        dropdownRender={menu => (
+          <div>
+            {menu}
+            
+          </div>
+        )}
+      >
+        {items.map(item => (
+          <Option key={item}>{item}</Option>
+        ))}
+      </Select>
                </div >
         
            <div className=' col '>
              <div className="movie_card">
+           
            <Search
               className="largesearch"
                  placeholder="input search text"
                  onSearch={value => console.log(value)}
-     />
+          />
         <div className="row mt-5">
        <div className="col">
        <Card
