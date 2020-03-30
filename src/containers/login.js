@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import {Link} from 'react-router-dom';
+import CheckCode from '../containers/CheckCode'
 import { 
     UserOutlined,
     LockOutlined,
@@ -13,18 +14,24 @@ class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            isActive :true
 
         }
     }
 
-    onFinish = () =>{
-
-    }
+    onCheckActiveRequest =()=>{
+        this.setState( {
+            isActive :! this.state.isActive
+          }
+        )
+         }
 
     render(){
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
+        const { isActive}=this.state;
         return(
             <div className="login">
+                { isActive ?
                 <div  className=" row"  >
                 <Link  to="/" className="col "> 
                     <img  src={urlIMG}/>
@@ -70,7 +77,7 @@ class Login extends React.Component{
                                     <Button
                                         type="primary"
                                         htmlType="submit"
-                                    
+                                      onClick={this.onCheckActiveRequest}
                                     >
                                         Đăng nhập
                                     </Button>
@@ -95,8 +102,11 @@ class Login extends React.Component{
 
                 </div>
                 </div>
-                  
-                  
+                  :
+                  <div>
+                        <CheckCode></CheckCode>
+                      </div>
+    }
 
             </div>
        
