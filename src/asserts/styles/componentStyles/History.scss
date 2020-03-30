@@ -1,0 +1,29 @@
+.history{
+    padding: 10%;
+    .largesearch{
+        height:45px;
+    }
+
+    
+    .movie_card{
+       
+        width: 840px;
+        .card-name{
+            width: 260px;
+           .img {
+          
+            height:150px;
+
+            }
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .movie_card{
+          width: 95%;
+         
+          min-height: 350px;
+          height: auto;
+        }
+    }
+    
+}

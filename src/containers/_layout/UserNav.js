@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import HistoryProfile from '../HistoryProfile';
 import {
     MoneyCollectOutlined,
     CalendarOutlined,
@@ -21,7 +22,7 @@ export default class UserNav extends Component {
                 </label>
                 <nav className="nav">
                     <ul>
-                        <li><Link className="link" to=""><MoneyCollectOutlined className="mr-2 icon" />
+                        <li><Link className="link" to="/history"><MoneyCollectOutlined className="mr-2 icon" />
                             Vé đã đặt</Link></li>
                         <li><Link to="" className="link" ><CalendarOutlined className="mr-2 icon" />
                             Sự kiện đã tạo</Link></li>
@@ -31,6 +32,8 @@ export default class UserNav extends Component {
                             Đăng xuất</Link></li>
                     </ul>
                 </nav>
+
+                
             </div>
         )
     }
