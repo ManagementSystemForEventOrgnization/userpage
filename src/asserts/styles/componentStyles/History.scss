@@ -1,0 +1,53 @@
+.history{
+   
+    padding: 10%;
+    .largesearch{
+        height:40px;
+    }
+
+    
+    .movie_card{
+       
+        width: 840px;
+        .card-name{
+            width: 260px;
+           .img {
+          
+            height:150px;
+
+            }
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .movie_card{
+          width: 95%;
+         
+          min-height: 350px;
+          height: auto;
+        }
+        
+        .place{
+            margin-top: 20px;
+         
+        }
+    }
+
+    @media screen and (max-width: 1280px) {
+        .place{
+            margin-top: 20px;
+         
+        }
+    }
+    
+    .date{
+        font-size: 8px !important;
+        height:40px;
+    }
+    
+    .select-place{
+        font-weight: bold;
+        width: 100%;
+      
+    }
+    
+}

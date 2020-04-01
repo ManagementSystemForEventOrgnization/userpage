@@ -14,12 +14,12 @@ class Banner extends React.Component{
     render(){
         return(
             <div className="banner">
-                <h1 >EVENT IN YOUR HAND</h1>
-                <h2 >Dễ dàng hơn với việc quản lý và tổ chức sự kiện ngay từ hôm nay</h2>
+                <h1  className="title-name">EVENT IN YOUR HAND</h1>
+                <h2  className="title-name">Dễ dàng hơn với việc quản lý và tổ chức sự kiện ngay từ hôm nay</h2>
 
-                <div className="create-event-now d-flex flex-row">
+                <div className="create-event-now d-flex flex-row mt-4">
                     <Input placeholder="Nhập mới tên sự kiện muốn tạo ..."/>
-                    <Button icon={<StarFilled/>} className="ml-5" size="large" shape="round" type="danger"> Tạo ngay</Button>
+                    <Button icon={<StarFilled/>}  size="large"  type="danger"> Tạo ngay</Button>
                        
                 </div>
             </div>
