@@ -7,7 +7,7 @@ export default class Event extends Component {
                 <div className="movie_card" id="bright">
                     <div className="info_section">
                         <div className="movie_header">
-                            <img className="locandina" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" />
+                            <img className="locandina" alt="movie" src="https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg" />
                             <h1>Bright</h1>
                             <h4>2017, David Ayer</h4>
                             <span className="minutes">117 min</span>
@@ -32,7 +32,7 @@ export default class Event extends Component {
                 <div className="movie_card" id="tomb">
                     <div className="info_section">
                         <div className="movie_header">
-                            <img className="locandina" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" />
+                            <img className="locandina" alt="movie"  src="https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg" />
                             <h1>Tomb Raider</h1>
                             <h4>2018, Roar Uthaug</h4>
                             <span className="minutes">125 min</span>
@@ -57,7 +57,7 @@ export default class Event extends Component {
                 <div className="movie_card" id="ave">
                     <div className="info_section">
                         <div className="movie_header">
-                            <img className="locandina" src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" />
+                            <img className="locandina" alt="movie"  src="https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg" />
                             <h1>Black Panther</h1>
                             <h4>2018, Ryan Coogler</h4>
                             <span className="minutes">134 min</span>

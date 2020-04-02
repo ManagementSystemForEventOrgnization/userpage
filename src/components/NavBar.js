@@ -10,7 +10,7 @@ class NavBar extends React.Component{
         }
     }
 
-    componentWillMount = () =>{
+    UNSAFE_componentWillMount = () =>{
         const{typeOfEvents} = this.props;
         this.setState({
             typeOfEvents,

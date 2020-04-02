@@ -1,7 +1,11 @@
+import './setupProxy'
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore , applyMiddleware} from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 
 import './index.css';
 import App from './App';
@@ -11,7 +15,7 @@ import './asserts/styles/index.scss'
 import "antd/dist/antd.css";
 
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 
 

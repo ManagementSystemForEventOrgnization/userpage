@@ -1,57 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react'
+import './App.css';
 import {
   BrowserRouter as Router,
-  Switch, Route, Redirect
+  Switch, Route
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux'
+import routes from './routers/routes';
 
 
+class App extends Component {
 
-import './App.css';
-import HomePage from './containers/HomePage';
-import Profile from './containers/Profile';
-import CategoryDetail from './containers/CategoryDetail';
-import EventDetail from './containers/EventDetail';
-import CreateEvent from './containers/CreateEvent';
-import Login from './containers/Login';
-import Signup from './containers/SignUp';
-import UserNav from './containers/_layout/UserNav'
+  showContentMenus = (routes) => {
+    var result = null;
+    if (routes.length > 0) {
+      result = routes.map((route, index) => {
+        return (
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            component={route.main}
+          />
+        );
+      });
+    }
+    return <Switch>{result}</Switch>;
+  }
 
-require('dotenv').config()
-
-
-function App() {
-  const isLogin = false;
-
-  return (
-
-    <div className="">
-          <Router>
-              <UserNav></UserNav>
-        <Switch>
-            <Route exact path="/login" component={Login}/>
-            <Route exact path="/signup" component={Signup}/>
-            <Route exact path="/profile">
-                {isLogin ? <Profile/> : <Login/>}
-            </Route>
-
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/home">
-                <Redirect to="/" />
-            </Route>
-            <Route exact path="/:category" component={CategoryDetail} />
-            <Route exact path="/create">
-                {isLogin ? <CreateEvent/> : <Login/>}
-            </Route>
-            <Route exact path="/:category/:id" component={EventDetail} />
-        </Switch >
-        
-      </Router>
-  
-    </div >
-
-  );
+  render() {
+    return (
+      <div>
+        <Router>
+          <div>
+            <div>
+              <div>
+                {this.showContentMenus(routes)}
+              </div>
+            </div>
+          </div>
+        </Router>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({

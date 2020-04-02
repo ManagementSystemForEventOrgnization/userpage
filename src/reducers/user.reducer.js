@@ -1,59 +1,98 @@
-import {userConstant} from '../constants/index';
+import {userConstants} from '../constants/index';
 
 const initialState = {
-    logined : false,
+    isLogined : false,
     errMessage: null,
     successMessage: null,
     pending: false,
-    userInfo: null
+    userInfo: null,
+    active: false,
 }
 
 const user = (state = initialState, action) =>{
     switch(action.type){
-        case userConstant.LOGIN_REQUEST: 
+
+        case userConstants.LOGIN_REQUEST: 
             return {
                 ...state,
                 pending: true,
-                
+                errMessage: null
             }
-        case userConstant.LOGIN_SUCCESS: 
+        case userConstants.LOGIN_SUCCESS: 
+            action.user && localStorage.setItem("isLogined", true);
             return {
                 ...state,
-                loggedIn: true,
+                isLogined: action.user.isActive,
                 pending: false,
-                userInfo: action.user,
+                userInfo: action.user ,
+                errMessage: null,
+                active: action.user.isActive,
             }
-        case userConstant.LOGIN_FAILURE:
-            return{
-                ...state,
-                errMessage: action.error,
-                pending: false,
-            }
-        
-        case userConstant.REGISTER_REQUEST: 
-            return {
-                ...state,
-                pending: true,
-                
-            }
-        case userConstant.REGISTER_SUCCESS: 
-            return {
-                ...state,
-                loggedIn: true,
-                pending: false,
-                userInfo: action.user,
-            }
-        case userConstant.REGISTER_FAILURE:
+        case userConstants.LOGIN_FAILURE:
             return{
                 ...state,
                 errMessage: action.error,
                 pending: false,
             }
 
-        case userConstant.LOGOUT: 
+        case userConstants.LOGIN_GOOGLE:
+            return{
+                ...state,
+                userInfo: action.user,
+                isLogined: true,
+            }
+
+
+
+        case userConstants.REGISTER_REQUEST: 
             return {
                 ...state,
-                loggedIn: false,
+                pending: true,
+                errMessage: null
+            }
+        case userConstants.REGISTER_SUCCESS: 
+            return {
+                ...state,
+                pending: false,
+                userInfo: action.user,
+                active: false,
+            }
+        case userConstants.REGISTER_FAILURE:
+            return{
+                ...state,
+                errMessage: action.error,
+                pending: false,
+            }
+
+
+
+
+        case userConstants.CHECK_CODE_REQUEST: 
+            return {
+                ...state,
+                pending: true,
+                errMessage: null
+            }
+        case userConstants.CHECK_CODE_SUCCESS: 
+            return {
+                ...state,
+                isLogined: true,
+                pending: false,
+                active: true,
+            }
+        case userConstants.CHECK_CODE_FAILURE:
+            return{
+                ...state,
+                errMessage: action.error,
+                pending: false,
+                active: false,
+            }
+
+
+        case userConstants.LOGOUT: 
+            return {
+                ...state,
+                isLogined: false,
                 errMessage: null,
                 successMessage: null,
                 pending: false,
