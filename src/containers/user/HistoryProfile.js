@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {
-    Input, Select
-    , Card, List, DatePicker
-} from 'antd';
+import { Input, Select, Card, List, DatePicker } from 'antd';
 import {
     FieldTimeOutlined,
 } from '@ant-design/icons';
@@ -12,7 +9,9 @@ import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 const { Option } = Select;
+
 const { RangePicker } = DatePicker;
+
 
 class HistoryProfile extends React.Component {
     constructor(props) {
@@ -28,7 +27,6 @@ class HistoryProfile extends React.Component {
             name: event.target.value,
         });
     };
-
 
     render() {
         const { items } = this.state;
