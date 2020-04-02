@@ -56,7 +56,6 @@ class LoginPage extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps = (nextProps) => {
-        console.log(nextProps);
         if (!nextProps.pending && !nextProps.message) {
             if (!nextProps.user.isActive) {
                 this.setState({

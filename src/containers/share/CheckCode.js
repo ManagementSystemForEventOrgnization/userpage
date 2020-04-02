@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {Input,  Button} from 'antd';
+import { Input, Button } from 'antd';
 
-import {userActions}  from '../../action/user.action';
+import { userActions } from '../../action/user.action';
 
 
-class CheckCode extends React.Component{
-    constructor(props){
+class CheckCode extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             code: '',
@@ -20,66 +20,69 @@ class CheckCode extends React.Component{
         })
     }
 
-    handleSendOTP = () =>{
-        const {code} = this.state;
-        const {checkCode} = this.props;
+    handleSendOTP = () => {
+        const { code } = this.state;
+        const { checkCode } = this.props;
         checkCode(code);
     }
 
-    UNSAFE_componentWillReceiveProps = (nextProps)=>{
-        console.log(nextProps);
-        if(!nextProps.pending && !nextProps.message){
+    UNSAFE_componentWillReceiveProps = (nextProps) => {
+        if (!nextProps.pending && !nextProps.message) {
             this.setState({
                 showCheckCode: true,
             })
         }
-        
+        else if (nextProps.message) {
+            this.setState({
+                err: nextProps.message
+            })
+        }
+
     }
 
-    render(){
-        const {code, err} = this.state;
-        const {pendding} = this.props;
+    render() {
+        const { code, err } = this.state;
+        const { pendding } = this.props;
         const disactive = err || !code.trim()
-        return(
+        return (
             <div className="col mt-5 check-code" >
 
                 <p className="notify-enter-code" >Hãy nhập mã code(đã được gửi trong gmail) để xác nhận tài khoản  </p>
 
-                {err  && 
+                {err &&
                     <div className="error-message mt-2 mb-2">{err}</div>
                 }
 
                 <div className=" mt-3 d-flex flex-row">
-                    <Input 
+                    <Input
                         value={code}
                         name="code"
                         onChange={this.onChange}
-                        placeholder="Nhập mã code xác nhận  ..."/>
+                        placeholder="Nhập mã code xác nhận  ..." />
 
-                    <Button  
-                        size="large" 
-                        type="primary" 
+                    <Button
+                        size="large"
+                        type="primary"
                         disabled={disactive}
                         loading={pendding}
                         onClick={this.handleSendOTP}
                     > Xác nhận</Button>
                 </div>
 
-            </div> 
+            </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    pendding : state.user.pendding,
+    pendding: state.user.pendding,
     message: state.user.errMessage,
 })
-  
+
 const mapDispatchToProps = (dispatch) => ({
     checkCode: (code) => dispatch(userActions.checkCode(code))
 });
 
-  
-  
+
+
 export default connect(mapStateToProps, mapDispatchToProps)(CheckCode)
-  

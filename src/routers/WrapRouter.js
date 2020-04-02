@@ -69,7 +69,6 @@ class WrapRouter extends React.Component {
 
     UNSAFE_componentWillReceiveProps = (nextProps) => {
         const { isLogined } = nextProps;
-        console.log(isLogined)
         const routes = [
             {
                 path: '/',

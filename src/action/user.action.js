@@ -10,7 +10,6 @@ const login = (email, password) => {
                 password,
             })
             .then(res => {
-                console.log(res);
 
                 if (!res.data.message) {
                     dispatch(success(res.data));
@@ -23,7 +22,6 @@ const login = (email, password) => {
 
             })
             .catch(error => {
-                console.log(error)
                 return dispatch(failure('Tài khoản hoặc mật khẩu không đúng!'));
             })
     };
@@ -87,7 +85,6 @@ const register = (email, password, fullName) => {
                 fullName
             })
             .then(res => {
-                console.log(res);
 
                 if (!res.data.message) {
                     dispatch(success(res.data));
@@ -98,7 +95,6 @@ const register = (email, password, fullName) => {
                 }
             })
             .catch(error => {
-                console.log(error)
                 return dispatch(failure(error)
                     || 'Email hoặc mật khẩu không hợp lệ!');
             })
@@ -119,7 +115,6 @@ const checkCode = (code) => {
                 code
             })
             .then(res => {
-                console.log(res);
 
                 if (res.status === 200) {
                     dispatch(success());
@@ -130,9 +125,7 @@ const checkCode = (code) => {
                 }
             })
             .catch(error => {
-                console.log(error)
-                return dispatch(failure(error)
-                    || 'OTP không hợp lệ!');
+                return dispatch(failure('Xác thực không thành công do một vài sự cố !'));
             })
 
 
@@ -143,21 +136,21 @@ const checkCode = (code) => {
 }
 
 const logout = () => {
+
     return dispatch => {
         dispatch(request());
         API
             .get(`/api/logout`)
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     dispatch(success());
                 }
                 else {
-                    dispatch(failure('Logout thất bại !'));
+                    dispatch(failure('Đăng xuất không thành công'));
                 }
             })
             .catch(error => {
-                return dispatch(failure(error || 'Logout thất bại !'));
+                dispatch(failure(error || 'Đăng xuất không thành công'));
             })
     };
 
@@ -167,13 +160,13 @@ const logout = () => {
 
 }
 
+
 const getCurrentUser = () => {
     return dispatch => {
         dispatch(request());
         API
             .get(`/api/current_user`)
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     dispatch(success(res.data));
                 }
