@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Form, Input, Button, Layout,Row, Col, Card,Avatar, Select,DatePicker,Upload,message,Modal} from 'antd';
+import { Form, Input, Button, Layout,Row, Col, Card,Avatar, Select,DatePicker,Upload,message} from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined,LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 

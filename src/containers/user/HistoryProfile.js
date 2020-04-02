@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Menu, Dropdown, Button, Input, AutoComplete,Select,
-     Divider ,Card, Avatar, List, DatePicker } from 'antd';
-import { DownOutlined, UserOutlined ,FieldTimeOutlined,
-    PlusOutlined, EditOutlined, EllipsisOutlined, SettingOutlined  } from '@ant-design/icons';
+import {  Input, Select,Card,  List, DatePicker } from 'antd';
+import {   FieldTimeOutlined,
+      } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 const { Search } = Input;
 const { Option } = Select;
-const { Meta } = Card;
+
 const { RangePicker } = DatePicker;
-let index = 0;
+
 
 class HistoryProfile extends React.Component{
     constructor(props){
@@ -28,7 +27,7 @@ class HistoryProfile extends React.Component{
      
 
     render(){
-      const { items, name } = this.state;
+      const { items } = this.state;
         const data = [
           {
             title: 'Tất cả ',
