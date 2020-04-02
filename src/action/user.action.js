@@ -1,7 +1,7 @@
 import API from './axious.config';
-import {userConstants} from '../constants/index'
+import { userConstants } from '../constants/index'
 
-const  login = (email, password) => {
+const login = (email, password) => {
     return dispatch => {
         dispatch(request());
         API
@@ -12,15 +12,15 @@ const  login = (email, password) => {
             .then(res => {
                 console.log(res);
 
-                if(!res.data.message ){
+                if (!res.data.message) {
                     dispatch(success(res.data));
-                } 
-                else{
-                    dispatch(failure(res.data.message|| 'Tài khoản hoặc mật khẩu không đúng!' ));
+                }
+                else {
+                    dispatch(failure(res.data.message || 'Tài khoản hoặc mật khẩu không đúng!'));
                 }
 
 
-            
+
             })
             .catch(error => {
                 console.log(error)
@@ -28,27 +28,56 @@ const  login = (email, password) => {
             })
     };
 
-    function request() { return { type: userConstants.LOGIN_REQUEST} }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user} }
+    function request() { return { type: userConstants.LOGIN_REQUEST } }
+    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
 const loginWithGoogle = (profile) => {
     return API
         .post(`/auth/google`,
-        {
-            profile
-        }
+            {
+                profile
+            }
         )
         .then(res => {
             userConstants.LOGIN_GOOGLE(res.data)
         })
 }
 
-const register = (email, password, fullName) =>{
+// const loginWithGG = (accessToken) => {
+//     const authOptions = {
+//         method: 'POST',
+//         url: `${API_URL}users/login/google`,
+//         headers: {
+//             'Access_token': accessToken,
+//             'Content-Type': 'application/json'
+//         },
+//         json: true
+//     };
+//     return dispatch => {
+//         API(authOptions)
+//             .then(result => {
+//                 dispatch(success(result.data.user, isTeacher));
+//                 if (isTeacher) {
+//                     history.push('/teacher-home');
+//                 }
+//                 else {
+//                     history.push('/home');
+//                 }
+//             })
+//             .catch(error => {
+//                 return dispatch(failure(error.response.data.message || 'Đã có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại!'));
+//             })
 
-    console.log(email, password, fullName);
+//     };
 
+//     function success(user, isTeacher) { return { type: userConstants.LOGIN_SUCCESS, user, isTeacher } }
+//     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+// }
+
+
+const register = (email, password, fullName) => {
     return dispatch => {
         dispatch(request());
         API
@@ -60,31 +89,30 @@ const register = (email, password, fullName) =>{
             .then(res => {
                 console.log(res);
 
-                if(!res.data.message){
+                if (!res.data.message) {
                     dispatch(success(res.data));
 
-                } 
-                else{
-                    dispatch(failure(res.data.message|| 'Email hoặc mật khẩu không hợp lệ!' ));
+                }
+                else {
+                    dispatch(failure(res.data.message || 'Email hoặc mật khẩu không hợp lệ!'));
                 }
             })
             .catch(error => {
                 console.log(error)
                 return dispatch(failure(error)
-                ||'Email hoặc mật khẩu không hợp lệ!');
+                    || 'Email hoặc mật khẩu không hợp lệ!');
             })
     };
 
-    function request() { return { type: userConstants.REGISTER_REQUEST} }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user} }
+    function request() { return { type: userConstants.REGISTER_REQUEST } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 
 }
 
 
 const checkCode = (code) => {
-    console.log(code);
-    return dispatch  => {
+    return dispatch => {
         dispatch(request());
         API
             .post(`/api/verifyToken`, {
@@ -93,28 +121,74 @@ const checkCode = (code) => {
             .then(res => {
                 console.log(res);
 
-                if(res.status === 200){
+                if (res.status === 200) {
                     dispatch(success());
 
-                } 
-                else if(res.status === 422){
-                    dispatch(failure(res.data.message|| 'OTP không hợp lệ!' ));
+                }
+                else if (res.status === 422) {
+                    dispatch(failure(res.data.message || 'OTP không hợp lệ!'));
                 }
             })
             .catch(error => {
                 console.log(error)
                 return dispatch(failure(error)
-                ||'OTP không hợp lệ!');
+                    || 'OTP không hợp lệ!');
             })
 
 
     };
-    function request() { return { type: userConstants.CHECK_CODE_REQUEST} }
-    function success() { return { type: userConstants.CHECK_CODE_SUCCESS} }
+    function request() { return { type: userConstants.CHECK_CODE_REQUEST } }
+    function success() { return { type: userConstants.CHECK_CODE_SUCCESS } }
     function failure(error) { return { type: userConstants.CHECK_CODE_FAILURE, error } }
 }
 
-const logout = () =>{
+const logout = () => {
+    return dispatch => {
+        dispatch(request());
+        API
+            .post(`/api/logout`)
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    dispatch(success());
+                }
+                else {
+                    dispatch(failure('Logout thất bại !'));
+                }
+            })
+            .catch(error => {
+                return dispatch(failure(error || 'Logout thất bại !'));
+            })
+    };
+
+    function request() { return { type: userConstants.LOGOUT_REQUEST } }
+    function success() { return { type: userConstants.LOGOUT_SUCCESS } }
+    function failure(error) { return { type: userConstants.LOGOUT_FAILURE, error } }
+
+}
+
+const getCurrentUser = () => {
+    return dispatch => {
+        dispatch(request());
+        API
+            .post(`/api/current_user`)
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    dispatch(success(res.data));
+                }
+                else {
+                    dispatch(failure(res.message));
+                }
+            })
+            .catch(error => {
+                return dispatch(failure(error));
+            })
+    };
+
+    function request() { return { type: userConstants.GET_CURRENT_USER_REQUEST } }
+    function success(user) { return { type: userConstants.GET_CURRENT_USER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_CURRENT_USER_FAILURE, error } }
 
 }
 
@@ -124,6 +198,7 @@ export const userActions = {
     loginWithGoogle,
     register,
     checkCode,
-    logout
+    logout,
+    getCurrentUser,
 
 }

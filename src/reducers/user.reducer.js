@@ -1,7 +1,7 @@
-import {userConstants} from '../constants/index';
+import { userConstants } from '../constants/index';
 
 const initialState = {
-    isLogined : false,
+    isLogined: false,
     errMessage: null,
     successMessage: null,
     pending: false,
@@ -9,48 +9,47 @@ const initialState = {
     active: false,
 }
 
-const user = (state = initialState, action) =>{
-    switch(action.type){
+const user = (state = initialState, action) => {
+    switch (action.type) {
 
-        case userConstants.LOGIN_REQUEST: 
+        case userConstants.LOGIN_REQUEST:
             return {
                 ...state,
                 pending: true,
                 errMessage: null
             }
-        case userConstants.LOGIN_SUCCESS: 
-            action.user && localStorage.setItem("isLogined", true);
+
+        case userConstants.LOGIN_SUCCESS:
             return {
                 ...state,
                 isLogined: action.user.isActive,
                 pending: false,
-                userInfo: action.user ,
+                userInfo: action.user,
                 errMessage: null,
                 active: action.user.isActive,
             }
         case userConstants.LOGIN_FAILURE:
-            return{
+            return {
                 ...state,
                 errMessage: action.error,
+                isLogined: false,
                 pending: false,
             }
 
         case userConstants.LOGIN_GOOGLE:
-            return{
+            return {
                 ...state,
                 userInfo: action.user,
                 isLogined: true,
             }
 
-
-
-        case userConstants.REGISTER_REQUEST: 
+        case userConstants.REGISTER_REQUEST:
             return {
                 ...state,
                 pending: true,
                 errMessage: null
             }
-        case userConstants.REGISTER_SUCCESS: 
+        case userConstants.REGISTER_SUCCESS:
             return {
                 ...state,
                 pending: false,
@@ -58,22 +57,18 @@ const user = (state = initialState, action) =>{
                 active: false,
             }
         case userConstants.REGISTER_FAILURE:
-            return{
+            return {
                 ...state,
                 errMessage: action.error,
                 pending: false,
             }
-
-
-
-
-        case userConstants.CHECK_CODE_REQUEST: 
+        case userConstants.CHECK_CODE_REQUEST:
             return {
                 ...state,
                 pending: true,
                 errMessage: null
             }
-        case userConstants.CHECK_CODE_SUCCESS: 
+        case userConstants.CHECK_CODE_SUCCESS:
             return {
                 ...state,
                 isLogined: true,
@@ -81,7 +76,7 @@ const user = (state = initialState, action) =>{
                 active: true,
             }
         case userConstants.CHECK_CODE_FAILURE:
-            return{
+            return {
                 ...state,
                 errMessage: action.error,
                 pending: false,
@@ -89,17 +84,38 @@ const user = (state = initialState, action) =>{
             }
 
 
-        case userConstants.LOGOUT: 
+        case userConstants.LOGOUT_REQUEST:
             return {
                 ...state,
-                isLogined: false,
-                errMessage: null,
-                successMessage: null,
-                pending: false,
+                pending: true,
+
+            }
+        case userConstants.LOGOUT_SUCCESS:
+            return {
+                ...state,
                 userInfo: null,
+                isLogined: false,
             }
 
-        default: 
+        case userConstants.LOGOUT_FAILURE:
+            return {
+                ...state,
+                errMessage: action.err,
+            }
+
+        case userConstants.GET_CURRENT_USER_REQUEST:
+            return {
+                ...state,
+                pending: true,
+            }
+
+        case userConstants.GET_CURRENT_USER_SUCCESS:
+            return {
+                ...state,
+                userInfo: action.user,
+            }
+
+        default:
             return state
     }
 }
