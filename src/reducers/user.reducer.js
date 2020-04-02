@@ -20,6 +20,7 @@ const user = (state = initialState, action) => {
             }
 
         case userConstants.LOGIN_SUCCESS:
+            console.log(action.user)
             return {
                 ...state,
                 isLogined: action.user.isActive,
@@ -95,12 +96,14 @@ const user = (state = initialState, action) => {
                 ...state,
                 userInfo: null,
                 isLogined: false,
+                pending: false,
             }
 
         case userConstants.LOGOUT_FAILURE:
             return {
                 ...state,
                 errMessage: action.err,
+                pending: false,
             }
 
         case userConstants.GET_CURRENT_USER_REQUEST:
@@ -113,6 +116,15 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 userInfo: action.user,
+                isLogined: true,
+                pending: false,
+            }
+        case userConstants.GET_CURRENT_USER_FAILURE:
+            return {
+                ...state,
+                userInfo: null,
+                isLogined: false,
+                pending: false,
             }
 
         default:

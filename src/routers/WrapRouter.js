@@ -57,7 +57,7 @@ class WrapRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            routes: []
+            routes: ROUTES,
         }
     }
 
@@ -68,7 +68,8 @@ class WrapRouter extends React.Component {
 
 
     UNSAFE_componentWillReceiveProps = (nextProps) => {
-        const { isLogined } = nextProps.isLogined;
+        const { isLogined } = nextProps;
+        console.log(isLogined)
         const routes = [
             {
                 path: '/',
@@ -116,13 +117,12 @@ class WrapRouter extends React.Component {
 
     render() {
         const { routes } = this.state;
-        const currRoutes = routes.length > 0 ? routes : ROUTES;
         return (
             <Router>
                 <Switch>
                     {
 
-                        currRoutes.map((route, index) =>
+                        routes.map((route, index) =>
                             <Route
                                 key={index}
                                 path={route.path}
