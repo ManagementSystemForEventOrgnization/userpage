@@ -18,15 +18,10 @@ const routes = [
         exact: false,
         main: () => <CategoryDetailPage />
     },
-    // {
-    //     path: '/product/add',
-    //     exact: false,
-    //     main: ({history}) => <ProductActionPage history={history}/>
-    // },
     {
         path: '/event/:id',
         exact: true,
-        main: ({match, history}) => <EventDetailPage match={match} history={history}/>
+        main: ({ match, history }) => <EventDetailPage match={match} history={history} />
     },
     {
         path: '/login',
@@ -36,12 +31,12 @@ const routes = [
     {
         path: '/signup',
         exact: true,
-        main: () => <SignUpPage />       
+        main: () => <SignUpPage />
     },
     {
         path: '/profile',
         exact: true,
-        main: () => <ProfilePage />       
+        main: () => <ProfilePage />
     },
     {
         path: '',

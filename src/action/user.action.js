@@ -146,7 +146,7 @@ const logout = () => {
     return dispatch => {
         dispatch(request());
         API
-            .post(`/api/logout`)
+            .get(`/api/logout`)
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {
@@ -171,7 +171,7 @@ const getCurrentUser = () => {
     return dispatch => {
         dispatch(request());
         API
-            .post(`/api/current_user`)
+            .get(`/api/current_user`)
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {
