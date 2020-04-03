@@ -13,6 +13,7 @@ import EventDetailPage from '../pages/EventDetailPage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
+import UserEventPage from '../pages/UserEventPage';
 
 const ROUTES = [
     {
@@ -43,7 +44,27 @@ const ROUTES = [
     {
         path: '/profile',
         exact: true,
-        main: () => <ProfilePage />
+        main: () => <LoginPage />
+    },
+    {
+        path: '/registered-event',
+        exact: true,
+        main: () => <LoginPage />
+    },
+    {
+        path: '/participated-event',
+        exact: true,
+        main: () => <LoginPage />
+    },
+    {
+        path: '/created-event',
+        exact: true,
+        main: () => <LoginPage />
+    },
+    {
+        path: '/profile',
+        exact: true,
+        main: () => <LoginPage />
     },
     {
         path: '',
@@ -99,6 +120,21 @@ class WrapRouter extends React.Component {
                 path: '/profile',
                 exact: true,
                 main: () => isLogined ? <ProfilePage /> : <LoginPage />
+            },
+            {
+                path: '/registered-event',
+                exact: true,
+                main: () => isLogined ? <UserEventPage /> : <LoginPage />
+            },
+            {
+                path: '/participated-event',
+                exact: true,
+                main: () => isLogined ? <UserEventPage /> : <LoginPage />
+            },
+            {
+                path: '/created-event',
+                exact: true,
+                main: () => isLogined ? <UserEventPage /> : <LoginPage />
             },
             {
                 path: '',

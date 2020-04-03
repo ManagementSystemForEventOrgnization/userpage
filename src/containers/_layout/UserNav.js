@@ -25,13 +25,13 @@ class UserNav extends Component {
                 </label>
                 <nav className="nav">
                     <ul>
-                        <li><Link to="" className="link" ><ProfileOutlined className="mr-2 icon" />
+                        <li><Link to="/profile" className="link" ><ProfileOutlined className="mr-2 icon" />
                             Trang cá nhân</Link></li>
-                        <li><Link className="link" to=""><MoneyCollectOutlined className="mr-2 icon" />
+                        <li><Link className="link" to="/registered-event"><MoneyCollectOutlined className="mr-2 icon" />
                             Sự kiện đã đăng ký</Link></li>
-                        <li><Link className="link" to=""><MoneyCollectOutlined className="mr-2 icon" />
+                        <li><Link className="link" to="/participated-event"><MoneyCollectOutlined className="mr-2 icon" />
                             Sự kiện đã tham gia</Link></li>
-                        <li><Link to="" className="link" ><CalendarOutlined className="mr-2 icon" />
+                        <li><Link to="/created-event" className="link" ><CalendarOutlined className="mr-2 icon" />
                             Sự kiện đã tạo</Link></li>
                         <li onClick={logout}><div className="link" ><LogoutOutlined className="mr-2 icon" />
                             Đăng xuất</div></li>
