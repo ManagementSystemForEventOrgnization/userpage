@@ -18,6 +18,7 @@ const login = (email, password) => {
                     dispatch(failure(res.data.message || 'Tài khoản hoặc mật khẩu không đúng!'));
                 }
 
+                return res.data;
 
 
             })
@@ -29,50 +30,34 @@ const login = (email, password) => {
     function request() { return { type: userConstants.LOGIN_REQUEST } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+
 }
 
 const loginWithGoogle = (profile) => {
-    return API
-        .post(`/auth/google`,
-            {
-                profile
-            }
-        )
-        .then(res => {
-            userConstants.LOGIN_GOOGLE(res.data)
-        })
+    console.log(profile);
+
+    return dispatch => {
+        API
+            .post(`/api/login-google`,
+                {
+                    profile
+                }
+            )
+            .then(res => {
+                console.log(res)
+                if (res.status === 200)
+                    dispatch(success(res.data))
+                else dispatch(failure('Một số lỗi đã xảy ra'));
+            })
+            .catch(err => {
+                dispatch(failure('Một số lỗi đã xảy ra'))
+            })
+    };
+    function success(user) { return { type: userConstants.LOGIN_GOOGLE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_GOOGLE_FAILURE, error } }
+
+
 }
-
-// const loginWithGG = (accessToken) => {
-//     const authOptions = {
-//         method: 'POST',
-//         url: `${API_URL}users/login/google`,
-//         headers: {
-//             'Access_token': accessToken,
-//             'Content-Type': 'application/json'
-//         },
-//         json: true
-//     };
-//     return dispatch => {
-//         API(authOptions)
-//             .then(result => {
-//                 dispatch(success(result.data.user, isTeacher));
-//                 if (isTeacher) {
-//                     history.push('/teacher-home');
-//                 }
-//                 else {
-//                     history.push('/home');
-//                 }
-//             })
-//             .catch(error => {
-//                 return dispatch(failure(error.response.data.message || 'Đã có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại!'));
-//             })
-
-//     };
-
-//     function success(user, isTeacher) { return { type: userConstants.LOGIN_SUCCESS, user, isTeacher } }
-//     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
-// }
 
 
 const register = (email, password, fullName) => {
@@ -136,14 +121,10 @@ const checkCode = (code) => {
 }
 
 const logout = () => {
-    console.log('logout')
-    return dispatch => {
-        API
-            .get(`/api/logout`)
-            .then(res => {
-                dispatch({ type: userConstants.LOGOUT });
-            })
-    };
+    API.get(`/api/logout`)
+    return {
+        type: userConstants.LOGOUT
+    }
 }
 
 

@@ -16,6 +16,8 @@ import { userActions } from '../action/user.action';
 import CheckCode from '../containers/share/CheckCode';
 
 class LoginPage extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -27,6 +29,10 @@ class LoginPage extends React.Component {
         }
     }
 
+    componentDidMount = () => {
+        this._isMounted = true;
+    }
+
     handleLogin = () => {
         const { email, password } = this.state;
         const { login } = this.props;
@@ -35,12 +41,10 @@ class LoginPage extends React.Component {
 
     }
 
-
-
-
     responseGoogle = (response) => {
         const { loginWithGoogle } = this.props;
-        loginWithGoogle(response.Zw.profileObj);
+        console.log(response.profileObj)
+        loginWithGoogle(response.profileObj);
     }
 
     onChange = e => {
@@ -55,21 +59,27 @@ class LoginPage extends React.Component {
         })
     }
 
+
     UNSAFE_componentWillReceiveProps = (nextProps) => {
-        if (!nextProps.pending && !nextProps.message) {
-            if (!nextProps.user.isActive) {
-                this.setState({
-                    showCheckCode: true,
-                })
-            }
+        if (this._isMounted && !nextProps.active) {
+            this.setState({
+                showCheckCode: true,
+            })
+
         }
+
+
+    }
+
+    componentWillUnmount = () => {
+        this._isMounted = false;
     }
 
     render() {
         const { message, pending } = this.props;
         const { email, password, isFirstLoad, showCheckCode } = this.state;
         const active = email && password.trim();
-        const clientID = process.env.REACT_APP_CLIENT_ID
+        const clientID = process.env.REACT_APP_CLIENT_ID;
 
         const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
         return (
@@ -188,12 +198,13 @@ const mapStateToProps = state => {
     return {
         message: state.user.errMessage,
         pending: state.user.pending,
-        user: state.user.userInfo
+        active: state.user.active,
     };
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (email, password) => dispatch(userActions.login(email, password))
+    login: (email, password) => dispatch(userActions.login(email, password)),
+    loginWithGoogle: (profile) => dispatch(userActions.loginWithGoogle(profile))
 });
 
 

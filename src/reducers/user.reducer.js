@@ -36,11 +36,20 @@ const user = (state = initialState, action) => {
                 pending: false,
             }
 
-        case userConstants.LOGIN_GOOGLE:
+        case userConstants.LOGIN_GOOGLE_SUCCESS:
             return {
                 ...state,
                 userInfo: action.user,
                 isLogined: true,
+                pending: false
+            }
+        case userConstants.LOGIN_GOOGLE_FAILURE:
+            return {
+                ...state,
+                userInfo: null,
+                isLogined: false,
+                pending: false,
+                errMessage: action.error
             }
 
         case userConstants.REGISTER_REQUEST:
