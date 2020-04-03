@@ -12,6 +12,9 @@ export default class HomePage extends Component {
             <div>
                 <Header />
                 <Banner />
+                {/* <H1>S</H1>
+                <H1>S</H1> */}
+
                 {/* <Event></Event> */}
                 <EventList></EventList>
                 <Footer />

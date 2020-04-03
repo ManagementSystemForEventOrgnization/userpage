@@ -16,6 +16,7 @@ import CheckCode from '../containers/share/CheckCode'
 
 
 class SignUp extends React.Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -50,8 +51,16 @@ class SignUp extends React.Component {
         })
     }
 
+    componentDidMount = () => {
+        this._isMounted = true;
+    }
+
+    componentWillUnmount = () => {
+        this._isMounted = false;
+    }
+
     UNSAFE_componentWillReceiveProps = (nextProps) => {
-        if (!nextProps.pending && !nextProps.message) {
+        if (this._isMounted && !nextProps.message) {
             this.setState({
                 showCheckCode: true,
             })

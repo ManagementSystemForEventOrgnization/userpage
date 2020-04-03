@@ -5,7 +5,8 @@ import { Input } from 'antd';
 
 
 import NavBar from '../../../components/NavBar'
-import UserNav from '../../../containers/_layout/UserNav';
+import UserNav from '../../user/UserNav';
+import { userActions } from '../../../action/user.action'
 
 
 const { Search } = Input;
@@ -45,6 +46,7 @@ class Header extends React.Component {
                 <nav className="nav header ">
                     <Link to="" className="nav-link active web-name mr-5">EVENT IN YOUR HAND</Link>
                     <Search className=" nav-link ml-5 search" enterButton />
+                    <button onClick={this.props.logout}>logout</button>
                     <div className="nav-link ml-auto user-nav" >
                         {isLogined ?
                             <UserNav /> :
@@ -79,6 +81,10 @@ const mapStateToProps = state => ({
     isLogined: state.user.isLogined,
 })
 
+const mapDispatchToProps = (dispatch) => ({
+    logout: () => dispatch(userActions.logout()),
+});
 
 
-export default connect(mapStateToProps, null)(Header)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

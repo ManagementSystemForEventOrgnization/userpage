@@ -43,7 +43,6 @@ class LoginPage extends React.Component {
 
     responseGoogle = (response) => {
         const { loginWithGoogle } = this.props;
-        console.log(response.profileObj)
         loginWithGoogle(response.profileObj);
     }
 
@@ -67,8 +66,6 @@ class LoginPage extends React.Component {
             })
 
         }
-
-
     }
 
     componentWillUnmount = () => {

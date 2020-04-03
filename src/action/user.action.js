@@ -34,7 +34,6 @@ const login = (email, password) => {
 }
 
 const loginWithGoogle = (profile) => {
-    console.log(profile);
 
     return dispatch => {
         API
@@ -44,12 +43,12 @@ const loginWithGoogle = (profile) => {
                 }
             )
             .then(res => {
-                console.log(res)
                 if (res.status === 200)
                     dispatch(success(res.data))
                 else dispatch(failure('Một số lỗi đã xảy ra'));
             })
             .catch(err => {
+                console.log(err)
                 dispatch(failure('Một số lỗi đã xảy ra'))
             })
     };
