@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
     BrowserRouter as Router,
-    Switch, Route
+    Switch, Route,
+    Redirect,
 } from 'react-router-dom';
 
 import { userActions } from '../action/user.action';
@@ -40,31 +41,6 @@ const ROUTES = [
         path: '/signup',
         exact: true,
         main: () => <SignUpPage />
-    },
-    {
-        path: '/profile',
-        exact: true,
-        main: () => <LoginPage />
-    },
-    {
-        path: '/registered-event',
-        exact: true,
-        main: () => <LoginPage />
-    },
-    {
-        path: '/participated-event',
-        exact: true,
-        main: () => <LoginPage />
-    },
-    {
-        path: '/created-event',
-        exact: true,
-        main: () => <LoginPage />
-    },
-    {
-        path: '/profile',
-        exact: true,
-        main: () => <LoginPage />
     },
     {
         path: '',
@@ -109,32 +85,32 @@ class WrapRouter extends React.Component {
             {
                 path: '/login',
                 exact: true,
-                main: () => !isLogined ? <LoginPage /> : <HomePage />
+                main: () => !isLogined ? <LoginPage /> : <Redirect to="/" />
             },
             {
                 path: '/signup',
                 exact: true,
-                main: () => !isLogined ? <SignUpPage /> : <HomePage />
+                main: () => !isLogined ? <SignUpPage /> : <Redirect to="/" />
             },
             {
                 path: '/profile',
                 exact: true,
-                main: () => isLogined ? <ProfilePage /> : <LoginPage />
+                main: () => isLogined ? <ProfilePage /> : <Redirect to="/login" />
             },
             {
                 path: '/registered-event',
                 exact: true,
-                main: () => isLogined ? <UserEventPage /> : <LoginPage />
+                main: () => isLogined ? <UserEventPage /> : <Redirect to="/login" />
             },
             {
                 path: '/participated-event',
                 exact: true,
-                main: () => isLogined ? <UserEventPage /> : <LoginPage />
+                main: () => isLogined ? <UserEventPage /> : <Redirect to="/login" />
             },
             {
                 path: '/created-event',
                 exact: true,
-                main: () => isLogined ? <UserEventPage /> : <LoginPage />
+                main: () => isLogined ? <UserEventPage /> : <Redirect to="/login" />
             },
             {
                 path: '',

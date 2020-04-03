@@ -136,28 +136,14 @@ const checkCode = (code) => {
 }
 
 const logout = () => {
-
+    console.log('logout')
     return dispatch => {
-        dispatch(request());
         API
             .get(`/api/logout`)
             .then(res => {
-                if (res.status === 200) {
-                    dispatch(success());
-                }
-                else {
-                    dispatch(failure('Đăng xuất không thành công'));
-                }
-            })
-            .catch(error => {
-                dispatch(failure(error || 'Đăng xuất không thành công'));
+                dispatch({ type: userConstants.LOGOUT });
             })
     };
-
-    function request() { return { type: userConstants.LOGOUT_REQUEST } }
-    function success() { return { type: userConstants.LOGOUT_SUCCESS } }
-    function failure(error) { return { type: userConstants.LOGOUT_FAILURE, error } }
-
 }
 
 

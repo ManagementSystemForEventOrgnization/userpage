@@ -83,28 +83,13 @@ const user = (state = initialState, action) => {
                 active: false,
             }
 
-
-        case userConstants.LOGOUT_REQUEST:
-            return {
-                ...state,
-                pending: true,
-            }
-        case userConstants.LOGOUT_SUCCESS:
+        case userConstants.LOGOUT:
             return {
                 ...state,
                 userInfo: null,
                 isLogined: false,
                 pending: false,
             }
-
-        case userConstants.LOGOUT_FAILURE:
-            return {
-                ...state,
-                errMessage: action.err,
-                isLogined: true,
-                pending: false,
-            }
-
         case userConstants.GET_CURRENT_USER_REQUEST:
             return {
                 ...state,
