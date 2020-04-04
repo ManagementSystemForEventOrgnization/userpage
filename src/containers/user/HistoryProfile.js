@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Input, Select, Card, List, DatePicker } from 'antd';
-import {
-    FieldTimeOutlined,
-} from '@ant-design/icons';
+import { Input, Select, List, DatePicker } from 'antd';
 import { Link } from 'react-router-dom';
+
+import CartEvent from '../../components/CardEvent';
 
 
 const { Search } = Input;
@@ -56,6 +55,14 @@ class HistoryProfile extends React.Component {
 
         ];
         const src = "https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg";
+
+        const eventCartDetail = {
+            coverURL: src,
+            title: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
+            timeStart: 'T2, 13 Tháng 4 2020 3:00 PM',
+            address: '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh'
+        }
+
         return (
             <div className="history">
 
@@ -96,96 +103,24 @@ class HistoryProfile extends React.Component {
                         <div className="movie_card">
 
                             <Search
-                                className="largesearch place"
+                                className="largesearch place mb-4"
                                 placeholder="input search text"
                                 onSearch={value => console.log(value)}
                             />
                             <div className="row ">
-                                <div className="col mt-4">
-                                    <Card
-                                        className="card-name"
-                                        cover={
-                                            <img className="img"
-                                                alt="example"
-                                                src={src}
-                                            />
-                                        }
-                                    >
-                                        <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
-                                        <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
-                                        <p >  02 Tôn Đức Thắng Street,
-       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
-                                    </Card>
-                                </div>
-                                <div className="col mt-4">
-                                    <Card
-                                        className="card-name"
-                                        cover={
-                                            <img className="img"
-                                                alt="example"
-                                                src={src}
-                                            />
-                                        }
-                                    >
-                                        <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
-                                        <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
-                                        <p >  02 Tôn Đức Thắng Street,
-       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
-                                    </Card>
-                                </div>
-                                <div className="col mt-4">
-                                    <Card
-                                        className="card-name"
-                                        cover={
-                                            <img className="img"
-                                                alt="example"
-                                                src={src}
-                                            />
-                                        }
-                                    >
-                                        <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
-                                        <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
-                                        <p >  02 Tôn Đức Thắng Street,
-       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
-                                    </Card>
-                                </div>
-                                <div className="col mt-4">
-                                    <Card
-                                        className="card-name"
-                                        cover={
-                                            <img className="img"
-                                                alt="example"
-                                                src={src}
-                                            />
-                                        }
-                                    >
-                                        <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
-                                        <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
-                                        <p >  02 Tôn Đức Thắng Street,
-       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
-                                    </Card>
-                                </div>
+                                {
+                                    data.map(item => <div key={item} className="col mt-4">
+                                        <CartEvent eventDetail={eventCartDetail} />
+                                    </div>)
+                                }
+
                             </div>
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
-
-
-
                 </div>
 
             </div>
-
-
-
         )
     }
 }
