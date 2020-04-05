@@ -92,7 +92,7 @@ export default class HomePage extends Component {
                     <h1>Một số tổ chức  </h1>
                     <div className='d-flex justify-content-between mt-3 mb-4 pl-5'>
                         {
-                            orgnizations.map(item => <Orgnization orgnization={item} />)
+                            orgnizations.map((item, index) => <Orgnization key={index} orgnization={item} />)
                         }
                     </div>
 

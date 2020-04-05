@@ -91,12 +91,12 @@ const register = (email, password, fullName) => {
 }
 
 
-const checkCode = (code) => {
+const checkCode = (token) => {
     return dispatch => {
         dispatch(request());
         API
             .post(`/api/verifyToken`, {
-                code
+                token
             })
             .then(res => {
 
