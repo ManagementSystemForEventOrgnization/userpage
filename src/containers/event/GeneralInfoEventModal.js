@@ -1,40 +1,172 @@
 import React from 'react';
-import { connect } from 'react-redux'
-
-import { Modal, Button } from 'antd';
-import { ExclamationCircleOutlined, StarFilled } from '@ant-design/icons';
-
-
-const { confirm } = Modal;
+import { connect } from 'react-redux';
+import { Form, Input, Button, Select, Modal } from 'antd';
+import { StarFilled } from '@ant-design/icons';
+import AutoCompletePlace from '../share/AutoCompletePlace';
 
 
+
+const { Option } = Select;
+
+const layout = {
+    labelCol: {
+        span: 8,
+    },
+    wrapperCol: {
+        span: 16,
+    },
+};
+
+const typeOfEvents = [
+    "Hội nghị",
+    "Thể thao",
+    "Du lịch",
+    "Sân khấu-Nghệ thuật",
+    "Tình nguyện",
+    "Workshop",
+    "Talkshow"
+]
 
 class GeneralInfoEventModal extends React.Component {
+    formRef = React.createRef();
     constructor(props) {
         super(props);
         this.state = {
+            visible: false,
+            confirmLoading: false,
+        };
 
-        }
     }
 
-    showConfirm = () => {
-        confirm({
-            title: 'Do you want to delete these items?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'When clicked the OK button, this dialog will be closed after 1 second',
-            onOk() {
-                return new Promise((resolve, reject) => {
-                    setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-                }).catch(() => console.log('Oops errors!'));
-            },
-            onCancel() { },
+    onGenderChange = value => {
+        this.formRef.current.setFieldsValue({
+            note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
         });
-    }
+    };
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    onReset = () => {
+        this.formRef.current.resetFields();
+    };
+
+    onFill = () => {
+        this.formRef.current.setFieldsValue({
+            note: 'Hello world!',
+            gender: 'male',
+        });
+    };
+
+
+    handleOk = () => {
+        this.setState({
+            ModalText: 'The modal will be closed after two seconds',
+            confirmLoading: true,
+        });
+        setTimeout(() => {
+            this.setState({
+                visible: false,
+                confirmLoading: false,
+            });
+        }, 2000);
+    };
+
+    handleCancel = () => {
+        console.log('Clicked cancel button');
+        this.setState({
+            visible: false,
+        });
+    };
 
     render() {
+        const { visible, confirmLoading } = this.state;
         return (
-            <Button onClick={this.showConfirm} icon={<StarFilled />} size="large" type="danger">Khám Phá Ngay</Button>
-        )
+            <div>
+                <Button type="danger" icon={<StarFilled />} size="large" onClick={this.showModal}>
+                    Khám phá ngay
+                </Button>
+                <Modal
+                    title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
+                    visible={visible}
+                    onOk={this.handleOk}
+                    confirmLoading={confirmLoading}
+                    onCancel={this.handleCancel}
+                    width="1000px"
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>
+                            Hủy
+                        </Button>,
+                        <Button key="submit" type="primary" loading={confirmLoading} onClick={this.handleOk}>
+                            Tiếp tục
+                        </Button>,
+                    ]}
+                >
+                    <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                        <Form.Item
+                            name="name"
+                            label="Tên sự kiện "
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="category"
+                            label="Loại sự kiện"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Select
+                                placeholder="Chọn 1 loại sự kiện ở dưới"
+                                onChange={this.onGenderChange}
+                                allowClear
+                            >
+                                {
+                                    typeOfEvents.map(item => <Option key={item} value={item}>{item}</Option>)
+                                }
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            name="quantity"
+                            label="Số lượng người tham gia dự kiến"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="address"
+                            label="Địa chỉ"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <AutoCompletePlace />
+                        </Form.Item>
+
+
+                    </Form>
+                </Modal>
+            </div>
+        );
+
     }
 }
 
