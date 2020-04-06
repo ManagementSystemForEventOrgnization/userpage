@@ -14,7 +14,7 @@ const routes = [
         main: () => <HomePage />
     },
     {
-        path: '/event-list',
+        path: '/events',
         exact: false,
         main: () => <CategoryDetailPage />
     },

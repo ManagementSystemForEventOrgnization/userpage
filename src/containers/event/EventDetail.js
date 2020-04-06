@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-
-
+import { Button } from 'antd';
 
 class EventDetail extends React.Component{
     constructor(props){
@@ -13,7 +12,9 @@ class EventDetail extends React.Component{
 
     render(){
         return(
-            <h1>Event detail</h1>
+         <div>
+         
+         </div>
         )
     }
 }

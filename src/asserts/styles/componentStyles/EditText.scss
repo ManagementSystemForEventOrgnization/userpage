@@ -1,0 +1,29 @@
+.edittext{
+    .social-network-icon {
+        // padding: 1px;
+        font-size: 50px !important;
+        border-radius: 20%;
+        text-align: center;
+        text-decoration: none;
+        width: 2em !important;
+         margin: 0 4px;
+        // border-radius: 50% !important;
+      }
+      
+      .social-network-icon:hover {
+        transform: scale(1.05) !important;
+        color: white !important;
+        text-decoration: none;
+      
+      }
+      .ant-modal-content {
+        width: 300px !important;
+        height: 563px !important;
+      }
+      
+    //   .fa-facebook {
+    //     background: #3B5998;
+    //     color: white;
+    
+    //   }
+}

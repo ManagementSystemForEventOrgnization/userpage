@@ -133,8 +133,10 @@ class Footer extends React.Component {
                     <div className="col mb-3">
                         <b>Ngôn Ngữ</b>
                         <div>
-                            <Button type="primary" icon={<FlagOutlined />} />
-                            <Button type="primary" icon={<FlagOutlined />} />
+                        <div style={{display:'flex', }}>
+                     <p ><span className="control-icon vietnamese-icon"></span></p>
+                     <p ><span className="control-icon uk-icon ml-3"></span></p>
+                        </div>
                         </div>
                     </div>
                 </div>

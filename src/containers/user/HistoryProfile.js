@@ -77,12 +77,7 @@ class HistoryProfile extends React.Component{
                />
          <Select className="select-place"
         placeholder="Tất cả địa điểm"
-        dropdownRender={menu => (
-          <div>
-            {menu}
-          <br></br>
-          </div>
-        )}
+      
       >
         {items.map(item => (
           <Option key={item}>{item}</Option>
@@ -101,14 +96,42 @@ class HistoryProfile extends React.Component{
         <div className="row ">
        <div className="col mt-4">
        <Card
+      className="card-name "
+      
+    cover={
+      <img  className="img"
+        alt="example"
+        src={src}
+      />
+
+    }
+    
+  >
+  
+     
+    
+  <span className="control-icon sale-icon"></span>
+    <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu  </b>
+   
+    <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM </p>
+
+    <p >  02 Tôn Đức Thắng Street,
+       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
+     
+  </Card>
+  </div>
+  <div className="col mt-4">
+       <Card
       className="card-name"
     cover={
       <img  className="img"
         alt="example"
         src={src}
       />
+    
     }
   >
+     <span className="control-icon upcoming-icon"></span>
     <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
     <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
     <p >  02 Tôn Đức Thắng Street,
@@ -125,6 +148,7 @@ class HistoryProfile extends React.Component{
       />
     }
   >
+     <span className="control-icon upcoming-icon"></span>
     <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
     <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
     <p >  02 Tôn Đức Thắng Street,
@@ -141,22 +165,8 @@ class HistoryProfile extends React.Component{
       />
     }
   >
-    <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
-    <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
-    <p >  02 Tôn Đức Thắng Street,
-       Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh</p>
-  </Card>
-  </div>
-  <div className="col mt-4">
-       <Card
-      className="card-name"
-    cover={
-      <img  className="img"
-        alt="example"
-        src={src}
-      />
-    }
-  >
+    
+    <span className="control-icon expire-icon"></span>
     <b > Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu</b>
     <p ><FieldTimeOutlined /> T2, 13 Tháng 4 2020 3:00 PM</p>
     <p >  02 Tôn Đức Thắng Street,

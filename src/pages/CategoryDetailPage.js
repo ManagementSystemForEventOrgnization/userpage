@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 // import EventList from '../components/EventList';
-
+import ButtonsEvent from  '../containers/event/ButtonsEvent';
+import { Button } from 'antd';
 class CategoryDetailPage extends React.Component {
     constructor(props) {
         super(props);
@@ -16,8 +17,10 @@ class CategoryDetailPage extends React.Component {
         return (
             <div className="category-detail">
                 <Header />
-                <h1>Category detail</h1>
-                {/* <EventList></EventList> */}
+                
+                <h1 className="mt-5">Category detail</h1>
+
+                 <ButtonsEvent className="mt-2"></ButtonsEvent>
                 <Footer />
             </div>
         )
