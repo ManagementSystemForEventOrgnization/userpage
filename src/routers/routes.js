@@ -6,6 +6,7 @@ import EventDetailPage from '../pages/EventDetailPage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
+import CreateEvent from '../containers/event/templates/components/CreateEvent';
 
 const routes = [
     {
@@ -26,7 +27,7 @@ const routes = [
     {
         path: '/event/:id',
         exact: false,
-        main: ({match, history}) => <EventDetailPage match={match} history={history}/>
+        main: ({ match, history }) => <EventDetailPage match={match} history={history} />
     },
     {
         path: '/login',
@@ -36,18 +37,24 @@ const routes = [
     {
         path: '/signup',
         exact: false,
-        main: () => <SignUpPage />       
+        main: () => <SignUpPage />
     },
     {
         path: '/profile',
         exact: false,
-        main: () => <ProfilePage />       
+        main: () => <ProfilePage />
+    },
+    {
+        path: '/create-event',
+        exact: false,
+        main: () => <CreateEvent />
     },
     {
         path: '',
         exact: false,
         main: () => <NotFoundPage />
     }
+
 ];
 
 export default routes;
