@@ -61,6 +61,7 @@ class GeneralInfoEventModal extends React.Component {
             gender: 'male',
         });
     };
+
     handleOk = () => {
         this.setState({
             ModalText: 'The modal will be closed after two seconds',

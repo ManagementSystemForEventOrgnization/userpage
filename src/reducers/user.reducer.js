@@ -6,7 +6,7 @@ const initialState = {
     successMessage: null,
     pending: false,
     userInfo: null,
-    active: false,
+    active: null,
 }
 
 const user = (state = initialState, action) => {

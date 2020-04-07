@@ -58,15 +58,17 @@ class LoginPage extends React.Component {
         })
     }
 
-
     UNSAFE_componentWillReceiveProps = (nextProps) => {
-        if (this._isMounted && !nextProps.active) {
-            this.setState({
-                showCheckCode: true,
-            })
+        if (this._isMounted && nextProps.active !== null) {
+            if (nextProps.active === false)
+                this.setState({
+                    showCheckCode: true,
+                })
 
         }
     }
+
+
 
     componentWillUnmount = () => {
         this._isMounted = false;

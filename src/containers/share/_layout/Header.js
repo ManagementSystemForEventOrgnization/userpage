@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Input } from 'antd';
 
-
 import NavBar from '../../../components/NavBar'
 import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action'
 
-
 const { Search } = Input;
-
 const typeOfEvents = [
     "Hội nghị",
     "Thể thao",
@@ -23,21 +20,12 @@ const typeOfEvents = [
 
 
 class Header extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             isLogined: props.isLogined,
         }
     }
-
-    UNSAFE_componentWillReceiveProps = (nextProps) => {
-        this.setState({
-            isLogined: nextProps.isLogined,
-        })
-    }
-
-
 
     render() {
         const { isLogined } = this.state;
