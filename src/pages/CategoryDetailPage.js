@@ -4,7 +4,8 @@ import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 // import EventList from '../components/EventList';
 import ButtonsEvent from  '../containers/event/ButtonsEvent';
-import { Button } from 'antd';
+import TextsEvent from  '../containers/event/TextsEvent';
+import ImagesEvent from  '../containers/event/ImagesEvent';
 class CategoryDetailPage extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,12 @@ class CategoryDetailPage extends React.Component {
                 
                 <h1 className="mt-5">Category detail</h1>
 
-                 <ButtonsEvent className="mt-2"></ButtonsEvent>
+             
+             
+               < ButtonsEvent className="mt-2"></ButtonsEvent>
+               < TextsEvent className="mt-2"></TextsEvent>
+               
+               < ImagesEvent className="mt-2"></ ImagesEvent>
                 <Footer />
             </div>
         )

@@ -2,14 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Button,Modal} from 'antd';
-import { SketchPicker } from 'react-color';
 import { Editor } from '@tinymce/tinymce-react';
-import {BgColorsOutlined
-} from '@ant-design/icons';
 
 
 
-class ButtonsEvent extends React.Component{
+
+class TextsEvent extends React.Component{
     constructor(props){
         super(props);
        
@@ -18,8 +16,8 @@ class ButtonsEvent extends React.Component{
             visible: false,
        
             content :"wellcome",
-            showColor:false,
-            background: '#FF00FF',
+        
+            
           
 
         }
@@ -34,13 +32,7 @@ class ButtonsEvent extends React.Component{
         });
       };
  
-      onClickColor = e => {
-        console.log(e);
-        this.state.showColor =!this.state.showColor
-        this.setState({
-          showColor:  this.state.showColor
-        });
-      };
+
      
       handleCancel = e => {
         console.log(e);
@@ -55,37 +47,22 @@ class ButtonsEvent extends React.Component{
    
   }
  
-  handleChangeComplete = (color) => {
-    this.setState({ background: color.hex });
-
-  };
   
     render(){
         
-    const { content,background,showColor  }=this.state;
+    const { content }=this.state;
       
-    const divStyle ={
-      backgroundColor :background,
-    
-      
-  
-  }
         return(
            
            <div className="edittext">
-               <div className="d-flex flex-row mt-4">
-               <Button style={{borderRadius: '50px'}}  onClick={this.showModal}>Change Text</Button>
-               <BgColorsOutlined style={{height:'50px',width:'50px'}}  onClick={this.onClickColor} /> 
-     {
-    showColor ?  <SketchPicker  color={this.state.background}  
-    onChangeComplete={ this.handleChangeComplete } /> 
-  : ' '
-
-  }
-               </div>
-              <Button style={divStyle}
-                   >{ ReactHtmlParser(content) } </Button>
-       
+               <div>
+               <Button style={{borderRadius: '50px'}}  onClick={this.showModal}>Edit Text</Button>
+               
+              
+              <div
+                   >{ ReactHtmlParser(content) } </div>
+            
+        </div>
         <Modal
           title="Text settings"
           visible={this.state.visible}
@@ -123,5 +100,5 @@ const mapStateToProps = state => ({
   });
   
   
-  export default connect(mapStateToProps, mapDispatchToProps)(ButtonsEvent)
+  export default connect(mapStateToProps, mapDispatchToProps)(TextsEvent)
   
