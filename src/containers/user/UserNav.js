@@ -13,7 +13,6 @@ import { userActions } from '../../action/user.action';
 
 class UserNav extends Component {
 
-
     render() {
         const { user, logout } = this.props;
         return (
@@ -24,6 +23,7 @@ class UserNav extends Component {
 
                 </label>
                 <nav className="nav">
+
                     <ul>
                         <li className="userName mb-2" >
                             <b >{user.fullName}</b>
@@ -38,10 +38,14 @@ class UserNav extends Component {
                             Sự kiện đã tham gia</Link></li>
                         <li><Link to="/created-event" className="link" ><CalendarOutlined className="mr-2 icon" />
                             Sự kiện đã tạo</Link></li>
-                        <li onClick={logout}><div className="link" ><LogoutOutlined className="mr-2 icon" />
+
+                        <li onClick={logout} ><div className="link" ><LogoutOutlined className="mr-2 icon" />
                             Đăng xuất</div></li>
                     </ul>
+
+
                 </nav>
+
             </div>
         )
     }
@@ -54,7 +58,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    logout: () => dispatch(userActions.logout)
+    logout: () => dispatch(userActions.logout()),
 });
 
 

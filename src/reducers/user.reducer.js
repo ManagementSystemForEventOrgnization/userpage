@@ -93,7 +93,6 @@ const user = (state = initialState, action) => {
             }
 
         case userConstants.LOGOUT:
-            console.log("logout")
             return {
                 ...state,
                 userInfo: null,

@@ -121,9 +121,11 @@ const checkCode = (token) => {
 
 const logout = () => {
     API.get(`/api/logout`)
-    return {
-        type: userConstants.LOGOUT
-    }
+    return dispatch => {
+        dispatch(request());
+    };
+
+    function request() { return { type: userConstants.LOGOUT } }
 }
 
 

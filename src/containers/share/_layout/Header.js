@@ -20,21 +20,14 @@ const typeOfEvents = [
 
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLogined: props.isLogined,
-        }
-    }
 
     render() {
-        const { isLogined } = this.state;
+        const { isLogined } = this.props;
         return (
             <div className="head fixed-top">
                 <nav className="nav header ">
                     <Link to="" className="nav-link active web-name mr-5">EVENT IN YOUR HAND</Link>
                     <Search className=" nav-link ml-5 search" enterButton />
-                    <button onClick={this.props.logout}>logout</button>
                     <div className="nav-link ml-auto user-nav" >
                         {isLogined ?
                             <UserNav /> :
@@ -65,7 +58,6 @@ class Header extends React.Component {
 
 
 const mapStateToProps = state => ({
-    user: state.user.userInfo,
     isLogined: state.user.isLogined,
 })
 
