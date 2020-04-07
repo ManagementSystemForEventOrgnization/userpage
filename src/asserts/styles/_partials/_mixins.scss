@@ -74,12 +74,11 @@
   }
 }
 
-
 @mixin icon-image-style {
   height: $icon-size;
-  width: $icon-size + 20px;
+  width: $icon-size;
   border-radius: 50%;
-  &::shadow{
+  &::shadow {
     background-color: #000;
     opacity: 1;
   }

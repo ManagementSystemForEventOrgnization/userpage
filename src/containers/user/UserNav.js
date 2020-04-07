@@ -16,17 +16,20 @@ class UserNav extends Component {
 
     render() {
         const { user, logout } = this.props;
-        const imageUrl = "https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1412243/1160/772/m1/fpnw/wm0/lawyer-avatar-flat-icon-01-.jpg?1467280299&s=d7eb6ecfdcefaea78ca2cef1143c9dde";
-
         return (
             <div className="user-nav ">
                 <input type="checkbox" id="menu" />
                 <label htmlFor="menu" className="menu">
-                    <span><img src={imageUrl} alt="menu"></img></span>
-                    <b className="userName" >{user.fullName}</b>
+                    <span><img src={user.avatar} alt="menu"></img></span>
+
                 </label>
                 <nav className="nav">
                     <ul>
+                        <li className="userName mb-2" >
+                            <b >{user.fullName}</b>
+
+                        </li>
+
                         <li><Link to="/profile" className="link" ><ProfileOutlined className="mr-2 icon" />
                             Trang cá nhân</Link></li>
                         <li><Link className="link" to="/registered-event"><MoneyCollectOutlined className="mr-2 icon" />
