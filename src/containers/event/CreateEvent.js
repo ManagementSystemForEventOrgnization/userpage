@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'
-
+import { connect } from 'react-redux';
 
 
 class CreateEvent extends React.Component{

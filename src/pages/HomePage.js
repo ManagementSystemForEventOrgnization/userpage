@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 import Header from '../containers/share/_layout/Header'
 import Footer from '../containers/share/_layout/Footer'
-import Banner from '../components/Banner'
+import Banner from '../components/Banner';
 import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';

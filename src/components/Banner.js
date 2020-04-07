@@ -1,4 +1,5 @@
 import React from 'react';
+
 import GeneralInfoEventModal from '../containers/event/GeneralInfoEventModal';
 
 
@@ -23,3 +24,4 @@ class Banner extends React.Component {
 }
 
 export default Banner;
+

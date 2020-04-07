@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Select, Modal } from 'antd';
+import { Link } from 'react-router-dom'
 import { StarFilled } from '@ant-design/icons';
 import AutoCompletePlace from '../share/AutoCompletePlace';
 
@@ -60,8 +61,6 @@ class GeneralInfoEventModal extends React.Component {
             gender: 'male',
         });
     };
-
-
     handleOk = () => {
         this.setState({
             ModalText: 'The modal will be closed after two seconds',
@@ -84,86 +83,100 @@ class GeneralInfoEventModal extends React.Component {
 
     render() {
         const { visible, confirmLoading } = this.state;
+        const { isLogined } = this.props;
         return (
             <div>
-                <Button type="danger" icon={<StarFilled />} size="large" onClick={this.showModal}>
-                    Khám phá ngay
-                </Button>
-                <Modal
-                    title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
-                    visible={visible}
-                    onOk={this.handleOk}
-                    confirmLoading={confirmLoading}
-                    onCancel={this.handleCancel}
-                    width="1000px"
-                    footer={[
-                        <Button key="back" onClick={this.handleCancel}>
-                            Hủy
-                        </Button>,
-                        <Button key="submit" type="primary" loading={confirmLoading} onClick={this.handleOk}>
-                            Tiếp tục
-                        </Button>,
-                    ]}
-                >
-                    <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
-                        <Form.Item
-                            name="name"
-                            label="Tên sự kiện "
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            name="category"
-                            label="Loại sự kiện"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Select
-                                placeholder="Chọn 1 loại sự kiện ở dưới"
-                                onChange={this.onGenderChange}
-                                allowClear
+                {
+                    !isLogined ?
+                        <Link to="/login">
+                            <Button type="danger" icon={<StarFilled />} size="large" onClick={this.showModal}>
+                                Hãy đăng nhập để khám phá ngay
+                             </Button>
+                        </Link>
+                        :
+                        <div>
+                            <Button type="danger" icon={<StarFilled />} size="large" onClick={this.showModal}>
+                                Khám phá ngay
+                            </Button>
+                            <Modal
+                                title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
+                                visible={visible}
+                                onOk={this.handleOk}
+                                confirmLoading={confirmLoading}
+                                onCancel={this.handleCancel}
+                                width="1000px"
+                                footer={[
+                                    <Button key="back" onClick={this.handleCancel}>
+                                        Hủy
+                                    </Button>,
+                                    <Button key="submit" type="primary" loading={confirmLoading} onClick={this.handleOk}>
+                                        Tiếp tục
+                                    </Button>,
+                                ]}
                             >
-                                {
-                                    typeOfEvents.map(item => <Option key={item} value={item}>{item}</Option>)
-                                }
-                            </Select>
-                        </Form.Item>
+                                <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                                    <Form.Item
+                                        name="name"
+                                        label="Tên sự kiện "
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="category"
+                                        label="Loại sự kiện"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            placeholder="Chọn 1 loại sự kiện ở dưới"
+                                            onChange={this.onGenderChange}
+                                            allowClear
+                                        >
+                                            {
+                                                typeOfEvents.map(item => <Option key={item} value={item}>{item}</Option>)
+                                            }
+                                        </Select>
+                                    </Form.Item>
 
-                        <Form.Item
-                            name="quantity"
-                            label="Số lượng người tham gia dự kiến"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
+                                    <Form.Item
+                                        name="quantity"
+                                        label="Số lượng người tham gia dự kiến"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
 
-                        <Form.Item
-                            name="address"
-                            label="Địa chỉ"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <AutoCompletePlace />
-                        </Form.Item>
+                                    <Form.Item
+                                        name="address"
+                                        label="Địa chỉ"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <AutoCompletePlace />
+                                    </Form.Item>
 
 
-                    </Form>
-                </Modal>
+                                </Form>
+                            </Modal>
+                        </div>
+
+                }
+
             </div>
         );
 
@@ -171,8 +184,7 @@ class GeneralInfoEventModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    // map state of store to props
-
+    isLogined: state.user.isLogined,
 })
 
 const mapDispatchToProps = (dispatch) => ({
