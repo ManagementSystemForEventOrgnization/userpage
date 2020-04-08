@@ -15,6 +15,7 @@ import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
 import UserEventPage from '../pages/UserEventPage';
+import CreateEventPage from '../pages/CreateEventPage';
 
 const ROUTES = [
     {
@@ -111,6 +112,11 @@ class WrapRouter extends React.Component {
                 path: '/created-event',
                 exact: true,
                 main: () => isLogined ? <UserEventPage /> : <Redirect to="/home" />
+            },
+            {
+                path: '/create',
+                exact: true,
+                main: () => <CreateEventPage />
             },
             {
                 path: '',

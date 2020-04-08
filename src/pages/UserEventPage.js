@@ -7,7 +7,9 @@ export default class UserEventPage extends Component {
     render() {
         return (
             <div>
-                <Header />
+                <div className="fixed-top">
+                    <Header />
+                </div>
                 <HistoryProfile></HistoryProfile>
                 <Footer />
             </div>

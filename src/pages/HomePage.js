@@ -7,8 +7,17 @@ import Banner from '../components/Banner';
 import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
+import NavBar from '../components/NavBar';
 
-
+const typeOfEvents = [
+    "Hội nghị",
+    "Thể thao",
+    "Du lịch",
+    "Sân khấu-Nghệ thuật",
+    "Tình nguyện",
+    "Workshop",
+    "Talkshow"
+]
 
 
 export default class HomePage extends Component {
@@ -50,8 +59,15 @@ export default class HomePage extends Component {
 
         return (
             <div className="homepage">
-                <Header />
+
+                <div className="fixed-top">
+                    <Header />
+
+                    <NavBar typeOfEvents={typeOfEvents} />
+
+                </div>
                 <Banner />
+
                 <div className="high-light">
                     <h1>Sư kiện nổi bật</h1>
                     <EventList></EventList>

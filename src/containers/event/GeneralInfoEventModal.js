@@ -114,6 +114,7 @@ class GeneralInfoEventModal extends React.Component {
                             <Modal
                                 title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
                                 visible={visible}
+                                onCancel={this.handleCancel}
                                 width="1000px"
                                 footer={[
                                     <Button key="back" onClick={this.handleCancel}>
@@ -121,7 +122,7 @@ class GeneralInfoEventModal extends React.Component {
                                     </Button>,
 
                                     <Button key="submit" type="primary" loading={confirmLoading} disabled={!activeNext} onClick={this.handleOk}>
-                                        <Link to='/created-event'>
+                                        <Link to='/create'>
                                             Tiếp tục
                                         </Link>
                                     </Button>

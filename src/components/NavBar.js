@@ -27,7 +27,7 @@ class NavBar extends React.Component {
     render() {
         const { current, typeOfEvents } = this.state;
         return (
-            <div className=" category-bar  shadow">
+            <div className="shadow">
                 <Menu onClick={this.handleClick} selectedKeys={current} mode="horizontal">
                     {
                         typeOfEvents.map((item, index) =>

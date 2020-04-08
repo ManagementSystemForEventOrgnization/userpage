@@ -1,24 +1,26 @@
+.head {
+   // margin-bottom: 10%;
+   height: 52px;
+   margin-bottom: -4px;
 
-.head{
-   margin-bottom: 10%;
-
-   .header{
+   .header {
       background-image: $background-image-color;
+      height: 52px;
 
-      .search{
+      .search {
          width: 300px;
       }
-      
-      .user-nav{
-         z-index: 1050 ;
 
-         .login{
+      .user-nav {
+         z-index: 1050;
+
+         .login {
             font-weight: bold;
             color: $white;
          }
       }
 
-      .web-name{
+      .web-name {
          font-weight: bold;
          color: $white;
          font-size: 20px;

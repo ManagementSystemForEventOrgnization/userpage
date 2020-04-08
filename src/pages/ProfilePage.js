@@ -6,7 +6,9 @@ export default class ProfilePage extends Component {
     render() {
         return (
             <div>
-                <Header />
+                <div className="fixed-top">
+                    <Header />
+                </div>
                 <ProfileInfor></ProfileInfor>
                 <Footer />
             </div>
