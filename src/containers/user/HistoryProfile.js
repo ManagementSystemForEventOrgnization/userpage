@@ -109,7 +109,7 @@ class HistoryProfile extends React.Component {
                             />
                             <div className="row ">
                                 {
-                                    data.map(item => <div key={item} className="col mt-4">
+                                    data.map((item, index) => <div key={index} className="col mt-4">
                                         <CartEvent eventDetail={eventCartDetail} />
                                     </div>)
                                 }

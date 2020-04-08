@@ -110,7 +110,7 @@ class WrapRouter extends React.Component {
             {
                 path: '/created-event',
                 exact: true,
-                main: () => isLogined ? <UserEventPage /> : <Redirect to="/login" />
+                main: () => isLogined ? <UserEventPage /> : <Redirect to="/home" />
             },
             {
                 path: '',

@@ -20,4 +20,9 @@ export const userConstants = {
 
     LOGOUT: 'LOGOUT',
 
+
+}
+
+export const eventConstants = {
+    PREPARE_FOR_CREATE_EVENT: 'PREPARE_FOR_CREATE_EVENT',
 }

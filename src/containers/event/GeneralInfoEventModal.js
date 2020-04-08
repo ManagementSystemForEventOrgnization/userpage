@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { StarFilled } from '@ant-design/icons';
 import AutoCompletePlace from '../share/AutoCompletePlace';
 
+import { eventActions } from '../../action/event.action';
+
 
 
 const { Option } = Select;
@@ -37,7 +39,7 @@ class GeneralInfoEventModal extends React.Component {
             confirmLoading: false,
             nameEvent: '',
             typeOfEvent: '',
-            quantity: 100,
+            quantity: 0,
             address: ''
         };
 
@@ -55,20 +57,11 @@ class GeneralInfoEventModal extends React.Component {
         });
     };
 
-    onReset = () => {
-        this.formRef.current.resetFields();
-    };
-
-    onFill = () => {
-        this.formRef.current.setFieldsValue({
-            note: 'Hello world!',
-            gender: 'male',
-        });
-    };
 
     handleOk = () => {
+        const { nameEvent, typeOfEvent, quantity, address } = this.state;
+        const { prepareForCreateEvent } = this.props;
         this.setState({
-            ModalText: 'The modal will be closed after two seconds',
             confirmLoading: true,
         });
         setTimeout(() => {
@@ -76,8 +69,16 @@ class GeneralInfoEventModal extends React.Component {
                 visible: false,
                 confirmLoading: false,
             });
+
         }, 2000);
+
+        prepareForCreateEvent(nameEvent, typeOfEvent, quantity, address);
+
     };
+
+    componentWillUnmount = () => {
+
+    }
 
     handleCancel = () => {
         console.log('Clicked cancel button');
@@ -94,7 +95,7 @@ class GeneralInfoEventModal extends React.Component {
 
     render() {
         const { visible, confirmLoading, nameEvent, quantity } = this.state;
-        const activeNext = nameEvent && quantity;
+        const activeNext = nameEvent && (quantity !== 0);
         const { isLogined } = this.props;
         return (
             <div>
@@ -113,17 +114,19 @@ class GeneralInfoEventModal extends React.Component {
                             <Modal
                                 title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
                                 visible={visible}
-                                onOk={this.handleOk}
-                                confirmLoading={confirmLoading}
-                                onCancel={this.handleCancel}
                                 width="1000px"
                                 footer={[
                                     <Button key="back" onClick={this.handleCancel}>
                                         Hủy
                                     </Button>,
+
                                     <Button key="submit" type="primary" loading={confirmLoading} disabled={!activeNext} onClick={this.handleOk}>
-                                        Tiếp tục
-                                    </Button>,
+                                        <Link to='/created-event'>
+                                            Tiếp tục
+                                        </Link>
+                                    </Button>
+
+                                    ,
                                 ]}
                             >
                                 <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
@@ -138,6 +141,7 @@ class GeneralInfoEventModal extends React.Component {
                                     >
                                         <Input
                                             value={nameEvent}
+                                            name="nameEvent"
                                             onChange={this.onChange}
                                         />
                                     </Form.Item>
@@ -172,6 +176,7 @@ class GeneralInfoEventModal extends React.Component {
                                     >
                                         <Input
                                             value={quantity}
+                                            name="quantity"
                                             onChange={this.onChange}
                                         />
                                     </Form.Item>
@@ -207,7 +212,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+    prepareForCreateEvent: (eventName, typeOfEvent, quantity, address) => dispatch(eventActions.prepareForCreateEvent(eventName, typeOfEvent, quantity, address))
 });
 
 
