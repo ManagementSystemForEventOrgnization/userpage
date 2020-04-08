@@ -55,7 +55,7 @@ class TextsEvent extends React.Component{
         return(
            
            <div className="edittext">
-               <div>
+               <div className="d-flex flex-row mt-4">
                <Button style={{borderRadius: '50px'}}  onClick={this.showModal}>Edit Text</Button>
                
               
