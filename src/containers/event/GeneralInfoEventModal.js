@@ -35,6 +35,10 @@ class GeneralInfoEventModal extends React.Component {
         this.state = {
             visible: false,
             confirmLoading: false,
+            nameEvent: '',
+            typeOfEvent: '',
+            quantity: 100,
+            address: ''
         };
 
     }
@@ -82,15 +86,22 @@ class GeneralInfoEventModal extends React.Component {
         });
     };
 
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
+    }
+
     render() {
-        const { visible, confirmLoading } = this.state;
+        const { visible, confirmLoading, nameEvent, quantity } = this.state;
+        const activeNext = nameEvent && quantity;
         const { isLogined } = this.props;
         return (
             <div>
                 {
                     !isLogined ?
                         <Link to="/login">
-                            <Button type="danger" icon={<StarFilled />} size="large" onClick={this.showModal}>
+                            <Button type="danger" icon={<StarFilled />} size="large" >
                                 Hãy đăng nhập để khám phá ngay
                              </Button>
                         </Link>
@@ -110,7 +121,7 @@ class GeneralInfoEventModal extends React.Component {
                                     <Button key="back" onClick={this.handleCancel}>
                                         Hủy
                                     </Button>,
-                                    <Button key="submit" type="primary" loading={confirmLoading} onClick={this.handleOk}>
+                                    <Button key="submit" type="primary" loading={confirmLoading} disabled={!activeNext} onClick={this.handleOk}>
                                         Tiếp tục
                                     </Button>,
                                 ]}
@@ -125,7 +136,10 @@ class GeneralInfoEventModal extends React.Component {
                                             },
                                         ]}
                                     >
-                                        <Input />
+                                        <Input
+                                            value={nameEvent}
+                                            onChange={this.onChange}
+                                        />
                                     </Form.Item>
                                     <Form.Item
                                         name="category"
@@ -156,7 +170,10 @@ class GeneralInfoEventModal extends React.Component {
                                             },
                                         ]}
                                     >
-                                        <Input />
+                                        <Input
+                                            value={quantity}
+                                            onChange={this.onChange}
+                                        />
                                     </Form.Item>
 
                                     <Form.Item
@@ -168,7 +185,8 @@ class GeneralInfoEventModal extends React.Component {
                                             },
                                         ]}
                                     >
-                                        <AutoCompletePlace />
+                                        <AutoCompletePlace
+                                        />
                                     </Form.Item>
 
 
