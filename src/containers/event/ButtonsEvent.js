@@ -156,9 +156,10 @@ class ButtonsEvent extends React.Component{
       this.setState({
         buttonsList :buttons
       })
+      console.log(this.props);
     }
 
-   
+    
       showModal = () => {
         this.setState({
           visible: true,
@@ -199,8 +200,8 @@ class ButtonsEvent extends React.Component{
         });
       };
     
-  handleEditorChange=(content) =>{
-    this.setState({ content });
+  handleEditorChange=(e) =>{
+    this.setState({ content :e.target.value });
    
   }
  
@@ -232,7 +233,7 @@ class ButtonsEvent extends React.Component{
                 />} ></Button> 
              </Tooltip>
                </div>
-               <div className="mt-3">
+               <div className="mt-2">
               <Button className="ml-3" style={shape1} value={isButton}
                    >{ ReactHtmlParser(content) } </Button>
        </div>
@@ -249,14 +250,15 @@ class ButtonsEvent extends React.Component{
         >
  <div >
    <h5>Nội dung </h5>
-   <Editor value={content} onEditorChange={this.handleEditorChange} 
+   {/* <Editor value={content} onEditorChange={this.handleEditorChange} 
   apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-  init={{ plugins: 'link table' }}
-/>
+  init={{ plugins: 'link table' }} */}
+   <Input  style={{borderRadius:50}} value={content} onChange={this.handleEditorChange} ></Input>
+
 <h5 className="mt-3">Đường dẫn </h5>
  <div className="d-flex flex-row mt-2">
- <Input placeholder="Thêm đường link" ></Input>
- <Button shape="round" type="primary" className="ml-3" style={{float:"right"}}> link</Button>
+ <Input style={{borderRadius:50}} placeholder="Thêm đường link" ></Input>
+ <Button style={{borderRadius:50}} type="primary" className="ml-3" style={{float:"right"}}> link</Button>
 </div>
  </div>
  
