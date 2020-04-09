@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons'
 
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
@@ -13,6 +15,10 @@ class CreateEvent extends React.Component {
         }
     }
 
+    handleShowMenuBlocks = () => {
+
+    }
+
     render() {
         return (
             <div className=" create-event">
@@ -20,19 +26,19 @@ class CreateEvent extends React.Component {
                     <Header />
                 </div>
 
-                <div className="d-flex create">
-                    <div className=" ml-5 mr-3">
-                        <MenuBlockList />
-                    </div>
-                    <div >
-                        <img className="poster" alt="poster-event" src="/bg-2.jpg" />
-                    </div>
+                <img className="poster" alt="poster-event" src="/bg-2.jpg" />
 
+                <input type="checkbox" id="add-block" ></input>
+                <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
+                    <span>
+                        <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
+                    </span>
+                </label>
 
-                    {/* <img className="poster" alt="poster-event" src="/bg-2.jpg" /> */}
+                <div className="menu-block-list">
+                    <MenuBlockList />
 
                 </div>
-
             </div>
         )
     }

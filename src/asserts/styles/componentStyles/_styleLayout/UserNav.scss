@@ -4,20 +4,11 @@
 
 	// Colors
 	$color-1: #0c697e;
-	$color-2: #3498db;
-	$color-3: #2ecc71;
-
-	// Breakpoints
-	$sm: new-breakpoint(min-width 320px);
-	$med: new-breakpoint(min-width 768px);
-	$lg: new-breakpoint(min-width 1024px);
 
 	.icon {
 		font-size: $icon-size;
 	}
 	.menu {
-		// position: fixed;
-		// top: -2px;
 		margin-top: -10px;
 		right: 26px;
 		display: flex;
@@ -64,7 +55,7 @@
 		margin: 0;
 		padding: 0;
 		background-color: $color-1;
-		transition: left $base-duration ease;
+		transition: right $base-duration ease;
 		z-index: 0;
 		margin-top: 48px;
 

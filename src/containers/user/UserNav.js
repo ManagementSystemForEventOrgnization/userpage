@@ -20,7 +20,6 @@ class UserNav extends Component {
                 <input type="checkbox" id="menu" />
                 <label htmlFor="menu" className="menu">
                     <span><img src={user.avatar} alt="menu"></img></span>
-
                 </label>
                 <nav className="nav">
 

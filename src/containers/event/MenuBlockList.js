@@ -5,17 +5,11 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/ico
 const { SubMenu } = Menu;
 
 class MenuBlockList extends React.Component {
-    handleClick = e => {
-        console.log('click ', e);
-    };
 
     render() {
         return (
             <Menu
-                onClick={this.handleClick}
                 style={{ width: 256 }}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 mode="inline"
             >
                 <SubMenu
