@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button,Modal,Radio,Tooltip, Input, } from 'antd';
+import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col ,Radio } from 'antd';
 import { SketchPicker } from 'react-color';
 
-import {BgColorsOutlined ,EditOutlined
+import {
+  BgColorsOutlined, EditOutlined, DeleteOutlined
 } from '@ant-design/icons';
-
+const { TabPane } = Tabs;
+const { Option } = Select;
+const buttonWidth = 80;
 const buttons = [
   {
     background :'#6495ED',
@@ -165,200 +168,416 @@ const buttons = [
 ]
 
 
-class ButtonsEvent extends React.Component{
-    constructor(props){
-        super(props);
-       
-        this.state = {
-          
-            visible: false,
-            background:'',
-            content :"wellcome",
-            showColor:false,
-            isDesign :false,
-            isButton :false,
-            buttonsList :buttons,
-            styleButton : 
-              {
-              background :'',
-              borderRadius    :' ',
-              borderColor :'',
-              borderWidth: '',
-              color:'',
-              height : '',
-              width  :'',
-              textAlign:'',
-          
-              }
-            
+class ButtonsEvent extends React.Component {
+  constructor(props) {
+    super(props);
 
-        }
+    this.state = {
+
+      visible: false,
+      buttonsList :buttons,
+      content: "wellcome",
+      isDesign: false,
+      isButton: false,
+      inputValue: 13,
+      align: 'center',
+      textcolor: '',
+      positionButton: '',
+      leftButton: 0,
+      rightButton :0,
+      topButton :0,
+      bottomButton : 0,
+      borderWidthButton:0,
+      borderColorButton :'',
+      backgrounButton:'',
+      borderRadiusButton: ' ',
+      isBackGround : false,
+      isBorderColor :false,
+      borderRadiusButton :'',
+      backgroundColorButton:'',
+
     }
-  
+  }
 
-    componentDidMount=()=>{
-      this.setState({
-        buttonsList :buttons
-      })
-     
-    }
 
-    
-      showModal = () => {
-        this.setState({
-          visible: true,
-        });
-      };
-      showModalButton=()=>{
-          this.setState({
-            isDesign: true,
-          });
-        };
-
-        OnClickButton=()=>{
-          this.setState({
-            isButton: true,
-          });
-        };
-      
- 
-      onClickColor = e => {
-        console.log(e);
-        this.state.showColor =!this.state.showColor
-        this.setState({
-          showColor:  this.state.showColor
-        });
-      };
-     
-      handleCancel = e => {
-        console.log(e);
-        this.setState({
-          visible: false,
-        });
-      };
-   
-      handleCancelDesign = e => {
-        console.log(e);
-        this.setState({
-          isDesign: false,
-        });
-      };
-    
-  handleEditorChange=(e) =>{
-    this.setState({ content :e.target.value });
+  componentDidMount=()=>{
+    this.setState({
+      buttonsList :buttons
+    })
    
   }
- 
+
+  onChangeTextAlign = (value) => {
+    console.log(`selected ${value}`);
+    this.setState({
+      align: value
+    })
+    console.log(this.state.align);
+  }
+
+  //position
+  onChangePosition = (value) => {
+    console.log(`selected ${value}`);
+    this.setState({
+      positionButton: value
+    })
+    console.log(this.state.align);
+  }
+
+  onChange = value => {
+    this.setState({
+      inputValue: value,
+    });
+  };
+
+  onChangeBorderWith = value => {
+    this.setState({
+      borderWidthButton: value,
+    });
+  };
+
+  showModalButton = () => {
+    this.setState({
+      isDesign: true,
+    });
+  };
+
+
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancelDesign = e => {
+    console.log(e);
+    this.setState({
+      isDesign: false,
+    });
+  };
+
+  handleEditorChange = (e) => {
+    this.setState({ content: e.target.value });
+
+  }
+  onChangeLeft = (value) => {
+    this.setState({ leftButton: value});
+   console.log(this.state.leftButton);
+  }
+  onChangeTop = (value) => {
+    this.setState({ topButton: value });
+    console.log(this.state.topButton);
+  }
+  onChangeRight = (value) => {
+    this.setState({ rightButton: value});
+    console.log(this.state.rightButton);
+  }
+  onChangeBottom = (value) => {
+    this.setState({ bottomButton: value });
+    console.log(this.state.bottomButton);
+  }
+
   handleChangeComplete = (color) => {
-    this.setState({ background: color.hex });
+    this.setState({ textcolor: color.hex,
+                    backgrounButton: color.hex,
+                    borderColorButton:color.hex
+    
+    });
 
   };
-  handleShapeChange = e => {
-    this.setState({
-       styleButton : e.target.value,
+  handleChangeComplete = (color) => {
+    this.setState({ textcolor: color.hex,
+                   
     
-       });
-    console.log(this.state.styleButton);
+    });
+
   };
+  handleChangeCompleteBackground = (color) => {
+    this.setState({ 
+                    backgrounButton: color.hex,
+                  
     
+    });
+
+  };
+  handleChangeCompleteBorder = (color) => {
+    this.setState({ 
+                    borderColorButton:color.hex
+    
+    });
+
+  };
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+  showModalBackGround = () => {
+    this.state.isBackGround = !this.state.isBackGround
+    this.setState({
+      isBackGround: this.state.isBackGround
+    });
+  };
+  showModalBorderColor = () => {
+    this.state.isBorderColor= ! this.state.isBorderColor;
+    this.setState({
+      isBorderColor:  this.state.isBorderColor
+    });
+  };
+
   handleTextChange = e => {
     this.setState({
-       textButton : e.target.value
-       });
+      textButton: e.target.value
+    });
     console.log(this.state.textButton);
   };
+  callback = (key) => {
+    console.log(key);
+  }
+  handleShapeChange = e => {
+    this.setState({
+       borderRadiusButton: e.target.value,
     
-    render(){
-        
-    const { content,showColor, isButton ,styleButton, buttonsList,textButton }=this.state;
-      
+       });
    
-    
-        return(
-           
-           <div className="edittext">
-               <div className="d-flex flex-row mt-4">
-               <Button style={{borderRadius: '50px'}}  onClick={this.showModal}>Change Text</Button>
-               <Tooltip placement="topLeft" title="Design">
-               <Button className="ml-2" shape="circle"  onClick={this.showModalButton} 
-                >
-                  <span><EditOutlined className="social-network-icon "/></span></Button> 
-             </Tooltip>
-               </div>
-               <div className="mt-2">
-              <Button className="ml-3" style={styleButton}   value={isButton}  onClick={this.showModalButton}>
-                     <span></span>{ ReactHtmlParser(content) } 
-                   </Button>
-       </div>
-       <div  >
-        <Modal  
-          title="Text settings"
-          visible={this.state.visible}
-          onOk={this.handleCancel}
-          onCancel={this.handleCancel}
-          width	= {300}
-          footer={[
-          ]}
-         
-        >
- <div >
-   <h5>Nội dung </h5>
-  
-   <Input  style={{borderRadius:50}} value={content}  onChange={this.handleEditorChange} ></Input>
+  };
+  render() {
 
-<h5 className="mt-3">Đường dẫn </h5>
- <div className="d-flex flex-row mt-2">
- <Input style={{borderRadius:50}} placeholder="Thêm đường link" ></Input>
-  
-</div>
- </div>
- 
-           
-        </Modal>
+    const { content, align, isButton, inputValue, 
+      textcolor, 
+      positionButton ,
+      leftButton, topButton,rightButton,bottomButton,borderWidthButton ,
+      backgrounButton,borderColorButton, buttonsList ,borderRadiusButton,
+    } = this.state;
+
+    const styleButton = {
+      fontSize: inputValue,
+      textAlign: align,
+      color: textcolor,
+      position: positionButton,
+      left: leftButton,
+      right: rightButton,
+      top :  topButton,
+      bottom :bottomButton,
+      borderWidth :borderWidthButton,
+      background  : backgrounButton,
+      borderColor :borderColorButton,
+      borderRadius: borderRadiusButton,
+      
+    }
+
+
+    return (
+
+      <div className="edittext">
+
+        <div className="mt-2">
+          <Button className="ml-3" style={styleButton} value={isButton} onClick={this.showModalButton}>
+            <span></span>{ReactHtmlParser(content)}
+          </Button>
         </div>
+      
 
-        <Modal 
+
+        <Modal
           title="Button design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
           onCancel={this.handleCancelDesign}
-          width	= {300}
+          width={320}
+          bodyStyle={{ height: '400px', overflow: 'scroll' }}
           footer={[
           ]}
-         
+
         >
-     
-          <div>
-        
-          <Radio.Group value={styleButton} onChange={this.handleShapeChange}>
+          <Tabs defaultActiveKey="1" onChange={this.callback}>
+            <TabPane tab="Edit text" key="1">
+              <h6>Nội dung </h6>
+
+              <Input style={{ borderRadius: 50 }} value={content} onChange={this.handleEditorChange} ></Input>
+
+              <h6 className="mt-3">Đường dẫn </h6>
+              <div className="d-flex flex-row mt-2">
+                <Input style={{ borderRadius: 50 }} placeholder="Thêm đường link" ></Input>
+              </div>
+              <div className="mt-2">
+                <h6>Font size(px)</h6>
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={6}
+                      max={176}
+                      onChange={this.onChange}
+                      value={typeof inputValue === 'number' ? inputValue : 0}
+                    />
+                  </Col>
+                  <Col span={2}>
+                    <InputNumber
+                      min={6}
+                      max={176}
+                      style={{ margin: '0 16px', borderRadius: '15px' }}
+                      value={inputValue}
+                      onChange={this.onChange}
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <div className="mt-2">
+                <h6>Text Align</h6>
+                <Select style={{ width: '100%' }} onChange={this.onChangeTextAlign}>
+                  <Option value="left">left</Option>
+                  <Option value="center">center</Option>
+                  <Option value="right">right</Option>
+                  <Option value="justify">justify</Option>
+                </Select>
+              </div>
+              <div className="mt-2 d-flex flex-row">
+                <h6>Color</h6>
+              <Button className="ml-2" onClick={this.showModal} ><span>
+              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+                </span></Button>  
+             
+              </div>
+            </TabPane>
+            <TabPane tab="Position" key="2">
+              <div className="mt-2">
+                <h6>Điều chính vị trí</h6>
+                <Select style={{ width: '100%' }} onChange={this.onChangePosition}>
+                  <Option value="static">static</Option>
+                  <Option value="relative">relative</Option>
+                  <Option value="fixed">absolute</Option>
+                  <Option value="sticky">sticky</Option>
+                </Select>
+              </div>
+              <div className="mt-2">
+              
+                <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+                  
+                  <InputNumber placeholder="top" value={topButton} style={{ width: 72 ,textAlign:'center' }}  min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+                 
+                </div>
+                <div style={{ width: buttonWidth, float: 'left' }}>
+                <InputNumber placeholder="left" value={leftButton} style={{ width: 72 ,textAlign:'center'  }}  min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                  </div>
+                  <div style={{ width: buttonWidth, marginLeft: buttonWidth *2 +3 }}> 
+                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72 ,textAlign:'center'}}  min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                    </div>
+                    <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                    <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72 ,textAlign:'center'}}  min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                    </div>
+              </div>
+              <div className="mt-2">
+                <h6>Border Width</h6>
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={0}
+                      max={15}
+                      onChange={this.onChangeBorderWith}
+                      value={typeof borderWidthButton === 'number' ? borderWidthButton : 0}
+                    />
+                  </Col>
+                  <Col span={2}>
+                    <InputNumber
+                      min={0}
+                      max={15}
+                      style={{ margin: '0 16px', borderRadius: '15px' }}
+                      value={borderWidthButton}
+                      onChange={this.onChangeBorderWith}
+                    />
+                  </Col>
+                </Row>
+                
+                </div>
+                <div className="mt-2 d-flex flex-row">
+                <h6>Border color</h6>
+              <Button className="ml-5" onClick={this.showModalBorderColor}  shape='round'><span>
+              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+                </span></Button>  
+             
+              </div>
+                <div className="mt-3 d-flex flex-row">
+                <h6>Background</h6>
+              <Button className="ml-5" onClick={this.showModalBackGround} shape='round' ><span>
+              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+                </span></Button>  
+             
+              </div>
+            
+            </TabPane>
+
+       
+          <TabPane tab="Design" key="3">
+          <Radio.Group value={borderRadiusButton} onChange={this.handleShapeChange}>
             { buttonsList.map((item,index)=>
-          <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item}>Button</Radio.Button>
+          <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item.borderRadius}>Button</Radio.Button>
             )}
         </Radio.Group>
-       </div>
-       <BgColorsOutlined style={{height:'50px',width:'50px'}}  onClick={this.onClickColor} />
-   {
-    showColor ?  <SketchPicker  color={this.state.background}  
-    onChangeComplete={ this.handleChangeComplete } /> 
-  : ' '
-
-  }
-
+    </TabPane>
+    </Tabs>
         </Modal>
-           </div>
-        )
-    }
+
+        <Modal
+          title="Color"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          width={260}
+        
+          style={{marginLeft:820}}
+          footer={[
+          ]}
+        >
+                   <SketchPicker color={textcolor}
+                    onChangeComplete={this.handleChangeComplete} />
+        </Modal>
+
+        
+        <Modal
+          title="background"
+          visible={this.state.isBackGround}
+          onOk={this.handleOk}
+          onCancel={this.showModalBackGround}
+          width={260}
+        
+          style={{marginLeft:820}}
+          footer={[
+          ]}
+        >
+                   <SketchPicker color={backgrounButton}
+                    onChangeComplete={this.handleChangeCompleteBackground} />
+        </Modal>
+
+        
+        <Modal
+          title="Border Color"
+          visible={this.state.isBorderColor}
+          onOk={this.handleOk}
+          onCancel={this.showModalBorderColor}
+          width={260}
+        
+          style={{marginLeft:820}}
+          footer={[
+          ]}
+        >
+                   <SketchPicker color={borderColorButton}
+                    onChangeComplete={this.handleChangeCompleteBorder} />
+        </Modal>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-    // map state of store to props
-  
-  })
-  
-  const mapDispatchToProps = (dispatch) => ({
-   
-  });
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(ButtonsEvent)
-  
+  // map state of store to props
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonsEvent)
