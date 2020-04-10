@@ -38,7 +38,6 @@ class CreateEvent extends React.Component {
 
     render() {
         const { nameEvent, address, typeOfEvent, quantity } = this.props;
-        console.log(nameEvent, address, typeOfEvent, quantity)
         const posterStyle = {
             width: '100%',
             height: '60vh'

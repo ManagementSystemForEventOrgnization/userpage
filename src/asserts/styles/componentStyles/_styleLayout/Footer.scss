@@ -78,7 +78,24 @@
       background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
   
   }
- 
+   .vietnamese-icon{
+        background-image: url("../../image/vietnam.svg");
+      }
+      .uk-icon{
+        background-image: url("../../image/uk.svg");
+      }
+      
+      .control-icon {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: top center;
+        height: 3em;
+        width: 3em;
+        // margin: 10 0.15em 0 0.3em;
+        // vertical-align: -0.3em;
+        background-size: 3em 3em;
+        cursor: pointer;
+      }
 }
 
 // .footer1{

@@ -36,7 +36,6 @@ class GeneralInfoEventModal extends React.Component {
         super(props);
         this.state = {
             visible: false,
-            confirmLoading: false,
             nameEvent: '',
             typeOfEvent: '',
             quantity: 0,
@@ -61,16 +60,6 @@ class GeneralInfoEventModal extends React.Component {
     handleOk = () => {
         const { nameEvent, typeOfEvent, quantity, address } = this.state;
         const { prepareForCreateEvent } = this.props;
-        this.setState({
-            confirmLoading: true,
-        });
-        setTimeout(() => {
-            this.setState({
-                visible: false,
-                confirmLoading: false,
-            });
-
-        }, 2000);
 
         prepareForCreateEvent(nameEvent, typeOfEvent, quantity, address);
 
@@ -81,7 +70,6 @@ class GeneralInfoEventModal extends React.Component {
     }
 
     handleCancel = () => {
-        console.log('Clicked cancel button');
         this.setState({
             visible: false,
         });
@@ -94,7 +82,7 @@ class GeneralInfoEventModal extends React.Component {
     }
 
     render() {
-        const { visible, confirmLoading, nameEvent, quantity } = this.state;
+        const { visible, nameEvent, quantity } = this.state;
         const activeNext = nameEvent && (quantity !== 0);
         const { isLogined } = this.props;
         return (
@@ -121,7 +109,7 @@ class GeneralInfoEventModal extends React.Component {
                                         Hủy
                                     </Button>,
 
-                                    <Button key="submit" type="primary" loading={confirmLoading} disabled={!activeNext} onClick={this.handleOk}>
+                                    <Button key="submit" type="primary" disabled={!activeNext} onClick={this.handleOk}>
                                         <Link to='/create'>
                                             Tiếp tục
                                         </Link>

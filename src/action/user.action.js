@@ -48,7 +48,6 @@ const loginWithGoogle = (profile) => {
                 else dispatch(failure('Một số lỗi đã xảy ra'));
             })
             .catch(err => {
-                console.log(err)
                 dispatch(failure('Một số lỗi đã xảy ra'))
             })
     };

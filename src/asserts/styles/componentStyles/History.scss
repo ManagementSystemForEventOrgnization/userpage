@@ -49,5 +49,31 @@
         width: 100%;
       
     }
+
+    .sale-icon{
+        // margin-left:10em !important;
+        background-image: url("../../../asserts/styles/image/calendar.svg");
+      }
+
+      .expire-icon{
+        background-image: url("../../../asserts/styles/image/the-end.svg");
+      }
+
+      .upcoming-icon{
+        background-image: url("../../../asserts/styles/image/upcoming.svg");
+      }
+      
+      .control-icon {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: top center;
+        height: 3em;
+        width: 3em;
+        // margin: 10 0.15em 0 0.3em;
+        // vertical-align: -0.3em;
+        background-size: 3em 3em;
+        cursor: pointer;
+      }
+          
     
 }
