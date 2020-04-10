@@ -12,9 +12,9 @@ const { Option } = Select;
 const buttonWidth = 80;
 const buttons = [
   {
-    background :'#6495ED',
-    borderRadius    :'15px',
-    borderColor : '',
+    background: '#6495ED',
+    borderRadius: '15px',
+    borderColor: '',
     borderWidth: '',
     color :'white',
     height : '',
@@ -23,9 +23,9 @@ const buttons = [
 
   },
   {
-    background :' #FFC0CB',
-    borderRadius    :'',
-    borderColor : '',
+    background: ' #FFC0CB',
+    borderRadius: '',
+    borderColor: '',
     borderWidth: '',
     color :'black' ,
     height : '',
@@ -45,9 +45,9 @@ const buttons = [
     
   },
   {
-    background :'white',
-    borderRadius    :'',
-    borderColor     : 'black',
+    background: 'white',
+    borderRadius: '',
+    borderColor: 'black',
     borderWidth: '3px',
     color :'black'  ,
     height : '',
@@ -66,9 +66,9 @@ const buttons = [
     
   },
   {
-    background :'#9932CC',
-    borderRadius    :'',
-    borderColor     : '',
+    background: '#9932CC',
+    borderRadius: '',
+    borderColor: '',
     borderWidth: '',
     color :'black' ,
     height : '',
@@ -143,9 +143,9 @@ const buttons = [
     
   },
   {
-    background :'#FF7F50',
-    borderRadius    :'50%',
-    borderColor     : '',
+    background: '#FF7F50',
+    borderRadius: '50%',
+    borderColor: '',
     borderWidth: '',
    color: 'white',
    textAlign :'center'
@@ -163,8 +163,8 @@ const buttons = [
 
    
   },
-  
-  
+
+
 ]
 
 
@@ -379,7 +379,6 @@ class ButtonsEvent extends React.Component {
           </Button>
         </div>
       
-
 
         <Modal
           title="Button design"

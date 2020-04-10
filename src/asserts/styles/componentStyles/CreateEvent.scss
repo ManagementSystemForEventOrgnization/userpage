@@ -1,0 +1,38 @@
+.create-event {
+    padding-top: 5%;
+    $base-duration: 500ms;
+
+    &:hover {
+        cursor: pointer;
+    }
+    #add-block {
+        display: none;
+        &:checked ~ .menu-block-list {
+            left: 0px;
+            transition: left $base-duration ease;
+        }
+    }
+    .add-block {
+        .add-block-button {
+            font-weight: bold;
+            font-size: 16px;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.7;
+                transform: scale(1.4);
+            }
+        }
+    }
+
+    .menu-block-list {
+        position: fixed;
+        top: 0;
+        left: -40%;
+        margin: 0;
+        padding: 0;
+        transition: left $base-duration ease;
+        z-index: 0;
+        margin-top: 48px;
+    }
+}

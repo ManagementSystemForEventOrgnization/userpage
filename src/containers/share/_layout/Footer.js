@@ -9,7 +9,6 @@ import {
     FacebookOutlined,
     GoogleOutlined,
     SkypeOutlined,
-    FlagOutlined,
     InstagramOutlined,
 } from '@ant-design/icons';
 
@@ -133,10 +132,10 @@ class Footer extends React.Component {
                     <div className="col mb-3">
                         <b>Ngôn Ngữ</b>
                         <div>
-                        <div style={{display:'flex', }}>
-                     <p ><span className="control-icon vietnamese-icon"></span></p>
-                     <p ><span className="control-icon uk-icon ml-3"></span></p>
-                        </div>
+                            <div style={{ display: 'flex', }}>
+                                <p ><span className="control-icon vietnamese-icon"></span></p>
+                                <p ><span className="control-icon uk-icon ml-3"></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>

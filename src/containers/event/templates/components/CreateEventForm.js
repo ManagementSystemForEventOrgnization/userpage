@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { ReactSortable } from "react-sortablejs";
 import { v4 as uuid } from "uuid";
 import data from "../data/data";
-import Calendar from './ui-elements/Calendar'
 import DropContainer from "./DropContainer";
 
 
@@ -11,6 +10,7 @@ const CreateEventForm = () => {
 
     return (
         <div className="builder-container p-3 mb-2 bg-warning">
+
             <ReactSortable
                 className="drag-container"
                 sort={false}
@@ -32,6 +32,7 @@ const CreateEventForm = () => {
                     </div>
                 ))}
             </ReactSortable>
+
             <div>
                 <div className="container">
                     <div className="row">

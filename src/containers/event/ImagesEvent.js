@@ -17,7 +17,7 @@ class ImagesEvent extends React.Component {
     };
   }
 
-  onImageDrop=(files)=> {
+  onImageDrop = (files) => {
     this.setState({
       uploadedFile: files[0]
     });
@@ -27,8 +27,8 @@ class ImagesEvent extends React.Component {
 
   handleImageUpload(file) {
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                     .field('file', file);
+      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      .field('file', file);
 
     upload.end((err, response) => {
       if (err) {
@@ -130,7 +130,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
- 
+
 });
 
 

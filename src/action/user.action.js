@@ -1,7 +1,7 @@
 import API from './axious.config';
-import {userConstants} from '../constants/index'
+import { userConstants } from '../constants/index'
 
-const  login = (email, password) => {
+const login = (email, password) => {
     return dispatch => {
         dispatch(request());
         API
@@ -10,45 +10,55 @@ const  login = (email, password) => {
                 password,
             })
             .then(res => {
-                console.log(res);
 
-                if(!res.data.message ){
+                if (!res.data.message) {
                     dispatch(success(res.data));
-                } 
-                else{
-                    dispatch(failure(res.data.message|| 'Tài khoản hoặc mật khẩu không đúng!' ));
+                }
+                else {
+                    dispatch(failure(res.data.message || 'Tài khoản hoặc mật khẩu không đúng!'));
                 }
 
+                return res.data;
 
-            
+
             })
             .catch(error => {
-                console.log(error)
                 return dispatch(failure('Tài khoản hoặc mật khẩu không đúng!'));
             })
     };
 
-    function request() { return { type: userConstants.LOGIN_REQUEST} }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user} }
+    function request() { return { type: userConstants.LOGIN_REQUEST } }
+    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+
 }
 
 const loginWithGoogle = (profile) => {
-    return API
-        .post(`/auth/google`,
-        {
-            profile
-        }
-        )
-        .then(res => {
-            userConstants.LOGIN_GOOGLE(res.data)
-        })
+
+    return dispatch => {
+        API
+            .post(`/api/login-google`,
+                {
+                    profile
+                }
+            )
+            .then(res => {
+                if (res.status === 200)
+                    dispatch(success(res.data))
+                else dispatch(failure('Một số lỗi đã xảy ra'));
+            })
+            .catch(err => {
+                dispatch(failure('Một số lỗi đã xảy ra'))
+            })
+    };
+    function success(user) { return { type: userConstants.LOGIN_GOOGLE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_GOOGLE_FAILURE, error } }
+
+
 }
 
-const register = (email, password, fullName) =>{
 
-    console.log(email, password, fullName);
-
+const register = (email, password, fullName) => {
     return dispatch => {
         dispatch(request());
         API
@@ -58,63 +68,87 @@ const register = (email, password, fullName) =>{
                 fullName
             })
             .then(res => {
-                console.log(res);
 
-                if(!res.data.message){
+                if (!res.data.message) {
                     dispatch(success(res.data));
 
-                } 
-                else{
-                    dispatch(failure(res.data.message|| 'Email hoặc mật khẩu không hợp lệ!' ));
+                }
+                else {
+                    dispatch(failure(res.data.message || 'Email hoặc mật khẩu không hợp lệ!'));
                 }
             })
             .catch(error => {
-                console.log(error)
                 return dispatch(failure(error)
-                ||'Email hoặc mật khẩu không hợp lệ!');
+                    || 'Email hoặc mật khẩu không hợp lệ!');
             })
     };
 
-    function request() { return { type: userConstants.REGISTER_REQUEST} }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user} }
+    function request() { return { type: userConstants.REGISTER_REQUEST } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 
 }
 
 
-const checkCode = (code) => {
-    console.log(code);
-    return dispatch  => {
+const checkCode = (token) => {
+    return dispatch => {
         dispatch(request());
         API
             .post(`/api/verifyToken`, {
-                code
+                token
             })
             .then(res => {
-                console.log(res);
 
-                if(res.status === 200){
+                if (res.status === 200) {
                     dispatch(success());
 
-                } 
-                else if(res.status === 422){
-                    dispatch(failure(res.data.message|| 'OTP không hợp lệ!' ));
+                }
+                else if (res.status === 422) {
+                    dispatch(failure(res.data.message || 'OTP không hợp lệ!'));
                 }
             })
             .catch(error => {
-                console.log(error)
-                return dispatch(failure(error)
-                ||'OTP không hợp lệ!');
+                return dispatch(failure('Xác thực không thành công do một vài sự cố !'));
             })
 
 
     };
-    function request() { return { type: userConstants.CHECK_CODE_REQUEST} }
-    function success() { return { type: userConstants.CHECK_CODE_SUCCESS} }
+    function request() { return { type: userConstants.CHECK_CODE_REQUEST } }
+    function success() { return { type: userConstants.CHECK_CODE_SUCCESS } }
     function failure(error) { return { type: userConstants.CHECK_CODE_FAILURE, error } }
 }
 
-const logout = () =>{
+const logout = () => {
+    API.get(`/api/logout`)
+    return dispatch => {
+        dispatch(request());
+    };
+
+    function request() { return { type: userConstants.LOGOUT } }
+}
+
+
+const getCurrentUser = () => {
+    return dispatch => {
+        dispatch(request());
+        API
+            .get(`/api/current_user`)
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch(success(res.data));
+                }
+                else {
+                    dispatch(failure(res.message));
+                }
+            })
+            .catch(error => {
+                return dispatch(failure(error));
+            })
+    };
+
+    function request() { return { type: userConstants.GET_CURRENT_USER_REQUEST } }
+    function success(user) { return { type: userConstants.GET_CURRENT_USER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_CURRENT_USER_FAILURE, error } }
 
 }
 
@@ -124,6 +158,7 @@ export const userActions = {
     loginWithGoogle,
     register,
     checkCode,
-    logout
+    logout,
+    getCurrentUser,
 
 }

@@ -1,3 +1,13 @@
+## NOTE
+
+- logout: user nav chưa close
+
+
+- component will receive props
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

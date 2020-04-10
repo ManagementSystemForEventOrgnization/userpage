@@ -1,0 +1,34 @@
+.homepage {
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .high-light {
+        width: 100%;
+        height: auto;
+        padding-top: 20px;
+    }
+
+    .list-event {
+        background: url("/bg-1.jpg") center fixed;
+        height: 100%;
+
+        .up-coming {
+            width: 100%;
+        }
+        .latest {
+            width: 100%;
+        }
+    }
+
+    .orgnization {
+        width: 100%;
+    }
+    .explore {
+        background: url("/bg-3.jpg") center fixed;
+        height: 200px;
+        text-align: center;
+        padding: 50px;
+    }
+}

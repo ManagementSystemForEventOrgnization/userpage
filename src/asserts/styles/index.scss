@@ -1,3 +1,4 @@
+
 @import '~antd/dist/antd.css';
 @import '_partials/index.scss';
 @import 'componentStyles/_styleLayout/Header.scss';
@@ -10,3 +11,9 @@
 @import 'componentStyles/CheckCode.scss';
 @import 'componentStyles/History.scss';
 @import 'componentStyles/EditText.scss';
+
+@import "componentStyles/Home.scss";
+@import "componentStyles/EventCart.scss";
+@import "componentStyles/Orgnization.scss";
+@import "componentStyles/CreateEvent.scss";
+

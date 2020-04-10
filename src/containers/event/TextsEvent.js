@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button,Modal} from 'antd';
+import { Button, Modal } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
 
 
@@ -19,9 +19,9 @@ class TextsEvent extends React.Component{
             
           
 
-        }
-    }
-  
+    };
+  }
+    
  
    
       showModal = () => {
@@ -42,11 +42,12 @@ class TextsEvent extends React.Component{
     
   handleEditorChange=(content) =>{
     this.setState({ content });
-   
+
   }
  
   
-    render(){
+    render()
+    {
         
     const { content }=this.state;
       
@@ -58,23 +59,22 @@ class TextsEvent extends React.Component{
   apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
     init={{ plugins: 'link   ', 
     toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code' }}
-  
 />
 </div>
          </div>
         )
     }
-}
+  }
+  
 
 const mapStateToProps = state => ({
-    // map state of store to props
-  
-  })
-  
-  const mapDispatchToProps = (dispatch) => ({
-   
-  });
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(TextsEvent)
-  
+  // map state of store to props
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextsEvent)
