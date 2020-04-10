@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button,Modal,Radio,Tooltip, Input, Slider, InputNumber, Row, Col} from 'antd';
+import { Button,Modal,Radio,Tooltip, Input, } from 'antd';
 import { SketchPicker } from 'react-color';
-import { Editor } from '@tinymce/tinymce-react';
+
 import {BgColorsOutlined ,EditOutlined
 } from '@ant-design/icons';
 
@@ -13,7 +13,10 @@ const buttons = [
     borderRadius    :'15px',
     borderColor : '',
     borderWidth: '',
-    color :'white'
+    color :'white',
+    height : '',
+    width  :'',
+    textAlign:'',
 
   },
   {
@@ -21,14 +24,20 @@ const buttons = [
     borderRadius    :'',
     borderColor : '',
     borderWidth: '',
-    color :'black'
+    color :'black' ,
+    height : '',
+    width  :'',
+    textAlign:'',
   },
   {
     background :'white',
     borderRadius    :'',
     borderColor     : '#FFC0CB',
-    borderWidth: '4px',
-    color :'black',
+    borderWidth: '3px',
+    color :'black', 
+    height : '',
+    width  :'',
+    textAlign:'',
   
     
   },
@@ -37,14 +46,20 @@ const buttons = [
     borderRadius    :'',
     borderColor     : 'black',
     borderWidth: '3px',
-    color :'black'
+    color :'black'  ,
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
     background :'#8FBC8F',
     borderRadius    :'',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: ''  ,
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
@@ -52,59 +67,76 @@ const buttons = [
     borderRadius    :'',
     borderColor     : '',
     borderWidth: '',
-    color :'black'
+    color :'black' ,
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
     background :'#483D8B',
     borderRadius    :'5px',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: ''  ,
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
     background :'#483D8B',
     borderRadius    :'10px',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: '',
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
     background :'#ADD8E6',
     borderRadius    :'15px',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: '',
+    height : '',
+    width  :'',
+    textAlign:'',
     
   },
   {
     background :'#3CB371',
     borderRadius    :'20px',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: '',
+    textAlign :'center',
+
     
   },
   {
     background :'#F08080',
     borderRadius    :'15px 50px 30px',
     borderColor     : '',
-    borderWidth: ''
+    borderWidth: ''    ,
+    textAlign :'center',
+
     
   },
   {
     background :'#F08080',
     borderRadius    :'15px 50px 30px 5px',
     borderColor     : '',
-    borderWidth: ''
-    
-  },
-  {
-    background :'#FF7F50',
-    borderRadius    :'50%',
-    borderColor     : '',
     borderWidth: '',
-    height : '100px',
-    width  :'100px', 
     textAlign :'center'
+
+    
+  },
+  {
+    background :'#FF7F50',
+    borderRadius    :'50',
+    borderColor     : '',
+    borderWidth: '',
+    textAlign :'center'
+
     
   },
   {
@@ -112,8 +144,21 @@ const buttons = [
     borderRadius    :'50%',
     borderColor     : '',
     borderWidth: '',
-   color: 'white'
-    
+   color: 'white',
+   textAlign :'center'
+
+   
+  },
+  
+  {
+    background :'#FF7F50',
+    borderRadius    :'50%',
+    borderColor     : '',
+    borderWidth: '',
+   color: 'white',
+   textAlign :'center'
+
+   
   },
   
   
@@ -127,15 +172,13 @@ class ButtonsEvent extends React.Component{
         this.state = {
           
             visible: false,
-       
+            background:'',
             content :"wellcome",
             showColor:false,
-            background: '',
             isDesign :false,
             isButton :false,
             buttonsList :buttons,
-            borderColor: 0,
-            shape1 : 
+            styleButton : 
               {
               background :'',
               borderRadius    :' ',
@@ -143,7 +186,8 @@ class ButtonsEvent extends React.Component{
               borderWidth: '',
               color:'',
               height : '',
-              width  :''
+              width  :'',
+              textAlign:'',
           
               }
             
@@ -156,7 +200,7 @@ class ButtonsEvent extends React.Component{
       this.setState({
         buttonsList :buttons
       })
-      console.log(this.props);
+     
     }
 
     
@@ -211,31 +255,40 @@ class ButtonsEvent extends React.Component{
   };
   handleShapeChange = e => {
     this.setState({
-       shape1 : e.target.value
+       styleButton : e.target.value,
+    
        });
-    console.log(this.state.shape1);
+    console.log(this.state.styleButton);
   };
- 
+    
+  handleTextChange = e => {
+    this.setState({
+       textButton : e.target.value
+       });
+    console.log(this.state.textButton);
+  };
     
     render(){
         
-    const { content,background,showColor, isButton ,shape1, buttonsList,inputValue }=this.state;
- 
-  
+    const { content,showColor, isButton ,styleButton, buttonsList,textButton }=this.state;
+      
+   
+    
         return(
            
            <div className="edittext">
                <div className="d-flex flex-row mt-4">
                <Button style={{borderRadius: '50px'}}  onClick={this.showModal}>Change Text</Button>
                <Tooltip placement="topLeft" title="Design">
-               <Button className="ml-2" shape="circle"  onClick={this.showModalButton} icon={<EditOutlined 
-               className="social-network-icon "
-                />} ></Button> 
+               <Button className="ml-2" shape="circle"  onClick={this.showModalButton} 
+                >
+                  <span><EditOutlined className="social-network-icon "/></span></Button> 
              </Tooltip>
                </div>
                <div className="mt-2">
-              <Button className="ml-3" style={shape1} value={isButton}
-                   >{ ReactHtmlParser(content) } </Button>
+              <Button className="ml-3" style={styleButton}   value={isButton}  onClick={this.showModalButton}>
+                     <span></span>{ ReactHtmlParser(content) } 
+                   </Button>
        </div>
        <div  >
         <Modal  
@@ -250,15 +303,13 @@ class ButtonsEvent extends React.Component{
         >
  <div >
    <h5>Nội dung </h5>
-   {/* <Editor value={content} onEditorChange={this.handleEditorChange} 
-  apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-  init={{ plugins: 'link table' }} */}
-   <Input  style={{borderRadius:50}} value={content} onChange={this.handleEditorChange} ></Input>
+  
+   <Input  style={{borderRadius:50}} value={content}  onChange={this.handleEditorChange} ></Input>
 
 <h5 className="mt-3">Đường dẫn </h5>
  <div className="d-flex flex-row mt-2">
  <Input style={{borderRadius:50}} placeholder="Thêm đường link" ></Input>
- <Button style={{borderRadius:50}} type="primary" className="ml-3" style={{float:"right"}}> link</Button>
+  
 </div>
  </div>
  
@@ -279,7 +330,7 @@ class ButtonsEvent extends React.Component{
      
           <div>
         
-          <Radio.Group value={shape1} onChange={this.handleShapeChange}>
+          <Radio.Group value={styleButton} onChange={this.handleShapeChange}>
             { buttonsList.map((item,index)=>
           <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item}>Button</Radio.Button>
             )}
