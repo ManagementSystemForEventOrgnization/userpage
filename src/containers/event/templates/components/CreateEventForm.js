@@ -10,6 +10,7 @@ const CreateEventForm = () => {
 
     return (
         <div className="builder-container p-3 mb-2 bg-warning">
+
             <ReactSortable
                 className="drag-container"
                 sort={false}
@@ -31,6 +32,7 @@ const CreateEventForm = () => {
                     </div>
                 ))}
             </ReactSortable>
+
             <div>
                 <div className="container">
                     <div className="row">

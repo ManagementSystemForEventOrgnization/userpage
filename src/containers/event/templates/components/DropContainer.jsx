@@ -6,11 +6,13 @@ import TextArea from "./ui-elements/TextArea";
 import DropDown from "./ui-elements/DropDown";
 import Calendar from './ui-elements/Calendar';
 
+
 const DropContainer = () => {
   const [dropList, setDropList] = useState([]);
 
   return (
     <div className="drop-container p-3 mb-2 bg-primary" >
+
       <ReactSortable
         className="drop-container"
         sort={true}
@@ -42,6 +44,9 @@ const DropContainer = () => {
           }
         })}
       </ReactSortable>
+
+
+
     </div>
   );
 };

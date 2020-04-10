@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
 
@@ -36,6 +37,8 @@ class CreateEvent extends React.Component {
 
     }
 
+
+
     render() {
         const { nameEvent, address, typeOfEvent, quantity } = this.props;
         const posterStyle = {
@@ -62,17 +65,21 @@ class CreateEvent extends React.Component {
             position: 'absolute',
         }
 
+
         return (
             <div className=" create-event">
                 <div className="fixed-top ">
                     <Header />
                 </div>
-
                 <img style={posterStyle} alt="poster-event" src="/bg-2.jpg" />
                 <h1 style={nameEventStyle}>{nameEvent}</h1>
                 <h4 style={addressStyle}>{address}</h4>
                 <h5 style={quantityStyle}>Số lượng : {quantity}</h5>
                 <h6 style={typeOfEventStyle}>#{typeOfEvent}</h6>
+                <div className="mt-5 mb-5">
+                    <DropContainer />
+
+                </div>
 
                 <input type="checkbox" id="add-block" ></input>
                 <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
