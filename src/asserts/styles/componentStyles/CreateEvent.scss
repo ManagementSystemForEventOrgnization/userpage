@@ -2,9 +2,8 @@
     padding-top: 5%;
     $base-duration: 500ms;
 
-    .poster {
-        width: 100%;
-        height: 60vh;
+    &:hover {
+        cursor: pointer;
     }
     #add-block {
         display: none;
