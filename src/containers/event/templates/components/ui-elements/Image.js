@@ -70,7 +70,7 @@ class ImageBlock extends React.Component {
   }
 
   render() {
-    const { widthImage, heightImage } = this.state;
+    const { widthImage, heightImage, uploadedFileCloudinaryUrl } = this.state;
     const { style } = this.props;
     const imageStyle = style ? style : {
       width: widthImage,
@@ -80,65 +80,70 @@ class ImageBlock extends React.Component {
       <div>
         <img
           style={imageStyle}
-          alt="img" src={this.state.uploadedFileCloudinaryUrl}
+          alt="img" src={uploadedFileCloudinaryUrl}
           onClick={this.showModal} />
 
         <Modal
           title="Edit Image"
           visible={this.state.visible}
           onOk={this.handleOk}
+          width="700px"
           onCancel={this.handleCancel}
         >
 
-          <div className="d-flex flex-row mt-2">
-            <div className="mt-2 ml-5" style={{ float: "right" }}>
-              <p>Width Image</p>
+          <div className="d-flex mt-2">
+            <div className="d-flex mr-5" >
+              <p className="mr-3">Width</p>
 
-              <InputNumber placeholder="width" value={widthImage} style={{ textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeWidthImage}  ></InputNumber >
+              <InputNumber
+                placeholder="width"
+                value={style ? 100 : widthImage}
+                style={{ textAlign: 'center' }}
+                min={0} max={1500}
+                onChange={this.onChangeWidthImage}  ></InputNumber >
             </div>
-            <div className="mt-2 ml-5">
-              <p>Height Image</p>
+            <div className="d-flex ml-5">
+              <p className="mr-3">Height</p>
 
-              <InputNumber placeholder="height" value={heightImage} style={{ textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeHeightImage}  ></InputNumber >
+              <InputNumber
+                placeholder="height"
+                value={style ? 100 : heightImage}
+                style={{ textAlign: 'center' }}
+                min={0} max={1500}
+                onChange={this.onChangeHeightImage}  ></InputNumber >
             </div>
 
-            <div className="mt-2 ml-5">
-              <p>Image</p>
-              <form>
-                <div style={{ width: '300px', height: 50 }}>
-                  <Dropzone
-                    onDrop={this.onImageDrop}
-                    accept="image/*"
-                    multiple={false}>
-                    {({ getRootProps, getInputProps }) => {
-                      return (
-                        <div
-                          {...getRootProps()}
-                        >
-                          <input {...getInputProps()} />
-                          {
-                            <Button   >Upload</Button>
-                          }
-                        </div>
-                      )
-                    }}
-                  </Dropzone>
-                </div>
-                <div  >
-                </div>
-              </form>
 
-            </div>
           </div>
 
           <div className="mt-2" >
-            <p>{this.state.uploadedFileCloudinaryUrl}</p>
-            <img style={{ width: '450px' }} alt="img" src={this.state.uploadedFileCloudinaryUrl} />
-
+            <img style={{ width: '450px' }} alt="img" src={uploadedFileCloudinaryUrl} />
           </div>
+          <p>{uploadedFileCloudinaryUrl}</p>
 
-
-
+          <form className="mt-1">
+            <div style={{ width: '300px', height: 50 }}>
+              <Dropzone
+                onDrop={this.onImageDrop}
+                accept="image/*"
+                multiple={false}>
+                {({ getRootProps, getInputProps }) => {
+                  return (
+                    <div
+                      {...getRootProps()}
+                    >
+                      <input {...getInputProps()} />
+                      {
+                        <Button   >Upload</Button>
+                      }
+                    </div>
+                  )
+                }}
+              </Dropzone>
+            </div>
+            <div  >
+            </div>
+          </form>
 
         </Modal>
       </div>

@@ -22,19 +22,19 @@ class CreateEvent extends React.Component {
                     <Header />
                 </div>
 
-                <div className="mt-5 mb-5">
+                <div className="mt-1">
                     <DropContainer />
 
                 </div>
 
                 <input type="checkbox" id="add-block" ></input>
-                <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
+                <label htmlFor="add-block" className="add-block d-flex justify-content-center">
                     <span>
                         <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
                     </span>
                 </label>
 
-                <div className="menu-block-list">
+                <div className="menu-block-list pt-3">
                     <MenuBlockList />
 
                 </div>

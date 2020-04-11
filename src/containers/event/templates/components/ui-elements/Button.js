@@ -403,9 +403,11 @@ class ButtonBlock extends React.Component {
           visible={this.state.isDesign}
           onOk={this.handleOk}
           onCancel={this.handleCancelDesign}
-          width={320}
-          bodyStyle={{ height: '400px', overflow: 'scroll' }}
+          width={600}
           footer={[
+            <Button key="ok" onClick={this.handleOk} type="primary">
+              OK
+            </Button>,
           ]}
 
         >

@@ -16,24 +16,25 @@ const posterStyle = {
 }
 const addressStyle = {
   position: 'absolute',
-  top: '75%',
+  top: '65%',
   left: '10%',
   fontSize: '20px'
 }
 const typeOfEventStyle = {
   position: 'absolute',
-  top: '82%',
+  top: '73%',
   right: '1%',
 }
 const nameEventStyle = {
   position: 'absolute',
-  top: '30%',
+  top: '25%',
   left: '10%',
   fontWeight: 'bolder',
   fontSize: '50px'
 }
 const quantityStyle = {
   position: 'absolute',
+  top: '73%'
 }
 
 
@@ -91,7 +92,7 @@ class DropContainer extends React.Component {
   render() {
     const { dropList } = this.state;
     return (
-      <div className="drop-container p-3 mb-2 " >
+      <div className="drop-container p-1" >
 
         <ReactSortable
           className="drop-container"
