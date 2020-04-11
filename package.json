@@ -31,6 +31,7 @@
     "react-scripts": "3.4.0",
     "react-slideshow-image": "^1.4.0",
     "react-sortablejs": "^2.0.11",
+    "react-textarea-autosize": "^7.1.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "superagent": "^5.2.2",
