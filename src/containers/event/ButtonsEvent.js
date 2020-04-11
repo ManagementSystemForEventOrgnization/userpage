@@ -5,7 +5,7 @@ import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col ,Radi
 import { SketchPicker } from 'react-color';
 
 import {
-  BgColorsOutlined, EditOutlined, DeleteOutlined
+  BgColorsOutlined,
 } from '@ant-design/icons';
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -189,8 +189,7 @@ class ButtonsEvent extends React.Component {
       bottomButton : 0,
       borderWidthButton:0,
       borderColorButton :'',
-      backgrounButton:'',
-      borderRadiusButton: ' ',
+      backgrounButton:'#03a9f4',
       isBackGround : false,
       isBorderColor :false,
       borderRadiusButton :'',
@@ -279,14 +278,7 @@ class ButtonsEvent extends React.Component {
     console.log(this.state.bottomButton);
   }
 
-  handleChangeComplete = (color) => {
-    this.setState({ textcolor: color.hex,
-                    backgrounButton: color.hex,
-                    borderColorButton:color.hex
-    
-    });
-
-  };
+ 
   handleChangeComplete = (color) => {
     this.setState({ textcolor: color.hex,
                    
@@ -432,10 +424,10 @@ class ButtonsEvent extends React.Component {
                   <Option value="justify">justify</Option>
                 </Select>
               </div>
-              <div className="mt-2 d-flex flex-row">
-                <h6>Color</h6>
-              <Button className="ml-2" onClick={this.showModal} ><span>
-              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+              <div className="mt-3 d-flex flex-row">
+                <h6 className="mt-1">Color</h6>
+              <Button className="ml-4" onClick={this.showModal} shape='circle'><span>
+              <BgColorsOutlined   />
                 </span></Button>  
              
               </div>
@@ -490,17 +482,17 @@ class ButtonsEvent extends React.Component {
                 </Row>
                 
                 </div>
-                <div className="mt-2 d-flex flex-row">
+                <div className="mt-3 d-flex flex-row">
                 <h6>Border color</h6>
-              <Button className="ml-5" onClick={this.showModalBorderColor}  shape='round'><span>
-              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+              <Button className="ml-5" onClick={this.showModalBorderColor}  shape='circle'><span>
+              <BgColorsOutlined  />
                 </span></Button>  
              
               </div>
-                <div className="mt-3 d-flex flex-row">
+                <div className="mt-4 d-flex flex-row">
                 <h6>Background</h6>
-              <Button className="ml-5" onClick={this.showModalBackGround} shape='round' ><span>
-              <BgColorsOutlined style={{ height: '50px', width: '50px' }}  />
+              <Button className="ml-5" onClick={this.showModalBackGround} shape='circle' ><span>
+              <BgColorsOutlined   />
                 </span></Button>  
              
               </div>
