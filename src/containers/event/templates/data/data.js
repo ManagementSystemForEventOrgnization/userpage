@@ -22,13 +22,23 @@ export default [
   },
   {
     id: 4,
-    type: "calendar",
-    name: 'Calendar',
+    type: "table",
+    name: 'Table',
   },
   {
     id: 5,
     type: "image",
     name: 'Image',
+  },
+  {
+    id: 5,
+    type: "divider",
+    name: 'Divider',
+  },
+  {
+    id: 6,
+    type: "step",
+    name: 'Step',
   },
 ].map(({ id, name, type, options }) => {
   return {

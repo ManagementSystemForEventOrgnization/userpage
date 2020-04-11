@@ -6,7 +6,7 @@ import { Button, Modal, InputNumber } from 'antd';
 const CLOUDINARY_UPLOAD_PRESET = 'arabdxzm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload';
 
-class ImagesEvent extends React.Component {
+class ImageBlock extends React.Component {
   constructor(props) {
     super(props);
 
@@ -166,4 +166,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImagesEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(ImageBlock)

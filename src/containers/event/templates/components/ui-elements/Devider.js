@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Divider } from 'antd';
 
-class Devider extends Component {
+
+class DeviderBlock extends Component {
     constructor(props) {
         super(props)
 
@@ -10,12 +12,14 @@ class Devider extends Component {
     }
 
     render() {
+        const { key } = this.props;
+        const orientation = "left";
         return (
-            <div>
-
+            <div key={key}>
+                <Divider orientation={orientation}>Left Text</Divider>
             </div>
         )
     }
 }
 
-export default Devider
+export default DeviderBlock

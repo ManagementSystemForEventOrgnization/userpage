@@ -7,6 +7,8 @@ import { SketchPicker } from 'react-color';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
+
+
 const { TabPane } = Tabs;
 const { Option } = Select;
 const buttonWidth = 80;
@@ -168,7 +170,7 @@ const buttons = [
 ]
 
 
-class ButtonsEvent extends React.Component {
+class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
 
@@ -250,6 +252,7 @@ class ButtonsEvent extends React.Component {
     });
   };
 
+
   handleCancelDesign = e => {
     console.log(e);
     this.setState({
@@ -261,18 +264,25 @@ class ButtonsEvent extends React.Component {
     this.setState({ content: e.target.value });
 
   }
+
   onChangeLeft = (value) => {
     this.setState({ leftButton: value });
     console.log(this.state.leftButton);
   }
+
+
   onChangeTop = (value) => {
     this.setState({ topButton: value });
     console.log(this.state.topButton);
   }
+
+
   onChangeRight = (value) => {
     this.setState({ rightButton: value });
     console.log(this.state.rightButton);
   }
+
+
   onChangeBottom = (value) => {
     this.setState({ bottomButton: value });
     console.log(this.state.bottomButton);
@@ -282,26 +292,25 @@ class ButtonsEvent extends React.Component {
   handleChangeComplete = (color) => {
     this.setState({
       textcolor: color.hex,
-
-
     });
 
   };
+
+
   handleChangeCompleteBackground = (color) => {
     this.setState({
       backgrounButton: color.hex,
-
-
     });
-
   };
+
+
   handleChangeCompleteBorder = (color) => {
     this.setState({
       borderColorButton: color.hex
-
     });
-
   };
+
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -328,9 +337,14 @@ class ButtonsEvent extends React.Component {
     });
     console.log(this.state.textButton);
   };
+
+
+
   callback = (key) => {
     console.log(key);
   }
+
+
   handleShapeChange = e => {
     this.setState({
       borderRadiusButton: e.target.value,
@@ -338,8 +352,12 @@ class ButtonsEvent extends React.Component {
     });
 
   };
+
+
+
   render() {
 
+    const { key } = this.props;
     const { content, align, isButton, inputValue,
       textcolor,
       positionButton,
@@ -369,7 +387,12 @@ class ButtonsEvent extends React.Component {
       <div className="edittext">
 
         <div className="mt-2">
-          <Button className="ml-3" style={styleButton} value={isButton} onClick={this.showModalButton}>
+          <Button
+            key={key}
+            className="ml-3"
+            style={styleButton}
+            value={isButton}
+            onClick={this.showModalButton}>
             <span></span>{ReactHtmlParser(content)}
           </Button>
         </div>
@@ -574,4 +597,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonsEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonBlock)

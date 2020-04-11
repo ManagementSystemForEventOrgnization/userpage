@@ -17,7 +17,6 @@ import ProfilePage from '../pages/ProfilePage';
 import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
 
-import CreateEvent from '../containers/event/templates/components/CreateEvent';
 
 
 const ROUTES = [
@@ -121,12 +120,7 @@ class WrapRouter extends React.Component {
                 exact: true,
                 main: () => <CreateEventPage />
             },
-            {
-                path: '/create-event',
-                exact: false,
-                main: () => <CreateEvent />
 
-            },
             {
                 path: '',
                 exact: true,

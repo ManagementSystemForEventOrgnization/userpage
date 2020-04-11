@@ -12,7 +12,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 const { Option } = Select;
 
-class InputEvent extends React.Component {
+class InputBlock extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,7 +35,7 @@ class InputEvent extends React.Component {
   handleChangeComplete = (color) => {
     this.setState({ background: color.hex });
   };
-// modal
+  // modal
   showModal = () => {
     this.setState({
       visible: true,
@@ -58,7 +58,7 @@ class InputEvent extends React.Component {
       tranform: value
     })
   }
-  
+
   // open color
   onClickColor = e => {
     console.log(e);
@@ -83,7 +83,7 @@ class InputEvent extends React.Component {
     });
   };
 
-// change font size
+  // change font size
   onInputValueChange = event => {
     this.setState({
       content: event.target.value
@@ -122,19 +122,19 @@ class InputEvent extends React.Component {
     this.setState({
       letterText: value,
     });
- 
+
   };
   render() {
 
-    const { background, inputValue, content, showColor, activeFontFamily,lineText,letterText,align,tranform } = this.state;
+    const { background, inputValue, content, showColor, activeFontFamily, lineText, letterText, align, tranform } = this.state;
     const divStyle = {
       color: background,
       fontFamily: activeFontFamily,
       fontSize: inputValue,
-      lineHeight : lineText+"%" ,
-      letterSpacing : letterText,
-      textAlign    :align,
-      textTransform :tranform,
+      lineHeight: lineText + "%",
+      letterSpacing: letterText,
+      textAlign: align,
+      textTransform: tranform,
     }
     return (
 
@@ -149,18 +149,18 @@ class InputEvent extends React.Component {
         </div>
         <div className="mt-2">
           <TextareaAutosize value={content}
-           onChange={this.handleEditorChange}
-           style={divStyle}
+            onChange={this.handleEditorChange}
+            style={divStyle}
           ></TextareaAutosize >
         </div>
-        <div style ={{}} >
+        <div style={{}} >
           <Modal
             title="Text settings"
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             width={280}
-            bodyStyle={{height:'400px' ,  overflow: 'scroll' }}
+            bodyStyle={{ height: '400px', overflow: 'scroll' }}
             footer={[
             ]}
           >
@@ -250,22 +250,22 @@ class InputEvent extends React.Component {
                 </div>
                 <div className="mt-2">
                   <h6>Text Align</h6>
-                  <Select style={{width:'100%'}}  onChange={this.onChangeTextAlign}>
-                  <Option value="left">left</Option>
-                 <Option value="center">center</Option>
-                 <Option value="right">right</Option>
-                 <Option value="justify">justify</Option>
+                  <Select style={{ width: '100%' }} onChange={this.onChangeTextAlign}>
+                    <Option value="left">left</Option>
+                    <Option value="center">center</Option>
+                    <Option value="right">right</Option>
+                    <Option value="justify">justify</Option>
                   </Select>
                 </div>
                 <div className="mt-2"  >
                   <h6>Text Tranform</h6>
-                  <Select style={{width:'100%'}}  onChange={this.onChangeTextTranform}>
-                  <Option value="none">none</Option>
-                 <Option value="uppercase">uppercase</Option>
-                 <Option value="lowercase">lowercase</Option>
-                 <Option value="capitalize">capitalize</Option>
+                  <Select style={{ width: '100%' }} onChange={this.onChangeTextTranform}>
+                    <Option value="none">none</Option>
+                    <Option value="uppercase">uppercase</Option>
+                    <Option value="lowercase">lowercase</Option>
+                    <Option value="capitalize">capitalize</Option>
                   </Select>
-                  </div>
+                </div>
 
               </div>
               <div className="mt-2 d-flex flex-row">
@@ -320,4 +320,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(InputBlock)
