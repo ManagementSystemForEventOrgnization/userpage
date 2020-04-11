@@ -21,6 +21,7 @@ class TextsBlock extends React.Component {
       rightButton: 0,
       topButton: 0,
       bottomButton: 0,
+      width: 100
 
     };
   }
@@ -44,6 +45,7 @@ class TextsBlock extends React.Component {
 
 
   handleEditorChange = (content) => {
+
     this.setState({ content });
 
   }
@@ -75,24 +77,40 @@ class TextsBlock extends React.Component {
     })
     console.log(this.state.align);
   }
+  handeChangeText = (e) => {
+    this.setState({
+      content: e.targe.value,
+    })
+  }
 
   render() {
 
     const { key, style } = this.props;
-    const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
+    const { content, topButton, leftButton, rightButton, bottomButton, positionButton, width } = this.state;
     const divStyle = style ? style : {
       position: positionButton,
       top: topButton,
       left: leftButton,
       right: rightButton,
       bottom: bottomButton,
+      wordBreak: 'break-all',
+      width,
+
     }
     return (
 
-      <div className="edittext">
-        <div key={key} style={divStyle} onClick={this.showModal}>
+      <div className="edittext" style={{
+        height: 50,
+        width: 50
+      }}
+      >
+        < div key={key} style={divStyle} onClick={this.showModal}
+          onChange={this.handeChangeText}
+
+        >
           {ReactHtmlParser(content)}
-        </div>
+        </ div>
+
 
 
 
