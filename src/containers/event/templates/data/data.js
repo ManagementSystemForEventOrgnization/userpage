@@ -16,14 +16,19 @@ export default [
     type: "dropdown",
     options: [
       { value: 'USA', name: 'USA', key: uuid() },
-      { value: 'CANADA', name: 'CANADA', key: uuid() }   
+      { value: 'CANADA', name: 'CANADA', key: uuid() }
     ],
     name: 'Dropdown',
   },
   {
-    id: 3,
-    type: "Calendar",
+    id: 4,
+    type: "calendar",
     name: 'Calendar',
+  },
+  {
+    id: 5,
+    type: "image",
+    name: 'Image',
   },
 ].map(({ id, name, type, options }) => {
   return {

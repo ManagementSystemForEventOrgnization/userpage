@@ -1,101 +1,89 @@
-
-.footer{
-    background-color: $brown;
-    color: $item-color;
-    b{
-        @include large-text;
-    }
-    // label{
-    //   @include small-text;
-    // }
-    
-
-     .col .iconCard{
-        border: $borderFrame;
-        padding: 5px 0px 0px 0px ;
-        margin: 0px 5px;
-        .iconText{
-            @include small-text;
-            p{
-                margin: 2px 4px 0px 10px;
-                
-            }
-        }
-
-        .icon{
-            font-size: $icon-size !important; 
-        }
-    }
-    Button{
-
-        margin: 5px;
-        width: 36px;
-        height: 36px;
-       
-    }
-    .social-network-icon {
-      padding: 1px;
-      font-size: 22px;
-      border-radius: 20%;
-      text-align: center;
-      text-decoration: none;
-       margin: 0 4px;
-      // border-radius: 50% !important;
-    }
-    
-    .social-network-icon:hover {
-      transform: scale(1.05) !important;
-      color: white !important;
-      text-decoration: none;
-    
-    }
-    
-    .fa-facebook {
-      background: #3B5998;
-      color: white;
-  
-    }
-    
-    .fa-twitter {
-      background:#4e92df;
-      color: white;
-    }
-   
-    
-    .fa-instagram {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-      color: white;
-    }
-  
-     
-  
-  .fa-google{
-      background-color:  #EA4335;
-      color: white;
-     
+.footer {
+  background-color: $brown;
+  color: $item-color;
+  b {
+    @include large-text;
   }
-  .instagram{
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-  
+  // label{
+  //   @include small-text;
+  // }
+
+  .col .iconCard {
+    border: $borderFrame;
+    padding: 5px 0px 0px 0px;
+    margin: 0px 5px;
+    .iconText {
+      @include small-text;
+      p {
+        margin: 2px 4px 0px 10px;
+      }
+    }
+
+    .icon {
+      font-size: $icon-size !important;
+    }
   }
-   .vietnamese-icon{
-        background-image: url("../../image/vietnam.svg");
-      }
-      .uk-icon{
-        background-image: url("../../image/uk.svg");
-      }
-      
-      .control-icon {
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: top center;
-        height: 3em;
-        width: 3em;
-        // margin: 10 0.15em 0 0.3em;
-        // vertical-align: -0.3em;
-        background-size: 3em 3em;
-        cursor: pointer;
-      }
+  Button {
+    margin: 5px;
+    width: 36px;
+    height: 36px;
+  }
+  .social-network-icon {
+    padding: 1px;
+    font-size: 22px;
+    border-radius: 20%;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 4px;
+    // border-radius: 50% !important;
+  }
+
+  .social-network-icon:hover {
+    transform: scale(1.05) !important;
+    color: white !important;
+    text-decoration: none;
+  }
+
+  .fa-facebook {
+    background: #3b5998;
+    color: white;
+  }
+
+  .fa-twitter {
+    background: #4e92df;
+    color: white;
+  }
+
+  .fa-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+    color: white;
+  }
+
+  .fa-google {
+    background-color: #ea4335;
+    color: white;
+  }
+  .instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  }
+  .vietnamese-icon {
+    background-image: url("../../../image/vietnam.svg");
+  }
+  .uk-icon {
+    background-image: url("../../../image/uk.svg");
+  }
+
+  .control-icon {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 3em;
+    width: 3em;
+    // margin: 10 0.15em 0 0.3em;
+    // vertical-align: -0.3em;
+    background-size: 3em 3em;
+    cursor: pointer;
+  }
 }
 
 // .footer1{

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { Form, Input, Button, Select, Modal } from 'antd';
 import { Link } from 'react-router-dom'
 import { StarFilled } from '@ant-design/icons';
 import AutoCompletePlace from '../share/AutoCompletePlace';
 
 import { eventActions } from '../../action/event.action';
-
 
 
 const { Option } = Select;
@@ -44,10 +44,10 @@ class GeneralInfoEventModal extends React.Component {
 
     }
 
-    onGenderChange = value => {
-        this.formRef.current.setFieldsValue({
-            note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-        });
+    onTypeOfVentChange = value => {
+        this.setState({
+            typeOfEvent: value
+        })
     };
 
     showModal = () => {
@@ -145,7 +145,7 @@ class GeneralInfoEventModal extends React.Component {
                                     >
                                         <Select
                                             placeholder="Chọn 1 loại sự kiện ở dưới"
-                                            onChange={this.onGenderChange}
+                                            onChange={this.onTypeOfVentChange}
                                             allowClear
                                         >
                                             {

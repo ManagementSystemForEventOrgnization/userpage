@@ -11,7 +11,7 @@ const DropContainer = () => {
   const [dropList, setDropList] = useState([]);
 
   return (
-    <div className="drop-container p-3 mb-2 bg-primary" >
+    <div className="drop-container p-3 mb-2 " >
 
       <ReactSortable
         className="drop-container"
@@ -31,15 +31,15 @@ const DropContainer = () => {
 
           switch (item.type) {
             case "button":
-              return <Button key={item.id} />;
+              return <Button key={item.id} className="mt-2" />;
             case "dropdown":
-              return <DropDown key={item.id} options={item.options} />;
+              return <DropDown key={item.id} options={item.options} className="mt-2" />;
             case "text":
-              return <TextArea key={item.id} />;
-            case "Calendar":
-              return <Calendar key={item.id} />;
+              return <TextArea key={item.id} className="mt-2" />;
+            case "calendar":
+              return <Calendar key={item.id} className="mt-2" />;
             default:
-              return <span key="123456">{item.type}</span>;
+              return <span key="123456" className="mt-2">{item.type}</span>;
 
           }
         })}

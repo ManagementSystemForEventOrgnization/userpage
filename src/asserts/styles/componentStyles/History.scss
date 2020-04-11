@@ -1,69 +1,61 @@
-.history{
-   
+.history {
     padding: 10%;
-    .largesearch{
-        height:40px;
+    .largesearch {
+        height: 40px;
     }
 
-    
-    .movie_card{
-       
+    .movie_card {
         width: 840px;
-        .card-name{
+        .card-name {
             width: 260px;
-           .img {
-          
-            height:150px;
-
+            .img {
+                height: 150px;
             }
         }
     }
     @media screen and (max-width: 768px) {
-        .movie_card{
-          width: 95%;
-         
-          min-height: 350px;
-          height: auto;
+        .movie_card {
+            width: 95%;
+
+            min-height: 350px;
+            height: auto;
         }
-        
-        .place{
+
+        .place {
             margin-top: 20px;
-         
         }
     }
 
     @media screen and (max-width: 1280px) {
-        .place{
+        .place {
             margin-top: 20px;
-         
         }
     }
-    
-    .date{
+
+    .date {
         font-size: 8px !important;
-        height:40px;
+        height: 40px;
     }
-    
-    .select-place{
+
+    .select-place {
         font-weight: bold;
         width: 100%;
-      
     }
 
-    .sale-icon{
+    .sale-icon {
         // margin-left:10em !important;
-        background-image: url("../../../asserts/styles/image/calendar.svg");
-      }
+        background-image: url("../../image/calendar.svg");
+    }
 
-      .expire-icon{
-        background-image: url("../../../asserts/styles/image/the-end.svg");
-      }
+    .expire-icon {
+        background-image: url("../../image/the-end.svg");
+    }
 
-      .upcoming-icon{
-        background-image: url("../../../asserts/styles/image/upcoming.svg");
-      }
-      
-      .control-icon {
+    .upcoming-icon {
+        background-image: url("../../image/upcoming.svg");
+    }
+
+    .control-icon {
         display: inline-block;
         background-repeat: no-repeat;
         background-position: top center;
@@ -73,7 +65,5 @@
         // vertical-align: -0.3em;
         background-size: 3em 3em;
         cursor: pointer;
-      }
-          
-    
+    }
 }
