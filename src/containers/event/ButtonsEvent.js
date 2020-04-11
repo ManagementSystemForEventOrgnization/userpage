@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col ,Radio } from 'antd';
+import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, Radio } from 'antd';
 import { SketchPicker } from 'react-color';
 
 import {
@@ -16,10 +16,10 @@ const buttons = [
     borderRadius: '15px',
     borderColor: '',
     borderWidth: '',
-    color :'white',
-    height : '',
-    width  :'',
-    textAlign:'',
+    color: 'white',
+    height: '',
+    width: '',
+    textAlign: '',
 
   },
   {
@@ -27,141 +27,141 @@ const buttons = [
     borderRadius: '',
     borderColor: '',
     borderWidth: '',
-    color :'black' ,
-    height : '',
-    width  :'',
-    textAlign:'',
+    color: 'black',
+    height: '',
+    width: '',
+    textAlign: '',
   },
   {
-    background :'white',
-    borderRadius    :'',
-    borderColor     : '#FFC0CB',
+    background: 'white',
+    borderRadius: '',
+    borderColor: '#FFC0CB',
     borderWidth: '3px',
-    color :'black', 
-    height : '',
-    width  :'',
-    textAlign:'',
-  
-    
+    color: 'black',
+    height: '',
+    width: '',
+    textAlign: '',
+
+
   },
   {
     background: 'white',
     borderRadius: '',
     borderColor: 'black',
     borderWidth: '3px',
-    color :'black'  ,
-    height : '',
-    width  :'',
-    textAlign:'',
-    
+    color: 'black',
+    height: '',
+    width: '',
+    textAlign: '',
+
   },
   {
-    background :'#8FBC8F',
-    borderRadius    :'',
-    borderColor     : '',
-    borderWidth: ''  ,
-    height : '',
-    width  :'',
-    textAlign:'',
-    
+    background: '#8FBC8F',
+    borderRadius: '',
+    borderColor: '',
+    borderWidth: '',
+    height: '',
+    width: '',
+    textAlign: '',
+
   },
   {
     background: '#9932CC',
     borderRadius: '',
     borderColor: '',
     borderWidth: '',
-    color :'black' ,
-    height : '',
-    width  :'',
-    textAlign:'',
-    
-  },
-  {
-    background :'#483D8B',
-    borderRadius    :'5px',
-    borderColor     : '',
-    borderWidth: ''  ,
-    height : '',
-    width  :'',
-    textAlign:'',
-    
-  },
-  {
-    background :'#483D8B',
-    borderRadius    :'10px',
-    borderColor     : '',
-    borderWidth: '',
-    height : '',
-    width  :'',
-    textAlign:'',
-    
-  },
-  {
-    background :'#ADD8E6',
-    borderRadius    :'15px',
-    borderColor     : '',
-    borderWidth: '',
-    height : '',
-    width  :'',
-    textAlign:'',
-    
-  },
-  {
-    background :'#3CB371',
-    borderRadius    :'20px',
-    borderColor     : '',
-    borderWidth: '',
-    textAlign :'center',
+    color: 'black',
+    height: '',
+    width: '',
+    textAlign: '',
 
-    
   },
   {
-    background :'#F08080',
-    borderRadius    :'15px 50px 30px',
-    borderColor     : '',
-    borderWidth: ''    ,
-    textAlign :'center',
-
-    
-  },
-  {
-    background :'#F08080',
-    borderRadius    :'15px 50px 30px 5px',
-    borderColor     : '',
+    background: '#483D8B',
+    borderRadius: '5px',
+    borderColor: '',
     borderWidth: '',
-    textAlign :'center'
+    height: '',
+    width: '',
+    textAlign: '',
 
-    
   },
   {
-    background :'#FF7F50',
-    borderRadius    :'50',
-    borderColor     : '',
+    background: '#483D8B',
+    borderRadius: '10px',
+    borderColor: '',
     borderWidth: '',
-    textAlign :'center'
+    height: '',
+    width: '',
+    textAlign: '',
 
-    
+  },
+  {
+    background: '#ADD8E6',
+    borderRadius: '15px',
+    borderColor: '',
+    borderWidth: '',
+    height: '',
+    width: '',
+    textAlign: '',
+
+  },
+  {
+    background: '#3CB371',
+    borderRadius: '20px',
+    borderColor: '',
+    borderWidth: '',
+    textAlign: 'center',
+
+
+  },
+  {
+    background: '#F08080',
+    borderRadius: '15px 50px 30px',
+    borderColor: '',
+    borderWidth: '',
+    textAlign: 'center',
+
+
+  },
+  {
+    background: '#F08080',
+    borderRadius: '15px 50px 30px 5px',
+    borderColor: '',
+    borderWidth: '',
+    textAlign: 'center'
+
+
+  },
+  {
+    background: '#FF7F50',
+    borderRadius: '50',
+    borderColor: '',
+    borderWidth: '',
+    textAlign: 'center'
+
+
   },
   {
     background: '#FF7F50',
     borderRadius: '50%',
     borderColor: '',
     borderWidth: '',
-   color: 'white',
-   textAlign :'center'
+    color: 'white',
+    textAlign: 'center'
 
-   
+
   },
-  
-  {
-    background :'#FF7F50',
-    borderRadius    :'50%',
-    borderColor     : '',
-    borderWidth: '',
-   color: 'white',
-   textAlign :'center'
 
-   
+  {
+    background: '#FF7F50',
+    borderRadius: '50%',
+    borderColor: '',
+    borderWidth: '',
+    color: 'white',
+    textAlign: 'center'
+
+
   },
 
 
@@ -175,7 +175,7 @@ class ButtonsEvent extends React.Component {
     this.state = {
 
       visible: false,
-      buttonsList :buttons,
+      buttonsList: buttons,
       content: "wellcome",
       isDesign: false,
       isButton: false,
@@ -184,26 +184,26 @@ class ButtonsEvent extends React.Component {
       textcolor: '',
       positionButton: '',
       leftButton: 0,
-      rightButton :0,
-      topButton :0,
-      bottomButton : 0,
-      borderWidthButton:0,
-      borderColorButton :'',
-      backgrounButton:'#03a9f4',
-      isBackGround : false,
-      isBorderColor :false,
-      borderRadiusButton :'',
-      backgroundColorButton:'',
+      rightButton: 0,
+      topButton: 0,
+      bottomButton: 0,
+      borderWidthButton: 0,
+      borderColorButton: '',
+      backgrounButton: '#03a9f4',
+      isBackGround: false,
+      isBorderColor: false,
+      borderRadiusButton: '',
+      backgroundColorButton: '',
 
     }
   }
 
 
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.setState({
-      buttonsList :buttons
+      buttonsList: buttons
     })
-   
+
   }
 
   onChangeTextAlign = (value) => {
@@ -262,15 +262,15 @@ class ButtonsEvent extends React.Component {
 
   }
   onChangeLeft = (value) => {
-    this.setState({ leftButton: value});
-   console.log(this.state.leftButton);
+    this.setState({ leftButton: value });
+    console.log(this.state.leftButton);
   }
   onChangeTop = (value) => {
     this.setState({ topButton: value });
     console.log(this.state.topButton);
   }
   onChangeRight = (value) => {
-    this.setState({ rightButton: value});
+    this.setState({ rightButton: value });
     console.log(this.state.rightButton);
   }
   onChangeBottom = (value) => {
@@ -278,26 +278,27 @@ class ButtonsEvent extends React.Component {
     console.log(this.state.bottomButton);
   }
 
- 
+
   handleChangeComplete = (color) => {
-    this.setState({ textcolor: color.hex,
-                   
-    
+    this.setState({
+      textcolor: color.hex,
+
+
     });
 
   };
   handleChangeCompleteBackground = (color) => {
-    this.setState({ 
-                    backgrounButton: color.hex,
-                  
-    
+    this.setState({
+      backgrounButton: color.hex,
+
+
     });
 
   };
   handleChangeCompleteBorder = (color) => {
-    this.setState({ 
-                    borderColorButton:color.hex
-    
+    this.setState({
+      borderColorButton: color.hex
+
     });
 
   };
@@ -306,16 +307,18 @@ class ButtonsEvent extends React.Component {
       visible: true,
     });
   };
+
   showModalBackGround = () => {
-    this.state.isBackGround = !this.state.isBackGround
+    const { isBackGround } = this.state;
     this.setState({
-      isBackGround: this.state.isBackGround
+      isBackGround: !isBackGround,
     });
   };
+
   showModalBorderColor = () => {
-    this.state.isBorderColor= ! this.state.isBorderColor;
+    const { isBorderColor } = this.state;
     this.setState({
-      isBorderColor:  this.state.isBorderColor
+      isBorderColor: !isBorderColor
     });
   };
 
@@ -330,18 +333,18 @@ class ButtonsEvent extends React.Component {
   }
   handleShapeChange = e => {
     this.setState({
-       borderRadiusButton: e.target.value,
-    
-       });
-   
+      borderRadiusButton: e.target.value,
+
+    });
+
   };
   render() {
 
-    const { content, align, isButton, inputValue, 
-      textcolor, 
-      positionButton ,
-      leftButton, topButton,rightButton,bottomButton,borderWidthButton ,
-      backgrounButton,borderColorButton, buttonsList ,borderRadiusButton,
+    const { content, align, isButton, inputValue,
+      textcolor,
+      positionButton,
+      leftButton, topButton, rightButton, bottomButton, borderWidthButton,
+      backgrounButton, borderColorButton, buttonsList, borderRadiusButton,
     } = this.state;
 
     const styleButton = {
@@ -351,13 +354,13 @@ class ButtonsEvent extends React.Component {
       position: positionButton,
       left: leftButton,
       right: rightButton,
-      top :  topButton,
-      bottom :bottomButton,
-      borderWidth :borderWidthButton,
-      background  : backgrounButton,
-      borderColor :borderColorButton,
+      top: topButton,
+      bottom: bottomButton,
+      borderWidth: borderWidthButton,
+      background: backgrounButton,
+      borderColor: borderColorButton,
       borderRadius: borderRadiusButton,
-      
+
     }
 
 
@@ -370,7 +373,7 @@ class ButtonsEvent extends React.Component {
             <span></span>{ReactHtmlParser(content)}
           </Button>
         </div>
-      
+
 
         <Modal
           title="Button design"
@@ -426,10 +429,10 @@ class ButtonsEvent extends React.Component {
               </div>
               <div className="mt-3 d-flex flex-row">
                 <h6 className="mt-1">Color</h6>
-              <Button className="ml-4" onClick={this.showModal} shape='circle'><span>
-              <BgColorsOutlined   />
-                </span></Button>  
-             
+                <Button className="ml-4" onClick={this.showModal} shape='circle'><span>
+                  <BgColorsOutlined />
+                </span></Button>
+
               </div>
             </TabPane>
             <TabPane tab="Position" key="2">
@@ -443,21 +446,21 @@ class ButtonsEvent extends React.Component {
                 </Select>
               </div>
               <div className="mt-2">
-              
+
                 <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-                  
-                  <InputNumber placeholder="top" value={topButton} style={{ width: 72 ,textAlign:'center' }}  min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
-                 
+
+                  <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+
                 </div>
                 <div style={{ width: buttonWidth, float: 'left' }}>
-                <InputNumber placeholder="left" value={leftButton} style={{ width: 72 ,textAlign:'center'  }}  min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
-                  </div>
-                  <div style={{ width: buttonWidth, marginLeft: buttonWidth *2 +3 }}> 
-                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72 ,textAlign:'center'}}  min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
-                    </div>
-                    <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                    <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72 ,textAlign:'center'}}  min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
-                    </div>
+                  <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                </div>
+                <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                </div>
+                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                  <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                </div>
               </div>
               <div className="mt-2">
                 <h6>Border Width</h6>
@@ -480,34 +483,34 @@ class ButtonsEvent extends React.Component {
                     />
                   </Col>
                 </Row>
-                
-                </div>
-                <div className="mt-3 d-flex flex-row">
+
+              </div>
+              <div className="mt-3 d-flex flex-row">
                 <h6>Border color</h6>
-              <Button className="ml-5" onClick={this.showModalBorderColor}  shape='circle'><span>
-              <BgColorsOutlined  />
-                </span></Button>  
-             
+                <Button className="ml-5" onClick={this.showModalBorderColor} shape='circle'><span>
+                  <BgColorsOutlined />
+                </span></Button>
+
               </div>
-                <div className="mt-4 d-flex flex-row">
+              <div className="mt-4 d-flex flex-row">
                 <h6>Background</h6>
-              <Button className="ml-5" onClick={this.showModalBackGround} shape='circle' ><span>
-              <BgColorsOutlined   />
-                </span></Button>  
-             
+                <Button className="ml-5" onClick={this.showModalBackGround} shape='circle' ><span>
+                  <BgColorsOutlined />
+                </span></Button>
+
               </div>
-            
+
             </TabPane>
 
-       
-          <TabPane tab="Design" key="3">
-          <Radio.Group value={borderRadiusButton} onChange={this.handleShapeChange}>
-            { buttonsList.map((item,index)=>
-          <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item.borderRadius}>Button</Radio.Button>
-            )}
-        </Radio.Group>
-    </TabPane>
-    </Tabs>
+
+            <TabPane tab="Design" key="3">
+              <Radio.Group value={borderRadiusButton} onChange={this.handleShapeChange}>
+                {buttonsList.map((item, index) =>
+                  <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item.borderRadius}>Button</Radio.Button>
+                )}
+              </Radio.Group>
+            </TabPane>
+          </Tabs>
         </Modal>
 
         <Modal
@@ -516,45 +519,45 @@ class ButtonsEvent extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           width={260}
-        
-          style={{marginLeft:820}}
+
+          style={{ marginLeft: 820 }}
           footer={[
           ]}
         >
-                   <SketchPicker color={textcolor}
-                    onChangeComplete={this.handleChangeComplete} />
+          <SketchPicker color={textcolor}
+            onChangeComplete={this.handleChangeComplete} />
         </Modal>
 
-        
+
         <Modal
           title="background"
           visible={this.state.isBackGround}
           onOk={this.handleOk}
           onCancel={this.showModalBackGround}
           width={260}
-        
-          style={{marginLeft:820}}
+
+          style={{ marginLeft: 820 }}
           footer={[
           ]}
         >
-                   <SketchPicker color={backgrounButton}
-                    onChangeComplete={this.handleChangeCompleteBackground} />
+          <SketchPicker color={backgrounButton}
+            onChangeComplete={this.handleChangeCompleteBackground} />
         </Modal>
 
-        
+
         <Modal
           title="Border Color"
           visible={this.state.isBorderColor}
           onOk={this.handleOk}
           onCancel={this.showModalBorderColor}
           width={260}
-        
-          style={{marginLeft:820}}
+
+          style={{ marginLeft: 820 }}
           footer={[
           ]}
         >
-                   <SketchPicker color={borderColorButton}
-                    onChangeComplete={this.handleChangeCompleteBorder} />
+          <SketchPicker color={borderColorButton}
+            onChangeComplete={this.handleChangeCompleteBorder} />
         </Modal>
       </div>
     )
