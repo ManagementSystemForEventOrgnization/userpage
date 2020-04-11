@@ -15,7 +15,7 @@ class TextsBlock extends React.Component {
 
       visible: false,
 
-      content: "wellcome",
+      content: this.props.content || "wellcome",
       positionButton: '',
       leftButton: 0,
       rightButton: 0,
@@ -78,9 +78,9 @@ class TextsBlock extends React.Component {
 
   render() {
 
-    const { key } = this.props;
+    const { key, style } = this.props;
     const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
-    const divStyle = {
+    const divStyle = style ? style : {
       position: positionButton,
       top: topButton,
       left: leftButton,

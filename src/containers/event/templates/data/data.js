@@ -2,17 +2,17 @@ import { v4 as uuid } from 'uuid';
 
 export default [
   {
-    id: 1,
+    id: 6,
     type: "button",
     name: 'Button',
   },
   {
-    id: 2,
+    id: 7,
     type: "text",
     name: 'Text',
   },
   {
-    id: 3,
+    id: 8,
     type: "dropdown",
     options: [
       { value: 'USA', name: 'USA', key: uuid() },
@@ -21,22 +21,22 @@ export default [
     name: 'Dropdown',
   },
   {
-    id: 4,
+    id: 9,
     type: "table",
     name: 'Table',
   },
   {
-    id: 5,
+    id: 10,
     type: "image",
     name: 'Image',
   },
   {
-    id: 5,
+    id: 11,
     type: "divider",
     name: 'Divider',
   },
   {
-    id: 6,
+    id: 12,
     type: "step",
     name: 'Step',
   },

@@ -9,10 +9,9 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload'
 class ImageBlock extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       uploadedFile: null,
-      uploadedFileCloudinaryUrl: 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
+      uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
       visible: false,
       heightImage: 250,
       widthImage: 450,
@@ -23,7 +22,6 @@ class ImageBlock extends React.Component {
     this.setState({
       uploadedFile: files[0]
     });
-
     this.handleImageUpload(files[0]);
   }
 
@@ -52,14 +50,12 @@ class ImageBlock extends React.Component {
   };
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -67,30 +63,26 @@ class ImageBlock extends React.Component {
 
   onChangeHeightImage = (value) => {
     this.setState({ heightImage: value });
-    console.log(this.state.heightImage);
   }
+
   onChangeWidthImage = (value) => {
     this.setState({ widthImage: value });
-    console.log(this.state.widthImage);
   }
+
   render() {
     const { widthImage, heightImage } = this.state;
-    const imageStyle = {
+    const { style } = this.props;
+    const imageStyle = style ? style : {
       width: widthImage,
       height: heightImage,
     }
     return (
-
       <div>
+        <img
+          style={imageStyle}
+          alt="img" src={this.state.uploadedFileCloudinaryUrl}
+          onClick={this.showModal} />
 
-
-        <div className="mt-2">
-
-          <div >
-            <p>{this.state.uploadedFileCloudinaryUrl}</p>
-            <img style={imageStyle} alt="img" src={this.state.uploadedFileCloudinaryUrl} onClick={this.showModal} />
-          </div>
-        </div>
         <Modal
           title="Edit Image"
           visible={this.state.visible}
