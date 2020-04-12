@@ -46,33 +46,26 @@ class TextsBlock extends React.Component {
 
 
   handleEditorChange = (content) => {
-
     this.setState({ content });
-
   }
 
   onChangeLeft = (value) => {
     this.setState({ leftButton: value });
-    console.log(this.state.leftButton);
   }
 
   onChangeTop = (value) => {
     this.setState({ topButton: value });
-    console.log(this.state.topButton);
   }
 
   onChangeRight = (value) => {
     this.setState({ rightButton: value });
-    console.log(this.state.rightButton);
   }
 
   onChangeBottom = (value) => {
     this.setState({ bottomButton: value });
-    console.log(this.state.bottomButton);
   }
 
   onChangePosition = (value) => {
-    console.log(`selected ${value}`);
     this.setState({
       positionButton: value
     })
@@ -100,20 +93,12 @@ class TextsBlock extends React.Component {
     }
     return (
 
-      <div className="edittext" style={{
-        height: 50,
-        width: 50
-      }}
-      >
+      <div className="edittext" >
         < div key={key} style={divStyle} onClick={this.showModal}
           onChange={this.handeChangeText}
-
         >
           {ReactHtmlParser(content)}
         </ div>
-
-
-
 
         <Modal
           title="Text"
@@ -128,7 +113,6 @@ class TextsBlock extends React.Component {
           ]}
         >
           <div className="mt-2">
-            {/* <h6>Điều chính vị trí</h6> */}
             <div className="d-flex mb-3">
               <h6 >Vị trí : </h6>
               <Select defaultValue={style ? 'absolute' : 'relative'}

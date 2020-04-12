@@ -1,11 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Radio, Tooltip, TimePicker } from 'antd';
-
-import {
-  EditOutlined
-} from '@ant-design/icons';
-
+import { Modal, Radio, TimePicker, Button } from 'antd';
 
 
 const timeFormat = ['HH:mm:ss', 'h:mm:ss A', 'h:mm a', 'HH:mm'];
@@ -75,24 +70,19 @@ class TimepickersBlock extends React.Component {
     return (
 
       <div className="edittext">
-        <div className="d-flex flex-row mt-4">
-          <Tooltip placement="topLeft" title="Design">
-            <Button className="ml-2" shape="circle" onClick={this.showModalTimepicker}
-            >
-              <span><EditOutlined className="social-network-icon " /></span></Button>
-          </Tooltip>
-        </div>
-        <div className="mt-2">
+        <div className="mt-2 " onClick={this.showModalTimepicker}>
           <TimePicker format={styleFormat} ></TimePicker>
         </div>
 
         <Modal
           title="TimePicker design"
           visible={this.state.isDesign}
-          onOk={this.handleOk}
           onCancel={this.handleCancelDesign}
           width={500}
           footer={[
+            <Button key="ok" onClick={this.handleCancelDesign} type="primary">
+              OK
+          </Button>,
           ]}
         >
 

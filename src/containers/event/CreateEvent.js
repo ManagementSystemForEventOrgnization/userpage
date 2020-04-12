@@ -30,7 +30,7 @@ class CreateEvent extends React.Component {
                 <input type="checkbox" id="add-block" ></input>
                 <label htmlFor="add-block" className="add-block d-flex justify-content-center">
                     <span>
-                        <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
+                        <p className="add-block-button mt-3" onClick={this.handleShowMenuBlocks}>Add Block</p>
                     </span>
                 </label>
 
