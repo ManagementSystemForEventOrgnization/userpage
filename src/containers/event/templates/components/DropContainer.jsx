@@ -159,9 +159,11 @@ class DropContainer extends React.Component {
 
 const mapStateToProps = state => ({
   nameEvent: state.event.nameEvent || 'Tên sự kiện demo',
-  typeOfEvent: state.event.typeOfEvent || 'Loại sự kiện demo',
-  address: state.event.address || 'Địa chỉ demo',
-  quantity: state.event.quantity
+  typeOfEvent: state.event.category || 'Loại sự kiện demo',
+  address: state.event.locationName || 'Địa chỉ demo',
+  quantity: state.event.quantity,
+  time: state.event.time,
+
 
 })
 

@@ -3,8 +3,12 @@ import { eventConstants } from '../constants/index';
 const initialState = {
     nameEvent: '',
     typeOfEvent: '',
-    quantity: 0,
+    category: '',
+    quantity: 100,
     address: '',
+    locationName: '',
+    time: {},
+    isSellTicket: 'Không'
 }
 
 const user = (state = initialState, action) => {
@@ -16,7 +20,11 @@ const user = (state = initialState, action) => {
                 nameEvent: action.nameEvent,
                 typeOfEvent: action.typeOfEvent,
                 quantity: action.quantity,
-                address: action.address
+                address: action.address,
+                category: action.category,
+                locationName: action.locationName,
+                time: action.time,
+                isSellTicket: action.isSellTicket,
             }
 
 

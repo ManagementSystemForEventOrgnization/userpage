@@ -18,6 +18,12 @@
             font-weight: bold;
             color: $white;
          }
+         .register {
+            @extend .login;
+            button {
+               margin-top: -4px;
+            }
+         }
       }
 
       .web-name {

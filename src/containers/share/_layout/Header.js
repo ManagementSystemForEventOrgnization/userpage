@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
 
 import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action'
@@ -22,11 +22,12 @@ class Header extends React.Component {
                         {isLogined ?
                             <UserNav /> :
                             <>
-                                <Link className="mr-5 login" to="/login" >
+                                <Link className="mr-4 login" to="/login" >
                                     Đăng Nhập
                                 </Link>
-                                <Link to="/signup" className="login mr-3" >
-                                    Đăng Ký
+                                <Link to="/signup" className=" mr-3 register" >
+                                    <Button size="large" type="danger">Đăng Ký Miễn Phí</Button>
+
                                 </Link>
                             </>
                         }

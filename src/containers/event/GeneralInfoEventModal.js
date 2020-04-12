@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Form, Input, Button, Select, Modal } from 'antd';
+import { Form, Input, Button, Select, Modal, DatePicker, Radio } from 'antd';
 import { Link } from 'react-router-dom'
 import { StarFilled } from '@ant-design/icons';
-import AutoCompletePlace from '../share/AutoCompletePlace';
+import moment from 'moment';
 
+import AutoCompletePlace from '../share/AutoCompletePlace';
 import { eventActions } from '../../action/event.action';
 
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const layout = {
     labelCol: {
@@ -20,7 +22,7 @@ const layout = {
     },
 };
 
-const typeOfEvents = [
+const categoryEvents = [
     "Hội nghị",
     "Thể thao",
     "Du lịch",
@@ -28,7 +30,15 @@ const typeOfEvents = [
     "Tình nguyện",
     "Workshop",
     "Talkshow"
-]
+];
+
+const typeOfEvents = [
+    "Công Khai",
+    "Bí Mật"
+];
+
+const plainOptions = ['Có', 'Không'];
+
 
 class GeneralInfoEventModal extends React.Component {
     formRef = React.createRef();
@@ -38,10 +48,40 @@ class GeneralInfoEventModal extends React.Component {
             visible: false,
             nameEvent: '',
             typeOfEvent: '',
-            quantity: 0,
-            address: ''
+            category: '',
+            quantity: 100,
+            address: '',
+            locationName: '',
+            time: {},
+            isSellTicket: 'Không'
         };
 
+    }
+
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    handleOk = () => {
+        const { nameEvent, typeOfEvent, category, quantity, address, locationName, time, isSellTicket } = this.state;
+        const { prepareForCreateEvent } = this.props;
+        prepareForCreateEvent(nameEvent, typeOfEvent, category, quantity, address, locationName, time, isSellTicket);
+
+    };
+
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    onChange = e => { // normal onchange for input
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
     }
 
     onTypeOfVentChange = value => {
@@ -50,39 +90,34 @@ class GeneralInfoEventModal extends React.Component {
         })
     };
 
-    showModal = () => {
+    onCategoryChange = value => {
         this.setState({
-            visible: true,
-        });
+            category: value
+        })
     };
 
+    onChangeTime = (dates, dateStrings) => {
+        const time = {
+            from: dates[0],
+            to: dates[1],
+            fromString: dateStrings[0],
+            toString: dateStrings[1],
+        }
 
-    handleOk = () => {
-        const { nameEvent, typeOfEvent, quantity, address } = this.state;
-        const { prepareForCreateEvent } = this.props;
-
-        prepareForCreateEvent(nameEvent, typeOfEvent, quantity, address);
-
-    };
-
-    componentWillUnmount = () => {
-
-    }
-
-    handleCancel = () => {
         this.setState({
-            visible: false,
-        });
-    };
-
-    onChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
+            time
         })
     }
 
+    onChangeSellTicket = e => {
+        this.setState({
+            isSellTicket: e.target.value,
+        });
+    };
+
     render() {
-        const { visible, nameEvent, quantity } = this.state;
+        const { visible, nameEvent, quantity, locationName, isSellTicket } = this.state;
+
         const activeNext = nameEvent && (quantity !== 0);
         const { isLogined } = this.props;
         return (
@@ -103,6 +138,12 @@ class GeneralInfoEventModal extends React.Component {
                                 title="Hãy cho chúng tôi biết một số thông tin cơ bản dưới đây"
                                 visible={visible}
                                 onCancel={this.handleCancel}
+                                style={
+                                    {
+                                        overflowY: 'scroll',
+                                        height: '500px'
+                                    }
+                                }
                                 width="1000px"
                                 footer={[
                                     <Button key="back" onClick={this.handleCancel}>
@@ -118,7 +159,7 @@ class GeneralInfoEventModal extends React.Component {
                                     ,
                                 ]}
                             >
-                                <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                                <Form {...layout} ref={this.formRef} name="control-ref" >
                                     <Form.Item
                                         name="name"
                                         label="Tên sự kiện "
@@ -145,6 +186,76 @@ class GeneralInfoEventModal extends React.Component {
                                     >
                                         <Select
                                             placeholder="Chọn 1 loại sự kiện ở dưới"
+                                            onChange={this.onCategoryChange}
+                                            allowClear
+                                        >
+                                            {
+                                                categoryEvents.map(item => <Option key={item} value={item}>{item}</Option>)
+                                            }
+                                        </Select>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        name="locationName"
+                                        label="Tên địa chỉ"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Input
+                                            value={locationName}
+                                            name="locationName"
+                                            onChange={this.onChange}
+                                        />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        name="address"
+                                        label="Địa chỉ cụ thể"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <AutoCompletePlace
+                                        />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        name="time"
+                                        label="Thời gian"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <RangePicker
+                                            ranges={{
+                                                Today: [moment(), moment()],
+                                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                            }}
+                                            showTime
+                                            format="YYYY/MM/DD HH:mm:ss"
+                                            onChange={this.onChangeTime}
+                                        />
+
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        name="typeOfEvent"
+                                        label="Loại hình thức"
+                                        rules={[
+                                            {
+                                                required: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            placeholder="Chọn hình thức cho sự kiện"
                                             onChange={this.onTypeOfVentChange}
                                             allowClear
                                         >
@@ -152,6 +263,7 @@ class GeneralInfoEventModal extends React.Component {
                                                 typeOfEvents.map(item => <Option key={item} value={item}>{item}</Option>)
                                             }
                                         </Select>
+
                                     </Form.Item>
 
                                     <Form.Item
@@ -171,17 +283,18 @@ class GeneralInfoEventModal extends React.Component {
                                     </Form.Item>
 
                                     <Form.Item
-                                        name="address"
-                                        label="Địa chỉ"
+                                        label="Bán vé"
                                         rules={[
                                             {
                                                 required: true,
                                             },
                                         ]}
                                     >
-                                        <AutoCompletePlace
-                                        />
+                                        <Radio.Group options={plainOptions} onChange={this.onChangeSellTicket} value={isSellTicket} />
+
                                     </Form.Item>
+
+
 
 
                                 </Form>
@@ -201,7 +314,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    prepareForCreateEvent: (eventName, typeOfEvent, quantity, address) => dispatch(eventActions.prepareForCreateEvent(eventName, typeOfEvent, quantity, address))
+    prepareForCreateEvent: (nameEvent, typeOfEvent, category, quantity, address, locationName, time, isSellTicket) => dispatch(eventActions.prepareForCreateEvent(nameEvent, typeOfEvent, category, quantity, address, locationName, time, isSellTicket))
 });
 
 
