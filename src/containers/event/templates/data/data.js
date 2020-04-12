@@ -40,6 +40,17 @@ export default [
     type: "step",
     name: 'Step',
   },
+  {
+    id: 13,
+    type: "datepicker",
+    name: 'Datepicker',
+  },
+  {
+    id: 14,
+    type: "timepicker",
+    name: 'Timepicker',
+  },
+
 ].map(({ id, name, type, options }) => {
   return {
     id: uuid(),

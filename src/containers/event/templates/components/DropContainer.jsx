@@ -9,6 +9,10 @@ import DropdownBlock from './ui-elements/DropDown';
 import TableBlock from './ui-elements/Table';
 import DividerBlock from './ui-elements/Devider'
 import StepBlock from './ui-elements/Step';
+import DatepickersBlock from './ui-elements/Datepicker';
+import TimepickersBlock from './ui-elements/Timepicker';
+
+
 
 const posterStyle = {
   width: '100%',
@@ -80,6 +84,15 @@ class DropContainer extends React.Component {
           content: this.props.typeOfEvent,
           style: typeOfEventStyle
         },
+        {
+          id: 6,
+          type: "text",
+          name: 'Text',
+          fontSize: '15px',
+          content: this.props.typeOfEvent,
+          style: typeOfEventStyle
+        },
+        
       ],
     }
   }
@@ -125,6 +138,10 @@ class DropContainer extends React.Component {
                 return <DividerBlock key={item.id} />
               case 'step':
                 return <StepBlock key={item.id} />
+              case 'datepicker':
+                return <DatepickersBlock key={item.id}/>
+              case 'timepicker':
+                return <TimepickersBlock key={item.id}/>
 
               default:
                 return <span key="123456" className="mt-2">{item.type}</span>;
