@@ -92,7 +92,7 @@ class DropContainer extends React.Component {
           content: this.props.typeOfEvent,
           style: typeOfEventStyle
         },
-        
+
       ],
     }
   }
@@ -105,7 +105,7 @@ class DropContainer extends React.Component {
   render() {
     const { dropList } = this.state;
     return (
-      <div className="drop-container p-1" >
+      <div className="drop-container" >
 
         <ReactSortable
           className="drop-container"
@@ -139,9 +139,9 @@ class DropContainer extends React.Component {
               case 'step':
                 return <StepBlock key={item.id} />
               case 'datepicker':
-                return <DatepickersBlock key={item.id}/>
+                return <DatepickersBlock key={item.id} />
               case 'timepicker':
-                return <TimepickersBlock key={item.id}/>
+                return <TimepickersBlock key={item.id} />
 
               default:
                 return <span key="123456" className="mt-2">{item.type}</span>;

@@ -11,16 +11,17 @@ class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
 
+    const { style, content } = this.props;
     this.state = {
 
       visible: false,
 
-      content: this.props.content || "wellcome",
+      content: content || "wellcome",
       positionButton: '',
-      leftButton: 0,
-      rightButton: 0,
-      topButton: 0,
-      bottomButton: 0,
+      leftButton: style ? style.left ? style.left : 0 : 0,
+      rightButton: style ? style.right ? style.right : 0 : 0,
+      topButton: style ? style.top ? style.top : 0 : 0,
+      bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
       width: 100
 
     };
@@ -117,12 +118,11 @@ class TextsBlock extends React.Component {
         <Modal
           title="Text"
           visible={this.state.visible}
-          onOk={this.handleOk}
           onCancel={this.handleCancel}
           width={700}
 
           footer={[
-            <Button key="ok" onClick={this.handleOk} type="primary">
+            <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
           </Button>,
           ]}
