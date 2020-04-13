@@ -77,16 +77,20 @@ class CreateEvent extends React.Component {
                 <h5 style={quantityStyle}>Số lượng : {quantity}</h5>
                 <h6 style={typeOfEventStyle}>#{typeOfEvent}</h6>
                 <div className="mt-5 mb-5">
-                    <DropContainer />
+                    <DropContainer className="bg-primary" />
 
                 </div>
-
                 <input type="checkbox" id="add-block" ></input>
                 <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
                     <span>
                         <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
                     </span>
                 </label>
+
+                <div className="mt-5 mb-5 trash">
+                    <DropContainer className="bg-secondary " />
+
+                </div>
 
                 <div className="menu-block-list">
                     <MenuBlockList />

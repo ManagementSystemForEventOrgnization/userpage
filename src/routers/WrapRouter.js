@@ -46,6 +46,11 @@ const ROUTES = [
         main: () => <SignUpPage />
     },
     {
+        path: '/c-e',
+        exact: true,
+        main: () => <CreateEventPage />
+    },
+    {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
