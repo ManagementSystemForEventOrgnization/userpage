@@ -26,3 +26,34 @@ export const userConstants = {
 export const eventConstants = {
     PREPARE_FOR_CREATE_EVENT: 'PREPARE_FOR_CREATE_EVENT',
 }
+
+
+export const createEventConstants = {
+    posterStyle: {
+        width: '100%',
+        height: '60vh'
+    },
+    addressStyle: {
+        position: 'absolute',
+        top: '65%',
+        left: '10%',
+        fontSize: '20px'
+    },
+    typeOfEventStyle: {
+        position: 'absolute',
+        top: '73%',
+        right: '1%',
+    },
+    nameEventStyle: {
+        position: 'absolute',
+        top: '25%',
+        left: '10%',
+        fontWeight: 'bolder',
+        fontSize: '50px'
+    },
+    quantityStyle: {
+        position: 'absolute',
+        top: '73%'
+    }
+
+}

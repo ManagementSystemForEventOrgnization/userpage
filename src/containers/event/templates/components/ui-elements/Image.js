@@ -76,6 +76,8 @@ class ImageBlock extends React.Component {
       width: widthImage,
       height: heightImage,
     }
+
+
     return (
       <div>
         <img
