@@ -7,6 +7,8 @@ import DropdownBlock from '../components/ui-elements/DropDown';
 import TableBlock from '../components/ui-elements/Table';
 import DividerBlock from '../components/ui-elements/Devider'
 import StepBlock from '../components/ui-elements/Step';
+import Trash from '../components/ui-elements/Trash';
+
 import { Table } from 'antd';
 
 
@@ -15,7 +17,8 @@ export default [
     id: 1,
     type: "button",
     name: 'Button',
-    options: ({ key }) => <ButtonBlock key={key} />
+    options: ({ key }) => <ButtonBlock key={key} />,
+
   },
   {
     id: 2,
@@ -58,6 +61,7 @@ export default [
     id: uuid(),
     name,
     type,
+    trash: <Trash />,
     options: options ? options : "",
   };
 });

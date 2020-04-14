@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
-
+import TrashDropContainer from '../event/templates/components/TrashDropContainer';
 
 class CreateEvent extends React.Component {
     constructor(props) {
@@ -39,6 +39,7 @@ class CreateEvent extends React.Component {
 
 
 
+
     render() {
         const { nameEvent, address, typeOfEvent, quantity } = this.props;
         const posterStyle = {
@@ -65,7 +66,6 @@ class CreateEvent extends React.Component {
             position: 'absolute',
         }
 
-
         return (
             <div className=" create-event">
                 <div className="fixed-top ">
@@ -76,25 +76,30 @@ class CreateEvent extends React.Component {
                 <h4 style={addressStyle}>{address}</h4>
                 <h5 style={quantityStyle}>Số lượng : {quantity}</h5>
                 <h6 style={typeOfEventStyle}>#{typeOfEvent}</h6>
-                <div className="mt-5 mb-5">
-                    <DropContainer className="bg-primary" />
 
-                </div>
-                <input type="checkbox" id="add-block" ></input>
-                <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
-                    <span>
-                        <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
-                    </span>
-                </label>
 
-                <div className="mt-5 mb-5 trash">
-                    <DropContainer className="bg-secondary " />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-11">
+                            <div className="mt-5 mb-5">
+                                <DropContainer className="bg-primary" />
 
-                </div>
+                                <input type="checkbox" id="add-block" ></input>
+                                <label htmlFor="add-block" className="add-block d-flex justify-content-center mt-4">
+                                    <span>
+                                        <p className="add-block-button" onClick={this.handleShowMenuBlocks}>Add Block</p>
+                                    </span>
+                                </label>
 
-                <div className="menu-block-list">
-                    <MenuBlockList />
-
+                                <div className="menu-block-list">
+                                    <MenuBlockList />
+                                </div>
+                            </div></div>
+                        <div className="col-1">
+                            <div className="mt-5 mb-5">
+                                <TrashDropContainer className="bg-secondary " />
+                            </div></div>
+                    </div>
                 </div>
             </div>
         )
