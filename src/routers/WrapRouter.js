@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 
 import { userActions } from '../action/user.action';
+
+
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import CategoryDetailPage from '../pages/CategoryDetailPage';
@@ -16,6 +18,9 @@ import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
 import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
+
+
+import PreviewEvent from '../containers/event/PreviewEvent';
 
 
 const ROUTES = [
@@ -43,6 +48,11 @@ const ROUTES = [
         path: '/signup',
         exact: true,
         main: () => <SignUpPage />
+    },
+    {
+        path: '/create/preview',
+        exact: true,
+        main: () => <PreviewEvent />
     },
     {
         path: '',
@@ -118,6 +128,11 @@ class WrapRouter extends React.Component {
                 path: '/create',
                 exact: true,
                 main: (match) => <CreateEventPage match={match} />
+            },
+            {
+                path: '/create/preview',
+                exact: true,
+                main: () => <PreviewEvent />
             },
             {
                 path: '',
