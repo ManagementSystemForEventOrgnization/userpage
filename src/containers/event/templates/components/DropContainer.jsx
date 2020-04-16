@@ -79,6 +79,7 @@ class DropContainer extends React.Component {
 
         <ReactSortable
           className="drop-container"
+          id="drop-container"
           sort={true}
           group={{
             name: "shared",

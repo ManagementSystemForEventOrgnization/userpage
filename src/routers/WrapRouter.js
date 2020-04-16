@@ -117,7 +117,7 @@ class WrapRouter extends React.Component {
             {
                 path: '/create',
                 exact: true,
-                main: () => <CreateEventPage />
+                main: (match) => <CreateEventPage match={match} />
             },
             {
                 path: '',
