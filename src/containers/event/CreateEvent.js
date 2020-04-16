@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'antd'
 
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
-// import MenuBlockList from '../event/MenuBlockList';
 import Test from '../event/MenuBlockListUpdate'
-
 import dataTest from './templates/data/dataTest';
+// import MenuBlockList from '../event/MenuBlockList';
+
 
 class CreateEvent extends React.Component {
     constructor(props) {
@@ -22,7 +23,13 @@ class CreateEvent extends React.Component {
             <div className=" create-event">
                 <div className="fixed-top ">
                     <Header />
+
                 </div>
+                <div className="d-flex flex-row-reverse">
+                    <Button className="mr-5 ml-3" type="primary" size="large">Public</Button>
+                    <Button type="dashed" size="large">Preview</Button>
+                </div>
+
 
                 <div className="mt-1">
                     <DropContainer />
