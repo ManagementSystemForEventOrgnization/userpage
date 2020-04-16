@@ -5,10 +5,7 @@ import data from "../event/templates/data/data";
 
 const MenuBlockList = () => {
     const [dragList, setDragList] = useState(data);
-
     return (
-
-
         <ReactSortable
             className="drag-container"
             sort={false}

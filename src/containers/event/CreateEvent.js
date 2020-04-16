@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
-import MenuBlockList from '../event/MenuBlockList';
+// import MenuBlockList from '../event/MenuBlockList';
+import Test from '../event/MenuBlockListUpdate'
 
+import dataTest from './templates/data/dataTest';
 
 class CreateEvent extends React.Component {
     constructor(props) {
@@ -24,7 +26,6 @@ class CreateEvent extends React.Component {
 
                 <div className="mt-1">
                     <DropContainer />
-
                 </div>
 
                 <input type="checkbox" id="add-block" ></input>
@@ -35,8 +36,9 @@ class CreateEvent extends React.Component {
                 </label>
 
                 <div className="menu-block-list pt-3">
-                    <MenuBlockList />
-
+                    {
+                        dataTest.map(item => <Test key={item.name} blockList={item} />)
+                    }
                 </div>
             </div>
         )

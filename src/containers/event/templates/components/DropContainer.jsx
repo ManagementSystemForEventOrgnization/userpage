@@ -6,7 +6,6 @@ import ImageBlock from './ui-elements/Image';
 import TextBlock from './ui-elements/Text';
 
 import { createEventConstants } from '../../../../constants/index';
-
 const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
 
 const textBlockOption = ({ key, style, content }) => <TextBlock
