@@ -12,7 +12,12 @@ class DropDownBlock extends Component {
     }
 
     render() {
-        const { key, options } = this.props;
+        const { key } = this.props;
+        let options = [
+            { value: 'USA', name: 'USA', key: uuid() },
+            { value: 'CANADA', name: 'CANADA', key: uuid() }
+        ]
+
         const constructOptions = options =>
             options.map(data => (
                 <option key={uuid()} value={data.id}>

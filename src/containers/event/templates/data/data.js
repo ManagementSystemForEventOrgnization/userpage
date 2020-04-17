@@ -10,6 +10,7 @@ import DividerBlock from '../components/ui-elements/Devider'
 import StepBlock from '../components/ui-elements/Step';
 import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
+import Trash from '../components/ui-elements/Trash';
 
 
 
@@ -81,5 +82,6 @@ export default [
     name,
     type,
     options: options ? options : () => <></>,
+    trash: <Trash />,
   };
 });
