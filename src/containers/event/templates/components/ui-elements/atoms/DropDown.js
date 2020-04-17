@@ -21,7 +21,7 @@ class DropDownBlock extends Component {
             ));
 
         return (
-            <div className="sortable-element">
+            <div className="sortable-element child-block">
                 <select key={key} id={"dropdown" + uuid()}>
                     {constructOptions(options)}
                 </select>

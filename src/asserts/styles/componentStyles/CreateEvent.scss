@@ -2,9 +2,19 @@
     padding-top: 5%;
     $base-duration: 500ms;
 
-    &:hover {
-        cursor: pointer;
+    .drop-area {
+        &:hover {
+            cursor: pointer;
+        }
+
+        .child-block {
+            &:hover {
+                border: solid 1px black;
+                opacity: 0.9;
+            }
+        }
     }
+
     #add-block {
         display: none;
         &:checked ~ .menu-block-list {

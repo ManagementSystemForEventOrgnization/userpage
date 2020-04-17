@@ -42,7 +42,7 @@ class CreateEvent extends React.Component {
                 </div>
 
 
-                <div className="mt-1">
+                <div className="mt-1 drop-area">
                     <DropContainer />
                 </div>
 

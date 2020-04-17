@@ -138,7 +138,7 @@ class InputBlock extends React.Component {
     }
     return (
 
-      <div className="edittext">
+      <div className="edittext child-block">
         <div className="d-flex flex-row mt-4">
           <Button style={{ borderRadius: '50px' }} onClick={this.showModal}>Change Text</Button>
           <Tooltip placement="topLeft" title="Design">

@@ -209,20 +209,16 @@ class ButtonBlock extends React.Component {
   }
 
   onChangeTextAlign = (value) => {
-    console.log(`selected ${value}`);
     this.setState({
       align: value
     })
-    console.log(this.state.align);
   }
 
   //position
   onChangePosition = (value) => {
-    console.log(`selected ${value}`);
     this.setState({
       positionButton: value
     })
-    console.log(this.state.align);
   }
 
   onChange = value => {
@@ -246,7 +242,6 @@ class ButtonBlock extends React.Component {
 
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -254,7 +249,6 @@ class ButtonBlock extends React.Component {
 
 
   handleCancelDesign = e => {
-    console.log(e);
     this.setState({
       isDesign: false,
     });
@@ -267,25 +261,21 @@ class ButtonBlock extends React.Component {
 
   onChangeLeft = (value) => {
     this.setState({ leftButton: value });
-    console.log(this.state.leftButton);
   }
 
 
   onChangeTop = (value) => {
     this.setState({ topButton: value });
-    console.log(this.state.topButton);
   }
 
 
   onChangeRight = (value) => {
     this.setState({ rightButton: value });
-    console.log(this.state.rightButton);
   }
 
 
   onChangeBottom = (value) => {
     this.setState({ bottomButton: value });
-    console.log(this.state.bottomButton);
   }
 
 
@@ -335,14 +325,9 @@ class ButtonBlock extends React.Component {
     this.setState({
       textButton: e.target.value
     });
-    console.log(this.state.textButton);
   };
 
 
-
-  callback = (key) => {
-    console.log(key);
-  }
 
 
   handleShapeChange = e => {
@@ -384,7 +369,7 @@ class ButtonBlock extends React.Component {
 
     return (
 
-      <div className="edittext">
+      <div className="edittext  child-block">
 
         <div className="mt-2">
           <Button
@@ -411,7 +396,7 @@ class ButtonBlock extends React.Component {
           ]}
 
         >
-          <Tabs defaultActiveKey="1" onChange={this.callback}>
+          <Tabs defaultActiveKey="1" >
             <TabPane tab="Edit text" key="1">
               <h6>Nội dung </h6>
 
@@ -553,7 +538,6 @@ class ButtonBlock extends React.Component {
             onChangeComplete={this.handleChangeComplete} />
         </Modal>
 
-
         <Modal
           title="background"
           visible={this.state.isBackGround}
@@ -568,7 +552,6 @@ class ButtonBlock extends React.Component {
           <SketchPicker color={backgrounButton}
             onChangeComplete={this.handleChangeCompleteBackground} />
         </Modal>
-
 
         <Modal
           title="Border Color"

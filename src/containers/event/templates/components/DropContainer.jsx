@@ -111,8 +111,6 @@ class DropContainer extends React.Component {
               content: item.content ? item.content : "",
               url: item.url ? item.url : "",
             })
-
-
           })}
 
         </ReactSortable>

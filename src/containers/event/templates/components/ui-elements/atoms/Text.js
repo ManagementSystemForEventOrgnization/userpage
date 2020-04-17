@@ -93,7 +93,7 @@ class TextsBlock extends React.Component {
     }
     return (
 
-      <div className="edittext" >
+      <div className="edittext child-block" >
         < div key={key} style={divStyle} onClick={this.showModal}
           onChange={this.handeChangeText}
         >
