@@ -1,15 +1,16 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
-import ButtonBlock from '../components/ui-elements/Button';
-import TextBlock from '../components/ui-elements/Text';
-import ImageBlock from '../components/ui-elements/Image';
-import DropdownBlock from '../components/ui-elements/DropDown';
-import TableBlock from '../components/ui-elements/Table';
-import DividerBlock from '../components/ui-elements/Devider'
-import StepBlock from '../components/ui-elements/Step';
-import TimepickersBlock from '../components/ui-elements/Timepicker';
-import DatepickersBlocks from '../components/ui-elements/Datepicker';
+import ButtonBlock from '../components/ui-elements/atoms/Button';
+import TextBlock from '../components/ui-elements/atoms/Text';
+import ImageBlock from '../components/ui-elements/atoms/Image';
+import DropdownBlock from '../components/ui-elements/atoms/DropDown';
+import TableBlock from '../components/ui-elements/atoms/Table';
+import DividerBlock from '../components/ui-elements/atoms/Devider'
+import StepBlock from '../components/ui-elements/atoms/Step';
+import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
+import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
+
 
 
 

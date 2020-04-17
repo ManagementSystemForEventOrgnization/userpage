@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
-import ImageBlock from './ui-elements/Image';
-import TextBlock from './ui-elements/Text';
+import ImageBlock from './ui-elements/atoms/Image';
+import TextBlock from './ui-elements/atoms/Text';
 
 import { createEventConstants } from '../../../../constants/index';
 import { eventActions } from "../../../../action/event.action";
