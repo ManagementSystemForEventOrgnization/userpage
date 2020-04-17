@@ -329,10 +329,6 @@ class ButtonBlock extends React.Component {
 
 
 
-  callback = (key) => {
-    console.log(key);
-  }
-
 
   handleShapeChange = e => {
     this.setState({
@@ -373,7 +369,7 @@ class ButtonBlock extends React.Component {
 
     return (
 
-      <div className="edittext">
+      <div className="edittext  child-block">
 
         <div className="mt-2">
           <Button
@@ -400,7 +396,7 @@ class ButtonBlock extends React.Component {
           ]}
 
         >
-          <Tabs defaultActiveKey="1" onChange={this.callback}>
+          <Tabs defaultActiveKey="1" >
             <TabPane tab="Edit text" key="1">
               <h6>Nội dung </h6>
 
@@ -542,7 +538,6 @@ class ButtonBlock extends React.Component {
             onChangeComplete={this.handleChangeComplete} />
         </Modal>
 
-
         <Modal
           title="background"
           visible={this.state.isBackGround}
@@ -557,7 +552,6 @@ class ButtonBlock extends React.Component {
           <SketchPicker color={backgrounButton}
             onChangeComplete={this.handleChangeCompleteBackground} />
         </Modal>
-
 
         <Modal
           title="Border Color"

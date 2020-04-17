@@ -69,7 +69,7 @@ class TimepickersBlock extends React.Component {
 
     return (
 
-      <div className="edittext">
+      <div className="edittext child-block">
         <div className="mt-2 " onClick={this.showModalTimepicker}>
           <TimePicker format={styleFormat} ></TimePicker>
         </div>

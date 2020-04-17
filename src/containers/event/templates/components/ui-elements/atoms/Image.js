@@ -1,8 +1,10 @@
 import React from 'react';
+
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { connect } from 'react-redux'
 import { Button, Modal, InputNumber } from 'antd';
+
 const CLOUDINARY_UPLOAD_PRESET = 'arabdxzm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload';
 
@@ -14,7 +16,7 @@ class ImageBlock extends React.Component {
       uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
       visible: false,
       heightImage: 250,
-      widthImage: 450,
+      widthImage: 800,
     };
   }
 
@@ -79,10 +81,11 @@ class ImageBlock extends React.Component {
 
 
     return (
-      <div>
+      <div className="image-block child-block">
         <img
           style={imageStyle}
-          alt="img" src={uploadedFileCloudinaryUrl}
+          alt="img"
+          src={uploadedFileCloudinaryUrl}
           onClick={this.showModal} />
 
         <Modal

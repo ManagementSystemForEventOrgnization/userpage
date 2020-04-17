@@ -2,10 +2,12 @@ import React from "react";
 import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
-import ImageBlock from './ui-elements/Image';
-import TextBlock from './ui-elements/Text';
+import ImageBlock from './ui-elements/atoms/Image';
+import TextBlock from './ui-elements/atoms/Text';
 
 import { createEventConstants } from '../../../../constants/index';
+import { eventActions } from "../../../../action/event.action";
+
 
 const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
 
@@ -68,9 +70,18 @@ class DropContainer extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    const { dropList } = this.state;
+    const { storeBlocksWhenCreateEvent } = this.props;
+    storeBlocksWhenCreateEvent(dropList);
+  }
+
   handleSetDropList = (dropList) => {
-    this.setState({ dropList }
-    )
+    const { storeBlocksWhenCreateEvent } = this.props;
+    storeBlocksWhenCreateEvent(dropList);
+    this.setState({ dropList })
+
+
   }
 
   render() {
@@ -80,6 +91,7 @@ class DropContainer extends React.Component {
 
         <ReactSortable
           className="drop-container"
+          id="drop-container"
           sort={true}
           group={{
             name: "shared",
@@ -99,13 +111,9 @@ class DropContainer extends React.Component {
               content: item.content ? item.content : "",
               url: item.url ? item.url : "",
             })
-
-
           })}
 
         </ReactSortable>
-
-
 
       </div>
     );
@@ -118,9 +126,13 @@ const mapStateToProps = state => ({
   address: state.event.locationName || 'Địa chỉ demo',
   quantity: state.event.quantity,
   time: state.event.time,
-
-
+  blocks: state.event.blocks,
 })
 
-export default connect(mapStateToProps, null)(DropContainer)
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) => dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropContainer)
 

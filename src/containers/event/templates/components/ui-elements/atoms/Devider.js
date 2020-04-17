@@ -15,7 +15,7 @@ class DeviderBlock extends Component {
         const { key } = this.props;
         const orientation = "left";
         return (
-            <div key={key}>
+            <div key={key} className="child-block">
                 <Divider orientation={orientation}>Left Text</Divider>
             </div>
         )

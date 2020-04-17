@@ -16,11 +16,14 @@ class StepBlock extends Component {
     render() {
         const { key } = this.props
         return (
-            <Steps size="small" current={1} key={key}>
-                <Step title="Finished" />
-                <Step title="In Progress" />
-                <Step title="Waiting" />
-            </Steps>
+            <div className="child-block">
+                <Steps size="small" current={1} key={key}>
+                    <Step title="Finished" />
+                    <Step title="In Progress" />
+                    <Step title="Waiting" />
+                </Steps>
+            </div>
+
         )
     }
 }

@@ -8,7 +8,8 @@ const initialState = {
     address: '',
     locationName: '',
     time: {},
-    isSellTicket: 'Không'
+    isSellTicket: 'Không',
+    blocks: [],
 }
 
 const user = (state = initialState, action) => {
@@ -25,6 +26,12 @@ const user = (state = initialState, action) => {
                 locationName: action.locationName,
                 time: action.time,
                 isSellTicket: action.isSellTicket,
+            }
+
+        case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
+            return {
+                ...state,
+                blocks: action.blocks
             }
 
 

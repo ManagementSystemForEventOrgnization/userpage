@@ -76,7 +76,7 @@ class DatepickersBlock extends React.Component {
 
     return (
 
-      <div className="edittext">
+      <div className="edittext child-block">
         <div className="mt-2" onClick={this.showModalDatepicker}>
           <DatePicker
 

@@ -12,7 +12,7 @@ class TableBlock extends Component {
     render() {
         const { key } = this.props;
         return (
-            <div>
+            <div className="child-block">
                 <table className="sortable-element table table-striped table-dark" key={key}>
                     <thead key={key}>
                         <tr>

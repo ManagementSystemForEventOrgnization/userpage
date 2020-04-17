@@ -15,12 +15,6 @@ import HeaderBlocks from '../components/ui-elements/Header';
 
 export default [
   {
-    id: 6,
-    type: "button",
-    name: 'Button',
-    options: ({ key }) => <ButtonBlock key={key} />
-  },
-  {
     id: 7,
     type: "text",
     name: 'Text',
@@ -28,6 +22,13 @@ export default [
       key={key}
     />
   },
+  {
+    id: 6,
+    type: "button",
+    name: 'Button',
+    options: ({ key }) => <ButtonBlock key={key} />
+  },
+
   {
     id: 8,
     type: "dropdown",
@@ -89,11 +90,12 @@ export default [
 
   },
 
-].map(({ id, name, type, options }) => {
-  return {
-    id: uuid(),
-    name,
-    type,
-    options: options ? options : () => <></>,
-  };
-});
+]
+  .map(({ id, name, type, options }) => {
+    return {
+      id: uuid(),
+      name,
+      type,
+      options: options ? options : () => <></>,
+    };
+  });
