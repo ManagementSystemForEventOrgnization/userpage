@@ -46,7 +46,15 @@ class TextsBlock extends React.Component {
 
 
   handleEditorChange = (content) => {
+
+    const { id, handleOnChangeTextBlock } = this.props;
+
     this.setState({ content });
+
+    if (id) {
+      console.log("TCL : ", id)
+      handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
+    }
   }
 
   onChangeLeft = (value) => {
@@ -96,6 +104,7 @@ class TextsBlock extends React.Component {
       <div className="edittext" >
         < div key={key} style={divStyle} onClick={this.showModal}
           onChange={this.handeChangeText}
+
         >
           {ReactHtmlParser(content)}
         </ div>
@@ -181,10 +190,10 @@ class TextsBlock extends React.Component {
 const mapStateToProps = state => ({
   // map state of store to props
 
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
 });
 
 

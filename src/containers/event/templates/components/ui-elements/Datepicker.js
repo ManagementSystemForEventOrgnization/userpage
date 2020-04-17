@@ -98,7 +98,7 @@ class DatepickersBlock extends React.Component {
           {/* list datepicker in modal */}
           <div>
             <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
-              {dateFormatList.map(dateformat =>
+              {dateFormatList.map((dateformat,index) =>
                 <Radio value={dateformat}>
                   <DatePicker key={dateformat} onChange={onChange} format={dateformat} placeholder={dateFormat} ></DatePicker>
                 </Radio>

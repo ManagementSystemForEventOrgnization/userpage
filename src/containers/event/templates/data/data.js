@@ -10,8 +10,8 @@ import DividerBlock from '../components/ui-elements/Devider'
 import StepBlock from '../components/ui-elements/Step';
 import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
-
-
+import InputBlocks from '../components/ui-elements/Input';
+import HeaderBlocks from '../components/ui-elements/Header';
 
 export default [
   {
@@ -72,6 +72,20 @@ export default [
     type: "timepicker",
     name: 'Timepicker',
     options: ({ key }) => <TimepickersBlock key={key} />,
+
+  },
+  {
+    id: 15,
+    type: "input",
+    name: 'Input',
+    options: ({ key }) => <InputBlocks key={key} />,
+
+  },
+  {
+    id: 15,
+    type: "header",
+    name: 'Header',
+    options: ({ key }) => <HeaderBlocks key={key} />,
 
   },
 
