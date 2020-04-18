@@ -17,9 +17,9 @@ const textBlockOption = ({ key, style, content }) => <TextBlock
   content={content}
 />
 
-const imageBlockOption = ({ key, style, url }) => <ImageBlock
+const imageBlockOption = ({ key, editable, url }) => <ImageBlock
   key={key}
-  style={style}
+  editable={editable}
   url={url}
 />
 
@@ -28,6 +28,15 @@ class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+
+      // dropList:
+      //   [
+      //     {
+      //       id: 1,
+      //       url: '/bg-2.jpg',
+      //       options: imageBlockOption
+      //     },
+      //   ]
       dropList: [
         {
           id: 1,
@@ -66,7 +75,10 @@ class DropContainer extends React.Component {
           options: textBlockOption
         },
 
-      ],
+      ]
+
+
+
     }
   }
 
@@ -107,6 +119,7 @@ class DropContainer extends React.Component {
           {dropList.map(item => {
             return item.options({
               key: item.id,
+              editable: true,
               style: item.style ? item.style : {},
               content: item.content ? item.content : "",
               url: item.url ? item.url : "",

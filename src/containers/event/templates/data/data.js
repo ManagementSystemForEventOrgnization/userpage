@@ -44,8 +44,9 @@ export default [
   {
     id: 10,
     type: "image",
-    options: ({ key }) => <ImageBlock
+    options: ({ key, editable }) => <ImageBlock
       key={key}
+      editable={editable}
     />,
     name: 'Image',
   },
