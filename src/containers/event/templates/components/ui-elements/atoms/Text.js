@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { Modal, Select, InputNumber, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
 
-const buttonWidth = 83;
+const buttonWidth = 170;
 const { Option } = Select;
 
 class TextsBlock extends React.Component {
@@ -48,14 +48,14 @@ class TextsBlock extends React.Component {
   handleEditorChange = (content) => {
 
     const { id, handleOnChangeTextBlock } = this.props;
-    
+
     this.setState({ content });
 
     if (id) {
       // console.log("TCL : ", id)
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
 
-    
+
     }
   }
 

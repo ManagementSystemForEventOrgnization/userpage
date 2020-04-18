@@ -491,6 +491,7 @@ class InputBlock extends React.Component {
 
               </div>
 
+          
             </TabPane>
           </Tabs>
         </Modal>

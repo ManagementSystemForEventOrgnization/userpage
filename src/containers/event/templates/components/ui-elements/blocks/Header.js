@@ -46,7 +46,7 @@ class HeaderBlock extends Component {
             letterText: -2,
             align: '',
             tranform: ' ',
-            color   :"black"
+            color: "black"
 
 
         }
@@ -127,7 +127,7 @@ class HeaderBlock extends Component {
     }
     // open color
     onClickColor = e => {
-       const {showColor}=this.state
+        const { showColor } = this.state
         this.setState({
             showColor: !showColor
         });
@@ -154,16 +154,16 @@ class HeaderBlock extends Component {
 
     };
     showModalButton = () => {
-         const {isDesign}=this.state;
+        const { isDesign } = this.state;
         this.setState({
-          isDesign: !isDesign
+            isDesign: !isDesign
         });
-      };
-     
-    
+    };
+
+
     render() {
         const { key } = this.props;
-        const { menuName, isShowAdd, inputValue, activeFontFamily, lineText, letterText, align, tranform,background,color } = this.state;
+        const { menuName, isShowAdd, inputValue, activeFontFamily, lineText, letterText, align, tranform, background, color } = this.state;
         const divStyle = {
             color: color,
             fontFamily: activeFontFamily,
@@ -172,7 +172,7 @@ class HeaderBlock extends Component {
             letterSpacing: letterText,
             textAlign: align,
             textTransform: tranform,
-            background:background,
+            background: background,
         }
         return (
             <div>
@@ -209,7 +209,7 @@ class HeaderBlock extends Component {
                                 menuName.map(sub =>
                                     <div>
                                         <div key={sub.id}>
-                                            <div   className="d-flex flex-row mt-2">
+                                            <div className="d-flex flex-row mt-2">
                                                 <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
                                                 <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
                                             </div>
@@ -221,17 +221,17 @@ class HeaderBlock extends Component {
                                 )}
 
                             {isShowAdd ?
-                                <div className="d-flex flex-row mt-2" >
+                                <div className="d-flex flex-row mt-5" >
                                     <Input value={this.state.txtname} onChange={this.onNameChange} />
                                     <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
                                 </div>
                                 : ''
                             }
 
-                            <Button className="mt-3" onClick={this.OnClickOption}
-                                shape="circle"> <span>  <PlusOutlined /> </span>
+                            <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
+                            >  <PlusOutlined /> Add menu item
 
-                            </Button>
+                        </Button>
                         </TabPane>
                         <TabPane tab="Design" key="2">
                             <div className="mt-2" >
@@ -364,7 +364,7 @@ class HeaderBlock extends Component {
                                     onChangeComplete={this.handleChangeComplete} />
 
                             </Modal>
-                      
+
                             <Modal
                                 title="Text design"
                                 visible={this.state.showColor}
@@ -377,12 +377,12 @@ class HeaderBlock extends Component {
                                         OK
                                </Button>,
                                 ]} >
-                            
+
                                 <SketchPicker color={this.state.color}
                                     onChangeComplete={this.handleChangeCompletecolor} />
 
                             </Modal>
-                      
+
                         </TabPane>
                     </Tabs>
                 </Modal>

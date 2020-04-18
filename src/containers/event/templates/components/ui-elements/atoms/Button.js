@@ -8,10 +8,9 @@ import {
   BgColorsOutlined,
 } from '@ant-design/icons';
 
-
 const { TabPane } = Tabs;
 const { Option } = Select;
-const buttonWidth = 80;
+const buttonWidth = 150;
 const buttons = [
   {
     background: '#6495ED',
@@ -196,6 +195,14 @@ class ButtonBlock extends React.Component {
       isBorderColor: false,
       borderRadiusButton: '',
       backgroundColorButton: '',
+      marginLeftButton: 0,
+      marginRightButton: 0,
+      marginTopButon: 0,
+      marginBottomButton: 0,
+      paddingTopButton: 0,
+      paddingLeftButton: 0,
+      paddingRightButton: 0,
+      paddingBottomButton: 0,
 
     }
   }
@@ -206,6 +213,41 @@ class ButtonBlock extends React.Component {
       buttonsList: buttons
     })
 
+  }
+  // margin
+  onChangeMarginLeft = (value) => {
+    this.setState({ marginLeftButton: value });
+
+
+
+  }
+
+  onChangeMarginTop = (value) => {
+    this.setState({ marginTopButon: value });
+  }
+
+  onChangeMarginRight = (value) => {
+    this.setState({ marginRightButton: value });
+  }
+
+  onChangeMarginBottom = (value) => {
+    this.setState({ marginBottomButton: value });
+  }
+  // padding
+  onChangePaddingLeft = (value) => {
+    this.setState({ paddingLeftButton: value });
+  }
+
+  onChangePaddingTop = (value) => {
+    this.setState({ paddingTopButton: value });
+  }
+
+  onChangePaddingRight = (value) => {
+    this.setState({ paddingRightButton: value });
+  }
+
+  onChangePaddingBottom = (value) => {
+    this.setState({ paddingBottomButton: value });
   }
 
   onChangeTextAlign = (value) => {
@@ -238,7 +280,6 @@ class ButtonBlock extends React.Component {
       isDesign: true,
     });
   };
-
 
 
   handleCancel = e => {
@@ -327,9 +368,6 @@ class ButtonBlock extends React.Component {
     });
   };
 
-
-
-
   handleShapeChange = e => {
     this.setState({
       borderRadiusButton: e.target.value,
@@ -348,6 +386,8 @@ class ButtonBlock extends React.Component {
       positionButton,
       leftButton, topButton, rightButton, bottomButton, borderWidthButton,
       backgrounButton, borderColorButton, buttonsList, borderRadiusButton,
+      paddingBottomButton, paddingLeftButton, paddingTopButton, paddingRightButton,
+      marginRightButton, marginLeftButton, marginBottomButton, marginTopButon,
     } = this.state;
 
     const styleButton = {
@@ -363,6 +403,14 @@ class ButtonBlock extends React.Component {
       background: backgrounButton,
       borderColor: borderColorButton,
       borderRadius: borderRadiusButton,
+      paddingLeft: paddingLeftButton,
+      paddingRight: paddingRightButton,
+      paddingTop: paddingTopButton,
+      paddingBottom: paddingBottomButton,
+      marginLeft: marginLeftButton,
+      marginRight: marginRightButton,
+      marginTop: marginTopButon,
+      marginBottom: marginBottomButton,
 
     }
 
@@ -388,9 +436,9 @@ class ButtonBlock extends React.Component {
           visible={this.state.isDesign}
           onOk={this.handleOk}
           onCancel={this.handleCancelDesign}
-          width={600}
+          width={500}
           footer={[
-            <Button key="ok" onClick={this.handleOk} type="primary">
+            <Button key="ok" onClick={this.handleCancelDesign} type="primary">
               OK
             </Button>,
           ]}
@@ -444,34 +492,6 @@ class ButtonBlock extends React.Component {
                 </span></Button>
 
               </div>
-            </TabPane>
-            <TabPane tab="Position" key="2">
-              <div className="mt-2">
-                <h6>Điều chính vị trí</h6>
-                <Select style={{ width: '100%' }} onChange={this.onChangePosition}>
-                  <Option value="static">static</Option>
-                  <Option value="relative">relative</Option>
-                  <Option value="fixed">absolute</Option>
-                  <Option value="sticky">sticky</Option>
-                </Select>
-              </div>
-              <div className="mt-2">
-
-                <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-
-                  <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
-
-                </div>
-                <div style={{ width: buttonWidth, float: 'left' }}>
-                  <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
-                </div>
-                <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
-                </div>
-                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                  <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
-                </div>
-              </div>
               <div className="mt-2">
                 <h6>Border Width</h6>
                 <Row>
@@ -509,6 +529,104 @@ class ButtonBlock extends React.Component {
                 </span></Button>
 
               </div>
+
+            </TabPane>
+            <TabPane tab="Position" key="2">
+              <div className="mt-2">
+                <h6>Điều chính vị trí</h6>
+                <Select style={{ width: '100%' }} onChange={this.onChangePosition}>
+                  <Option value="static">static</Option>
+                  <Option value="relative">relative</Option>
+                  <Option value="fixed">absolute</Option>
+                  <Option value="sticky">sticky</Option>
+                </Select>
+              </div>
+              <div className="mt-2 ml-5">
+
+                <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+
+                  <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+
+                </div>
+                <div style={{ width: buttonWidth, float: 'left' }}>
+                  <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                </div>
+                <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                </div>
+                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                  <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                </div>
+              </div>
+              <div className="mt-2 ">
+                <h6 className="mr-2">
+                  Margin:
+               </h6>
+
+                <div className="ml-5">
+                  <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+
+                    <InputNumber placeholder="top" value={marginTopButon} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangeMarginTop}  ></InputNumber >
+
+                  </div>
+
+                  <div style={{ width: buttonWidth, float: 'left' }}>
+                    <InputNumber placeholder="left" value={marginLeftButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangeMarginLeft} ></InputNumber >
+                  </div>
+
+                  <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                    <InputNumber placeholder="right" value={marginRightButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangeMarginRight}  ></InputNumber >
+                  </div>
+
+                  <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                    <InputNumber placeholder="bottom" value={marginBottomButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangeMarginBottom} ></InputNumber >
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+              <div className="mt-2 ">
+                <h6 className="mr-2">
+                  padding :
+            </h6>
+
+                <div className="ml-5">
+                  <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+
+                    <InputNumber placeholder="top" value={paddingTopButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangePaddingTop}  ></InputNumber >
+
+                  </div>
+
+                  <div style={{ width: buttonWidth, float: 'left' }}>
+                    <InputNumber placeholder="left" value={paddingLeftButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangePaddingLeft} ></InputNumber >
+                  </div>
+
+                  <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                    <InputNumber placeholder="right" value={paddingRightButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangePaddingRight}  ></InputNumber >
+                  </div>
+
+                  <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                    <InputNumber placeholder="bottom" value={paddingBottomButton} style={{ width: 72, textAlign: 'center' }}
+                      min={0} max={1500} onChange={this.onChangePaddingBottom} ></InputNumber >
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+
 
             </TabPane>
 
