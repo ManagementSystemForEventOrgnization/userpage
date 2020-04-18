@@ -10,6 +10,7 @@ import StepBlock from '../components/ui-elements/atoms/Step';
 import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
 
+import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
@@ -71,18 +72,24 @@ export default
 
     {
         name: 'Basic',
-        value: [{
+        value: [
+            {
 
-            child: "Normal Text",
-            options: ({ key }) => <ButtonBlock key={key} />
+                child: "Header",
+                options: ({ key }) => <HeaderBlock key={key} />
 
-        }, {
-            child: "Text With Title",
-            options: ({ key }) => <ButtonBlock key={key} />
-        }, {
-            child: "Two Column Text",
-            options: ({ key }) => <ButtonBlock key={key} />
-        }
+            }, {
+
+                child: "Normal Text",
+                options: ({ key }) => <ButtonBlock key={key} />
+
+            }, {
+                child: "Text With Title",
+                options: ({ key }) => <ButtonBlock key={key} />
+            }, {
+                child: "Two Column Text",
+                options: ({ key }) => <ButtonBlock key={key} />
+            }
         ]
     },
     {

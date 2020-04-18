@@ -11,7 +11,7 @@ import StepBlock from '../components/ui-elements/Step';
 import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
 import InputBlocks from '../components/ui-elements/Input';
-import HeaderBlocks from '../components/ui-elements/Header';
+import HeaderBlocks from '../components/ui-elements/blocks/Header';
 
 export default [
   {

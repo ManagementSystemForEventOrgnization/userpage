@@ -48,12 +48,14 @@ class TextsBlock extends React.Component {
   handleEditorChange = (content) => {
 
     const { id, handleOnChangeTextBlock } = this.props;
-
+    
     this.setState({ content });
 
     if (id) {
-      console.log("TCL : ", id)
+      // console.log("TCL : ", id)
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
+
+    
     }
   }
 
