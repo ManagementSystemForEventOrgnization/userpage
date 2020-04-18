@@ -24,14 +24,36 @@
     }
 
     .add-block {
+        position: fixed;
+        top: 8%;
+        left: 1%;
+        z-index: 2000;
         .add-block-button {
             font-weight: bold;
             font-size: 16px;
-
             &:hover {
                 cursor: pointer;
                 opacity: 0.7;
                 transform: scale(1.4);
+            }
+        }
+    }
+
+    .menu-updated {
+        position: fixed;
+        top: 9%;
+        left: 0;
+        z-index: 3000;
+
+        .menu-wrap {
+            direction: rtl;
+            overflow-y: scroll;
+            .menu-block {
+                direction: ltr;
+                height: 400px;
+                .menu {
+                    direction: ltr;
+                }
             }
         }
     }

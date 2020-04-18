@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { Menu } from 'antd';
 import { ReactSortable } from "react-sortablejs";
 import { v4 as uuid } from "uuid";
-import { SettingOutlined } from '@ant-design/icons';
+
+import {
+    SettingOutlined
+} from '@ant-design/icons';
 
 
 const { SubMenu } = Menu;
@@ -11,8 +14,9 @@ const { SubMenu } = Menu;
 export default function MenuBlock(props) {
     const { blockList } = props;
     const [dragList, setDragList] = useState(blockList.value);
+    const [collapse, setCollapse] = useState(false);
 
-    function dragable(list, setList) {
+    function dragable() {
         return <ReactSortable
             className="drag-container"
             sort={false}
@@ -24,8 +28,8 @@ export default function MenuBlock(props) {
             animation={300}
             delayOnTouchStart={true}
             delay={3}
-            list={list}
-            setList={setList}
+            list={dragList}
+            setList={setDragList}
             clone={item => ({ ...item, id: uuid() })}
         >
             {
@@ -37,6 +41,10 @@ export default function MenuBlock(props) {
         </ReactSortable>
 
 
+    }
+
+    function toggleCollapsed() {
+        setCollapse(!collapse);
     }
 
     return (
@@ -54,11 +62,9 @@ export default function MenuBlock(props) {
                 }
             >
                 {
-                    dragable(dragList, setDragList)
+                    dragable()
                 }
             </SubMenu>
-
-
         </Menu>
 
 

@@ -1,34 +1,76 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Menu, Button } from 'antd';
 import { ReactSortable } from "react-sortablejs";
 import { v4 as uuid } from "uuid";
-import data from "../event/templates/data/data";
+import {
+    AppstoreOutlined,
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
+    PieChartOutlined,
+    DesktopOutlined,
+    ContainerOutlined,
+    MailOutlined,
+    SettingOutlined
+} from '@ant-design/icons';
 
-const MenuBlockList = () => {
-    const [dragList, setDragList] = useState(data);
-    return (
-        <ReactSortable
-            className="drag-container"
-            sort={false}
-            group={{
-                name: "groupName",
-                pull: "clone",
-                put: false
-            }}
-            animation={300}
-            delayOnTouchStart={true}
-            delay={3}
-            list={dragList}
-            setList={setDragList}
-            clone={item => ({ ...item, id: uuid() })}
-        >
-            {dragList.map(item => (
-                <div className="sortable-element bg-light btn ml-2 mb-4" key={item.id}>
-                    <span>{item.name}</span>
+
+import dataTest from './templates/data/dataTest';
+import Dragable from './Dragable';
+
+
+const { SubMenu } = Menu;
+
+export default class App extends React.Component {
+    state = {
+        collapsed: false,
+    };
+
+    toggleCollapsed = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    };
+
+    render() {
+        const { collapsed } = this.state;
+        return (
+            <div className=" menu-updated" style={{ width: 256 }}>
+                <Button type="primary"
+                    onClick={this.toggleCollapsed}
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    style={{ marginBottom: 16 }}>
+                </Button>
+                <div className="menu-wrap">
+                    <div className="menu-block">
+                        {
+                            dataTest.map(blockList =>
+                                <Menu
+                                    mode="inline"
+                                    className="menu"
+                                    inlineCollapsed={collapsed}
+                                >
+                                    <SubMenu
+                                        key={blockList.name}
+                                        className="sub"
+                                        title={
+                                            <span>
+                                                <SettingOutlined />
+                                                <span>{blockList.name}</span>
+                                            </span>
+                                        }
+                                    >
+                                        <Dragable blockList={blockList.value} />
+                                    </SubMenu>
+                                </Menu>
+                            )
+                        }
+                    </div>
+
+
                 </div>
-            ))}
-        </ReactSortable>
-    );
+
+
+            </div>
+        );
+    }
 }
-
-
-export default MenuBlockList;

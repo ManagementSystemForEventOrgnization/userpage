@@ -22,7 +22,6 @@ class TextsBlock extends React.Component {
       rightButton: style ? style.right ? style.right : 0 : 0,
       topButton: style ? style.top ? style.top : 0 : 0,
       bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
-      width: 100
 
     };
   }
@@ -38,7 +37,6 @@ class TextsBlock extends React.Component {
 
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });

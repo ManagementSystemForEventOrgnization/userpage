@@ -4,6 +4,7 @@ import { ReactSortable } from "react-sortablejs";
 
 import ImageBlock from './ui-elements/atoms/Image';
 import TextBlock from './ui-elements/atoms/Text';
+import Banner2 from './ui-elements/blocks/banner/Banner2'
 
 import { createEventConstants } from '../../../../constants/index';
 import { eventActions } from "../../../../action/event.action";
@@ -11,6 +12,7 @@ import { eventActions } from "../../../../action/event.action";
 
 const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
 
+const bannerBlockOption = ({ key, style }) => <Banner2 key={key} style={style} />
 const textBlockOption = ({ key, style, content }) => <TextBlock
   key={key}
   style={style}
@@ -29,53 +31,59 @@ class DropContainer extends React.Component {
     super(props);
     this.state = {
 
-      // dropList:
-      //   [
-      //     {
-      //       id: 1,
-      //       url: '/bg-2.jpg',
-      //       options: imageBlockOption
-      //     },
-      //   ]
-      dropList: [
-        {
-          id: 1,
-          url: '/bg-2.jpg',
-          style: posterStyle,
-          options: imageBlockOption
-        },
-        {
-          id: 2,
-          content: this.props.nameEvent,
-          style: nameEventStyle,
-          options: textBlockOption
-        },
-        {
-          id: 3,
-          content: this.props.address,
-          style: addressStyle,
-          options: textBlockOption
-        },
-        {
-          id: 4,
-          content: `Số lượng: ${this.props.quantity}`,
-          style: quantityStyle,
-          options: textBlockOption
-        },
-        {
-          id: 5,
-          content: this.props.typeOfEvent,
-          style: typeOfEventStyle,
-          options: textBlockOption
-        },
-        {
-          id: 6,
-          content: this.props.typeOfEvent,
-          style: typeOfEventStyle,
-          options: textBlockOption
-        },
+      dropList:
+        [
+          {
+            id: 1,
+            url: '/bg-2.jpg',
+            options: imageBlockOption
+          },
+          {
+            id: 2,
+            options: bannerBlockOption
+          },
+        ]
 
-      ]
+
+      // dropList: [
+      //   {
+      //     id: 1,
+      //     url: '/bg-2.jpg',
+      //     style: posterStyle,
+      //     options: imageBlockOption
+      //   },
+      //   {
+      //     id: 2,
+      //     content: this.props.nameEvent,
+      //     style: nameEventStyle,
+      //     options: textBlockOption
+      //   },
+      //   {
+      //     id: 3,
+      //     content: this.props.address,
+      //     style: addressStyle,
+      //     options: textBlockOption
+      //   },
+      //   {
+      //     id: 4,
+      //     content: `Số lượng: ${this.props.quantity}`,
+      //     style: quantityStyle,
+      //     options: textBlockOption
+      //   },
+      //   {
+      //     id: 5,
+      //     content: this.props.typeOfEvent,
+      //     style: typeOfEventStyle,
+      //     options: textBlockOption
+      //   },
+      //   {
+      //     id: 6,
+      //     content: this.props.typeOfEvent,
+      //     style: typeOfEventStyle,
+      //     options: textBlockOption
+      //   },
+
+      // ]
 
 
 

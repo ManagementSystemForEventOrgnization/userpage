@@ -95,31 +95,37 @@ class ImageBlock extends React.Component {
         margin[3] = value;
         this.setState({ margin })
     }
+
     onChangeMarginTop = value => {
         let { margin } = this.state;
         margin[0] = value;
         this.setState({ margin })
     }
+
     onChangeMarginRight = value => {
         let { margin } = this.state;
         margin[2] = value;
         this.setState({ margin })
     }
+
     onChangeMarginLeft = value => {
         let { margin } = this.state;
         margin[1] = value;
         this.setState({ margin })
     }
+
     onChangePaddingT = value => {
         let { padding } = this.state;
         padding[0] = value;
         this.setState({ padding })
     }
+
     onChangePaddingL = value => {
         let { padding } = this.state;
         padding[1] = value;
         this.setState({ padding })
     }
+
     onChangePaddingB = value => {
         let { padding } = this.state;
         padding[3] = value;
@@ -137,8 +143,6 @@ class ImageBlock extends React.Component {
             borderRadius: value
         })
     }
-
-
 
     render() {
         const { uploadedFileCloudinaryUrl, href, width, height, margin, padding, borderRadius } = this.state;

@@ -10,12 +10,13 @@ class Banner2 extends Component {
         }
     }
 
+
+
     render() {
         return (
             <div className="banner-block-2">
                 <Image />
                 <Text />
-
             </div>
         )
     }
