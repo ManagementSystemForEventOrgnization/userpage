@@ -40,14 +40,14 @@ class StepBlock extends Component {
     };
 
     handleOk = e => {
-     
+
         this.setState({
             visible: false,
         });
     };
 
     handleCancel = e => {
-     
+
         this.setState({
             visible: false,
         });
@@ -111,7 +111,7 @@ class StepBlock extends Component {
 
         const index = steps.indexOf(item);
 
-      
+
         if (index === -1) return;
         else {
             this.setState({

@@ -184,7 +184,7 @@ class HeaderBlock extends Component {
                             menuName.map(sub =>
                                 sub.items.length === 0 ?
                                     <Menu.Item key={sub.id}>{sub.title} </Menu.Item> :
-                                    <SubMenu key={sub.id} title={
+                                    <SubMenu title={
                                         <span >
                                             {sub.title}
                                         </span>
@@ -207,16 +207,16 @@ class HeaderBlock extends Component {
                         <TabPane tab="Text" key="1">
                             {
                                 menuName.map(sub =>
-                                    <div>
-                                        <div key={sub.id}>
-                                            <div className="d-flex flex-row mt-2">
-                                                <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
-                                                <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
-                                            </div>
-                                            <div className="d-flex flex-row mt-2"> <p>Thêm các thuộc tính con : </p>
-                                                <span className="ml-5"  > <DropdownBlocks options={sub.items} > </DropdownBlocks></span>
-                                            </div>
+                                    <div key={sub.id}>
+
+                                        <div key={sub.id} className="d-flex flex-row mt-2">
+                                            <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
+                                            <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
                                         </div>
+                                        <div className="d-flex flex-row mt-2"> <p>Thêm các thuộc tính con : </p>
+                                            <span className="ml-5"  > <DropdownBlocks options={sub.items} > </DropdownBlocks></span>
+                                        </div>
+
                                     </div>
                                 )}
 
