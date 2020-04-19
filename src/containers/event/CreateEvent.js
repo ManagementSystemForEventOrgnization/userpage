@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd'
 
-import DropContainer from '../event/templates/components/DropContainer';
+import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
 

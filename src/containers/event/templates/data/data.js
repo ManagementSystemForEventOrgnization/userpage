@@ -18,9 +18,10 @@ export default [
     id: 7,
     type: "text",
     name: 'Text',
-    options: ({ key, editable }) => <TextBlock
+    options: ({ key, editable, style }) => <TextBlock
       editable={editable}
       key={key}
+      style={style}
     />
   },
   {

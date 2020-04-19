@@ -3,10 +3,16 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { connect } from 'react-redux'
-import { Button, Modal, InputNumber } from 'antd';
+import {
+    Button,
+    Modal, InputNumber,
+    Tabs, Slider,
+    Col, Row
+} from 'antd';
 
 const CLOUDINARY_UPLOAD_PRESET = 'arabdxzm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload';
+const { TabPane } = Tabs;
 
 class ImageBlock extends React.Component {
     constructor(props) {
@@ -175,126 +181,156 @@ class ImageBlock extends React.Component {
                     width="700px"
                     onCancel={this.handleCancel}
                 >
-                    <div className="d-flex mt-2 pl-5">
-                        <div className=" mr-5 d-flex" >
-                            <h6 className=" mr-5">Width (%)</h6>
-                            <InputNumber
-                                value={width}
-                                className="ml-5"
-                                name="width"
-                                min={0} max={1500}
-                                onChange={this.onWidthChange}  ></InputNumber >
-                        </div>
 
-                        <div className=" ml-5 d-flex" >
-                            <h6 className=" mr-3">Height (vh)</h6>
-                            <InputNumber
-                                value={height}
-                                name="height"
-                                min={0} max={1500}
-                                onChange={this.onHeightChange}  ></InputNumber >
-                        </div>
-                    </div>
+                    <Tabs defaultActiveKey="1" >
+                        <TabPane tab="Upload" key="1">
 
-                    <div className=" mt-2 d-flex pl-5" >
-                        <h6 className=" mr-5">Margin (T-L-R-B)</h6>
-                        <InputNumber
-                            value={margin[0]}
-                            className="mr-1"
-                            name="marginT"
-                            min={0} max={1500}
-                            onChange={this.onChangeMarginTop}  ></InputNumber >
+                            <div className="mt-2 " >
+                                <img style={{ width: '450px' }} alt="img" src={uploadedFileCloudinaryUrl} />
+                            </div>
+                            <p>{uploadedFileCloudinaryUrl}</p>
 
-                        <InputNumber
-                            value={margin[1]}
-                            className="mr-1"
-                            name="marginL"
-                            min={0} max={1500}
-                            onChange={this.onChangeMarginLeft}  ></InputNumber >
+                            <form className="mt-1">
+                                <div style={{ width: '300px', height: 50 }}>
+                                    <Dropzone
+                                        onDrop={this.onImageDrop}
+                                        accept="image/*"
+                                        multiple={false}>
+                                        {({ getRootProps, getInputProps }) => {
+                                            return (
+                                                <div
+                                                    {...getRootProps()}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    {
+                                                        <Button   >Upload</Button>
+                                                    }
+                                                </div>
+                                            )
+                                        }}
+                                    </Dropzone>
+                                </div>
+                                <div  >
+                                </div>
+                            </form>
 
-                        <InputNumber
-                            value={margin[2]}
-                            className="mr-1"
-                            name="marginR"
-                            min={0} max={1500}
-                            onChange={this.onChangeMarginRight}  ></InputNumber >
-                        <InputNumber
-                            value={margin[3]}
-                            name="marginB"
-                            min={0} max={1500}
-                            onChange={this.onChangeMarginBottom}  ></InputNumber >
-                    </div>
+                        </TabPane>
 
+                        <TabPane tab="Design" key="2">
 
-                    <div className=" mt-2 d-flex pl-5" >
-                        <h6 className=" mr-5">Padding (T-L-R-B)</h6>
-                        <InputNumber
-                            value={padding[0]}
-                            className="mr-1"
-                            name="paddingT"
-                            min={0} max={1500}
-                            onChange={this.onChangePaddingT}  ></InputNumber >
+                            <div className="d-flex mt-2 pl-5">
+                                <div className=" mr-5 d-flex" >
+                                    <h6 className=" mr-5">Width (%)</h6>
+                                    <InputNumber
+                                        value={width}
+                                        className="ml-3"
+                                        name="width"
+                                        min={0} max={1500}
+                                        onChange={this.onWidthChange}  ></InputNumber >
+                                </div>
 
-                        <InputNumber
-                            value={padding[1]}
-                            className="mr-1"
-                            name="paddingL"
-                            min={0} max={1500}
-                            onChange={this.onChangePaddingL}  ></InputNumber >
+                                <div className=" ml-5 d-flex" >
+                                    <h6 className=" mr-5">Height (vh)</h6>
+                                    <InputNumber
+                                        value={height}
+                                        className="ml-3"
+                                        name="height"
+                                        min={0} max={1500}
+                                        onChange={this.onHeightChange}  ></InputNumber >
+                                </div>
+                            </div>
 
-                        <InputNumber
-                            value={padding[2]}
-                            className="mr-1"
-                            name="paddingR"
-                            min={0} max={1500}
-                            onChange={this.onChangePaddingR}  ></InputNumber >
-                        <InputNumber
-                            value={padding[3]}
-                            className="mr-1"
-                            name="paddingB"
-                            min={0} max={1500}
-                            onChange={this.onChangePaddingB}  ></InputNumber >
-                    </div>
+                            <div className=" mt-5 pl-5" >
+                                <h6 className=" mr-5">Rounded image (%)</h6>
+                                <Row>
+                                    <Col span={12} className="mr-4">
+                                        <Slider
+                                            min={0}
+                                            max={100}
+                                            onChange={this.onChangeBorderRadius}
+                                            value={typeof borderRadius === 'number' ? borderRadius : 0}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <InputNumber
+                                            value={borderRadius}
+                                            name="width"
+                                            min={0} max={100}
+                                            onChange={this.onChangeBorderRadius}  ></InputNumber >
 
-
-                    <div className=" mt-2 pl-5 d-flex" >
-                        <h6 className=" mr-5">Rounded image (%)</h6>
-                        <InputNumber
-                            value={borderRadius}
-                            name="width"
-                            min={0} max={1500}
-                            onChange={this.onChangeBorderRadius}  ></InputNumber >
-                    </div>
+                                    </Col>
+                                </Row>
 
 
-                    <div className="mt-2 " >
-                        <img style={{ width: '450px' }} alt="img" src={uploadedFileCloudinaryUrl} />
-                    </div>
-                    <p>{uploadedFileCloudinaryUrl}</p>
+                            </div>
 
-                    <form className="mt-1">
-                        <div style={{ width: '300px', height: 50 }}>
-                            <Dropzone
-                                onDrop={this.onImageDrop}
-                                accept="image/*"
-                                multiple={false}>
-                                {({ getRootProps, getInputProps }) => {
-                                    return (
-                                        <div
-                                            {...getRootProps()}
-                                        >
-                                            <input {...getInputProps()} />
-                                            {
-                                                <Button   >Upload</Button>
-                                            }
-                                        </div>
-                                    )
-                                }}
-                            </Dropzone>
-                        </div>
-                        <div  >
-                        </div>
-                    </form>
+                            <div className=" mt-5 d-flex pl-5" >
+                                <h6 className=" mr-5">Margin (T-L-R-B)</h6>
+                                <InputNumber
+                                    value={margin[0]}
+                                    className="mr-1"
+                                    name="marginT"
+                                    min={0} max={1500}
+                                    onChange={this.onChangeMarginTop}  ></InputNumber >
+
+                                <InputNumber
+                                    value={margin[1]}
+                                    className="mr-1"
+                                    name="marginL"
+                                    min={0} max={1500}
+                                    onChange={this.onChangeMarginLeft}  ></InputNumber >
+
+                                <InputNumber
+                                    value={margin[2]}
+                                    className="mr-1"
+                                    name="marginR"
+                                    min={0} max={1500}
+                                    onChange={this.onChangeMarginRight}  ></InputNumber >
+                                <InputNumber
+                                    value={margin[3]}
+                                    name="marginB"
+                                    min={0} max={1500}
+                                    onChange={this.onChangeMarginBottom}  ></InputNumber >
+                            </div>
+
+
+                            <div className=" mt-5 d-flex pl-5" >
+                                <h6 className=" mr-5">Padding (T-L-R-B)</h6>
+                                <InputNumber
+                                    value={padding[0]}
+                                    className="mr-1"
+                                    name="paddingT"
+                                    min={0} max={1500}
+                                    onChange={this.onChangePaddingT}  ></InputNumber >
+
+                                <InputNumber
+                                    value={padding[1]}
+                                    className="mr-1"
+                                    name="paddingL"
+                                    min={0} max={1500}
+                                    onChange={this.onChangePaddingL}  ></InputNumber >
+
+                                <InputNumber
+                                    value={padding[2]}
+                                    className="mr-1"
+                                    name="paddingR"
+                                    min={0} max={1500}
+                                    onChange={this.onChangePaddingR}  ></InputNumber >
+                                <InputNumber
+                                    value={padding[3]}
+                                    className="mr-1"
+                                    name="paddingB"
+                                    min={0} max={1500}
+                                    onChange={this.onChangePaddingB}  ></InputNumber >
+                            </div>
+
+
+
+
+                        </TabPane>
+                    </Tabs>
+
+
 
                 </Modal>
             </div>

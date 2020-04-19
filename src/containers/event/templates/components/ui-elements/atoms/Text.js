@@ -7,6 +7,8 @@ import { Editor } from '@tinymce/tinymce-react';
 const buttonWidth = 83;
 const { Option } = Select;
 
+const exampleText = 'Pellentesque ullamcorper tortor ut auctor consequat. Nullam sed nisi massa. Aliquam eget enim nunc. Praesent blandit blandit ornare. Sed lacinia felis quis elit luctus, et tincidunt elit aliquam. Sed porttitor eros id purus sollicitudin, quis pellentesque nunc pulvinar. Ut accumsan a sem quis dignissim. Sed lacus mauris, efficitur ac lobortis id, faucibus at quam. Praesent quis metus hendrerit, vulputate nibh vel, eleifend nibh. Donec cursus, elit id auctor porta, orci felis condimentum est, ut bibendum lacus elit non mi.'
+
 class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
@@ -16,14 +18,21 @@ class TextsBlock extends React.Component {
 
       visible: false,
 
-      content: content || "wellcome",
+      content: content || exampleText,
       positionButton: '',
       leftButton: style ? style.left ? style.left : 0 : 0,
       rightButton: style ? style.right ? style.right : 0 : 0,
       topButton: style ? style.top ? style.top : 0 : 0,
       bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
 
-
+      background: "white",
+      fontSize: 20,
+      fonts: "Open Sans",
+      lineText: 80,
+      letterText: -2,
+      textAlign: '',
+      tranform: ' ',
+      color: "black"
     };
   }
 
@@ -35,8 +44,6 @@ class TextsBlock extends React.Component {
     });
   };
 
-
-
   handleCancel = e => {
     this.setState({
       visible: false,
@@ -45,16 +52,10 @@ class TextsBlock extends React.Component {
 
 
   handleEditorChange = (content) => {
-
     const { id, handleOnChangeTextBlock } = this.props;
-    
     this.setState({ content });
-
     if (id) {
-      // console.log("TCL : ", id)
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
-
-    
     }
   }
 
@@ -89,15 +90,31 @@ class TextsBlock extends React.Component {
   render() {
 
     const { key, style } = this.props;
-    const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
+    const { content, topButton, leftButton, rightButton, bottomButton, positionButton,
+      background, fontSize, fonts, lineText, letterText, textAlign, tranform, color
+
+    } = this.state;
+    /*background: "white",
+      fontSize: 20,
+      fonts: "Open Sans",
+      lineText: 80,
+      letterText: -2,
+      textAlign: '',
+      tranform: ' ',
+      color: "black"
+    
+    */
+
     const divStyle = style ? style : {
       position: positionButton,
       top: topButton,
       left: leftButton,
       right: rightButton,
       bottom: bottomButton,
-      wordBreak: 'break-all',
-      alignContent: 'center'
+
+      wordBreak: 'break-word',
+      alignContent: 'center',
+
 
     }
     return (
@@ -124,6 +141,7 @@ class TextsBlock extends React.Component {
           </Button>,
           ]}
         >
+
           <div className="mt-2">
             <div className="d-flex mb-3">
               <h6 >Vị trí : </h6>

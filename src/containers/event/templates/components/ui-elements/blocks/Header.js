@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
-import TextBlocks from '../atoms/Text';
 import { v4 as uuid } from "uuid";
+
 import FontPicker from "font-picker-react";
 import { SketchPicker } from 'react-color';
+
 import {
     Menu, Modal, Button, Input,
     Tabs, Col, Slider, Row, InputNumber, Select,
 } from 'antd';
-import { DeleteOutlined, PlusOutlined, BgColorsOutlined } from '@ant-design/icons';
+import {
+    DeleteOutlined,
+    PlusOutlined,
+    BgColorsOutlined
+} from '@ant-design/icons';
+
 import DropdownBlocks from '../atoms/DropDown';
+import TextBlocks from '../atoms/Text';
+
+
+
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -37,6 +47,7 @@ class HeaderBlock extends Component {
             }
 
             ],
+
             background: "white",
             inputValue: 20,
             showColor: false,
@@ -46,7 +57,7 @@ class HeaderBlock extends Component {
             letterText: -2,
             align: '',
             tranform: ' ',
-            color   :"black"
+            color: "black"
 
 
         }
@@ -127,7 +138,7 @@ class HeaderBlock extends Component {
     }
     // open color
     onClickColor = e => {
-       const {showColor}=this.state
+        const { showColor } = this.state
         this.setState({
             showColor: !showColor
         });
@@ -154,16 +165,16 @@ class HeaderBlock extends Component {
 
     };
     showModalButton = () => {
-         const {isDesign}=this.state;
+        const { isDesign } = this.state;
         this.setState({
-          isDesign: !isDesign
+            isDesign: !isDesign
         });
-      };
-     
-    
+    };
+
+
     render() {
         const { key } = this.props;
-        const { menuName, isShowAdd, inputValue, activeFontFamily, lineText, letterText, align, tranform,background,color } = this.state;
+        const { menuName, isShowAdd, inputValue, activeFontFamily, lineText, letterText, align, tranform, background, color } = this.state;
         const divStyle = {
             color: color,
             fontFamily: activeFontFamily,
@@ -172,13 +183,11 @@ class HeaderBlock extends Component {
             letterSpacing: letterText,
             textAlign: align,
             textTransform: tranform,
-            background:background,
+            background: background,
         }
         return (
             <div>
                 <div className="child-block" onClick={this.handleEditMenu} >
-
-
                     <Menu key={key} mode='horizontal' style={divStyle}  >
                         {
                             menuName.map(sub =>
@@ -209,7 +218,7 @@ class HeaderBlock extends Component {
                                 menuName.map(sub =>
                                     <div>
                                         <div key={sub.id}>
-                                            <div   className="d-flex flex-row mt-2">
+                                            <div className="d-flex flex-row mt-2">
                                                 <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
                                                 <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
                                             </div>
@@ -249,6 +258,7 @@ class HeaderBlock extends Component {
                                     />
 
                                 </div>
+
                                 <div className="mt-2">
                                     <h6>Font size(px)</h6>
                                     <Row>
@@ -346,6 +356,7 @@ class HeaderBlock extends Component {
                                 <BgColorsOutlined style={{ height: '50px', width: '50px' }} onClick={this.showModalButton} />
 
                             </div>
+
                             <Modal
                                 title="Text design"
                                 visible={this.state.isDesign}
@@ -364,7 +375,7 @@ class HeaderBlock extends Component {
                                     onChangeComplete={this.handleChangeComplete} />
 
                             </Modal>
-                      
+
                             <Modal
                                 title="Text design"
                                 visible={this.state.showColor}
@@ -377,12 +388,12 @@ class HeaderBlock extends Component {
                                         OK
                                </Button>,
                                 ]} >
-                            
+
                                 <SketchPicker color={this.state.color}
                                     onChangeComplete={this.handleChangeCompletecolor} />
 
                             </Modal>
-                      
+
                         </TabPane>
                     </Tabs>
                 </Modal>
