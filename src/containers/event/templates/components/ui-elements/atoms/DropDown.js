@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from "uuid";
-import { Input, Modal, Select,  Button,  } from 'antd';
+import { Input, Modal, Select, Button, } from 'antd';
 import { PlusOutlined, DeleteOutlined, } from '@ant-design/icons';
 import TextBlock from './Text';
 let index = 0;
@@ -10,7 +10,7 @@ class DropDownBlock extends Component {
         super(props)
 
         this.state = {
-            items : this.props.options? this.props.options : [{id: 1, name: 'haha'}],
+            items: this.props.options ? this.props.options : [{ id: 1, name: 'haha' }],
             txtname: "",
             isAddOption: false,
             isRename: false,
@@ -104,7 +104,7 @@ class DropDownBlock extends Component {
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
-        if (index===-1) return;
+        if (index === -1) return;
         else {
             console.log(items)
             this.setState({
@@ -117,7 +117,7 @@ class DropDownBlock extends Component {
 
     render() {
         const { key } = this.props;
-        const { items, isAddOption} = this.state;
+        const { items, isAddOption } = this.state;
 
         const constructOptions = options =>
             options.map(data => (
@@ -138,29 +138,31 @@ class DropDownBlock extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    width={300}
                 >
+                    <div>
+                        {items.map((item) =>
+                            <div key={item.id} className="d-flex flex-row mt-2 " >
+                                <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
+                                <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
 
-                    {items.map((item) =>
-                        <div key={item.id} className="d-flex flex-row mt-2 " >
-                            <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-               <DeleteOutlined  className="ml-5" onClick={() => this.removeOption(item)} />
+                            </div>
+                        )
+                        }
 
-                        </div>
-                    )
-                    }
+                        {isAddOption ?
+                            <div className="d-flex flex-row mt-3" >
+                                <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
+                            </div>
+                            : ''
+                        }
 
-                    {isAddOption ?
-                        <div className="d-flex flex-row mt-2" >
-                            <Input value={this.state.txtname} onChange={this.onNameChange} />
-                            <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                        </div>
-                        : ''
-                    }
+                        <Button className="mt-5 ml-5 " onClick={this.OnClickOption}
+                        >  <PlusOutlined /> Add Item
 
-                    <Button className="mt-3" onClick={this.OnClickOption}
-                        shape="circle"> <span>  <PlusOutlined /> </span>
-
-                    </Button>
+                        </Button>
+                    </div>
                 </Modal>
 
             </div>
