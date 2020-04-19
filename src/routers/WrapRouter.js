@@ -50,6 +50,11 @@ const ROUTES = [
         main: () => <SignUpPage />
     },
     {
+        path: '/c-e',
+        exact: true,
+        main: () => <CreateEventPage />
+    },
+    {
         path: '/create/preview',
         exact: true,
         main: () => <PreviewEvent />
