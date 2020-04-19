@@ -5,7 +5,7 @@ import { Button } from 'antd'
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
-import Test from '../event/MenuBlockListUpdate'
+import Test from '../event/MenuBlockList'
 import dataTest from './templates/data/dataTest';
 import TrashDropContainer from '../event/templates/components/TrashDropContainer';
 // import MenuBlockList from '../event/MenuBlockList';
