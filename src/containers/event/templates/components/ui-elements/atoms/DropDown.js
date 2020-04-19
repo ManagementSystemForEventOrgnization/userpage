@@ -3,12 +3,13 @@ import { v4 as uuid } from "uuid";
 import { Input, Modal, Select, Button, } from 'antd';
 import { PlusOutlined, DeleteOutlined, } from '@ant-design/icons';
 import TextBlock from './Text';
+
 let index = 0;
+
 class DropDownBlock extends Component {
+
     constructor(props) {
-
         super(props)
-
         this.state = {
             items: this.props.options ? this.props.options : [{ id: 1, name: 'haha' }],
             txtname: "",
@@ -65,6 +66,7 @@ class DropDownBlock extends Component {
             visible: false,
         });
     };
+
     OnClickOption = (e) => {
         const { isAddOption } = this.state;
         this.setState({
@@ -72,6 +74,7 @@ class DropDownBlock extends Component {
         });
 
     };
+
     OnClickRename = (e) => {
         const { isRename } = this.state;
         this.setState({
@@ -80,17 +83,6 @@ class DropDownBlock extends Component {
         // console.log(this.state.isRename);
 
     };
-
-    // onChangeUpdateName = (itemId, content) => {
-    //     const { items } = this.state;
-
-    //     items.map(a => {
-    //         if (a.id === itemId) {
-    //             a.name = content
-    //         }
-    //     })
-    //     this.setState({ items: items })
-    // }
 
     removeOption = (item) => {
         const { idMenu, removeOptionChild } = this.props;
@@ -103,8 +95,6 @@ class DropDownBlock extends Component {
         this.setState({
             items
         })
-
-
     }
 
 
@@ -114,8 +104,6 @@ class DropDownBlock extends Component {
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
-
-        console.log('TÉT UPDATE : ', idMenu)
         if (index === -1) return;
         else {
             this.setState({
