@@ -6,6 +6,7 @@ import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import Test from '../event/MenuBlockListUpdate'
 import dataTest from './templates/data/dataTest';
+import TrashDropContainer from '../event/templates/components/TrashDropContainer';
 // import MenuBlockList from '../event/MenuBlockList';
 
 
@@ -46,6 +47,7 @@ class CreateEvent extends React.Component {
                     <DropContainer />
                 </div>
 
+
                 <input type="checkbox" id="add-block" ></input>
                 <label htmlFor="add-block" className="add-block d-flex justify-content-center">
                     <span>
@@ -57,6 +59,11 @@ class CreateEvent extends React.Component {
                     {
                         dataTest.map(item => <Test key={item.name} blockList={item} />)
                     }
+                </div>
+                <div>
+                    <div className="bg-secondary float-right border border-danger rounded-circle ">
+                        <TrashDropContainer />
+                    </div>
                 </div>
             </div>
         )

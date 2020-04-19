@@ -105,6 +105,7 @@ class DropContainer extends React.Component {
           setList={this.handleSetDropList}
         >
           {dropList.map(item => {
+            console.log(item)
             return item.options({
               key: item.id,
               style: item.style ? item.style : {},

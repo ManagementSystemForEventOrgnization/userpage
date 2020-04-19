@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 
 import ButtonBlock from '../components/ui-elements/atoms/Button';
 import TextBlock from '../components/ui-elements/atoms/Text';
@@ -14,6 +15,8 @@ import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
 
+import TrashBlock from '../components/ui-elements/atoms/Trash';
+
 
 export default
     [{
@@ -21,8 +24,7 @@ export default
         value: [
             {
                 child: "Button",
-                options: ({ key }) => <ButtonBlock key={key} />
-
+                options: ({ key }) => <ButtonBlock key={key} />,
             },
             {
                 child: "Text",
@@ -67,6 +69,14 @@ export default
 
             },
         ]
+            .map(({ id, child, options }) => {
+                return {
+                    id: uuid(),
+                    child,
+                    options: options ? options : () => <></>,
+                    trash: <TrashBlock />,
+                };
+            })
     },
 
     {
