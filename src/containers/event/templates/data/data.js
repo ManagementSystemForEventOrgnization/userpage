@@ -13,13 +13,16 @@ import DatepickersBlocks from '../components/ui-elements/Datepicker';
 import InputBlocks from '../components/ui-elements/Input';
 import HeaderBlocks from '../components/ui-elements/blocks/Header';
 import CountdownBlock from '../components/ui-elements/atoms/Timer';
+import TrashBlock from '../components/ui-elements/atoms/Trash';
+
 
 export default [
   {
     id: 7,
     type: "text",
     name: 'Text',
-    options: ({ key }) => <TextBlock
+    options: ({ key, editable }) => <TextBlock
+      editable={editable}
       key={key}
     />
   },
@@ -45,8 +48,9 @@ export default [
   {
     id: 10,
     type: "image",
-    options: ({ key }) => <ImageBlock
+    options: ({ key, editable }) => <ImageBlock
       key={key}
+      editable={editable}
     />,
     name: 'Image',
   },
@@ -98,11 +102,12 @@ export default [
 
   },
 ]
-  .map(({ id, name, type, options }) => {
+  .map(({ id, name, type, options, trash }) => {
     return {
       id: uuid(),
       name,
       type,
       options: options ? options : () => <></>,
+      trash: <TrashBlock />,
     };
   });

@@ -4,8 +4,10 @@ import { Button } from 'antd'
 
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
-import Test from '../event/MenuBlockListUpdate'
+import MenuBlockList from '../event/MenuBlockList';
+import Test from '../event/MenuBlockList'
 import dataTest from './templates/data/dataTest';
+import TrashDropContainer from '../event/templates/components/TrashDropContainer';
 // import MenuBlockList from '../event/MenuBlockList';
 
 
@@ -30,7 +32,9 @@ class CreateEvent extends React.Component {
                     <Header />
 
                 </div>
+                <MenuBlockList />
                 <div className="d-flex flex-row-reverse">
+
                     <Button className="mr-5 ml-3" type="primary" size="large">Public</Button>
 
                     <Button type="dashed" size="large" onClick={this.handlePreview}>
@@ -39,12 +43,14 @@ class CreateEvent extends React.Component {
                         </a>
                     </Button>
 
+
                 </div>
 
 
-                <div className="mt-1 drop-area">
+                <div className="mt-1 drop-area container mb-5">
                     <DropContainer />
                 </div>
+
 
                 <input type="checkbox" id="add-block" ></input>
                 <label htmlFor="add-block" className="add-block d-flex justify-content-center">
@@ -57,6 +63,11 @@ class CreateEvent extends React.Component {
                     {
                         dataTest.map(item => <Test key={item.name} blockList={item} />)
                     }
+                </div>
+                <div>
+                    <div className="bg-secondary float-right border border-danger rounded-circle ">
+                        <TrashDropContainer />
+                    </div>
                 </div>
             </div>
         )
