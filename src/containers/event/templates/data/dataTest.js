@@ -14,6 +14,8 @@ import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
+import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
+
 
 
 export default
@@ -136,7 +138,10 @@ export default
     },
     {
         name: 'Coundown',
-        value: []
+        value: [{
+            child: "Option 1",
+            options: ({ key }) => <CountDownBlock key={key} startCount="2021-01-01" />
+        }]
     },
     {
         name: 'Photo/Image',

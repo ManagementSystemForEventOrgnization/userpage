@@ -12,6 +12,7 @@ import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
 import InputBlocks from '../components/ui-elements/Input';
 import HeaderBlocks from '../components/ui-elements/blocks/Header';
+import CountdownBlock from '../components/ui-elements/atoms/Timer';
 
 export default [
   {
@@ -89,7 +90,13 @@ export default [
     options: ({ key }) => <HeaderBlocks key={key} />,
 
   },
+  {
+    id: 16,
+    type: "countdown",
+    name: 'countdown',
+    options: ({ key }) => <CountdownBlock key={key} startCount="2021-01-01" />,
 
+  },
 ]
   .map(({ id, name, type, options }) => {
     return {

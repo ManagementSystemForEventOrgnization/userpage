@@ -25,6 +25,11 @@ import PreviewEvent from '../containers/event/PreviewEvent';
 
 const ROUTES = [
     {
+        path: '/c-e',
+        exact: true,
+        main: () => <CreateEventPage />
+    },
+    {
         path: '/',
         exact: true,
         main: () => <HomePage />
@@ -57,14 +62,14 @@ const ROUTES = [
     {
         path: '/create',
         exact: true,
-        main:()=> <CreateEventPage />
+        main: () => <CreateEventPage />
     },
     {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
     },
-    
+
 
 ];
 
@@ -136,7 +141,7 @@ class WrapRouter extends React.Component {
                 exact: true,
                 main: (match) => <CreateEventPage match={match} />
             },
-           
+
             {
                 path: '/create/preview',
                 exact: true,
