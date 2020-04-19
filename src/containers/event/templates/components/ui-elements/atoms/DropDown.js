@@ -10,7 +10,7 @@ class DropDownBlock extends Component {
         super(props)
 
         this.state = {
-            items: [{ id: 1, name: 'haha' }],
+            items : this.props.options? this.props.options : [{id: 1, name: 'haha'}],
             txtname: "",
             isAddOption: false,
             isRename: false,
@@ -83,8 +83,6 @@ class DropDownBlock extends Component {
 
     onChangeUpdateName = (itemId, content) => {
         const { items } = this.state;
-        // console.log(itemId);
-        // console.log(content);
         items.map(a => {
             if (a.id === itemId) {
                 a.name = content
@@ -106,7 +104,7 @@ class DropDownBlock extends Component {
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
-        if (!index) return;
+        if (index===-1) return;
         else {
             console.log(items)
             this.setState({
@@ -136,7 +134,7 @@ class DropDownBlock extends Component {
                     {constructOptions(items)}
                 </Select>
                 <Modal
-                    title="Basic Modal"
+                    title="Dropdown"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -145,7 +143,7 @@ class DropDownBlock extends Component {
                     {items.map((item) =>
                         <div key={item.id} className="d-flex flex-row mt-2 " >
                             <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-                            <Button className="ml-5" shape="circle" onClick={() => this.removeOption(item)} ><DeleteOutlined /></Button>
+               <DeleteOutlined  className="ml-5" onClick={() => this.removeOption(item)} />
 
                         </div>
                     )

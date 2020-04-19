@@ -516,12 +516,6 @@ class InputBlock extends React.Component {
           <SketchPicker color={this.state.background}
             onChangeComplete={this.handleChangeComplete} />
 
-
-
-
-
-
-
         </Modal>
       </div>
 

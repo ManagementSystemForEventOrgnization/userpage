@@ -3,23 +3,29 @@ import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
 import ImageBlock from './ui-elements/atoms/Image';
-import TextBlock from './ui-elements/atoms/Text';
+// import TextBlock from './ui-elements/atoms/Text';
+// import Banner2 from './ui-elements/blocks/banner/Banner2'
+// import Banner1 from './ui-elements/blocks/banner/Banner1'
 
-import { createEventConstants } from '../../../../constants/index';
+
+// import { createEventConstants } from '../../../../constants/index';
 import { eventActions } from "../../../../action/event.action";
 
 
-const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
+// const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
 
-const textBlockOption = ({ key, style, content }) => <TextBlock
-  key={key}
-  style={style}
-  content={content}
-/>
+// const bannerBlockOption1 = ({ key, style }) => <Banner1 key={key} style={style} />
+// const bannerBlockOption2 = ({ key, style }) => <Banner2 key={key} style={style} />
 
-const imageBlockOption = ({ key, style, url }) => <ImageBlock
+// const textBlockOption = ({ key, style, content }) => <TextBlock
+//   key={key}
+//   style={style}
+//   content={content}
+// />
+
+const imageBlockOption = ({ key, url, editable }) => <ImageBlock
   key={key}
-  style={style}
+  editable={editable}
   url={url}
 />
 
@@ -28,45 +34,15 @@ class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropList: [
-        {
-          id: 1,
-          url: '/bg-2.jpg',
-          style: posterStyle,
-          options: imageBlockOption
-        },
-        {
-          id: 2,
-          content: this.props.nameEvent,
-          style: nameEventStyle,
-          options: textBlockOption
-        },
-        {
-          id: 3,
-          content: this.props.address,
-          style: addressStyle,
-          options: textBlockOption
-        },
-        {
-          id: 4,
-          content: `Số lượng: ${this.props.quantity}`,
-          style: quantityStyle,
-          options: textBlockOption
-        },
-        {
-          id: 5,
-          content: this.props.typeOfEvent,
-          style: typeOfEventStyle,
-          options: textBlockOption
-        },
-        {
-          id: 6,
-          content: this.props.typeOfEvent,
-          style: typeOfEventStyle,
-          options: textBlockOption
-        },
 
-      ],
+      dropList:
+        [
+          {
+            id: 1,
+            url: '/bg-2.jpg',
+            options: imageBlockOption
+          },
+        ]
     }
   }
 
@@ -108,6 +84,7 @@ class DropContainer extends React.Component {
             console.log(item)
             return item.options({
               key: item.id,
+              editable: true,
               style: item.style ? item.style : {},
               content: item.content ? item.content : "",
               url: item.url ? item.url : "",

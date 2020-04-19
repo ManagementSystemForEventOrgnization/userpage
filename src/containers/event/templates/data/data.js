@@ -20,7 +20,8 @@ export default [
     id: 7,
     type: "text",
     name: 'Text',
-    options: ({ key }) => <TextBlock
+    options: ({ key, editable }) => <TextBlock
+      editable={editable}
       key={key}
     />
   },
@@ -46,8 +47,9 @@ export default [
   {
     id: 10,
     type: "image",
-    options: ({ key }) => <ImageBlock
+    options: ({ key, editable }) => <ImageBlock
       key={key}
+      editable={editable}
     />,
     name: 'Image',
   },

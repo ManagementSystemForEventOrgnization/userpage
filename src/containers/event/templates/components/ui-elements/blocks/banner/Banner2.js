@@ -10,11 +10,40 @@ class Banner2 extends Component {
         }
     }
 
+
+
     render() {
+        //     font-weight: bolder;
+        // font-size: xx-large;
+        // position: absolute;
+        // top: 30%;
+        // left: 10%;
+
+        const style = {
+
+        }
         return (
             <div className="banner-block-2">
-                <Image />
-                <Text />
+                <table>
+                    <tr>
+                        <td></td>
+                        <td rowspan={2} style={{ width: '100%' }}> <Image editable={true} /></td>
+                    </tr>
+                    <tr>
+                        <td colspan={2} style={
+                            {
+                                width: '100%',
+                                fontSize: 'xx-large',
+                                fontWeight: 'bolder',
+                                alignContent: 'center',
+                                zIndex: '2000'
+                            }
+                        }
+                        >  <Text editable={true} /></td>
+                    </tr>
+                </table>
+
+
 
             </div>
         )

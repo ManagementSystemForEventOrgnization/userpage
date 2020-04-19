@@ -4,6 +4,7 @@ import { Button } from 'antd'
 
 import DropContainer from '../event/templates/components/DropContainer';
 import Header from '../share/_layout/Header';
+import MenuBlockList from '../event/MenuBlockList';
 import Test from '../event/MenuBlockListUpdate'
 import dataTest from './templates/data/dataTest';
 import TrashDropContainer from '../event/templates/components/TrashDropContainer';
@@ -31,7 +32,9 @@ class CreateEvent extends React.Component {
                     <Header />
 
                 </div>
+                <MenuBlockList />
                 <div className="d-flex flex-row-reverse">
+
                     <Button className="mr-5 ml-3" type="primary" size="large">Public</Button>
 
                     <Button type="dashed" size="large" onClick={this.handlePreview}>
@@ -40,10 +43,11 @@ class CreateEvent extends React.Component {
                         </a>
                     </Button>
 
+
                 </div>
 
 
-                <div className="mt-1 drop-area">
+                <div className="mt-1 drop-area container mb-5">
                     <DropContainer />
                 </div>
 
