@@ -97,9 +97,9 @@ class DropDownBlock extends Component {
         const items = this.state.items.filter(e => e.id !== item.id)
         console.log(idMenu, items)
 
-        // if (idMenu) {
-        removeOptionChild(idMenu, items)
-        // }
+        if (idMenu) {
+            removeOptionChild(idMenu, items)
+        }
         this.setState({
             items
         })
