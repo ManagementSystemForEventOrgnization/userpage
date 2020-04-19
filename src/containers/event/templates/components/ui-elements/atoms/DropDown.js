@@ -81,35 +81,51 @@ class DropDownBlock extends Component {
 
     };
 
-    onChangeUpdateName = (itemId, content) => {
-        const { items } = this.state;
-        items.map(a => {
-            if (a.id === itemId) {
-                a.name = content
-            }
-        })
-        this.setState({ items: items })
-    }
+    // onChangeUpdateName = (itemId, content) => {
+    //     const { items } = this.state;
+
+    //     items.map(a => {
+    //         if (a.id === itemId) {
+    //             a.name = content
+    //         }
+    //     })
+    //     this.setState({ items: items })
+    // }
 
     removeOption = (item) => {
-
+        const { idMenu, removeOptionChild } = this.props;
         const items = this.state.items.filter(e => e.id !== item.id)
-        this.setState({
-            items,
-        })
-    }
-    onChangeTextBlock = (id, value) => {
-        console.log("TCL : ", value);
+        console.log(idMenu, items)
 
+        // if (idMenu) {
+        removeOptionChild(idMenu, items)
+        // }
+        this.setState({
+            items
+        })
+
+
+    }
+
+
+
+    onChangeTextBlock = (id, value) => {
+        const { idMenu, handleUpdateChild } = this.props;
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
+
+        console.log('TÉT UPDATE : ', idMenu)
         if (index === -1) return;
         else {
-            console.log(items)
             this.setState({
                 items: [...items.slice(0, index), { id, name: value }, ...items.slice(index + 1, items.length)]
             })
+        }
+
+
+        if (idMenu) {
+            handleUpdateChild(idMenu, this.state.items);
         }
 
 

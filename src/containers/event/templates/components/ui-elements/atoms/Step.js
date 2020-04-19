@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { DeleteOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
-import { Steps, Modal, Input, Button, } from 'antd';
-
+import { DeleteOutlined, PlusOutlined, EditOutlined, } from '@ant-design/icons';
+import { Steps, Modal, Input, Button, Tabs } from 'antd';
+import DesignBlock from './Design';
 import { v4 as uuid } from "uuid";
 const { Step } = Steps;
+const { TabPane } = Tabs;
 
 let index = 0;
 class StepBlock extends Component {
     constructor(props) {
         super(props)
+
 
         this.state = {
             visible: false,
@@ -30,6 +32,18 @@ class StepBlock extends Component {
             txtname: "",
             txtdescription: "",
             isAddOption: false,
+            background: "white",
+            inputValue: 30,
+            showColor: false,
+            isDesign: false,
+            activeFontFamily: "Times New Roman",
+            lineText: 80,
+            letterText: -2,
+            align: '',
+            tranform: ' ',
+            color: "green",
+
+
 
         }
     }
@@ -123,14 +137,31 @@ class StepBlock extends Component {
         }
 
     }
+     
+    onChangeBackground=(data)=>{
+        this.setState ({
+            background :data
+        })
+       
+    }
 
     render() {
         const { key } = this.props;
-        const { steps, isAddOption, txtname, txtdescription } = this.state;
-
+        const { steps, isAddOption, txtname, txtdescription,
+            inputValue, activeFontFamily, lineText, letterText, align, tranform, background, color } = this.state;
+        const divStyle = {
+            color: color,
+            fontFamily: activeFontFamily,
+            fontSize: inputValue,
+            lineHeight: lineText + "%",
+            letterSpacing: letterText,
+            textAlign: align,
+            textTransform: tranform,
+            background: background,
+        }
         return (
-            <div className="child-block">
-                <Steps size="small" current={1} key={key} style={{ width: 500 }} onClick={this.showModal}>
+            <div className="child-block" style={divStyle}>
+                <Steps size="small" current={1} key={key} onClick={this.showModal}>
                     {
                         steps.map(step =>
                             <Step key={step.id} title={step.title} description={step.description} />
@@ -139,51 +170,67 @@ class StepBlock extends Component {
                 </Steps>
 
                 <Modal
-                    title="Basic Modal"
+                    title="Step Modal"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    {
-                        steps.map(step =>
+                    <Tabs defaultActiveKey="1">
+                        <TabPane tab="Text" key="1">
+                            {
+                                steps.map(step =>
 
-                            <div key={step.id}>
-                                <div className="d-flex">
-                                    <p>{step.title}</p>
-                                    <DeleteOutlined className="ml-5" onClick={() => this.removeOption(step)} />
-                                    <EditOutlined className="ml-5" onClick={() => { this.onClickEdit(step.id); this.OnClickOption() }} />
-                                    {isAddOption ?
+                                    <div key={step.id}>
                                         <div className="d-flex">
-                                            <Button className="ml-5" style={{ position: "absolute", top: '85%', left: '40%' }} type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>save </Button>
-                                            <Button type="primary" className="ml-2" style={{ position: "absolute", top: '85%', left: '60%', }} onClick={() => { this.handleOnChangeTextBlock(step.id); this.OnClickOption() }} >update</Button>
+                                            <p>{step.title}</p>
+                                            <DeleteOutlined className="ml-5" onClick={() => this.removeOption(step)} />
+                                            <EditOutlined className="ml-5" onClick={() => { this.onClickEdit(step.id); this.OnClickOption() }} />
+                                            {isAddOption ?
+                                                <div className="d-flex">
+                                                    <Button className="ml-5" style={{ position: "absolute", top: '85%', left: '40%' }} type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>save </Button>
+                                                    <Button type="primary" className="ml-2" style={{ position: "absolute", top: '85%', left: '60%', }} onClick={() => { this.handleOnChangeTextBlock(step.id); this.OnClickOption() }} >update</Button>
 
+                                                </div>
+                                                : " "
+                                            }
                                         </div>
-                                        : " "
-                                    }
+                                        <p> {step.description}</p>
+
+                                    </div>
+
+                                )}
+
+
+                            {isAddOption ?
+
+                                <div className=" mt-3" >
+                                    <Input className="mt-3" placeholder="inter title" value={txtname} onChange={this.onNameChange} />
+                                    <textarea style={{ width: '100%', height: 80 }} className="mt-3" placeholder="inter description" value={txtdescription} onChange={this.onDescriptionChange} />
+
                                 </div>
-                                <p> {step.description}</p>
+                                : ''
 
-                            </div>
+                            }
 
-                        )}
-
-
-                    {isAddOption ?
-
-                        <div className=" mt-3" >
-                            <Input className="mt-3" placeholder="inter title" value={txtname} onChange={this.onNameChange} />
-                            <textarea style={{ width: '100%', height: 80 }} className="mt-3" placeholder="inter description" value={txtdescription} onChange={this.onDescriptionChange} />
-
-                        </div>
-                        : ''
-
-                    }
-
-                    < Button className="mt-5 ml-5 " onClick={this.OnClickOption}
-                    >  <PlusOutlined /> Add Item
+                            < Button className="mt-5 ml-5 " onClick={this.OnClickOption}
+                            >  <PlusOutlined /> Add Item
 
                                  </Button>
-
+                        </TabPane>
+                        <TabPane tab="Design" key="2">
+                            <DesignBlock
+                                background={background}
+                                onChangeBackground={this.onChangeBackground}
+                                inputValue={inputValue}
+                                activeFontFamily={activeFontFamily}
+                                lineText={lineText}
+                                letterText={letterText}
+                                align={align}
+                                tranform={tranform}
+                                color={color}
+                            ></DesignBlock>
+                        </TabPane>
+                    </Tabs>
 
                 </Modal>
             </div >

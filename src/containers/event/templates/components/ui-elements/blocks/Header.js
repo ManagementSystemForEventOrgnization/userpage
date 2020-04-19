@@ -91,6 +91,24 @@ class HeaderBlock extends Component {
             menuName,
         })
     }
+
+    removeOptionChild = (idMenu, sub) => {
+        const { menuName } = this.state;
+        const item = menuName.find(ele => ele.id === idMenu);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+
+        else {
+ 
+            this.setState({
+                menuName: [...menuName.slice(0, index), { idMenu, title: item.title, items: sub },
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+
+
+        }
+
+    }
     handleOnChangeTextBlock = (id, value) => {
 
         const { menuName } = this.state;
@@ -105,6 +123,19 @@ class HeaderBlock extends Component {
             })
         }
 
+    }
+    handleUpdateChild = (id, sub) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === id);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+        else {
+            item.items = sub;
+            this.setState({
+                menuName: [...menuName.slice(0, index), item,
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+        }
     }
     //color
     handleChangeComplete = (color) => {
@@ -214,7 +245,10 @@ class HeaderBlock extends Component {
                                             <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
                                         </div>
                                         <div className="d-flex flex-row mt-2"> <p>Thêm các thuộc tính con : </p>
-                                            <span className="ml-5"  > <DropdownBlocks options={sub.items} > </DropdownBlocks></span>
+                                            <span className="ml-5"  >
+                                                <DropdownBlocks options={sub.items} idMenu={sub.id}
+                                                    removeOptionChild={this.removeOptionChild}
+                                                    handleUpdateChild={this.handleUpdateChild} > </DropdownBlocks></span>
                                         </div>
 
                                     </div>
@@ -384,6 +418,7 @@ class HeaderBlock extends Component {
                             </Modal>
 
                         </TabPane>
+
                     </Tabs>
                 </Modal>
             </div>
