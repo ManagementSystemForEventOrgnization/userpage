@@ -5,10 +5,8 @@ import { Button } from 'antd'
 import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from '../event/MenuBlockList';
-import Test from '../event/MenuBlockList'
-import dataTest from './templates/data/dataTest';
+
 import TrashDropContainer from '../event/templates/components/TrashDropContainer';
-// import MenuBlockList from '../event/MenuBlockList';
 
 
 class CreateEvent extends React.Component {
@@ -52,18 +50,6 @@ class CreateEvent extends React.Component {
                 </div>
 
 
-                <input type="checkbox" id="add-block" ></input>
-                <label htmlFor="add-block" className="add-block d-flex justify-content-center">
-                    <span>
-                        <p className="add-block-button mt-3" onClick={this.handleShowMenuBlocks}>Add Block</p>
-                    </span>
-                </label>
-
-                <div className="menu-block-list pt-3">
-                    {
-                        dataTest.map(item => <Test key={item.name} blockList={item} />)
-                    }
-                </div>
                 <div>
                     <div className="bg-secondary float-right border border-danger rounded-circle ">
                         <TrashDropContainer />
