@@ -11,7 +11,9 @@ import StepBlock from '../components/ui-elements/Step';
 import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
 import InputBlocks from '../components/ui-elements/Input';
-import HeaderBlocks from '../components/ui-elements/blocks/Header';
+import HeaderBlocks from '../components/ui-elements/Header';
+import TrashBlock from '../components/ui-elements/atoms/Trash';
+
 
 export default [
   {
@@ -94,11 +96,12 @@ export default [
   },
 
 ]
-  .map(({ id, name, type, options }) => {
+  .map(({ id, name, type, options, trash }) => {
     return {
       id: uuid(),
       name,
       type,
       options: options ? options : () => <></>,
+      trash: <TrashBlock />,
     };
   });
