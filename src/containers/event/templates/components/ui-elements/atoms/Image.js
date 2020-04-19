@@ -3,12 +3,15 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { connect } from 'react-redux'
+
 import {
     Button,
     Modal, InputNumber,
     Tabs, Slider,
     Col, Row
 } from 'antd';
+
+import PaddingAndMargin from '../shares/PaddingAndMargin';
 
 const CLOUDINARY_UPLOAD_PRESET = 'arabdxzm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload';
@@ -95,52 +98,15 @@ class ImageBlock extends React.Component {
         })
     }
 
-    onChangeMarginBottom = value => {
-        let { margin } = this.state;
-        margin[3] = value;
-        this.setState({ margin })
+    onChangeMargin = value => {
+        this.setState({
+            margin: value
+        })
     }
-
-    onChangeMarginTop = value => {
-        let { margin } = this.state;
-        margin[0] = value;
-        this.setState({ margin })
-    }
-
-    onChangeMarginRight = value => {
-        let { margin } = this.state;
-        margin[2] = value;
-        this.setState({ margin })
-    }
-
-    onChangeMarginLeft = value => {
-        let { margin } = this.state;
-        margin[1] = value;
-        this.setState({ margin })
-    }
-
-    onChangePaddingT = value => {
-        let { padding } = this.state;
-        padding[0] = value;
-        this.setState({ padding })
-    }
-
-    onChangePaddingL = value => {
-        let { padding } = this.state;
-        padding[1] = value;
-        this.setState({ padding })
-    }
-
-    onChangePaddingB = value => {
-        let { padding } = this.state;
-        padding[3] = value;
-        this.setState({ padding })
-    }
-
-    onChangePaddingR = value => {
-        let { padding } = this.state;
-        padding[2] = value;
-        this.setState({ padding })
+    onChangePadding = value => {
+        this.setState({
+            padding: value
+        })
     }
 
     onChangeBorderRadius = value => {
@@ -150,7 +116,7 @@ class ImageBlock extends React.Component {
     }
 
     render() {
-        const { uploadedFileCloudinaryUrl, href, width, height, margin, padding, borderRadius } = this.state;
+        const { uploadedFileCloudinaryUrl, width, height, margin, padding, borderRadius } = this.state;
 
         const imageStyle = {
             width: `${width}%`,
@@ -264,67 +230,13 @@ class ImageBlock extends React.Component {
 
                             </div>
 
-                            <div className=" mt-5 d-flex pl-5" >
-                                <h6 className=" mr-5">Margin (T-L-R-B)</h6>
-                                <InputNumber
-                                    value={margin[0]}
-                                    className="mr-1"
-                                    name="marginT"
-                                    min={0} max={1500}
-                                    onChange={this.onChangeMarginTop}  ></InputNumber >
+                            <PaddingAndMargin
+                                margin={margin}
+                                padding={padding}
+                                handleChangePadding={this.onChangePadding}
+                                handleChangeMargin={this.onChangeMargin}
 
-                                <InputNumber
-                                    value={margin[1]}
-                                    className="mr-1"
-                                    name="marginL"
-                                    min={0} max={1500}
-                                    onChange={this.onChangeMarginLeft}  ></InputNumber >
-
-                                <InputNumber
-                                    value={margin[2]}
-                                    className="mr-1"
-                                    name="marginR"
-                                    min={0} max={1500}
-                                    onChange={this.onChangeMarginRight}  ></InputNumber >
-                                <InputNumber
-                                    value={margin[3]}
-                                    name="marginB"
-                                    min={0} max={1500}
-                                    onChange={this.onChangeMarginBottom}  ></InputNumber >
-                            </div>
-
-
-                            <div className=" mt-5 d-flex pl-5" >
-                                <h6 className=" mr-5">Padding (T-L-R-B)</h6>
-                                <InputNumber
-                                    value={padding[0]}
-                                    className="mr-1"
-                                    name="paddingT"
-                                    min={0} max={1500}
-                                    onChange={this.onChangePaddingT}  ></InputNumber >
-
-                                <InputNumber
-                                    value={padding[1]}
-                                    className="mr-1"
-                                    name="paddingL"
-                                    min={0} max={1500}
-                                    onChange={this.onChangePaddingL}  ></InputNumber >
-
-                                <InputNumber
-                                    value={padding[2]}
-                                    className="mr-1"
-                                    name="paddingR"
-                                    min={0} max={1500}
-                                    onChange={this.onChangePaddingR}  ></InputNumber >
-                                <InputNumber
-                                    value={padding[3]}
-                                    className="mr-1"
-                                    name="paddingB"
-                                    min={0} max={1500}
-                                    onChange={this.onChangePaddingB}  ></InputNumber >
-                            </div>
-
-
+                            />
 
 
                         </TabPane>

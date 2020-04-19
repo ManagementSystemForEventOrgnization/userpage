@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from "uuid";
-import { Input, Modal, Select,  Button,  } from 'antd';
+import { Input, Modal, Select, Button, } from 'antd';
 import { PlusOutlined, DeleteOutlined, } from '@ant-design/icons';
 import TextBlock from './Text';
 let index = 0;
@@ -10,7 +10,7 @@ class DropDownBlock extends Component {
         super(props)
 
         this.state = {
-            items : this.props.options? this.props.options : [{id: 1, name: 'haha'}],
+            items: this.props.options ? this.props.options : [{ id: 1, name: 'haha' }],
             txtname: "",
             isAddOption: false,
             isRename: false,
@@ -81,18 +81,7 @@ class DropDownBlock extends Component {
 
     };
 
-    onChangeUpdateName = (itemId, content) => {
-        const { items } = this.state;
-        items.map(a => {
-            if (a.id === itemId) {
-                a.name = content
-            }
-        })
-        this.setState({ items: items })
-    }
-
     removeOption = (item) => {
-
         const items = this.state.items.filter(e => e.id !== item.id)
         this.setState({
             items,
@@ -104,7 +93,7 @@ class DropDownBlock extends Component {
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
-        if (index===-1) return;
+        if (index === -1) return;
         else {
             console.log(items)
             this.setState({
@@ -117,13 +106,13 @@ class DropDownBlock extends Component {
 
     render() {
         const { key } = this.props;
-        const { items, isAddOption} = this.state;
+        const { items, isAddOption } = this.state;
 
         const constructOptions = options =>
             options.map(data => (
-                <option key={uuid()} value={data.id}>
+                <Select.Option key={uuid()} value={data.id}>
                     {data.name}
-                </option>
+                </Select.Option>
             ));
 
         return (
@@ -143,7 +132,7 @@ class DropDownBlock extends Component {
                     {items.map((item) =>
                         <div key={item.id} className="d-flex flex-row mt-2 " >
                             <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-               <DeleteOutlined  className="ml-5" onClick={() => this.removeOption(item)} />
+                            <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
 
                         </div>
                     )
@@ -157,7 +146,7 @@ class DropDownBlock extends Component {
                         : ''
                     }
 
-                    <Button className="mt-3" onClick={this.OnClickOption}
+                    <Button className="mt-3"
                         shape="circle"> <span>  <PlusOutlined /> </span>
 
                     </Button>

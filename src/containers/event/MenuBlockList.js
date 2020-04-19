@@ -39,6 +39,7 @@ export default class App extends React.Component {
                         {
                             dataTest.map(blockList =>
                                 <Menu
+                                    key={blockList.name}
                                     mode="inline"
                                     className="menu"
                                     inlineCollapsed={collapsed}

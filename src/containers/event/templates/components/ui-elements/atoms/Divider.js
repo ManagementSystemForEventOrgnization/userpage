@@ -1,107 +1,103 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Button,Modal,Radio,Tooltip, Divider} from 'antd';
+import { Modal, Radio, Divider } from 'antd';
 
-import { EditOutlined
-} from '@ant-design/icons';
+const orientation = ['left', 'right', 'center'];
 
-const orientation =['left','right', 'center'];
-
-class DividersBlock extends React.Component{
-    constructor(props){
+class DividersBlock extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            isDesign :false,
-            isButton :false,
-            orientationList : orientation,
+            isDesign: false,
+            isButton: false,
+            orientationList: orientation,
         }
     }
 
-    componentDidMount=()=>{
-    this.setState({
-        orientationList : orientation
-    })
+    componentDidMount = () => {
+        this.setState({
+            orientationList: orientation
+        })
     }
 
     showModal = () => {
-    this.setState({
-        visible: true,
-    });
-    };
-    showModalDivider=()=>{
         this.setState({
-        isDesign: true,
+            visible: true,
         });
     };
-    OnClickButton=()=>{
-    this.setState({
-        isButton: true,
-    });
+    showModalDivider = () => {
+        this.setState({
+            isDesign: true,
+        });
     };
-    
+    OnClickButton = () => {
+        this.setState({
+            isButton: true,
+        });
+    };
+
     handleCancel = e => {
-    console.log(e);
-    this.setState({
-        visible: false,
-    });
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
     };
 
     handleCancelDesign = e => {
-    console.log(e);
-    this.setState({
-        isDesign: false,
-    });
+        console.log(e);
+        this.setState({
+            isDesign: false,
+        });
     };
 
     handleShapeChange = e => {
-    this.setState({
-        styleFormat : e.target.value,
-    
+        this.setState({
+            styleFormat: e.target.value,
+
         });
-    console.log(this.state.styleFormat);
+        console.log(this.state.styleFormat);
     };
-    
-    render(){
-    const { key } = this.props;
-    const { isButton,orientationList,styleFormat}=this.state;
-   
-    return(
-        
-    <div className="edittext">
-        <div className="mt-2" onClick={this.showModalDivider}>
-        <Divider orientation={styleFormat}>Text </Divider>  
-    </div>
 
-    <Modal 
-        title="TimePicker design"
-        visible={this.state.isDesign}
-        onOk={this.handleOk}
-        onCancel={this.handleCancelDesign}
-        width	= {900}
-        footer={[
-        ]}
-    >
+    render() {
+        const { orientationList, styleFormat } = this.state;
 
-        {/* list timepicker in modal */}
-        <div>
-        <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
-        { orientationList.map(orienformat=>
-        <Radio value={orienformat}>
-        <Divider key={orienformat} orientation= {orienformat}>{orienformat} </Divider>
-        </Radio>
-        )}
-    </Radio.Group>
-    
-    </div>
-    </Modal>
-        </div>
-    )
-}
+        return (
+
+            <div className="edittext">
+                <div className="mt-2" onClick={this.showModalDivider}>
+                    <Divider orientation={styleFormat}>Text </Divider>
+                </div>
+
+                <Modal
+                    title="TimePicker design"
+                    visible={this.state.isDesign}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancelDesign}
+                    width={900}
+                    footer={[
+                    ]}
+                >
+
+                    {/* list timepicker in modal */}
+                    <div>
+                        <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
+                            {orientationList.map(orienformat =>
+                                <Radio value={orienformat}>
+                                    <Divider key={orienformat} orientation={orienformat}>{orienformat} </Divider>
+                                </Radio>
+                            )}
+                        </Radio.Group>
+
+                    </div>
+                </Modal>
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = state => ({
-// map state of store to props
+    // map state of store to props
 })
 
 const mapDispatchToProps = (dispatch) => ({

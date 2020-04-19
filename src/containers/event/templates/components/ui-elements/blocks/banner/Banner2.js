@@ -19,9 +19,7 @@ class Banner2 extends Component {
         // top: 30%;
         // left: 10%;
 
-        const style = {
 
-        }
         return (
             <div className="banner-block-2">
                 <table>
