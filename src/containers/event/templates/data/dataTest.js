@@ -9,6 +9,9 @@ import DividerBlock from '../components/ui-elements/atoms/Devider'
 import StepBlock from '../components/ui-elements/atoms/Step';
 import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
+import IconBlock from '../components/ui-elements/atoms/Icon';
+import DividersBlock from '../components/ui-elements/atoms/Divider';
+
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
@@ -67,6 +70,15 @@ export default
                 options: ({ key }) => <StepBlock key={key} />,
 
             },
+            {
+                child: "Icon",
+                options: ({ key }) => <IconBlock key={key} />,
+
+            },
+            {
+                child: "Dividers",
+                options: ({key}) => <DividersBlock key={key}/>
+            }
         ]
     },
 
