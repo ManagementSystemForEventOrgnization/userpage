@@ -3,38 +3,19 @@
     $base-duration: 500ms;
 
     .drop-area {
+        border: dashed 1px rgb(228, 149, 149);
+        height: auto;
+        overflow: hidden;
+        padding-top: 1%;
+
         &:hover {
             cursor: pointer;
         }
 
         .child-block {
             &:hover {
-                border: solid 1px black;
+                border: dotted 1px rgb(138, 134, 134);
                 opacity: 0.9;
-            }
-        }
-    }
-
-    #add-block {
-        display: none;
-        &:checked ~ .menu-block-list {
-            right: 0px;
-            transition: right $base-duration ease;
-        }
-    }
-
-    .add-block {
-        position: fixed;
-        top: 8%;
-        left: 1%;
-        z-index: 2000;
-        .add-block-button {
-            font-weight: bold;
-            font-size: 16px;
-            &:hover {
-                cursor: pointer;
-                opacity: 0.7;
-                transform: scale(1.4);
             }
         }
     }
@@ -53,29 +34,19 @@
                 height: 400px;
                 .menu {
                     direction: ltr;
+                    .drag-container {
+                        padding-left: 15px;
+                        .menu-item {
+                            font-weight: 300;
+                            margin: 10px;
+
+                            &:hover {
+                                cursor: pointer;
+                                color: rgb(10, 32, 236);
+                            }
+                        }
+                    }
                 }
-            }
-        }
-    }
-
-    .menu-block-list {
-        position: fixed;
-        top: 0;
-        right: -60%;
-        margin: 0;
-        padding: 0;
-        transition: right $base-duration ease;
-        z-index: 0;
-        margin-top: 48px;
-        overflow-y: scroll;
-        height: 400px;
-        .menu-item {
-            font-weight: 400;
-            margin: 30px;
-
-            &:hover {
-                cursor: pointer;
-                color: rgb(10, 32, 236);
             }
         }
     }

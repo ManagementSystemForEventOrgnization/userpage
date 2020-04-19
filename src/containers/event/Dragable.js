@@ -26,9 +26,9 @@ function Dragable(props) {
         >
             {
                 dragList.map(item =>
-                    <p className="" key={item.child}>
+                    <h6 className="menu-item" key={item.child}>
                         {item.child}
-                    </p>
+                    </h6>
                 )}
         </ReactSortable>
     )

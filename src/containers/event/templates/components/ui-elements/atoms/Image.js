@@ -54,7 +54,6 @@ class ImageBlock extends React.Component {
 
     showModal = () => {
         const { editable } = this.props;
-
         if (editable) {
             this.setState({
                 visible: true,

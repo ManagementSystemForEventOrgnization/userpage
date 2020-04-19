@@ -23,6 +23,7 @@ class TextsBlock extends React.Component {
       topButton: style ? style.top ? style.top : 0 : 0,
       bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
 
+
     };
   }
 
@@ -86,7 +87,7 @@ class TextsBlock extends React.Component {
   render() {
 
     const { key, style } = this.props;
-    const { content, topButton, leftButton, rightButton, bottomButton, positionButton, width } = this.state;
+    const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
     const divStyle = style ? style : {
       position: positionButton,
       top: topButton,
@@ -94,13 +95,15 @@ class TextsBlock extends React.Component {
       right: rightButton,
       bottom: bottomButton,
       wordBreak: 'break-all',
-      width,
+      alignContent: 'center'
 
     }
     return (
 
       <div className="edittext child-block" >
-        < div key={key} style={divStyle} onClick={this.showModal}
+        < div key={key}
+          style={divStyle}
+          onClick={this.showModal}
           onChange={this.handeChangeText}
 
         >

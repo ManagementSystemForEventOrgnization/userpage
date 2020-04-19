@@ -1,15 +1,8 @@
 import React from 'react'
 import { Menu, Button } from 'antd';
-import { ReactSortable } from "react-sortablejs";
-import { v4 as uuid } from "uuid";
 import {
-    AppstoreOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
-    PieChartOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
     SettingOutlined
 } from '@ant-design/icons';
 
@@ -22,7 +15,7 @@ const { SubMenu } = Menu;
 
 export default class App extends React.Component {
     state = {
-        collapsed: false,
+        collapsed: true,
     };
 
     toggleCollapsed = () => {
@@ -38,7 +31,8 @@ export default class App extends React.Component {
                 <Button type="primary"
                     onClick={this.toggleCollapsed}
                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                    style={{ marginBottom: 16 }}>
+                    style={{ marginBottom: 10 }}>
+                    {collapsed ? 'Open Menu' : 'Hide Menu'}
                 </Button>
                 <div className="menu-wrap">
                     <div className="menu-block">
@@ -51,7 +45,6 @@ export default class App extends React.Component {
                                 >
                                     <SubMenu
                                         key={blockList.name}
-                                        className="sub"
                                         title={
                                             <span>
                                                 <SettingOutlined />
