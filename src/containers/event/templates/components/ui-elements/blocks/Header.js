@@ -85,7 +85,6 @@ class HeaderBlock extends Component {
     };
 
     removeOption = (item) => {
-
         const menuName = this.state.menuName.filter(e => e.id !== item.id)
         this.setState({
             menuName,
@@ -94,21 +93,19 @@ class HeaderBlock extends Component {
 
     removeOptionChild = (idMenu, sub) => {
         const { menuName } = this.state;
-        const item = menuName.find(ele => ele.id === idMenu);
+        let item = menuName.find(ele => ele.id === idMenu);
         const index = menuName.indexOf(item);
         if (index === -1) return;
-
         else {
- 
+            item.items = sub
             this.setState({
-                menuName: [...menuName.slice(0, index), { idMenu, title: item.title, items: sub },
+                menuName: [...menuName.slice(0, index),
+                    item,
                 ...menuName.slice(index + 1, menuName.length)]
             })
-
-
         }
-
     }
+
     handleOnChangeTextBlock = (id, value) => {
 
         const { menuName } = this.state;
