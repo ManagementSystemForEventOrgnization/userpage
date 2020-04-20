@@ -14,9 +14,6 @@ import DropdownBlocks from '../atoms/DropDown';
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
 
-
-
-
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 
@@ -139,7 +136,6 @@ class HeaderBlock extends Component {
             tranform: value
         })
     }
-
     //font size
     onChange = value => {
         this.setState({
@@ -191,7 +187,6 @@ class HeaderBlock extends Component {
             margin: value
         })
     }
-
 
     render() {
         const { key } = this.props;
@@ -286,10 +281,10 @@ class HeaderBlock extends Component {
                                 : ''
                             }
 
-                            <Button className="mt-3" onClick={this.OnClickOption}
-                                shape="circle"> <span>  <PlusOutlined /> </span>
+                            <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
+                            >  <PlusOutlined /> Add menu item
 
-                            </Button>
+                        </Button>
                         </TabPane>
                         <TabPane tab="Style" key="2">
                             <EditText

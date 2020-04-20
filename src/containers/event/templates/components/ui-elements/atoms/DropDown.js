@@ -127,6 +127,7 @@ class DropDownBlock extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    width={300}
                 >
 
                     {items.map((item) =>
