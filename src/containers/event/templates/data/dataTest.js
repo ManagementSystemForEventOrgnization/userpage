@@ -88,7 +88,7 @@ export default
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
+                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
@@ -118,7 +118,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -136,7 +136,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -151,7 +151,7 @@ export default
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
+                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
@@ -162,7 +162,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -179,7 +179,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -196,7 +196,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -210,7 +210,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -227,7 +227,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -244,7 +244,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -261,7 +261,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -284,7 +284,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -307,7 +307,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -318,7 +318,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -329,7 +329,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     }
