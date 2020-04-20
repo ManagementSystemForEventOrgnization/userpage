@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Modal, Select, InputNumber, Button } from 'antd';
 import { SketchPicker } from 'react-color';
 
+
 const buttonWidth = 170;
 const { Option } = Select;
 

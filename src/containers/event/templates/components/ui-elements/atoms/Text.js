@@ -5,6 +5,8 @@ import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
 
 import EditText from '../shares/EditText';
+import PaddingAndMargin from '../shares/PaddingAndMargin';
+import ChangeColorModal from '../shares/ChangeColorModal';
 
 
 const { TabPane } = Tabs;
@@ -198,13 +200,29 @@ class TextsBlock extends React.Component {
 
                 handleChangeTextAlign={this.handleChangeTextAlign}
                 handleChangeTextTranform={this.handleChangeTextTranform}
-                handleChangeTextColor={this.handleChangeTextColor}
-                handleChangeBackground={this.handleChangeBackground}
-
-                handleChangeMargin={this.handleChangeMargin}
-                handleChangePadding={this.handleChangePadding}
-
               />
+
+              <div className="mt-5 pl-5">
+                <PaddingAndMargin
+                  padding={padding}
+                  margin={margin}
+                  handleChangeMargin={this.handleChangeMargin}
+                  handleChangePadding={this.handleChangePadding}
+                />
+              </div>
+              <div className="d-flex mt-5 pl-5">
+                <ChangeColorModal
+                  title="Change Text Color"
+                  color={color}
+                  handleChangeColor={this.handleChangeTextColor}
+                />
+                <ChangeColorModal
+                  title="Change background"
+                  color={background}
+                  handleChangeColor={this.handleChangeBackground}
+                />
+              </div>
+
             </TabPane>
           </Tabs>
 
