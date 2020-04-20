@@ -12,9 +12,12 @@ import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
-import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
-import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
+import Banner2 from '../components/ui-elements/blocks/banner/Banner2';
+import Banner3 from '../components/ui-elements/blocks/banner/Banner3';
 
+import Schedule1 from '../components/ui-elements/blocks/Scheduel/Scheduel1';
+import Schedule2 from '../components/ui-elements/blocks/Scheduel/Scheduel2';
+import Schedule3 from '../components/ui-elements/blocks/Scheduel/Scheduel3';
 
 export default
     [{
@@ -118,11 +121,17 @@ export default
         name: 'Schedule/Program/Step',
         value: [{
             child: "Option 1",
-            options: ({ key }) => <ButtonBlock key={key} />
-        }, {
+            options: ({ key }) => <Schedule1 key={key} />
+        },
+        {
             child: "Option 2",
-            options: ({ key }) => <ButtonBlock key={key} />
-        },]
+            options: ({ key }) => <Schedule2 key={key} />
+        },
+        {
+            child: "Option 3",
+            options: ({ key }) => <Schedule3 key={key} />
+        },
+    ]
     },
     {
         name: 'Map/Location/Adress',
