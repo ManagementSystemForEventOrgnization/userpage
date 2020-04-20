@@ -1,80 +1,34 @@
-// import React, { Component } from 'react'
-
-// class Timer extends Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {
-//             count: 0,
-//             day: 0,
-//             hour: 0,
-//             minute: 0,
-//             second: 0
-//         }
-//     }
-
-//     // componentDidMount() {
-//     //     const { startCount } = this.props
-//     //     //  const startCount = 1000
-//     //     this.setState({
-//     //         count: startCount
-//     //     })
-//     //     this.doIntervalChange()
-//     // }
-
-//     // doIntervalChange = () => {
-//     //     this.myInterval = setInterval(() => {
-//     //         if (this.state.count > 0) {
-//     //             this.setState(prevState => ({
-//     //                 count: prevState.count - 1
-//     //             }))
-//     //         }
-//     //     }, 1000)
-//     // }
-
-//     // componentWillUnmount() {
-//     //     clearInterval(this.myInterval)
-//     // }
-
-//      calculateTimeLeft = () => {
-//         const difference = +new Date("2022-01-01") - +new Date();
-//         let timeLeft = {};
-
-//         if (difference > 0) {
-//           timeLeft = {
-//             days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-//             hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-//             minutes: Math.floor((difference / 1000 / 60) % 60),
-//             seconds: Math.floor((difference / 1000) % 60)
-//           };
-//         }
-
-//         return timeLeft;
-//       };
-
-//     render() {
-//         const { count } = this.state;
-//         const { key } = this.props;
-//         return (
-//             <div className="container" key={key}>
-//                 <div className="row border border-primary mt-2">
-//                     <div className="col">  <h1>{count}</h1> <h4>days</h4></div>
-//                     <div className="col">col <h4>hours</h4></div>
-//                     <div className="col">col<h4>minutes</h4></div>
-//                     <div className="col">col<h4>seconds</h4></div>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
-// export default Timer
 
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { connect } from 'react-redux'
+import ReactHtmlParser from 'react-html-parser';
+import { Modal, Select, InputNumber, Button } from 'antd';
+import { SketchPicker } from 'react-color';
 
-function Timer(key, startCount) {
-    const calculateTimeLeft = () => {
-        startCount = "2021-01-01"
+const buttonWidth = 170;
+const { Option } = Select;
+
+
+class Timer extends React.Component {
+    constructor(props) {
+        super(props);
+        const { style } = this.props;
+        this.state = {
+            visible: false,
+            positionButton: '',
+            leftButton: style ? style.left ? style.left : 0 : 0,
+            rightButton: style ? style.right ? style.right : 0 : 0,
+            topButton: style ? style.top ? style.top : 0 : 0,
+            bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
+            backgroundColor: 'white'
+        }
+    }
+
+
+    calculateTimeLeft = () => {
+        const { startCount } = this.props
+
         const difference = +new Date(startCount) - +new Date();
         let timeLeft = {};
 
@@ -90,37 +44,213 @@ function Timer(key, startCount) {
         return timeLeft;
     };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-    useEffect(() => {
-        setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-    });
 
-    const timerComponents = [];
+    timerComponents = () => {
+        const timerComponents = [];
 
-    Object.keys(timeLeft).forEach(interval => {
-        if (!timeLeft[interval]) {
-            return;
+        Object.keys(this.state).forEach(interval => {
+            if (!this.state[interval]) {
+                return;
+            }
+
+            timerComponents.push(
+                <div className="col">
+                    <h2> {this.state[interval]}</h2>
+                    {interval}
+                </div>
+            );
+        });
+        return timerComponents
+    }
+
+
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+
+
+    handleCancel = e => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+
+
+    onChangeLeft = (value) => {
+        this.setState({ leftButton: value });
+    }
+
+    onChangeTop = (value) => {
+        this.setState({ topButton: value });
+    }
+
+    onChangeRight = (value) => {
+        this.setState({ rightButton: value });
+    }
+
+    onChangeBottom = (value) => {
+        this.setState({ bottomButton: value });
+    }
+
+    onChangePosition = (value) => {
+        this.setState({
+            positionButton: value
+        })
+    }
+
+    handleChangeComplete = (color) => {
+        this.setState({
+            backgroundColor: color.hex,
+        });
+
+    };
+
+    render() {
+        const { key, style } = this.props;
+        const { topButton, leftButton, rightButton, bottomButton, positionButton, backgroundColor } = this.state;
+        const divStyle = style ? style : {
+            position: positionButton,
+            top: topButton,
+            marginLeft: leftButton,
+            marginRight: rightButton,
+            marginTop: topButton,
+            marginBottom: bottomButton,
+            alignContent: 'center',
+            backgroundColor
         }
 
-        timerComponents.push(
-            <div className="col">
-                <h2> {timeLeft[interval]}</h2>
-                {interval}
-            </div>
-        );
-    });
+        return (
+            <div className="container" key={this.props.key}>
 
-    return (
-        <div className="container" key={key}>
-            <div className="row border border-primary mt-2">
-                {timerComponents.length ? timerComponents : <span>Time's up!</span>}
-            </div>
-        </div>
 
-    );
+                < div key={key}
+                    style={divStyle}
+                    onClick={this.showModal}
+                >
+                    <div className="row border border-primary">
+                        <div className="col">
+                            <h2> {this.state.days} </h2>
+                            days
+                </div>
+                        <div className="col">
+                            <h2> {this.state.hours}</h2>
+                            hours
+                </div>
+                        <div className="col">
+                            <h2> {this.state.minutes}</h2>
+                            minutes
+                </div>
+                        <div className="col">
+                            <h2> {this.state.seconds}</h2>
+                            seconds
+                </div>
+                    </div>
+                </ div>
+
+                <Modal
+                    title="Text"
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    width={700}
+
+                    footer={[
+                        <Button key="ok" onClick={this.handleCancel} type="primary">
+                            OK
+                </Button>,
+                    ]}
+                >
+                    <div className="mt-2">
+                        <div className="d-flex mb-3">
+                            <h6 >Vị trí : </h6>
+                            <Select defaultValue={style ? 'absolute' : 'relative'}
+                                className="ml-auto" style={{ width: '80%' }} onChange={this.onChangePosition} >
+                                <Option value="static">static</Option>
+                                <Option value="relative">relative</Option>
+                                <Option value="absolute">absolute</Option>
+                                <Option value="sticky">sticky</Option>
+                                <Option value="fixed">fixed</Option>
+                            </Select>
+                        </div>
+
+                    </div>
+                    <div className="mt-2 d-flex">
+                        <h6 className="mr-2">
+                            Căn chỉnh :
+                       </h6>
+
+                        <div className="ml-5">
+                            <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+
+                                <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }}
+                                    min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+
+                            </div>
+
+                            <div style={{ width: buttonWidth, float: 'left' }}>
+                                <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }}
+                                    min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                            </div>
+
+                            <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                                <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }}
+                                    min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                            </div>
+
+                            <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
+                                    min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-4 d-flex">
+                        <h6>Background Color:</h6>
+                        <SketchPicker className="mx-auto" color='red'
+                            onChangeComplete={this.handleChangeComplete} />
+                    </div>
+
+                </Modal>
+            </div>
+
+        )
+    }
+
+    componentDidMount() {
+        this.setState({
+            ...this.calculateTimeLeft()
+        })
+
+        this.myInterval = setInterval(() => {
+            this.setState(prevState => ({
+                prevState,
+                ...this.calculateTimeLeft()
+
+            })
+            )
+        }, 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.myInterval)
+    }
+
 }
 
-export default Timer;
+
+const mapStateToProps = state => ({
+    // map state of store to props
+
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer)

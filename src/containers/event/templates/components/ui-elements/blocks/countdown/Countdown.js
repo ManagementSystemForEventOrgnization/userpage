@@ -10,7 +10,7 @@ export default class Countdown extends Component {
     render() {
         return (
             <div>
-                <Timer />
+                <Timer startCount={this.props.startCount} key={this.props.key} />
             </div>
         )
     }

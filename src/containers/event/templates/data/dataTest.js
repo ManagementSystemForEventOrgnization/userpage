@@ -204,7 +204,7 @@ export default
         name: 'Coundown',
         value: [{
             child: "Option 1",
-            options: ({ key }) => <CountDownBlock key={key} startCount="2021-01-01" />
+            options: ({ key }) => <CountDownBlock key={key} startCount="2021-04-20 12:07:00" />
         }].map(({ id, child, options }) => {
             return {
                 id: uuid(),

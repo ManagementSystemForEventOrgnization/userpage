@@ -23,7 +23,7 @@ const TrashDropContainer = () => {
             >
                 {dropList.map(item => {
                     console.log(item)
-                    return item.trash
+                    return item.trash({ key: item.id })
                 })}
             </ReactSortable>
         </div>
