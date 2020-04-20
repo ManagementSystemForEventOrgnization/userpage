@@ -1,30 +1,67 @@
-import React from 'react';
+
+
+import React from "react";
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Modal, Select, InputNumber, Button } from 'antd';
-import { Editor } from '@tinymce/tinymce-react';
+import { SketchPicker } from 'react-color';
 
 const buttonWidth = 170;
 const { Option } = Select;
 
-class TextsBlock extends React.Component {
+
+class Timer extends React.Component {
     constructor(props) {
         super(props);
-
-        const { style, content } = this.props;
+        const { style } = this.props;
         this.state = {
-
             visible: false,
-
-            content: content || "wellcome",
             positionButton: '',
             leftButton: style ? style.left ? style.left : 0 : 0,
             rightButton: style ? style.right ? style.right : 0 : 0,
             topButton: style ? style.top ? style.top : 0 : 0,
             bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
+            backgroundColor: 'white'
+        }
+    }
 
 
-        };
+    calculateTimeLeft = () => {
+        const { startCount } = this.props
+
+        const difference = +new Date(startCount) - +new Date();
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                seconds: Math.floor((difference / 1000) % 60)
+            };
+        }
+
+        return timeLeft;
+    };
+
+
+
+    timerComponents = () => {
+        const timerComponents = [];
+
+        Object.keys(this.state).forEach(interval => {
+            if (!this.state[interval]) {
+                return;
+            }
+
+            timerComponents.push(
+                <div className="col">
+                    <h2> {this.state[interval]}</h2>
+                    {interval}
+                </div>
+            );
+        });
+        return timerComponents
     }
 
 
@@ -44,19 +81,6 @@ class TextsBlock extends React.Component {
     };
 
 
-    handleEditorChange = (content) => {
-
-        const { id, handleOnChangeTextBlock } = this.props;
-
-        this.setState({ content });
-
-        if (id) {
-            // console.log("TCL : ", id)
-            handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
-
-
-        }
-    }
 
     onChangeLeft = (value) => {
         this.setState({ leftButton: value });
@@ -80,36 +104,53 @@ class TextsBlock extends React.Component {
         })
     }
 
-    handeChangeText = (e) => {
+    handleChangeComplete = (color) => {
         this.setState({
-            content: e.targe.value,
-        })
-    }
+            backgroundColor: color.hex,
+        });
+
+    };
 
     render() {
-
         const { key, style } = this.props;
-        const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
+        const { topButton, leftButton, rightButton, bottomButton, positionButton, backgroundColor } = this.state;
         const divStyle = style ? style : {
             position: positionButton,
             top: topButton,
-            left: leftButton,
-            right: rightButton,
-            bottom: bottomButton,
-            wordBreak: 'break-all',
-            alignContent: 'center'
-
+            marginLeft: leftButton,
+            marginRight: rightButton,
+            marginTop: topButton,
+            marginBottom: bottomButton,
+            alignContent: 'center',
+            backgroundColor
         }
-        return (
 
-            <div className="edittext child-block" >
+        return (
+            <div className="container" key={this.props.key}>
+
+
                 < div key={key}
                     style={divStyle}
                     onClick={this.showModal}
-                    onChange={this.handeChangeText}
-
                 >
-                    {ReactHtmlParser(content)}
+                    <div className="row border border-primary">
+                        <div className="col">
+                            <h2> {this.state.days} </h2>
+                            days
+                </div>
+                        <div className="col">
+                            <h2> {this.state.hours}</h2>
+                            hours
+                </div>
+                        <div className="col">
+                            <h2> {this.state.minutes}</h2>
+                            minutes
+                </div>
+                        <div className="col">
+                            <h2> {this.state.seconds}</h2>
+                            seconds
+                </div>
+                    </div>
                 </ div>
 
                 <Modal
@@ -121,7 +162,7 @@ class TextsBlock extends React.Component {
                     footer={[
                         <Button key="ok" onClick={this.handleCancel} type="primary">
                             OK
-          </Button>,
+                </Button>,
                     ]}
                 >
                     <div className="mt-2">
@@ -141,7 +182,7 @@ class TextsBlock extends React.Component {
                     <div className="mt-2 d-flex">
                         <h6 className="mr-2">
                             Căn chỉnh :
-            </h6>
+                       </h6>
 
                         <div className="ml-5">
                             <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
@@ -165,28 +206,39 @@ class TextsBlock extends React.Component {
                                 <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
                                     min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
                             </div>
-
-
                         </div>
-
-
+                    </div>
+                    <div className="mt-4 d-flex">
+                        <h6>Background Color:</h6>
+                        <SketchPicker className="mx-auto" color='red'
+                            onChangeComplete={this.handleChangeComplete} />
                     </div>
 
-                    <div className="mt-2">
-                        <h6>Nội dung :</h6>
-
-                        <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
-                            apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-                            init={{
-                                plugins: 'link   ',
-                                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-                            }}
-                        />
-                    </div>
                 </Modal>
             </div>
+
         )
     }
+
+    componentDidMount() {
+        this.setState({
+            ...this.calculateTimeLeft()
+        })
+
+        this.myInterval = setInterval(() => {
+            this.setState(prevState => ({
+                prevState,
+                ...this.calculateTimeLeft()
+
+            })
+            )
+        }, 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.myInterval)
+    }
+
 }
 
 
@@ -200,4 +252,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextsBlock)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer)

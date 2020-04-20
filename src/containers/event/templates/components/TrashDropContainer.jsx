@@ -12,7 +12,7 @@ const TrashDropContainer = () => {
                 sort={false}
                 group={{
                     name: "shared",
-                    pull: false,
+                    pull: true,
                     put: true
                 }}
                 animation={200}
@@ -23,7 +23,7 @@ const TrashDropContainer = () => {
             >
                 {dropList.map(item => {
                     console.log(item)
-                    return item.trash
+                    return item.trash({ key: item.id , name: item.child})
                 })}
             </ReactSortable>
         </div>

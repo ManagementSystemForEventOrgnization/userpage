@@ -127,29 +127,31 @@ class DropDownBlock extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    width={300}
                 >
+                    <div>
+                        {items.map((item) =>
+                            <div key={item.id} className="d-flex flex-row mt-2 " >
+                                <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
+                                <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
 
-                    {items.map((item) =>
-                        <div key={item.id} className="d-flex flex-row mt-2 " >
-                            <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-                            <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
+                            </div>
+                        )
+                        }
 
-                        </div>
-                    )
-                    }
+                        {isAddOption ?
+                            <div className="d-flex flex-row mt-3" >
+                                <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
+                            </div>
+                            : ''
+                        }
 
-                    {isAddOption ?
-                        <div className="d-flex flex-row mt-2" >
-                            <Input value={this.state.txtname} onChange={this.onNameChange} />
-                            <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                        </div>
-                        : ''
-                    }
+                        <Button className="mt-5 ml-5 " onClick={this.OnClickOption}
+                        >  <PlusOutlined /> Add Item
 
-                    <Button className="mt-3"
-                        shape="circle"> <span>  <PlusOutlined /> </span>
-
-                    </Button>
+                        </Button>
+                    </div>
                 </Modal>
 
             </div>

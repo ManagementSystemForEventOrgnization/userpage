@@ -18,6 +18,7 @@ import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
+import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
 
 import TrashBlock from '../components/ui-elements/atoms/Trash';
 
@@ -87,7 +88,7 @@ export default
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
+                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
@@ -117,7 +118,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -135,7 +136,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -150,7 +151,7 @@ export default
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
+                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
@@ -161,7 +162,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -178,7 +179,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -195,18 +196,21 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
     {
         name: 'Coundown',
-        value: [].map(({ id, child, options }) => {
+        value: [{
+            child: "Option 1",
+            options: ({ key }) => <CountDownBlock key={key} startCount="2021-04-20 12:07:00" />
+        }].map(({ id, child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -223,7 +227,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -240,7 +244,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -257,7 +261,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -280,7 +284,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -303,7 +307,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -314,7 +318,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -325,7 +329,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: <TrashBlock />,
+                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
             };
         })
     }
