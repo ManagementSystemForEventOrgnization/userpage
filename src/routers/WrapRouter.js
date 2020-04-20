@@ -50,20 +50,22 @@ const ROUTES = [
         main: () => <SignUpPage />
     },
     {
-        path: '/create',
-        exact: true,
-        main: () => <CreateEventPage />
-    },
-    {
         path: '/create/preview',
         exact: true,
         main: () => <PreviewEvent />
     },
     {
+        path: '/create',
+        exact: true,
+        main: () => <CreateEventPage />
+    },
+    {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
-    }
+    },
+
+
 ];
 
 class WrapRouter extends React.Component {

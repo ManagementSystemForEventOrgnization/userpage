@@ -1,10 +1,8 @@
-
-
 import React from "react";
 import { connect } from 'react-redux'
-import ReactHtmlParser from 'react-html-parser';
 import { Modal, Select, InputNumber, Button } from 'antd';
 import { SketchPicker } from 'react-color';
+
 
 const buttonWidth = 170;
 const { Option } = Select;

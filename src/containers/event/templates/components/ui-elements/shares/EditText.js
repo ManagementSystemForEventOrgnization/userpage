@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FontPicker from "font-picker-react";
-import { SketchPicker } from 'react-color';
 
 import {
     Row, Col, Slider, InputNumber, Select,
-    Modal, Button,
 } from 'antd';
-import {
-    BgColorsOutlined
-} from '@ant-design/icons';
 
-
-import PaddingAndMargin from './PaddingAndMargin';
 
 const { Option } = Select;
 
@@ -21,25 +14,9 @@ class EditText extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            textColor: '',
-            backgroundColor: '',
-            isShowColorModal: false,
-            isShowBackgroundModal: false,
-        }
+        this.state = {}
     }
-    showColorModal = () => {
-        const { isShowColorModal } = this.state;
-        this.setState({
-            isShowColorModal: !isShowColorModal
-        })
-    }
-    showBackgoundModal = () => {
-        const { isShowBackgroundModal } = this.state;
-        this.setState({
-            isShowBackgroundModal: !isShowBackgroundModal
-        })
-    }
+
     onChangeFonts = value => {
         const { handleChangeFonts } = this.props;
         if (!handleChangeFonts) return;
@@ -72,30 +49,6 @@ class EditText extends Component {
         if (!handleChangeTextTranform) return;
         handleChangeTextTranform(value);
     }
-
-    onChangeTextColor = value => {
-        console.log(value);
-        this.setState({
-            isShowColorModal: false
-        })
-    }
-
-    onChangeBackground = value => {
-        this.setState({
-            isShowBackgroundModal: false
-        })
-    }
-
-    onChangeMargin = value => {
-        const { handleChangeMargin } = this.props;
-        handleChangeMargin(value);
-    }
-
-    onChangePadding = value => {
-        const { handleChangePadding } = this.props;
-        handleChangePadding(value);
-    }
-
 
     render() {
         const {
@@ -214,66 +167,6 @@ class EditText extends Component {
 
                 </div>
 
-                <div className="mt-4 d-flex">
-                    <div className=" d-flex mr-5">
-                        <h6>Color</h6>
-                        <BgColorsOutlined style={{ height: '50px', width: '50px' }} onClick={this.showColorModal} />
-
-                    </div>
-                    <div className=" d-flex ml-5 ">
-                        <h6>background</h6>
-                        <BgColorsOutlined style={{ height: '50px', width: '50px' }} onClick={this.showBackgoundModal} />
-
-                    </div>
-
-                </div>
-
-
-                <PaddingAndMargin
-                    padding={padding}
-                    margin={margin}
-                    handleChangeMargin={this.onChangeMargin}
-                    handleChangePadding={this.onChangePadding}
-                />
-
-
-
-
-
-                <Modal
-                    title="Text design"
-                    visible={isShowColorModal}
-                    onCancel={this.showColorModal}
-                    width={300}
-                    style={{ marginLeft: 820 }}
-                    footer={[
-                        <Button key="ok" onClick={this.onChangeTextColor} type="primary">
-                            OK
-                        </Button>,
-                    ]}
-                >
-                    <SketchPicker color={color}
-                        onChangeComplete={this.onChangeTextColor} />
-
-                </Modal>
-
-                <Modal
-                    title="Text design"
-                    visible={isShowBackgroundModal}
-                    onCancel={this.showBackgoundModal}
-                    width={300}
-                    style={{ marginLeft: 820 }}
-                    footer={[
-                        <Button key="ok" onClick={this.onChangeBackground} type="primary">
-                            OK
-                        </Button>,
-                    ]}
-                >
-                    <SketchPicker color={background}
-                        onChangeComplete={this.onChangeBackground} />
-
-                </Modal>
-
             </div>
         );
     }
@@ -298,11 +191,6 @@ EditText.propTypes = {
 
     handleChangeTextAlign: PropTypes.func,
     handleChangeTextTranform: PropTypes.func,
-    handleChangeTextColor: PropTypes.func,
-    handleChangeBackground: PropTypes.func,
-
-    handleChangeMargin: PropTypes.func,
-    handleChangePadding: PropTypes.func,
 
 };
 

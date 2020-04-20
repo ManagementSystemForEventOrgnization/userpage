@@ -129,29 +129,28 @@ class DropDownBlock extends Component {
                     onCancel={this.handleCancel}
                     width={300}
                 >
-                    <div>
-                        {items.map((item) =>
-                            <div key={item.id} className="d-flex flex-row mt-2 " >
-                                <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-                                <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
 
-                            </div>
-                        )
-                        }
+                    {items.map((item) =>
+                        <div key={item.id} className="d-flex flex-row mt-2 " >
+                            <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
+                            <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
 
-                        {isAddOption ?
-                            <div className="d-flex flex-row mt-3" >
-                                <Input value={this.state.txtname} onChange={this.onNameChange} />
-                                <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                            </div>
-                            : ''
-                        }
+                        </div>
+                    )
+                    }
 
-                        <Button className="mt-5 ml-5 " onClick={this.OnClickOption}
-                        >  <PlusOutlined /> Add Item
+                    {isAddOption ?
+                        <div className="d-flex flex-row mt-2" >
+                            <Input value={this.state.txtname} onChange={this.onNameChange} />
+                            <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
+                        </div>
+                        : ''
+                    }
 
-                        </Button>
-                    </div>
+                    <Button className="mt-3"
+                        shape="circle"> <span>  <PlusOutlined /> </span>
+
+                    </Button>
                 </Modal>
 
             </div>
