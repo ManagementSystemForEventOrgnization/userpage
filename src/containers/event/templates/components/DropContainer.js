@@ -3,26 +3,11 @@ import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
 import ImageBlock from './ui-elements/atoms/Image';
-import TextBlock from './ui-elements/atoms/Text';
-import HeaderBlock from './ui-elements/blocks/Header';
-// import Banner2 from './ui-elements/blocks/banner/Banner2'
-// import Banner1 from './ui-elements/blocks/banner/Banner1'
-
-
-// import { createEventConstants } from '../../../../constants/index';
+import Banner2 from './ui-elements/blocks/banner/Banner2'
 import { eventActions } from "../../../../action/event.action";
 
-
-const textBlockOption = ({ key, style, content }) => <TextBlock
+const bannerBlockOption = ({ key }) => <Banner2
   key={key}
-  style={style}
-  content={content}
-/>
-
-const headerBloclOption = ({ key, style, content }) => <HeaderBlock
-  key={key}
-  style={style}
-  content={content}
 />
 
 const imageBlockOption = ({ key, url, editable }) => <ImageBlock
@@ -46,12 +31,9 @@ class DropContainer extends React.Component {
           },
           {
             id: 2,
-            options: textBlockOption
+            options: bannerBlockOption
           },
-          {
-            id: 3,
-            options: headerBloclOption
-          },
+
         ]
     }
   }
