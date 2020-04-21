@@ -55,12 +55,9 @@ class EditText extends Component {
             fonts,
             fontSize,
             lineText,
-            letterSpacing,
-            color, background, padding, margin,
+            letterSpacing
 
         } = this.props;
-
-        const { isShowColorModal, isShowBackgroundModal } = this.state;
 
         return (
             <div className="pl-5">

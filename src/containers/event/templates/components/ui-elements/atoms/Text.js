@@ -24,7 +24,7 @@ class TextsBlock extends React.Component {
       content: content || exampleText,
       margin: [0, 0, 0, 0],
       padding: [0, 0, 0, 0],
-      background: "white",
+      background: "none",
       fontSize: 20,
       fonts: "Open Sans",
       lineText: 80,

@@ -1,30 +1,24 @@
 import React from 'react';
-
-import Dropzone from 'react-dropzone';
-import request from 'superagent';
 import { connect } from 'react-redux'
 
 import {
-    Button,
     Modal, InputNumber,
     Tabs, Slider,
     Col, Row
 } from 'antd';
 
 import PaddingAndMargin from '../shares/PaddingAndMargin';
+import UploadImage from '../shares/UploadImage';
 
-const CLOUDINARY_UPLOAD_PRESET = 'arabdxzm';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload';
+
 const { TabPane } = Tabs;
 
 class ImageBlock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            uploadedFile: null,
             uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
             visible: false,
-
             width: 100,
             height: 60,
             href: '',
@@ -36,29 +30,10 @@ class ImageBlock extends React.Component {
         };
     }
 
-    onImageDrop = (files) => {
+    onImageDrop = url => {
         this.setState({
-            uploadedFile: files[0]
-        });
-        this.handleImageUpload(files[0]);
-    }
-
-    handleImageUpload(file) {
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
-            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-            .field('file', file);
-
-        upload.end((err, response) => {
-            if (err) {
-                console.error(err);
-            }
-
-            if (response.body.secure_url !== '') {
-                this.setState({
-                    uploadedFileCloudinaryUrl: response.body.secure_url
-                });
-            }
-        });
+            uploadedFileCloudinaryUrl: url
+        })
     }
 
     showModal = () => {
@@ -150,40 +125,13 @@ class ImageBlock extends React.Component {
 
                     <Tabs defaultActiveKey="1" >
                         <TabPane tab="Upload" key="1">
-
-                            <div className="mt-2 " >
-                                <img style={{ width: '450px' }} alt="img" src={uploadedFileCloudinaryUrl} />
-                            </div>
-                            <p>{uploadedFileCloudinaryUrl}</p>
-
-                            <form className="mt-1">
-                                <div style={{ width: '300px', height: 50 }}>
-                                    <Dropzone
-                                        onDrop={this.onImageDrop}
-                                        accept="image/*"
-                                        multiple={false}>
-                                        {({ getRootProps, getInputProps }) => {
-                                            return (
-                                                <div
-                                                    {...getRootProps()}
-                                                >
-                                                    <input {...getInputProps()} />
-                                                    {
-                                                        <Button   >Upload</Button>
-                                                    }
-                                                </div>
-                                            )
-                                        }}
-                                    </Dropzone>
-                                </div>
-                                <div  >
-                                </div>
-                            </form>
-
+                            <UploadImage
+                                url={uploadedFileCloudinaryUrl}
+                                handleImageDrop={this.onImageDrop}
+                            />
                         </TabPane>
 
                         <TabPane tab="Design" key="2">
-
                             <div className="d-flex mt-2 pl-5">
                                 <div className=" mr-5 d-flex" >
                                     <h6 className=" mr-5">Width (%)</h6>
@@ -226,8 +174,6 @@ class ImageBlock extends React.Component {
 
                                     </Col>
                                 </Row>
-
-
                             </div>
 
                             <PaddingAndMargin
@@ -235,7 +181,6 @@ class ImageBlock extends React.Component {
                                 padding={padding}
                                 handleChangePadding={this.onChangePadding}
                                 handleChangeMargin={this.onChangeMargin}
-
                             />
 
 
@@ -245,6 +190,7 @@ class ImageBlock extends React.Component {
 
 
                 </Modal>
+
             </div>
 
 
