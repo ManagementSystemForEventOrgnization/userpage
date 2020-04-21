@@ -23,16 +23,16 @@ class Banner2 extends Component {
             height: 60,
             href: '',
             margin: [1, 1, 1, 1],
-            padding: [10, 15, 5, 0],
+            padding: [10, 5, 5, 10],
+
             fontWeight: 'bolder',
-            fontSize: 30
+            fontSize: 50,
+            textAlign: 'center',
+
+
+
+
         }
-    }
-    collapseModal = () => {
-        const { isOpenModal } = this.state;
-        this.setState({
-            isOpenModal: !isOpenModal
-        })
     }
 
     onImageDrop = url => {
@@ -41,20 +41,10 @@ class Banner2 extends Component {
         })
     }
 
-    doNotShowModal = () => {
-        this.setState({
-            isOpenModal: false
-        })
-    }
-
-
-
     render() {
-
-
-
         const { isOpenModal,
             uploadedFileCloudinaryUrl,
+            fontSize, fontWeight, textAlign,
             width, height, margin, padding } = this.state;
 
         const style = {
@@ -63,7 +53,7 @@ class Banner2 extends Component {
             backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            height: `${height}vh`,
+            // height: `${height}vh`,
             width: `${width}%`,
             marginTop: `${margin[0]}%`,
             marginLeft: `${margin[1]}%`,
@@ -76,16 +66,30 @@ class Banner2 extends Component {
         }
 
         return (
-            <div className="banner-block-2 child-block" style={style} onClick={this.collapseModal}>
-                <div onClick={this.noNotShowModal}>
-                    <Text content={title} />
-                </div>
-                <div className="mt-3" onClick={this.noNotShowModal}>
-                    <Text content={description} />
+            <div className="banner-block-2 child-block" style={style} >
+                {/* <div className="bg" style={{ opacity: 0.5 }} ></div> 
 
-                </div>
-
-
+                    Upload background
+                    Change opacity
+                    Change padding, margin
+                
+                */}
+                <Text content={title} style={
+                    {
+                        fontWeight: fontWeight,
+                        fontSize: fontSize,
+                        textAlign: textAlign
+                    }
+                } />
+                <Text content={description}
+                    style={
+                        {
+                            fontWeight: 'normal',
+                            fontSize: 25,
+                            textAlign: 'center'
+                        }
+                    }
+                />
                 <Modal
                     title="Edit Image"
                     visible={isOpenModal}
@@ -93,7 +97,6 @@ class Banner2 extends Component {
                     width="700px"
                     onCancel={this.collapseModal}
                 >
-
                     <Tabs defaultActiveKey="1" >
                         <TabPane tab="Upload" key="1">
                             <UploadImage
@@ -101,7 +104,6 @@ class Banner2 extends Component {
                                 handleImageDrop={this.onImageDrop}
                             />
                         </TabPane>
-
                         <TabPane tab="Design" key="2">
 
                             <div className="d-flex mt-2 pl-5">
@@ -137,8 +139,6 @@ class Banner2 extends Component {
 
                         </TabPane>
                     </Tabs>
-
-
 
                 </Modal>
 

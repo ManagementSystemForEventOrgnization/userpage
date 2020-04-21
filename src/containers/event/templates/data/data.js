@@ -18,7 +18,6 @@ import TrashBlock from '../components/ui-elements/atoms/Trash';
 
 export default [
   {
-    id: 7,
     type: "text",
     name: 'Text',
     options: ({ key, editable, style }) => <TextBlock
@@ -28,26 +27,22 @@ export default [
     />
   },
   {
-    id: 6,
     type: "button",
     name: 'Button',
     options: ({ key }) => <ButtonBlock key={key} />
   },
 
   {
-    id: 8,
     type: "dropdown",
     options: ({ key }) => <DropdownBlock key={key} />,
     name: 'Dropdown',
   },
   {
-    id: 9,
     type: "table",
     options: ({ key }) => <TableBlock key={key} />,
     name: 'Table',
   },
   {
-    id: 10,
     type: "image",
     options: ({ key, editable }) => <ImageBlock
       key={key}
@@ -56,54 +51,47 @@ export default [
     name: 'Image',
   },
   {
-    id: 11,
     type: "divider",
     options: ({ key }) => <DividerBlock key={key} />,
     name: 'Divider',
   },
   {
-    id: 12,
     type: "step",
     options: ({ key }) => <StepBlock key={key} />,
     name: 'Step',
   },
   {
-    id: 13,
     type: "datepicker",
     name: 'Datepicker',
     options: ({ key }) => <DatepickersBlocks key={key} />,
 
   },
   {
-    id: 14,
     type: "timepicker",
     name: 'Timepicker',
     options: ({ key }) => <TimepickersBlock key={key} />,
 
   },
   {
-    id: 15,
     type: "input",
     name: 'Input',
     options: ({ key }) => <InputBlocks key={key} />,
 
   },
   {
-    id: 15,
     type: "header",
     name: 'Header',
     options: ({ key }) => <HeaderBlocks key={key} />,
 
   },
   {
-    id: 16,
     type: "countdown",
     name: 'countdown',
     options: ({ key }) => <CountdownBlock key={key} startCount="2021-01-01" />,
 
   },
 ]
-  .map(({ id, name, type, options, trash }) => {
+  .map(({ name, type, options }) => {
     return {
       id: uuid(),
       name,

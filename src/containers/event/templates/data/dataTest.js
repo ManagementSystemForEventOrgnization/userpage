@@ -38,6 +38,13 @@ export default
                 />
             },
             {
+                child: "Image",
+                options: ({ key, editable }) => <ImageBlock
+                    key={key}
+                    editable={editable}
+                />,
+            },
+            {
                 child: "Table",
                 options: ({ key }) => <TableBlock key={key} />,
 
@@ -46,12 +53,6 @@ export default
                 child: "Dropdown",
                 options: ({ key }) => <DropdownBlock key={key} />,
 
-            },
-            {
-                child: "Image",
-                options: ({ key }) => <ImageBlock
-                    key={key}
-                />,
             },
             {
                 child: "Divider",
@@ -83,12 +84,12 @@ export default
                 options: ({ key }) => <DividersBlock key={key} />
             }
         ]
-            .map(({ id, child, options }) => {
+            .map(({ child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
@@ -113,32 +114,36 @@ export default
                 child: "Two Column Text",
                 options: ({ key }) => <ButtonBlock key={key} />
             }
-        ].map(({ id, child, options }) => {
+        ].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
     {
         name: 'Banner',
-        value: [{ child: "Only Image", options: ({ key }) => <Banner1 key={key} /> }
+        value: [
+            {
+                child: "Only Image",
+                options: ({ key }) => <Banner1 key={key} />
+            }
             , {
-            child: "Basic Banner",
-            options: ({ key }) => <Banner2 key={key} />
-        }, {
-            child: "Medium Banner",
-            options: ({ key }) => <Banner3 key={key} />
-        }].map(({ id, child, options }) => {
-            return {
-                id: uuid(),
-                child,
-                options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
-            };
-        })
+                child: "Basic Banner",
+                options: ({ key }) => <Banner2 key={key} />
+            }, {
+                child: "Medium Banner",
+                options: ({ key }) => <Banner3 key={key} />
+            }].map(({ child, options }) => {
+                return {
+                    id: uuid(),
+                    child,
+                    options: options ? options : () => <></>,
+                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                };
+            })
     },
     {
         name: 'Event Description',
@@ -146,23 +151,23 @@ export default
             child: "Option 1",
             options: ({ key }) => <ButtonBlock key={key} />
         }, { child: "Option 2", options: ({ key }) => <ButtonBlock key={key} /> }, { child: "Option 3", options: ({ key }) => <ButtonBlock key={key} /> }]
-            .map(({ id, child, options }) => {
+            .map(({ child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
                 };
             })
     },
     {
         name: 'Speaker/Performer/Team',
-        value: [].map(({ id, child, options }) => {
+        value: [].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -174,12 +179,12 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },].map(({ id, child, options }) => {
+        },].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -191,12 +196,12 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },].map(({ id, child, options }) => {
+        },].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -205,12 +210,12 @@ export default
         value: [{
             child: "Option 1",
             options: ({ key }) => <CountDownBlock key={key} startCount="2021-04-20 12:07:00" />
-        }].map(({ id, child, options }) => {
+        }].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -222,12 +227,12 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },].map(({ id, child, options }) => {
+        },].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -239,12 +244,12 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },].map(({ id, child, options }) => {
+        },].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -256,12 +261,12 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },].map(({ id, child, options }) => {
+        },].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -279,12 +284,12 @@ export default
             child: "Option 3",
             options: ({ key }) => <ButtonBlock key={key} />
         },
-        ].map(({ id, child, options }) => {
+        ].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -307,7 +312,7 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
@@ -318,18 +323,18 @@ export default
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     },
     {
         name: 'Social',
-        value: [].map(({ id, child, options }) => {
+        value: [].map(({ child, options }) => {
             return {
                 id: uuid(),
                 child,
                 options: options ? options : () => <></>,
-                trash: ({ key , name}) => <TrashBlock key={key} name={name} />,
+                trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
             };
         })
     }

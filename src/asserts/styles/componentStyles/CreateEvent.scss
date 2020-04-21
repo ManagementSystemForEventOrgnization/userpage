@@ -8,14 +8,25 @@
         overflow: hidden;
         padding-top: 1%;
 
-        &:hover {
-            cursor: pointer;
+        .handle-menu {
+            display: none !important;
+            background: rgb(145, 144, 144);
+            width: 100px;
+            height: 26px;
+            padding: 7px;
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .child-block {
             &:hover {
                 border: dotted 1px rgb(138, 134, 134);
                 opacity: 0.9;
+                cursor: pointer;
+                .handle-menu {
+                    display: block !important;
+                }
             }
         }
     }

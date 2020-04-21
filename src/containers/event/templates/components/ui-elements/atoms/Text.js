@@ -16,7 +16,7 @@ class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
 
-    const { content } = this.props;
+    const { content, style } = this.props;
     this.state = {
 
       visible: false,
@@ -25,13 +25,14 @@ class TextsBlock extends React.Component {
       margin: [0, 0, 0, 0],
       padding: [0, 0, 0, 0],
       background: "none",
-      fontSize: 20,
+      fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
       fonts: "Open Sans",
       lineText: 80,
       letterSpacing: 0,
-      textAlign: '',
+      textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
       tranform: ' ',
-      color: "black"
+      color: "black",
+      fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
     };
   }
 
@@ -116,9 +117,11 @@ class TextsBlock extends React.Component {
 
     const { key } = this.props;
     const { content, margin, padding,
-      background, fontSize, fonts, lineText, letterSpacing, textAlign, tranform, color
-
+      background, fontSize, fonts, lineText,
+      letterSpacing, textAlign, tranform, color,
+      fontWeight
     } = this.state;
+
 
     const divStyle = {
 
@@ -140,6 +143,11 @@ class TextsBlock extends React.Component {
       letterSpacing: letterSpacing,
       textAlign: textAlign,
       textTransform: tranform,
+      fontWeight: fontWeight
+      // backgroundImage: `url(${url})`,
+      // backgroundPosition: 'center',
+      // backgroundSize: 'cover',
+      // backgroundRepeat: 'no-repeat',
     }
 
     return (
@@ -156,8 +164,9 @@ class TextsBlock extends React.Component {
           title="Text"
           visible={this.state.visible}
           onCancel={this.handleCancel}
-          width={700}
-
+          width={500}
+          className="float-right mr-3 mt-1"
+          style={{ top: 40 }}
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
@@ -202,7 +211,7 @@ class TextsBlock extends React.Component {
                 handleChangeTextTranform={this.handleChangeTextTranform}
               />
 
-              <div className="mt-5 pl-5">
+              <div className="mt-5 pl-2">
                 <PaddingAndMargin
                   padding={padding}
                   margin={margin}
@@ -210,7 +219,7 @@ class TextsBlock extends React.Component {
                   handleChangePadding={this.handleChangePadding}
                 />
               </div>
-              <div className="d-flex mt-5 pl-5">
+              <div className="d-flex mt-5 pl-2">
                 <ChangeColorModal
                   title="Change Text Color"
                   color={color}
@@ -234,7 +243,7 @@ class TextsBlock extends React.Component {
 
 
 const mapStateToProps = state => ({
-    // map state of store to props
+  // map state of store to props
 
 
 })

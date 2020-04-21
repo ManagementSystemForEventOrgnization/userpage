@@ -60,7 +60,7 @@ class EditText extends Component {
         } = this.props;
 
         return (
-            <div className="pl-5">
+            <div className="pl-2">
 
                 <div className="mt-2 d-flex" >
                     <h6 className="mr-5">Fonts</h6>
@@ -72,9 +72,12 @@ class EditText extends Component {
                     />
                 </div>
 
-                <div className="mt-4">
-                    <h6>Font size(px)</h6>
+                <div className="mt-5">
                     <Row>
+                        <Col span={6}>
+                            <h6>Font size(px)</h6>
+
+                        </Col>
                         <Col span={12}>
                             <Slider
                                 min={6}
@@ -96,8 +99,11 @@ class EditText extends Component {
                 </div>
 
                 <div className="mt-4">
-                    <h6>Line Height(%)</h6>
                     <Row>
+                        <Col span={6}>
+                            <h6>Line Height(%)</h6>
+
+                        </Col>
                         <Col span={12}>
                             <Slider
                                 min={80}
@@ -119,8 +125,11 @@ class EditText extends Component {
                 </div>
 
                 <div className="mt-4">
-                    <h6>Letter Spacing (px) </h6>
                     <Row>
+                        <Col span={6}>
+                            <h6>Letter Spacing (px) </h6>
+
+                        </Col>
                         <Col span={12}>
                             <Slider
                                 min={-2}
@@ -142,7 +151,7 @@ class EditText extends Component {
                 </div>
 
                 <div className="d-flex mt-4">
-                    <div className="mr-5">
+                    <div className="mr-2">
                         <h6>Text Align</h6>
                         <Select style={{ width: '200px' }} onChange={this.onChangeTextAlign} defaultValue="left">
                             <Option value="left">left</Option>
@@ -152,7 +161,7 @@ class EditText extends Component {
                         </Select>
                     </div>
 
-                    <div className="ml-5"  >
+                    <div className="ml-2"  >
                         <h6>Text Tranform</h6>
                         <Select style={{ width: '200px' }} onChange={this.onChangeTextTranform} defaultValue="none">
                             <Option value="none">none</Option>

@@ -12,9 +12,8 @@ class Banner1 extends Component {
 
     render() {
         return (
-            <div className="banner-block-1 ">
-                <Image editable={true} />
-            </div>
+            <Image editable={true} />
+
         )
     }
 }

@@ -83,8 +83,8 @@ class DividersBlock extends React.Component {
                     <div>
                         <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
                             {orientationList.map(orienformat =>
-                                <Radio value={orienformat}>
-                                    <Divider key={orienformat} orientation={orienformat}>{orienformat} </Divider>
+                                <Radio value={orienformat} key={orienformat}>
+                                    <Divider orientation={orienformat}>{orienformat} </Divider>
                                 </Radio>
                             )}
                         </Radio.Group>

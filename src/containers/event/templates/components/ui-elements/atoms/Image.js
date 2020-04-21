@@ -7,6 +7,7 @@ import {
     Col, Row
 } from 'antd';
 
+
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import UploadImage from '../shares/UploadImage';
 
@@ -108,7 +109,15 @@ class ImageBlock extends React.Component {
         }
 
         return (
+            // <div >
+            //     <div className="d-flex handle-menu float-right">
+            //         <EditTwoTone className="mr-3" />
+            //         <DeleteTwoTone className="mr-3" />
+            //         <CopyTwoTone />
+            //     </div>
+
             <div className="image-block child-block">
+
                 <img
                     style={imageStyle}
                     alt="img"
@@ -119,10 +128,11 @@ class ImageBlock extends React.Component {
                     title="Edit Image"
                     visible={this.state.visible}
                     onOk={this.handleOk}
-                    width="700px"
                     onCancel={this.handleCancel}
+                    width="500px"
+                    className="float-right mr-3 mt-1"
+                    style={{ top: 40 }}
                 >
-
                     <Tabs defaultActiveKey="1" >
                         <TabPane tab="Upload" key="1">
                             <UploadImage
@@ -132,9 +142,9 @@ class ImageBlock extends React.Component {
                         </TabPane>
 
                         <TabPane tab="Design" key="2">
-                            <div className="d-flex mt-2 pl-5">
+                            <div className="d-flex mt-2 ">
                                 <div className=" mr-5 d-flex" >
-                                    <h6 className=" mr-5">Width (%)</h6>
+                                    <h6 className=" mr-2">Width (%)</h6>
                                     <InputNumber
                                         value={width}
                                         className="ml-3"
@@ -144,7 +154,7 @@ class ImageBlock extends React.Component {
                                 </div>
 
                                 <div className=" ml-5 d-flex" >
-                                    <h6 className=" mr-5">Height (vh)</h6>
+                                    <h6 className=" mr-2">Height (vh)</h6>
                                     <InputNumber
                                         value={height}
                                         className="ml-3"
@@ -154,7 +164,7 @@ class ImageBlock extends React.Component {
                                 </div>
                             </div>
 
-                            <div className=" mt-5 pl-5" >
+                            <div className=" mt-5" >
                                 <h6 className=" mr-5">Rounded image (%)</h6>
                                 <Row>
                                     <Col span={12} className="mr-4">
@@ -186,13 +196,12 @@ class ImageBlock extends React.Component {
 
                         </TabPane>
                     </Tabs>
-
-
-
                 </Modal>
 
             </div>
 
+
+            // </div>
 
         )
     }

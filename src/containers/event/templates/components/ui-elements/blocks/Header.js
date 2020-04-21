@@ -4,7 +4,7 @@ import {
     Menu, Modal, Button, Input,
     Tabs,
 } from 'antd';
-import { DeleteOutlined, PlusOutlined, BgColorsOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import DropdownBlocks from '../atoms/DropDown';
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
@@ -278,7 +278,7 @@ class HeaderBlock extends Component {
 
                             <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
                             >  <PlusOutlined /> Add menu item
-    
+
                         </Button>
                         </TabPane>
                         <TabPane tab="Style" key="2">
