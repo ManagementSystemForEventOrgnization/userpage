@@ -13,16 +13,25 @@ class EventDescription2 extends Component {
     }
 
     render() {
+        const titleStyle = {
+            fontWeight: 'bolder',
+            fontSize: '40',
+            textAlign: 'left'
+        }
+        const style = {
+            margin: '10px',
+            padding: '10px'
+        }
         return (
-            <div className="child-block">
+            <div className="child-block" style={style}>
                 <Row>
                     <Col span={16}>
-                        <Text content="title 1" />
+                        <Text content="title 1" style={titleStyle} />
                         <Text />
                     </Col>
                     <Col span={8}>
-                        <Text content="title 2" />
-                        <Text />
+                        <Text content="title 2" leftModal={true} style={titleStyle} />
+                        <Text leftModal={true} />
                     </Col>
                 </Row>
             </div>

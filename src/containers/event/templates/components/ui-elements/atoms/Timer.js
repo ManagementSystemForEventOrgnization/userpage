@@ -23,6 +23,24 @@ class Timer extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            ...this.calculateTimeLeft()
+        })
+
+        this.myInterval = setInterval(() => {
+            this.setState(prevState => ({
+                prevState,
+                ...this.calculateTimeLeft()
+
+            })
+            )
+        }, 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.myInterval)
+    }
 
     calculateTimeLeft = () => {
         const { startCount } = this.props
@@ -42,8 +60,6 @@ class Timer extends React.Component {
         return timeLeft;
     };
 
-
-
     timerComponents = () => {
         const timerComponents = [];
 
@@ -62,23 +78,17 @@ class Timer extends React.Component {
         return timerComponents
     }
 
-
-
     showModal = () => {
         this.setState({
             visible: true,
         });
     };
 
-
-
     handleCancel = e => {
         this.setState({
             visible: false,
         });
     };
-
-
 
     onChangeLeft = (value) => {
         this.setState({ leftButton: value });
@@ -155,7 +165,9 @@ class Timer extends React.Component {
                     title="Text"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
-                    width={700}
+                    width={500}
+                    className="float-right mr-3 mt-3"
+                    style={{ top: 40 }}
 
                     footer={[
                         <Button key="ok" onClick={this.handleCancel} type="primary">
@@ -167,7 +179,7 @@ class Timer extends React.Component {
                         <div className="d-flex mb-3">
                             <h6 >Vị trí : </h6>
                             <Select defaultValue={style ? 'absolute' : 'relative'}
-                                className="ml-auto" style={{ width: '80%' }} onChange={this.onChangePosition} >
+                                className="ml-auto" style={{ width: '60%' }} onChange={this.onChangePosition} >
                                 <Option value="static">static</Option>
                                 <Option value="relative">relative</Option>
                                 <Option value="absolute">absolute</Option>
@@ -177,7 +189,7 @@ class Timer extends React.Component {
                         </div>
 
                     </div>
-                    <div className="mt-2 d-flex">
+                    <div className="mt-2 ">
                         <h6 className="mr-2">
                             Căn chỉnh :
                        </h6>
@@ -206,7 +218,7 @@ class Timer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-4 d-flex">
+                    <div className="mt-4">
                         <h6>Background Color:</h6>
                         <SketchPicker className="mx-auto" color='red'
                             onChangeComplete={this.handleChangeComplete} />
@@ -216,25 +228,6 @@ class Timer extends React.Component {
             </div>
 
         )
-    }
-
-    componentDidMount() {
-        this.setState({
-            ...this.calculateTimeLeft()
-        })
-
-        this.myInterval = setInterval(() => {
-            this.setState(prevState => ({
-                prevState,
-                ...this.calculateTimeLeft()
-
-            })
-            )
-        }, 1000)
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.myInterval)
     }
 
 }

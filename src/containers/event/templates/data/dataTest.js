@@ -101,24 +101,13 @@ export default
         },
 
         {
-            name: 'Basic',
+            name: 'Header',
             value: [
                 {
 
                     child: "Header",
                     options: ({ key }) => <HeaderBlock key={key} />
 
-                }, {
-
-                    child: "Normal Text",
-                    options: ({ key }) => <ButtonBlock key={key} />
-
-                }, {
-                    child: "Text With Title",
-                    options: ({ key }) => <ButtonBlock key={key} />
-                }, {
-                    child: "Two Column Text",
-                    options: ({ key }) => <ButtonBlock key={key} />
                 }
             ].map(({ child, options }) => {
                 return {
@@ -232,10 +221,10 @@ export default
             name: 'Photo/Image',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key }) => <ImageBlock key={key} />
             }, {
                 child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key }) => <ImageBlock key={key} />
             },].map(({ child, options }) => {
                 return {
                     id: uuid(),

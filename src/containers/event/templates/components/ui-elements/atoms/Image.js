@@ -130,7 +130,7 @@ class ImageBlock extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     width="500px"
-                    className="float-right mr-3 mt-1"
+                    className="float-right mr-3 mt-5"
                     style={{ top: 40 }}
                 >
                     <Tabs defaultActiveKey="1" >

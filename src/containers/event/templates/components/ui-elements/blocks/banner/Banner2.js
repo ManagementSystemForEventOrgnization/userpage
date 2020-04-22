@@ -74,13 +74,13 @@ class Banner2 extends Component {
                     Change padding, margin
                 
                 */}
-                <Text content={title} style={
-                    {
+                <Text content={title}
+                    style={{
                         fontWeight: fontWeight,
                         fontSize: fontSize,
                         textAlign: textAlign
-                    }
-                } />
+                    }}
+                />
                 <Text content={description}
                     style={
                         {

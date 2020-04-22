@@ -22,8 +22,8 @@ class TextsBlock extends React.Component {
       visible: false,
 
       content: content || exampleText,
-      margin: [0, 0, 0, 0],
-      padding: [0, 0, 0, 0],
+      margin: [1, 1, 1, 1],
+      padding: [1, 1, 1, 1],
       background: "none",
       fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
       fonts: "Open Sans",
@@ -115,7 +115,7 @@ class TextsBlock extends React.Component {
 
   render() {
 
-    const { key } = this.props;
+    const { key, leftModal } = this.props;
     const { content, margin, padding,
       background, fontSize, fonts, lineText,
       letterSpacing, textAlign, tranform, color,
@@ -165,8 +165,8 @@ class TextsBlock extends React.Component {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           width={500}
-          className="float-right mr-3 mt-1"
-          style={{ top: 40 }}
+          className={leftModal ? "float-left ml-5 mt-5" : "float-right mr-3 mt-5"}
+          style={leftModal ? { top: 40, left: 50 } : { top: 40 }}
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
