@@ -18,6 +18,9 @@ import HeaderBlock from '../components/ui-elements/blocks/Header';
 import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
 import Photos from '../components/ui-elements/blocks/photos/Photos';
 
+import ContactUs1 from '../components/ui-elements/blocks/contactUs/ContactUs1';
+import ContactUs2 from '../components/ui-elements/blocks/contactUs/ContactUs2';
+
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
@@ -119,6 +122,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Banner',
             value: [
@@ -141,6 +145,7 @@ export default
                     };
                 })
         },
+
         {
             name: 'Event Description',
             value: [
@@ -159,6 +164,7 @@ export default
                     };
                 })
         },
+
         {
             name: 'Speaker/Performer/Team',
             value: [].map(({ child, options }) => {
@@ -170,6 +176,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Schedule/Program/Step',
             value: [{
@@ -187,6 +194,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Map/Location/Adress',
             value: [{
@@ -204,6 +212,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Coundown',
             value: [{
@@ -218,6 +227,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Photo/Image',
             value: [{
@@ -235,6 +245,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Video',
             value: [{
@@ -252,6 +263,7 @@ export default
                 };
             })
         },
+
         {
             name: 'Sponsors/Partners',
             value: [{
@@ -269,44 +281,19 @@ export default
                 };
             })
         },
+
         {
             name: 'Contact Us',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key }) => <ContactUs1 key={key} />
             },
             {
                 child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },
-            {
-                child: "Option 3",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },
-            ].map(({ child, options }) => {
-                return {
-                    id: uuid(),
-                    child,
-                    options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
-                };
-            })
-        },
-        {
-            name: 'Navigation Menu',
-            value: [{
-                child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
-            }, {
-                child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key }) => <ContactUs2 key={key} />
             },
 
-            {
-                child: "Option 3",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },
-            ].map(({ id, child, options }) => {
+            ].map(({ child, options }) => {
                 return {
                     id: uuid(),
                     child,
