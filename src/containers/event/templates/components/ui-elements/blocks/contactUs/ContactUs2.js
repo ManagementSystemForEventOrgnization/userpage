@@ -39,7 +39,7 @@ class ContactUs2 extends Component {
                     </Col>
                     <Col span={12}>
                         <PhoneTwoTone style={iconStyle} />
-                        <Text content="0123456789" style={textStyle} />
+                        <Text content="0123456789" style={textStyle} leftModal={true} />
                     </Col>
                 </Row>
             </div>

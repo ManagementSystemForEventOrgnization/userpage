@@ -8,14 +8,20 @@
         overflow: hidden;
         padding-top: 1%;
 
-        .handle-menu {
-            display: none !important;
-            background: rgb(145, 144, 144);
-            width: 100px;
-            height: 26px;
-            padding: 7px;
+        .icons-handle {
+            padding: 10px;
+            margin-top: 20px;
+            height: 120px;
+
             &:hover {
+                border: dashed 1px rgb(0, 50, 216);
+                opacity: 0.9;
                 cursor: pointer;
+            }
+            .anticon {
+                &:hover {
+                    transform: scale(1.2);
+                }
             }
         }
 
@@ -24,9 +30,6 @@
                 border: dotted 1px rgb(138, 134, 134);
                 opacity: 0.9;
                 cursor: pointer;
-                .handle-menu {
-                    display: block !important;
-                }
             }
         }
     }

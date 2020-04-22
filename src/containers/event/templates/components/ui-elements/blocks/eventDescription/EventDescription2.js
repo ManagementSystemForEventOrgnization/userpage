@@ -26,11 +26,11 @@ class EventDescription2 extends Component {
             <div className="child-block" style={style}>
                 <Row>
                     <Col span={16}>
-                        <Text content="title 1" style={titleStyle} />
+                        <Text content="Title 1" style={titleStyle} />
                         <Text />
                     </Col>
                     <Col span={8}>
-                        <Text content="title 2" leftModal={true} style={titleStyle} />
+                        <Text content="Title 2" leftModal={true} style={titleStyle} />
                         <Text leftModal={true} />
                     </Col>
                 </Row>

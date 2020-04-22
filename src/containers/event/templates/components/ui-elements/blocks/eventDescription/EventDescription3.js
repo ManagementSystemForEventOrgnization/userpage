@@ -29,10 +29,10 @@ class EventDescription3 extends Component {
                         <Text />
                     </Col>
                     <Col span={8}>
-                        <Text content="title 1" leftModal={true} style={titleStyle} />
+                        <Text content="Title 1" leftModal={true} style={titleStyle} />
                         <Text leftModal={true} />
 
-                        <Text content="title 2" leftModal={true} style={titleStyle} />
+                        <Text content="Title 2" leftModal={true} style={titleStyle} />
                         <Text leftModal={true} />
                     </Col>
                 </Row>

@@ -135,8 +135,8 @@ class ImageBlock extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     width="500px"
-                    className={leftModal ? " mt-3" : "float-right mr-3 mt-3"}
-                    style={{ top: 40 }}
+                    className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
+                    style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
                 >
                     <Tabs defaultActiveKey="1" >
                         <TabPane tab="Upload" key="1">
