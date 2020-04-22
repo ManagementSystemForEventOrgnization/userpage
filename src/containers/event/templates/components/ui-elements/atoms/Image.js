@@ -24,7 +24,7 @@ class ImageBlock extends React.Component {
             height: 60,
             href: '',
             margin: [1, 1, 1, 1],
-            padding: [0, 0, 2, 1],
+            padding: [1, 1, 2, 1],
             borderRadius: 0,
 
 
@@ -38,12 +38,11 @@ class ImageBlock extends React.Component {
     }
 
     showModal = () => {
-        const { editable } = this.props;
-        if (editable) {
-            this.setState({
-                visible: true,
-            });
-        }
+
+        this.setState({
+            visible: true,
+        });
+
 
     };
 
@@ -92,7 +91,10 @@ class ImageBlock extends React.Component {
     }
 
     render() {
-        const { uploadedFileCloudinaryUrl, width, height, margin, padding, borderRadius } = this.state;
+        const { uploadedFileCloudinaryUrl,
+            width, height, margin, padding,
+            borderRadius } = this.state;
+        const { leftModal } = this.props;
 
         const imageStyle = {
             width: `${width}%`,
@@ -106,6 +108,9 @@ class ImageBlock extends React.Component {
             paddingRight: `${padding[2]}%`,
             paddingBottom: `${padding[3]}%`,
             borderRadius: `${borderRadius}%`,
+
+            maxWidth: '100%',
+            maxHeight: '100%'
         }
 
         return (
@@ -130,7 +135,7 @@ class ImageBlock extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     width="500px"
-                    className="float-right mr-3 mt-5"
+                    className={leftModal ? " mt-3" : "float-right mr-3 mt-3"}
                     style={{ top: 40 }}
                 >
                     <Tabs defaultActiveKey="1" >

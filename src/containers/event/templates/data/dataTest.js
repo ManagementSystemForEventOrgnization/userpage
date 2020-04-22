@@ -16,6 +16,7 @@ import DividersBlock from '../components/ui-elements/atoms/Divider';
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
 import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
+import Photos from '../components/ui-elements/blocks/photos/Photos';
 
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
@@ -224,7 +225,7 @@ export default
                 options: ({ key }) => <ImageBlock key={key} />
             }, {
                 child: "Option 2",
-                options: ({ key }) => <ImageBlock key={key} />
+                options: ({ key }) => <Photos key={key} />
             },].map(({ child, options }) => {
                 return {
                     id: uuid(),
