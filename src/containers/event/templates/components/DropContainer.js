@@ -10,7 +10,7 @@ class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropList: dataTest[2].value
+      dropList: dataTest[3].value
     }
   }
 
