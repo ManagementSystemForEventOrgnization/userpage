@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Image from '../../atoms/Image';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 
@@ -10,7 +9,8 @@ class Banner3 extends Component {
         super(props)
 
         this.state = {
-
+            height: 50,
+            bg: '/bg-2.jpg'
         }
     }
 
@@ -18,9 +18,32 @@ class Banner3 extends Component {
         console.log("click")
     }
     render() {
+        const { height, bg } = this.state;
+        const style = {
+            position: 'relative',
+            background: 'none',
+            overflow: 'hidden',
+            padding: '10%',
+            height: `${height}vh`
+        }
+        const styleText = {
+            textAlign: 'center',
+            zIndex: '2',
+            position: 'relative',
+        }
+        const styleBg = {
+            position: 'absolute',
+            left: '0',
+            top: '0',
+            width: '100%',
+            opacity: '0.8',
+            height: `${height}vh`,
+            background: `url(${bg})`,
+            backgroundSize: 'cover',
+        }
         return (
-            <div className="banner-block-3 child-block" onClick={this.handleClick} >
-                <div className="text">
+            <div className="child-block" onClick={this.handleClick} style={style}>
+                <div style={styleText}>
                     <Text content={title} style={
                         {
                             fontWeight: 'bolder',
@@ -32,10 +55,9 @@ class Banner3 extends Component {
 
                     <Button />
                 </div>
-                <div className="bg">
-                    <Image />
+                <div style={styleBg}>
+                    {/* <Image /> */}
                 </div>
-                {/* <img src="http://placekitten.com/1500/1000" /> */}
             </div>
         )
     }

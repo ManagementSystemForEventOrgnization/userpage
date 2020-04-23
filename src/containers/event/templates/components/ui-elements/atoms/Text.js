@@ -20,7 +20,6 @@ class TextsBlock extends React.Component {
     this.state = {
 
       visible: false,
-
       content: content || exampleText,
       margin: [1, 1, 1, 1],
       padding: [1, 1, 1, 1],
@@ -31,7 +30,7 @@ class TextsBlock extends React.Component {
       letterSpacing: 0,
       textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
       tranform: ' ',
-      color: "black",
+      color: style ? style.color ? style.color : "black" : 'black',
       fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
     };
   }
@@ -113,6 +112,10 @@ class TextsBlock extends React.Component {
     })
   }
 
+  handleReset = () => {
+
+  }
+
   render() {
 
     const { key, leftModal } = this.props;
@@ -171,6 +174,9 @@ class TextsBlock extends React.Component {
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
           </Button>,
+            <Button key="ok" onClick={this.handleReset} type="primary">
+              Reset
+      </Button>,
           ]}
         >
 

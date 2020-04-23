@@ -46,7 +46,11 @@ class UploadImage extends Component {
         return (
             <div>
                 <div className="mt-2 " >
-                    <img style={{ width: '450px' }} alt="img" src={url} />
+                    {
+                        url &&
+                        <img style={{ width: '450px' }} alt="img" src={url} />
+                    }
+
                 </div>
                 <p>{url}</p>
 
