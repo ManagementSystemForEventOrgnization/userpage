@@ -1,65 +1,29 @@
-import React, { Component } from 'react'
-import Text from '../../atoms/Text';
-import Button from '../../atoms/Button';
+import React, { Component } from 'react';
 
-const title = "Wellcome!!! Edit tittle here.";
+import GeneralBanner from './GeneralBanner'
 
 class Banner3 extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
-            height: 50,
-            bg: '/bg-2.jpg'
-        }
-    }
+            url: '/bg-3.jpg',
+            visible: false,
+            margin: [1, 1, 1, 1],
+            padding: [10, 5, 5, 10],
 
-    handleClick = () => {
-        console.log("click")
-    }
-    render() {
-        const { height, bg } = this.state;
-        const style = {
-            position: 'relative',
-            background: 'none',
-            overflow: 'hidden',
-            padding: '10%',
-            height: `${height}vh`
-        }
-        const styleText = {
+            fontWeight: 'bolder',
+            fontSize: 50,
             textAlign: 'center',
-            zIndex: '2',
-            position: 'relative',
-        }
-        const styleBg = {
-            position: 'absolute',
-            left: '0',
-            top: '0',
-            width: '100%',
-            opacity: '0.8',
-            height: `${height}vh`,
-            background: `url(${bg})`,
-            backgroundSize: 'cover',
-        }
-        return (
-            <div className="child-block" onClick={this.handleClick} style={style}>
-                <div style={styleText}>
-                    <Text content={title} style={
-                        {
-                            fontWeight: 'bolder',
-                            fontSize: 50,
-                            textAlign: 'center'
-                        }
-                    }
-                    />
 
-                    <Button />
-                </div>
-                <div style={styleBg}>
-                    {/* <Image /> */}
-                </div>
-            </div>
-        )
+            opacity: 0.3,
+            bgColor: 'none',
+
+            backgroundType: 'image'
+        }
+    }
+
+    render() {
+        return <GeneralBanner type={3} />
     }
 }
 

@@ -1,31 +1,18 @@
 import React, { Component } from 'react'
 import {
-    Select, Slider, InputNumber
+    Slider, InputNumber
 } from 'antd'
 
 import PaddingAndMargin from './PaddingAndMargin';
 import UploadImage from './UploadImage';
 import ChangeColorModal from './ChangeColorModal';
 
-const { Option } = Select;
 
 class ChangeParentBlockStyle extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
-            typeBg: ''
         }
-    }
-
-    onChange = value => {
-        const { handleChangeTypeBG } = this.props;
-        if (!handleChangeTypeBG) return;
-        this.setState({
-            typeBg: value
-        })
-        handleChangeTypeBG(value);
-
     }
 
     render() {
@@ -40,13 +27,8 @@ class ChangeParentBlockStyle extends Component {
             handleChangePadding
         } = this.props;
 
-        const { typeBg } = this.state;
-
-        const opacityDiv = <div className="row">
-
+        const opacityDiv = <div className="row mt-1">
             <h6 className="col-3">Opacity</h6>
-
-
             <Slider
                 className="col-6"
                 min={0}
@@ -74,44 +56,22 @@ class ChangeParentBlockStyle extends Component {
                     handleChangeMargin={handleChangeMargin}
 
                 />
-
-                <div className="d-flex mt-5">
-                    <h6 className="mr-5 "> Choose type of background</h6>
-                    <Select
-                        style={{ width: 180 }}
-                        onChange={this.onChange}
-                    >
-                        <Option value="image">Background Image</Option>
-                        <Option value="color">Background Color</Option>
-                    </Select>
-
+                <div className='mt-5'>
+                    <ChangeColorModal
+                        title="Change Background Color"
+                        color={bgColor}
+                        handleChangeColor={handleChangeColor}
+                    />
                 </div>
 
-                <div className="">
-                    {
-                        typeBg ?
-                            typeBg === 'image' ?
-                                <div className="mt-4">
+                {opacityDiv}
 
-                                    {opacityDiv}
-                                    <UploadImage
-                                        url={url}
-                                        handleImageDrop={handleChangeImage}
-                                    />
-
-                                </div > :
-                                <div>
-                                    {opacityDiv}
-                                    <ChangeColorModal
-                                        title="Change Background Color"
-                                        color={bgColor}
-                                        handleChangeColor={handleChangeColor}
-                                    />
-                                </div> :
-                            null
-                    }
+                <div className='mt-3'>
+                    <UploadImage
+                        url={url}
+                        handleImageDrop={handleChangeImage}
+                    />
                 </div>
-
             </div>
         )
     }

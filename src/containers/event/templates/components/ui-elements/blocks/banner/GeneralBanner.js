@@ -1,36 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
-    Button, Modal,
-} from 'antd'
+    Modal, Button,
+} from 'antd';
 
-
-import Text from '../../atoms/Text'
+import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
+import ButtonBlock from '../../atoms/Button'
 
 
+const title = "Wellcome!!! Edit tittle here.";
+const description = "Wellcome!!! Edit description here.";
 
 
-
-class EventDescription1 extends Component {
+class GeneralBanner extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            collapse: false,
+            url: '/bg-3.jpg',
+            visible: false,
             margin: [1, 1, 1, 1],
-            padding: [7, 1, 1, 7],
-            url: '',
+            padding: [10, 5, 5, 10],
+
+            fontWeight: 'bolder',
+            fontSize: 50,
+            textAlign: 'center',
+
+            opacity: 0.3,
             bgColor: 'none',
-            opacity: 0.3
         }
     }
 
-    collapseModal = () => {
-        const { collapse } = this.state;
+    onImageDrop = url => {
         this.setState({
-            collapse: !collapse
+            url: url
         })
     }
+
+    collapseModal = () => {
+        const { visible } = this.state;
+        this.setState({
+            visible: !visible
+        })
+    }
+
     handleDuplicate = () => {
 
     }
@@ -48,28 +61,25 @@ class EventDescription1 extends Component {
             margin: value
         })
     }
-
-    onImageDrop = value => {
+    handleChangeTypeBG = value => {
         this.setState({
-            url: value
+            backgroundType: value
         })
     }
-
-    handleChangeBGColor = value => {
-        this.setState({
-            bgColor: value
-        })
-    }
-
-    onChangeOpacity = value => {
+    handleChangeOpacity = value => {
         this.setState({
             opacity: value === 10 ? '1' : `0.${value}`
         })
     }
-
+    handleChangeColor = value => {
+        this.setState({
+            bgColor: value
+        })
+    }
     render() {
-        const { collapse, padding, url, bgColor, opacity,
-            margin } = this.state;
+        const { url, bgColor, visible,
+            fontSize, fontWeight, textAlign,
+            opacity, margin, padding } = this.state;
 
         const { type } = this.props;
 
@@ -87,9 +97,9 @@ class EventDescription1 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: bgColor
-
+            backgroundColor: bgColor,
         }
+
         const bg = {
             position: 'absolute',
             left: '0',
@@ -100,47 +110,52 @@ class EventDescription1 extends Component {
             backgroundColor: 'black'
         }
 
-        const titleStyle = {
-            fontWeight: 'bolder',
-            fontSize: '40',
-
-        }
-
         return (
-            <div className="child-block d-flex" >
-
+            <div className=" child-block d-flex" >
                 <div style={style} className="container">
                     {url &&
                         <div style={bg}></div>}
-                    <div className="row">
-                        <div className={type === 1 ? "col-sm-6" : 'col-sm-8'}>
-                            <Text content="Title 1"
-                                style={titleStyle}
+
+                    <div className="row" >
+                        <div className="col-sm-12">
+                            <Text content={title}
+                                style={{
+                                    fontWeight: fontWeight,
+                                    fontSize: fontSize,
+                                    textAlign: textAlign
+                                }}
                             />
-                            <Text />
-                        </div>
-                        <div className={type === 1 ? "col-sm-6" : "col-sm-4"}>
-                            <Text content="Title 2" leftModal={true}
-                                style={titleStyle}
-                            />
-                            <Text leftModal={true} />
-                            {
-                                type === 3 &&
-                                <div className='mt-5'>
-                                    <Text content="Title 2" leftModal={true} style={titleStyle} />
-                                    <Text leftModal={true} />
-                                </div>
-                            }
-
-
-
                         </div>
 
                     </div>
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <Text content={description}
+                                style={
+                                    {
+                                        fontWeight: 'normal',
+                                        fontSize: 25,
+                                        textAlign: 'center'
+                                    }
+                                }
+                            />
+                        </div>
 
+                    </div>
+                    {
+                        type === 3 &&
+                        <div className="row">
+                            <div className="col-sm-12" style={{
+                                textAlign: 'center'
+                            }}>
+                                <ButtonBlock />
+                            </div>
 
-
+                        </div>
+                    }
                 </div>
+
+
 
 
                 <IconsHandle
@@ -149,9 +164,10 @@ class EventDescription1 extends Component {
                     handleDelete={this.handleDelete}
                 />
 
+
                 <Modal
                     title="Edit Block"
-                    visible={collapse}
+                    visible={visible}
                     onCancel={this.collapseModal}
                     width={500}
                     className=" mt-3 float-left ml-5"
@@ -171,20 +187,17 @@ class EventDescription1 extends Component {
 
                         handleChangePadding={this.handleChangePadding}
                         handleChangeMargin={this.handleChangeMargin}
-                        handleChangeTypeBG={this.onChange}
-                        handleChangeOpacity={this.onChangeOpacity}
+                        handleChangeTypeBG={this.handleChangeTypeBG}
+                        handleChangeOpacity={this.handleChangeOpacity}
                         handleChangeImage={this.onImageDrop}
-                        handleChangeColor={this.handleChangeBGColor}
+                        handleChangeColor={this.handleChangeColor}
 
                     />
                 </Modal>
 
-
-            </div>
-
-
+            </div >
         )
     }
 }
 
-export default EventDescription1
+export default GeneralBanner
