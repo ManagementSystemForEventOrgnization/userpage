@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-import Image from '../../atoms/Image';
 import TextsBlock from '../../atoms/Text';
 import { v4 as uuid } from "uuid";
-// import Button from '../../atoms/Button';
-import { Row, Col, Modal, Input, Button, Tabs } from 'antd';
+import { Row, Col, Modal, Tabs } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import EditText from '../../shares/EditText';
-let index = 0;
-const { TabPane } = Tabs;
 class Scheduel1 extends Component {
     constructor(props) {
         super(props)
@@ -21,7 +17,7 @@ class Scheduel1 extends Component {
             padding: [0, 0, 0, 0],
             background: "white",
             fontSize: 20,
-            fonts: "Open Sans",
+            fonts:  "Times New Roman",
             lineText: 80,
             letterSpacing: 0,
             textAlign: '',

@@ -5,7 +5,7 @@ import Text from '../../atoms/Text';
 import ButtonBlock from '../../atoms/Button';
 import { Modal } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-
+import EditText from '../../shares/EditText';
 const src = 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg'
 class Scheduel2 extends Component {
     constructor(props) {
@@ -19,6 +19,16 @@ class Scheduel2 extends Component {
             txtTitle: "",
             txtDescription: "",
             txtticket: "",
+            margin: [0, 0, 0, 0],
+            padding: [0, 0, 0, 0],
+            background: "white",
+            fontSize: 20,
+            fonts: "Times New Roman",
+            lineText: 80,
+            letterSpacing: 0,
+            textAlign: '',
+            tranform: ' ',
+            color: "black",
 
             scheduelText: [
                 {
@@ -173,16 +183,96 @@ class Scheduel2 extends Component {
         console.log("ticket:", scheduelText);
 
     }
+    handleChangeFonts = value => {
+        this.setState({
+            fonts: value
+        })
+    }
+
+    handleChangeFontSize = value => {
+        this.setState({
+            fontSize: value
+        })
+        console.log(this.state.fontSize);
+    }
+    handleChangeLetterSpacing = value => {
+        this.setState({
+            letterSpacing: value
+        })
+    }
+    handleChangeLineHeight = value => {
+        this.setState({
+            lineText: value
+        })
+    }
+
+    handleChangeTextAlign = value => {
+        this.setState({
+            textAlign: value
+        })
+    }
+
+    handleChangeTextTranform = value => {
+        this.setState({
+            tranform: value
+        })
+    }
+    handleChangeTextColor = value => {
+        this.setState({
+            color: value
+        })
+    }
+
+    handleChangeBackground = value => {
+        this.setState({
+            background: value
+        })
+    }
+
+    handleChangeMargin = value => {
+        this.setState({
+            margin: value,
+        })
+    }
+
+    handleChangePadding = value => {
+        this.setState({
+            padding: value,
+        })
+    }
+
 
     render() {
 
 
-        const { scheduelText } = this.state;
+        const { scheduelText, margin, padding,
+            background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform, } = this.state;
+        const divStyle = {
+
+            marginTop: `${margin[0]}%`,
+            marginLeft: `${margin[1]}%`,
+            marginRight: `${margin[2]}%`,
+            marginBottom: `${margin[3]}%`,
+            paddingTop: `${padding[0]}%`,
+            paddingLeft: `${padding[1]}%`,
+            paddingRight: `${padding[2]}%`,
+            paddingBottom: `${padding[3]}%`,
+            color: color,
+            wordBreak: 'break-word',
+            alignContent: 'center',
+            background: background,
+            fontSize: `${fontSize}px`,
+            fontFamily: fonts,
+            lineHeight: `${lineText}%`,
+            letterSpacing: letterSpacing,
+            textAlign: textAlign,
+            textTransform: tranform,
+        }
         return (
 
-            <div className="child-block" >
+            <div className="child-block" style={divStyle} >
 
-                <div >
+                <div onClick={this.showModal}>
                     <h5>Schedule</h5>
                     {scheduelText.map((scheduel, index) =>
                         <div className="child-block" key={index}>
@@ -237,12 +327,37 @@ class Scheduel2 extends Component {
                 </div>
 
                 <Modal
-                    title="Scheduel "
+                    title="Scheduel"
                     visible={this.state.visible}
                     onOk={this.showModal}
                     onCancel={this.showModal}
+                    width={700}
                 >
+                    <EditText
+                        fonts={fonts}
+                        fontSize={fontSize}
+                        lineText={lineText}
+                        letterSpacing={letterSpacing}
 
+                        padding={padding}
+                        margin={margin}
+                        color={color}
+                        background={background}
+
+                        handleChangeFonts={this.handleChangeFonts}
+                        handleChangeFontSize={this.handleChangeFontSize}
+                        handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                        handleChangeLineHeight={this.handleChangeLineHeight}
+
+                        handleChangeTextAlign={this.handleChangeTextAlign}
+                        handleChangeTextTranform={this.handleChangeTextTranform}
+                        handleChangeTextColor={this.handleChangeTextColor}
+                        handleChangeBackground={this.handleChangeBackground}
+
+                        handleChangeMargin={this.handleChangeMargin}
+                        handleChangePadding={this.handleChangePadding}
+
+                    />
                 </Modal>
 
             </div>
