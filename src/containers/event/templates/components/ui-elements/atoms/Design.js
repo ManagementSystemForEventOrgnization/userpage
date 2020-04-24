@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import TextBlocks from '../atoms/Text';
-import { v4 as uuid } from "uuid";
+// import TextBlocks from '../atoms/Text';
+// import { v4 as uuid } from "uuid";
 import FontPicker from "font-picker-react";
 import { SketchPicker } from 'react-color';
 import {
@@ -11,7 +11,7 @@ import { BgColorsOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
-let index = 0;
+// let index = 0;
 class DesignBlock extends Component {
     constructor(props) {
         super(props)

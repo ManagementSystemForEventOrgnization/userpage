@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
-import { SaveOutlined } from '@ant-design/icons';
+// import { SaveOutlined } from '@ant-design/icons';
 
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';

@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, Radio } from 'antd';
 import { SketchPicker } from 'react-color';
-import { FaBeer } from 'react-icons/fa';
+// import { FaBeer } from 'react-icons/fa';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
-import { IconContext } from "react-icons";
+// import { IconContext } from "react-icons";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
