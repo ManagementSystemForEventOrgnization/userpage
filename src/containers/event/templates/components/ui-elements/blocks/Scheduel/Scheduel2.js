@@ -67,7 +67,7 @@ class Scheduel2 extends Component {
     onClickAddScheduel = (id) => {
         const { scheduelText } = this.state;
         const item = scheduelText.find(ele => ele.id === id);
-        const index = scheduelText.indexOf(item);
+        // const index = scheduelText.indexOf(item);
         scheduelText.push({
             id: uuid(),
             title: item.title,

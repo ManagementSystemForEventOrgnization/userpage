@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TextsBlock from '../../atoms/Text';
 import { v4 as uuid } from "uuid";
-import { Row, Col, Modal, Tabs } from 'antd';
+import { Row, Col, Modal } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import EditText from '../../shares/EditText';
 class Scheduel1 extends Component {
@@ -17,7 +17,7 @@ class Scheduel1 extends Component {
             padding: [0, 0, 0, 0],
             background: "white",
             fontSize: 20,
-            fonts:  "Times New Roman",
+            fonts: "Times New Roman",
             lineText: 80,
             letterSpacing: 0,
             textAlign: '',
@@ -50,13 +50,13 @@ class Scheduel1 extends Component {
         });
     };
 
- 
+
 
     onClickAddScheduel = (id) => {
         const {
             scheduelText } = this.state;
         const item = scheduelText.find(ele => ele.id === id);
-        const index = scheduelText.indexOf(item);
+        // const index = scheduelText.indexOf(item);
 
         scheduelText.push({
             id: uuid(),
@@ -178,13 +178,13 @@ class Scheduel1 extends Component {
         }
 
     }
-    
+
 
 
     render() {
-        const { scheduelText ,margin, padding,
-         background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform,
-         } = this.state;
+        const { scheduelText, margin, padding,
+            background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform,
+        } = this.state;
         const divStyle = {
 
             marginTop: `${margin[0]}%`,
@@ -246,31 +246,31 @@ class Scheduel1 extends Component {
                     onCancel={this.showModal}
                     width={700}
                 >
-                            <EditText
-                                fonts={fonts}
-                                fontSize={fontSize}
-                                lineText={lineText}
-                                letterSpacing={letterSpacing}
+                    <EditText
+                        fonts={fonts}
+                        fontSize={fontSize}
+                        lineText={lineText}
+                        letterSpacing={letterSpacing}
 
-                                padding={padding}
-                                margin={margin}
-                                color={color}
-                                background={background}
+                        padding={padding}
+                        margin={margin}
+                        color={color}
+                        background={background}
 
-                                handleChangeFonts={this.handleChangeFonts}
-                                handleChangeFontSize={this.handleChangeFontSize}
-                                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                                handleChangeLineHeight={this.handleChangeLineHeight}
+                        handleChangeFonts={this.handleChangeFonts}
+                        handleChangeFontSize={this.handleChangeFontSize}
+                        handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                        handleChangeLineHeight={this.handleChangeLineHeight}
 
-                                handleChangeTextAlign={this.handleChangeTextAlign}
-                                handleChangeTextTranform={this.handleChangeTextTranform}
-                                handleChangeTextColor={this.handleChangeTextColor}
-                                handleChangeBackground={this.handleChangeBackground}
+                        handleChangeTextAlign={this.handleChangeTextAlign}
+                        handleChangeTextTranform={this.handleChangeTextTranform}
+                        handleChangeTextColor={this.handleChangeTextColor}
+                        handleChangeBackground={this.handleChangeBackground}
 
-                                handleChangeMargin={this.handleChangeMargin}
-                                handleChangePadding={this.handleChangePadding}
+                        handleChangeMargin={this.handleChangeMargin}
+                        handleChangePadding={this.handleChangePadding}
 
-                            />
+                    />
                 </Modal>
 
             </div>

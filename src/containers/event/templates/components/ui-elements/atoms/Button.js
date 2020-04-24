@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
-import { IconContext } from "react-icons";
+// import { IconContext } from "react-icons";
 
 const { TabPane } = Tabs;
 const { Option } = Select;

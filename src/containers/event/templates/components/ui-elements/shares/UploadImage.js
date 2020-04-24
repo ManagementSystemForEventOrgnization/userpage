@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone';
-import { Button } from 'antd'
+import { Button, Spin } from 'antd'
 import request from 'superagent';
 
 
@@ -13,11 +13,12 @@ class UploadImage extends Component {
         super(props)
 
         this.state = {
-
+            pending: false
         }
     }
 
     handleImageUpload(file) {
+
         const { handleImageDrop } = this.props;
         if (!handleImageDrop) return;
         let upload = request.post(CLOUDINARY_UPLOAD_URL)
@@ -26,10 +27,15 @@ class UploadImage extends Component {
 
         upload.end((err, response) => {
             if (err) {
-                console.error(err);
+                this.setState({
+                    pending: false
+                })
             }
 
             if (response.body.secure_url !== '') {
+                this.setState({
+                    pending: false
+                })
                 handleImageDrop(response.body.secure_url);
             }
         });
@@ -37,18 +43,37 @@ class UploadImage extends Component {
 
 
     onImageDrop = files => {
+        this.setState({
+            pending: true
+        })
         this.handleImageUpload(files[0]);
     }
 
 
     render() {
         const { url } = this.props;
+        const { pending } = this.state;
         return (
             <div>
                 <div className="mt-2 " >
                     {
                         url &&
-                        <img style={{ width: '450px' }} alt="img" src={url} />
+                        <div>
+                            {pending && <Spin
+                                tip="Uploading..."
+                                size='large'
+                                style={{
+                                    position: 'absolute',
+                                    paddingBottom: '50%'
+                                }}
+                            > </Spin>}
+                            <img style={{
+                                width: '450px',
+                                opacity: pending ? '0.3' : '1'
+                            }} alt="img" src={url} />
+                        </div>
+
+
                     }
 
                 </div>
@@ -67,7 +92,7 @@ class UploadImage extends Component {
                                     >
                                         <input {...getInputProps()} />
                                         {
-                                            <Button   >Upload</Button>
+                                            <Button >Upload</Button>
                                         }
                                     </div>
                                 )
