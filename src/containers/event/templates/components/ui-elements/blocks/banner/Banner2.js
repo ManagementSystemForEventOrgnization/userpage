@@ -23,7 +23,8 @@ class Banner2 extends Component {
     }
 
     render() {
-        return <GeneralBanner type={2} />
+        const { editable } = this.props;
+        return <GeneralBanner type={2} editable={editable} />
     }
 }
 

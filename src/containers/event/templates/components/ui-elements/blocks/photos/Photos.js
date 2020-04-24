@@ -11,6 +11,7 @@ class Photos extends Component {
     }
 
     render() {
+        const { editable } = this.props;
         const style = {
             margin: '10px',
             padding: '5px',
@@ -18,10 +19,10 @@ class Photos extends Component {
         }
         return (
             <div className="d-flex child-block" style={style}>
-                <ImageBlock />
-                <ImageBlock url='/bg-2.jpg' />
-                <ImageBlock leftModal={true} />
-                <ImageBlock url='/bg-2.jpg' leftModal={true} />
+                <ImageBlock editable={editable} />
+                <ImageBlock url='/bg-2.jpg' editable={editable} />
+                <ImageBlock leftModal={true} editable={editable} />
+                <ImageBlock url='/bg-2.jpg' leftModal={true} editable={editable} />
 
             </div>
         )

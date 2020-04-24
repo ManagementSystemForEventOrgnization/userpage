@@ -227,7 +227,7 @@ class HeaderBlock extends Component {
 
 
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
 
         const { visible, menuName, isShowAdd,
             inputValue, activeFontFamily,
@@ -279,32 +279,28 @@ class HeaderBlock extends Component {
                         }
                     </Menu>
                 </div>
+                {editable &&
+                    <Modal
+                        title="Header"
+                        visible={visible}
+                        width={600}
+                        onOk={this.handleEditMenu}
+                        onCancel={this.handleEditMenu}
+                        maskClosable={true}
+                    >
+                        <Tabs defaultActiveKey="1" >
+                            <TabPane tab="Text" key="1">
+                                {
+                                    menuName.map(sub =>
+                                        <div key={sub.id}>
 
-                <Modal
-                    title="Header"
-                    visible={visible}
-                    width={600}
-                    onOk={this.handleEditMenu}
-                    onCancel={this.handleEditMenu}
-                    maskClosable={true}
-                >
-                    <Tabs defaultActiveKey="1" >
-                        <TabPane tab="Text" key="1">
-                            {
-                                menuName.map(sub =>
-                                    <div key={sub.id}>
-
-                                        <div key={sub.id} className="d-flex row mt-2">
-                                            <div className="col">
-                                                <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
-                                            </div>
-                                            <div className="col">
-                                                <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
-                                            </div>
-                                        </div>
-                                        <div className="d-flex row mt-2">
-                                            <div className="col">
-                                                <p>Thêm các thuộc tính con : </p>
+                                            <div key={sub.id} className="d-flex row mt-2">
+                                                <div className="col">
+                                                    <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
+                                                </div>
+                                                <div className="col">
+                                                    <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                                </div>
                                             </div>
                                             <div className="col">
 
@@ -315,55 +311,56 @@ class HeaderBlock extends Component {
                                                 > </DropdownBlocks>
                                             </div>
                                         </div>
+
+                                    )}
+
+                                {isShowAdd ?
+                                    <div className="d-flex mt-2" >
+                                        <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                        <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
                                     </div>
+                                    : ''
+                                }
 
-                                )}
-
-                            {isShowAdd ?
-                                <div className="d-flex mt-2" >
-                                    <Input value={this.state.txtname} onChange={this.onNameChange} />
-                                    <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                                </div>
-                                : ''
-                            }
-
-                            <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
-                            >  <PlusOutlined /> Add menu item
+                                <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
+                                >  <PlusOutlined /> Add menu item
 
                         </Button>
-                        </TabPane>
-                        <TabPane tab="Style" key="2">
-                            <EditText
-                                fonts={activeFontFamily}
-                                fontSize={inputValue}
-                                lineText={lineText}
-                                letterSpacing={letterText}
-                                color={color}
-                                background={background}
-                                margin={margin}
-                                padding={padding}
+                            </TabPane>
+                            <TabPane tab="Style" key="2">
+                                <EditText
+                                    fonts={activeFontFamily}
+                                    fontSize={inputValue}
+                                    lineText={lineText}
+                                    letterSpacing={letterText}
+                                    color={color}
+                                    background={background}
+                                    margin={margin}
+                                    padding={padding}
 
-                                handleChangeFonts={this.handleChangeFonts}
-                                handleChangeFontSize={this.onChange}
-                                handleChangeLetterSpacing={this.onChangeLetterSpace}
-                                handleChangeLineHeight={this.onChangeLineHeight}
+                                    handleChangeFonts={this.handleChangeFonts}
+                                    handleChangeFontSize={this.onChange}
+                                    handleChangeLetterSpacing={this.onChangeLetterSpace}
+                                    handleChangeLineHeight={this.onChangeLineHeight}
 
-                                handleChangeTextAlign={this.onChangeTextAlign}
-                                handleChangeTextTranform={this.onChangeTextTranform}
-                                handleChangeTextColor={this.handleChangeColor}
-                                handleChangeBackground={this.handleChangeBackground}
+                                    handleChangeTextAlign={this.onChangeTextAlign}
+                                    handleChangeTextTranform={this.onChangeTextTranform}
+                                    handleChangeTextColor={this.handleChangeColor}
+                                    handleChangeBackground={this.handleChangeBackground}
 
-                                handleChangePadding={this.onChangePadding}
-                                handleChangeMargin={this.onChangeMargin}
-
-
+                                    handleChangePadding={this.onChangePadding}
+                                    handleChangeMargin={this.onChangeMargin}
 
 
-                            />
-                        </TabPane>
 
-                    </Tabs>
-                </Modal>
+
+                                />
+                            </TabPane>
+
+                        </Tabs>
+                    </Modal>
+
+                }
             </div>
         )
     }

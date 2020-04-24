@@ -40,6 +40,7 @@ class ContactUs1 extends Component {
     };
 
     render() {
+        const { editable } = this.props;
         const style = {
             margin: '10px',
             padding: '10px'
@@ -52,8 +53,8 @@ class ContactUs1 extends Component {
             <div className="child-block" style={style}>
                 <Row >
                     <Col span={10}>
-                        <Text content="Contact Us" style={titleStyle} />
-                        <Text />
+                        <Text content="Contact Us" style={titleStyle} editable={editable} />
+                        <Text editable={editable} />
                     </Col>
                     <Col span={14} className="pt-5 pr-5">
                         <Form

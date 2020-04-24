@@ -38,7 +38,7 @@ class DividersBlock extends React.Component {
     };
 
     handleCancel = e => {
-      
+
         this.setState({
             visible: false,
         });
@@ -61,15 +61,16 @@ class DividersBlock extends React.Component {
 
     render() {
         const { orientationList, styleFormat } = this.state;
+        const { editable } = this.props;
 
         return (
 
-            <div className="edittext">
+            <div className=" child-block">
                 <div className="mt-2" onClick={this.showModalDivider}>
                     <Divider orientation={styleFormat}>Text </Divider>
                 </div>
 
-                <Modal
+                {editable && <Modal
                     title="TimePicker design"
                     visible={this.state.isDesign}
                     onOk={this.handleOk}
@@ -91,6 +92,7 @@ class DividersBlock extends React.Component {
 
                     </div>
                 </Modal>
+                }
             </div>
         )
     }

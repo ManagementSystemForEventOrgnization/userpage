@@ -72,6 +72,7 @@ class DatepickersBlock extends React.Component {
   render() {
 
     const { dateFormatList, styleFormat } = this.state;
+    const { editable } = this.props
 
 
     return (
@@ -82,31 +83,33 @@ class DatepickersBlock extends React.Component {
 
             format={styleFormat} onChange={onChange} defaultValue={moment('2020/04/08')} ></DatePicker>
         </div>
-
-        <Modal
-          title="Datepicker design"
-          visible={this.state.isDesign}
-          onCancel={this.handleCancelDesign}
-          width={500}
-          footer={[
-            <Button key="ok" onClick={this.handleCancelDesign} type="primary">
-              OK
+        {editable &&
+          <Modal
+            title="Datepicker design"
+            visible={this.state.isDesign}
+            onCancel={this.handleCancelDesign}
+            width={500}
+            footer={[
+              <Button key="ok" onClick={this.handleCancelDesign} type="primary">
+                OK
           </Button>,
-          ]}
-        >
+            ]}
+          >
 
-          {/* list datepicker in modal */}
-          <div>
-            <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
-              {dateFormatList.map((dateformat, index) =>
-                <Radio value={dateformat} key={index} >
-                  <DatePicker key={dateformat} onChange={onChange} format={dateformat} placeholder={dateFormat} ></DatePicker>
-                </Radio>
-              )}
-            </Radio.Group>
+            {/* list datepicker in modal */}
+            <div>
+              <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
+                {dateFormatList.map((dateformat, index) =>
+                  <Radio value={dateformat} key={index} >
+                    <DatePicker key={dateformat} onChange={onChange} format={dateformat} placeholder={dateFormat} ></DatePicker>
+                  </Radio>
+                )}
+              </Radio.Group>
 
-          </div>
-        </Modal>
+            </div>
+          </Modal>
+
+        }
       </div>
     )
   }

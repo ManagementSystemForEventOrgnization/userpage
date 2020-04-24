@@ -185,6 +185,7 @@ class Scheduel1 extends Component {
         const { scheduelText, margin, padding,
             background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform,
         } = this.state;
+        const { editable } = this.props;
         const divStyle = {
 
             marginTop: `${margin[0]}%`,
@@ -213,24 +214,34 @@ class Scheduel1 extends Component {
                 <div onClick={this.showModal} style={divStyle}>
 
                     {scheduelText.map((scheduel, index) =>
+
                         <div className="child-block" >
-                            <PlusOutlined onClick={() => this.onClickAddScheduel(scheduel.id)} />
-                            <DeleteOutlined className="ml-5 " onClick={() => this.removeOption(scheduel)} />
+                            {editable && <div>
+                                <PlusOutlined onClick={() => this.onClickAddScheduel(scheduel.id)} />
+                                <DeleteOutlined className="ml-5 " onClick={() => this.removeOption(scheduel)} />
+
+                            </div>}
+
                             <Row key={index} className="mt-4"  >
 
                                 <Col span={18} push={6}>
 
-                                    <TextsBlock id={scheduel.id} content={scheduel.title}
+                                    <TextsBlock id={scheduel.id}
+                                        editable={editable}
+                                        content={scheduel.title}
                                         handleOnChangeTextBlock={this.handleOnChangeTitleTextBlock}></TextsBlock>
 
                                     <div className="mt-3">
                                         <TextsBlock id={scheduel.id}
+                                            editable={editable}
                                             handleOnChangeTextBlock={this.handleOnChangeDesTextBlock}
                                             content={scheduel.description}></TextsBlock>
                                     </div>
                                 </Col>
                                 <Col span={6} pull={18}>
-                                    <TextsBlock content={scheduel.time} id={scheduel.id}
+                                    <TextsBlock content={scheduel.time}
+                                        id={scheduel.id}
+                                        editable={editable}
                                         handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextsBlock>
                                 </Col>
 
@@ -239,39 +250,40 @@ class Scheduel1 extends Component {
                         </div>
                     )}
                 </div>
-                <Modal
-                    title="Scheduel"
-                    visible={this.state.visible}
-                    onOk={this.showModal}
-                    onCancel={this.showModal}
-                    width={700}
-                >
-                    <EditText
-                        fonts={fonts}
-                        fontSize={fontSize}
-                        lineText={lineText}
-                        letterSpacing={letterSpacing}
+                {editable &&
+                    <Modal
+                        title="Scheduel"
+                        visible={this.state.visible}
+                        onOk={this.showModal}
+                        onCancel={this.showModal}
+                        width={700}
+                    >
+                        <EditText
+                            fonts={fonts}
+                            fontSize={fontSize}
+                            lineText={lineText}
+                            letterSpacing={letterSpacing}
 
-                        padding={padding}
-                        margin={margin}
-                        color={color}
-                        background={background}
+                            padding={padding}
+                            margin={margin}
+                            color={color}
+                            background={background}
 
-                        handleChangeFonts={this.handleChangeFonts}
-                        handleChangeFontSize={this.handleChangeFontSize}
-                        handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                        handleChangeLineHeight={this.handleChangeLineHeight}
+                            handleChangeFonts={this.handleChangeFonts}
+                            handleChangeFontSize={this.handleChangeFontSize}
+                            handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                            handleChangeLineHeight={this.handleChangeLineHeight}
 
-                        handleChangeTextAlign={this.handleChangeTextAlign}
-                        handleChangeTextTranform={this.handleChangeTextTranform}
-                        handleChangeTextColor={this.handleChangeTextColor}
-                        handleChangeBackground={this.handleChangeBackground}
+                            handleChangeTextAlign={this.handleChangeTextAlign}
+                            handleChangeTextTranform={this.handleChangeTextTranform}
+                            handleChangeTextColor={this.handleChangeTextColor}
+                            handleChangeBackground={this.handleChangeBackground}
 
-                        handleChangeMargin={this.handleChangeMargin}
-                        handleChangePadding={this.handleChangePadding}
+                            handleChangeMargin={this.handleChangeMargin}
+                            handleChangePadding={this.handleChangePadding}
 
-                    />
-                </Modal>
+                        />
+                    </Modal>}
 
             </div>
         )

@@ -243,7 +243,7 @@ class Scheduel2 extends Component {
 
 
     render() {
-
+        const { editable } = this.props;
 
         const { scheduelText, margin, padding,
             background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform, } = this.state;
@@ -276,10 +276,12 @@ class Scheduel2 extends Component {
                     <h5>Schedule</h5>
                     {scheduelText.map((scheduel, index) =>
                         <div className="child-block" key={index}>
-                            <PlusOutlined
+                            {editable && <div><PlusOutlined
                                 onClick={() => this.onClickAddScheduel(scheduel.id)}
                             />
-                            <DeleteOutlined className="ml-5 " onClick={() => this.removeOption(scheduel)} />
+                                <DeleteOutlined className="ml-5 " onClick={() => this.removeOption(scheduel)} />
+                            </div>
+                            }
                             <div className="row mt-1" >
                                 <div className="col-2 mt-5 ml-4" >
 
@@ -325,41 +327,41 @@ class Scheduel2 extends Component {
                         </div>
                     )}
                 </div>
+                {editable &&
+                    <Modal
+                        title="Scheduel"
+                        visible={this.state.visible}
+                        onOk={this.showModal}
+                        onCancel={this.showModal}
+                        width={700}
+                    >
+                        <EditText
+                            fonts={fonts}
+                            fontSize={fontSize}
+                            lineText={lineText}
+                            letterSpacing={letterSpacing}
 
-                <Modal
-                    title="Scheduel"
-                    visible={this.state.visible}
-                    onOk={this.showModal}
-                    onCancel={this.showModal}
-                    width={700}
-                >
-                    <EditText
-                        fonts={fonts}
-                        fontSize={fontSize}
-                        lineText={lineText}
-                        letterSpacing={letterSpacing}
+                            padding={padding}
+                            margin={margin}
+                            color={color}
+                            background={background}
 
-                        padding={padding}
-                        margin={margin}
-                        color={color}
-                        background={background}
+                            handleChangeFonts={this.handleChangeFonts}
+                            handleChangeFontSize={this.handleChangeFontSize}
+                            handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                            handleChangeLineHeight={this.handleChangeLineHeight}
 
-                        handleChangeFonts={this.handleChangeFonts}
-                        handleChangeFontSize={this.handleChangeFontSize}
-                        handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                        handleChangeLineHeight={this.handleChangeLineHeight}
+                            handleChangeTextAlign={this.handleChangeTextAlign}
+                            handleChangeTextTranform={this.handleChangeTextTranform}
+                            handleChangeTextColor={this.handleChangeTextColor}
+                            handleChangeBackground={this.handleChangeBackground}
 
-                        handleChangeTextAlign={this.handleChangeTextAlign}
-                        handleChangeTextTranform={this.handleChangeTextTranform}
-                        handleChangeTextColor={this.handleChangeTextColor}
-                        handleChangeBackground={this.handleChangeBackground}
+                            handleChangeMargin={this.handleChangeMargin}
+                            handleChangePadding={this.handleChangePadding}
 
-                        handleChangeMargin={this.handleChangeMargin}
-                        handleChangePadding={this.handleChangePadding}
-
-                    />
-                </Modal>
-
+                        />
+                    </Modal>
+                }
             </div>
         )
     }
