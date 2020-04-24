@@ -120,7 +120,7 @@ class DropDownBlock extends Component {
     }
 
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
         const { items, isAddOption } = this.state;
 
         const constructOptions = options =>
@@ -131,13 +131,14 @@ class DropDownBlock extends Component {
             ));
 
         return (
-            <div className="sortable-element" >
+            <div className="sortable-element child-block" >
                 <Select key={key} id={"dropdown" + uuid()} style={{ width: 100 }}
                     onClick={this.showModal}
                 >
                     {constructOptions(items)}
                 </Select>
-                <Modal
+
+                {editable && <Modal
                     title="Dropdown"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -172,7 +173,7 @@ class DropDownBlock extends Component {
                         </Button>
                     </div>
                 </Modal>
-
+                }
             </div>
         )
     }

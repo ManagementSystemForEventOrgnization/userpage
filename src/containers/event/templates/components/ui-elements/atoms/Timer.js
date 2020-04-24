@@ -120,7 +120,7 @@ class Timer extends React.Component {
     };
 
     render() {
-        const { key, style } = this.props;
+        const { key, style, editable } = this.props;
         const { topButton, leftButton, rightButton, bottomButton, positionButton, backgroundColor } = this.state;
         const divStyle = style ? style : {
             position: positionButton,
@@ -160,71 +160,73 @@ class Timer extends React.Component {
                 </div>
                     </div>
                 </ div>
+                {editable &&
+                    <Modal
+                        title="Text"
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        width={500}
+                        className="float-right mr-3 mt-3"
+                        style={{ top: 40 }}
 
-                <Modal
-                    title="Text"
-                    visible={this.state.visible}
-                    onCancel={this.handleCancel}
-                    width={500}
-                    className="float-right mr-3 mt-3"
-                    style={{ top: 40 }}
-
-                    footer={[
-                        <Button key="ok" onClick={this.handleCancel} type="primary">
-                            OK
+                        footer={[
+                            <Button key="ok" onClick={this.handleCancel} type="primary">
+                                OK
                 </Button>,
-                    ]}
-                >
-                    <div className="mt-2">
-                        <div className="d-flex mb-3">
-                            <h6 >Vị trí : </h6>
-                            <Select defaultValue={style ? 'absolute' : 'relative'}
-                                className="ml-auto" style={{ width: '60%' }} onChange={this.onChangePosition} >
-                                <Option value="static">static</Option>
-                                <Option value="relative">relative</Option>
-                                <Option value="absolute">absolute</Option>
-                                <Option value="sticky">sticky</Option>
-                                <Option value="fixed">fixed</Option>
-                            </Select>
-                        </div>
+                        ]}
+                    >
+                        <div className="mt-2">
+                            <div className="d-flex mb-3">
+                                <h6 >Vị trí : </h6>
+                                <Select defaultValue={style ? 'absolute' : 'relative'}
+                                    className="ml-auto" style={{ width: '60%' }} onChange={this.onChangePosition} >
+                                    <Option value="static">static</Option>
+                                    <Option value="relative">relative</Option>
+                                    <Option value="absolute">absolute</Option>
+                                    <Option value="sticky">sticky</Option>
+                                    <Option value="fixed">fixed</Option>
+                                </Select>
+                            </div>
 
-                    </div>
-                    <div className="mt-2 ">
-                        <h6 className="mr-2">
-                            Căn chỉnh :
+                        </div>
+                        <div className="mt-2 ">
+                            <h6 className="mr-2">
+                                Căn chỉnh :
                        </h6>
 
-                        <div className="ml-5">
-                            <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+                            <div className="ml-5">
+                                <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
 
-                                <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }}
-                                    min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+                                    <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }}
+                                        min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
 
-                            </div>
+                                </div>
 
-                            <div style={{ width: buttonWidth, float: 'left' }}>
-                                <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }}
-                                    min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
-                            </div>
+                                <div style={{ width: buttonWidth, float: 'left' }}>
+                                    <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }}
+                                        min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                                </div>
 
-                            <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                                <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }}
-                                    min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
-                            </div>
+                                <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
+                                    <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }}
+                                        min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                                </div>
 
-                            <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                                <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
-                                    min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+                                    <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
+                                        min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="mt-4">
-                        <h6>Background Color:</h6>
-                        <SketchPicker className="mx-auto" color='red'
-                            onChangeComplete={this.handleChangeComplete} />
-                    </div>
+                        <div className="mt-4">
+                            <h6>Background Color:</h6>
+                            <SketchPicker className="mx-auto" color='red'
+                                onChangeComplete={this.handleChangeComplete} />
+                        </div>
 
-                </Modal>
+                    </Modal>
+
+                }
             </div>
 
         )

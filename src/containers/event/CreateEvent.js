@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd'
+import { Button } from 'antd';
+import { Link } from 'react-router-dom'
 
 import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
@@ -39,14 +40,17 @@ class CreateEvent extends React.Component {
                 </div>
 
                 <div className="d-flex flex-row-reverse">
-
                     <Button className="mr-5 ml-3" type="primary" size="large">Public</Button>
-
-                    <Button type="dashed" size="large" onClick={this.handlePreview}>
+                    {/* <Button type="dashed" size="large" onClick={this.handlePreview}>
                         <a href="/create/preview" target="_blank">
                             Preview
                         </a>
+                    </Button> */}
+
+                    <Button type="dashed" size="large" onClick={this.handlePreview}>
+                        <Link to='/create/preview'>Preview</Link>
                     </Button>
+
 
 
                 </div>

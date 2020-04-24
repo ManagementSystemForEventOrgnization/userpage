@@ -18,6 +18,7 @@ class DropContainer extends React.Component {
     const { dropList } = this.state;
     const { storeBlocksWhenCreateEvent } = this.props;
     storeBlocksWhenCreateEvent(dropList);
+
   }
 
   handleSetDropList = (dropList) => {

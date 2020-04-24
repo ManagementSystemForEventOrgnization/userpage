@@ -33,12 +33,12 @@ class ImageBlock extends React.Component {
     }
 
     onImageDrop = url => {
-        const{id,  handleOnChangeUrlTextBlock }=this.props;
+        const { id, handleOnChangeUrlTextBlock } = this.props;
         this.setState({
             uploadedFileCloudinaryUrl: url
         })
-        if(id){
-            handleOnChangeUrlTextBlock(id,this.state.uploadedFileCloudinaryUrl);
+        if (id) {
+            handleOnChangeUrlTextBlock(id, this.state.uploadedFileCloudinaryUrl);
         }
     }
 
@@ -107,7 +107,7 @@ class ImageBlock extends React.Component {
         const { uploadedFileCloudinaryUrl,
             width, height, margin, padding,
             borderRadius } = this.state;
-        const { leftModal } = this.props;
+        const { leftModal, editable } = this.props;
 
         const imageStyle = {
             width: `${width}%`,
@@ -142,7 +142,7 @@ class ImageBlock extends React.Component {
                     src={uploadedFileCloudinaryUrl}
                     onClick={this.showModal} />
 
-                <Modal
+                {editable && <Modal
                     title="Edit Image"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -215,7 +215,7 @@ class ImageBlock extends React.Component {
                         </TabPane>
                     </Tabs>
                 </Modal>
-
+                }
             </div>
 
 

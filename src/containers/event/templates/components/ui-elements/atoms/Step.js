@@ -137,16 +137,16 @@ class StepBlock extends Component {
         }
 
     }
-     
-    onChangeBackground=(data)=>{
-        this.setState ({
-            background :data
+
+    onChangeBackground = (data) => {
+        this.setState({
+            background: data
         })
-       
+
     }
 
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
         const { steps, isAddOption, txtname, txtdescription,
             inputValue, activeFontFamily, lineText, letterText, align, tranform, background, color } = this.state;
         const divStyle = {
@@ -169,7 +169,7 @@ class StepBlock extends Component {
                         )}
                 </Steps>
 
-                <Modal
+                {editable && < Modal
                     title="Step Modal"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -233,6 +233,8 @@ class StepBlock extends Component {
                     </Tabs>
 
                 </Modal>
+                }
+
             </div >
 
         )

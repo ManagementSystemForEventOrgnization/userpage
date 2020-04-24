@@ -1,3 +1,12 @@
+@mixin menu-items() {
+    padding-left: 35px;
+    font-weight: 300;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}
+
 .create-event {
     padding-top: 5%;
     $base-duration: 500ms;
@@ -51,6 +60,9 @@
             width: 250px;
             overflow-y: scroll;
             height: 500px;
+            .menu-item {
+                @include menu-items();
+            }
         }
 
         .menu-hide {

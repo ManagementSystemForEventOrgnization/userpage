@@ -134,7 +134,7 @@ class TextsBlock extends React.Component {
 
   render() {
 
-    const { key, leftModal } = this.props;
+    const { key, leftModal, editable } = this.props;
     const { content, margin, padding,
       background, fontSize, fonts, lineText,
       letterSpacing, textAlign, tranform, color,
@@ -181,86 +181,88 @@ class TextsBlock extends React.Component {
         </ div>
 
 
+        {
+          editable &&
 
-        <Modal
-          title="Text"
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          width={500}
-          className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
-          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
-          footer={[
-            <Button key="ok" onClick={this.handleCancel} type="primary">
-              OK
+          <Modal
+            title="Text"
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
+            width={500}
+            className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
+            style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
+            footer={[
+              <Button key="ok" onClick={this.handleCancel} type="primary">
+                OK
           </Button>,
-            <Button key="ok" onClick={this.handleReset} type="primary">
-              Reset
+              <Button key="ok" onClick={this.handleReset} type="primary">
+                Reset
       </Button>,
-          ]}
-        >
+            ]}
+          >
 
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="Content" key="1">
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="Content" key="1">
 
-              <div className="mt-2">
-                <h6>Nội dung :</h6>
+                <div className="mt-2">
+                  <h6>Nội dung :</h6>
 
-                <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
-                  apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-                  init={{
-                    plugins: 'link   ',
-                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-                  }}
-                />
-              </div>
+                  <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
+                    apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
+                    init={{
+                      plugins: 'link   ',
+                      toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
+                    }}
+                  />
+                </div>
 
-            </TabPane>
-            <TabPane tab="Style" key="2">
-              <EditText
-                fonts={fonts}
-                fontSize={fontSize}
-                lineText={lineText}
-                letterSpacing={letterSpacing}
+              </TabPane>
+              <TabPane tab="Style" key="2">
+                <EditText
+                  fonts={fonts}
+                  fontSize={fontSize}
+                  lineText={lineText}
+                  letterSpacing={letterSpacing}
 
-                padding={padding}
-                margin={margin}
-                color={color}
-                background={background}
-
-                handleChangeFonts={this.handleChangeFonts}
-                handleChangeFontSize={this.handleChangeFontSize}
-                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                handleChangeLineHeight={this.handleChangeLineHeight}
-
-                handleChangeTextAlign={this.handleChangeTextAlign}
-                handleChangeTextTranform={this.handleChangeTextTranform}
-              />
-
-              <div className="mt-5 pl-2">
-                <PaddingAndMargin
                   padding={padding}
                   margin={margin}
-                  handleChangeMargin={this.handleChangeMargin}
-                  handleChangePadding={this.handleChangePadding}
-                />
-              </div>
-              <div className="d-flex mt-5 pl-2">
-                <ChangeColorModal
-                  title="Change Text Color"
                   color={color}
-                  handleChangeColor={this.handleChangeTextColor}
-                />
-                <ChangeColorModal
-                  title="Change background"
-                  color={background}
-                  handleChangeColor={this.handleChangeBackground}
-                />
-              </div>
+                  background={background}
 
-            </TabPane>
-          </Tabs>
+                  handleChangeFonts={this.handleChangeFonts}
+                  handleChangeFontSize={this.handleChangeFontSize}
+                  handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                  handleChangeLineHeight={this.handleChangeLineHeight}
 
-        </Modal>
+                  handleChangeTextAlign={this.handleChangeTextAlign}
+                  handleChangeTextTranform={this.handleChangeTextTranform}
+                />
+
+                <div className="mt-5 pl-2">
+                  <PaddingAndMargin
+                    padding={padding}
+                    margin={margin}
+                    handleChangeMargin={this.handleChangeMargin}
+                    handleChangePadding={this.handleChangePadding}
+                  />
+                </div>
+                <div className="d-flex mt-5 pl-2">
+                  <ChangeColorModal
+                    title="Change Text Color"
+                    color={color}
+                    handleChangeColor={this.handleChangeTextColor}
+                  />
+                  <ChangeColorModal
+                    title="Change background"
+                    color={background}
+                    handleChangeColor={this.handleChangeBackground}
+                  />
+                </div>
+
+              </TabPane>
+            </Tabs>
+
+          </Modal>}
       </div >
     )
   }

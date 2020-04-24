@@ -14,7 +14,7 @@ class ContactUs2 extends Component {
     }
 
     render() {
-
+        const { editable } = this.props
         const iconStyle = {
             fontSize: '40px'
         };
@@ -35,11 +35,11 @@ class ContactUs2 extends Component {
                 <Row >
                     <Col span={12} >
                         <MailTwoTone style={iconStyle} />
-                        <Text content="123@123.com.vn" style={textStyle} />
+                        <Text content="123@123.com.vn" style={textStyle} editable={editable} />
                     </Col>
                     <Col span={12}>
                         <PhoneTwoTone style={iconStyle} />
-                        <Text content="0123456789" style={textStyle} leftModal={true} />
+                        <Text content="0123456789" style={textStyle} leftModal={true} editable={editable} />
                     </Col>
                 </Row>
             </div>
