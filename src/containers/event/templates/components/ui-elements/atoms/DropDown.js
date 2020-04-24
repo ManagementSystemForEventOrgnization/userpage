@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from "uuid";
 import { Input, Modal, Select, Button, } from 'antd';
-import { PlusOutlined, DeleteOutlined, } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import TextBlock from './Text';
 
 let index = 0;
@@ -15,6 +15,7 @@ class DropDownBlock extends Component {
             txtname: "",
             isAddOption: false,
             isRename: false,
+           
         }
     }
 
@@ -121,28 +122,34 @@ class DropDownBlock extends Component {
 
     render() {
         const { key } = this.props;
-        const { items, isAddOption } = this.state;
-
+        const { items, isAddOption,  } = this.state;
+       
         const constructOptions = options =>
             options.map(data => (
                 <Select.Option key={uuid()} value={data.id}>
+
                     {data.name}
+
+
                 </Select.Option>
             ));
 
         return (
-            <div className="sortable-element" >
-                <Select key={key} id={"dropdown" + uuid()} style={{ width: 100 }}
-                    onClick={this.showModal}
-                >
-                    {constructOptions(items)}
-                </Select>
+            <div className="sortable-element"  >
+                <div onClick={this.showModal} >
+                    <Select key={key} id={"dropdown" + uuid()} style={{width:200}}
+
+                    >
+                        {constructOptions(items)}
+                    </Select>
+                </div>
                 <Modal
                     title="Dropdown"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    width={300}
+                    width={400}
+                    style={{ marginLeft: "30%" }}
                 >
                     <div>
                         {items.map((item) =>
@@ -150,8 +157,8 @@ class DropDownBlock extends Component {
                                 <div className="col">
                                     <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
                                 </div>
-                                <div className="col">
-                                    <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
+                                <div className="col-3">
+                                    <DeleteOutlined onClick={() => this.removeOption(item)} />
                                 </div>
 
                             </div>
@@ -166,7 +173,7 @@ class DropDownBlock extends Component {
                             : ''
                         }
 
-                        <Button className="mt-5 ml-5 " onClick={this.OnClickOption}
+                        <Button className="mt-5  " style={{ marginLeft: "30%" }} onClick={this.OnClickOption}
                         >  <PlusOutlined /> Add Item
 
                         </Button>

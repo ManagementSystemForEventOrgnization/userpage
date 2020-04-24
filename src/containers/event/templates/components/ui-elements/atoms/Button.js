@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, Radio } from 'antd';
 import { SketchPicker } from 'react-color';
-import { FaBeer } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
@@ -181,6 +181,7 @@ class ButtonBlock extends React.Component {
       content: this.props.content ? this.props.content : "wellcome",
       isDesign: false,
       isButton: false,
+      linkButton: "",
       inputValue: 20,
       align: 'center',
       textcolor: '',
@@ -381,13 +382,19 @@ class ButtonBlock extends React.Component {
     });
 
   };
+  OnChangeLink = (e) => {
+    this.setState({
+      linkButton: e.target.value,
+
+    });
+  }
 
 
 
   render() {
 
     const { key } = this.props;
-    const { content, align, isButton, inputValue,
+    const { content, align, isButton, inputValue, linkButton,
       textcolor,
       positionButton,
       leftButton, topButton, rightButton, bottomButton, borderWidthButton,
@@ -395,10 +402,13 @@ class ButtonBlock extends React.Component {
       paddingBottomButton, paddingLeftButton, paddingTopButton, paddingRightButton,
       marginRightButton, marginLeftButton, marginBottomButton, marginTopButon,
     } = this.state;
+    const divStyle = {
+      textAlign: align,
+      fontSize: inputValue,
+    }
 
     const styleButton = {
       fontSize: inputValue,
-      textAlign: align,
       color: textcolor,
       position: positionButton,
       left: leftButton,
@@ -423,18 +433,19 @@ class ButtonBlock extends React.Component {
 
     return (
 
-      <div className="edittext  child-block">
+      <div className="edittext  child-block" style={divStyle} >
+        <div onClick={this.showModalButton}>
+          <Button
+            href={linkButton}
+            key={key}
+            className="ml-3"
+            style={styleButton}
+            value={isButton}
+          >
+            <span></span>{ReactHtmlParser(content)}
 
-
-        <Button
-          key={key}
-          className="ml-3"
-          style={styleButton}
-          value={isButton}
-          onClick={this.showModalButton}>
-          <span></span>{ReactHtmlParser(content)}
-        </Button>
-
+          </Button>
+        </div>
 
 
         <Modal
@@ -459,7 +470,7 @@ class ButtonBlock extends React.Component {
 
               <h6 className="mt-3">Đường dẫn </h6>
               <div className="d-flex flex-row mt-2">
-                <Input style={{ borderRadius: 50 }} placeholder="Thêm đường link" ></Input>
+                <Input value={linkButton} style={{ borderRadius: 50 }} placeholder="Thêm đường link" onChange={this.OnChangeLink} ></Input>
               </div>
               <div className="mt-2">
                 <h6>Font size(px)</h6>

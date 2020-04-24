@@ -19,7 +19,7 @@ class TextsBlock extends React.Component {
 
     const { content, style } = this.props;
     this.state = {
-
+      isEditor: true,
       visible: false,
       content: content || exampleText,
       margin: [1, 1, 1, 1],
@@ -137,7 +137,7 @@ class TextsBlock extends React.Component {
     const { key, leftModal } = this.props;
     const { content, margin, padding,
       background, fontSize, fonts, lineText,
-      letterSpacing, textAlign, tranform, color,
+      letterSpacing, textAlign, tranform, color, isEditor,
       fontWeight
     } = this.state;
 
@@ -172,13 +172,23 @@ class TextsBlock extends React.Component {
     return (
 
       <div className="edittext child-block" style={divStyle} >
+        {isEditor ?
+          < div key={key}
 
-        < div key={key}
-
-          onClick={() => { this.showEditor(); this.showModal() }}
-        >
-          {ReactHtmlParser(content)}
-        </ div>
+            onClick={ this.showEditor}
+          >
+            {ReactHtmlParser(content)}
+          </ div>
+          :
+          <div onClick={()=>{this.showEditorText();this.showModal()}}>
+            <Editor value={content} onEditorChange={this.handleEditorChange}
+              apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
+              init={{
+                plugins: 'link   ',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
+              }} />
+          </div>
+        }
 
 
 
@@ -199,23 +209,7 @@ class TextsBlock extends React.Component {
           ]}
         >
 
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="Content" key="1">
-
-              <div className="mt-2">
-                <h6>Nội dung :</h6>
-
-                <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
-                  apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-                  init={{
-                    plugins: 'link   ',
-                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-                  }}
-                />
-              </div>
-
-            </TabPane>
-            <TabPane tab="Style" key="2">
+         
               <EditText
                 fonts={fonts}
                 fontSize={fontSize}
@@ -256,10 +250,6 @@ class TextsBlock extends React.Component {
                   handleChangeColor={this.handleChangeBackground}
                 />
               </div>
-
-            </TabPane>
-          </Tabs>
-
         </Modal>
       </div >
     )

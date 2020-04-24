@@ -310,7 +310,9 @@ class HeaderBlock extends Component {
 
                                                 <DropdownBlocks options={sub.items} idMenu={sub.id}
                                                     removeOptionChild={this.removeOptionChild}
-                                                    handleUpdateChild={this.handleUpdateChild} > </DropdownBlocks>
+                                                    handleUpdateChild={this.handleUpdateChild}
+
+                                                > </DropdownBlocks>
                                             </div>
                                         </div>
                                     </div>
