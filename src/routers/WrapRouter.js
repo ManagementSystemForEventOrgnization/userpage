@@ -22,7 +22,6 @@ import CreateEventPage from '../pages/CreateEventPage';
 
 import PreviewEvent from '../containers/event/PreviewEvent';
 
-
 const ROUTES = [
     {
         path: '/',

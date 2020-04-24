@@ -10,61 +10,64 @@ import {
 import dataTest from './templates/data/dataTest';
 import Dragable from './Dragable';
 
-
 const { SubMenu } = Menu;
 
 export default class App extends React.Component {
     state = {
-        collapsed: true,
+        collapsed: false,
     };
 
-    toggleCollapsed = () => {
+    handleToggleCollapsed = () => {
+        const { toggleCollapsed } = this.props;
+        const { collapsed } = this.state;
+
         this.setState({
-            collapsed: !this.state.collapsed,
+            collapsed: !collapsed,
         });
+
+        toggleCollapsed(collapsed)
     };
+
+    componentDidMount = () => {
+        this.handleToggleCollapsed()
+    }
 
     render() {
         const { collapsed } = this.state;
         return (
-            <div className=" menu-updated mt-5" style={{ width: 256 }}>
+            <div className=' menu-update '>
                 <Button type="primary"
-                    onClick={this.toggleCollapsed}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    onClick={this.handleToggleCollapsed}
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                    }
                     style={{ marginBottom: 10 }}>
                     {collapsed ? 'Open Menu' : 'Hide Menu'}
-                </Button>
-                <div className="menu-wrap ">
-                    <div className="menu-block">
-                        {
-                            dataTest.map(blockList =>
-                                <Menu
+                </Button >
+                <div className={collapsed ? "menu-hide " : 'menu-show '}>
+                    {
+                        dataTest.map(blockList =>
+                            <Menu
+                                key={blockList.name}
+                                mode="inline"
+                            >
+                                <SubMenu
                                     key={blockList.name}
-                                    mode="inline"
-                                    className="menu"
-                                    inlineCollapsed={collapsed}
+                                    title={
+                                        <span>
+                                            <SettingOutlined />
+                                            <span>{blockList.name}</span>
+                                        </span>
+                                    }
                                 >
-                                    <SubMenu
-                                        key={blockList.name}
-                                        title={
-                                            <span>
-                                                <SettingOutlined />
-                                                <span>{blockList.name}</span>
-                                            </span>
-                                        }
-                                    >
-                                        <Dragable blockList={blockList.value} />
-                                    </SubMenu>
-                                </Menu>
-                            )
-                        }
-                    </div>
-
-
+                                    <Dragable blockList={blockList.value} />
+                                </SubMenu>
+                            </Menu>
+                        )
+                    }
                 </div>
 
 
-            </div>
+            </div >
         );
     }
 }
