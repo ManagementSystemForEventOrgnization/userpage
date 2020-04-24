@@ -19,7 +19,7 @@ import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
 import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
-
+import MapContainer from '../components/ui-elements/blocks/map/Maps'
 import TrashBlock from '../components/ui-elements/atoms/Trash';
 
 
@@ -187,7 +187,7 @@ export default
         name: 'Map/Location/Adress',
         value: [{
             child: "Option 1",
-            options: ({ key }) => <ButtonBlock key={key} />
+            options: ({ key }) => <MapContainer key={key} />
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />

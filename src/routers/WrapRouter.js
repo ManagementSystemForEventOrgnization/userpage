@@ -60,6 +60,11 @@ const ROUTES = [
         main: () => <CreateEventPage />
     },
     {
+        path: '/c-e',
+        exact: true,
+        main: () => <CreateEventPage />
+    },
+    {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
