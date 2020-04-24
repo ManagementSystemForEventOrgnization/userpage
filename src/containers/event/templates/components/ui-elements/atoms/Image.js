@@ -20,8 +20,9 @@ class ImageBlock extends React.Component {
         this.state = {
             uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
             visible: false,
-            width: 100,
-            height: 60,
+
+            width: this.props.width || 100,
+            height: this.props.height || 60,
             href: '',
             margin: [1, 1, 1, 1],
             padding: [1, 1, 2, 1],
@@ -32,13 +33,25 @@ class ImageBlock extends React.Component {
     }
 
     onImageDrop = url => {
+        const{id,  handleOnChangeUrlTextBlock }=this.props;
         this.setState({
             uploadedFileCloudinaryUrl: url
         })
+        if(id){
+            handleOnChangeUrlTextBlock(id,this.state.uploadedFileCloudinaryUrl);
+        }
     }
 
     showModal = () => {
 
+        this.setState({
+            visible: true,
+        });
+    }
+
+    showModal = () => {
+        // const { editable } = this.props;
+        // if (editable) {
         this.setState({
             visible: true,
         });

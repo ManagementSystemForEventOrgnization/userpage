@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
+import { SaveOutlined } from '@ant-design/icons';
 
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
@@ -25,7 +26,7 @@ class TextsBlock extends React.Component {
       padding: [1, 1, 1, 1],
       background: "none",
       fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
-      fonts: "Open Sans",
+      fonts: "Times New Roman",
       lineText: 80,
       letterSpacing: 0,
       textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
@@ -33,6 +34,17 @@ class TextsBlock extends React.Component {
       color: style ? style.color ? style.color : "black" : 'black',
       fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
     };
+  }
+  showEditor = () => {
+
+    this.setState({
+      isEditor: false
+    })
+  }
+  showEditorText = () => {
+    this.setState({
+      isEditor: true,
+    })
   }
 
   showModal = () => {
@@ -50,9 +62,12 @@ class TextsBlock extends React.Component {
   handleEditorChange = (content) => {
     const { id, handleOnChangeTextBlock } = this.props;
     this.setState({ content });
+    console.log("conten", content);
+
     if (id) {
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
     }
+    console.log(this.state.content);
   }
 
   handleChangeFonts = value => {
@@ -92,6 +107,7 @@ class TextsBlock extends React.Component {
     this.setState({
       color: value
     })
+    console.log(this.state.color);
   }
 
   handleChangeBackground = value => {
@@ -155,13 +171,16 @@ class TextsBlock extends React.Component {
 
     return (
 
-      <div className="edittext child-block" style={divStyle}>
+      <div className="edittext child-block" style={divStyle} >
+
         < div key={key}
 
-          onClick={this.showModal}
+          onClick={() => { this.showEditor(); this.showModal() }}
         >
           {ReactHtmlParser(content)}
         </ div>
+
+
 
         <Modal
           title="Text"
@@ -242,7 +261,7 @@ class TextsBlock extends React.Component {
           </Tabs>
 
         </Modal>
-      </div>
+      </div >
     )
   }
 }

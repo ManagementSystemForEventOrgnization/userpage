@@ -41,7 +41,7 @@ class HeaderBlock extends Component {
             inputValue: 20,
             showColor: false,
             isDesign: false,
-            activeFontFamily: "Open Sans",
+            activeFontFamily: "Times New Roman",
             lineText: 80,
             letterText: -2,
             align: '',
@@ -90,12 +90,27 @@ class HeaderBlock extends Component {
     };
 
     removeOption = (item) => {
-
         const menuName = this.state.menuName.filter(e => e.id !== item.id)
         this.setState({
             menuName,
         })
     }
+
+    removeOptionChild = (idMenu, sub) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === idMenu);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+        else {
+            item.items = sub
+            this.setState({
+                menuName: [...menuName.slice(0, index),
+                    item,
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+        }
+    }
+
     handleOnChangeTextBlock = (id, value) => {
 
         const { menuName } = this.state;
@@ -110,6 +125,19 @@ class HeaderBlock extends Component {
             })
         }
 
+    }
+    handleUpdateChild = (id, sub) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === id);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+        else {
+            item.items = sub;
+            this.setState({
+                menuName: [...menuName.slice(0, index), item,
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+        }
     }
     //color
     handleChangeComplete = (color) => {
@@ -131,6 +159,14 @@ class HeaderBlock extends Component {
             tranform: value
         })
     }
+    // open color
+    onClickColor = e => {
+        const { showColor } = this.state
+        this.setState({
+            showColor: !showColor
+        });
+    };
+
     //font size
     onChange = value => {
         this.setState({
@@ -151,6 +187,12 @@ class HeaderBlock extends Component {
             letterText: value,
         });
 
+    };
+    showModalButton = () => {
+        const { isDesign } = this.state;
+        this.setState({
+            isDesign: !isDesign
+        });
     };
 
     handleChangeFonts = value => {
@@ -182,6 +224,7 @@ class HeaderBlock extends Component {
             margin: value
         })
     }
+
 
     render() {
         const { key } = this.props;
@@ -223,8 +266,7 @@ class HeaderBlock extends Component {
                             menuName.map(sub =>
                                 sub.items.length === 0 ?
                                     <Menu.Item key={sub.id}>{sub.title} </Menu.Item> :
-
-                                    <SubMenu key={sub.id} title={
+                                    <SubMenu title={
                                         <span >
                                             {sub.title}
                                         </span>
@@ -241,28 +283,35 @@ class HeaderBlock extends Component {
                 <Modal
                     title="Header"
                     visible={visible}
-                    width={700}
+                    width={600}
                     onOk={this.handleEditMenu}
                     onCancel={this.handleEditMenu}
+                    maskClosable={true}
                 >
                     <Tabs defaultActiveKey="1" >
                         <TabPane tab="Text" key="1">
                             {
                                 menuName.map(sub =>
-
                                     <div key={sub.id}>
-                                        <div className="d-flex  mt-2">
-                                            <div className="mr-5">
-                                                <TextBlocks
-                                                    content={sub.title} id={sub.id}
-                                                    handleOnChangeTextBlock={this.handleOnChangeTextBlock} />
 
+                                        <div key={sub.id} className="d-flex row mt-2">
+                                            <div className="col">
+                                                <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
                                             </div>
-
-                                            <DeleteOutlined className=" mt-2" onClick={() => this.removeOption(sub)} />
+                                            <div className="col">
+                                                <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                            </div>
                                         </div>
-                                        <div className="d-flex mt-2"> <p>Thêm các thuộc tính con : </p>
-                                            <span className="ml-5"  > <DropdownBlocks options={sub.items} > </DropdownBlocks></span>
+                                        <div className="d-flex row mt-2">
+                                            <div className="col">
+                                                <p>Thêm các thuộc tính con : </p>
+                                            </div>
+                                            <div className="col">
+
+                                                <DropdownBlocks options={sub.items} idMenu={sub.id}
+                                                    removeOptionChild={this.removeOptionChild}
+                                                    handleUpdateChild={this.handleUpdateChild} > </DropdownBlocks>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -310,6 +359,7 @@ class HeaderBlock extends Component {
 
                             />
                         </TabPane>
+
                     </Tabs>
                 </Modal>
             </div>
