@@ -1,5 +1,8 @@
 .banner {
-    background: url("/star3.png") center fixed;
+    background: url("/star3.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     height: 650px;
     width: 100%;
     top: 50%;

@@ -146,9 +146,13 @@ class DropDownBlock extends Component {
                 >
                     <div>
                         {items.map((item) =>
-                            <div key={item.id} className="d-flex flex-row mt-2 " >
-                                <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-                                <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
+                            <div key={item.id} className="d-flex row mt-2 " >
+                                <div className="col">
+                                    <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
+                                </div>
+                                <div className="col">
+                                    <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
+                                </div>
 
                             </div>
                         )

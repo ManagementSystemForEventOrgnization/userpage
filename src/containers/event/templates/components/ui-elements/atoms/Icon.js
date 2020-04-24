@@ -92,8 +92,8 @@ class IconBlock extends React.Component {
           <div>
             <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
               {iconNameList.map(dateformat =>
-                <Radio value={dateformat}>
-                  <IconFont key={dateformat} type={dateformat} />
+                <Radio value={dateformat} key={dateformat} >
+                  <IconFont type={dateformat} />
                 </Radio>
               )}
             </Radio.Group>

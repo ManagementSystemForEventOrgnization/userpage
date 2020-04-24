@@ -8,14 +8,29 @@
         overflow: hidden;
         padding-top: 1%;
 
-        &:hover {
-            cursor: pointer;
+        .icons-handle {
+            padding: 2px;
+            margin-top: 12px;
+            height: 106px;
+            width: 26px;
+
+            &:hover {
+                border: dashed 1px rgb(0, 50, 216);
+                opacity: 0.9;
+                cursor: pointer;
+            }
+            .anticon {
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
         }
 
         .child-block {
             &:hover {
                 border: dotted 1px rgb(138, 134, 134);
                 opacity: 0.9;
+                cursor: pointer;
             }
         }
     }

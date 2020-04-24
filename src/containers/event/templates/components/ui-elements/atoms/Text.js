@@ -4,7 +4,10 @@ import ReactHtmlParser from 'react-html-parser';
 import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
 import { SaveOutlined } from '@ant-design/icons';
+
 import EditText from '../shares/EditText';
+import PaddingAndMargin from '../shares/PaddingAndMargin';
+import ChangeColorModal from '../shares/ChangeColorModal';
 
 
 const { TabPane } = Tabs;
@@ -14,23 +17,22 @@ class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
 
-    const { content } = this.props;
+    const { content, style } = this.props;
     this.state = {
 
       visible: false,
-      isEditor: true,
       content: content || exampleText,
-      margin: [0, 0, 0, 0],
-      padding: [0, 0, 0, 0],
-      background: "white",
-      fontSize: 20,
+      margin: [1, 1, 1, 1],
+      padding: [1, 1, 1, 1],
+      background: "none",
+      fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
       fonts: "Times New Roman",
       lineText: 80,
       letterSpacing: 0,
-      textAlign: '',
+      textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
       tranform: ' ',
-      color: "black",
-      height: this.props.height || 50,
+      color: style ? style.color ? style.color : "black" : 'black',
+      fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
     };
   }
   showEditor = () => {
@@ -126,13 +128,19 @@ class TextsBlock extends React.Component {
     })
   }
 
+  handleReset = () => {
+
+  }
+
   render() {
 
-    const { key } = this.props;
-    const { content, margin, padding, isEditor,
-      background, fontSize, fonts, lineText, letterSpacing, textAlign, tranform, color
-
+    const { key, leftModal } = this.props;
+    const { content, margin, padding,
+      background, fontSize, fonts, lineText,
+      letterSpacing, textAlign, tranform, color,
+      fontWeight
     } = this.state;
+
 
     const divStyle = {
 
@@ -154,6 +162,11 @@ class TextsBlock extends React.Component {
       letterSpacing: letterSpacing,
       textAlign: textAlign,
       textTransform: tranform,
+      fontWeight: fontWeight
+      // backgroundImage: `url(${url})`,
+      // backgroundPosition: 'center',
+      // backgroundSize: 'cover',
+      // backgroundRepeat: 'no-repeat',
     }
 
     return (
@@ -173,46 +186,79 @@ class TextsBlock extends React.Component {
           title="Text"
           visible={this.state.visible}
           onCancel={this.handleCancel}
-          width={600}
-          style={{ marginLeft: '50%' }}
-
-
+          width={500}
+          className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
+          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
           </Button>,
+            <Button key="ok" onClick={this.handleReset} type="primary">
+              Reset
+      </Button>,
           ]}
         >
 
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Content" key="1">
 
+              <div className="mt-2">
+                <h6>Nội dung :</h6>
 
+                <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
+                  apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
+                  init={{
+                    plugins: 'link   ',
+                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
+                  }}
+                />
+              </div>
 
+            </TabPane>
+            <TabPane tab="Style" key="2">
+              <EditText
+                fonts={fonts}
+                fontSize={fontSize}
+                lineText={lineText}
+                letterSpacing={letterSpacing}
 
-          <EditText
-            fonts={fonts}
-            fontSize={fontSize}
-            lineText={lineText}
-            letterSpacing={letterSpacing}
+                padding={padding}
+                margin={margin}
+                color={color}
+                background={background}
 
-            padding={padding}
-            margin={margin}
-            color={color}
-            background={background}
+                handleChangeFonts={this.handleChangeFonts}
+                handleChangeFontSize={this.handleChangeFontSize}
+                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                handleChangeLineHeight={this.handleChangeLineHeight}
 
-            handleChangeFonts={this.handleChangeFonts}
-            handleChangeFontSize={this.handleChangeFontSize}
-            handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-            handleChangeLineHeight={this.handleChangeLineHeight}
+                handleChangeTextAlign={this.handleChangeTextAlign}
+                handleChangeTextTranform={this.handleChangeTextTranform}
+              />
 
-            handleChangeTextAlign={this.handleChangeTextAlign}
-            handleChangeTextTranform={this.handleChangeTextTranform}
-            handleChangeTextColor={this.handleChangeTextColor}
-            handleChangeBackground={this.handleChangeBackground}
+              <div className="mt-5 pl-2">
+                <PaddingAndMargin
+                  padding={padding}
+                  margin={margin}
+                  handleChangeMargin={this.handleChangeMargin}
+                  handleChangePadding={this.handleChangePadding}
+                />
+              </div>
+              <div className="d-flex mt-5 pl-2">
+                <ChangeColorModal
+                  title="Change Text Color"
+                  color={color}
+                  handleChangeColor={this.handleChangeTextColor}
+                />
+                <ChangeColorModal
+                  title="Change background"
+                  color={background}
+                  handleChangeColor={this.handleChangeBackground}
+                />
+              </div>
 
-            handleChangeMargin={this.handleChangeMargin}
-            handleChangePadding={this.handleChangePadding}
-
-          />
+            </TabPane>
+          </Tabs>
 
         </Modal>
       </div >

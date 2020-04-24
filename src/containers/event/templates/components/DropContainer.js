@@ -2,57 +2,15 @@ import React from "react";
 import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
-import ImageBlock from './ui-elements/atoms/Image';
-import TextBlock from './ui-elements/atoms/Text';
-import HeaderBlock from './ui-elements/blocks/Header';
-// import Banner2 from './ui-elements/blocks/banner/Banner2'
-// import Banner1 from './ui-elements/blocks/banner/Banner1'
-
-
-// import { createEventConstants } from '../../../../constants/index';
 import { eventActions } from "../../../../action/event.action";
-
-
-const textBlockOption = ({ key, style, content }) => <TextBlock
-  key={key}
-  style={style}
-  content={content}
-/>
-
-const headerBloclOption = ({ key, style, content }) => <HeaderBlock
-  key={key}
-  style={style}
-  content={content}
-/>
-
-const imageBlockOption = ({ key, url, editable }) => <ImageBlock
-  key={key}
-  editable={editable}
-  url={url}
-/>
+import dataTest from '../data/dataTest';
 
 
 class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
-      dropList:
-        [
-          {
-            id: 1,
-            url: '/bg-2.jpg',
-            options: imageBlockOption
-          },
-          {
-            id: 2,
-            options: textBlockOption
-          },
-          {
-            id: 3,
-            options: headerBloclOption
-          },
-        ]
+      dropList: [...dataTest[2].value, ...dataTest[3].value, ...dataTest[8].value, ...dataTest[11].value]
     }
   }
 
@@ -66,8 +24,6 @@ class DropContainer extends React.Component {
     const { storeBlocksWhenCreateEvent } = this.props;
     storeBlocksWhenCreateEvent(dropList);
     this.setState({ dropList })
-
-
   }
 
   render() {
@@ -91,7 +47,6 @@ class DropContainer extends React.Component {
           setList={this.handleSetDropList}
         >
           {dropList.map(item => {
-            console.log(item)
             return item.options({
               key: item.id,
               editable: true,

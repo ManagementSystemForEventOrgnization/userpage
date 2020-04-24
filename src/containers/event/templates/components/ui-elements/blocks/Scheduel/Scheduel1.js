@@ -182,6 +182,7 @@ class Scheduel1 extends Component {
         }
 
     }
+    
 
 
     render() {
@@ -212,7 +213,7 @@ class Scheduel1 extends Component {
 
         return (
             <div className="child-block">
-                <h5>Scheduel</h5>
+                <h5>Schedule</h5>
                 <div onClick={this.showModal} style={divStyle}>
 
                     {scheduelText.map((scheduel, index) =>

@@ -89,8 +89,8 @@ class TimepickersBlock extends React.Component {
           {/* list timepicker in modal */}
           <div>
             <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
-              {timeFormatList.map(timeformat =>
-                <Radio value={timeformat}>
+              {timeFormatList.map((timeformat, index) =>
+                <Radio value={timeformat} key={index}>
                   <TimePicker key={timeformat} format={timeformat} placeholder={timeformat} ></TimePicker>
                 </Radio>
               )}

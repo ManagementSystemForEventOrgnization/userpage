@@ -4,18 +4,10 @@ import {
     Menu, Modal, Button, Input,
     Tabs,
 } from 'antd';
-
-import {
-    DeleteOutlined,
-    PlusOutlined
-} from '@ant-design/icons';
-
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import DropdownBlocks from '../atoms/DropDown';
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
-
-
-
 
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
@@ -49,7 +41,7 @@ class HeaderBlock extends Component {
             inputValue: 20,
             showColor: false,
             isDesign: false,
-            activeFontFamily: "Open Sans",
+            activeFontFamily: "Times New Roman",
             lineText: 80,
             letterText: -2,
             align: '',
@@ -291,7 +283,7 @@ class HeaderBlock extends Component {
                 <Modal
                     title="Header"
                     visible={visible}
-                    width={700}
+                    width={600}
                     onOk={this.handleEditMenu}
                     onCancel={this.handleEditMenu}
                     maskClosable={true}
@@ -302,17 +294,25 @@ class HeaderBlock extends Component {
                                 menuName.map(sub =>
                                     <div key={sub.id}>
 
-                                        <div key={sub.id} className="d-flex flex-row mt-2">
-                                            <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
-                                            <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                        <div key={sub.id} className="d-flex row mt-2">
+                                            <div className="col">
+                                                <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
+                                            </div>
+                                            <div className="col">
+                                                <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                            </div>
                                         </div>
-                                        <div className="d-flex flex-row mt-2"> <p>Thêm các thuộc tính con : </p>
-                                            <span className="ml-5"  >
+                                        <div className="d-flex row mt-2">
+                                            <div className="col">
+                                                <p>Thêm các thuộc tính con : </p>
+                                            </div>
+                                            <div className="col">
+
                                                 <DropdownBlocks options={sub.items} idMenu={sub.id}
                                                     removeOptionChild={this.removeOptionChild}
-                                                    handleUpdateChild={this.handleUpdateChild} > </DropdownBlocks></span>
+                                                    handleUpdateChild={this.handleUpdateChild} > </DropdownBlocks>
+                                            </div>
                                         </div>
-
                                     </div>
 
                                 )}

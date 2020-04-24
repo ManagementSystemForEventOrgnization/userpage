@@ -297,7 +297,12 @@ class ButtonBlock extends React.Component {
   };
 
   handleEditorChange = (e) => {
+    const { id, handleOnChangeButtonTextBlock } = this.props;
     this.setState({ content: e.target.value });
+    if (id) {
+      handleOnChangeButtonTextBlock(id, this.state.content);
+    }
+
 
   }
 
@@ -432,7 +437,7 @@ class ButtonBlock extends React.Component {
 
 
 
-        <Modal 
+        <Modal
           title="Button design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
