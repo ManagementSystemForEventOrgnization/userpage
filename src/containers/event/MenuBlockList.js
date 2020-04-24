@@ -27,18 +27,19 @@ export default class App extends React.Component {
     render() {
         const { collapsed } = this.state;
         return (
-            <div className=" menu-updated" style={{ width: 256 }}>
+            <div className=" menu-updated mt-5" style={{ width: 256 }}>
                 <Button type="primary"
                     onClick={this.toggleCollapsed}
                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                     style={{ marginBottom: 10 }}>
                     {collapsed ? 'Open Menu' : 'Hide Menu'}
                 </Button>
-                <div className="menu-wrap">
+                <div className="menu-wrap ">
                     <div className="menu-block">
                         {
                             dataTest.map(blockList =>
                                 <Menu
+                                    key={blockList.name}
                                     mode="inline"
                                     className="menu"
                                     inlineCollapsed={collapsed}

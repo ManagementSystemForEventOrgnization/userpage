@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
 import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, Radio } from 'antd';
 import { SketchPicker } from 'react-color';
-
+import { FaBeer } from 'react-icons/fa';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
+import { IconContext } from "react-icons";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -177,10 +178,10 @@ class ButtonBlock extends React.Component {
 
       visible: false,
       buttonsList: buttons,
-      content: "wellcome",
+      content: this.props.content ? this.props.content : "wellcome",
       isDesign: false,
       isButton: false,
-      inputValue: 13,
+      inputValue: 20,
       align: 'center',
       textcolor: '',
       positionButton: '',
@@ -419,19 +420,19 @@ class ButtonBlock extends React.Component {
 
       <div className="edittext  child-block">
 
-        <div className="mt-2">
-          <Button
-            key={key}
-            className="ml-3"
-            style={styleButton}
-            value={isButton}
-            onClick={this.showModalButton}>
-            <span></span>{ReactHtmlParser(content)}
-          </Button>
-        </div>
+
+        <Button
+          key={key}
+          className="ml-3"
+          style={styleButton}
+          value={isButton}
+          onClick={this.showModalButton}>
+          <span></span>{ReactHtmlParser(content)}
+        </Button>
 
 
-        <Modal
+
+        <Modal 
           title="Button design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
@@ -446,6 +447,7 @@ class ButtonBlock extends React.Component {
         >
           <Tabs defaultActiveKey="1" >
             <TabPane tab="Edit text" key="1">
+
               <h6>Nội dung </h6>
 
               <Input style={{ borderRadius: 50 }} value={content} onChange={this.handleEditorChange} ></Input>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 
 import ButtonBlock from '../components/ui-elements/atoms/Button';
 import TextBlock from '../components/ui-elements/atoms/Text';
@@ -9,6 +10,9 @@ import DividerBlock from '../components/ui-elements/atoms/Devider'
 import StepBlock from '../components/ui-elements/atoms/Step';
 import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
+import IconBlock from '../components/ui-elements/atoms/Icon';
+import DividersBlock from '../components/ui-elements/atoms/Divider';
+
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
@@ -18,6 +22,8 @@ import Banner3 from '../components/ui-elements/blocks/banner/Banner3';
 import Schedule1 from '../components/ui-elements/blocks/Scheduel/Scheduel1';
 import Schedule2 from '../components/ui-elements/blocks/Scheduel/Scheduel2';
 import Schedule3 from '../components/ui-elements/blocks/Scheduel/Scheduel3';
+import TrashBlock from '../components/ui-elements/atoms/Trash';
+
 
 export default
     [{
@@ -25,8 +31,7 @@ export default
         value: [
             {
                 child: "Button",
-                options: ({ key }) => <ButtonBlock key={key} />
-
+                options: ({ key }) => <ButtonBlock key={key} />,
             },
             {
                 child: "Text",
@@ -70,7 +75,24 @@ export default
                 options: ({ key }) => <StepBlock key={key} />,
 
             },
+            {
+                child: "Icon",
+                options: ({ key }) => <IconBlock key={key} />,
+
+            },
+            {
+                child: "Dividers",
+                options: ({ key }) => <DividersBlock key={key} />
+            }
         ]
+            .map(({ id, child, options }) => {
+                return {
+                    id: uuid(),
+                    child,
+                    options: options ? options : () => <></>,
+                    trash: <TrashBlock />,
+                };
+            })
     },
 
     {
@@ -93,7 +115,14 @@ export default
                 child: "Two Column Text",
                 options: ({ key }) => <ButtonBlock key={key} />
             }
-        ]
+        ].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Banner',
@@ -104,7 +133,14 @@ export default
         }, {
             child: "Medium Banner",
             options: ({ key }) => <Banner3 key={key} />
-        }]
+        }].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Event Description',
@@ -112,10 +148,25 @@ export default
             child: "Option 1",
             options: ({ key }) => <ButtonBlock key={key} />
         }, { child: "Option 2", options: ({ key }) => <ButtonBlock key={key} /> }, { child: "Option 3", options: ({ key }) => <ButtonBlock key={key} /> }]
+            .map(({ id, child, options }) => {
+                return {
+                    id: uuid(),
+                    child,
+                    options: options ? options : () => <></>,
+                    trash: <TrashBlock />,
+                };
+            })
     },
     {
         name: 'Speaker/Performer/Team',
-        value: []
+        value: [].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Schedule/Program/Step',
@@ -125,13 +176,21 @@ export default
         },
         {
             child: "Option 2",
+
             options: ({ key }) => <Schedule2 key={key} />
         },
         {
             child: "Option 3",
             options: ({ key }) => <Schedule3 key={key} />
-        },
-    ]
+        },].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
+
     },
     {
         name: 'Map/Location/Adress',
@@ -141,11 +200,25 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },]
+        },].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Coundown',
-        value: []
+        value: [].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Photo/Image',
@@ -155,7 +228,14 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },]
+        },].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Video',
@@ -165,7 +245,14 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },]
+        },].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Sponsors/Partners',
@@ -175,7 +262,14 @@ export default
         }, {
             child: "Option 2",
             options: ({ key }) => <ButtonBlock key={key} />
-        },]
+        },].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Contact Us',
@@ -191,7 +285,14 @@ export default
             child: "Option 3",
             options: ({ key }) => <ButtonBlock key={key} />
         },
-        ]
+        ].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Navigation Menu',
@@ -207,15 +308,36 @@ export default
             child: "Option 3",
             options: ({ key }) => <ButtonBlock key={key} />
         },
-        ]
+        ].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Footer',
-        value: []
+        value: [].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     },
     {
         name: 'Social',
-        value: []
+        value: [].map(({ id, child, options }) => {
+            return {
+                id: uuid(),
+                child,
+                options: options ? options : () => <></>,
+                trash: <TrashBlock />,
+            };
+        })
     }
 
     ]

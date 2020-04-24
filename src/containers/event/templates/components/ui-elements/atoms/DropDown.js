@@ -125,9 +125,9 @@ class DropDownBlock extends Component {
 
         const constructOptions = options =>
             options.map(data => (
-                <option key={uuid()} value={data.id}>
+                <Select.Option key={uuid()} value={data.id}>
                     {data.name}
-                </option>
+                </Select.Option>
             ));
 
         return (

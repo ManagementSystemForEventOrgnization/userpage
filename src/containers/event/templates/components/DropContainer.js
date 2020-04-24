@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { ReactSortable } from "react-sortablejs";
 
 import ImageBlock from './ui-elements/atoms/Image';
-// import TextBlock from './ui-elements/atoms/Text';
+import TextBlock from './ui-elements/atoms/Text';
+import HeaderBlock from './ui-elements/blocks/Header';
 // import Banner2 from './ui-elements/blocks/banner/Banner2'
 // import Banner1 from './ui-elements/blocks/banner/Banner1'
 
@@ -12,16 +13,17 @@ import ImageBlock from './ui-elements/atoms/Image';
 import { eventActions } from "../../../../action/event.action";
 
 
-// const { posterStyle, addressStyle, typeOfEventStyle, nameEventStyle, quantityStyle } = createEventConstants;
+const textBlockOption = ({ key, style, content }) => <TextBlock
+  key={key}
+  style={style}
+  content={content}
+/>
 
-// const bannerBlockOption1 = ({ key, style }) => <Banner1 key={key} style={style} />
-// const bannerBlockOption2 = ({ key, style }) => <Banner2 key={key} style={style} />
-
-// const textBlockOption = ({ key, style, content }) => <TextBlock
-//   key={key}
-//   style={style}
-//   content={content}
-// />
+const headerBloclOption = ({ key, style, content }) => <HeaderBlock
+  key={key}
+  style={style}
+  content={content}
+/>
 
 const imageBlockOption = ({ key, url, editable }) => <ImageBlock
   key={key}
@@ -41,6 +43,14 @@ class DropContainer extends React.Component {
             id: 1,
             url: '/bg-2.jpg',
             options: imageBlockOption
+          },
+          {
+            id: 2,
+            options: textBlockOption
+          },
+          {
+            id: 3,
+            options: headerBloclOption
           },
         ]
     }
@@ -81,6 +91,7 @@ class DropContainer extends React.Component {
           setList={this.handleSetDropList}
         >
           {dropList.map(item => {
+            console.log(item)
             return item.options({
               key: item.id,
               editable: true,

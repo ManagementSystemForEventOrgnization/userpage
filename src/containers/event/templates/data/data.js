@@ -11,16 +11,19 @@ import StepBlock from '../components/ui-elements/Step';
 import TimepickersBlock from '../components/ui-elements/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/Datepicker';
 import InputBlocks from '../components/ui-elements/Input';
-import HeaderBlocks from '../components/ui-elements/blocks/Header';
+import HeaderBlocks from '../components/ui-elements/Header';
+import TrashBlock from '../components/ui-elements/atoms/Trash';
+
 
 export default [
   {
     id: 7,
     type: "text",
     name: 'Text',
-    options: ({ key, editable }) => <TextBlock
+    options: ({ key, editable, style }) => <TextBlock
       editable={editable}
       key={key}
+      style={style}
     />
   },
   {
@@ -93,11 +96,12 @@ export default [
   },
 
 ]
-  .map(({ id, name, type, options }) => {
+  .map(({ id, name, type, options, trash }) => {
     return {
       id: uuid(),
       name,
       type,
       options: options ? options : () => <></>,
+      trash: <TrashBlock />,
     };
   });

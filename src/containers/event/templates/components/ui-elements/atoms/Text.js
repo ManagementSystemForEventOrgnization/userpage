@@ -1,33 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Modal, Select, InputNumber, Button } from 'antd';
+import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
+import { SaveOutlined } from '@ant-design/icons';
+import EditText from '../shares/EditText';
 
-const buttonWidth = 170;
-const { Option } = Select;
+
+const { TabPane } = Tabs;
+const exampleText = 'Pellentesque ullamcorper tortor ut auctor consequat. Nullam sed nisi massa. Aliquam eget enim nunc. Praesent blandit blandit ornare. Sed lacinia felis quis elit luctus, et tincidunt elit aliquam. Sed porttitor eros id purus sollicitudin, quis pellentesque nunc pulvinar. Ut accumsan a sem quis dignissim. Sed lacus mauris, efficitur ac lobortis id, faucibus at quam. Praesent quis metus hendrerit, vulputate nibh vel, eleifend nibh. Donec cursus, elit id auctor porta, orci felis condimentum est, ut bibendum lacus elit non mi.'
 
 class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
 
-    const { style, content } = this.props;
+    const { content } = this.props;
     this.state = {
 
       visible: false,
-
-      content: content || "wellcome",
-      positionButton: '',
-      leftButton: style ? style.left ? style.left : 0 : 0,
-      rightButton: style ? style.right ? style.right : 0 : 0,
-      topButton: style ? style.top ? style.top : 0 : 0,
-      bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
-
-
+      isEditor: true,
+      content: content || exampleText,
+      margin: [0, 0, 0, 0],
+      padding: [0, 0, 0, 0],
+      background: "white",
+      fontSize: 20,
+      fonts: "Times New Roman",
+      lineText: 80,
+      letterSpacing: 0,
+      textAlign: '',
+      tranform: ' ',
+      color: "black",
+      height: this.props.height || 50,
     };
   }
+  showEditor = () => {
 
-
+    this.setState({
+      isEditor: false
+    })
+  }
+  showEditorText = () => {
+    this.setState({
+      isEditor: true,
+    })
+  }
 
   showModal = () => {
     this.setState({
@@ -35,88 +51,131 @@ class TextsBlock extends React.Component {
     });
   };
 
-
-
   handleCancel = e => {
     this.setState({
       visible: false,
     });
   };
 
-
   handleEditorChange = (content) => {
-
     const { id, handleOnChangeTextBlock } = this.props;
-
     this.setState({ content });
+    console.log("conten", content);
 
     if (id) {
-      // console.log("TCL : ", id)
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
-
-
     }
+    console.log(this.state.content);
   }
 
-  onChangeLeft = (value) => {
-    this.setState({ leftButton: value });
-  }
-
-  onChangeTop = (value) => {
-    this.setState({ topButton: value });
-  }
-
-  onChangeRight = (value) => {
-    this.setState({ rightButton: value });
-  }
-
-  onChangeBottom = (value) => {
-    this.setState({ bottomButton: value });
-  }
-
-  onChangePosition = (value) => {
+  handleChangeFonts = value => {
     this.setState({
-      positionButton: value
+      fonts: value
     })
   }
 
-  handeChangeText = (e) => {
+  handleChangeFontSize = value => {
     this.setState({
-      content: e.targe.value,
+      fontSize: value
+    })
+  }
+  handleChangeLetterSpacing = value => {
+    this.setState({
+      letterSpacing: value
+    })
+  }
+  handleChangeLineHeight = value => {
+    this.setState({
+      lineText: value
+    })
+  }
+
+  handleChangeTextAlign = value => {
+    this.setState({
+      textAlign: value
+    })
+  }
+
+  handleChangeTextTranform = value => {
+    this.setState({
+      tranform: value
+    })
+  }
+  handleChangeTextColor = value => {
+    this.setState({
+      color: value
+    })
+    console.log(this.state.color);
+  }
+
+  handleChangeBackground = value => {
+    this.setState({
+      background: value
+    })
+  }
+
+  handleChangeMargin = value => {
+    this.setState({
+      margin: value,
+    })
+  }
+
+  handleChangePadding = value => {
+    this.setState({
+      padding: value,
     })
   }
 
   render() {
 
-    const { key, style } = this.props;
-    const { content, topButton, leftButton, rightButton, bottomButton, positionButton } = this.state;
-    const divStyle = style ? style : {
-      position: positionButton,
-      top: topButton,
-      left: leftButton,
-      right: rightButton,
-      bottom: bottomButton,
-      wordBreak: 'break-all',
-      alignContent: 'center'
+    const { key } = this.props;
+    const { content, margin, padding, isEditor,
+      background, fontSize, fonts, lineText, letterSpacing, textAlign, tranform, color
 
+    } = this.state;
+
+    const divStyle = {
+
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      color: color,
+      wordBreak: 'break-word',
+      alignContent: 'center',
+      background: background,
+      fontSize: `${fontSize}px`,
+      fontFamily: fonts,
+      lineHeight: `${lineText}%`,
+      letterSpacing: letterSpacing,
+      textAlign: textAlign,
+      textTransform: tranform,
     }
+
     return (
 
-      <div className="edittext child-block" >
-        < div key={key}
-          style={divStyle}
-          onClick={this.showModal}
-          onChange={this.handeChangeText}
+      <div className="edittext child-block" style={divStyle} >
 
+        < div key={key}
+
+          onClick={() => { this.showEditor(); this.showModal() }}
         >
           {ReactHtmlParser(content)}
         </ div>
+
+
 
         <Modal
           title="Text"
           visible={this.state.visible}
           onCancel={this.handleCancel}
-          width={700}
+          width={600}
+          style={{ marginLeft: '50%' }}
+
 
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
@@ -124,67 +183,39 @@ class TextsBlock extends React.Component {
           </Button>,
           ]}
         >
-          <div className="mt-2">
-            <div className="d-flex mb-3">
-              <h6 >Vị trí : </h6>
-              <Select defaultValue={style ? 'absolute' : 'relative'}
-                className="ml-auto" style={{ width: '80%' }} onChange={this.onChangePosition} >
-                <Option value="static">static</Option>
-                <Option value="relative">relative</Option>
-                <Option value="absolute">absolute</Option>
-                <Option value="sticky">sticky</Option>
-                <Option value="fixed">fixed</Option>
-              </Select>
-            </div>
-
-          </div>
-          <div className="mt-2 d-flex">
-            <h6 className="mr-2">
-              Căn chỉnh :
-            </h6>
-
-            <div className="ml-5">
-              <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-
-                <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }}
-                  min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
-
-              </div>
-
-              <div style={{ width: buttonWidth, float: 'left' }}>
-                <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }}
-                  min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
-              </div>
-
-              <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }}
-                  min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
-              </div>
-
-              <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
-                  min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
-              </div>
 
 
-            </div>
 
 
-          </div>
 
-          <div className="mt-2">
-            <h6>Nội dung :</h6>
+          <EditText
+            fonts={fonts}
+            fontSize={fontSize}
+            lineText={lineText}
+            letterSpacing={letterSpacing}
 
-            <Editor value={content} onEditorChange={this.handleEditorChange} style={{ width: 300 }}
-              apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-              init={{
-                plugins: 'link   ',
-                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-              }}
-            />
-          </div>
+            padding={padding}
+            margin={margin}
+            color={color}
+            background={background}
+
+            handleChangeFonts={this.handleChangeFonts}
+            handleChangeFontSize={this.handleChangeFontSize}
+            handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+            handleChangeLineHeight={this.handleChangeLineHeight}
+
+            handleChangeTextAlign={this.handleChangeTextAlign}
+            handleChangeTextTranform={this.handleChangeTextTranform}
+            handleChangeTextColor={this.handleChangeTextColor}
+            handleChangeBackground={this.handleChangeBackground}
+
+            handleChangeMargin={this.handleChangeMargin}
+            handleChangePadding={this.handleChangePadding}
+
+          />
+
         </Modal>
-      </div>
+      </div >
     )
   }
 }

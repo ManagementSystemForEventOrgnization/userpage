@@ -60,17 +60,10 @@ const ROUTES = [
         main: () => <PreviewEvent />
     },
     {
-        path: '/create',
-        exact: true,
-        main:()=> <CreateEventPage />
-    },
-    {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
-    },
-    
-
+    }
 ];
 
 class WrapRouter extends React.Component {
@@ -141,7 +134,6 @@ class WrapRouter extends React.Component {
                 exact: true,
                 main: (match) => <CreateEventPage match={match} />
             },
-           
             {
                 path: '/create/preview',
                 exact: true,
