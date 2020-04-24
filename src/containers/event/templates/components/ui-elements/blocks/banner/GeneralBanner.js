@@ -27,7 +27,7 @@ class GeneralBanner extends Component {
             textAlign: 'center',
 
             opacity: 0.3,
-            bgColor: 'none',
+            bgColor: 'black',
         }
     }
 
@@ -97,7 +97,6 @@ class GeneralBanner extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: bgColor,
         }
 
         const bg = {
@@ -107,7 +106,7 @@ class GeneralBanner extends Component {
             width: '100%',
             height: '100%',
             opacity: opacity,
-            backgroundColor: 'black'
+            backgroundColor: bgColor
         }
 
         return (
