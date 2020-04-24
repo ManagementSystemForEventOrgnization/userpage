@@ -20,7 +20,7 @@ class EventDescription1 extends Component {
             margin: [1, 1, 1, 1],
             padding: [7, 1, 1, 7],
             url: '',
-            bgColor: 'none',
+            bgColor: 'black',
             opacity: 0.3
         }
     }
@@ -87,7 +87,6 @@ class EventDescription1 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: bgColor
 
         }
         const bg = {
@@ -97,7 +96,7 @@ class EventDescription1 extends Component {
             width: '100%',
             height: '100%',
             opacity: opacity,
-            backgroundColor: 'black'
+            backgroundColor: bgColor
         }
 
         const titleStyle = {
