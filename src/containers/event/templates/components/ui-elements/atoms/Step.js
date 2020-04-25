@@ -233,7 +233,7 @@ class StepBlock extends Component {
         return (
             <div className="child-block" style={divStyle}>
 
-                <Steps size="small" current={1} key={key} onClick={this.showModal}>
+                <Steps size="small" current={1  } key={key} onClick={this.showModal}>
                     {
                         steps.map(step =>
 

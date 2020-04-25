@@ -9,7 +9,6 @@ import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import ChangeColorModal from '../shares/ChangeColorModal';
 
-
 const { TabPane } = Tabs;
 const exampleText = 'Pellentesque ullamcorper tortor ut auctor consequat. Nullam sed nisi massa. Aliquam eget enim nunc. Praesent blandit blandit ornare. Sed lacinia felis quis elit luctus, et tincidunt elit aliquam. Sed porttitor eros id purus sollicitudin, quis pellentesque nunc pulvinar. Ut accumsan a sem quis dignissim. Sed lacus mauris, efficitur ac lobortis id, faucibus at quam. Praesent quis metus hendrerit, vulputate nibh vel, eleifend nibh. Donec cursus, elit id auctor porta, orci felis condimentum est, ut bibendum lacus elit non mi.'
 
@@ -137,7 +136,7 @@ class TextsBlock extends React.Component {
     const { key, leftModal } = this.props;
     const { content, margin, padding,
       background, fontSize, fonts, lineText,
-      letterSpacing, textAlign, tranform, color, isEditor,
+      letterSpacing, textAlign, tranform, color,
       fontWeight
     } = this.state;
 
@@ -162,36 +161,18 @@ class TextsBlock extends React.Component {
       letterSpacing: letterSpacing,
       textAlign: textAlign,
       textTransform: tranform,
-      fontWeight: fontWeight
-      // backgroundImage: `url(${url})`,
-      // backgroundPosition: 'center',
-      // backgroundSize: 'cover',
-      // backgroundRepeat: 'no-repeat',
+      fontWeight: fontWeight,
+
     }
 
     return (
 
-      <div className="edittext child-block" style={divStyle} >
-        {isEditor ?
-          < div key={key}
+      <div className="edittext child-block " style={divStyle} >
 
-            onClick={ this.showEditor}
-          >
-            {ReactHtmlParser(content)}
-          </ div>
-          :
-          <div onClick={()=>{this.showEditorText();this.showModal()}}>
-            <Editor value={content} onEditorChange={this.handleEditorChange}
-              apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
-              init={{
-                plugins: 'link   ',
-                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-              }} />
-          </div>
-        }
-
-
-
+        < div key={key} onClick={this.showModal}
+        >
+          {ReactHtmlParser(content)}
+        </ div>
         <Modal
           title="Text"
           visible={this.state.visible}
@@ -199,6 +180,7 @@ class TextsBlock extends React.Component {
           width={500}
           className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
+          zIndex={1}
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK
@@ -208,8 +190,17 @@ class TextsBlock extends React.Component {
       </Button>,
           ]}
         >
-
-         
+          <Tabs defaultActiveKey="1" >
+            <TabPane tab="text " key="1">
+              <h6>Nội dung</h6>
+              <Editor value={content} onEditorChange={this.handleEditorChange} style={divStyle}
+                apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
+                init={{
+                  plugins: 'link   ',
+                  toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
+                }} />
+            </TabPane>
+            <TabPane tab="design " key="2">
               <EditText
                 fonts={fonts}
                 fontSize={fontSize}
@@ -250,7 +241,10 @@ class TextsBlock extends React.Component {
                   handleChangeColor={this.handleChangeBackground}
                 />
               </div>
+            </TabPane>
+          </Tabs>
         </Modal>
+
       </div >
     )
   }

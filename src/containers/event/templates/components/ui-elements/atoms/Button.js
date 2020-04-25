@@ -1,275 +1,60 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, Radio } from 'antd';
+import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, } from 'antd';
 import { SketchPicker } from 'react-color';
-import { Link } from 'react-router-dom';
+import EditText from '../shares/EditText';
+import PaddingAndMargin from '../shares/PaddingAndMargin';
+import ChangeColorModal from '../shares/ChangeColorModal';
 import {
   BgColorsOutlined,
 } from '@ant-design/icons';
 // import { IconContext } from "react-icons";
 
 const { TabPane } = Tabs;
-const { Option } = Select;
-const buttonWidth = 150;
-const buttons = [
-  {
-    background: '#6495ED',
-    borderRadius: '15px',
-    borderColor: '',
-    borderWidth: '',
-    color: 'white',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: ' #FFC0CB',
-    borderRadius: '',
-    borderColor: '',
-    borderWidth: '',
-    color: 'black',
-    height: '',
-    width: '',
-    textAlign: '',
-  },
-  {
-    background: 'white',
-    borderRadius: '',
-    borderColor: '#FFC0CB',
-    borderWidth: '3px',
-    color: 'black',
-    height: '',
-    width: '',
-    textAlign: '',
 
 
-  },
-  {
-    background: 'white',
-    borderRadius: '',
-    borderColor: 'black',
-    borderWidth: '3px',
-    color: 'black',
-    height: '',
-    width: '',
-    textAlign: '',
 
-  },
-  {
-    background: '#8FBC8F',
-    borderRadius: '',
-    borderColor: '',
-    borderWidth: '',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: '#9932CC',
-    borderRadius: '',
-    borderColor: '',
-    borderWidth: '',
-    color: 'black',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: '#483D8B',
-    borderRadius: '5px',
-    borderColor: '',
-    borderWidth: '',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: '#483D8B',
-    borderRadius: '10px',
-    borderColor: '',
-    borderWidth: '',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: '#ADD8E6',
-    borderRadius: '15px',
-    borderColor: '',
-    borderWidth: '',
-    height: '',
-    width: '',
-    textAlign: '',
-
-  },
-  {
-    background: '#3CB371',
-    borderRadius: '20px',
-    borderColor: '',
-    borderWidth: '',
-    textAlign: 'center',
-
-
-  },
-  {
-    background: '#F08080',
-    borderRadius: '15px 50px 30px',
-    borderColor: '',
-    borderWidth: '',
-    textAlign: 'center',
-
-
-  },
-  {
-    background: '#F08080',
-    borderRadius: '15px 50px 30px 5px',
-    borderColor: '',
-    borderWidth: '',
-    textAlign: 'center'
-
-
-  },
-  {
-    background: '#FF7F50',
-    borderRadius: '50',
-    borderColor: '',
-    borderWidth: '',
-    textAlign: 'center'
-
-
-  },
-  {
-    background: '#FF7F50',
-    borderRadius: '50%',
-    borderColor: '',
-    borderWidth: '',
-    color: 'white',
-    textAlign: 'center'
-
-
-  },
-
-  {
-    background: '#FF7F50',
-    borderRadius: '50%',
-    borderColor: '',
-    borderWidth: '',
-    color: 'white',
-    textAlign: 'center'
-
-
-  },
-
-
-]
 
 
 class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
-
+    const { content, style } = this.props;
     this.state = {
 
       visible: false,
-      buttonsList: buttons,
       content: this.props.content ? this.props.content : "wellcome",
       isDesign: false,
       isButton: false,
-      linkButton: "",
-      inputValue: 20,
-      align: 'center',
-      textcolor: '',
-      positionButton: '',
-      leftButton: 0,
-      rightButton: 0,
-      topButton: 0,
-      bottomButton: 0,
       borderWidthButton: 0,
       borderColorButton: '',
-      backgrounButton: '#03a9f4',
-      isBackGround: false,
-      isBorderColor: false,
-      borderRadiusButton: '',
-      backgroundColorButton: '',
-      marginLeftButton: 0,
-      marginRightButton: 0,
-      marginTopButon: 0,
-      marginBottomButton: 0,
-      paddingTopButton: 0,
-      paddingLeftButton: 0,
-      paddingRightButton: 0,
-      paddingBottomButton: 0,
+      margin: [1, 1, 1, 1],
+      padding: [1, 1, 1, 1],
+      background: "none",
+      fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
+      fonts: "Times New Roman",
+      lineText: 80,
+      letterSpacing: 0,
+      textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
+      tranform: ' ',
+      color: style ? style.color ? style.color : "black" : 'black',
+      fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
+      borderRadius: '15px',
 
     }
   }
 
 
-  componentDidMount = () => {
+
+
+  onChangeBorderRadius = value => {
     this.setState({
-      buttonsList: buttons
-    })
-
-  }
-  // margin
-  onChangeMarginLeft = (value) => {
-    this.setState({ marginLeftButton: value });
-
-
-
-  }
-
-  onChangeMarginTop = (value) => {
-    this.setState({ marginTopButon: value });
-  }
-
-  onChangeMarginRight = (value) => {
-    this.setState({ marginRightButton: value });
-  }
-
-  onChangeMarginBottom = (value) => {
-    this.setState({ marginBottomButton: value });
-  }
-  // padding
-  onChangePaddingLeft = (value) => {
-    this.setState({ paddingLeftButton: value });
-  }
-
-  onChangePaddingTop = (value) => {
-    this.setState({ paddingTopButton: value });
-  }
-
-  onChangePaddingRight = (value) => {
-    this.setState({ paddingRightButton: value });
-  }
-
-  onChangePaddingBottom = (value) => {
-    this.setState({ paddingBottomButton: value });
-  }
-
-  onChangeTextAlign = (value) => {
-    this.setState({
-      align: value
-    })
-  }
-
-  //position
-  onChangePosition = (value) => {
-    this.setState({
-      positionButton: value
-    })
-  }
-
-  onChange = value => {
-    this.setState({
-      inputValue: value,
+      borderRadius: value,
     });
   };
+
+
 
   onChangeBorderWith = value => {
     this.setState({
@@ -306,42 +91,6 @@ class ButtonBlock extends React.Component {
 
 
   }
-
-  onChangeLeft = (value) => {
-    this.setState({ leftButton: value });
-  }
-
-
-  onChangeTop = (value) => {
-    this.setState({ topButton: value });
-  }
-
-
-  onChangeRight = (value) => {
-    this.setState({ rightButton: value });
-  }
-
-
-  onChangeBottom = (value) => {
-    this.setState({ bottomButton: value });
-  }
-
-
-  handleChangeComplete = (color) => {
-    this.setState({
-      textcolor: color.hex,
-    });
-
-  };
-
-
-  handleChangeCompleteBackground = (color) => {
-    this.setState({
-      backgrounButton: color.hex,
-    });
-  };
-
-
   handleChangeCompleteBorder = (color) => {
     this.setState({
       borderColorButton: color.hex
@@ -355,12 +104,7 @@ class ButtonBlock extends React.Component {
     });
   };
 
-  showModalBackGround = () => {
-    const { isBackGround } = this.state;
-    this.setState({
-      isBackGround: !isBackGround,
-    });
-  };
+
 
   showModalBorderColor = () => {
     const { isBorderColor } = this.state;
@@ -388,45 +132,102 @@ class ButtonBlock extends React.Component {
 
     });
   }
+  handleChangeFonts = value => {
+    this.setState({
+      fonts: value
+    })
+  }
+
+  handleChangeFontSize = value => {
+    this.setState({
+      fontSize: value
+    })
+  }
+  handleChangeLetterSpacing = value => {
+    this.setState({
+      letterSpacing: value
+    })
+  }
+  handleChangeLineHeight = value => {
+    this.setState({
+      lineText: value
+    })
+  }
+
+  handleChangeTextAlign = value => {
+    this.setState({
+      textAlign: value
+    })
+  }
+
+  handleChangeTextTranform = value => {
+    this.setState({
+      tranform: value
+    })
+  }
+  handleChangeTextColor = value => {
+    this.setState({
+      color: value
+    })
+    console.log(this.state.color);
+  }
+
+  handleChangeBackground = value => {
+    this.setState({
+      background: value
+    })
+  }
+
+  handleChangeMargin = value => {
+    this.setState({
+      margin: value,
+    })
+  }
+
+  handleChangePadding = value => {
+    this.setState({
+      padding: value,
+    })
+  }
+
 
 
 
   render() {
-
-    const { key } = this.props;
-    const { content, align, isButton, inputValue, linkButton,
-      textcolor,
-      positionButton,
-      leftButton, topButton, rightButton, bottomButton, borderWidthButton,
-      backgrounButton, borderColorButton, buttonsList, borderRadiusButton,
-      paddingBottomButton, paddingLeftButton, paddingTopButton, paddingRightButton,
-      marginRightButton, marginLeftButton, marginBottomButton, marginTopButon,
+    const { key, leftModal } = this.props;
+    const { content, borderColorButton, borderWidthButton,
+      margin, padding, isButton,
+      background, fontSize, fonts, lineText,
+      letterSpacing, textAlign, tranform, color, borderRadius,
+      fontWeight
     } = this.state;
     const divStyle = {
-      textAlign: align,
-      fontSize: inputValue,
+      textAlign: textAlign,
+      fontSize: fontSize,
     }
-
     const styleButton = {
-      fontSize: inputValue,
-      color: textcolor,
-      position: positionButton,
-      left: leftButton,
-      right: rightButton,
-      top: topButton,
-      bottom: bottomButton,
-      borderWidth: borderWidthButton,
-      background: backgrounButton,
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      color: color,
+      wordBreak: 'break-word',
+      alignContent: 'center',
+      background: background,
+      fontSize: `${fontSize}px`,
+      fontFamily: fonts,
+      lineHeight: `${lineText}%`,
+      letterSpacing: letterSpacing,
+      textAlign: textAlign,
+      textTransform: tranform,
+      fontWeight: fontWeight,
       borderColor: borderColorButton,
-      borderRadius: borderRadiusButton,
-      paddingLeft: paddingLeftButton,
-      paddingRight: paddingRightButton,
-      paddingTop: paddingTopButton,
-      paddingBottom: paddingBottomButton,
-      marginLeft: marginLeftButton,
-      marginRight: marginRightButton,
-      marginTop: marginTopButon,
-      marginBottom: marginBottomButton,
+      borderWidth: borderWidthButton,
+      borderRadius: borderRadius
 
     }
 
@@ -436,7 +237,7 @@ class ButtonBlock extends React.Component {
       <div className="edittext  child-block" style={divStyle} >
         <div onClick={this.showModalButton}>
           <Button
-            href={linkButton}
+
             key={key}
             className="ml-3"
             style={styleButton}
@@ -453,6 +254,8 @@ class ButtonBlock extends React.Component {
           visible={this.state.isDesign}
           onOk={this.handleOk}
           onCancel={this.handleCancelDesign}
+          className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
+          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
           width={500}
           footer={[
             <Button key="ok" onClick={this.handleCancelDesign} type="primary">
@@ -470,224 +273,115 @@ class ButtonBlock extends React.Component {
 
               <h6 className="mt-3">Đường dẫn </h6>
               <div className="d-flex flex-row mt-2">
-                <Input value={linkButton} style={{ borderRadius: 50 }} placeholder="Thêm đường link" onChange={this.OnChangeLink} ></Input>
-              </div>
-              <div className="mt-2">
-                <h6>Font size(px)</h6>
-                <Row>
-                  <Col span={12}>
-                    <Slider
-                      min={6}
-                      max={176}
-                      onChange={this.onChange}
-                      value={typeof inputValue === 'number' ? inputValue : 0}
-                    />
-                  </Col>
-                  <Col span={2}>
-                    <InputNumber
-                      min={6}
-                      max={176}
-                      style={{ margin: '0 16px', borderRadius: '15px' }}
-                      value={inputValue}
-                      onChange={this.onChange}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              <div className="mt-2">
-                <h6>Text Align</h6>
-                <Select style={{ width: '100%' }} onChange={this.onChangeTextAlign}>
-                  <Option value="left">left</Option>
-                  <Option value="center">center</Option>
-                  <Option value="right">right</Option>
-                  <Option value="justify">justify</Option>
-                </Select>
-              </div>
-              <div className="mt-3 d-flex flex-row">
-                <h6 className="mt-1">Color</h6>
-                <Button className="ml-4" onClick={this.showModal} shape='circle'><span>
-                  <BgColorsOutlined />
-                </span></Button>
-
-              </div>
-              <div className="mt-2">
-                <h6>Border Width</h6>
-                <Row>
-                  <Col span={12}>
-                    <Slider
-                      min={0}
-                      max={15}
-                      onChange={this.onChangeBorderWith}
-                      value={typeof borderWidthButton === 'number' ? borderWidthButton : 0}
-                    />
-                  </Col>
-                  <Col span={2}>
-                    <InputNumber
-                      min={0}
-                      max={15}
-                      style={{ margin: '0 16px', borderRadius: '15px' }}
-                      value={borderWidthButton}
-                      onChange={this.onChangeBorderWith}
-                    />
-                  </Col>
-                </Row>
-
-              </div>
-              <div className="mt-3 d-flex flex-row">
-                <h6>Border color</h6>
-                <Button className="ml-5" onClick={this.showModalBorderColor} shape='circle'><span>
-                  <BgColorsOutlined />
-                </span></Button>
-
-              </div>
-              <div className="mt-4 d-flex flex-row">
-                <h6>Background</h6>
-                <Button className="ml-5" onClick={this.showModalBackGround} shape='circle' ><span>
-                  <BgColorsOutlined />
-                </span></Button>
-
+                <Input style={{ borderRadius: 50 }} placeholder="Thêm đường link" onChange={this.OnChangeLink} ></Input>
               </div>
 
-            </TabPane>
-            <TabPane tab="Position" key="2">
-              <div className="mt-2">
-                <h6>Điều chính vị trí</h6>
-                <Select style={{ width: '100%' }} onChange={this.onChangePosition}>
-                  <Option value="static">static</Option>
-                  <Option value="relative">relative</Option>
-                  <Option value="fixed">absolute</Option>
-                  <Option value="sticky">sticky</Option>
-                </Select>
-              </div>
-              <div className="mt-2 ml-5">
-
-                <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-
-                  <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
-
-                </div>
-                <div style={{ width: buttonWidth, float: 'left' }}>
-                  <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
-                </div>
-                <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                  <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
-                </div>
-                <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                  <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }} min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
-                </div>
-              </div>
-              <div className="mt-2 ">
-                <h6 className="mr-2">
-                  Margin:
-               </h6>
-
-                <div className="ml-5">
-                  <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-
-                    <InputNumber placeholder="top" value={marginTopButon} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangeMarginTop}  ></InputNumber >
-
-                  </div>
-
-                  <div style={{ width: buttonWidth, float: 'left' }}>
-                    <InputNumber placeholder="left" value={marginLeftButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangeMarginLeft} ></InputNumber >
-                  </div>
-
-                  <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                    <InputNumber placeholder="right" value={marginRightButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangeMarginRight}  ></InputNumber >
-                  </div>
-
-                  <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                    <InputNumber placeholder="bottom" value={marginBottomButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangeMarginBottom} ></InputNumber >
-                  </div>
-
-
-                </div>
-
-
-              </div>
-
-              <div className="mt-2 ">
-                <h6 className="mr-2">
-                  padding :
-            </h6>
-
-                <div className="ml-5">
-                  <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
-
-                    <InputNumber placeholder="top" value={paddingTopButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangePaddingTop}  ></InputNumber >
-
-                  </div>
-
-                  <div style={{ width: buttonWidth, float: 'left' }}>
-                    <InputNumber placeholder="left" value={paddingLeftButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangePaddingLeft} ></InputNumber >
-                  </div>
-
-                  <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
-                    <InputNumber placeholder="right" value={paddingRightButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangePaddingRight}  ></InputNumber >
-                  </div>
-
-                  <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-                    <InputNumber placeholder="bottom" value={paddingBottomButton} style={{ width: 72, textAlign: 'center' }}
-                      min={0} max={1500} onChange={this.onChangePaddingBottom} ></InputNumber >
-                  </div>
-
-
-                </div>
-
-
-              </div>
 
 
 
             </TabPane>
 
+            <TabPane tab="Design" key="2">
+              <EditText
+                fonts={fonts}
+                fontSize={fontSize}
+                lineText={lineText}
+                letterSpacing={letterSpacing}
 
-            <TabPane tab="Design" key="3">
-              <Radio.Group value={borderRadiusButton} onChange={this.handleShapeChange}>
-                {buttonsList.map((item, index) =>
-                  <Radio.Button key={index} className="ml-2   mt-3" style={item} value={item.borderRadius}>Button</Radio.Button>
-                )}
-              </Radio.Group>
+                padding={padding}
+                margin={margin}
+                color={color}
+                background={background}
+
+                handleChangeFonts={this.handleChangeFonts}
+                handleChangeFontSize={this.handleChangeFontSize}
+                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                handleChangeLineHeight={this.handleChangeLineHeight}
+
+                handleChangeTextAlign={this.handleChangeTextAlign}
+                handleChangeTextTranform={this.handleChangeTextTranform}
+              />
+
+              <div className="mt-5 pl-2">
+                <PaddingAndMargin
+                  padding={padding}
+                  margin={margin}
+                  handleChangeMargin={this.handleChangeMargin}
+                  handleChangePadding={this.handleChangePadding}
+                />
+              </div>
+              <div className="d-flex mt-5 pl-2">
+                <ChangeColorModal
+                  title="Change Text Color"
+                  color={color}
+                  handleChangeColor={this.handleChangeTextColor}
+                />
+                <ChangeColorModal
+                  title="Change background"
+                  color={background}
+                  handleChangeColor={this.handleChangeBackground}
+                />
+              </div>
+              <div>
+                <div className="mt-2">
+                  <h6>Border Width</h6>
+                  <Row>
+                    <Col span={12}>
+                      <Slider
+                        min={0}
+                        max={15}
+                        onChange={this.onChangeBorderWith}
+                        value={typeof borderWidthButton === 'number' ? borderWidthButton : 0}
+                      />
+                    </Col>
+                    <Col span={2}>
+                      <InputNumber
+                        min={0}
+                        max={15}
+                        style={{ margin: '0 16px', borderRadius: '15px' }}
+                        value={borderWidthButton}
+                        onChange={this.onChangeBorderWith}
+                      />
+                    </Col>
+                  </Row>
+
+                </div>
+                <div className="mt-3 d-flex flex-row">
+                  <h6>Border color</h6>
+                  <Button className="ml-5" onClick={this.showModalBorderColor} shape='circle'><span>
+                    <BgColorsOutlined />
+                  </span></Button>
+
+                </div>
+                <div className="mt-2">
+                  <h6> border Radius</h6>
+                  <Row>
+                    <Col span={12}>
+                      <Slider
+                        min={0}
+                        max={100}
+                        onChange={this.onChangeBorderRadius}
+                        value={typeof borderRadius === 'number' ? borderRadius : 0}
+                      />
+                    </Col>
+                    <Col span={2}>
+                      <InputNumber
+                        min={0}
+                        max={100}
+                        style={{ margin: '0 16px', borderRadius: '15px' }}
+                        value={borderRadius}
+                        onChange={this.onChangeBorderRadius}
+                      />
+                    </Col>
+                  </Row>
+
+                </div>
+              </div>
             </TabPane>
           </Tabs>
         </Modal>
 
-        <Modal
-          title="Color"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          width={260}
 
-          style={{ marginLeft: 820 }}
-          footer={[
-          ]}
-        >
-          <SketchPicker color={textcolor}
-            onChangeComplete={this.handleChangeComplete} />
-        </Modal>
-
-        <Modal
-          title="background"
-          visible={this.state.isBackGround}
-          onOk={this.handleOk}
-          onCancel={this.showModalBackGround}
-          width={260}
-
-          style={{ marginLeft: 820 }}
-          footer={[
-          ]}
-        >
-          <SketchPicker color={backgrounButton}
-            onChangeComplete={this.handleChangeCompleteBackground} />
-        </Modal>
 
         <Modal
           title="Border Color"
