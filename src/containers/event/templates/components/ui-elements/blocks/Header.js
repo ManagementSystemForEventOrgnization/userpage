@@ -41,7 +41,7 @@ class HeaderBlock extends Component {
             inputValue: 20,
             showColor: false,
             isDesign: false,
-            activeFontFamily: "Open Sans",
+            activeFontFamily: "Times New Roman",
             lineText: 80,
             letterText: -2,
             align: '',
@@ -90,12 +90,27 @@ class HeaderBlock extends Component {
     };
 
     removeOption = (item) => {
-
         const menuName = this.state.menuName.filter(e => e.id !== item.id)
         this.setState({
             menuName,
         })
     }
+
+    removeOptionChild = (idMenu, sub) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === idMenu);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+        else {
+            item.items = sub
+            this.setState({
+                menuName: [...menuName.slice(0, index),
+                    item,
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+        }
+    }
+
     handleOnChangeTextBlock = (id, value) => {
 
         const { menuName } = this.state;
@@ -110,6 +125,19 @@ class HeaderBlock extends Component {
             })
         }
 
+    }
+    handleUpdateChild = (id, sub) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === id);
+        const index = menuName.indexOf(item);
+        if (index === -1) return;
+        else {
+            item.items = sub;
+            this.setState({
+                menuName: [...menuName.slice(0, index), item,
+                ...menuName.slice(index + 1, menuName.length)]
+            })
+        }
     }
     //color
     handleChangeComplete = (color) => {
@@ -131,6 +159,14 @@ class HeaderBlock extends Component {
             tranform: value
         })
     }
+    // open color
+    onClickColor = e => {
+        const { showColor } = this.state
+        this.setState({
+            showColor: !showColor
+        });
+    };
+
     //font size
     onChange = value => {
         this.setState({
@@ -151,6 +187,12 @@ class HeaderBlock extends Component {
             letterText: value,
         });
 
+    };
+    showModalButton = () => {
+        const { isDesign } = this.state;
+        this.setState({
+            isDesign: !isDesign
+        });
     };
 
     handleChangeFonts = value => {
@@ -183,8 +225,9 @@ class HeaderBlock extends Component {
         })
     }
 
+
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
 
         const { visible, menuName, isShowAdd,
             inputValue, activeFontFamily,
@@ -223,8 +266,7 @@ class HeaderBlock extends Component {
                             menuName.map(sub =>
                                 sub.items.length === 0 ?
                                     <Menu.Item key={sub.id}>{sub.title} </Menu.Item> :
-
-                                    <SubMenu key={sub.id} title={
+                                    <SubMenu title={
                                         <span >
                                             {sub.title}
                                         </span>
@@ -237,81 +279,88 @@ class HeaderBlock extends Component {
                         }
                     </Menu>
                 </div>
+                {editable &&
+                    <Modal
+                        title="Header"
+                        visible={visible}
+                        width={600}
+                        onOk={this.handleEditMenu}
+                        onCancel={this.handleEditMenu}
+                        maskClosable={true}
+                    >
+                        <Tabs defaultActiveKey="1" >
+                            <TabPane tab="Text" key="1">
+                                {
+                                    menuName.map(sub =>
+                                        <div key={sub.id}>
 
-                <Modal
-                    title="Header"
-                    visible={visible}
-                    width={700}
-                    onOk={this.handleEditMenu}
-                    onCancel={this.handleEditMenu}
-                >
-                    <Tabs defaultActiveKey="1" >
-                        <TabPane tab="Text" key="1">
-                            {
-                                menuName.map(sub =>
-
-                                    <div key={sub.id}>
-                                        <div className="d-flex  mt-2">
-                                            <div className="mr-5">
-                                                <TextBlocks
-                                                    content={sub.title} id={sub.id}
-                                                    handleOnChangeTextBlock={this.handleOnChangeTextBlock} />
-
+                                            <div key={sub.id} className="d-flex row mt-2">
+                                                <div className="col">
+                                                    <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
+                                                </div>
+                                                <div className="col">
+                                                    <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                                </div>
                                             </div>
+                                            <div className="col">
 
-                                            <DeleteOutlined className=" mt-2" onClick={() => this.removeOption(sub)} />
+                                                <DropdownBlocks options={sub.items} idMenu={sub.id}
+                                                    removeOptionChild={this.removeOptionChild}
+                                                    handleUpdateChild={this.handleUpdateChild}
+
+                                                > </DropdownBlocks>
+                                            </div>
                                         </div>
-                                        <div className="d-flex mt-2"> <p>Thêm các thuộc tính con : </p>
-                                            <span className="ml-5"  > <DropdownBlocks options={sub.items} > </DropdownBlocks></span>
-                                        </div>
+
+                                    )}
+
+                                {isShowAdd ?
+                                    <div className="d-flex mt-2" >
+                                        <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                        <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
                                     </div>
+                                    : ''
+                                }
 
-                                )}
-
-                            {isShowAdd ?
-                                <div className="d-flex mt-2" >
-                                    <Input value={this.state.txtname} onChange={this.onNameChange} />
-                                    <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                                </div>
-                                : ''
-                            }
-
-                            <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
-                            >  <PlusOutlined /> Add menu item
+                                <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
+                                >  <PlusOutlined /> Add menu item
 
                         </Button>
-                        </TabPane>
-                        <TabPane tab="Style" key="2">
-                            <EditText
-                                fonts={activeFontFamily}
-                                fontSize={inputValue}
-                                lineText={lineText}
-                                letterSpacing={letterText}
-                                color={color}
-                                background={background}
-                                margin={margin}
-                                padding={padding}
+                            </TabPane>
+                            <TabPane tab="Style" key="2">
+                                <EditText
+                                    fonts={activeFontFamily}
+                                    fontSize={inputValue}
+                                    lineText={lineText}
+                                    letterSpacing={letterText}
+                                    color={color}
+                                    background={background}
+                                    margin={margin}
+                                    padding={padding}
 
-                                handleChangeFonts={this.handleChangeFonts}
-                                handleChangeFontSize={this.onChange}
-                                handleChangeLetterSpacing={this.onChangeLetterSpace}
-                                handleChangeLineHeight={this.onChangeLineHeight}
+                                    handleChangeFonts={this.handleChangeFonts}
+                                    handleChangeFontSize={this.onChange}
+                                    handleChangeLetterSpacing={this.onChangeLetterSpace}
+                                    handleChangeLineHeight={this.onChangeLineHeight}
 
-                                handleChangeTextAlign={this.onChangeTextAlign}
-                                handleChangeTextTranform={this.onChangeTextTranform}
-                                handleChangeTextColor={this.handleChangeColor}
-                                handleChangeBackground={this.handleChangeBackground}
+                                    handleChangeTextAlign={this.onChangeTextAlign}
+                                    handleChangeTextTranform={this.onChangeTextTranform}
+                                    handleChangeTextColor={this.handleChangeColor}
+                                    handleChangeBackground={this.handleChangeBackground}
 
-                                handleChangePadding={this.onChangePadding}
-                                handleChangeMargin={this.onChangeMargin}
-
-
+                                    handleChangePadding={this.onChangePadding}
+                                    handleChangeMargin={this.onChangeMargin}
 
 
-                            />
-                        </TabPane>
-                    </Tabs>
-                </Modal>
+
+
+                                />
+                            </TabPane>
+
+                        </Tabs>
+                    </Modal>
+
+                }
             </div>
         )
     }

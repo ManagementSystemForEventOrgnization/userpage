@@ -9,7 +9,13 @@ const initialState = {
     locationName: '',
     time: {},
     isSellTicket: 'Không',
-    blocks: [],
+    blocks: [
+        /**
+         * id
+         * option
+         * style
+         */
+    ],
 }
 
 const user = (state = initialState, action) => {

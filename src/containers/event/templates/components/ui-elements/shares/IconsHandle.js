@@ -22,7 +22,7 @@ class IconsHandle extends Component {
         return (
             <div className="icons-handle">
                 <EditTwoTone style={iconStyle} onClick={collapseModal} />
-                <PlusCircleTwoTone style={iconStyle} className="mt-3" onClick={handleDuplicate} />
+                <PlusCircleTwoTone style={iconStyle} className="mt-3" onClick={handleDuplicate}  />
                 <DeleteTwoTone style={iconStyle} className="mt-3" onClick={handleDelete} />
             </div>
         )

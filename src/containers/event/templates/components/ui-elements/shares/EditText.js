@@ -181,7 +181,6 @@ class EditText extends Component {
 
 EditText.propTypes = {
     fonts: PropTypes.string,
-    fontSize: PropTypes.number,
     lineText: PropTypes.number,
     letterSpacing: PropTypes.number,
 

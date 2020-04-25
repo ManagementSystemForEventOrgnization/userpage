@@ -20,9 +20,9 @@ class ImageBlock extends React.Component {
         this.state = {
             uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
             visible: false,
-            width: 100,
-            // phi: change height props
-            height: this.props.height ||60,
+
+            width: this.props.width || 100,
+            height: this.props.height || 60,
             href: '',
             margin: [1, 1, 1, 1],
             padding: [1, 1, 2, 1],
@@ -33,13 +33,25 @@ class ImageBlock extends React.Component {
     }
 
     onImageDrop = url => {
+        const { id, handleOnChangeUrlTextBlock } = this.props;
         this.setState({
             uploadedFileCloudinaryUrl: url
         })
+        if (id) {
+            handleOnChangeUrlTextBlock(id, this.state.uploadedFileCloudinaryUrl);
+        }
     }
 
     showModal = () => {
 
+        this.setState({
+            visible: true,
+        });
+    }
+
+    showModal = () => {
+        // const { editable } = this.props;
+        // if (editable) {
         this.setState({
             visible: true,
         });
@@ -95,7 +107,7 @@ class ImageBlock extends React.Component {
         const { uploadedFileCloudinaryUrl,
             width, height, margin, padding,
             borderRadius } = this.state;
-        const { leftModal } = this.props;
+        const { leftModal, editable } = this.props;
 
         const imageStyle = {
             width: `${width}%`,
@@ -130,7 +142,7 @@ class ImageBlock extends React.Component {
                     src={uploadedFileCloudinaryUrl}
                     onClick={this.showModal} />
 
-                <Modal
+                {editable && <Modal
                     title="Edit Image"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -203,7 +215,7 @@ class ImageBlock extends React.Component {
                         </TabPane>
                     </Tabs>
                 </Modal>
-
+                }
             </div>
 
 

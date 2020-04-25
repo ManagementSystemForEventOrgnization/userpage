@@ -6,31 +6,32 @@ import TextBlock from '../components/ui-elements/atoms/Text';
 import ImageBlock from '../components/ui-elements/atoms/Image';
 import DropdownBlock from '../components/ui-elements/atoms/DropDown';
 import TableBlock from '../components/ui-elements/atoms/Table';
-import DividerBlock from '../components/ui-elements/atoms/Devider'
 import StepBlock from '../components/ui-elements/atoms/Step';
 import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
 import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
 import IconBlock from '../components/ui-elements/atoms/Icon';
-import DividersBlock from '../components/ui-elements/atoms/Divider';
+import DividerBlock from '../components/ui-elements/atoms/Divider';
 
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
 import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown';
 
 import Photo from '../components/ui-elements/blocks/photos/Photo';
-import Photos from '../components/ui-elements/blocks/photos/Photos';
+// import Photos from '../components/ui-elements/blocks/photos/Photos';
 
 
 import ContactUs1 from '../components/ui-elements/blocks/contactUs/ContactUs1';
 import ContactUs2 from '../components/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
-import Banner2 from '../components/ui-elements/blocks/banner/Banner2'
-import Banner3 from '../components/ui-elements/blocks/banner/Banner3'
+import Banner2 from '../components/ui-elements/blocks/banner/Banner2';
+import Banner3 from '../components/ui-elements/blocks/banner/Banner3';
 
 import EventDescription1 from '../components/ui-elements/blocks/eventDescription/EventDescription1'
 import EventDescription2 from '../components/ui-elements/blocks/eventDescription/EventDescription2'
 import EventDescription3 from '../components/ui-elements/blocks/eventDescription/EventDescription3'
+import Schedule1 from '../components/ui-elements/blocks/Scheduel/Scheduel1';
+import Schedule2 from '../components/ui-elements/blocks/Scheduel/Scheduel2';
 
 import TrashBlock from '../components/ui-elements/atoms/Trash';
 
@@ -46,12 +47,13 @@ export default
             value: [
                 {
                     child: "Button",
-                    options: ({ key }) => <ButtonBlock key={key} />,
+                    options: ({ key, editable }) => <ButtonBlock key={key} editable={editable} />,
                 },
                 {
                     child: "Text",
-                    options: ({ key }) => <TextBlock
+                    options: ({ key, editable }) => <TextBlock
                         key={key}
+                        editable={editable}
                     />
                 },
                 {
@@ -63,42 +65,38 @@ export default
                 },
                 {
                     child: "Table",
-                    options: ({ key }) => <TableBlock key={key} />,
+                    options: ({ key, editable }) => <TableBlock key={key} editable={editable} />,
 
                 },
                 {
                     child: "Dropdown",
-                    options: ({ key }) => <DropdownBlock key={key} />,
+                    options: ({ key, editable }) => <DropdownBlock key={key} editable={editable} />,
 
                 },
                 {
                     child: "Divider",
-                    options: ({ key }) => <DividerBlock key={key} />,
+                    options: ({ key, editable }) => <DividerBlock key={key} editable={editable} />,
 
                 },
                 {
                     child: "DatePicker",
-                    options: ({ key }) => <DatepickersBlocks key={key} />,
+                    options: ({ key, editable }) => <DatepickersBlocks key={key} editable={editable} />,
 
                 },
                 {
                     child: "TimePicker",
-                    options: ({ key }) => <TimepickersBlock key={key} />,
+                    options: ({ key, editable }) => <TimepickersBlock key={key} editable={editable} />,
 
                 },
                 {
                     child: "Step",
-                    options: ({ key }) => <StepBlock key={key} />,
+                    options: ({ key, editable }) => <StepBlock key={key} editable={editable} />,
 
                 },
                 {
                     child: "Icon",
-                    options: ({ key }) => <IconBlock key={key} />,
+                    options: ({ key, editable }) => <IconBlock key={key} editable={editable} />,
 
-                },
-                {
-                    child: "Dividers",
-                    options: ({ key }) => <DividersBlock key={key} />
                 }
             ]
                 .map(({ child, options }) => {
@@ -117,7 +115,7 @@ export default
                 {
 
                     child: "Header",
-                    options: ({ key }) => <HeaderBlock key={key} />
+                    options: ({ key, editable }) => <HeaderBlock key={key} editable={editable} />
 
                 }
             ].map(({ child, options }) => {
@@ -135,14 +133,14 @@ export default
             value: [
                 {
                     child: "Only Image",
-                    options: ({ key }) => <Banner1 key={key} />
+                    options: ({ key, editable }) => <Banner1 key={key} editable={editable} />
                 }
                 , {
                     child: "Basic Banner",
-                    options: ({ key }) => <Banner2 key={key} />
+                    options: ({ key, editable }) => <Banner2 key={key} editable={editable} />
                 }, {
                     child: "Medium Banner",
-                    options: ({ key }) => <Banner3 key={key} />
+                    options: ({ key, editable }) => <Banner3 key={key} editable={editable} />
                 }].map(({ child, options }) => {
                     return {
                         id: uuid(),
@@ -158,11 +156,26 @@ export default
             value: [
                 {
                     child: "Option 1",
-                    options: ({ key }) => <EventDescription1 key={key} />
+                    options: ({ key, editable }) => <EventDescription1 key={key} editable={editable} />
                 },
-                { child: "Option 2", options: ({ key }) => <EventDescription2 key={key} /> },
-                { child: "Option 3", options: ({ key }) => <EventDescription3 key={key} /> }]
+                { child: "Option 2", options: ({ key, editable }) => <EventDescription2 key={key} editable={editable} /> },
+                { child: "Option 3", options: ({ key, editable }) => <EventDescription3 key={key} editable={editable} /> }]
                 .map(({ child, options }) => {
+                    return {
+                        id: uuid(),
+                        child,
+                        options: options ? options : () => <></>,
+                        trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                    };
+                })
+        },
+        {
+            name: 'Speaker/Performer/Team',
+            value: [
+                {
+                    child: "Option 1",
+                    options: ({key, editable}) => <CardBlock key={key}  editable={editable}/>
+                }].map(({ child, options }) => {
                     return {
                         id: uuid(),
                         child,
@@ -173,12 +186,14 @@ export default
         },
 
         {
-            name: 'Speaker/Performer/Team',
-            value: [
-                {
-                    child: "Option 1",
-                    options: ({key}) => <CardBlock key={key} />
-                }
+            name: 'Schedule/Program/Step',
+            value: [{
+                child: "Schedule1",
+                options: ({ key, editable }) => <Schedule1 key={key} editable={editable} />
+            }, {
+                child: "Schedule2",
+                options: ({ key, editable }) => <Schedule2 key={key} editable={editable} />
+            },
             ].map(({ child, options }) => {
                 return {
                     id: uuid(),
@@ -188,21 +203,15 @@ export default
                 };
             })
         },
-
+        
         {
-            name: 'Schedule/Program/Step',
-            value: [{
-                child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
-            }, {
-                child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },].map(({ child, options }) => {
+            name: 'Speaker/Performer/Team',
+            value: [].map(({ id, child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                    trash: <TrashBlock />,
                 };
             })
         },
@@ -211,78 +220,75 @@ export default
             name: 'Map/Location/Adress',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key, editable }) => <ButtonBlock key={key} editable={editable} />
             }, {
                 child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },].map(({ child, options }) => {
+                options: ({ key, editable }) => <ButtonBlock key={key} editable={editable} />
+            },].map(({ id, child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                    trash: <TrashBlock />,
                 };
             })
         },
-
         {
             name: 'Coundown',
             value: [{
-                child: "Option 1",
-                options: ({ key }) => <CountDownBlock key={key} startCount="2021-04-20 12:07:00" />
-            }].map(({ child, options }) => {
+                child: "Coundown",
+                options: ({ key, editable }) => <CountDownBlock key={key} editable={editable} />
+            }].map(({ id, child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                    trash: <TrashBlock />,
                 };
             })
         },
-
         {
-            name: 'Photo/Image',
+            name: 'Video',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <Photo key={key} />
+                options: ({ key, editable }) => <ButtonBlock key={key} editable={editable} />
             }, {
                 child: "Option 2",
-                options: ({ key }) => <Photos key={key} />
-            },].map(({ child, options }) => {
+                options: ({ key, editable }) => <ButtonBlock key={key} editable={editable} />
+            },].map(({ id, child, options }) => {
                 return {
                     id: uuid(),
                     child,
                     options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+                    trash: <TrashBlock />,
                 };
             })
         },
-
-        // {
-        //     name: 'Video',
-        //     value: [{
-        //         child: "Option 1",
-        //         options: ({ key }) => <ButtonBlock key={key} />
-        //     }, {
-        //         child: "Option 2",
-        //         options: ({ key }) => <ButtonBlock key={key} />
-        //     },].map(({ child, options }) => {
-        //         return {
-        //             id: uuid(),
-        //             child,
-        //             options: options ? options : () => <></>,
-        //             trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
-        //         };
-        //     })
-        // },
         {
             name: 'Sponsors/Partners',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <Sponsor1Block key={key} />
+                options: ({ key, editable }) => <Sponsor1Block key={key} editable={editable} />
             }, {
                 child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key, editable }) => <Sponsor1Block key={key} editable={editable} />
+            },].map(({ id, child, options }) => {
+                return {
+                    id: uuid(),
+                    child,
+                    options: options ? options : () => <></>,
+                    trash: <TrashBlock />,
+                };
+            })
+        },
+        {
+            name: 'Photo/Image',
+            value: [{
+                child: "Option 1",
+                options: ({ key, editable }) => <ImageBlock key={key} editable={editable} />
+            }, {
+                child: "Option 2",
+                options: ({ key, editable }) => <Photo key={key} editable={editable} />
             },].map(({ child, options }) => {
                 return {
                     id: uuid(),
@@ -292,16 +298,15 @@ export default
                 };
             })
         },
-
         {
             name: 'Contact Us',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ContactUs1 key={key} />
+                options: ({ key, editable }) => <ContactUs1 key={key} editable={editable} />
             },
             {
                 child: "Option 2",
-                options: ({ key }) => <ContactUs2 key={key} />
+                options: ({ key, editable }) => <ContactUs2 key={key} editable={editable} />
             },
 
             ].map(({ child, options }) => {
@@ -334,7 +339,7 @@ export default
                     trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
                 };
             })
-        }
+        },
 
     ]
 

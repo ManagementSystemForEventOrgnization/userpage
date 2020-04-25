@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from "uuid";
 import { Input, Modal, Select, Button, } from 'antd';
-import { PlusOutlined, DeleteOutlined, } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import TextBlock from './Text';
+
 let index = 0;
+
 class DropDownBlock extends Component {
+
     constructor(props) {
-
         super(props)
-
         this.state = {
             items: this.props.options ? this.props.options : [{ id: 1, name: 'haha' }],
             txtname: "",
             isAddOption: false,
             isRename: false,
+
         }
     }
 
@@ -65,6 +67,7 @@ class DropDownBlock extends Component {
             visible: false,
         });
     };
+
     OnClickOption = (e) => {
         const { isAddOption } = this.state;
         this.setState({
@@ -72,6 +75,7 @@ class DropDownBlock extends Component {
         });
 
     };
+
     OnClickRename = (e) => {
         const { isRename } = this.state;
         this.setState({
@@ -82,77 +86,99 @@ class DropDownBlock extends Component {
     };
 
     removeOption = (item) => {
+        const { idMenu, removeOptionChild } = this.props;
         const items = this.state.items.filter(e => e.id !== item.id)
+        console.log(idMenu, items)
+
+        if (idMenu) {
+            removeOptionChild(idMenu, items)
+        }
         this.setState({
-            items,
+            items
         })
     }
-    onChangeTextBlock = (id, value) => {
-        console.log("TCL : ", value);
 
+
+
+    onChangeTextBlock = (id, value) => {
+        const { idMenu, handleUpdateChild } = this.props;
         const { items } = this.state;
         const item = items.find(ele => ele.id === id);
         const index = items.indexOf(item);
         if (index === -1) return;
         else {
-            console.log(items)
             this.setState({
                 items: [...items.slice(0, index), { id, name: value }, ...items.slice(index + 1, items.length)]
             })
         }
 
 
+        if (idMenu) {
+            handleUpdateChild(idMenu, this.state.items);
+        }
+
+
     }
 
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
         const { items, isAddOption } = this.state;
 
         const constructOptions = options =>
             options.map(data => (
                 <Select.Option key={uuid()} value={data.id}>
+
                     {data.name}
+
+
                 </Select.Option>
             ));
 
         return (
-            <div className="sortable-element" >
+            <div className="sortable-element child-block" >
                 <Select key={key} id={"dropdown" + uuid()} style={{ width: 100 }}
                     onClick={this.showModal}
                 >
                     {constructOptions(items)}
                 </Select>
-                <Modal
+
+                {editable && <Modal
                     title="Dropdown"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    width={300}
+                    width={400}
+                    style={{ marginLeft: "30%" }}
                 >
+                    <div>
+                        {items.map((item) =>
+                            <div key={item.id} className="d-flex row mt-2 " >
+                                <div className="col">
+                                    <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
+                                </div>
+                                <div className="col-3">
+                                    <DeleteOutlined onClick={() => this.removeOption(item)} />
+                                </div>
 
-                    {items.map((item) =>
-                        <div key={item.id} className="d-flex flex-row mt-2 " >
-                            <TextBlock content={item.name} id={item.id} handleOnChangeTextBlock={this.onChangeTextBlock}></TextBlock>
-                            <DeleteOutlined className="ml-5" onClick={() => this.removeOption(item)} />
+                            </div>
+                        )
+                        }
 
-                        </div>
-                    )
-                    }
+                        {isAddOption ?
+                            <div className="d-flex flex-row mt-3" >
+                                <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
+                            </div>
+                            : ''
+                        }
 
-                    {isAddOption ?
-                        <div className="d-flex flex-row mt-2" >
-                            <Input value={this.state.txtname} onChange={this.onNameChange} />
-                            <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                        </div>
-                        : ''
-                    }
+                        <Button className="mt-5  " style={{ marginLeft: "30%" }} onClick={this.OnClickOption}
+                        >  <PlusOutlined /> Add Item
 
-                    <Button className="mt-3"
-                        shape="circle"> <span>  <PlusOutlined /> </span>
-
-                    </Button>
+                        </Button>
+                    </div>
                 </Modal>
-
+                }
             </div>
         )
     }

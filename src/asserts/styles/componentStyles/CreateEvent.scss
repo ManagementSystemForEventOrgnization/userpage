@@ -1,15 +1,22 @@
+@mixin menu-items() {
+    padding-left: 35px;
+    font-weight: 300;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}
+
 .create-event {
     padding-top: 5%;
     $base-duration: 500ms;
-    position: relative;
+
     .drop-area {
         border: dashed 1px rgb(228, 149, 149);
-        height: auto;
-        overflow: hidden;
         padding-top: 1%;
-        position: relative;
         margin-left: 10% !important;
 
+        transition: right $base-duration ease;
         .icons-handle {
             padding: 2px;
             margin-top: 12px;
@@ -40,6 +47,7 @@
     .move-right {
         margin-left: 20% !important;
         margin-right: 2%;
+        transition: right $base-duration ease;
     }
 
     .menu-update {
@@ -47,11 +55,14 @@
         top: 10%;
 
         .menu-show {
-            // margin-left: 0px;
             transition: left $base-duration ease;
             z-index: 0;
             width: 250px;
             overflow-y: scroll;
+            height: 500px;
+            .menu-item {
+                @include menu-items();
+            }
         }
 
         .menu-hide {
@@ -59,34 +70,6 @@
             transition: left $base-duration ease;
             z-index: 0;
             width: 0px;
-            overflow-y: scroll;
         }
-
-        // position: fixed;
-        // top: 9%;
-        // left: 0;
-        // .menu-wrap {
-        //     direction: rtl;
-        //     overflow-y: scroll;
-        //     .menu-block {
-        //         direction: ltr;
-        //         height: 400px;
-        //         .menu {
-        //             direction: ltr;
-        //             .drag-container {
-        //                 padding-left: 15px;
-        //                 .menu-item {
-        //                     font-weight: 300;
-        //                     margin: 10px;
-
-        //                     &:hover {
-        //                         cursor: pointer;
-        //                         color: rgb(10, 32, 236);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

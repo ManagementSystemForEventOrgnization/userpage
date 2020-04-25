@@ -11,8 +11,9 @@ class Banner1 extends Component {
     }
 
     render() {
+        const { editable } = this.props;
         return (
-            <Image editable={true} />
+            <Image editable={editable} />
 
         )
     }
