@@ -81,7 +81,8 @@ class GeneralBanner extends Component {
             fontSize, fontWeight, textAlign,
             opacity, margin, padding } = this.state;
 
-        const { type } = this.props;
+        const { type, editable } = this.props;
+
 
         const style = {
             marginTop: `${margin[0]}%`,
@@ -97,6 +98,8 @@ class GeneralBanner extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+
+            width: '100%'
         }
 
         const bg = {
@@ -111,13 +114,14 @@ class GeneralBanner extends Component {
 
         return (
             <div className=" child-block d-flex" >
-                <div style={style} className="container">
+                <div style={style}>
                     {url &&
                         <div style={bg}></div>}
 
                     <div className="row" >
                         <div className="col-sm-12">
                             <Text content={title}
+                                editable={editable}
                                 style={{
                                     fontWeight: fontWeight,
                                     fontSize: fontSize,
@@ -130,6 +134,7 @@ class GeneralBanner extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <Text content={description}
+                                editable={editable}
                                 style={
                                     {
                                         fontWeight: 'normal',
@@ -147,53 +152,51 @@ class GeneralBanner extends Component {
                             <div className="col-sm-12" style={{
                                 textAlign: 'center'
                             }}>
-                                <ButtonBlock />
+                                <ButtonBlock editable={editable} />
                             </div>
 
                         </div>
                     }
                 </div>
 
+                {editable &&
+                    <IconsHandle
+                        collapseModal={this.collapseModal}
+                        handleDuplicate={this.handleDuplicate}
+                        handleDelete={this.handleDelete}
+                    />}
 
-
-
-                <IconsHandle
-                    collapseModal={this.collapseModal}
-                    handleDuplicate={this.handleDuplicate}
-                    handleDelete={this.handleDelete}
-                />
-
-
-                <Modal
-                    title="Edit Block"
-                    visible={visible}
-                    onCancel={this.collapseModal}
-                    width={500}
-                    className=" mt-3 float-left ml-5"
-                    style={{ top: 40, left: 200 }}
-                    footer={[
-                        <Button key="ok" onClick={this.collapseModal} type="primary">
-                            OK
+                {editable &&
+                    <Modal
+                        title="Edit Block"
+                        visible={visible}
+                        onCancel={this.collapseModal}
+                        width={500}
+                        className=" mt-3 float-left ml-5"
+                        style={{ top: 40, left: 200 }}
+                        footer={[
+                            <Button key="ok" onClick={this.collapseModal} type="primary">
+                                OK
                          </Button>,
-                    ]}
-                >
-                    <ChangeParentBlockStyle
-                        padding={padding}
-                        margin={margin}
-                        opacity={opacity}
-                        bgColor={bgColor}
-                        url={url}
+                        ]}
+                    >
+                        <ChangeParentBlockStyle
+                            padding={padding}
+                            margin={margin}
+                            opacity={opacity}
+                            bgColor={bgColor}
+                            url={url}
 
-                        handleChangePadding={this.handleChangePadding}
-                        handleChangeMargin={this.handleChangeMargin}
-                        handleChangeTypeBG={this.handleChangeTypeBG}
-                        handleChangeOpacity={this.handleChangeOpacity}
-                        handleChangeImage={this.onImageDrop}
-                        handleChangeColor={this.handleChangeColor}
+                            handleChangePadding={this.handleChangePadding}
+                            handleChangeMargin={this.handleChangeMargin}
+                            handleChangeTypeBG={this.handleChangeTypeBG}
+                            handleChangeOpacity={this.handleChangeOpacity}
+                            handleChangeImage={this.onImageDrop}
+                            handleChangeColor={this.handleChangeColor}
 
-                    />
-                </Modal>
-
+                        />
+                    </Modal>
+                }
             </div >
         )
     }

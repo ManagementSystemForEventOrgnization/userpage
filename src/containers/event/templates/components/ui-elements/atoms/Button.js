@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ReactHtmlParser from 'react-html-parser';
-import { Button, Modal, Input, Tabs, Select, Slider, InputNumber, Row, Col, } from 'antd';
+import { Button, Modal, Input, Tabs, Slider, InputNumber, Row, Col, } from 'antd';
 import { SketchPicker } from 'react-color';
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
@@ -24,7 +24,7 @@ class ButtonBlock extends React.Component {
     this.state = {
 
       visible: false,
-      content: this.props.content ? this.props.content : "wellcome",
+      content: content ? content : "wellcome",
       isDesign: false,
       isButton: false,
       borderWidthButton: 0,
@@ -97,40 +97,29 @@ class ButtonBlock extends React.Component {
     });
   };
 
-
-  showModal = () => {
+  showModalButton = () => {
     this.setState({
-      visible: true,
+      isDesign: true,
     });
   };
 
 
 
-  showModalBorderColor = () => {
-    const { isBorderColor } = this.state;
+
+  handleCancelDesign = e => {
     this.setState({
-      isBorderColor: !isBorderColor
+      isDesign: false,
     });
   };
 
-  handleTextChange = e => {
-    this.setState({
-      textButton: e.target.value
-    });
-  };
+  handleEditorChange = (e) => {
+    const { id, handleOnChangeButtonTextBlock } = this.props;
+    this.setState({ content: e.target.value });
+    if (id) {
+      handleOnChangeButtonTextBlock(id, this.state.content);
+    }
 
-  handleShapeChange = e => {
-    this.setState({
-      borderRadiusButton: e.target.value,
 
-    });
-
-  };
-  OnChangeLink = (e) => {
-    this.setState({
-      linkButton: e.target.value,
-
-    });
   }
   handleChangeFonts = value => {
     this.setState({
@@ -228,6 +217,7 @@ class ButtonBlock extends React.Component {
       borderColor: borderColorButton,
       borderWidth: borderWidthButton,
       borderRadius: borderRadius
+
 
     }
 
@@ -402,14 +392,14 @@ class ButtonBlock extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // map state of store to props
+// const mapStateToProps = state => ({
+//     // map state of store to props
 
-})
+// })
 
-const mapDispatchToProps = (dispatch) => ({
+// const mapDispatchToProps = (dispatch) => ({
 
-});
+// });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonBlock)
+export default connect(null, null)(ButtonBlock)

@@ -71,7 +71,7 @@ class EventDescription1 extends Component {
         const { collapse, padding, url, bgColor, opacity,
             margin } = this.state;
 
-        const { type } = this.props;
+        const { type, editable } = this.props;
 
         const style = {
             marginTop: `${margin[0]}%`,
@@ -87,6 +87,8 @@ class EventDescription1 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+
+            width: '100%'
 
         }
         const bg = {
@@ -108,26 +110,32 @@ class EventDescription1 extends Component {
         return (
             <div className="child-block d-flex" >
 
-                <div style={style} className="container">
+                <div style={style} >
                     {url &&
                         <div style={bg}></div>}
                     <div className="row">
                         <div className={type === 1 ? "col-sm-6" : 'col-sm-8'}>
                             <Text content="Title 1"
                                 style={titleStyle}
+                                editable={editable}
                             />
-                            <Text />
+                            <Text editable={editable} />
                         </div>
                         <div className={type === 1 ? "col-sm-6" : "col-sm-4"}>
                             <Text content="Title 2" leftModal={true}
                                 style={titleStyle}
+                                editable={editable}
                             />
                             <Text leftModal={true} />
                             {
                                 type === 3 &&
                                 <div className='mt-5'>
-                                    <Text content="Title 2" leftModal={true} style={titleStyle} />
-                                    <Text leftModal={true} />
+                                    <Text content="Title 2" leftModal={true}
+                                        editable={editable}
+                                        style={titleStyle} />
+                                    <Text leftModal={true}
+                                        editable={editable}
+                                    />
                                 </div>
                             }
 
@@ -142,43 +150,43 @@ class EventDescription1 extends Component {
                 </div>
 
 
-                <IconsHandle
+                {editable && <IconsHandle
                     collapseModal={this.collapseModal}
                     handleDuplicate={this.handleDuplicate}
                     handleDelete={this.handleDelete}
-                />
-
-                <Modal
-                    title="Edit Block"
-                    visible={collapse}
-                    onCancel={this.collapseModal}
-                    width={500}
-                    className=" mt-3 float-left ml-5"
-                    style={{ top: 40, left: 200 }}
-                    footer={[
-                        <Button key="ok" onClick={this.collapseModal} type="primary">
-                            OK
+                />}
+                {editable &&
+                    <Modal
+                        title="Edit Block"
+                        visible={collapse}
+                        onCancel={this.collapseModal}
+                        width={500}
+                        className=" mt-3 float-left ml-5"
+                        style={{ top: 40, left: 200 }}
+                        footer={[
+                            <Button key="ok" onClick={this.collapseModal} type="primary">
+                                OK
                          </Button>,
-                    ]}
-                >
-                    <ChangeParentBlockStyle
-                        padding={padding}
-                        margin={margin}
-                        opacity={opacity}
-                        bgColor={bgColor}
-                        url={url}
+                        ]}
+                    >
+                        <ChangeParentBlockStyle
+                            padding={padding}
+                            margin={margin}
+                            opacity={opacity}
+                            bgColor={bgColor}
+                            url={url}
 
-                        handleChangePadding={this.handleChangePadding}
-                        handleChangeMargin={this.handleChangeMargin}
-                        handleChangeTypeBG={this.onChange}
-                        handleChangeOpacity={this.onChangeOpacity}
-                        handleChangeImage={this.onImageDrop}
-                        handleChangeColor={this.handleChangeBGColor}
+                            handleChangePadding={this.handleChangePadding}
+                            handleChangeMargin={this.handleChangeMargin}
+                            handleChangeTypeBG={this.onChange}
+                            handleChangeOpacity={this.onChangeOpacity}
+                            handleChangeImage={this.onImageDrop}
+                            handleChangeColor={this.handleChangeBGColor}
 
-                    />
-                </Modal>
+                        />
+                    </Modal>
 
-
+                }
             </div>
 
 

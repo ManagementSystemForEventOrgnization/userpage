@@ -18,7 +18,6 @@ class TextsBlock extends React.Component {
 
     const { content, style } = this.props;
     this.state = {
-      isEditor: true,
       visible: false,
       content: content || exampleText,
       margin: [1, 1, 1, 1],
@@ -34,17 +33,7 @@ class TextsBlock extends React.Component {
       fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
     };
   }
-  showEditor = () => {
 
-    this.setState({
-      isEditor: false
-    })
-  }
-  showEditorText = () => {
-    this.setState({
-      isEditor: true,
-    })
-  }
 
   showModal = () => {
     this.setState({
@@ -169,10 +158,16 @@ class TextsBlock extends React.Component {
 
       <div className="edittext child-block " style={divStyle} >
 
-        < div key={key} onClick={this.showModal}
+        < div key={key}
+          onClick={this.showModal}
         >
           {ReactHtmlParser(content)}
         </ div>
+
+
+
+
+
         <Modal
           title="Text"
           visible={this.state.visible}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from "uuid";
 import { Input, Modal, Select, Button, } from 'antd';
-import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import TextBlock from './Text';
 
 let index = 0;
@@ -15,7 +15,7 @@ class DropDownBlock extends Component {
             txtname: "",
             isAddOption: false,
             isRename: false,
-           
+
         }
     }
 
@@ -121,9 +121,9 @@ class DropDownBlock extends Component {
     }
 
     render() {
-        const { key } = this.props;
-        const { items, isAddOption,  } = this.state;
-       
+        const { key, editable } = this.props;
+        const { items, isAddOption } = this.state;
+
         const constructOptions = options =>
             options.map(data => (
                 <Select.Option key={uuid()} value={data.id}>
@@ -135,15 +135,14 @@ class DropDownBlock extends Component {
             ));
 
         return (
-            <div className="sortable-element"  >
-                <div onClick={this.showModal} >
-                    <Select key={key} id={"dropdown" + uuid()} style={{width:200}}
+            <div className="sortable-element child-block" >
+                <Select key={key} id={"dropdown" + uuid()} style={{ width: 100 }}
+                    onClick={this.showModal}
+                >
+                    {constructOptions(items)}
+                </Select>
 
-                    >
-                        {constructOptions(items)}
-                    </Select>
-                </div>
-                <Modal
+                {editable && <Modal
                     title="Dropdown"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -179,7 +178,7 @@ class DropDownBlock extends Component {
                         </Button>
                     </div>
                 </Modal>
-
+                }
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { DeleteOutlined, PlusOutlined, EditOutlined, } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Steps, Modal, Tabs } from 'antd';
 import TextBlock from '../atoms/Text';
 import EditText from '../shares/EditText';
@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 const { Step } = Steps;
 const { TabPane } = Tabs;
 
-let index = 0;
+
 class StepBlock extends Component {
     constructor(props) {
         super(props)
@@ -84,7 +84,7 @@ class StepBlock extends Component {
     onClickAdd = (id) => {
         const { steps } = this.state;
         const item = steps.find(ele => ele.id === id);
-        const index = steps.indexOf(item);
+        // const index = steps.indexOf(item);
         steps.push({
             id: uuid(),
             title: item.title,
@@ -205,10 +205,12 @@ class StepBlock extends Component {
     }
 
     render() {
-        const { key } = this.props;
+        const { key, editable } = this.props;
         const { steps,
             margin, padding,
-            background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform, } = this.state;
+            background, fontSize, fonts,
+            lineText, letterSpacing, color,
+            textAlign, tranform, } = this.state;
         const divStyle = {
 
             marginTop: `${margin[0]}%`,
@@ -242,7 +244,7 @@ class StepBlock extends Component {
                         )}
                 </Steps>
 
-                <Modal
+                {editable && < Modal
                     title="Step Modal"
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -309,6 +311,8 @@ class StepBlock extends Component {
                     </Tabs>
 
                 </Modal>
+                }
+
             </div >
 
         )

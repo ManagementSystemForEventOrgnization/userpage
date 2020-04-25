@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ReactSortable } from "react-sortablejs";
 import { v4 as uuid } from "uuid";
-
+import { Tooltip } from 'antd';
 
 function Dragable(props) {
     const { blockList } = props;
@@ -26,9 +26,12 @@ function Dragable(props) {
         >
             {
                 dragList.map(item =>
-                    <h6 className="menu-item" key={item.child}>
-                        {item.child}
-                    </h6>
+                    <Tooltip placement="top" title="Drag it to the right" key={item.child}>
+                        <h6 className="menu-item">
+                            {item.child}
+                        </h6>
+                    </Tooltip>
+
                 )}
         </ReactSortable>
     )

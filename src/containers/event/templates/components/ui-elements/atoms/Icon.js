@@ -70,15 +70,16 @@ class IconBlock extends React.Component {
 
   render() {
     const { iconNameList, styleFormat } = this.state;
+    const { editable } = this.props;
 
     return (
-      <div className="edittext">
+      <div className="child-block">
         <div className="mt-2" onClick={this.showModalDatepicker}>
           Icons
           <IconFont type={styleFormat} />
         </div>
 
-        <Modal
+        {editable && <Modal
           title="Icons design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
@@ -100,6 +101,7 @@ class IconBlock extends React.Component {
 
           </div>
         </Modal>
+        }
       </div>
     )
   }
