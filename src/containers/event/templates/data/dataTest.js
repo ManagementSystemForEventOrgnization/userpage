@@ -15,8 +15,11 @@ import DividersBlock from '../components/ui-elements/atoms/Divider';
 
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
-import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown'
+import CountDownBlock from '../components/ui-elements/blocks/countdown/Countdown';
+
+import Photo from '../components/ui-elements/blocks/photos/Photo';
 import Photos from '../components/ui-elements/blocks/photos/Photos';
+
 
 import ContactUs1 from '../components/ui-elements/blocks/contactUs/ContactUs1';
 import ContactUs2 from '../components/ui-elements/blocks/contactUs/ContactUs2';
@@ -30,6 +33,10 @@ import EventDescription2 from '../components/ui-elements/blocks/eventDescription
 import EventDescription3 from '../components/ui-elements/blocks/eventDescription/EventDescription3'
 
 import TrashBlock from '../components/ui-elements/atoms/Trash';
+
+import CardBlock from '../components/ui-elements/blocks/cardSpeaker/card';
+
+import Sponsor1Block from '../components/ui-elements/blocks/sponsor/sponsor1';
 
 
 export default
@@ -167,7 +174,12 @@ export default
 
         {
             name: 'Speaker/Performer/Team',
-            value: [].map(({ child, options }) => {
+            value: [
+                {
+                    child: "Option 1",
+                    options: ({key}) => <CardBlock key={key} />
+                }
+            ].map(({ child, options }) => {
                 return {
                     id: uuid(),
                     child,
@@ -232,7 +244,7 @@ export default
             name: 'Photo/Image',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ImageBlock key={key} />
+                options: ({ key }) => <Photo key={key} />
             }, {
                 child: "Option 2",
                 options: ({ key }) => <Photos key={key} />
@@ -246,29 +258,28 @@ export default
             })
         },
 
-        {
-            name: 'Video',
-            value: [{
-                child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
-            }, {
-                child: "Option 2",
-                options: ({ key }) => <ButtonBlock key={key} />
-            },].map(({ child, options }) => {
-                return {
-                    id: uuid(),
-                    child,
-                    options: options ? options : () => <></>,
-                    trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
-                };
-            })
-        },
-
+        // {
+        //     name: 'Video',
+        //     value: [{
+        //         child: "Option 1",
+        //         options: ({ key }) => <ButtonBlock key={key} />
+        //     }, {
+        //         child: "Option 2",
+        //         options: ({ key }) => <ButtonBlock key={key} />
+        //     },].map(({ child, options }) => {
+        //         return {
+        //             id: uuid(),
+        //             child,
+        //             options: options ? options : () => <></>,
+        //             trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+        //         };
+        //     })
+        // },
         {
             name: 'Sponsors/Partners',
             value: [{
                 child: "Option 1",
-                options: ({ key }) => <ButtonBlock key={key} />
+                options: ({ key }) => <Sponsor1Block key={key} />
             }, {
                 child: "Option 2",
                 options: ({ key }) => <ButtonBlock key={key} />

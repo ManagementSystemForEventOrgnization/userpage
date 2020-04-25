@@ -21,7 +21,8 @@ class ImageBlock extends React.Component {
             uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
             visible: false,
             width: 100,
-            height: 60,
+            // phi: change height props
+            height: this.props.height ||60,
             href: '',
             margin: [1, 1, 1, 1],
             padding: [1, 1, 2, 1],
