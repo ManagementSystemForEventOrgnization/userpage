@@ -7,7 +7,6 @@ import { v4 as uuid } from "uuid";
 
 import TextBlock from '../atoms/Text';
 import EditText from '../shares/EditText';
-import { v4 as uuid } from "uuid";
 import { StepState } from '../stateInit/StepState'
 import { Step, TabPane, Option } from '../../../constants/atom.constant'
 
