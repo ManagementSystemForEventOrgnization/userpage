@@ -10,25 +10,16 @@ import {
 
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import UploadImage from '../shares/UploadImage';
-
+import {ImageState} from '../stateInit/ImageState'
 
 const { TabPane } = Tabs;
 
 class ImageBlock extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
-            uploadedFileCloudinaryUrl: this.props.url || 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1586424285/unnamed_wf6wys.jpg',
-            visible: false,
-
-            width: this.props.width || 100,
-            height: this.props.height || 60,
-            href: '',
-            margin: [1, 1, 1, 1],
-            padding: [1, 1, 2, 1],
-            borderRadius: 0,
-
-
+            ...ImageState(this.props)
         };
     }
 

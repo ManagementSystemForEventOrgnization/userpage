@@ -18,17 +18,14 @@ const { TabPane } = Tabs;
 class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
-    const { content, style } = this.props;
     this.state = {
-      ...ButtonState(content, style)
+      ...ButtonState(this.props)
     }
   }
 
 
   // common function
   onChangeValue(newValue, valueParam) {
-    // valueParam = "textAlign"
-    console.log([valueParam], newValue)
     this.setState({
       [valueParam]: newValue,
     });
@@ -49,17 +46,6 @@ class ButtonBlock extends React.Component {
       borderColorButton: color.hex
     });
   };
-
-
-  handleEditorChange = (e) => {
-    const { id, handleOnChangeButtonTextBlock } = this.props;
-    this.setState({ content: e.target.value });
-    if (id) {
-      handleOnChangeButtonTextBlock(id, this.state.content);
-    }
-
-
-  }
 
   render() {
     const { key, leftModal } = this.props;
