@@ -12,11 +12,6 @@ const { Option } = Select;
 
 class EditText extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
     onChangeFonts = value => {
         const { handleChangeFonts } = this.props;
         if (!handleChangeFonts) return;
@@ -56,9 +51,6 @@ class EditText extends Component {
             letterSpacing,
             handleChangeTextAlign,
             handleChangeTextTranform
-
-
-
         } = this.props;
 
         console.log(letterSpacing, typeof letterSpacing)
