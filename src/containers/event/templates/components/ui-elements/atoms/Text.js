@@ -8,44 +8,25 @@ import { Editor } from '@tinymce/tinymce-react';
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import ChangeColorModal from '../shares/ChangeColorModal';
-
-const { TabPane } = Tabs;
-const exampleText = 'Pellentesque ullamcorper tortor ut auctor consequat. Nullam sed nisi massa. Aliquam eget enim nunc. Praesent blandit blandit ornare. Sed lacinia felis quis elit luctus, et tincidunt elit aliquam. Sed porttitor eros id purus sollicitudin, quis pellentesque nunc pulvinar. Ut accumsan a sem quis dignissim. Sed lacus mauris, efficitur ac lobortis id, faucibus at quam. Praesent quis metus hendrerit, vulputate nibh vel, eleifend nibh. Donec cursus, elit id auctor porta, orci felis condimentum est, ut bibendum lacus elit non mi.'
+import {TabPane} from '../../../constants/atom.constant';
+import {StepState} from '../stateInit/TextState'
 
 class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
 
-    const { content, style } = this.props;
-    this.state = {
-      visible: false,
-      content: content || exampleText,
-      margin: [1, 1, 1, 1],
-      padding: [1, 1, 1, 1],
-      background: "none",
-      fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
-      fonts: "Times New Roman",
-      lineText: 80,
-      letterSpacing: 0,
-      textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
-      tranform: ' ',
-      color: style ? style.color ? style.color : "black" : 'black',
-      fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
+   this.state = {
+       ...StepState(this.props)
     };
   }
 
-
-  showModal = () => {
+   // common function
+   onChangeValue(newValue, valueParam) {
     this.setState({
-      visible: true,
+      [valueParam]: newValue,
     });
-  };
+  }
 
-  handleCancel = e => {
-    this.setState({
-      visible: false,
-    });
-  };
 
   handleEditorChange = (content) => {
     const { id, handleOnChangeTextBlock } = this.props;
@@ -56,68 +37,6 @@ class TextsBlock extends React.Component {
       handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
     }
     console.log(this.state.content);
-  }
-
-  handleChangeFonts = value => {
-    this.setState({
-      fonts: value
-    })
-  }
-
-  handleChangeFontSize = value => {
-    this.setState({
-      fontSize: value
-    })
-  }
-  handleChangeLetterSpacing = value => {
-    this.setState({
-      letterSpacing: value
-    })
-  }
-  handleChangeLineHeight = value => {
-    this.setState({
-      lineText: value
-    })
-  }
-
-  handleChangeTextAlign = value => {
-    this.setState({
-      textAlign: value
-    })
-  }
-
-  handleChangeTextTranform = value => {
-    this.setState({
-      tranform: value
-    })
-  }
-  handleChangeTextColor = value => {
-    this.setState({
-      color: value
-    })
-    console.log(this.state.color);
-  }
-
-  handleChangeBackground = value => {
-    this.setState({
-      background: value
-    })
-  }
-
-  handleChangeMargin = value => {
-    this.setState({
-      margin: value,
-    })
-  }
-
-  handleChangePadding = value => {
-    this.setState({
-      padding: value,
-    })
-  }
-
-  handleReset = () => {
-
   }
 
   render() {
@@ -159,7 +78,7 @@ class TextsBlock extends React.Component {
       <div className="edittext child-block " style={divStyle} >
 
         < div key={key}
-          onClick={this.showModal}
+          onClick={() => this.onChangeValue(true, 'visible')}
         >
           {ReactHtmlParser(content)}
         </ div>
@@ -171,13 +90,13 @@ class TextsBlock extends React.Component {
         <Modal
           title="Text"
           visible={this.state.visible}
-          onCancel={this.handleCancel}
+          onCancel={() => this.onChangeValue(false, 'visible')}
           width={500}
           className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
           zIndex={1}
           footer={[
-            <Button key="ok" onClick={this.handleCancel} type="primary">
+            <Button key="ok" onClick={() => this.onChangeValue(false, 'visible')} type="primary">
               OK
           </Button>,
             <Button key="ok" onClick={this.handleReset} type="primary">
@@ -207,33 +126,33 @@ class TextsBlock extends React.Component {
                 color={color}
                 background={background}
 
-                handleChangeFonts={this.handleChangeFonts}
-                handleChangeFontSize={this.handleChangeFontSize}
-                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                handleChangeLineHeight={this.handleChangeLineHeight}
+                handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
+                handleChangeFontSize={(value) => this.onChangeValue(value, 'fontSize')}
+                handleChangeLetterSpacing={(value) => this.onChangeValue(value, 'letterSpacing')}
+                handleChangeLineHeight={(value) => this.onChangeValue(value, 'lineText')}
 
-                handleChangeTextAlign={this.handleChangeTextAlign}
-                handleChangeTextTranform={this.handleChangeTextTranform}
+                handleChangeTextAlign={(value) => this.onChangeValue(value, 'textAlign')}
+                handleChangeTextTranform={(value) => this.onChangeValue(value, 'tranform')}
               />
 
               <div className="mt-5 pl-2">
                 <PaddingAndMargin
                   padding={padding}
                   margin={margin}
-                  handleChangeMargin={this.handleChangeMargin}
-                  handleChangePadding={this.handleChangePadding}
+                  handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+                  handleChangePadding={(value) => this.onChangeValue(value, 'padding')}
                 />
               </div>
               <div className="d-flex mt-5 pl-2">
                 <ChangeColorModal
                   title="Change Text Color"
                   color={color}
-                  handleChangeColor={this.handleChangeTextColor}
+                  handleChangeColor={(value) => this.onChangeValue(value, 'color')}
                 />
                 <ChangeColorModal
                   title="Change background"
                   color={background}
-                  handleChangeColor={this.handleChangeBackground}
+                  handleChangeColor={(value) => this.onChangeValue(value, 'background')}
                 />
               </div>
             </TabPane>
