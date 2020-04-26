@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import TextsBlock from '../../atoms/Text';
 import { v4 as uuid } from "uuid";
 import { Row, Col, Modal } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusCircleTwoTone, DeleteTwoTone } from '@ant-design/icons';
+
 import EditText from '../../shares/EditText';
+import IconsHandle from '../../shares/IconsHandle';
+
 class Scheduel1 extends Component {
     constructor(props) {
         super(props)
@@ -23,6 +26,7 @@ class Scheduel1 extends Component {
             textAlign: '',
             tranform: ' ',
             color: "black",
+            ScheduelName: "Schedule",
 
             scheduelText: [
                 {
@@ -183,7 +187,7 @@ class Scheduel1 extends Component {
 
     render() {
         const { scheduelText, margin, padding,
-            background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform,
+            background, fontSize, fonts, lineText, letterSpacing, color, textAlign, tranform, ScheduelName,
         } = this.state;
         const { editable } = this.props;
         const divStyle = {
@@ -209,82 +213,96 @@ class Scheduel1 extends Component {
         }
 
         return (
-            <div className="child-block">
-                <h5>Schedule</h5>
-                <div onClick={this.showModal} style={divStyle}>
+            <div className="child-block ">
+                <TextsBlock content={ScheduelName} />
+                <div className="d-flex">
 
-                    {scheduelText.map((scheduel, index) =>
+                    <div style={divStyle}>
 
-                        <div className="child-block" >
-                            {editable && <div>
-                                <PlusOutlined onClick={() => this.onClickAddScheduel(scheduel.id)} />
-                                <DeleteOutlined className="ml-5 " onClick={() => this.removeOption(scheduel)} />
+                        {scheduelText.map((scheduel, index) =>
 
-                            </div>}
+                            <div className="child-block" >
+                                {editable && <div >
+                                    <PlusCircleTwoTone className="ml-1 "
+                                        onClick={() => this.onClickAddScheduel(scheduel.id)}
+                                    />
+                                    <DeleteTwoTone className="ml-3 "
 
-                            <Row key={index} className="mt-4"  >
+                                        onClick={() => this.removeOption(scheduel)}
+                                    />
 
-                                <Col span={18} push={6}>
+                                </div>}
 
-                                    <TextsBlock id={scheduel.id}
-                                        editable={editable}
-                                        content={scheduel.title}
-                                        handleOnChangeTextBlock={this.handleOnChangeTitleTextBlock}></TextsBlock>
+                                <Row key={index} className="mt-4"  >
 
-                                    <div className="mt-3">
+                                    <Col span={18} push={6}>
+
                                         <TextsBlock id={scheduel.id}
                                             editable={editable}
-                                            handleOnChangeTextBlock={this.handleOnChangeDesTextBlock}
-                                            content={scheduel.description}></TextsBlock>
-                                    </div>
-                                </Col>
-                                <Col span={6} pull={18}>
-                                    <TextsBlock content={scheduel.time}
-                                        id={scheduel.id}
-                                        editable={editable}
-                                        handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextsBlock>
-                                </Col>
+                                            content={scheduel.title}
+                                            handleOnChangeTextBlock={this.handleOnChangeTitleTextBlock}></TextsBlock>
+
+                                        <div className="mt-3">
+                                            <TextsBlock id={scheduel.id}
+                                                editable={editable}
+                                                handleOnChangeTextBlock={this.handleOnChangeDesTextBlock}
+                                                content={scheduel.description}></TextsBlock>
+                                        </div>
+                                    </Col>
+                                    <Col span={6} pull={18}>
+                                        <TextsBlock content={scheduel.time}
+                                            id={scheduel.id}
+                                            editable={editable}
+                                            handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextsBlock>
+                                    </Col>
 
 
-                            </Row>
-                        </div>
-                    )}
+                                </Row>
+                            </div>
+                        )}
+
+                    </div>
+                    {editable && <IconsHandle
+                        collapseModal={this.showModal}
+                        handleDuplicate={this.handleDuplicate}
+                        handleDelete={this.handleDelete}
+                    />}
+
+                    {editable &&
+                        <Modal
+                            title="Scheduel"
+                            visible={this.state.visible}
+                            onOk={this.showModal}
+                            onCancel={this.showModal}
+                            width={700}
+                        >
+                            <EditText
+                                fonts={fonts}
+                                fontSize={fontSize}
+                                lineText={lineText}
+                                letterSpacing={letterSpacing}
+
+                                padding={padding}
+                                margin={margin}
+                                color={color}
+                                background={background}
+
+                                handleChangeFonts={this.handleChangeFonts}
+                                handleChangeFontSize={this.handleChangeFontSize}
+                                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
+                                handleChangeLineHeight={this.handleChangeLineHeight}
+
+                                handleChangeTextAlign={this.handleChangeTextAlign}
+                                handleChangeTextTranform={this.handleChangeTextTranform}
+                                handleChangeTextColor={this.handleChangeTextColor}
+                                handleChangeBackground={this.handleChangeBackground}
+
+                                handleChangeMargin={this.handleChangeMargin}
+                                handleChangePadding={this.handleChangePadding}
+
+                            />
+                        </Modal>}
                 </div>
-                {editable &&
-                    <Modal
-                        title="Scheduel"
-                        visible={this.state.visible}
-                        onOk={this.showModal}
-                        onCancel={this.showModal}
-                        width={700}
-                    >
-                        <EditText
-                            fonts={fonts}
-                            fontSize={fontSize}
-                            lineText={lineText}
-                            letterSpacing={letterSpacing}
-
-                            padding={padding}
-                            margin={margin}
-                            color={color}
-                            background={background}
-
-                            handleChangeFonts={this.handleChangeFonts}
-                            handleChangeFontSize={this.handleChangeFontSize}
-                            handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                            handleChangeLineHeight={this.handleChangeLineHeight}
-
-                            handleChangeTextAlign={this.handleChangeTextAlign}
-                            handleChangeTextTranform={this.handleChangeTextTranform}
-                            handleChangeTextColor={this.handleChangeTextColor}
-                            handleChangeBackground={this.handleChangeBackground}
-
-                            handleChangeMargin={this.handleChangeMargin}
-                            handleChangePadding={this.handleChangePadding}
-
-                        />
-                    </Modal>}
-
             </div>
         )
     }
