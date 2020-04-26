@@ -29,16 +29,25 @@ class DatepickersBlock extends React.Component {
     })
   }
 
-  showModal = () => {
+  onChangeValue(newValue, valueParam) {
     this.setState({
-      visible: true,
+      [valueParam]: newValue,
     });
-  };
-  showModalDatepicker = () => {
-    this.setState({
-      isDesign: true,
-    });
-  };
+  }
+
+  //not called
+  // showModal = () => {
+  //   this.setState({
+  //     visible: true,
+  //   });
+  // };
+
+  // showModalDatepicker = () => {
+  //   this.setState({
+  //     isDesign: true,
+  //   });
+  // };
+
   OnClickButton = () => {
     this.setState({
       isButton: true,
@@ -78,7 +87,7 @@ class DatepickersBlock extends React.Component {
     return (
 
       <div className="edittext child-block">
-        <div className="mt-2" onClick={this.showModalDatepicker}>
+        <div className="mt-2" onClick={() => this.onChangeValue(true, 'isDesign')}>
           <DatePicker
 
             format={styleFormat} onChange={onChange} defaultValue={moment('2020/04/08')} ></DatePicker>

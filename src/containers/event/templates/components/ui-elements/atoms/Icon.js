@@ -1,26 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Modal, Radio } from 'antd';
-import { createFromIconfontCN } from '@ant-design/icons';
 
-
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
-});
-const iconName = ['icon-facebook',
-  'icon-twitter',
-  'icon-tuichu',
-
-]
+import { IconFont, iconName } from '../../../constants/atom.constant'
+import { IconState } from '../stateInit/IconState'
 
 class IconBlock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      isDesign: false,
-      isButton: false,
-      iconNameList: iconName,
+      ...IconState(iconName)
     }
   }
 
@@ -30,43 +19,12 @@ class IconBlock extends React.Component {
     })
   }
 
-  showModal = () => {
+  // common function
+  onChangeValue(newValue, valueParam) {
     this.setState({
-      visible: true,
+      [valueParam]: newValue,
     });
-  };
-  showModalDatepicker = () => {
-    this.setState({
-      isDesign: true,
-    });
-  };
-  OnClickButton = () => {
-    this.setState({
-      isButton: true,
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleCancelDesign = e => {
-    console.log(e);
-    this.setState({
-      isDesign: false,
-    });
-  };
-
-  handleShapeChange = e => {
-    this.setState({
-      styleFormat: e.target.value,
-
-    });
-    console.log(this.state.styleFormat);
-  };
+  }
 
   render() {
     const { iconNameList, styleFormat } = this.state;
@@ -74,7 +32,7 @@ class IconBlock extends React.Component {
 
     return (
       <div className="child-block">
-        <div className="mt-2" onClick={this.showModalDatepicker}>
+        <div className="mt-2" onClick={() => this.onChangeValue(true, 'isDesign')}>
           Icons
           <IconFont type={styleFormat} />
         </div>
@@ -83,7 +41,7 @@ class IconBlock extends React.Component {
           title="Icons design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
-          onCancel={this.handleCancelDesign}
+          onCancel={() => this.onChangeValue(false, 'isDesign')}
           width={500}
           footer={[
           ]}
@@ -91,7 +49,7 @@ class IconBlock extends React.Component {
 
           {/* list datepicker in modal */}
           <div>
-            <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
+            <Radio.Group value={styleFormat} onChange={(e) => this.onChangeValue(e.target.value, 'styleFormat')}>
               {iconNameList.map(dateformat =>
                 <Radio value={dateformat} key={dateformat} >
                   <IconFont type={dateformat} />

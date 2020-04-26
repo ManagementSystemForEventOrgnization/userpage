@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import { Input, Modal, Select, Button, } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import TextBlock from './Text';
+import { DropDownState } from '../stateInit/DropDownState'
 
 let index = 0;
 
@@ -11,20 +12,16 @@ class DropDownBlock extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: this.props.options ? this.props.options : [{ id: 1, name: 'haha' }],
-            txtname: "",
-            isAddOption: false,
-            isRename: false,
-
+            ...DropDownState(this.props)
         }
     }
 
-    onNameChange = event => {
-        this.setState({
-            txtname: event.target.value,
-        });
-    };
-
+     // common function
+  onChangeValue(newValue, valueParam) {
+    this.setState({
+      [valueParam]: newValue,
+    });
+  }
 
     onChangeReName = event => {
         const { items } = this.state;
@@ -48,41 +45,11 @@ class DropDownBlock extends Component {
         })
     }
 
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
-
-    handleOk = e => {
-        // console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
-    handleCancel = e => {
-        // console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
     OnClickOption = (e) => {
         const { isAddOption } = this.state;
         this.setState({
             isAddOption: !isAddOption
         });
-
-    };
-
-    OnClickRename = (e) => {
-        const { isRename } = this.state;
-        this.setState({
-            isRename: !isRename
-        });
-        // console.log(this.state.isRename);
-
     };
 
     removeOption = (item) => {
@@ -137,7 +104,7 @@ class DropDownBlock extends Component {
         return (
             <div className="sortable-element child-block" >
                 <Select key={key} id={"dropdown" + uuid()} style={{ width: 100 }}
-                    onClick={this.showModal}
+                    onClick={() => this.onChangeValue(true, 'visible')}
                 >
                     {constructOptions(items)}
                 </Select>
@@ -145,8 +112,8 @@ class DropDownBlock extends Component {
                 {editable && <Modal
                     title="Dropdown"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    onOk={() => this.onChangeValue(false, 'visible')}
+                    onCancel={() => this.onChangeValue(false, 'visible')}
                     width={400}
                     style={{ marginLeft: "30%" }}
                 >
@@ -166,7 +133,7 @@ class DropDownBlock extends Component {
 
                         {isAddOption ?
                             <div className="d-flex flex-row mt-3" >
-                                <Input value={this.state.txtname} onChange={this.onNameChange} />
+                                <Input value={this.state.txtname} onChange={(e) => this.onChangeValue(e.target.value, 'txtname')} />
                                 <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
                             </div>
                             : ''
@@ -174,7 +141,7 @@ class DropDownBlock extends Component {
 
                         <Button className="mt-5  " style={{ marginLeft: "30%" }} onClick={this.OnClickOption}
                         >  <PlusOutlined /> Add Item
-
+    
                         </Button>
                     </div>
                 </Modal>
