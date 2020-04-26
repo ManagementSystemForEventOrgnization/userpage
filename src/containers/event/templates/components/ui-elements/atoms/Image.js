@@ -41,10 +41,25 @@ class ImageBlock extends React.Component {
         }
     }
 
+    collapseModal = () => {
+        const { visible } = this.state;
+        this.setState({
+            visible: !visible
+        });
+    };
+
+    onChangeStyle = (type, value) => {
+        this.setState({
+            [type]: value
+        })
+    }
+
+
     render() {
         const { uploadedFileCloudinaryUrl,
             width, height, margin, padding,
             borderRadius } = this.state;
+
         const { leftModal, editable } = this.props;
 
         const imageStyle = {
@@ -65,26 +80,19 @@ class ImageBlock extends React.Component {
         }
 
         return (
-            // <div >
-            //     <div className="d-flex handle-menu float-right">
-            //         <EditTwoTone className="mr-3" />
-            //         <DeleteTwoTone className="mr-3" />
-            //         <CopyTwoTone />
-            //     </div>
-
             <div className="image-block child-block">
 
                 <img
                     style={imageStyle}
                     alt="img"
                     src={uploadedFileCloudinaryUrl}
-                    onClick={() => this.onChangeValue(true, 'visible')} />
+                    onClick={this.collapseModal} />
 
                 {editable && <Modal
                     title="Edit Image"
                     visible={this.state.visible}
-                    onOk={() => this.onChangeValue(false, 'visible')}
-                    onCancel={() => this.onChangeValue(false, 'visible')}
+                    onOk={this.collapseModal}
+                    onCancel={this.collapseModal}
                     width="500px"
                     className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
                     style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
@@ -106,7 +114,7 @@ class ImageBlock extends React.Component {
                                         className="ml-3"
                                         name="width"
                                         min={0} max={1500}
-                                        onChange={(value) => this.onChangeValue(value, 'width')}  ></InputNumber >
+                                        onChange={value => this.onChangeStyle('width', value)}  ></InputNumber >
                                 </div>
 
                                 <div className=" ml-5 d-flex" >
@@ -116,7 +124,7 @@ class ImageBlock extends React.Component {
                                         className="ml-3"
                                         name="height"
                                         min={0} max={1500}
-                                        onChange={(value) => this.onChangeValue(value, 'height')}  ></InputNumber >
+                                        onChange={value => this.onChangeStyle('height', value)}  ></InputNumber >
                                 </div>
                             </div>
 
@@ -127,7 +135,7 @@ class ImageBlock extends React.Component {
                                         <Slider
                                             min={0}
                                             max={100}
-                                            onChange={(value) => this.onChangeValue(value, 'borderRadius')}
+                                            onChange={value => this.onChangeStyle('borderRadius', value)}
                                             value={typeof borderRadius === 'number' ? borderRadius : 0}
                                         />
                                     </Col>
@@ -136,7 +144,7 @@ class ImageBlock extends React.Component {
                                             value={borderRadius}
                                             name="width"
                                             min={0} max={100}
-                                            onChange={(value) => this.onChangeValue(value, 'borderRadius')}  ></InputNumber >
+                                            onChange={value => this.onChangeStyle('borderRadius', value)}  ></InputNumber >
 
                                     </Col>
                                 </Row>
@@ -145,8 +153,8 @@ class ImageBlock extends React.Component {
                             <PaddingAndMargin
                                 margin={margin}
                                 padding={padding}
-                                handleChangePadding={(value) => this.onChangeValue(value, 'padding')}
-                                handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+                                handleChangePadding={value => this.onChangeStyle('padding', value)}
+                                handleChangeMargin={value => this.onChangeStyle('margin', value)}
                             />
 
 

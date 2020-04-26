@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import { Steps, Modal, Tabs, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { Steps, Modal, Tabs } from 'antd';
+
+import { v4 as uuid } from "uuid";
+
+
 import TextBlock from '../atoms/Text';
 import EditText from '../shares/EditText';
 import { v4 as uuid } from "uuid";
 import { StepState } from '../stateInit/StepState'
-import { Step, TabPane } from '../../../constants/atom.constant'
-
+import { Step, TabPane, Option } from '../../../constants/atom.constant'
 
 class StepBlock extends Component {
     constructor(props) {
@@ -105,6 +108,7 @@ class StepBlock extends Component {
         }
 
     }
+
     handleOnChangeDesTextBlock = (id, value) => {
 
         const { steps } = this.state;
@@ -143,12 +147,19 @@ class StepBlock extends Component {
 
 
 
+    onChangeCurrent = value => {
+        this.setState({
+            current: value
+        })
+    }
+
     render() {
         const { key, editable } = this.props;
         const { steps,
             margin, padding,
             background, fontSize, fonts,
             lineText, letterSpacing, color,
+            current,
             textAlign, tranform, } = this.state;
         const divStyle = {
 
@@ -191,10 +202,21 @@ class StepBlock extends Component {
                 >
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Text" key="1">
+                            <div className="mt-3 d-flex">
+                                <h6 className="mr-5">Current Step : </h6>
+                                <Select
+                                    placeholder="Choose current step"
+                                    onChange={this.onChangeCurrent}
+                                    className="ml-5"
+                                >
+                                    {
+                                        steps.map((item, index) => <Option key={item} value={index}>{index + 1}</Option>)
+                                    }
+                                </Select>
+                            </div>
                             {
                                 steps.map(step =>
-
-                                    <div key={step.id}>
+                                    <div key={step.id} className="mt-3">
                                         <div className="d-flex row">
                                             <div className="col">
                                                 <TextBlock content={step.title}
@@ -214,11 +236,8 @@ class StepBlock extends Component {
 
                                     </div>
 
-                                )}
-
-
-
-
+                                )
+                            }
                         </TabPane>
                         <TabPane tab="Design" key="2">
                             <EditText

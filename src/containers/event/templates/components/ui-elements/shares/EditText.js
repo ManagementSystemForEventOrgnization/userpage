@@ -12,11 +12,6 @@ const { Option } = Select;
 
 class EditText extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
     onChangeFonts = value => {
         const { handleChangeFonts } = this.props;
         if (!handleChangeFonts) return;
@@ -52,17 +47,17 @@ class EditText extends Component {
 
     render() {
         const {
-            fonts,
-            fontSize,
-            lineText,
-            letterSpacing
-
+            fonts, fontSize, lineText,
+            letterSpacing,
+            handleChangeTextAlign,
+            handleChangeTextTranform
         } = this.props;
 
+        console.log(letterSpacing, typeof letterSpacing)
         return (
             <div className="pl-2">
 
-                <div className="mt-2 d-flex" >
+                {fonts && <div className="mt-2 d-flex" >
                     <h6 className="mr-5">Fonts</h6>
 
                     <FontPicker className="ml-5" style={{ width: '100%' }}
@@ -70,9 +65,9 @@ class EditText extends Component {
                         activeFontFamily={fonts}
                         onChange={nextFont => this.onChangeFonts(nextFont.family)}
                     />
-                </div>
+                </div>}
 
-                <div className="mt-5">
+                {fontSize && <div className="mt-5">
                     <Row>
                         <Col span={6}>
                             <h6>Font size(px)</h6>
@@ -97,8 +92,9 @@ class EditText extends Component {
                         </Col>
                     </Row>
                 </div>
+                }
 
-                <div className="mt-4">
+                {lineText && <div className="mt-4">
                     <Row>
                         <Col span={6}>
                             <h6>Line Height(%)</h6>
@@ -123,8 +119,9 @@ class EditText extends Component {
                         </Col>
                     </Row>
                 </div>
+                }
 
-                <div className="mt-4">
+                {(typeof letterSpacing === 'number') && <div className="mt-4">
                     <Row>
                         <Col span={6}>
                             <h6>Letter Spacing (px) </h6>
@@ -149,9 +146,10 @@ class EditText extends Component {
                         </Col>
                     </Row>
                 </div>
+                }
 
                 <div className="d-flex mt-4">
-                    <div className="mr-2">
+                    {handleChangeTextAlign && <div className="mr-2">
                         <h6>Text Align</h6>
                         <Select style={{ width: '200px' }} onChange={this.onChangeTextAlign} defaultValue="left">
                             <Option value="left">left</Option>
@@ -159,9 +157,9 @@ class EditText extends Component {
                             <Option value="right">right</Option>
                             <Option value="justify">justify</Option>
                         </Select>
-                    </div>
+                    </div>}
 
-                    <div className="ml-2"  >
+                    {handleChangeTextTranform && <div className="ml-2"  >
                         <h6>Text Tranform</h6>
                         <Select style={{ width: '200px' }} onChange={this.onChangeTextTranform} defaultValue="none">
                             <Option value="none">none</Option>
@@ -169,7 +167,7 @@ class EditText extends Component {
                             <Option value="lowercase">lowercase</Option>
                             <Option value="capitalize">capitalize</Option>
                         </Select>
-                    </div>
+                    </div>}
 
                 </div>
 
@@ -183,11 +181,6 @@ EditText.propTypes = {
     fonts: PropTypes.string,
     lineText: PropTypes.number,
     letterSpacing: PropTypes.number,
-
-    padding: PropTypes.array,
-    margin: PropTypes.array,
-    color: PropTypes.string,
-    background: PropTypes.string,
 
     handleChangeFonts: PropTypes.func,
     handleChangeFontSize: PropTypes.func,
