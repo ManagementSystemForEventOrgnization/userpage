@@ -174,7 +174,7 @@ export default
             value: [
                 {
                     child: "Option 1",
-                    options: ({key, editable}) => <CardBlock key={key}  editable={editable}/>
+                    options: ({ key, editable }) => <CardBlock key={key} editable={editable} />
                 }].map(({ child, options }) => {
                     return {
                         id: uuid(),
@@ -200,18 +200,6 @@ export default
                     child,
                     options: options ? options : () => <></>,
                     trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
-                };
-            })
-        },
-        
-        {
-            name: 'Speaker/Performer/Team',
-            value: [].map(({ id, child, options }) => {
-                return {
-                    id: uuid(),
-                    child,
-                    options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
                 };
             })
         },

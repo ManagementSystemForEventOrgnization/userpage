@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
+import { Steps, Modal, Tabs, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { Steps, Modal, Tabs } from 'antd';
+
+import { v4 as uuid } from "uuid";
+
+
 import TextBlock from '../atoms/Text';
 import EditText from '../shares/EditText';
-import { v4 as uuid } from "uuid";
+
 const { Step } = Steps;
 const { TabPane } = Tabs;
-
+const { Option } = Select;
 
 class StepBlock extends Component {
     constructor(props) {
         super(props)
-
-
         this.state = {
             visible: false,
             steps: [
-
                 {
                     id: 1,
                     title: "Finished",
@@ -30,6 +31,7 @@ class StepBlock extends Component {
 
                 }
             ],
+            current: 1,
             txtname: "",
             txtdescription: "",
             isAddOption: false,
@@ -127,6 +129,7 @@ class StepBlock extends Component {
         }
 
     }
+
     handleOnChangeDesTextBlock = (id, value) => {
 
         const { steps } = this.state;
@@ -204,12 +207,19 @@ class StepBlock extends Component {
         })
     }
 
+    onChangeCurrent = value => {
+        this.setState({
+            current: value
+        })
+    }
+
     render() {
         const { key, editable } = this.props;
         const { steps,
             margin, padding,
             background, fontSize, fonts,
             lineText, letterSpacing, color,
+            current,
             textAlign, tranform, } = this.state;
         const divStyle = {
 
@@ -235,7 +245,7 @@ class StepBlock extends Component {
         return (
             <div className="child-block" style={divStyle}>
 
-                <Steps size="small" current={1  } key={key} onClick={this.showModal}>
+                <Steps size="small" current={current} key={key} onClick={this.showModal}>
                     {
                         steps.map(step =>
 
@@ -252,10 +262,21 @@ class StepBlock extends Component {
                 >
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Text" key="1">
+                            <div className="mt-3 d-flex">
+                                <h6 className="mr-5">Current Step : </h6>
+                                <Select
+                                    placeholder="Choose current step"
+                                    onChange={this.onChangeCurrent}
+                                    className="ml-5"
+                                >
+                                    {
+                                        steps.map((item, index) => <Option key={item} value={index}>{index + 1}</Option>)
+                                    }
+                                </Select>
+                            </div>
                             {
                                 steps.map(step =>
-
-                                    <div key={step.id}>
+                                    <div key={step.id} className="mt-3">
                                         <div className="d-flex row">
                                             <div className="col">
                                                 <TextBlock content={step.title}
@@ -275,11 +296,8 @@ class StepBlock extends Component {
 
                                     </div>
 
-                                )}
-
-
-
-
+                                )
+                            }
                         </TabPane>
                         <TabPane tab="Design" key="2">
                             <EditText
