@@ -204,17 +204,6 @@ export default
             })
         },
         
-        {
-            name: 'Speaker/Performer/Team',
-            value: [].map(({ id, child, options }) => {
-                return {
-                    id: uuid(),
-                    child,
-                    options: options ? options : () => <></>,
-                    trash: <TrashBlock />,
-                };
-            })
-        },
 
         {
             name: 'Map/Location/Adress',

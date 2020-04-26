@@ -24,7 +24,7 @@ class TextsBlock extends React.Component {
       padding: [1, 1, 1, 1],
       background: "none",
       fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
-      fonts: "Times New Roman",
+      fonts: "",
       lineText: 80,
       letterSpacing: 0,
       textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
