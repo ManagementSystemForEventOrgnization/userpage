@@ -202,10 +202,6 @@ class TextsBlock extends React.Component {
                 lineText={lineText}
                 letterSpacing={letterSpacing}
 
-                padding={padding}
-                margin={margin}
-                color={color}
-                background={background}
 
                 handleChangeFonts={this.handleChangeFonts}
                 handleChangeFontSize={this.handleChangeFontSize}

@@ -89,11 +89,6 @@ export default
 
                 },
                 {
-                    child: "Step",
-                    options: ({ key, editable }) => <StepBlock key={key} editable={editable} />,
-
-                },
-                {
                     child: "Icon",
                     options: ({ key, editable }) => <IconBlock key={key} editable={editable} />,
 
@@ -190,7 +185,13 @@ export default
             value: [{
                 child: "Schedule1",
                 options: ({ key, editable }) => <Schedule1 key={key} editable={editable} />
-            }, {
+            },
+            {
+                child: "Step",
+                options: ({ key, editable }) => <StepBlock key={key} editable={editable} />,
+
+            },
+            {
                 child: "Schedule2",
                 options: ({ key, editable }) => <Schedule2 key={key} editable={editable} />
             },
