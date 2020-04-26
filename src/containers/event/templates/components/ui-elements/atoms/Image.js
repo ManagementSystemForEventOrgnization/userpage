@@ -10,14 +10,13 @@ import {
 
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import UploadImage from '../shares/UploadImage';
-import {ImageState} from '../stateInit/ImageState'
+import { ImageState } from '../stateInit/ImageState'
 
 const { TabPane } = Tabs;
 
 class ImageBlock extends React.Component {
     constructor(props) {
         super(props);
-        
         this.state = {
             ...ImageState(this.props)
         };
@@ -33,71 +32,25 @@ class ImageBlock extends React.Component {
         }
     }
 
-    showModal = () => {
-
+    collapseModal = () => {
+        const { visible } = this.state;
         this.setState({
-            visible: true,
-        });
-    }
-
-    showModal = () => {
-        // const { editable } = this.props;
-        // if (editable) {
-        this.setState({
-            visible: true,
-        });
-
-
-    };
-
-    handleOk = e => {
-        this.setState({
-            visible: false,
-        });
-
-
-        // save style of component 
-    };
-
-    handleCancel = e => {
-        this.setState({
-            visible: false,
+            visible: !visible
         });
     };
 
-    onHeightChange = value => {
+    onChangeStyle = (type, value) => {
         this.setState({
-            height: value
+            [type]: value
         })
     }
 
-    onWidthChange = value => {
-        this.setState({
-            width: value
-        })
-    }
-
-    onChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
-    onChangePadding = value => {
-        this.setState({
-            padding: value
-        })
-    }
-
-    onChangeBorderRadius = value => {
-        this.setState({
-            borderRadius: value
-        })
-    }
 
     render() {
         const { uploadedFileCloudinaryUrl,
             width, height, margin, padding,
             borderRadius } = this.state;
+
         const { leftModal, editable } = this.props;
 
         const imageStyle = {
@@ -118,26 +71,19 @@ class ImageBlock extends React.Component {
         }
 
         return (
-            // <div >
-            //     <div className="d-flex handle-menu float-right">
-            //         <EditTwoTone className="mr-3" />
-            //         <DeleteTwoTone className="mr-3" />
-            //         <CopyTwoTone />
-            //     </div>
-
             <div className="image-block child-block">
 
                 <img
                     style={imageStyle}
                     alt="img"
                     src={uploadedFileCloudinaryUrl}
-                    onClick={this.showModal} />
+                    onClick={this.collapseModal} />
 
                 {editable && <Modal
                     title="Edit Image"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    onOk={this.collapseModal}
+                    onCancel={this.collapseModal}
                     width="500px"
                     className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
                     style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
@@ -159,7 +105,7 @@ class ImageBlock extends React.Component {
                                         className="ml-3"
                                         name="width"
                                         min={0} max={1500}
-                                        onChange={this.onWidthChange}  ></InputNumber >
+                                        onChange={value => this.onChangeStyle('width', value)}  ></InputNumber >
                                 </div>
 
                                 <div className=" ml-5 d-flex" >
@@ -169,7 +115,7 @@ class ImageBlock extends React.Component {
                                         className="ml-3"
                                         name="height"
                                         min={0} max={1500}
-                                        onChange={this.onHeightChange}  ></InputNumber >
+                                        onChange={value => this.onChangeStyle('height', value)}  ></InputNumber >
                                 </div>
                             </div>
 
@@ -180,7 +126,7 @@ class ImageBlock extends React.Component {
                                         <Slider
                                             min={0}
                                             max={100}
-                                            onChange={this.onChangeBorderRadius}
+                                            onChange={value => this.onChangeStyle('borderRadius', value)}
                                             value={typeof borderRadius === 'number' ? borderRadius : 0}
                                         />
                                     </Col>
@@ -189,7 +135,7 @@ class ImageBlock extends React.Component {
                                             value={borderRadius}
                                             name="width"
                                             min={0} max={100}
-                                            onChange={this.onChangeBorderRadius}  ></InputNumber >
+                                            onChange={value => this.onChangeStyle('borderRadius', value)}  ></InputNumber >
 
                                     </Col>
                                 </Row>
@@ -198,8 +144,8 @@ class ImageBlock extends React.Component {
                             <PaddingAndMargin
                                 margin={margin}
                                 padding={padding}
-                                handleChangePadding={this.onChangePadding}
-                                handleChangeMargin={this.onChangeMargin}
+                                handleChangePadding={value => this.onChangeStyle('padding', value)}
+                                handleChangeMargin={value => this.onChangeStyle('margin', value)}
                             />
 
 

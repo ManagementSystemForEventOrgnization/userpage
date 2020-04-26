@@ -31,12 +31,6 @@ class GeneralBanner extends Component {
         }
     }
 
-    onImageDrop = url => {
-        this.setState({
-            url: url
-        })
-    }
-
     collapseModal = () => {
         const { visible } = this.state;
         this.setState({
@@ -47,33 +41,16 @@ class GeneralBanner extends Component {
     handleDuplicate = () => {
 
     }
+
     handleDelete = () => {
 
     }
 
-    handleChangePadding = value => {
+
+
+    onChangeStyle = (type, value) => {
         this.setState({
-            padding: value
-        })
-    }
-    handleChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
-    handleChangeTypeBG = value => {
-        this.setState({
-            backgroundType: value
-        })
-    }
-    handleChangeOpacity = value => {
-        this.setState({
-            opacity: value === 10 ? '1' : `0.${value}`
-        })
-    }
-    handleChangeColor = value => {
-        this.setState({
-            bgColor: value
+            [type]: value
         })
     }
     render() {
@@ -187,12 +164,12 @@ class GeneralBanner extends Component {
                             bgColor={bgColor}
                             url={url}
 
-                            handleChangePadding={this.handleChangePadding}
-                            handleChangeMargin={this.handleChangeMargin}
-                            handleChangeTypeBG={this.handleChangeTypeBG}
-                            handleChangeOpacity={this.handleChangeOpacity}
-                            handleChangeImage={this.onImageDrop}
-                            handleChangeColor={this.handleChangeColor}
+                            handleChangePadding={value => this.onChangeStyle('padding', value)}
+                            handleChangeMargin={value => this.onChangeStyle('margin', value)}
+                            handleChangeTypeBG={value => this.onChangeStyle('backgroundType', value)}
+                            handleChangeOpacity={value => this.onChangeStyle('opacity', value === 10 ? '1' : `0.${value}`)}
+                            handleChangeImage={value => this.onChangeStyle('url', value)}
+                            handleChangeColor={value => this.onChangeStyle('bgColor', value)}
 
                         />
                     </Modal>
