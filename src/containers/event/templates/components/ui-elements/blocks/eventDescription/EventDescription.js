@@ -9,10 +9,7 @@ import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 
 
-
-
-
-class EventDescription1 extends Component {
+class EventDescription extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,7 +17,7 @@ class EventDescription1 extends Component {
             margin: [1, 1, 1, 1],
             padding: [7, 1, 1, 7],
             url: '',
-            bgColor: 'black',
+            bgColor: 'white',
             opacity: 0.3
         }
     }
@@ -38,32 +35,9 @@ class EventDescription1 extends Component {
 
     }
 
-    handleChangePadding = value => {
+    onChangeStyle = (type, value) => {
         this.setState({
-            padding: value
-        })
-    }
-    handleChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
-
-    onImageDrop = value => {
-        this.setState({
-            url: value
-        })
-    }
-
-    handleChangeBGColor = value => {
-        this.setState({
-            bgColor: value
-        })
-    }
-
-    onChangeOpacity = value => {
-        this.setState({
-            opacity: value === 10 ? '1' : `0.${value}`
+            [type]: value
         })
     }
 
@@ -87,9 +61,8 @@ class EventDescription1 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-
-            width: '100%'
-
+            width: '100%',
+            backgroundColor: url ? 'none' : bgColor
         }
         const bg = {
             position: 'absolute',
@@ -104,12 +77,10 @@ class EventDescription1 extends Component {
         const titleStyle = {
             fontWeight: 'bolder',
             fontSize: '40',
-
         }
 
         return (
             <div className="child-block d-flex" >
-
                 <div style={style} >
                     {url &&
                         <div style={bg}></div>}
@@ -138,15 +109,8 @@ class EventDescription1 extends Component {
                                     />
                                 </div>
                             }
-
-
-
                         </div>
-
                     </div>
-
-
-
                 </div>
 
 
@@ -176,22 +140,18 @@ class EventDescription1 extends Component {
                             bgColor={bgColor}
                             url={url}
 
-                            handleChangePadding={this.handleChangePadding}
-                            handleChangeMargin={this.handleChangeMargin}
-                            handleChangeTypeBG={this.onChange}
-                            handleChangeOpacity={this.onChangeOpacity}
-                            handleChangeImage={this.onImageDrop}
-                            handleChangeColor={this.handleChangeBGColor}
+                            handleChangePadding={value => this.onChangeStyle('padding', value)}
+                            handleChangeMargin={value => this.onChangeStyle('margin', value)}
+                            handleChangeOpacity={value => this.onChangeStyle('opacity', value === 10 ? '1' : `0.${value}`)}
+                            handleChangeImage={value => this.onChangeStyle('url', value)}
+                            handleChangeColor={value => this.onChangeStyle('bgColor', value)}
 
                         />
                     </Modal>
-
                 }
             </div>
-
-
         )
     }
 }
 
-export default EventDescription1
+export default EventDescription
