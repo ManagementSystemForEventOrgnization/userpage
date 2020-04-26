@@ -11,76 +11,26 @@ import {
 } from '@ant-design/icons';
 // import { IconContext } from "react-icons";
 
+import { ButtonState } from '../stateInit/ButtonState'
+
 const { TabPane } = Tabs;
-
-
-
-
 
 class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
-    const { content, style } = this.props;
     this.state = {
-
-      visible: false,
-      content: content ? content : "wellcome",
-      isDesign: false,
-      isButton: false,
-      borderWidthButton: 0,
-      borderColorButton: '',
-      margin: [1, 1, 1, 1],
-      padding: [1, 1, 1, 1],
-      background: "none",
-      fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
-      fonts: "Times New Roman",
-      lineText: 80,
-      letterSpacing: 0,
-      textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
-      tranform: ' ',
-      color: style ? style.color ? style.color : "black" : 'black',
-      fontWeight: style ? style.fontWeight ? style.fontWeight : 'normal' : 'normal',
-      borderRadius: '15px',
-
+      ...ButtonState(this.props)
     }
   }
 
 
-
-
-  onChangeBorderRadius = value => {
+  // common function
+  onChangeValue(newValue, valueParam) {
     this.setState({
-      borderRadius: value,
+      [valueParam]: newValue,
     });
-  };
+  }
 
-
-
-  onChangeBorderWith = value => {
-    this.setState({
-      borderWidthButton: value,
-    });
-  };
-
-  showModalButton = () => {
-    this.setState({
-      isDesign: true,
-    });
-  };
-
-
-  handleCancel = e => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-
-  handleCancelDesign = e => {
-    this.setState({
-      isDesign: false,
-    });
-  };
 
   handleEditorChange = (e) => {
     const { id, handleOnChangeButtonTextBlock } = this.props;
@@ -88,99 +38,14 @@ class ButtonBlock extends React.Component {
     if (id) {
       handleOnChangeButtonTextBlock(id, this.state.content);
     }
-
-
   }
+
+  //not work
   handleChangeCompleteBorder = (color) => {
     this.setState({
       borderColorButton: color.hex
     });
   };
-
-  showModalButton = () => {
-    this.setState({
-      isDesign: true,
-    });
-  };
-
-
-
-
-  handleCancelDesign = e => {
-    this.setState({
-      isDesign: false,
-    });
-  };
-
-  handleEditorChange = (e) => {
-    const { id, handleOnChangeButtonTextBlock } = this.props;
-    this.setState({ content: e.target.value });
-    if (id) {
-      handleOnChangeButtonTextBlock(id, this.state.content);
-    }
-
-
-  }
-  handleChangeFonts = value => {
-    this.setState({
-      fonts: value
-    })
-  }
-
-  handleChangeFontSize = value => {
-    this.setState({
-      fontSize: value
-    })
-  }
-  handleChangeLetterSpacing = value => {
-    this.setState({
-      letterSpacing: value
-    })
-  }
-  handleChangeLineHeight = value => {
-    this.setState({
-      lineText: value
-    })
-  }
-
-  handleChangeTextAlign = value => {
-    this.setState({
-      textAlign: value
-    })
-  }
-
-  handleChangeTextTranform = value => {
-    this.setState({
-      tranform: value
-    })
-  }
-  handleChangeTextColor = value => {
-    this.setState({
-      color: value
-    })
-    console.log(this.state.color);
-  }
-
-  handleChangeBackground = value => {
-    this.setState({
-      background: value
-    })
-  }
-
-  handleChangeMargin = value => {
-    this.setState({
-      margin: value,
-    })
-  }
-
-  handleChangePadding = value => {
-    this.setState({
-      padding: value,
-    })
-  }
-
-
-
 
   render() {
     const { key, leftModal } = this.props;
@@ -217,15 +82,13 @@ class ButtonBlock extends React.Component {
       borderColor: borderColorButton,
       borderWidth: borderWidthButton,
       borderRadius: borderRadius
-
-
     }
 
 
     return (
 
       <div className="edittext  child-block" style={divStyle} >
-        <div onClick={this.showModalButton}>
+        <div onClick={() => this.onChangeValue(true, 'isDesign')}>
           <Button
 
             key={key}
@@ -243,12 +106,12 @@ class ButtonBlock extends React.Component {
           title="Button design"
           visible={this.state.isDesign}
           onOk={this.handleOk}
-          onCancel={this.handleCancelDesign}
+          onCancel={() => this.onChangeValue(false, 'isDesign')}
           className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
           width={500}
           footer={[
-            <Button key="ok" onClick={this.handleCancelDesign} type="primary">
+            <Button key="ok" onClick={() => this.onChangeValue(false, 'isDesign')} type="primary">
               OK
             </Button>,
           ]}
@@ -283,33 +146,33 @@ class ButtonBlock extends React.Component {
                 color={color}
                 background={background}
 
-                handleChangeFonts={this.handleChangeFonts}
-                handleChangeFontSize={this.handleChangeFontSize}
-                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                handleChangeLineHeight={this.handleChangeLineHeight}
+                handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
+                handleChangeFontSize={(value) => this.onChangeValue(value, 'fontSize')}
+                handleChangeLetterSpacing={(value) => this.onChangeValue(value, 'letterSpacing')}
+                handleChangeLineHeight={(value) => this.onChangeValue(value, 'lineText')}
 
-                handleChangeTextAlign={this.handleChangeTextAlign}
-                handleChangeTextTranform={this.handleChangeTextTranform}
+                handleChangeTextAlign={(value) => this.onChangeValue(value, 'textAlign')}
+                handleChangeTextTranform={(value) => this.onChangeValue(value, 'tranform')}
               />
 
               <div className="mt-5 pl-2">
                 <PaddingAndMargin
                   padding={padding}
                   margin={margin}
-                  handleChangeMargin={this.handleChangeMargin}
-                  handleChangePadding={this.handleChangePadding}
+                  handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+                  handleChangePadding={(value) => this.onChangeValue(value, 'padding')}
                 />
               </div>
               <div className="d-flex mt-5 pl-2">
                 <ChangeColorModal
                   title="Change Text Color"
                   color={color}
-                  handleChangeColor={this.handleChangeTextColor}
+                  handleChangeColor={(value) => this.onChangeValue(value, 'color')}
                 />
                 <ChangeColorModal
                   title="Change background"
                   color={background}
-                  handleChangeColor={this.handleChangeBackground}
+                  handleChangeColor={(value) => this.onChangeValue(value, 'background')}
                 />
               </div>
               <div>
@@ -320,7 +183,7 @@ class ButtonBlock extends React.Component {
                       <Slider
                         min={0}
                         max={15}
-                        onChange={this.onChangeBorderWith}
+                        onChange={(value) => this.onChangeValue(value, 'borderWidthButton')}
                         value={typeof borderWidthButton === 'number' ? borderWidthButton : 0}
                       />
                     </Col>
@@ -330,7 +193,7 @@ class ButtonBlock extends React.Component {
                         max={15}
                         style={{ margin: '0 16px', borderRadius: '15px' }}
                         value={borderWidthButton}
-                        onChange={this.onChangeBorderWith}
+                        onChange={(value) => this.onChangeValue(value, 'borderWidthButton')}
                       />
                     </Col>
                   </Row>
@@ -350,7 +213,7 @@ class ButtonBlock extends React.Component {
                       <Slider
                         min={0}
                         max={100}
-                        onChange={this.onChangeBorderRadius}
+                        onChange={(value) => this.onChangeValue(value, 'borderRadius')}
                         value={typeof borderRadius === 'number' ? borderRadius : 0}
                       />
                     </Col>
@@ -360,7 +223,7 @@ class ButtonBlock extends React.Component {
                         max={100}
                         style={{ margin: '0 16px', borderRadius: '15px' }}
                         value={borderRadius}
-                        onChange={this.onChangeBorderRadius}
+                        onChange={(value) => this.onChangeValue(value, 'borderRadius')}
                       />
                     </Col>
                   </Row>

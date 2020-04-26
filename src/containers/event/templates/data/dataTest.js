@@ -89,11 +89,6 @@ export default
 
                 },
                 {
-                    child: "Step",
-                    options: ({ key, editable }) => <StepBlock key={key} editable={editable} />,
-
-                },
-                {
                     child: "Icon",
                     options: ({ key, editable }) => <IconBlock key={key} editable={editable} />,
 
@@ -174,7 +169,7 @@ export default
             value: [
                 {
                     child: "Option 1",
-                    options: ({key, editable}) => <CardBlock key={key}  editable={editable}/>
+                    options: ({ key, editable }) => <CardBlock key={key} editable={editable} />
                 }].map(({ child, options }) => {
                     return {
                         id: uuid(),
@@ -190,7 +185,13 @@ export default
             value: [{
                 child: "Schedule1",
                 options: ({ key, editable }) => <Schedule1 key={key} editable={editable} />
-            }, {
+            },
+            {
+                child: "Step",
+                options: ({ key, editable }) => <StepBlock key={key} editable={editable} />,
+
+            },
+            {
                 child: "Schedule2",
                 options: ({ key, editable }) => <Schedule2 key={key} editable={editable} />
             },
@@ -203,7 +204,6 @@ export default
                 };
             })
         },
-        
 
         {
             name: 'Map/Location/Adress',
@@ -226,7 +226,7 @@ export default
             name: 'Coundown',
             value: [{
                 child: "Coundown",
-                options: ({ key, editable }) => <CountDownBlock key={key} editable={editable} />
+                options: ({ key, editable }) => <CountDownBlock key={key} editable={editable} startCount="2021-01-01 12:00:00" />
             }].map(({ id, child, options }) => {
                 return {
                     id: uuid(),

@@ -1,17 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Modal, Radio, Divider } from 'antd';
-
-const orientation = ['left', 'right', 'center'];
+import { orientation } from '../../../constants/atom.constant'
+import { DividerState } from '../stateInit/DividerState'
 
 class DividersBlock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
-            isDesign: false,
-            isButton: false,
-            orientationList: orientation,
+            ...DividerState(orientation)
         }
     }
 
@@ -21,43 +18,12 @@ class DividersBlock extends React.Component {
         })
     }
 
-    showModal = () => {
+    // common function
+    onChangeValue(newValue, valueParam) {
         this.setState({
-            visible: true,
+            [valueParam]: newValue,
         });
-    };
-    showModalDivider = () => {
-        this.setState({
-            isDesign: true,
-        });
-    };
-    OnClickButton = () => {
-        this.setState({
-            isButton: true,
-        });
-    };
-
-    handleCancel = e => {
-
-        this.setState({
-            visible: false,
-        });
-    };
-
-    handleCancelDesign = e => {
-        console.log(e);
-        this.setState({
-            isDesign: false,
-        });
-    };
-
-    handleShapeChange = e => {
-        this.setState({
-            styleFormat: e.target.value,
-
-        });
-        console.log(this.state.styleFormat);
-    };
+    }
 
     render() {
         const { orientationList, styleFormat } = this.state;
@@ -66,7 +32,7 @@ class DividersBlock extends React.Component {
         return (
 
             <div className=" child-block">
-                <div className="mt-2" onClick={this.showModalDivider}>
+                <div className="mt-2" onClick={() => this.onChangeValue(true, 'isDesign')}>
                     <Divider orientation={styleFormat}>Text </Divider>
                 </div>
 
@@ -74,7 +40,7 @@ class DividersBlock extends React.Component {
                     title="TimePicker design"
                     visible={this.state.isDesign}
                     onOk={this.handleOk}
-                    onCancel={this.handleCancelDesign}
+                    onCancel={() => this.onChangeValue(false, 'isDesign')}
                     width={900}
                     footer={[
                     ]}
@@ -82,7 +48,7 @@ class DividersBlock extends React.Component {
 
                     {/* list timepicker in modal */}
                     <div>
-                        <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
+                        <Radio.Group value={styleFormat} onChange={(e) => this.onChangeValue(e.target.value, 'styleFormat')}>
                             {orientationList.map(orienformat =>
                                 <Radio value={orienformat} key={orienformat}>
                                     <Divider orientation={orienformat}>{orienformat} </Divider>
