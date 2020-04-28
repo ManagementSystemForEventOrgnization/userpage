@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import { connect } from 'react-redux';
 import {
     BrowserRouter as Router,
@@ -18,6 +18,8 @@ import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
 import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
+import MyEventsPage from '../pages/MyEventsPage';
+
 
 
 import PreviewEvent from '../containers/event/PreviewEvent';
@@ -57,6 +59,11 @@ const ROUTES = [
         path: '/create',
         exact: true,
         main: () => <CreateEventPage />
+    },
+    {
+        path: '/my-events',
+        exact: true,
+        main: () => <MyEventsPage />
     },
     {
         path: '',
@@ -113,7 +120,8 @@ class WrapRouter extends React.Component {
             {
                 path: '/profile',
                 exact: true,
-                main: () => isLogined ? <ProfilePage /> : <Redirect to="/login" />
+                main: () => isLogined ? <ProfilePage /> : <Redirect to="/login" />,
+
             },
             {
                 path: '/registered-event',
