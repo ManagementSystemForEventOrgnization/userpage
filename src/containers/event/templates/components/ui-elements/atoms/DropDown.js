@@ -16,12 +16,12 @@ class DropDownBlock extends Component {
         }
     }
 
-     // common function
-  onChangeValue(newValue, valueParam) {
-    this.setState({
-      [valueParam]: newValue,
-    });
-  }
+    // common function
+    onChangeValue(newValue, valueParam) {
+        this.setState({
+            [valueParam]: newValue,
+        });
+    }
 
     onChangeReName = event => {
         const { items } = this.state;
@@ -141,7 +141,7 @@ class DropDownBlock extends Component {
 
                         <Button className="mt-5  " style={{ marginLeft: "30%" }} onClick={this.OnClickOption}
                         >  <PlusOutlined /> Add Item
-    
+
                         </Button>
                     </div>
                 </Modal>

@@ -4,6 +4,8 @@ const DropDownState = (props) => ({
     txtname: "",
     isAddOption: false,
     isRename: false,
+    visible: false,
+
 })
 
 export { DropDownState }

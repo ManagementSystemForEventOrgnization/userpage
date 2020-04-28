@@ -24,7 +24,7 @@ class TextsBlock extends React.Component {
       padding: [1, 1, 1, 1],
       background: "none",
       fontSize: style ? style.fontSize ? style.fontSize : 20 : 20,
-      fonts: "",
+      fonts: "Times New Roman",
       lineText: 80,
       letterSpacing: 0,
       textAlign: style ? style.textAlign ? style.textAlign : 'left' : 'left',
@@ -48,14 +48,22 @@ class TextsBlock extends React.Component {
   };
 
   handleEditorChange = (content) => {
-    const { id, handleOnChangeTextBlock } = this.props;
+    const { id, handleOnChangeTextBlock, idChild,
+      handleOnChangeTextBlockChild,
+      handleChangeText
+    } = this.props;
     this.setState({ content });
-    console.log("conten", content);
 
     if (id) {
-      handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
+      if (idChild) {
+        handleOnChangeTextBlockChild(id, ReactHtmlParser(content)[0].props.children[0], idChild);
+        console.log(ReactHtmlParser(content)[0].props.children[0])
+      }
+      else {
+        handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
+      }
     }
-    console.log(this.state.content);
+
   }
 
   handleChangeFonts = value => {
@@ -163,11 +171,6 @@ class TextsBlock extends React.Component {
         >
           {ReactHtmlParser(content)}
         </ div>
-
-
-
-
-
         <Modal
           title="Text"
           visible={this.state.visible}
@@ -175,7 +178,6 @@ class TextsBlock extends React.Component {
           width={500}
           className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
-          zIndex={1}
           footer={[
             <Button key="ok" onClick={this.handleCancel} type="primary">
               OK

@@ -19,8 +19,16 @@ class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...ButtonState(this.props)
+      ...ButtonState(this.props),
+  
     }
+  }
+  showModalBorderColor = () => {
+    const { isBorderColor } = this.state;
+    this.setState({
+      isBorderColor :!isBorderColor,
+    })
+
   }
 
 

@@ -4,23 +4,20 @@ import {
     Menu, Modal, Button, Input,
     Tabs,
 } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import DropdownBlocks from '../atoms/DropDown';
+import { Link } from 'react-router-dom';
+import { DeleteTwoTone, PlusOutlined, } from '@ant-design/icons'
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
 
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 
-let index = 0;
 class HeaderBlock extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             visible: false,
-            isShowAdd: false,
-            txtname: "",
             menuName: [{
                 id: 1,
                 title: 'home',
@@ -41,7 +38,7 @@ class HeaderBlock extends Component {
             inputValue: 20,
             showColor: false,
             isDesign: false,
-            activeFontFamily: "Times New Roman",
+            activeFontFamily: "",
             lineText: 80,
             letterText: -2,
             align: '',
@@ -61,33 +58,17 @@ class HeaderBlock extends Component {
         });
     }
 
-    OnClickOption = (e) => {
-        const { isShowAdd } = this.state;
-        this.setState({
-            isShowAdd: !isShowAdd
-        });
-
-    };
-
     onClickAdd = () => {
-        const { txtname, menuName } = this.state;
-
+        const { menuName } = this.state;
         menuName.push({
             id: uuid(),
-            title: txtname || `add item ${index++}`,
+            title: `New Page `,
             items: []
         })
         this.setState({
             menuName,
-            txtname: ""
         })
     }
-
-    onNameChange = event => {
-        this.setState({
-            txtname: event.target.value,
-        });
-    };
 
     removeOption = (item) => {
         const menuName = this.state.menuName.filter(e => e.id !== item.id)
@@ -99,33 +80,34 @@ class HeaderBlock extends Component {
     removeOptionChild = (idMenu, sub) => {
         const { menuName } = this.state;
         let item = menuName.find(ele => ele.id === idMenu);
-        const index = menuName.indexOf(item);
-        if (index === -1) return;
-        else {
-            item.items = sub
-            this.setState({
-                menuName: [...menuName.slice(0, index),
-                    item,
-                ...menuName.slice(index + 1, menuName.length)]
-            })
-        }
+        const items = item.items.filter(e => e.id !== sub.id);
+        this.handleUpdateChild(idMenu, items);
     }
 
     handleOnChangeTextBlock = (id, value) => {
-
         const { menuName } = this.state;
         const item = menuName.find(ele => ele.id === id);
         const index = menuName.indexOf(item);
-
+        item.title = value;
         if (index === -1) return;
         else {
             this.setState({
-                menuName: [...menuName.slice(0, index), { id, title: value, items: item.items },
+                menuName: [...menuName.slice(0, index), item,
                 ...menuName.slice(index + 1, menuName.length)]
             })
         }
 
     }
+    onClickChild = (id) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === id);
+        item.items.push({
+            id: uuid(),
+            name: "new child "
+        })
+        this.handleUpdateChild(id, item.items);
+    }
+
     handleUpdateChild = (id, sub) => {
         const { menuName } = this.state;
         let item = menuName.find(ele => ele.id === id);
@@ -139,6 +121,21 @@ class HeaderBlock extends Component {
             })
         }
     }
+    handleUpdateTextChild = (id, name, idChild) => {
+        const { menuName } = this.state;
+        let item = menuName.find(ele => ele.id === id);
+        const items = item.items.find(ele => ele.id === idChild);
+        const index = item.items.indexOf(items)
+        items.name = name;
+        if (index === -1) return;
+        else {
+            const SubMenu = [...item.items.slice(0, index), items,
+            ...item.items.slice(index + 1, item.items.length)]
+            this.handleUpdateChild(id, SubMenu);
+        }
+
+    }
+
     //color
     handleChangeComplete = (color) => {
         this.setState({ background: color.hex });
@@ -265,14 +262,14 @@ class HeaderBlock extends Component {
                         {
                             menuName.map(sub =>
                                 sub.items.length === 0 ?
-                                    <Menu.Item key={sub.id}>{sub.title} </Menu.Item> :
+                                    <Menu.Item key={sub.id}><Link to="">{sub.title}</Link> </Menu.Item> :
                                     <SubMenu title={
                                         <span >
                                             {sub.title}
                                         </span>
                                     }>
                                         {
-                                            sub.items.map(item => <Menu.Item key={item.name}>{item.name}</Menu.Item>)
+                                            sub.items.map(item => <Menu.Item key={item.name}><Link to="">{item.name}</Link></Menu.Item>)
                                         }
                                     </SubMenu>
                             )
@@ -296,34 +293,46 @@ class HeaderBlock extends Component {
 
                                             <div key={sub.id} className="d-flex row mt-2">
                                                 <div className="col">
+
                                                     <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
+
                                                 </div>
+
                                                 <div className="col">
-                                                    <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
+                                                    <Button shape="round" onClick={() => this.onClickChild(sub.id)}
+                                                    >  <PlusOutlined /> Add child
+
+                                                  </Button>
+                                                    <DeleteTwoTone className="ml-4 mt-2" onClick={() => this.removeOption(sub)} />
                                                 </div>
                                             </div>
-                                            <div className="col">
+                                            <div className="col mt-2 ml-3">
+                                                {
+                                                    sub.items.map((item, index) =>
+                                                        <div key={index} className="row">
+                                                            <div className="col mt-2">
+                                                                <TextBlocks content={item.name}
+                                                                    id={sub.id}
+                                                                    idChild={item.id}
+                                                                    handleOnChangeTextBlockChild={this.handleUpdateTextChild}
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <DeleteTwoTone className="ml-4 mt-2" onClick={() => this.removeOptionChild(sub.id, item)} />
 
-                                                <DropdownBlocks options={sub.items} idMenu={sub.id}
-                                                    removeOptionChild={this.removeOptionChild}
-                                                    handleUpdateChild={this.handleUpdateChild}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
 
-                                                > </DropdownBlocks>
                                             </div>
                                         </div>
 
                                     )}
 
-                                {isShowAdd ?
-                                    <div className="d-flex mt-2" >
-                                        <Input value={this.state.txtname} onChange={this.onNameChange} />
-                                        <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                                    </div>
-                                    : ''
-                                }
 
-                                <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
-                                >  <PlusOutlined /> Add menu item
+                                <Button type="primary" shape="round" className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.onClickAdd}
+                                >  <PlusOutlined /> Add Page
 
                         </Button>
                             </TabPane>

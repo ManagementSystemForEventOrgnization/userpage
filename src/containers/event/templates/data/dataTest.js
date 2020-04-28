@@ -39,6 +39,8 @@ import CardBlock from '../components/ui-elements/blocks/cardSpeaker/card';
 
 import Sponsor1Block from '../components/ui-elements/blocks/sponsor/sponsor1';
 
+import Footer1 from '../components/ui-elements/blocks/footer/footer1';
+import Footer2 from '../components/ui-elements/blocks/footer/footer2';
 
 export default
     [
@@ -309,7 +311,13 @@ export default
         },
         {
             name: 'Footer',
-            value: [].map(({ id, child, options }) => {
+            value: [{
+                child: "Footer 1",
+                options: ({ key, editable }) => <Footer1 key={key} editable={editable} />
+            }, {
+                child: "Footer 2",
+                options: ({ key, editable }) => <Footer2 key={key} editable={editable} />
+            }].map(({ id, child, options }) => {
                 return {
                     id: uuid(),
                     child,
