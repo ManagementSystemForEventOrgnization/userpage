@@ -1,49 +1,48 @@
 import { eventConstants } from '../constants/index';
 
 const initialState = {
-    nameEvent: '',
-    typeOfEvent: '',
-    category: '',
-    quantity: 100,
-    address: '',
-    locationName: '',
-    time: {},
-    isSellTicket: 'Không',
-    blocks: [
-        /**
-         * id
-         * option
-         * style
-         */
-    ],
-}
+  nameEvent: '',
+  typeOfEvent: '',
+  category: '',
+  quantity: 100,
+  address: '',
+  locationName: '',
+  time: {},
+  isSellTicket: 'Không',
+  blocks: [
+    /**
+     * id
+     * option
+     * style
+     */
+  ],
+};
 
 const user = (state = initialState, action) => {
-    switch (action.type) {
+  switch (action.type) {
+    case eventConstants.PREPARE_FOR_CREATE_EVENT:
+      return {
+        ...state,
+        nameEvent: action.nameEvent,
+        typeOfEvent: action.typeOfEvent,
+        quantity: action.quantity,
+        address: action.address,
+        category: action.category,
+        locationName: action.locationName,
+        time: action.time,
+        isSellTicket: action.isSellTicket,
+      };
 
-        case eventConstants.PREPARE_FOR_CREATE_EVENT:
-            return {
-                ...state,
-                nameEvent: action.nameEvent,
-                typeOfEvent: action.typeOfEvent,
-                quantity: action.quantity,
-                address: action.address,
-                category: action.category,
-                locationName: action.locationName,
-                time: action.time,
-                isSellTicket: action.isSellTicket,
-            }
+    case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
+      console.log('action payload : ', action.blocks);
+      return {
+        ...state,
+        blocks: action.blocks,
+      };
 
-        case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
-            return {
-                ...state,
-                blocks: action.blocks
-            }
-
-
-        default:
-            return state
-    }
-}
+    default:
+      return state;
+  }
+};
 
 export default user;

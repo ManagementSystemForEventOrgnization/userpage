@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 import { Modal, Tabs, Button } from 'antd';
 import { Editor } from '@tinymce/tinymce-react';
@@ -8,49 +8,80 @@ import { Editor } from '@tinymce/tinymce-react';
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
 import ChangeColorModal from '../shares/ChangeColorModal';
-import {TabPane} from '../../../constants/atom.constant';
-import {StepState} from '../stateInit/TextState'
+import { TabPane } from '../../../constants/atom.constant';
+import { TextState } from '../stateInit/TextState';
+import { eventActions } from '../../../../../../action/event.action';
 
 class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
-
-   this.state = {
-       ...StepState(this.props)
-    };
+    const { style } = this.props;
+    this.state = style
+      ? { ...style }
+      : {
+          ...TextState(this.props),
+        };
   }
 
-   // common function
-   onChangeValue(newValue, valueParam) {
+  componentDidMount = () => {
+    const { editable } = this.props;
+    if (editable) {
+      this.handleStoreBlock();
+    }
+  };
+  // common function
+  onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
     });
+    this.handleStoreBlock();
   }
-
 
   handleEditorChange = (content) => {
-    const { id, handleOnChangeTextBlock } = this.props;
-    this.setState({ content });
-    console.log("conten", content);
+    // const { id, handleOnChangeTextBlock } = this.props;
+    // this.setState({ content });
+    // if (id) {
+    //   handleOnChangeTextBlock(
+    //     id,
+    //     ReactHtmlParser(content)[0].props.children[0]
+    //   );
+    // }
+  };
 
-    if (id) {
-      handleOnChangeTextBlock(id, ReactHtmlParser(content)[0].props.children[0]);
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
     }
-    console.log(this.state.content);
-  }
+  };
 
   render() {
-
     const { key, leftModal } = this.props;
-    const { content, margin, padding,
-      background, fontSize, fonts, lineText,
-      letterSpacing, textAlign, tranform, color,
-      fontWeight
+    const {
+      content,
+      margin,
+      padding,
+      background,
+      fontSize,
+      fonts,
+      lineText,
+      letterSpacing,
+      textAlign,
+      tranform,
+      color,
+      fontWeight,
     } = this.state;
 
-
     const divStyle = {
-
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -70,49 +101,51 @@ class TextsBlock extends React.Component {
       textAlign: textAlign,
       textTransform: tranform,
       fontWeight: fontWeight,
-
-    }
+    };
 
     return (
-
-      <div className="edittext child-block " style={divStyle} >
-
-        < div key={key}
-          onClick={() => this.onChangeValue(true, 'visible')}
-        >
+      <div className="edittext child-block " style={divStyle}>
+        <div key={key} onClick={() => this.onChangeValue(true, 'visible')}>
           {ReactHtmlParser(content)}
-        </ div>
-
-
-
-
+        </div>
 
         <Modal
           title="Text"
           visible={this.state.visible}
           onCancel={() => this.onChangeValue(false, 'visible')}
           width={500}
-          className={leftModal ? " mt-3 float-left ml-5" : "float-right mr-3 mt-3"}
+          className={
+            leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+          }
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
           zIndex={1}
           footer={[
-            <Button key="ok" onClick={() => this.onChangeValue(false, 'visible')} type="primary">
+            <Button
+              key="ok"
+              onClick={() => this.onChangeValue(false, 'visible')}
+              type="primary"
+            >
               OK
-          </Button>,
+            </Button>,
             <Button key="ok" onClick={this.handleReset} type="primary">
               Reset
-      </Button>,
+            </Button>,
           ]}
         >
-          <Tabs defaultActiveKey="1" >
+          <Tabs defaultActiveKey="1">
             <TabPane tab="text " key="1">
               <h6>Nội dung</h6>
-              <Editor value={content} onEditorChange={this.handleEditorChange} style={divStyle}
+              <Editor
+                value={content}
+                onEditorChange={this.handleEditorChange}
+                style={divStyle}
                 apiKey="6vfxhgd1k6ab1xopelmn5p5nygco7vcmx1c5sl6nu4w8bwun"
                 init={{
                   plugins: 'link   ',
-                  toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code'
-                }} />
+                  toolbar:
+                    'undo redo | bold italic underline | alignleft aligncenter alignright insert link format textcolor  | code',
+                }}
+              />
             </TabPane>
             <TabPane tab="design " key="2">
               <EditText
@@ -120,55 +153,70 @@ class TextsBlock extends React.Component {
                 fontSize={fontSize}
                 lineText={lineText}
                 letterSpacing={letterSpacing}
-
-
-                handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
-                handleChangeFontSize={(value) => this.onChangeValue(value, 'fontSize')}
-                handleChangeLetterSpacing={(value) => this.onChangeValue(value, 'letterSpacing')}
-                handleChangeLineHeight={(value) => this.onChangeValue(value, 'lineText')}
-
-                handleChangeTextAlign={(value) => this.onChangeValue(value, 'textAlign')}
-                handleChangeTextTranform={(value) => this.onChangeValue(value, 'tranform')}
+                handleChangeFonts={(value) =>
+                  this.onChangeValue(value, 'fonts')
+                }
+                handleChangeFontSize={(value) =>
+                  this.onChangeValue(value, 'fontSize')
+                }
+                handleChangeLetterSpacing={(value) =>
+                  this.onChangeValue(value, 'letterSpacing')
+                }
+                handleChangeLineHeight={(value) =>
+                  this.onChangeValue(value, 'lineText')
+                }
+                handleChangeTextAlign={(value) =>
+                  this.onChangeValue(value, 'textAlign')
+                }
+                handleChangeTextTranform={(value) =>
+                  this.onChangeValue(value, 'tranform')
+                }
               />
 
               <div className="mt-5 pl-2">
                 <PaddingAndMargin
                   padding={padding}
                   margin={margin}
-                  handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
-                  handleChangePadding={(value) => this.onChangeValue(value, 'padding')}
+                  handleChangeMargin={(value) =>
+                    this.onChangeValue(value, 'margin')
+                  }
+                  handleChangePadding={(value) =>
+                    this.onChangeValue(value, 'padding')
+                  }
                 />
               </div>
               <div className="d-flex mt-5 pl-2">
                 <ChangeColorModal
                   title="Change Text Color"
                   color={color}
-                  handleChangeColor={(value) => this.onChangeValue(value, 'color')}
+                  handleChangeColor={(value) =>
+                    this.onChangeValue(value, 'color')
+                  }
                 />
                 <ChangeColorModal
                   title="Change background"
                   color={background}
-                  handleChangeColor={(value) => this.onChangeValue(value, 'background')}
+                  handleChangeColor={(value) =>
+                    this.onChangeValue(value, 'background')
+                  }
                 />
               </div>
             </TabPane>
           </Tabs>
         </Modal>
-
-      </div >
-    )
+      </div>
+    );
   }
 }
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // map state of store to props
-
-
-})
-
-const mapDispatchToProps = (dispatch) => ({
+  blocks: state.event.blocks,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextsBlock)
+export default connect(mapStateToProps, mapDispatchToProps)(TextsBlock);

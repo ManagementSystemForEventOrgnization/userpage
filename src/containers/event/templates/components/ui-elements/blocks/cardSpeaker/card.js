@@ -1,79 +1,115 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import {Card, Row, Col } from 'antd';
-import {
-  PlusCircleTwoTone,
-  MinusCircleTwoTone
-} from '@ant-design/icons'
+import { connect } from 'react-redux';
+import { Card, Row, Col } from 'antd';
+import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+
 import Text from '../../atoms/Text';
 import Image from '../../atoms/Image';
-
+import { eventActions } from '../../../../../../../action/event.action';
 const { Meta } = Card;
 
-
-const title = "Card title";
-const description = "This is description";
-const urlCardImage = "https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg";
-const height = 30 ;
-const temp = [1, 2, 3, 4];
+const title = 'Card title';
+const description = 'This is description';
+const urlCardImage =
+  'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg';
+const height = 30;
 const iconStyle = {
   fontSize: '20px',
 };
 
-class CardBlock extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            visible: false,   
-        }
+class CardBlock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+      list: [1, 2, 3, 4],
+    };
+  }
+
+  componentDidMount = () => {
+    const { editable } = this.props;
+    if (editable) {
+      this.handleStoreBlock();
     }
-  
-    componentDidMount=()=>{
-    this.setState({
-        
-    })
+  };
+
+  addCard = () => {
+    let { list } = this.state;
+    list.push(list.length + 1);
+    this.setState({ list });
+    this.handleStoreBlock();
+  };
+
+  removeCard = () => {
+    let { list } = this.state;
+    list.pop(list.length - 1);
+    this.setState({ list });
+    this.handleStoreBlock();
+  };
+
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
     }
-    addCard = () => {
-        temp.push(temp.length +1);
-      };
-    removeCard = () => {
-        temp.pop(temp.length -1);
-    }
-    render(){
-      
-        return(
-          <div >
-            <Row gutter={16}>
-                {
-                temp.map(item =>
-                    <Col className="gutter-row" key={item}  span={6}>
-                    <Card
-                        hoverable
-                        style={{  height: 300}}
-                        cover={<Image url ={urlCardImage} editable={true} height={height}  />}>
-                        <Meta title= {<Text content ={title}/>} description= {<Text content ={description}/>} />
-                    </Card>
-                </Col>
-                )
+  };
+
+  render() {
+    const { list } = this.state;
+    return (
+      // need to map style
+      <div>
+        <Row gutter={16}>
+          {list.map((item) => (
+            <Col className="gutter-row" key={item} span={6}>
+              <Card
+                hoverable
+                style={{ height: 300 }}
+                cover={
+                  <Image url={urlCardImage} editable={true} height={height} />
                 }
-            </Row>
-          <div className="icons-handle">
-              <PlusCircleTwoTone style={iconStyle} className="mt-3" onClick={this.addCard} />
-              <MinusCircleTwoTone style={iconStyle} className="mt-3" onClick={this.removeCard} />
-          </div>
-        </div>   
-        )
-    }
+              >
+                <Meta
+                  title={<Text content={title} />}
+                  description={<Text content={description} />}
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        <div className="icons-handle">
+          <PlusCircleTwoTone
+            style={iconStyle}
+            className="mt-3"
+            onClick={this.addCard}
+          />
+          <MinusCircleTwoTone
+            style={iconStyle}
+            className="mt-3"
+            onClick={this.removeCard}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-    // map state of store to props
-  
-  })
-  
-  const mapDispatchToProps = (dispatch) => ({
-   
-  });
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(CardBlock)
+const mapStateToProps = (state) => ({
+  // map state of store to props
+  blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CardBlock);

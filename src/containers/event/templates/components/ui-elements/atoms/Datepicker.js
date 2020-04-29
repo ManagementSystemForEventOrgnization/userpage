@@ -1,137 +1,126 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Button, Modal, Radio, DatePicker } from 'antd';
 
 import moment from 'moment';
-
-
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
+import { eventActions } from '../../../../../../action/event.action';
 
 const dateFormat = ['YYYY/MM/DD', 'DD/MM/YYYY', 'MM/DD/YYYY'];
 
 class DatepickersBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      visible: false,
-      isDesign: false,
-      isButton: false,
-      dateFormatList: dateFormat,
-    }
+    const { style } = this.props;
+    this.state = style
+      ? { ...style }
+      : {
+          visible: false,
+          isDesign: false,
+          isButton: false,
+          dateFormatList: dateFormat,
+        };
   }
-
 
   componentDidMount = () => {
+    const { editable } = this.props;
+    if (editable) {
+      this.handleStoreBlock();
+    }
     this.setState({
-      dateFormatList: dateFormat
-    })
-  }
+      dateFormatList: dateFormat,
+    });
+  };
 
   onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
     });
+    this.handleStoreBlock();
   }
 
-  //not called
-  // showModal = () => {
-  //   this.setState({
-  //     visible: true,
-  //   });
-  // };
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
 
-  // showModalDatepicker = () => {
-  //   this.setState({
-  //     isDesign: true,
-  //   });
-  // };
-
-  OnClickButton = () => {
-    this.setState({
-      isButton: true,
-    });
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
+    }
   };
 
-  handleCancel = e => {
-    console.log(e);
+  handleCollapse = () => {
+    const { isDesign } = this.props;
     this.setState({
-      visible: false,
+      isDesign: !isDesign,
     });
   };
-
-  handleCancelDesign = e => {
-    console.log(e);
-    this.setState({
-      isDesign: false,
-    });
-  };
-
-  handleShapeChange = e => {
-    this.setState({
-      styleFormat: e.target.value,
-
-    });
-    console.log(this.state.styleFormat);
-  };
-
-
 
   render() {
-
-    const { dateFormatList, styleFormat } = this.state;
-    const { editable } = this.props
-
+    const { dateFormatList, styleFormat, isDesign } = this.state;
+    const { editable } = this.props;
 
     return (
-
       <div className="edittext child-block">
-        <div className="mt-2" onClick={() => this.onChangeValue(true, 'isDesign')}>
+        <div
+          className="mt-2"
+          onClick={() => this.onChangeValue(true, 'isDesign')}
+        >
           <DatePicker
-
-            format={styleFormat} onChange={onChange} defaultValue={moment('2020/04/08')} ></DatePicker>
+            format={styleFormat}
+            defaultValue={moment('2020/04/08')}
+          ></DatePicker>
         </div>
-        {editable &&
+        {editable && (
           <Modal
             title="Datepicker design"
-            visible={this.state.isDesign}
-            onCancel={this.handleCancelDesign}
+            visible={isDesign}
+            onCancel={this.handleCollapse}
             width={500}
             footer={[
-              <Button key="ok" onClick={this.handleCancelDesign} type="primary">
+              <Button key="ok" onClick={this.handleCollapse} type="primary">
                 OK
-          </Button>,
+              </Button>,
             ]}
           >
-
             {/* list datepicker in modal */}
             <div>
-              <Radio.Group value={styleFormat} onChange={this.handleShapeChange}>
-                {dateFormatList.map((dateformat, index) =>
-                  <Radio value={dateformat} key={index} >
-                    <DatePicker key={dateformat} onChange={onChange} format={dateformat} placeholder={dateFormat} ></DatePicker>
+              <Radio.Group
+                value={styleFormat}
+                onChange={(e) =>
+                  this.onChangeValue(e.target.value, 'styleFormat')
+                }
+              >
+                {dateFormatList.map((dateformat, index) => (
+                  <Radio value={dateformat} key={index}>
+                    <DatePicker
+                      key={dateformat}
+                      format={dateformat}
+                      placeholder={dateFormat}
+                    ></DatePicker>
                   </Radio>
-                )}
+                ))}
               </Radio.Group>
-
             </div>
           </Modal>
-
-        }
+        )}
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // map state of store to props
-
-})
-
-const mapDispatchToProps = (dispatch) => ({
-
+  blocks: state.event.blocks,
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(DatepickersBlock)
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(DatepickersBlock);
