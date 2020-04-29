@@ -61,11 +61,6 @@ const ROUTES = [
         main: () => <CreateEventPage />
     },
     {
-        path: '/my-events',
-        exact: true,
-        main: () => <MyEventsPage />
-    },
-    {
         path: '',
         exact: true,
         main: () => <NotFoundPage />
@@ -122,6 +117,11 @@ class WrapRouter extends React.Component {
                 exact: true,
                 main: () => isLogined ? <ProfilePage /> : <Redirect to="/login" />,
 
+            },
+            {
+                path: '/my-events',
+                exact: true,
+                main: () => isLogined ? <MyEventsPage /> : <Redirect to="/login" />
             },
             {
                 path: '/registered-event',

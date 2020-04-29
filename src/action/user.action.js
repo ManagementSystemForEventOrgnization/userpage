@@ -135,6 +135,7 @@ const getCurrentUser = () => {
             .get(`/api/current_user`)
             .then(res => {
                 if (res.status === 200) {
+                //    console.log(res.data)
                     dispatch(success(res.data));
                 }
                 else {
@@ -152,7 +153,29 @@ const getCurrentUser = () => {
 
 }
 
+const onUpdateUserProfile = (userInfor) =>{
+    console.log(userInfor)
+    return dispatch => {
+        dispatch(request());
+        API
+            .get(`/api/current_user`)
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch(success(res.data));
+                }
+                else {
+                    dispatch(failure(res.message));
+                }
+            })
+            .catch(error => {
+                return dispatch(failure(error));
+            })
+    };
 
+    function request() { return { type: userConstants.GET_CURRENT_USER_REQUEST } }
+    function success(user) { return { type: userConstants.GET_CURRENT_USER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_CURRENT_USER_FAILURE, error } }
+}
 export const userActions = {
     login,
     loginWithGoogle,
@@ -160,5 +183,5 @@ export const userActions = {
     checkCode,
     logout,
     getCurrentUser,
-
+    onUpdateUserProfile
 }
