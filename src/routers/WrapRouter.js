@@ -121,6 +121,11 @@ class WrapRouter extends React.Component {
         main: () => (isLogined ? <ProfilePage /> : <Redirect to="/login" />),
       },
       {
+        path: '/my-events',
+        exact: true,
+        main: () => (isLogined ? <MyEventsPage /> : <Redirect to="/login" />),
+      },
+      {
         path: '/registered-event',
         exact: true,
         main: () => (isLogined ? <UserEventPage /> : <Redirect to="/login" />),
