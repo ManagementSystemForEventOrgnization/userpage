@@ -232,8 +232,8 @@ class GeneralInfoEventModal extends React.Component {
                     onChange={this.onChange}
                   />
                 </Form.Item>
-                // thêm 1 item cho phép nhập domain => check domain hợp lệ :
-                /[^\w-]/
+                {/* // thêm 1 item cho phép nhập domain => check domain hợp lệ :
+                /[^\w-]/ */}
                 <Form.Item
                   name="address"
                   label="Địa chỉ "

@@ -30,6 +30,7 @@ class TextsBlock extends React.Component {
     }
   };
   // common function
+
   onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
