@@ -41,6 +41,7 @@ import Sponsor1Block from '../components/ui-elements/blocks/sponsor/sponsor1';
 
 import Footer1 from '../components/ui-elements/blocks/footer/footer1';
 import Footer2 from '../components/ui-elements/blocks/footer/footer2';
+import IconsSocial from '../components/ui-elements/blocks/Social/social';
 
 export default
     [
@@ -328,7 +329,11 @@ export default
         },
         {
             name: 'Social',
-            value: [].map(({ child, options }) => {
+            value: [{
+                child: "social",
+                options: ({ key, editable }) => <IconsSocial key={key} editable={editable} />
+            },
+            ].map(({ child, options }) => {
                 return {
                     id: uuid(),
                     child,

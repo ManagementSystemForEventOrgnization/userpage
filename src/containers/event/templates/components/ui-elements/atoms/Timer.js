@@ -2,24 +2,14 @@ import React from "react";
 import { connect } from 'react-redux'
 import { Modal, Select, InputNumber, Button } from 'antd';
 import { SketchPicker } from 'react-color';
-
-
-const buttonWidth = 170;
-const { Option } = Select;
-
+import { buttonWidth, Option } from '../../../constants/atom.constant'
+import { TimerState } from '../stateInit/TimerState'
 
 class Timer extends React.Component {
     constructor(props) {
         super(props);
-        const { style } = this.props;
         this.state = {
-            visible: false,
-            positionButton: '',
-            leftButton: style ? style.left ? style.left : 0 : 0,
-            rightButton: style ? style.right ? style.right : 0 : 0,
-            topButton: style ? style.top ? style.top : 0 : 0,
-            bottomButton: style ? style.bottom ? style.bottom : 0 : 0,
-            backgroundColor: 'white'
+            ...TimerState(this.props)
         }
     }
 
@@ -78,46 +68,12 @@ class Timer extends React.Component {
         return timerComponents
     }
 
-    showModal = () => {
+    // common function
+    onChangeValue(newValue, valueParam) {
         this.setState({
-            visible: true,
+            [valueParam]: newValue,
         });
-    };
-
-    handleCancel = e => {
-        this.setState({
-            visible: false,
-        });
-    };
-
-    onChangeLeft = (value) => {
-        this.setState({ leftButton: value });
     }
-
-    onChangeTop = (value) => {
-        this.setState({ topButton: value });
-    }
-
-    onChangeRight = (value) => {
-        this.setState({ rightButton: value });
-    }
-
-    onChangeBottom = (value) => {
-        this.setState({ bottomButton: value });
-    }
-
-    onChangePosition = (value) => {
-        this.setState({
-            positionButton: value
-        })
-    }
-
-    handleChangeComplete = (color) => {
-        this.setState({
-            backgroundColor: color.hex,
-        });
-
-    };
 
     render() {
         const { key, style, editable } = this.props;
@@ -139,9 +95,9 @@ class Timer extends React.Component {
 
                 < div key={key}
                     style={divStyle}
-                    onClick={this.showModal}
+                    onClick={() => this.onChangeValue(true, 'visible')}
                 >
-                    <div className="row border border-primary">
+                    <div className="row border border-primary ml-0 mr-0">
                         <div className="col">
                             <h2> {this.state.days} </h2>
                             days
@@ -164,13 +120,13 @@ class Timer extends React.Component {
                     <Modal
                         title="Text"
                         visible={this.state.visible}
-                        onCancel={this.handleCancel}
+                        onCancel={() => this.onChangeValue(false, 'visible')}
                         width={500}
                         className="float-right mr-3 mt-3"
                         style={{ top: 40 }}
 
                         footer={[
-                            <Button key="ok" onClick={this.handleCancel} type="primary">
+                            <Button key="ok" onClick={() => this.onChangeValue(false, 'visible')} type="primary">
                                 OK
                 </Button>,
                         ]}
@@ -179,7 +135,7 @@ class Timer extends React.Component {
                             <div className="d-flex mb-3">
                                 <h6 >Vị trí : </h6>
                                 <Select defaultValue={style ? 'absolute' : 'relative'}
-                                    className="ml-auto" style={{ width: '60%' }} onChange={this.onChangePosition} >
+                                    className="ml-auto" style={{ width: '60%' }} onChange={(value) => this.onChangeValue(value, 'positionButton')} >
                                     <Option value="static">static</Option>
                                     <Option value="relative">relative</Option>
                                     <Option value="absolute">absolute</Option>
@@ -198,30 +154,30 @@ class Timer extends React.Component {
                                 <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
 
                                     <InputNumber placeholder="top" value={topButton} style={{ width: 72, textAlign: 'center' }}
-                                        min={0} max={1500} onChange={this.onChangeTop}  ></InputNumber >
+                                        min={0} max={1500} onChange={(value) => this.onChangeValue(value, 'topButton')}  ></InputNumber >
 
                                 </div>
 
                                 <div style={{ width: buttonWidth, float: 'left' }}>
                                     <InputNumber placeholder="left" value={leftButton} style={{ width: 72, textAlign: 'center' }}
-                                        min={0} max={1500} onChange={this.onChangeLeft} ></InputNumber >
+                                        min={0} max={1500} onChange={(value) => this.onChangeValue(value, 'leftButton')} ></InputNumber >
                                 </div>
 
                                 <div style={{ width: buttonWidth, marginLeft: buttonWidth * 2 + 3 }}>
                                     <InputNumber placeholder="right" value={rightButton} style={{ width: 72, textAlign: 'center' }}
-                                        min={0} max={1500} onChange={this.onChangeRight}  ></InputNumber >
+                                        min={0} max={1500} onChange={(value) => this.onChangeValue(value, 'rightButton')}  ></InputNumber >
                                 </div>
 
                                 <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
                                     <InputNumber placeholder="bottom" value={bottomButton} style={{ width: 72, textAlign: 'center' }}
-                                        min={0} max={1500} onChange={this.onChangeBottom} ></InputNumber >
+                                        min={0} max={1500} onChange={(value) => this.onChangeValue(value, 'bottomButton')} ></InputNumber >
                                 </div>
                             </div>
                         </div>
                         <div className="mt-4">
                             <h6>Background Color:</h6>
                             <SketchPicker className="mx-auto" color='red'
-                                onChangeComplete={this.handleChangeComplete} />
+                                onChangeComplete={(value) => this.onChangeValue(value.hex, 'backgroundColor')} />
                         </div>
 
                     </Modal>

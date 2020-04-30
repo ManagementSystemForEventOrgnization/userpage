@@ -6,7 +6,9 @@ import {
 import TextsBlock from '../../atoms/Text';
 import ButtonsBlock from '../../atoms/Button';
 import IconsHandle from '../../shares/IconsHandle';
-import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle'
+import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
+import IconsSocial from '../Social/social';
+
 export default class footer1 extends Component {
     constructor(props) {
         super(props)
@@ -15,8 +17,8 @@ export default class footer1 extends Component {
             margin: [1, 1, 1, 1],
             padding: [7, 1, 1, 7],
             url: '',
-            bgColor: 'black',
-            opacity: 0.3
+            bgColor: '#344150',
+            opacity: 0.9
 
         }
     }
@@ -55,9 +57,16 @@ export default class footer1 extends Component {
         })
     }
 
+    onChangeStyle = (value) => {
+        this.setState({
+            bgColor: value
+        })
+
+    }
+
     render() {
         const { editable } = this.props;
-        const { name, support, phone, collapse, padding, url, bgColor, opacity,
+        const { collapse, padding, url, bgColor, opacity,
             margin } = this.state;
         const style = {
             marginTop: `${margin[0]}%`,
@@ -73,6 +82,7 @@ export default class footer1 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            backgroundColor: bgColor,
 
             width: '100%'
 
@@ -85,35 +95,50 @@ export default class footer1 extends Component {
             height: '100%',
             opacity: opacity,
             backgroundColor: bgColor
+
+        }
+        const titleStyle = {
+            color: "white",
+
         }
 
-        const titleStyle = {
-            fontWeight: 'bolder',
-            fontSize: '40',
+        const styleRow = {
+            padding: '6%'
+        }
+
+        const styleButton = {
+            textAlign: "left",
+            color: "white",
+            borderColor: "white",
+            borderWidth: "0px",
 
         }
 
 
         return (
             <div className="child-block d-flex  " style={{ height: 300 }}>
-
-                <div className=" child-block" style={style}>
+                <div style={style}>
                     {url &&
                         <div style={bg}></div>}
-                    <div className="row  " >
+                    <div className="row  " style={styleRow}>
                         <div className="col">
                             <TextsBlock content="© 2018 All rights reserved."
-                                textAlign={"center"}
+                                style={titleStyle}
                             />
                         </div>
                         <div className="col">
                             <TextsBlock content="Support 24/7"
-                                textAlign={"center"} />
-                            <ButtonsBlock content="+458 669 221" />
+                                style={titleStyle} />
+                            <span className="mt-3">
+                                <ButtonsBlock content="+458 669 221"
+                                    style={styleButton} />
+                            </span>
                         </div>
+
                         <div className="col">
-                            <TextsBlock content="© 2018 All rights reserved."
-                                textAlign={"center"} />
+                            <TextsBlock content="Follow Us"
+                                style={titleStyle} />
+                            <IconsSocial />
                         </div>
                     </div>
                 </div>
@@ -147,7 +172,7 @@ export default class footer1 extends Component {
 
                             handleChangePadding={this.handleChangePadding}
                             handleChangeMargin={this.handleChangeMargin}
-                            handleChangeTypeBG={this.onChange}
+                            handleChangeTypeBG={this.onChangeStyle}
                             handleChangeOpacity={this.onChangeOpacity}
                             handleChangeImage={this.onImageDrop}
                             handleChangeColor={this.handleChangeBGColor}

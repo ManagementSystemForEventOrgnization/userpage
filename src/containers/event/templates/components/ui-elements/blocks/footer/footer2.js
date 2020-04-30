@@ -15,7 +15,7 @@ export default class footer2 extends Component {
             margin: [1, 1, 1, 1],
             padding: [7, 1, 1, 7],
             url: '',
-            bgColor: 'black',
+            bgColor: '#a5c33c',
             opacity: 0.3
 
         }
@@ -74,6 +74,7 @@ export default class footer2 extends Component {
             backgroundImage: url ? `url(${url})` : 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            backgroundColor: bgColor,
 
             width: '100%'
 
@@ -93,6 +94,9 @@ export default class footer2 extends Component {
             fontSize: '40',
 
         }
+        const styleDiv = {
+            textAlign: 'center'
+        }
 
 
         return (
@@ -102,11 +106,12 @@ export default class footer2 extends Component {
                     {url &&
                         <div style={bg}></div>}
 
+                    <div style={{ padding: '6%' }}>
+                        <TextsBlock content="© 2018 All rights reserved."
+                        style ={styleDiv}
 
-                    <TextsBlock content="© 2018 All rights reserved."
-                        textAlign="center"
-
-                    />
+                        />
+                    </div>
 
 
 

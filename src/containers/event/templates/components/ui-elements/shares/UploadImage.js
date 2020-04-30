@@ -11,7 +11,6 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dwt4njhmt/upload'
 class UploadImage extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             pending: false
         }
@@ -57,23 +56,23 @@ class UploadImage extends Component {
             <div>
                 <div className="mt-2 " >
                     {
-                        url &&
                         <div>
                             {pending && <Spin
                                 tip="Uploading..."
                                 size='large'
                                 style={{
                                     position: 'absolute',
-                                    paddingBottom: '50%'
+                                    paddingBottom: '45%'
                                 }}
                             > </Spin>}
-                            <img style={{
-                                width: '450px',
-                                opacity: pending ? '0.3' : '1'
-                            }} alt="img" src={url} />
+                            {
+                                url && <img style={{
+                                    width: '450px',
+                                    opacity: pending ? '0.3' : '1'
+                                }} alt="img" src={url} />
+                            }
+
                         </div>
-
-
                     }
 
                 </div>

@@ -12,8 +12,7 @@ import {
 // import { IconContext } from "react-icons";
 
 import { ButtonState } from '../stateInit/ButtonState'
-
-const { TabPane } = Tabs;
+import {TabPane} from '../../../constants/atom.constant'
 
 class ButtonBlock extends React.Component {
   constructor(props) {

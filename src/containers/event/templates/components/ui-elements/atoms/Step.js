@@ -7,67 +7,45 @@ import { v4 as uuid } from "uuid";
 
 import TextBlock from '../atoms/Text';
 import EditText from '../shares/EditText';
-
-const { Step } = Steps;
-const { TabPane } = Tabs;
-const { Option } = Select;
+import { StepState } from '../stateInit/StepState'
+import { Step, TabPane, Option } from '../../../constants/atom.constant'
 
 class StepBlock extends Component {
     constructor(props) {
         super(props)
+
         this.state = {
-            visible: false,
-            steps: [
-                {
-                    id: 1,
-                    title: "Finished",
-                    description: "This is a description",
-
-                },
-                {
-                    id: 2,
-                    title: "Waiting",
-                    description: "This is a description.",
-
-                }
-            ],
-            current: 1,
-            txtname: "",
-            txtdescription: "",
-            isAddOption: false,
-            margin: [0, 0, 0, 0],
-            padding: [0, 0, 0, 0],
-            background: "white",
-            fontSize: 20,
-            fonts: "Times New Roman",
-            lineText: 80,
-            letterSpacing: 0,
-            textAlign: '',
-            tranform: ' ',
-            color: "black",
-
-
+            ...StepState(this.props)
         }
     }
-    showModal = () => {
+
+
+    // common function
+    onChangeValue(newValue, valueParam) {
         this.setState({
-            visible: true,
+            [valueParam]: newValue,
         });
-    };
+    }
 
-    handleOk = e => {
+    // showModal = () => {
+    //     this.setState({
+    //         visible: true,
+    //     });
+    // };
 
-        this.setState({
-            visible: false,
-        });
-    };
+    // handleOk = e => {
 
-    handleCancel = e => {
+    //     this.setState({
+    //         visible: false,
+    //     });
+    // };
 
-        this.setState({
-            visible: false,
-        });
-    };
+    // handleCancel = e => {
+
+    //     this.setState({
+    //         visible: false,
+    //     });
+    // };
 
     removeOption = (item) => {
 
@@ -99,16 +77,16 @@ class StepBlock extends Component {
     }
 
 
-    onNameChange = event => {
-        this.setState({
-            txtname: event.target.value,
-        });
-    };
-    onDescriptionChange = event => {
-        this.setState({
-            txtdescription: event.target.value,
-        });
-    };
+    // onNameChange = event => {
+    //     this.setState({
+    //         txtname: event.target.value,
+    //     });
+    // };
+    // onDescriptionChange = event => {
+    //     this.setState({
+    //         txtdescription: event.target.value,
+    //     });
+    // };
 
 
     handleOnChangeTextBlock = (id, value) => {
@@ -149,63 +127,24 @@ class StepBlock extends Component {
 
     }
 
-    handleChangeFonts = value => {
-        this.setState({
-            fonts: value
-        })
-    }
+    
 
-    handleChangeFontSize = value => {
-        this.setState({
-            fontSize: value
-        })
-        console.log(this.state.fontSize);
-    }
-    handleChangeLetterSpacing = value => {
-        this.setState({
-            letterSpacing: value
-        })
-    }
-    handleChangeLineHeight = value => {
-        this.setState({
-            lineText: value
-        })
-    }
+    //not work 
+    
+    // handleChangeFontSize = value => {
+    //     this.setState({
+    //         fontSize: value
+    //     })
+    //     console.log(this.state.fontSize);
+    // }
 
-    handleChangeTextAlign = value => {
-        this.setState({
-            textAlign: value
-        })
-    }
+    // handleChangeLineHeight = value => {
+    //     this.setState({
+    //         lineText: value
+    //     })
+    // }
 
-    handleChangeTextTranform = value => {
-        this.setState({
-            tranform: value
-        })
-    }
-    handleChangeTextColor = value => {
-        this.setState({
-            color: value
-        })
-    }
 
-    handleChangeBackground = value => {
-        this.setState({
-            background: value
-        })
-    }
-
-    handleChangeMargin = value => {
-        this.setState({
-            margin: value,
-        })
-    }
-
-    handleChangePadding = value => {
-        this.setState({
-            padding: value,
-        })
-    }
 
     onChangeCurrent = value => {
         this.setState({
@@ -245,7 +184,7 @@ class StepBlock extends Component {
         return (
             <div className="child-block" style={divStyle}>
 
-                <Steps size="small" current={current} key={key} onClick={this.showModal}>
+                <Steps size="small" current={1} key={key} onClick={() => this.onChangeValue(true, 'visible')}>
                     {
                         steps.map(step =>
 
@@ -257,8 +196,8 @@ class StepBlock extends Component {
                 {editable && < Modal
                     title="Step Modal"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    onOk={() => this.onChangeValue(false, 'visible')}
+                    onCancel={() => this.onChangeValue(false, 'visible')}
                 >
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Text" key="1">
@@ -311,18 +250,18 @@ class StepBlock extends Component {
                                 color={color}
                                 background={background}
 
-                                handleChangeFonts={this.handleChangeFonts}
-                                handleChangeFontSize={this.handleChangeFontSize}
-                                handleChangeLetterSpacing={this.handleChangeLetterSpacing}
-                                handleChangeLineHeight={this.handleChangeLineHeight}
+                                handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
+                                handleChangeFontSize={(value) => this.onChangeValue(value, 'fontSize')}
+                                handleChangeLetterSpacing={(value) => this.onChangeValue(value, 'letterSpacing')}
+                                handleChangeLineHeight={(value) => this.onChangeValue(value, 'lineText')}
 
-                                handleChangeTextAlign={this.handleChangeTextAlign}
-                                handleChangeTextTranform={this.handleChangeTextTranform}
-                                handleChangeTextColor={this.handleChangeTextColor}
-                                handleChangeBackground={this.handleChangeBackground}
+                                handleChangeTextAlign={(value) => this.onChangeValue(value, 'textAlign')}
+                                handleChangeTextTranform={(value) => this.onChangeValue(value, 'tranform')}
+                                handleChangeTextColor={(value) => this.onChangeValue(value, 'color')}
+                                handleChangeBackground={(value) => this.onChangeValue(value, 'background')}
 
-                                handleChangeMargin={this.handleChangeMargin}
-                                handleChangePadding={this.handleChangePadding}
+                                handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+                                handleChangePadding={(value) => this.onChangeValue(value, 'padding')}
 
                             />
                         </TabPane>
