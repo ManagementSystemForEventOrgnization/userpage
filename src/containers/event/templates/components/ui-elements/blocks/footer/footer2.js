@@ -97,7 +97,8 @@ class footer2 extends Component {
 
 
         const styleDiv = {
-            textAlign: 'center'
+            textAlign: 'center',
+            color: 'white'
         }
 
 

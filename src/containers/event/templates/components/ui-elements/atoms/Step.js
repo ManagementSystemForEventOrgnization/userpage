@@ -281,4 +281,13 @@ class StepBlock extends Component {
   }
 }
 
-export default StepBlock;
+const mapStateToProps = (state) => ({
+  blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StepBlock);

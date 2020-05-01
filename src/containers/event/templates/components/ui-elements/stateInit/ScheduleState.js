@@ -33,7 +33,6 @@ const ScheduleState = (props, first) => ({
             : 'normal'
         : 'normal',
 
-    color: 'black',
     scheduleName: 'Schedule',
 
     scheduleText: first ? [

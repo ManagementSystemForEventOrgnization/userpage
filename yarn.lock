@@ -10319,6 +10319,13 @@ react-html-parser@^2.0.2:
   dependencies:
     htmlparser2 "^3.9.0"
 
+react-icons@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.10.0.tgz#6c217a2dde2e8fa8d293210023914b123f317297"
+  integrity sha512-WsQ5n1JToG9VixWilSo1bHv842Cj5aZqTGiS3Ud47myF6aK7S/IUY2+dHcBdmkQcCFRuHsJ9OMUI0kTDfjyZXQ==
+  dependencies:
+    camelcase "^5.0.0"
+
 react-images-upload@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/react-images-upload/-/react-images-upload-1.2.8.tgz#d1e993c50a0ca266aa7a9c7b7456167d80e9e6ab"
@@ -10477,6 +10484,13 @@ react-textarea-autosize@^7.1.2:
   dependencies:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
+
+react-z-index@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-z-index/-/react-z-index-3.0.0.tgz#8df824cd38c358c53ef2692332740b0dd6307649"
+  integrity sha512-+jPnrnZyC9TprkwhJw1MSmiz/UqOiWqaEPWcUhwdYtyLPBToDUrKLQQw3VDbRxCx3JB2NshGOh4N5KqDDhM14A==
+  dependencies:
+    prop-types "^15.6.2"
 
 react@^0.14.7:
   version "0.14.9"

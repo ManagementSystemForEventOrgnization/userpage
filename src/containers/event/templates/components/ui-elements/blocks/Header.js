@@ -357,8 +357,8 @@ class HeaderBlock extends Component {
 
   }
 }
+
 const mapStateToProps = (state) => ({
-  // map state of store to props
   blocks: state.event.blocks,
 });
 
@@ -368,4 +368,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBlock);
-
