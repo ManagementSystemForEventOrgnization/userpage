@@ -76,7 +76,7 @@ class LoginPage extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Email là bắt buộc !',
+                      message: 'Email is required !',
                     },
                   ]}
                 >
@@ -95,7 +95,7 @@ class LoginPage extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Mật khẩu là bắt buộc !',
+                      message: 'Password is required !',
                     },
                   ]}
                 >
@@ -121,23 +121,23 @@ class LoginPage extends React.Component {
                           disabled={!activeEmail}
                           onClick={this.handleLogin}
                         >
-                          Đăng nhập
+                          Login
                         </Button>
                       )}
                     </Form.Item>
                   </div>
                   <div className="ant-col ant-col-12  ">
                     <Link to="/" style={{ float: 'right' }}>
-                      Quên mật khẩu?
+                      Forgot password?
                     </Link>
                   </div>
                 </div>
 
-                <p style={{ textAlign: 'center' }}>HOẶC</p>
+                <p style={{ textAlign: 'center' }}>OR</p>
 
                 <GoogleLogin
                   clientId={clientID}
-                  buttonText="Đăng nhập với Google"
+                  buttonText="Login with Google"
                   onSuccess={this.responseGoogle}
                   onFailure={this.responseGoogle}
                   cookiePolicy={'single_host_origin'}
@@ -145,9 +145,9 @@ class LoginPage extends React.Component {
                   className="button-login-google"
                 />
                 <p className="mt-2" style={{ textAlign: 'center' }}>
-                  Bạn chưa có tài khoản?{' '}
+                  You don't have any account ?{' '}
                   <span>
-                    <Link to="/signup">Đăng ký ngay</Link>
+                    <Link to="/signup">Register Now</Link>
                   </span>{' '}
                 </p>
               </Form>

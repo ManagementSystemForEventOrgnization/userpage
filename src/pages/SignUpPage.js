@@ -70,12 +70,7 @@ class SignUp extends React.Component {
             {showCheckCode && !isFirstLoad ? (
               <CheckCode />
             ) : (
-              <Form
-                className="mt-4"
-                form={this.form}
-                name="horizontal_login"
-                onFinish={this.onFinish}
-              >
+              <Form className="mt-4" form={this.form}>
                 <Form.Item>
                   {!isFirstLoad && message && (
                     <div className="error-message mt-2 mb-2">{message}</div>
@@ -83,10 +78,11 @@ class SignUp extends React.Component {
                 </Form.Item>
 
                 <Form.Item
+                  name="fullname"
                   rules={[
                     {
                       required: true,
-                      message: 'Fullname là bắt buộc !',
+                      message: 'Fullname is required!',
                     },
                   ]}
                 >
@@ -96,15 +92,16 @@ class SignUp extends React.Component {
                     onChange={this.onChange}
                     onFocus={this.onFocus}
                     prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Họ và tên"
+                    placeholder="Fullname"
                   />
                 </Form.Item>
 
                 <Form.Item
+                  name="email"
                   rules={[
                     {
                       required: true,
-                      message: 'Email là bắt buộc!',
+                      message: 'Email is required!',
                     },
                   ]}
                 >
@@ -119,10 +116,11 @@ class SignUp extends React.Component {
                 </Form.Item>
 
                 <Form.Item
+                  name="password"
                   rules={[
                     {
                       required: true,
-                      message: 'Password là bắt buộc!',
+                      message: 'Password is required !',
                     },
                   ]}
                 >
@@ -138,10 +136,11 @@ class SignUp extends React.Component {
                 </Form.Item>
 
                 <Form.Item
+                  name="retypePassword"
                   rules={[
                     {
                       required: true,
-                      message: 'Nhập lại password!',
+                      message: 'Retype password!',
                     },
                   ]}
                 >
@@ -152,7 +151,7 @@ class SignUp extends React.Component {
                     value={retypePassword}
                     onChange={this.onChange}
                     onFocus={this.onFocus}
-                    placeholder="Nhập lại password"
+                    placeholder="Retype password"
                   />
                 </Form.Item>
 
@@ -166,16 +165,16 @@ class SignUp extends React.Component {
                         disabled={!active}
                         loading={pending}
                       >
-                        Đăng ký
+                        Register
                       </Button>
                     </div>
                   )}
                 </Form.Item>
 
                 <p className="mt-2" style={{ textAlign: 'center' }}>
-                  Bạn đã có tài khoản?{' '}
+                  You had account?{' '}
                   <span>
-                    <Link to="/login">Đăng nhập</Link>
+                    <Link to="/login">Login </Link>
                   </span>{' '}
                 </p>
               </Form>

@@ -85,7 +85,7 @@ export default class HomePage extends Component {
           </div>
           <hr />
           <div className="latest">
-            <h1>Mới nhất </h1>
+            <h1>Recent Events </h1>
             <div className="row pl-5">
               {temp.map((item) => (
                 <div className="col mt-4 shadow pb-3" key={item}>
