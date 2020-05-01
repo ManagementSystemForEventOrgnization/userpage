@@ -1,68 +1,66 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import {
     Button, Modal,
 } from 'antd'
-
+import { FooterState } from '../../stateInit/FooterState'
 import TextsBlock from '../../atoms/Text';
 import ButtonsBlock from '../../atoms/Button';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import IconsSocial from '../Social/social';
+import { eventActions } from '../../../../../../../action/event.action';
 
-export default class footer1 extends Component {
+class footer1 extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            collapse: false,
-            margin: [1, 1, 1, 1],
-            padding: [7, 1, 1, 7],
-            url: '',
-            bgColor: '#344150',
-            opacity: 0.9
-
-        }
+        const { style } = this.props;
+        this.state = style
+            ? { ...style }
+            : {
+                ...FooterState(this.props)
+            }
     }
+    componentDidMount = () => {
+        const { editable } = this.props;
+        if (editable) {
+            this.handleStoreBlock();
+        }
+    };
+
     collapseModal = () => {
         const { collapse } = this.state;
         this.setState({
             collapse: !collapse
         })
     }
-    handleChangePadding = value => {
-        this.setState({
-            padding: value
-        })
-    }
-    handleChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
 
-    onImageDrop = value => {
+    onChangeStyle = (type, value) => {
         this.setState({
-            url: value
-        })
-    }
+            [type]: value,
+        });
+        this.handleStoreBlock();
+    };
 
-    handleChangeBGColor = value => {
-        this.setState({
-            bgColor: value
-        })
-    }
+    handleStoreBlock = () => {
+        const { blocks,
+            storeBlocksWhenCreateEvent,
+            id } = this.props;
 
-    onChangeOpacity = value => {
-        this.setState({
-            opacity: value === 10 ? '1' : `0.${value}`
-        })
-    }
+        const currentStyle = this.state;
 
-    onChangeStyle = (value) => {
-        this.setState({
-            bgColor: value
-        })
+        let item = blocks.find((ele) => ele.id === id);
+        if (item) {
+            const index = blocks.indexOf(item);
+            item.style = currentStyle;
+            storeBlocksWhenCreateEvent([
+                ...blocks.slice(0, index),
+                item,
+                ...blocks.slice(index + 1, blocks.length),
+            ]);
+        }
+    };
 
-    }
 
     render() {
         const { editable } = this.props;
@@ -123,21 +121,21 @@ export default class footer1 extends Component {
                     <div className="row  " style={styleRow}>
                         <div className="col">
                             <TextsBlock content="© 2018 All rights reserved."
-                                style={titleStyle}
+                                newStyle={titleStyle}
                             />
                         </div>
                         <div className="col">
                             <TextsBlock content="Support 24/7"
-                                style={titleStyle} />
+                                newStyle={titleStyle} />
                             <span className="mt-3">
                                 <ButtonsBlock content="+458 669 221"
-                                    style={styleButton} />
+                                    newStyle={styleButton} />
                             </span>
                         </div>
 
                         <div className="col">
                             <TextsBlock content="Follow Us"
-                                style={titleStyle} />
+                                newStyle={titleStyle} />
                             <IconsSocial />
                         </div>
                     </div>
@@ -169,15 +167,21 @@ export default class footer1 extends Component {
                             opacity={opacity}
                             bgColor={bgColor}
                             url={url}
-
-                            handleChangePadding={this.handleChangePadding}
-                            handleChangeMargin={this.handleChangeMargin}
-                            handleChangeTypeBG={this.onChangeStyle}
-                            handleChangeOpacity={this.onChangeOpacity}
-                            handleChangeImage={this.onImageDrop}
-                            handleChangeColor={this.handleChangeBGColor}
-
+                            handleChangePadding={(value) =>
+                                this.onChangeStyle('padding', value)
+                            }
+                            handleChangeMargin={(value) =>
+                                this.onChangeStyle('margin', value)
+                            }
+                            handleChangeOpacity={(value) =>
+                                this.onChangeStyle('opacity', value === 10 ? '1' : `0.${value}`)
+                            }
+                            handleChangeImage={(value) => this.onChangeStyle('url', value)}
+                            handleChangeColor={(value) =>
+                                this.onChangeStyle('bgColor', value)
+                            }
                         />
+
                     </Modal>
 
                 }
@@ -186,3 +190,15 @@ export default class footer1 extends Component {
         )
     }
 }
+const mapStateToProps = (state) => ({
+    // map state of store to props
+    blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    storeBlocksWhenCreateEvent: (blocks) =>
+        dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(footer1);
+

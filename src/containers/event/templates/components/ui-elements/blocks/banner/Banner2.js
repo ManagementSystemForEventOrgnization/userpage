@@ -1,31 +1,17 @@
 import React, { Component } from 'react';
 
-import GeneralBanner from './GeneralBanner'
+import GeneralBanner from './GeneralBanner';
 
 class Banner2 extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            url: '/bg-3.jpg',
-            visible: false,
-            margin: [1, 1, 1, 1],
-            padding: [10, 5, 5, 10],
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-            fontWeight: 'bolder',
-            fontSize: 50,
-            textAlign: 'center',
-
-            opacity: 0.3,
-            bgColor: 'none',
-
-            backgroundType: 'image'
-        }
-    }
-
-    render() {
-        const { editable } = this.props;
-        return <GeneralBanner type={2} editable={editable} />
-    }
+  render() {
+    const { editable } = this.props;
+    return <GeneralBanner type={2} editable={editable} {...this.props} />;
+  }
 }
 
-export default Banner2
+export default Banner2;

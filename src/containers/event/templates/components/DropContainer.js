@@ -1,45 +1,45 @@
-import React from "react";
-import { connect } from 'react-redux'
-import { ReactSortable } from "react-sortablejs";
+import React from 'react';
+import { connect } from 'react-redux';
+import { ReactSortable } from 'react-sortablejs';
 
-import { eventActions } from "../../../../action/event.action";
+import { eventActions } from '../../../../action/event.action';
 import dataTest from '../data/dataTest';
-
 
 class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropList: [...dataTest[2].value, ...dataTest[3].value, ...dataTest[8].value, ...dataTest[11].value]
-    }
+      dropList: [...dataTest[3].value],
+    };
   }
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     const { dropList } = this.state;
     const { storeBlocksWhenCreateEvent } = this.props;
+    // console.log('TCL droplist from Dropcontainer : ', dropList);
     storeBlocksWhenCreateEvent(dropList);
-
-  }
+  };
 
   handleSetDropList = (dropList) => {
     const { storeBlocksWhenCreateEvent } = this.props;
+    // console.log('TCL handle set droplist from DropContainer  : ', dropList);
+    this.setState({ dropList });
     storeBlocksWhenCreateEvent(dropList);
-    this.setState({ dropList })
-  }
+  };
 
   render() {
     const { dropList } = this.state;
+    const eventName = 'Conference';
     return (
-      <div className="drop-container" >
-
+      <div className="drop-container">
         <ReactSortable
           className="drop-container"
           id="drop-container"
           sort={true}
           group={{
-            name: "shared",
+            name: 'shared',
             pull: true,
-            put: true
+            put: true,
           }}
           animation={300}
           delayOnTouchStart={true}
@@ -47,36 +47,32 @@ class DropContainer extends React.Component {
           list={dropList}
           setList={this.handleSetDropList}
         >
-          {dropList.map(item => {
+          {dropList.map((item, index) => {
             return item.options({
-              key: item.id,
+              key: index,
+              id: item.id,
               editable: true,
-              style: item.style ? item.style : {},
-              content: item.content ? item.content : "",
-              url: item.url ? item.url : "",
-            })
+              nameEvent: eventName,
+            });
           })}
-
         </ReactSortable>
-
       </div>
     );
-  };
+  }
 }
 
-const mapStateToProps = state => ({
-  nameEvent: state.event.nameEvent || 'Tên sự kiện demo',
-  typeOfEvent: state.event.category || 'Loại sự kiện demo',
-  address: state.event.locationName || 'Địa chỉ demo',
-  quantity: state.event.quantity,
-  time: state.event.time,
+const mapStateToProps = (state) => ({
+  // nameEvent: state.event.nameEvent || 'Tên sự kiện demo',
+  // typeOfEvent: state.event.category || 'Loại sự kiện demo',
+  // address: state.event.locationName || 'Địa chỉ demo',
+  // quantity: state.event.quantity,
+  // time: state.event.time,
   blocks: state.event.blocks,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  storeBlocksWhenCreateEvent: (blocks) => dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
-
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DropContainer)
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
 
+export default connect(mapStateToProps, mapDispatchToProps)(DropContainer);

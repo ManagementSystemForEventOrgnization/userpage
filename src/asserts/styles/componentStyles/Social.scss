@@ -1,9 +1,4 @@
 .social {
-    Button {
-        margin: 5px;
-        width: 36px;
-        height: 36px;
-    }
     .social-network-icon {
         padding: 1px;
         font-size: 22px;
@@ -11,7 +6,8 @@
         text-align: center;
         text-decoration: none;
         margin: 0 4px;
-        // border-radius: 50% !important;
+
+        border-radius: 5px !important;
     }
 
     .social-network-icon:hover {

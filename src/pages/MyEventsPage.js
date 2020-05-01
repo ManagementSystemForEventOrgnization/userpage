@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import ProfileInfor from '../containers/user/ProfileInfor'
 import OrderTickets from '../containers/user/OrderTickets'
 import AccountBalance from '../containers/user/AccountBalance'
-import BankAccount from '../containers/user//BankAccount'
+import BankAccount from '../containers/user/BankAccount'
+import CreatedEvents from '../containers/user/CreatedEvents'
+
 
 import Footer from '../containers/share/_layout/Footer'
 export default class ProfilePage extends Component {
@@ -10,7 +12,7 @@ export default class ProfilePage extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-2">
+                    <div className="col-sm-2 bg-secondary">
                         <div className="btn-group-vertical mt-5">
                             <a className="btn btn-default mt-5 " role="button">Hồ Sơ Cá Nhân</a>
                             <a className="btn btn-default mt-5" role="button">Vé Đã Mua</a>
@@ -21,13 +23,15 @@ export default class ProfilePage extends Component {
                     </div>
                     <div className="col-sm-10">
                         <ProfileInfor></ProfileInfor>
-                        <OrderTickets/>
+                        {/* <OrderTickets />
                         <AccountBalance />
-                        <BankAccount />
-                        <Footer></Footer>
-                    </div>
-                </div>
+                        <BankAccount /> */}
+                        {/* <CreatedEvents /> */}
 
+                    </div>
+
+                </div>
+                <Footer></Footer>
             </div>
         )
     }

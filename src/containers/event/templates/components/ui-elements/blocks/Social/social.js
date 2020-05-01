@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { Modal, Button, Input, } from 'antd';
+import { Modal } from 'antd';
+import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 import {
 
-    FacebookOutlined,
-    SkypeOutlined,
-    YoutubeOutlined,
-    EditTwoTone,
-    CloseSquareTwoTone,
-    InstagramOutlined
-
-
+    PlusCircleTwoTone,
+    DeleteTwoTone
 } from '@ant-design/icons'
 import IconsHandle from '../../shares/IconsHandle';
+import TextsBlock from '../../atoms/Text';
+import { SocialState } from '../../stateInit/SocialState';
+import { eventActions } from '../../../../../../../action/event.action';
+
 
 
 
@@ -19,231 +19,184 @@ class IconsSocial extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            visible: false,
-            isShowFace: false,
-            isShowYou: false,
-            isShowSkype: false,
-            isShowIntergram: false,
-            txtFace: "",
-            txtYoutube: "",
-            txtSkype: "",
-            txtIntergram: "",
-
-            IconFaceBook: [
-                {
-                    id: 1
-                }
-            ]
-
-
-
-        }
+        const { style } = this.props;
+        this.state = style
+            ? { ...style }
+            : {
+                ...SocialState(this.props)
+            }
     }
+    componentDidMount = () => {
+        const { editable } = this.props;
+        if (editable) {
+            this.handleStoreBlock();
+        }
+    };
+
     showModal = () => {
         const { visible } = this.state;
         this.setState({
             visible: !visible,
         });
     };
-    showFacebook = () => {
-        const { isShowFace } = this.state;
-        this.setState({
-            isShowFace: !isShowFace
-        });
-    };
-    showYoutube = () => {
-        const { isShowYou } = this.state;
-        this.setState({
-            isShowYou: !isShowYou
-        });
-    };
-    showSkype = () => {
-        const { isShowSkype } = this.state;
-        this.setState({
-            isShowSkype: !isShowSkype
-        });
-    };
-    showIntergram = () => {
-        const { isShowIntergram } = this.state;
-        this.setState({
-            isShowIntergram: !isShowIntergram
-        });
-    };
 
-    onChangeFacebook = (e) => {
-        this.setState({
-            txtFace: e.target.value
-        })
-    }
-    onChangeYouTube = (e) => {
-        this.setState({
-            txtYoutube: e.target.value
-        })
-    }
-    onChangeSkype = (e) => {
-        this.setState({
-            txtskype: e.target.value
-        })
-    }
-    onChangeIntergram = (e) => {
-        this.setState({
-            txtIntergram: e.target.value
-        })
-    }
+    addIcon = (id) => {
+        const { IconSocials } = this.state;
+        const item = IconSocials.find((ele) => ele.id === id);
 
-    // onChangeValue(newValue, valueParam) {
-    //     this.setState({
-    //       [valueParam]: newValue,
-    //     });
-    //   }
+        IconSocials.push({
+            id: uuid(),
+            name: item.name,
+            pathLink: item.pathLink,
+            options: item.options,
+        });
+        this.setState({
+            IconSocials,
+        });
+
+    }
+    removeIcon = (id) => {
+
+        const IconSocials = this.state.IconSocials.filter(ele => ele.id !== id)
+        this.setState({
+            IconSocials
+        }
+        )
+    }
+    UpdateLinkIcon = (id, value) => {
+        const { IconSocials } = this.state;
+        const item = IconSocials.find((ele) => ele.id === id);
+        const index = IconSocials.indexOf(item);
+        item.pathLink = value
+
+        if (index === -1) return;
+        else {
+            this.setState({
+                IconSocials: [
+                    ...IconSocials.slice(0, index),
+                    item,
+                    ...IconSocials.slice(index + 1, IconSocials.length),
+                ],
+            });
+
+
+        }
+    }
+    handleStoreBlock = () => {
+        const { blocks,
+            storeBlocksWhenCreateEvent,
+            id } = this.props;
+
+        const currentStyle = this.state;
+
+        let item = blocks.find((ele) => ele.id === id);
+        if (item) {
+            const index = blocks.indexOf(item);
+            item.style = currentStyle;
+            storeBlocksWhenCreateEvent([
+                ...blocks.slice(0, index),
+                item,
+                ...blocks.slice(index + 1, blocks.length),
+            ]);
+        }
+    };
 
     render() {
-        const style = {
-            margin: '10px',
-            padding: '5px',
-        }
+      
         const { editable } = this.props;
 
-        const { isShowFace, isShowYou, isShowSkype, isShowIntergram,
-            txtFace, txtYoutube, txtSkype, txtIntergram, IconFaceBook
+        const {
+            IconSocials
         } = this.state;
 
 
-        const mo = "FacebookOutlined"
+
         return (
 
-            <div className="d-flex child-block social ">
-                <div className="child-block" style={{ width: '100%' }}>
-                    {IconFaceBook.map(i =>
-                        < a href={txtFace}>
-                            <Button style={{ background: '#3B5998' }} shape="circle"
+            <div>
+                {IconSocials.length !== 0 ?
+                    <div className="d-flex child-block social ">
 
-                                icon={<FacebookOutlined className=" fa-facebook social-network-icon" />}>
+                        <div className="child-block" style={{ width: '100%' }}>
 
-                            </Button>
-                        </a>
-                    )}
-                    <a href={txtSkype}>
-                        <Button style={{ background: '#4e92df' }} shape="circle"
+                            <div className="mt-3">
 
-                            icon={<SkypeOutlined className=" fa-twitter social-network-icon" />} />
-                    </a>
-                    <a href={txtYoutube}>
-                        <Button style={{ background: '#EA4335' }} shape="circle"
+                                {
+                                    IconSocials.map(item => item.options(item.pathLink)
 
-                            icon={<YoutubeOutlined className=" fa-google social-network-icon" />} />
-                    </a>
-                    <a href={txtIntergram}>
-                        <Button shape="circle"
 
-                            icon={<InstagramOutlined className=" fa-instagram social-network-icon" />} />
 
-                    </a>
-                </div>
-                {
-                    editable && <IconsHandle
-                        collapseModal={this.showModal}
-                        handleDuplicate={this.handleDuplicate}
-                        handleDelete={this.handleDelete}
-                    />
-                }
+                                    )
+                                }
+                            </div>
 
-                <Modal
-                    title="Basic Modal"
-                    visible={this.state.visible}
-                    onOk={this.showModal}
-                    onCancel={this.showModal}
-                >
-                    <div>
-                        <div>
-                            <FacebookOutlined className=" fa-facebook social-network-icon" />
-
-                            <EditTwoTone className="ml-5" onClick={this.showFacebook} />
-
-                            <CloseSquareTwoTone className="ml-5" onClick={this.showFacebook} />
-                            {isShowFace ?
-                                <div className="d-flex mt-3">
-                                    <label>Link
-                                </label>
-                                    <Input className="ml-5"
-                                        value={txtFace}
-                                        onChange={this.onChangeFacebook}
-                                    ></Input>
-                                </div>
-                                : ""
-
-                            }
                         </div>
-                        <div>
-                            <YoutubeOutlined className=" fa-facebook social-network-icon" />
+                        {
+                            editable && <IconsHandle
+                                collapseModal={this.showModal}
+                                handleDuplicate={this.handleDuplicate}
+                                handleDelete={this.handleDelete}
+                            />
+                        }
+                        {
+                            editable &&
+                            <Modal
+                                title="Social Icon"
+                                visible={this.state.visible}
+                                onOk={this.showModal}
+                                onCancel={this.showModal}
+                            >
+                                {
+                                    IconSocials.map((item, index) =>
 
-                            <EditTwoTone className="ml-5" onClick={this.showYoutube} />
-
-                            <CloseSquareTwoTone className="ml-5" onClick={this.showFacebook} />
-                            {isShowYou ?
-                                <div className="d-flex mt-3">
-                                    <label>Link
-                                </label>
-                                    <Input className="ml-5"
-                                        value={txtYoutube}
-                                        onChange={this.onChangeYouTube}
-
-                                    ></Input>
-                                </div>
-                                : ""
-
-                            }
-                        </div>
-                        <div>
-                            <SkypeOutlined className=" fa-facebook social-network-icon" />
-
-                            <EditTwoTone className="ml-5" onClick={this.showSkype} />
-
-                            <CloseSquareTwoTone className="ml-5" onClick={this.showFacebook} />
-                            {isShowSkype ?
-                                <div className="d-flex mt-3">
-                                    <label>Link
-                                </label>
-                                    <Input className="ml-5"
-                                        value={txtSkype}
-                                        onChange={this.onChangeSkype}
-                                    ></Input>
-                                </div>
-                                : ""
-
-                            }
-                        </div>
-                        <div>
-                            <InstagramOutlined className=" fa-facebook social-network-icon" />
-
-                            <EditTwoTone className="ml-5" onClick={this.showIntergram} />
-
-                            <CloseSquareTwoTone className="ml-5" onClick={this.showFacebook} />
-                            {isShowIntergram ?
-                                <div className="d-flex mt-3">
-                                    <label>Link
-                                </label>
-                                    <Input className="ml-5"
-                                        value={txtIntergram}
-                                        onChange={this.onChangeIntergram}
-                                    ></Input>
-                                </div>
-                                : ""
-
-                            }
-                        </div>
+                                        <div className="mt-3" key={index}>
+                                            <div className="row">
+                                                <div className="col">{item.name}</div>
+                                                <div className="col">
+                                                    < PlusCircleTwoTone className="ml-5" onClick={() => this.addIcon(item.id)} />
+                                                    <DeleteTwoTone className="ml-5" onClick={() => this.removeIcon(item.id)} />
+                                                </div>
+                                            </div>
+                                            <div className="mt-3">
+                                                <TextsBlock content={item.pathLink}
+                                                    handleOnChangeTextBlock={
+                                                        (value) => this.UpdateLinkIcon(item.id, value)
+                                                    } />
+                                            </div>
+                                        </div>
 
 
-                    </div>
 
-                </Modal>
+                                    )
+                                }
 
-            </div >
+                            </Modal>
+                        }
+
+                    </div >
+
+
+                    : ""
+                } </div>
+
+
 
 
         )
     }
+
 }
 
-export default IconsSocial
+const mapStateToProps = (state) => ({
+    // map state of store to props
+    blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    storeBlocksWhenCreateEvent: (blocks) =>
+        dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(IconsSocial);
+
+

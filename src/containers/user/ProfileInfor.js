@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Form, Input, Button, Layout, Row, Col, Card, Avatar, Select, DatePicker, Upload, message } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { userActions } from '../../action/user.action';
 
 
 const { Content } = Layout;
@@ -36,8 +37,15 @@ function beforeUpload(file) {
 class ProfileInfor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
 
+    this.state = {
+      fullName: "",
+      birthday: "",
+      gender: "",
+      job: "",
+      phone: "",
+      discription: "",
+      avatarUrl: ""
     }
   }
 
@@ -48,14 +56,54 @@ class ProfileInfor extends React.Component {
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
+      getBase64(info.file.originFileObj, avatarUrl =>
         this.setState({
-          imageUrl,
-          loading: false,
-        }),
+          avatarUrl,
+          loading: false
+        })
       );
+
     }
   };
+
+  componentDidMount = () => {
+    const { getCurrentUser } = this.props;
+    getCurrentUser();
+
+
+  }
+
+  componentWillReceiveProps(nextprops) {
+    this.setState({ ...nextprops.userInfor })
+    console.log(nextprops.userInfor)
+  }
+
+
+  onHandleChange = (event) => {
+    var target = event.target;
+    var name = target.name;
+    var value = target.value;
+
+    this.setState({
+      [name]: value
+    });
+  }
+  onSave(values) {
+    console.log("-----")
+    let userInfor = {
+      fullName: this.state.fullName,
+      birthday: this.state.birthday,
+      gender: this.state.gender,
+      job: this.state.job,
+      phone: this.state.phone,
+      discription: this.state.discription,
+      avatarUrl: this.state.avatarUrl
+    }
+
+    this.props.onUpdateUserProfile(userInfor);
+    console.log("-----")
+
+  }
 
   render() {
     const uploadButton = (
@@ -64,146 +112,121 @@ class ProfileInfor extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const { imageUrl } = this.state;
+
+    const { avatarUrl } = this.state
+
+
     return (
-            <Layout style={{ padding: '150px 50px' }}>
-              <Row>
-                <Col span={16} push={1}>
-                  <Content style={{ background: '#fff', padding: '10px 50px' }}>
-                    <div className="site-layout-content" >
-                      <Form {...layout} className="mt-4" form={this.form} name="horizontal_login" onFinish={this.onFinish}>
-                        <Form.Item
-                          label="Avatar"
-                          name="avatar">
-                          <Col offset={9} >
-                            <Upload
-                              name="avatar"
-                              listType="picture-card"
-                              className="avatar-uploader"
-                              showUploadList={false}
-                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                              beforeUpload={beforeUpload}
-                              onChange={this.handleChange}
-                            >
-                              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100px' }} /> : uploadButton}
-                            </Upload>
-                          </Col >
-                        </Form.Item>
-                        <Form.Item
-                          label="Full Name"
-                          name="fullname">
-                          <Input defaultValue="Tạ Thị Tú Phi" />
-                        </Form.Item>
+      <Layout style={{ padding: '150px 50px' }}>
+        <Row>
+          <Col span={16} push={1}>
+            <Content style={{ background: '#fff', padding: '10px 50px' }}>
+              <div className="site-layout-content" >
+                <Form {...layout} className="mt-4" form={this.form} name="horizontal_login" onFinish={(values) => this.onSave(values)}>
+                  <Form.Item
+                    label="Avatar"
+                    name="avatar">
+                    <Col offset={9} >
+                      <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        beforeUpload={beforeUpload}
+                        onChange={this.handleChange}
+                      >
+                        {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100px' }} /> : uploadButton}
+                      </Upload>
+                    </Col >
+                  </Form.Item>
 
-                        <Form.Item
-                          label="Password"
-                          name="fullname">
-                          <Input.Password type="password" defaultValue="tuphi221298" />
-                        </Form.Item>
+                  <Form.Item
+                    label="Full Name"
+                    name="fullName">
+                    <Input onChange={this.onHandleChange} name="fullName"
+                      defaultValue={this.props.userInfor.fullName ? this.props.userInfor.fullName : ""} />
+                  </Form.Item>
 
-                        <Form.Item name="gender" label="Gender">
-                          <Select
-                            defaultValue="Female"
-                            allowClear
-                          >
-                            <Option value="male">Male</Option>
-                            <Option value="female">Female</Option>
-                            <Option value="other">Other</Option>
-                          </Select>
-                        </Form.Item>
-                        <Form.Item label="Birthday">
-                          <DatePicker />
-                        </Form.Item>
-                        <Form.Item name="description" label="Description" >
-                          <Input.TextArea />
-                        </Form.Item>
+                  <Form.Item
+                    label="Job"
+                    name="job">
+                    <Input onChange={this.onHandleChange} name="job" defaultValue={this.props.job ? this.props.job : ""} />
+                  </Form.Item>
 
-                        <Form.Item {...tailLayout} shouldUpdate >
-                          {() => (
-                            <Button
-                              type="primary"
-                              onClick={this.onSendRegisterRequest}
-                              htmlType="submit">Save
+                  <Form.Item
+                    label="Phone"
+                    name="phone">
+                    <Input onChange={this.onHandleChange} name="phone" defaultValue={this.props.phone ? this.props.phone : ""} />
+                  </Form.Item>
+
+                  <Form.Item name="gender" label="Gender">
+                    <Select onChange={(value) => this.setState({ gender: value })}
+                      defaultValue={this.props.gender ? this.props.gender : ""}
+                      allowClear
+                    >
+                      <Option value="male">Male</Option>
+                      <Option value="female">Female</Option>
+                      <Option value="other">Other</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item label="Birthday" name="birthday">
+                    <DatePicker onChange={(moment) => this.setState({ birthday: moment._d })} name="birthday" />
+                  </Form.Item>
+                  <Form.Item name="description" label="Description" >
+                    <Input.TextArea onChange={this.onHandleChange} name="discription" />
+                  </Form.Item>
+
+                  <Form.Item {...tailLayout} shouldUpdate >
+                    {() => (
+                      <Button
+                        type="primary"
+                        htmlType="submit">Save your infor
                       </Button>
-                          )}
-                        </Form.Item>
-                      </Form>
-                    </div>
-                  </Content>
-                </Col>
+                    )}
+                  </Form.Item>
+                </Form>
+              </div>
+            </Content>
+          </Col>
 
-                <Col span={5} push={2}>
-                  <Card
-                    cover={
-                      <img
-                        alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-                    }
-                    actions={[
-                      <SettingOutlined key="setting" />,
-                      <EditOutlined key="edit" />,
-                      <EllipsisOutlined key="ellipsis" />,
-                    ]}
-                  >
-                    <Meta
-                      avatar={<Avatar size={60} src="https://thuthuatnhanh.com/wp-content/uploads/2019/09/anh-chibi.jpg" />}
-                      title="Tạ Thị Tú Phi"
-                      description="tatuphi@gmail.com"
-                    />
-                    <div>This is description about user</div>
-                  </Card>
-                </Col>
-              </Row>
-            </Layout>
+          <Col span={5} push={2}>
+            <Card
+              cover={
+                <img
+                  alt="example"
+                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+              }
+              actions={[
+                <SettingOutlined key="setting" />,
+                <EditOutlined key="edit" />,
+                <EllipsisOutlined key="ellipsis" />,
+              ]}
+            >
+              <Meta
+                avatar={<Avatar size={60} src={this.state.avatarUrl ? this.state.avatarUrl : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"} />}
+                title={this.props.userInfor.fullName ? this.props.userInfor.fullName : ""}
+                description={this.props.userInfor.email ? this.props.userInfor.email : ""}
+              />
+              <div>{this.props.discription ? this.props.discription : "add your discription"}</div>
+            </Card>
+          </Col>
+        </Row>
+      </Layout>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  // map state of store to props
-
-})
+const mapStateToProps = state => {
+  return {
+    userInfor: state.user.userInfo
+  };
+}
 
 const mapDispatchToProps = (dispatch) => ({
-
+  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
+  onUpdateUserProfile: (userInfor) => dispatch(userActions.onUpdateUserProfile(userInfor))
 });
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor)
 
-
-// import React, { Component } from 'react'
-// import { connect } from 'react-redux'
-
-// class ProfileInfor extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <div className="row">
-//           <div className="col-sm-4">
-//             <div className="btn-group-vertical">
-//               <a className="btn btn-default" href="#" role="button">Top</a>
-//               <a className="btn btn-default" href="#" role="button">Middle</a>
-//               <a className="btn btn-default" href="#" role="button">Bottom</a>
-//             </div>
-//           </div>
-//           <div className="col-sm-8">
-//           </div>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-// const mapStateToProps = state => ({
-//   // map state of store to props
-
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-
-// });
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor)

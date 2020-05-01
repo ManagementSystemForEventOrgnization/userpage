@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import {
     Button, Modal,
 } from 'antd'
@@ -7,58 +8,63 @@ import TextsBlock from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle'
 
-export default class footer2 extends Component {
+import { FooterState } from '../../stateInit/FooterState'
+import { eventActions } from '../../../../../../../action/event.action';
+
+class footer2 extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            collapse: false,
-            margin: [1, 1, 1, 1],
-            padding: [7, 1, 1, 7],
-            url: '',
-            bgColor: '#a5c33c',
-            opacity: 0.3
-
-        }
+        const { style } = this.props;
+        this.state = style
+            ? { ...style }
+            : {
+                ...FooterState(this.props)
+            }
     }
+    componentDidMount = () => {
+        const { editable } = this.props;
+        if (editable) {
+            this.handleStoreBlock();
+        }
+    };
+
     collapseModal = () => {
         const { collapse } = this.state;
         this.setState({
             collapse: !collapse
         })
     }
-    handleChangePadding = value => {
-        this.setState({
-            padding: value
-        })
-    }
-    handleChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
 
-    onImageDrop = value => {
+    onChangeStyle = (type, value) => {
         this.setState({
-            url: value
-        })
-    }
+            [type]: value,
+        });
+        this.handleStoreBlock();
+    };
 
-    handleChangeBGColor = value => {
-        this.setState({
-            bgColor: value
-        })
-    }
+    handleStoreBlock = () => {
+        const { blocks,
+            storeBlocksWhenCreateEvent,
+            id } = this.props;
 
-    onChangeOpacity = value => {
-        this.setState({
-            opacity: value === 10 ? '1' : `0.${value}`
-        })
-    }
+        const currentStyle = this.state;
+
+        let item = blocks.find((ele) => ele.id === id);
+        if (item) {
+            const index = blocks.indexOf(item);
+            item.style = currentStyle;
+            storeBlocksWhenCreateEvent([
+                ...blocks.slice(0, index),
+                item,
+                ...blocks.slice(index + 1, blocks.length),
+            ]);
+        }
+    };
 
 
     render() {
-        const { editable } = this.props;
-        const { name, collapse, padding, url, bgColor, opacity,
+        const { editable, leftModal, } = this.props;
+        const { collapse, padding, url, bgColor, opacity,
             margin } = this.state;
         const style = {
             marginTop: `${margin[0]}%`,
@@ -68,7 +74,7 @@ export default class footer2 extends Component {
             paddingTop: `${padding[0]}%`,
             paddingLeft: `${padding[1]}%`,
             paddingRight: `${padding[2]}%`,
-            paddingBottom: `${padding[3]}%`,
+            paddingBottom: `${padding[3]}%S`,
 
             position: 'relative',
             backgroundImage: url ? `url(${url})` : 'white',
@@ -89,11 +95,7 @@ export default class footer2 extends Component {
             backgroundColor: bgColor
         }
 
-        const titleStyle = {
-            fontWeight: 'bolder',
-            fontSize: '40',
 
-        }
         const styleDiv = {
             textAlign: 'center'
         }
@@ -108,7 +110,7 @@ export default class footer2 extends Component {
 
                     <div style={{ padding: '6%' }}>
                         <TextsBlock content="© 2018 All rights reserved."
-                        style ={styleDiv}
+                            newStyle={styleDiv}
 
                         />
                     </div>
@@ -129,8 +131,10 @@ export default class footer2 extends Component {
                         visible={collapse}
                         onCancel={this.collapseModal}
                         width={500}
-                        className=" mt-3 float-left ml-5"
-                        style={{ top: 40, left: 200 }}
+                        className={
+                            leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+                        }
+                        style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
                         footer={[
                             <Button key="ok" onClick={this.collapseModal} type="primary">
                                 OK
@@ -143,14 +147,19 @@ export default class footer2 extends Component {
                             opacity={opacity}
                             bgColor={bgColor}
                             url={url}
-
-                            handleChangePadding={this.handleChangePadding}
-                            handleChangeMargin={this.handleChangeMargin}
-                            handleChangeTypeBG={this.onChange}
-                            handleChangeOpacity={this.onChangeOpacity}
-                            handleChangeImage={this.onImageDrop}
-                            handleChangeColor={this.handleChangeBGColor}
-
+                            handleChangePadding={(value) =>
+                                this.onChangeStyle('padding', value)
+                            }
+                            handleChangeMargin={(value) =>
+                                this.onChangeStyle('margin', value)
+                            }
+                            handleChangeOpacity={(value) =>
+                                this.onChangeStyle('opacity', value === 10 ? '1' : `0.${value}`)
+                            }
+                            handleChangeImage={(value) => this.onChangeStyle('url', value)}
+                            handleChangeColor={(value) =>
+                                this.onChangeStyle('bgColor', value)
+                            }
                         />
                     </Modal>
 
@@ -160,3 +169,15 @@ export default class footer2 extends Component {
         )
     }
 }
+const mapStateToProps = (state) => ({
+    // map state of store to props
+    blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    storeBlocksWhenCreateEvent: (blocks) =>
+        dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(footer2);
+
