@@ -50,6 +50,7 @@ class LoginPage extends React.Component {
 
     const urlIMG =
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
+
     return (
       <div className="login">
         <div className=" row">

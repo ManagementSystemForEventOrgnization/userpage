@@ -11,22 +11,31 @@ import { userActions } from '../action/user.action';
 
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
+import AboutUs from '../pages/AboutUs';
+
 import CategoryDetailPage from '../pages/CategoryDetailPage';
 import EventDetailPage from '../pages/EventDetailPage';
+
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
-import UserEventPage from '../pages/UserEventPage';
-import CreateEventPage from '../pages/CreateEventPage';
 import MyEventsPage from '../pages/MyEventsPage';
 
+import UserEventPage from '../pages/UserEventPage';
+import CreateEventPage from '../pages/CreateEventPage';
 import PreviewEvent from '../containers/event/PreviewEvent';
+import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 
 const ROUTES = [
   {
     path: '/',
     exact: true,
     main: () => <HomePage />,
+  },
+  {
+    path: '/about-us',
+    exact: true,
+    main: () => <AboutUs />,
   },
   {
     path: '/event-list',
@@ -94,6 +103,11 @@ class WrapRouter extends React.Component {
         main: () => <HomePage />,
       },
       {
+        path: '/about-us',
+        exact: true,
+        main: () => <AboutUs />,
+      },
+      {
         path: '/event-list',
         exact: false,
         main: () => <CategoryDetailPage />,
@@ -149,6 +163,11 @@ class WrapRouter extends React.Component {
         path: '/create/preview',
         exact: true,
         main: () => <PreviewEvent />,
+      },
+      {
+        path: '/prepare',
+        exact: true,
+        main: () => <PrepareForCreateEvent />,
       },
       {
         path: '',

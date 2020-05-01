@@ -97,8 +97,12 @@ class DividersBlock extends React.Component {
 
 const mapStateToProps = (state) => ({
   // map state of store to props
+  blocks: state.event.blocks,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DividersBlock);

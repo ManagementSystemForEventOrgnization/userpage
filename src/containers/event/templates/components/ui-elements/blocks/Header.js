@@ -409,4 +409,13 @@ class HeaderBlock extends Component {
   }
 }
 
-export default HeaderBlock;
+const mapStateToProps = (state) => ({
+  blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderBlock);

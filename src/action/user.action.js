@@ -12,21 +12,17 @@ const login = (email, password) => {
         if (res.status === 200) {
           dispatch(success(res.data.result));
         } else {
-          dispatch(
-            failure(
-              res.data.error.message || 'Tài khoản hoặc mật khẩu không đúng!'
-            )
-          );
+          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
         }
 
         return res.data;
       })
       .catch((error) => {
         const { data } = error.response;
-        if (data) {
+        if (data.error) {
           return dispatch(failure(data.error.message));
         }
-        return dispatch(failure('Tài khoản hoặc mật khẩu không đúng!'));
+        return dispatch(failure('OPPs! Something wrong'));
       });
   };
 
@@ -49,14 +45,14 @@ const loginWithGoogle = (profile) => {
       .then((res) => {
         if (res.status === 200) dispatch(success(res.data.result));
         else
-          dispatch(failure(res.data.error.message || 'Một số lỗi đã xảy ra'));
+          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
       })
       .catch((err) => {
         const { data } = err.response;
-        if (data) {
+        if (data.error) {
           return dispatch(failure(data.error.message));
         }
-        return dispatch(failure('Một số lỗi đã xảy ra'));
+        return dispatch(failure('OOPs! something wrong'));
       });
   };
   function success(user) {
@@ -87,22 +83,18 @@ const register = (email, password, fullName) => {
             dispatch(success(res.data.result));
           } else {
             dispatch(
-              failure(
-                res.data.error.message || 'Email hoặc mật khẩu không hợp lệ!'
-              )
+              failure(res.data.error.message || 'OOPs! something wrong')
             );
           }
         })
         .catch((error) => {
           const { data } = error.response;
-          if (data) {
+          if (data.error) {
             return dispatch(
-              failure(data.error.message) || 'Email hoặc mật khẩu không hợp lệ!'
+              failure(data.error.message) || 'OOPs! something wrong'
             );
           }
-          return dispatch(
-            failure(error) || 'Email hoặc mật khẩu không hợp lệ!'
-          );
+          return dispatch(failure(error) || 'OOPs! something wrong');
         });
     }
   };
@@ -128,17 +120,15 @@ const checkCode = (token) => {
         if (res.status === 200) {
           dispatch(success());
         } else {
-          dispatch(failure(res.data.error.message || 'OTP không hợp lệ!'));
+          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
         }
       })
       .catch((error) => {
         const { data } = error.response;
-        if (data) {
+        if (data.error) {
           return dispatch(failure(data.error.message));
         }
-        return dispatch(
-          failure('Xác thực không thành công do một vài sự cố !')
-        );
+        return dispatch(failure('OOPs! something wrong'));
       });
   };
   function request() {
@@ -176,10 +166,10 @@ const getCurrentUser = () => {
       })
       .catch((error) => {
         const { data } = error.response;
-        if (data) {
+        if (data.error) {
           return dispatch(failure(data.error.message));
         }
-        return dispatch(failure(error));
+        return dispatch(failure('OOPs! something wrong'));
       });
   };
 

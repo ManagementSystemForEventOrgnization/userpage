@@ -8,25 +8,35 @@ import { Input } from 'antd';
 class AutoCompletePlace extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: '' };
+    this.state = {
+      address: '',
+      map: [],
+    };
   }
 
   handleChange = (address) => {
-    console.log(address);
     this.setState({ address });
   };
 
   handleSelect = (address) => {
+    this.setState({
+      address,
+    });
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log('Success', latLng))
+      .then((latLng) => {
+        this.setState({
+          map: latLng,
+        });
+      })
       .catch((error) => console.error('Error', error));
   };
 
   render() {
+    const { address } = this.state;
     return (
       <PlacesAutocomplete
-        value={this.state.address}
+        value={address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >
