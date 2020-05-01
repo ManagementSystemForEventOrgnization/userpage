@@ -16,9 +16,10 @@ const initialState = {
      * style
      */
   ],
+  categories: [],
 };
 
-const user = (state = initialState, action) => {
+const event = (state = initialState, action) => {
   switch (action.type) {
     case eventConstants.PREPARE_FOR_CREATE_EVENT:
       return {
@@ -34,10 +35,21 @@ const user = (state = initialState, action) => {
       };
 
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
-      console.log('action payload : ', action.blocks);
       return {
         ...state,
         blocks: action.blocks,
+      };
+
+    case eventConstants.GET_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        categories: action.categories,
+      };
+
+    case eventConstants.GET_CATEGORIES_FAILURE:
+      return {
+        ...state,
+        categories: [],
       };
 
     default:
@@ -45,4 +57,4 @@ const user = (state = initialState, action) => {
   }
 };
 
-export default user;
+export default event;

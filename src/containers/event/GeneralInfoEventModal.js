@@ -136,6 +136,9 @@ class GeneralInfoEventModal extends React.Component {
       isSellTicket,
     } = this.state;
 
+    const { categories } = this.props;
+    const listCategory = categories.length === 0 ? typeOfEvents : categories;
+
     const activeNext = nameEvent && quantity !== 0;
     const { isLogined } = this.props;
     return (
@@ -281,7 +284,7 @@ class GeneralInfoEventModal extends React.Component {
                     onChange={this.onTypeOfVentChange}
                     allowClear
                   >
-                    {typeOfEvents.map((item) => (
+                    {listCategory.map((item) => (
                       <Option key={item} value={item}>
                         {item}
                       </Option>
@@ -328,6 +331,7 @@ class GeneralInfoEventModal extends React.Component {
 
 const mapStateToProps = (state) => ({
   isLogined: state.user.isLogined,
+  categories: state.event.categories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
