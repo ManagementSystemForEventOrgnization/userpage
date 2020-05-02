@@ -89,8 +89,34 @@ const storeBlocksWhenCreateEvent = (blocks) => {
   }
 };
 
+const duplicateBlock = (id) => {
+  return (dispatch) => {
+    dispatch(request(id));
+  };
+  function request(id) {
+    return {
+      type: eventConstants.DUPLICATE_BLOCK,
+      id,
+    };
+  }
+};
+
+const deleteBlock = (id) => {
+  return (dispatch) => {
+    dispatch(request(id));
+  };
+  function request(id) {
+    return {
+      type: eventConstants.DELETE_BLOCK,
+      id,
+    };
+  }
+};
+
 export const eventActions = {
   prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
   getCategories,
+  duplicateBlock,
+  deleteBlock,
 };

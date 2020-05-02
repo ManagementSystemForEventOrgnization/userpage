@@ -98,7 +98,12 @@ class IconsSocial extends Component {
           <div className="d-flex child-block social ">
             <div className="child-block" style={{ width: '100%' }}>
               <div className="mt-3">
-                {IconSocials.map((item) => item.options(item.pathLink))}
+                {IconSocials.map((item, index) =>
+                  item.options({
+                    pathLink: item.pathLink,
+                    key: index,
+                  })
+                )}
               </div>
             </div>
             {editable && (
