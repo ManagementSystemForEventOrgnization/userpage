@@ -4,12 +4,12 @@ import { v4 as uuid } from 'uuid';
 import ButtonBlock from '../components/ui-elements/atoms/Button';
 import TextBlock from '../components/ui-elements/atoms/Text';
 import ImageBlock from '../components/ui-elements/atoms/Image';
-import DropdownBlock from '../components/ui-elements/atoms/DropDown';
+// import DropdownBlock from '../components/ui-elements/atoms/DropDown';
 import TableBlock from '../components/ui-elements/atoms/Table';
 import StepBlock from '../components/ui-elements/atoms/Step';
-import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
-import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
-import IconBlock from '../components/ui-elements/atoms/Icon';
+// import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
+// import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
+// import IconBlock from '../components/ui-elements/atoms/Icon';
 import DividerBlock from '../components/ui-elements/atoms/Divider';
 
 import HeaderBlock from '../components/ui-elements/blocks/Header';
@@ -58,11 +58,7 @@ export default [
         child: 'Text',
         style: {},
         options: ({ key, editable, style, id }) => (
-          <TextBlock
-            key={key}
-            editable={editable}
-            style={style}
-            id={id} />
+          <TextBlock key={key} editable={editable} style={style} id={id} />
         ),
       },
       {
@@ -79,13 +75,13 @@ export default [
           <TableBlock key={key} editable={editable} style={style} id={id} />
         ),
       },
-      {
-        child: 'Dropdown',
-        style: {},
-        options: ({ key, editable, style, id }) => (
-          <DropdownBlock key={key} editable={editable} style={style} id={id} />
-        ),
-      },
+      // {
+      //   child: 'Dropdown',
+      //   style: {},
+      //   options: ({ key, editable, style, id }) => (
+      //     <DropdownBlock key={key} editable={editable} style={style} id={id} />
+      //   ),
+      // },
       {
         child: 'Divider',
         style: {},
@@ -93,37 +89,37 @@ export default [
           <DividerBlock key={key} editable={editable} style={style} id={id} />
         ),
       },
-      {
-        child: 'DatePicker',
-        style: {},
-        options: ({ key, editable, style, id }) => (
-          <DatepickersBlocks
-            key={key}
-            editable={editable}
-            style={style}
-            id={id}
-          />
-        ),
-      },
-      {
-        child: 'TimePicker',
-        style: {},
-        options: ({ key, editable, style, id }) => (
-          <TimepickersBlock
-            key={key}
-            editable={editable}
-            style={style}
-            id={id}
-          />
-        ),
-      },
-      {
-        child: 'Icon',
-        style: {},
-        options: ({ key, editable, style, id }) => (
-          <IconBlock key={key} editable={editable} style={style} id={id} />
-        ),
-      },
+      // {
+      //   child: 'DatePicker',
+      //   style: {},
+      //   options: ({ key, editable, style, id }) => (
+      //     <DatepickersBlocks
+      //       key={key}
+      //       editable={editable}
+      //       style={style}
+      //       id={id}
+      //     />
+      //   ),
+      // },
+      // {
+      //   child: 'TimePicker',
+      //   style: {},
+      //   options: ({ key, editable, style, id }) => (
+      //     <TimepickersBlock
+      //       key={key}
+      //       editable={editable}
+      //       style={style}
+      //       id={id}
+      //     />
+      //   ),
+      // },
+      // {
+      //   child: 'Icon',
+      //   style: {},
+      //   options: ({ key, editable, style, id }) => (
+      //     <IconBlock key={key} editable={editable} style={style} id={id} />
+      //   ),
+      // },
     ].map(({ child, options, style }) => {
       return {
         id: uuid(),

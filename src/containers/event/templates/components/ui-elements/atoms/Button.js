@@ -36,10 +36,9 @@ class ButtonBlock extends React.Component {
   showModalBorderColor = () => {
     const { isBorderColor } = this.state;
     this.setState({
-      isBorderColor :!isBorderColor,
-    })
-
-  }
+      isBorderColor: !isBorderColor,
+    });
+  };
 
   componentDidMount = () => {
     const { editable } = this.props;

@@ -127,8 +127,9 @@ class GeneralBanner extends Component {
             <div className="col-sm-12">
               <Text
                 content={title}
+                child={true}
                 editable={editable}
-                style={{
+                newStyle={{
                   fontWeight: fontWeight,
                   fontSize: fontSize,
                   textAlign: textAlign,
@@ -141,7 +142,8 @@ class GeneralBanner extends Component {
               <Text
                 content={description}
                 editable={editable}
-                style={{
+                child={true}
+                newStyle={{
                   fontWeight: 'normal',
                   fontSize: 25,
                   textAlign: 'center',

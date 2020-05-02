@@ -28,8 +28,8 @@ class ContactUs1 extends Component {
     this.state = style
       ? { ...style }
       : {
-          margin: [10, 10, 10, 10],
-          padding: [10, 10, 10, 10],
+          margin: [1, 1, 1, 1],
+          padding: [1, 1, 1, 1],
         };
   }
 
@@ -82,8 +82,13 @@ class ContactUs1 extends Component {
       <div className="child-block" style={style}>
         <Row>
           <Col span={10}>
-            <Text content="Contact Us" style={titleStyle} editable={editable} />
-            <Text editable={editable} />
+            <Text
+              content="Contact Us"
+              newStyle={titleStyle}
+              child={true}
+              editable={editable}
+            />
+            <Text editable={editable} child={true} />
           </Col>
           <Col span={14} className="pt-5 pr-5">
             <Form

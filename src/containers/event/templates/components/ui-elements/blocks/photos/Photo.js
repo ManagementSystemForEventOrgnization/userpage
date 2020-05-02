@@ -21,8 +21,8 @@ class Photo extends Component {
     this.state = style
       ? { ...style }
       : {
-          margin: [10, 10, 10, 10],
-          padding: [5, 5, 5, 5],
+          margin: [1, 1, 1, 1],
+          padding: [1, 1, 1, 1],
           list: [1, 2, 3, 4],
         };
   }
