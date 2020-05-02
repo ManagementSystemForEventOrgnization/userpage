@@ -1,5 +1,6 @@
 import { eventConstants } from '../constants/index';
 import { v4 as uuid } from 'uuid';
+import dataTest from '../containers/event/templates/data/dataTest';
 
 const initialState = {
   nameEvent: '',
@@ -11,11 +12,20 @@ const initialState = {
   time: {},
   isSellTicket: 'Không',
   blocks: [
-    /**
-     * id
-     * option
-     * style
-     */
+    ...dataTest[0].value,
+    ...dataTest[1].value,
+    ...dataTest[2].value,
+    ...dataTest[3].value,
+    ...dataTest[4].value,
+    ...dataTest[5].value,
+    ...dataTest[6].value,
+    ...dataTest[7].value,
+    ...dataTest[8].value,
+    ...dataTest[9].value,
+    ...dataTest[10].value,
+    ...dataTest[11].value,
+    ...dataTest[12].value,
+    ...dataTest[13].value,
   ],
   categories: [],
 };
