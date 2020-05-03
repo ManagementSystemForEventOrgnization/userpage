@@ -188,22 +188,23 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
+  console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/user/updateInfo`, {
-      fullName: 'Phan Thi Mai',
-      birthday: '10/06/1998',
-      gender: 'Female',
-      job: 'none',
-      phone: '0869204167',
-      discription: 'nothing',
-      avatarUrl: 'star.jpg',
+    API.post(`/api/updateInfo`, {
+      fullName: userInfor.fullName,
+      birthday: userInfor.birthday,
+      gender: userInfor.gender,
+      job: userInfor.job,
+      phone: userInfor.phone,
+      discription: userInfor.discription,
+      avatarUrl: userInfor.avatar,
     })
       .then((res) => {
         console.log('TCL then : ', res);
 
         if (res.status === 200) {
-          dispatch(success(res.data.result));
+          dispatch(success(res.data.result.user));
         } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
       })
       .catch((error) => {
@@ -225,6 +226,28 @@ const onUpdateUserProfile = (userInfor) => {
     return { type: userConstants.UPDATE_USER_PROFILE_FAILURE, error };
   }
 };
+
+// const testUpdateUser = () => {
+//   const fullName = 'Phan Thi Mai';
+//   const birthday = '10/06/1998';
+//   const gender = 'Female';
+//   const job = 'none';
+//   const phone = '0869204167';
+//   const discription = 'nothing';
+//   const avatarUrl = 'star.jpg';
+
+//   API.post(`/api/updateInfo`, {
+//     fullName,
+//     birthday,
+//     gender,
+//     job,
+//     phone,
+//     discription,
+//     avatarUrl,
+//   })
+//     .then((res) => console.log(res))
+//     .catch((err) => console.log(err.response));
+// };
 
 export const userActions = {
   login,

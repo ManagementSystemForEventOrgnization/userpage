@@ -133,11 +133,13 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
+        userInfo: action.user,
       };
     case userConstants.UPDATE_USER_PROFILE_FAILURE:
       return {
         ...state,
         pending: false,
+        errMessage: action.error,
       };
     default:
       return state;

@@ -13,8 +13,8 @@ import {
   DatePicker,
   Upload,
   message,
-  Modal,
 } from 'antd';
+
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -22,6 +22,7 @@ import {
   LoadingOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
+
 import { userActions } from '../../action/user.action';
 
 const { Content } = Layout;
@@ -54,10 +55,13 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
+const dateFormat = 'DD/MM/YYYY';
+
 class ProfileInfor extends React.Component {
   constructor(props) {
     super(props);
     const { userInfor } = this.props;
+
     this.state = userInfor
       ? { ...userInfor }
       : {
@@ -96,7 +100,6 @@ class ProfileInfor extends React.Component {
   };
 
   onSave = () => {
-    // console.log('-----');
     const {
       fullName,
       gender,
@@ -115,31 +118,13 @@ class ProfileInfor extends React.Component {
       job: job,
       phone: phone,
       discription: discription,
-      avatarUrl: avatar,
+      avatar: avatar,
     };
-
-    // console.log(userInforUpdate);
     onUpdateUserProfile(userInforUpdate);
-    // console.log('-----');
   };
-
-  //modal
-
-  showModal = () => {
+  ChangeDate = (date, dateString) => {
     this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = (e) => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleCancel = (e) => {
-    this.setState({
-      visible: false,
+      birthday: dateString,
     });
   };
 
@@ -164,8 +149,40 @@ class ProfileInfor extends React.Component {
     );
     return (
       <div>
-        <Layout style={{ padding: '150px 50px' }}>
+        <Layout style={{ padding: '100px 50px' }}>
           <Row>
+            <Col span={6} push={2} className="mr-5">
+              <Card
+                cover={
+                  <img
+                    alt="example"
+                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                  />
+                }
+                actions={[
+                  <SettingOutlined key="setting" />,
+                  <EditOutlined key="edit" />,
+                  <EllipsisOutlined key="ellipsis" />,
+                ]}
+              >
+                <Meta
+                  avatar={
+                    <Avatar
+                      size={60}
+                      src={
+                        avatar
+                          ? avatar
+                          : 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                      }
+                    />
+                  }
+                  title={fullName ? fullName : ''}
+                  description={email ? email : ''}
+                />
+                <div>{discription ? discription : 'add your discription'}</div>
+              </Card>
+            </Col>
+
             <Col span={16} push={1}>
               <Content style={{ background: '#fff', padding: '10px 50px' }}>
                 <div className="site-layout-content">
@@ -242,21 +259,21 @@ class ProfileInfor extends React.Component {
 
                     <Form.Item label="Birthday" name="birthday">
                       <DatePicker
-                        onChange={(moment) =>
-                          this.setState({ birthday: moment._d })
-                        }
-                        name="birthday"
+                        onChange={this.onChangeDate}
+                        placeholder="dd/mm/yyyy"
                         value={birthday}
-                        defaultValue={birthday ? birthday : ''}
+                        format={dateFormat}
+                        style={{ width: 270 }}
                       />
                     </Form.Item>
 
                     <Form.Item name="description" label="Description">
                       <Input.TextArea
+                        autoSize
                         onChange={this.onHandleChange}
                         name="discription"
                         value={discription}
-                        defaultValue={discription ? discription : ''}
+                        defaultValue={discription}
                       />
                     </Form.Item>
 
@@ -270,50 +287,6 @@ class ProfileInfor extends React.Component {
                   </Form>
                 </div>
               </Content>
-            </Col>
-
-            <Col span={5} push={2}>
-              <Card
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-                actions={[
-                  <SettingOutlined key="setting" />,
-                  <EditOutlined key="edit" />,
-                  <EllipsisOutlined key="ellipsis" />,
-                ]}
-              >
-                <Meta
-                  avatar={
-                    <Avatar
-                      size={60}
-                      src={avatar}
-                      // src={
-                      //   this.state.userInfor.avatarUrl
-                      //     ? this.state.avatarUrl
-                      //     : 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-                      // }
-                    />
-                  }
-                  title={fullName ? fullName : ''}
-                  description={email ? email : ''}
-                />
-                <div>{discription ? discription : 'add your discription'}</div>
-                <div>
-                  <Button type="primary" onClick={this.showModal}>
-                    change password
-                  </Button>
-                  <Modal
-                    title="Basic Modal"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                  ></Modal>
-                </div>
-              </Card>
             </Col>
           </Row>
         </Layout>
@@ -329,7 +302,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
   onUpdateUserProfile: (userInfor) =>
     dispatch(userActions.onUpdateUserProfile(userInfor)),
 });
