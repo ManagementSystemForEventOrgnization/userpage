@@ -189,14 +189,29 @@ const getCurrentUser = () => {
 
 const onUpdateUserProfile = (userInfor) => {
   return (dispatch) => {
+    dispatch(request());
     API.post(`/api/user/updateInfo`, {
-      ...userInfor,
+      fullName: 'Phan Thi Mai',
+      birthday: '10/06/1998',
+      gender: 'Female',
+      job: 'none',
+      phone: '0869204167',
+      discription: 'nothing',
+      avatarUrl: 'star.jpg',
     })
       .then((res) => {
         console.log('TCL then : ', res);
+
+        if (res.status === 200) {
+          dispatch(success(res.data.result));
+        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
       })
       .catch((error) => {
         console.log('TCL catch : ', error.response);
+        const { data } = error.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
       });
   };
 

@@ -13,19 +13,19 @@ export default class ProfilePage extends Component {
         <div className="row">
           <div className="col-sm-2 bg-secondary">
             <div className="btn-group-vertical mt-5">
-              <a className="btn btn-default mt-5 " role="button">
+              <a className="btn btn-default mt-5 " role="button" href="/">
                 Hồ Sơ Cá Nhân
               </a>
-              <a className="btn btn-default mt-5" role="button">
+              <a className="btn btn-default mt-5" role="button" href="/">
                 Vé Đã Mua
               </a>
-              <a className="btn btn-default mt-5" role="button">
+              <a className="btn btn-default mt-5" role="button" href="/">
                 Sự Kiện Đã Tạo
               </a>
-              <a className="btn btn-default mt-5" role="button">
+              <a className="btn btn-default mt-5" role="button" href="/">
                 Số Dư Tài Khoản
               </a>
-              <a className="btn btn-default mt-5" role="button">
+              <a className="btn btn-default mt-5" role="button" href="/">
                 Tài Khoản Ngân Hàng
               </a>
             </div>

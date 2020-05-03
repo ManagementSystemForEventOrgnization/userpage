@@ -105,12 +105,6 @@ class Schedule1 extends Component {
       ]);
     }
   };
-  onChangeValue(newValue, valueParam) {
-    this.setState({
-      [valueParam]: newValue,
-    });
-    this.handleStoreBlock();
-  }
 
   render() {
     // need to refactor

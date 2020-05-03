@@ -96,7 +96,7 @@ class ProfileInfor extends React.Component {
   };
 
   onSave = () => {
-    console.log('-----');
+    // console.log('-----');
     const {
       fullName,
       gender,
@@ -106,6 +106,7 @@ class ProfileInfor extends React.Component {
       avatar,
       birthday,
     } = this.state;
+
     const { onUpdateUserProfile } = this.props;
     const userInforUpdate = {
       fullName: fullName,
@@ -117,9 +118,9 @@ class ProfileInfor extends React.Component {
       avatarUrl: avatar,
     };
 
-    console.log(userInforUpdate);
+    // console.log(userInforUpdate);
     onUpdateUserProfile(userInforUpdate);
-    console.log('-----');
+    // console.log('-----');
   };
 
   //modal
