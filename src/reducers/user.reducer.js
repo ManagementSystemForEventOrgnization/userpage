@@ -103,6 +103,7 @@ const user = (state = initialState, action) => {
         isLogined: false,
         pending: false,
       };
+
     case userConstants.GET_CURRENT_USER_REQUEST:
       return {
         ...state,
@@ -123,9 +124,22 @@ const user = (state = initialState, action) => {
         isLogined: false,
         pending: false,
       };
-    case userConstants.UPDATE_USER_PROFILE:
+    case userConstants.UPDATE_USER_PROFILE_REQUEST:
       return {
         ...state,
+        pending: true,
+      };
+    case userConstants.UPDATE_USER_PROFILE_SUCESS:
+      return {
+        ...state,
+        pending: false,
+        userInfo: action.user,
+      };
+    case userConstants.UPDATE_USER_PROFILE_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
       };
     default:
       return state;
