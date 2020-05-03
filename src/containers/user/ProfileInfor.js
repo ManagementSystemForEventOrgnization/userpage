@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Form, Input, Button, Layout, Row, Col, Card, Avatar, Select, DatePicker, Upload, message } from 'antd';
+import { Form, Input, Button, Layout, Row, Col, Card, Avatar, Select, DatePicker, Upload, message, Modal } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { userActions } from '../../action/user.action';
 
@@ -39,13 +39,16 @@ class ProfileInfor extends React.Component {
     super(props);
 
     this.state = {
-      fullName: "",
-      birthday: "",
-      gender: "",
-      job: "",
-      phone: "",
-      discription: "",
-      avatarUrl: ""
+      userInfor: {
+        fullName: "",
+        birthday: "",
+        gender: "",
+        job: "",
+        phone: "",
+        discription: "",
+        avatarUrl: "",
+      },
+      visible: false
     }
   }
 
@@ -74,10 +77,9 @@ class ProfileInfor extends React.Component {
   }
 
   componentWillReceiveProps(nextprops) {
-    this.setState({ ...nextprops.userInfor })
+    this.setState({ userInfor: nextprops.userInfor.result })
     console.log(nextprops.userInfor)
   }
-
 
   onHandleChange = (event) => {
     var target = event.target;
@@ -88,22 +90,45 @@ class ProfileInfor extends React.Component {
       [name]: value
     });
   }
+
   onSave(values) {
     console.log("-----")
     let userInfor = {
-      fullName: this.state.fullName,
-      birthday: this.state.birthday,
-      gender: this.state.gender,
-      job: this.state.job,
-      phone: this.state.phone,
-      discription: this.state.discription,
-      avatarUrl: this.state.avatarUrl
+      fullName: this.state.userInfor.fullName,
+      birthday: this.state.userInfor.birthday,
+      gender: this.state.userInfor.gender,
+      job: this.state.userInfor.job,
+      phone: this.state.userInfor.phone,
+      discription: this.state.userInfor.discription,
+      avatarUrl: this.state.userInfor.avatarUrl
     }
 
     this.props.onUpdateUserProfile(userInfor);
     console.log("-----")
 
   }
+
+  //modal
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
 
   render() {
     const uploadButton = (
@@ -115,104 +140,122 @@ class ProfileInfor extends React.Component {
 
     const { avatarUrl } = this.state
 
-
+    const { result } = this.props.userInfor
     return (
-      <Layout style={{ padding: '150px 50px' }}>
-        <Row>
-          <Col span={16} push={1}>
-            <Content style={{ background: '#fff', padding: '10px 50px' }}>
-              <div className="site-layout-content" >
-                <Form {...layout} className="mt-4" form={this.form} name="horizontal_login" onFinish={(values) => this.onSave(values)}>
-                  <Form.Item
-                    label="Avatar"
-                    name="avatar">
-                    <Col offset={9} >
-                      <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        beforeUpload={beforeUpload}
-                        onChange={this.handleChange}
+      <div>
+        <Layout style={{ padding: '150px 50px' }}>
+          <Row>
+            <Col span={16} push={1}>
+              <Content style={{ background: '#fff', padding: '10px 50px' }}>
+                <div className="site-layout-content" >
+                  <Form {...layout} className="mt-4" form={this.form} name="horizontal_login" onFinish={(values) => this.onSave(values)}>
+                    <Form.Item
+                      label="Avatar"
+                      name="avatar">
+                      <Col offset={9} >
+                        <Upload
+                          name="avatar"
+                          listType="picture-card"
+                          className="avatar-uploader"
+                          showUploadList={false}
+                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                          beforeUpload={beforeUpload}
+                          onChange={this.handleChange}
+                        >
+                          {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100px' }} /> : uploadButton}
+                        </Upload>
+                      </Col >
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Full Name"
+                      name="fullName">
+                      <Input onChange={this.onHandleChange} name="fullName"
+                        defaultValue={result.fullName ? result.fullName : ""} />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Job"
+                      name="job">
+                      <Input onChange={this.onHandleChange} name="job" defaultValue={result.job ? result.job : ""} />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Phone"
+                      name="phone">
+                      <Input onChange={this.onHandleChange} name="phone" defaultValue={result.phone ? result.phone : ""} />
+                    </Form.Item>
+
+                    <Form.Item name="gender" label="Gender">
+                      <Select onChange={(value) => this.setState({ gender: value })}
+                        defaultValue={result.gender ? result.gender : ""}
+                        allowClear
                       >
-                        {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100px' }} /> : uploadButton}
-                      </Upload>
-                    </Col >
-                  </Form.Item>
+                        <Option value="male">Male</Option>
+                        <Option value="female">Female</Option>
+                        <Option value="other">Other</Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item label="Birthday" name="birthday">
+                      <DatePicker onChange={(moment) => this.setState({ birthday: moment._d })} name="birthday" />
+                    </Form.Item>
+                    <Form.Item name="description" label="Description" >
+                      <Input.TextArea onChange={this.onHandleChange} name="discription" />
+                    </Form.Item>
 
-                  <Form.Item
-                    label="Full Name"
-                    name="fullName">
-                    <Input onChange={this.onHandleChange} name="fullName"
-                      defaultValue={this.props.userInfor.fullName ? this.props.userInfor.fullName : ""} />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Job"
-                    name="job">
-                    <Input onChange={this.onHandleChange} name="job" defaultValue={this.props.job ? this.props.job : ""} />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Phone"
-                    name="phone">
-                    <Input onChange={this.onHandleChange} name="phone" defaultValue={this.props.phone ? this.props.phone : ""} />
-                  </Form.Item>
-
-                  <Form.Item name="gender" label="Gender">
-                    <Select onChange={(value) => this.setState({ gender: value })}
-                      defaultValue={this.props.gender ? this.props.gender : ""}
-                      allowClear
-                    >
-                      <Option value="male">Male</Option>
-                      <Option value="female">Female</Option>
-                      <Option value="other">Other</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item label="Birthday" name="birthday">
-                    <DatePicker onChange={(moment) => this.setState({ birthday: moment._d })} name="birthday" />
-                  </Form.Item>
-                  <Form.Item name="description" label="Description" >
-                    <Input.TextArea onChange={this.onHandleChange} name="discription" />
-                  </Form.Item>
-
-                  <Form.Item {...tailLayout} shouldUpdate >
-                    {() => (
-                      <Button
-                        type="primary"
-                        htmlType="submit">Save your infor
+                    <Form.Item {...tailLayout} shouldUpdate >
+                      {() => (
+                        <Button
+                          type="primary"
+                          htmlType="submit">Save your infor
                       </Button>
-                    )}
-                  </Form.Item>
-                </Form>
-              </div>
-            </Content>
-          </Col>
+                      )}
+                    </Form.Item>
+                  </Form>
+                </div>
+              </Content>
+            </Col>
 
-          <Col span={5} push={2}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-              }
-              actions={[
-                <SettingOutlined key="setting" />,
-                <EditOutlined key="edit" />,
-                <EllipsisOutlined key="ellipsis" />,
-              ]}
-            >
-              <Meta
-                avatar={<Avatar size={60} src={this.state.avatarUrl ? this.state.avatarUrl : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"} />}
-                title={this.props.userInfor.fullName ? this.props.userInfor.fullName : ""}
-                description={this.props.userInfor.email ? this.props.userInfor.email : ""}
-              />
-              <div>{this.props.discription ? this.props.discription : "add your discription"}</div>
-            </Card>
-          </Col>
-        </Row>
-      </Layout>
+            <Col span={5} push={2}>
+              <Card
+                cover={
+                  <img
+                    alt="example"
+                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                }
+                actions={[
+                  <SettingOutlined key="setting" />,
+                  <EditOutlined key="edit" />,
+                  <EllipsisOutlined key="ellipsis" />,
+                ]}
+              >
+                <Meta
+                  avatar={<Avatar size={60} src={this.state.userInfor.avatarUrl ? this.state.avatarUrl : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"} />}
+                  title={result.fullName ? result.fullName : ""}
+                  description={result.email ? result.email : ""}
+                />
+                <div>{result.discription ? result.discription : "add your discription"}</div>
+                <div>
+                  <Button type="primary" onClick={this.showModal}>
+                    change password
+                 </Button>
+                  <Modal
+                    title="Basic Modal"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                  >
+
+
+
+                  </Modal>
+                </div>
+
+              </Card>
+            </Col>
+          </Row>
+        </Layout>
+      </div>
     )
   }
 }

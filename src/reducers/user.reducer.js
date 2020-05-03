@@ -10,7 +10,7 @@ const initialState = {
 }
 
 const user = (state = initialState, action) => {
-     switch (action.type) {
+    switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return {
                 ...state,
@@ -118,10 +118,21 @@ const user = (state = initialState, action) => {
                 isLogined: false,
                 pending: false,
             }
-        case userConstants.UPDATE_USER_PROFILE:
-           return{
-               ...state
-           }
+        case userConstants.UPDATE_USER_PROFILE_REQUEST:
+            return {
+                ...state,
+                pending: true,
+            }
+        case userConstants.GET_CURRENT_USER_SUCCESS:
+            return {
+                ...state,
+                pending: false,
+            }
+        case userConstants.UPDATE_USER_PROFILE_FAILURE:
+            return {
+                ...state,
+                pending: false,
+            }
         default:
             return state
     }

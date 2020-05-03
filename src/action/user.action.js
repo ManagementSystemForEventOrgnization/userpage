@@ -135,7 +135,7 @@ const getCurrentUser = () => {
             .get(`/api/current_user`)
             .then(res => {
                 if (res.status === 200) {
-                //    console.log(res.data)
+                    //    console.log(res.data)
                     dispatch(success(res.data));
                 }
                 else {
@@ -153,12 +153,14 @@ const getCurrentUser = () => {
 
 }
 
-const onUpdateUserProfile = (userInfor) =>{
-    console.log(userInfor)
+const onUpdateUserProfile = (userInfor) => {
+    console.log({ ...userInfor })
     return dispatch => {
         dispatch(request());
         API
-            .get(`/api/current_user`)
+            .post(`/api/user/updateInfor`, {
+                userInfor
+            })
             .then(res => {
                 if (res.status === 200) {
                     dispatch(success(res.data));
@@ -172,9 +174,9 @@ const onUpdateUserProfile = (userInfor) =>{
             })
     };
 
-    function request() { return { type: userConstants.GET_CURRENT_USER_REQUEST } }
-    function success(user) { return { type: userConstants.GET_CURRENT_USER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.GET_CURRENT_USER_FAILURE, error } }
+    function request() { return { type: userConstants.UPDATE_USER_PROFILE_REQUEST } }
+    function success(user) { return { type: userConstants.UPDATE_USER_PROFILE_SUCESS, user } }
+    function failure(error) { return { type: userConstants.UPDATE_USER_PROFILE_FAILURE, error } }
 }
 export const userActions = {
     login,
