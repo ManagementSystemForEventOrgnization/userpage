@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { ReactSortable } from 'react-sortablejs';
 
 import { eventActions } from '../../../../action/event.action';
-import dataTest from '../data/dataTest';
 
 class DropContainer extends React.Component {
   constructor(props) {
@@ -27,7 +26,6 @@ class DropContainer extends React.Component {
 
   render() {
     const { dropList } = this.state;
-    const eventName = 'Conference';
     return (
       <div className="drop-container">
         <ReactSortable

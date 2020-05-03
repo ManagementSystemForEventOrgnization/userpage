@@ -7,7 +7,6 @@ import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
 import { eventActions } from '../../../../../../../action/event.action';
 
-const temp = [1, 2, 3, 4, 5];
 const high = 10;
 const title = 'Sponsor';
 const iconStyle = {
