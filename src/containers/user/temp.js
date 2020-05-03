@@ -117,7 +117,6 @@ class ProfileInfor extends React.Component {
       avatarUrl: avatar,
     };
 
-    console.log(userInforUpdate);
     onUpdateUserProfile(userInforUpdate);
     console.log('-----');
   };
@@ -154,6 +153,8 @@ class ProfileInfor extends React.Component {
       loading,
       email,
     } = this.state;
+
+    console.log(fullName);
 
     const uploadButton = (
       <div>
@@ -204,7 +205,6 @@ class ProfileInfor extends React.Component {
                         onChange={this.onHandleChange}
                         name="fullName"
                         value={fullName}
-                        defaultValue={fullName}
                       />
                     </Form.Item>
 
@@ -212,8 +212,7 @@ class ProfileInfor extends React.Component {
                       <Input
                         onChange={this.onHandleChange}
                         name="job"
-                        value={job}
-                        defaultValue={job ? job : ''}
+                        value={job ? job : ''}
                       />
                     </Form.Item>
 
@@ -221,16 +220,14 @@ class ProfileInfor extends React.Component {
                       <Input
                         onChange={this.onHandleChange}
                         name="phone"
-                        value={phone}
-                        defaultValue={phone ? phone : ''}
+                        value={phone ? phone : ''}
                       />
                     </Form.Item>
 
                     <Form.Item name="gender" label="Gender">
                       <Select
                         onChange={(value) => this.setState({ gender: value })}
-                        value={gender}
-                        defaultValue={gender ? gender : ''}
+                        value={gender ? gender : ''}
                         allowClear
                       >
                         <Option value="male">Male</Option>
@@ -246,7 +243,6 @@ class ProfileInfor extends React.Component {
                         }
                         name="birthday"
                         value={birthday}
-                        defaultValue={birthday ? birthday : ''}
                       />
                     </Form.Item>
 
@@ -254,8 +250,6 @@ class ProfileInfor extends React.Component {
                       <Input.TextArea
                         onChange={this.onHandleChange}
                         name="discription"
-                        value={discription}
-                        defaultValue={discription ? discription : ''}
                       />
                     </Form.Item>
 

@@ -2,7 +2,6 @@ import API from './axious.config';
 import { userConstants } from '../constants/index';
 
 const login = (email, password) => {
-  console.log(email, password);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/login`, {
@@ -10,7 +9,6 @@ const login = (email, password) => {
       password,
     })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           dispatch(success(res.data.result));
         } else {
@@ -20,7 +18,6 @@ const login = (email, password) => {
         return res.data;
       })
       .catch((error) => {
-        console.log(error.response);
         const { data } = error.response;
         if (data.error) {
           return dispatch(failure(data.error.message));
@@ -170,6 +167,7 @@ const getCurrentUser = () => {
         }
       })
       .catch((error) => {
+        console.log(error);
         const { data } = error.response;
         if (data.error) {
           return dispatch(failure(data.error.message));
@@ -190,21 +188,15 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log({ ...userInfor });
   return (dispatch) => {
-    dispatch(request());
-    API.post(`/api/user/updateInfor`, {
-      userInfor,
+    API.post(`/api/user/updateInfo`, {
+      ...userInfor,
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data));
-        } else {
-          dispatch(failure(res.message));
-        }
+        console.log('TCL then : ', res);
       })
       .catch((error) => {
-        return dispatch(failure(error));
+        console.log('TCL catch : ', error.response);
       });
   };
 
@@ -218,6 +210,7 @@ const onUpdateUserProfile = (userInfor) => {
     return { type: userConstants.UPDATE_USER_PROFILE_FAILURE, error };
   }
 };
+
 export const userActions = {
   login,
   loginWithGoogle,
