@@ -1,16 +1,19 @@
-import { eventConstants } from '../constants/index';
 import { v4 as uuid } from 'uuid';
+
 import dataTest from '../containers/event/templates/data/dataTest';
+import { eventConstants } from '../constants/index';
 
 const initialState = {
   nameEvent: '',
   typeOfEvent: '',
   category: '',
-  quantity: 100,
+  quantity: 0,
   address: '',
   locationName: '',
+  map: {},
   time: {},
   isSellTicket: 'Không',
+  webAddress: '',
   blocks: [
     ...dataTest[0].value,
     ...dataTest[1].value,
@@ -28,6 +31,8 @@ const initialState = {
     ...dataTest[13].value,
   ],
   categories: [],
+  errMessage: '',
+  pending: false,
 };
 
 const event = (state = initialState, action) => {
@@ -36,16 +41,41 @@ const event = (state = initialState, action) => {
     case eventConstants.PREPARE_FOR_CREATE_EVENT:
       return {
         ...state,
+        pending: true,
+      };
+
+    case eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
         nameEvent: action.nameEvent,
+        webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
         quantity: action.quantity,
         address: action.address,
+        map: action.map,
         category: action.category,
         locationName: action.locationName,
         time: action.time,
         isSellTicket: action.isSellTicket,
       };
 
+    case eventConstants.PREPARE_FOR_CREATE_EVENT_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.err,
+        nameEvent: '',
+        typeOfEvent: '',
+        category: '',
+        quantity: 0,
+        address: '',
+        locationName: '',
+        map: {},
+        time: {},
+        isSellTicket: 'Không',
+        webAddress: '',
+      };
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
         ...state,
@@ -82,7 +112,6 @@ const event = (state = initialState, action) => {
           blocks: newBlockListDuplicate,
         };
       }
-
       return {
         ...state,
       };

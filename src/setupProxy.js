@@ -11,13 +11,22 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
   app.use(
-    proxy('/api/*', { target: 'http://localhost:5000', changeOrigin: true })
-  );
-  app.use(
-    proxy('/api/updateInfo', {
+    proxy('/api/*/*/*', {
       target: 'http://localhost:5000',
       changeOrigin: true,
     })
+  );
+
+  app.use(
+    proxy('/api/*/*', {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    proxy('/api/*', { target: 'http://localhost:5000', changeOrigin: true })
   );
 };

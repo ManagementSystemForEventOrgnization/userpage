@@ -26,67 +26,10 @@ import CreateEventPage from '../pages/CreateEventPage';
 import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 
-const ROUTES = [
-  {
-    path: '/',
-    exact: true,
-    main: () => <HomePage />,
-  },
-  {
-    path: '/about-us',
-    exact: true,
-    main: () => <AboutUs />,
-  },
-  {
-    path: '/event-list',
-    exact: false,
-    main: () => <CategoryDetailPage />,
-  },
-  {
-    path: '/event/:id',
-    exact: true,
-    main: ({ match, history }) => (
-      <EventDetailPage match={match} history={history} />
-    ),
-  },
-  {
-    path: '/login',
-    exact: true,
-    main: () => <LoginPage />,
-  },
-  {
-    path: '/signup',
-    exact: true,
-    main: () => <SignUpPage />,
-  },
-  {
-    path: '/create/preview',
-    exact: true,
-    main: () => <PreviewEvent />,
-  },
-  {
-    path: '/create',
-    exact: true,
-    main: () => <CreateEventPage />,
-  },
-  {
-    path: '/my-events',
-    exact: true,
-    main: () => <MyEventsPage />,
-  },
-  {
-    path: '',
-    exact: true,
-    main: () => <NotFoundPage />,
-  },
-];
-
 class WrapRouter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      routes: ROUTES,
-    };
+    this.state = {};
   }
 
   componentDidMount = () => {
@@ -94,8 +37,9 @@ class WrapRouter extends React.Component {
     getCurrentUser();
   };
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    const { isLogined } = nextProps;
+  render() {
+    const { isLogined } = this.props;
+    // NOTE : /create need to be logined
     const routes = [
       {
         path: '/',
@@ -108,7 +52,7 @@ class WrapRouter extends React.Component {
         main: () => <AboutUs />,
       },
       {
-        path: '/event-list',
+        path: '/event-list/:id',
         exact: false,
         main: () => <CategoryDetailPage />,
       },
@@ -152,7 +96,7 @@ class WrapRouter extends React.Component {
       {
         path: '/created-event',
         exact: true,
-        main: () => (isLogined ? <UserEventPage /> : <Redirect to="/home" />),
+        main: () => (isLogined ? <UserEventPage /> : <Redirect to="/login" />),
       },
       {
         path: '/create',
@@ -176,13 +120,6 @@ class WrapRouter extends React.Component {
       },
     ];
 
-    this.setState({
-      routes,
-    });
-  };
-
-  render() {
-    const { routes } = this.state;
     return (
       <Router>
         <Switch>

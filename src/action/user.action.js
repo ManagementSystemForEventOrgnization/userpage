@@ -191,7 +191,7 @@ const onUpdateUserProfile = (userInfor) => {
   console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/updateInfo`, {
+    API.post(`/api/user/updateInfo`, {
       fullName: userInfor.fullName,
       birthday: userInfor.birthday,
       gender: userInfor.gender,

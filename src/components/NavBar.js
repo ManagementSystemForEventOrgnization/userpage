@@ -21,13 +21,6 @@ class NavBar extends React.Component {
     });
   };
 
-  UNSAFE_componentWillMount = () => {
-    const { typeOfEvents } = this.props;
-    this.setState({
-      typeOfEvents,
-    });
-  };
-
   handleClick = (e) => {
     this.setState({
       current: e.key,
@@ -35,8 +28,7 @@ class NavBar extends React.Component {
   };
 
   render() {
-    const { current, typeOfEvents, categories } = this.state;
-    const list = categories.length === 0 ? typeOfEvents : categories;
+    const { current, categories } = this.state;
 
     return (
       <div className="shadow">
@@ -45,11 +37,17 @@ class NavBar extends React.Component {
           selectedKeys={current}
           mode="horizontal"
         >
-          {list.map((item, index) => (
-            <Menu.Item key={index}>
-              <Link to={item}>{item}</Link>
-            </Menu.Item>
-          ))}
+          {categories.map((item) => {
+            const newName = item.name.toLowerCase().replace(/\s/g, '');
+            const url = `/event-list/${newName}`;
+            return !item.isDelete ? (
+              <Menu.Item key={item._id}>
+                <Link to={url}>{item.name}</Link>
+              </Menu.Item>
+            ) : (
+              ''
+            );
+          })}
         </Menu>
       </div>
     );
