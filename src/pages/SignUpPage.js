@@ -82,7 +82,6 @@ class SignUp extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Fullname is required!',
                     },
                   ]}
                 >
@@ -101,7 +100,6 @@ class SignUp extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Email is required!',
                     },
                   ]}
                 >
@@ -120,7 +118,6 @@ class SignUp extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Password is required !',
                     },
                   ]}
                 >
@@ -140,7 +137,6 @@ class SignUp extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Retype password!',
                     },
                   ]}
                 >

@@ -9,6 +9,7 @@ const getCategories = () => {
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           dispatch(success(res.data.result));
         } else {

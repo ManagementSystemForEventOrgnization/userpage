@@ -31,7 +31,7 @@ class NavBar extends React.Component {
     const { current, categories } = this.state;
 
     return (
-      <div className="shadow">
+      <div className="shadow mb-4">
         <Menu
           onClick={this.handleClick}
           selectedKeys={current}

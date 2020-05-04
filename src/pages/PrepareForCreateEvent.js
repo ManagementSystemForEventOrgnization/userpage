@@ -30,10 +30,6 @@ const typeOfEvents = ['Public', 'Private'];
 
 const plainOptions = ['Yes', 'No'];
 
-function callback(key) {
-  console.log(key);
-}
-
 class PrepareForCreateEvent extends Component {
   formRef = React.createRef();
 
@@ -60,6 +56,15 @@ class PrepareForCreateEvent extends Component {
     });
   };
 
+  checkWebAddress = (rule, value, callback) => {
+    const regex = /[^\w-_.]/;
+    if (regex.test(value) === true) {
+      callback('URL  must not contain special letter');
+    } else {
+      callback();
+    }
+  };
+
   onChoose = (type, value) => {
     this.setState({
       [type]: value,
@@ -79,10 +84,6 @@ class PrepareForCreateEvent extends Component {
       isFirstLoad: true,
     });
   };
-
-  //   onChooseTicket = (value) => {
-  //     console.log(value);
-  //   };
 
   handleNext = () => {
     const {
@@ -167,7 +168,7 @@ class PrepareForCreateEvent extends Component {
           <div style={errorStyle}>{errMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs defaultActiveKey="1">
           <TabPane
             tab={
               <span className="p-5">
@@ -177,12 +178,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="1"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="name"
                 label="Name of event "
@@ -205,6 +201,9 @@ class PrepareForCreateEvent extends Component {
                 rules={[
                   {
                     required: true,
+                  },
+                  {
+                    validator: this.checkWebAddress,
                   },
                 ]}
               >
@@ -252,12 +251,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="2"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="typeOfEvent"
                 label="Type of event"
@@ -320,12 +314,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="3"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="time"
                 label="Time"
@@ -359,12 +348,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="4"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="locationName"
                 label="Detail Address"

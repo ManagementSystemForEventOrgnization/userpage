@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -9,18 +10,14 @@ import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
+import { eventActions } from '../action/event.action';
 
-const typeOfEvents = [
-  'Hội nghị',
-  'Thể thao',
-  'Du lịch',
-  'Sân khấu-Nghệ thuật',
-  'Tình nguyện',
-  'Workshop',
-  'Talkshow',
-];
+class HomePage extends Component {
+  componentDidMount = () => {
+    const { getCategories } = this.props;
+    if (getCategories) getCategories();
+  };
 
-export default class HomePage extends Component {
   render() {
     const src =
       'https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg';
@@ -63,7 +60,7 @@ export default class HomePage extends Component {
         <div className="fixed-top">
           <Header />
 
-          <NavBar typeOfEvents={typeOfEvents} />
+          <NavBar />
         </div>
         <Banner />
 
@@ -116,3 +113,15 @@ export default class HomePage extends Component {
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     categories: state.event.categories,
+//   };
+// };
+
+const mapDispatchToProps = (dispatch) => ({
+  getCategories: () => dispatch(eventActions.getCategories()),
+});
+
+export default connect(null, mapDispatchToProps)(HomePage);

@@ -76,7 +76,6 @@ class LoginPage extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Email is required !',
                     },
                   ]}
                 >
@@ -95,7 +94,6 @@ class LoginPage extends React.Component {
                   rules={[
                     {
                       required: true,
-                      message: 'Password is required !',
                     },
                   ]}
                 >
