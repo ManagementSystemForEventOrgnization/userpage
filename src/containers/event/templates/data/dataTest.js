@@ -43,6 +43,8 @@ import Footer2 from '../components/ui-elements/blocks/footer/footer2';
 
 import IconSocial from '../components/ui-elements/blocks/Social/social';
 
+import Video1 from '../components/ui-elements/blocks/video/video1';
+
 export default [
   {
     name: 'Simple Block',
@@ -353,7 +355,7 @@ export default [
         child: 'Option 1',
         style: {},
         options: ({ key, editable, style, id }) => (
-          <ButtonBlock key={key} editable={editable} style={style} id={id} />
+          <Video1 key={key} editable={editable} style={style} id={id} />
         ),
       },
       {
