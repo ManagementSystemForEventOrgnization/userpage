@@ -227,28 +227,6 @@ const onUpdateUserProfile = (userInfor) => {
   }
 };
 
-// const testUpdateUser = () => {
-//   const fullName = 'Phan Thi Mai';
-//   const birthday = '10/06/1998';
-//   const gender = 'Female';
-//   const job = 'none';
-//   const phone = '0869204167';
-//   const discription = 'nothing';
-//   const avatarUrl = 'star.jpg';
-
-//   API.post(`/api/updateInfo`, {
-//     fullName,
-//     birthday,
-//     gender,
-//     job,
-//     phone,
-//     discription,
-//     avatarUrl,
-//   })
-//     .then((res) => console.log(res))
-//     .catch((err) => console.log(err.response));
-// };
-
 export const userActions = {
   login,
   loginWithGoogle,
