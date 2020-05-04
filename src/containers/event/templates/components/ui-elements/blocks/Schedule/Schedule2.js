@@ -22,10 +22,8 @@ class Schedule2 extends Component {
     this.state = style
       ? { ...style }
       : {
-
-        ...ScheduleState(this.props, 0),
-
-      };
+          ...ScheduleState(this.props, 0),
+        };
   }
 
   componentDidMount = () => {
@@ -84,13 +82,8 @@ class Schedule2 extends Component {
         ],
       });
       console.log(scheduleText);
-
     }
-
-  }
-
-
-
+  };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
@@ -115,7 +108,6 @@ class Schedule2 extends Component {
     });
     this.handleStoreBlock();
   }
-
 
   render() {
     // need to refactor
@@ -156,10 +148,10 @@ class Schedule2 extends Component {
       textTransform: transform,
       fontWeight: fontWeight,
       width: '100 %',
-    }
+    };
     return (
       <div className="child-block" style={divStyle}>
-        <Text content={scheduleName} />
+        <Text content={scheduleName} child={true} />
         <div className="d-flex">
           <div>
             {scheduleText.map((schedule, index) => (
@@ -179,19 +171,18 @@ class Schedule2 extends Component {
                 <div className="row mt-1">
                   <div className="col-2 mt-5 ml-4">
                     <Text
+                      child={true}
                       content={schedule.time}
-                      handleOnChangeTextBlock={
-                        (value) => this.handleUpdateSchedule(
-                          schedule.id, value, 'time'
-                        )}
+                      handleOnChangeTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'time')
+                      }
                     />
                   </div>
                   <div className=" col-2">
                     <Image
                       url={schedule.url}
-                      handleOnChangeUrlTextBlock={
-                        (value) => this.handleUpdateSchedule(
-                          schedule.id, value, 'url')
+                      handleOnChangeUrlTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'url')
                       }
                       height={25}
                     />
@@ -199,39 +190,44 @@ class Schedule2 extends Component {
 
                   <div className="mt-5 col-5">
                     <Text
+                      child={true}
                       content={schedule.title}
-                      handleOnChangeTextBlock={
-                        (value) => this.handleUpdateSchedule(
-                          schedule.id, value, 'title'
-                        )}
-
+                      handleOnChangeTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'title')
+                      }
                     />
                     <div className="mt-3">
                       <Text
+                        child={true}
                         content={schedule.description}
-                        handleOnChangeTextBlock={
-                          (value) => this.handleUpdateSchedule(
-                            schedule.id, value, 'description'
-                          )}
+                        handleOnChangeTextBlock={(value) =>
+                          this.handleUpdateSchedule(
+                            schedule.id,
+                            value,
+                            'description'
+                          )
+                        }
                       />
                     </div>
                   </div>
                   <div className="mt-5 col">
                     <Text
+                      child={true}
                       content={schedule.ticket}
-                      handleOnChangeTextBlock={
-                        (value) => this.handleUpdateSchedule(
-                          schedule.id, value, 'ticket'
-                        )}
+                      handleOnChangeTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'ticket')
+                      }
                     />
                   </div>
                   <div className=" mt-5 col">
                     <ButtonBlock
                       content={schedule.buttonText}
-
-                      handleOnChangeButtonTextBlock={
-                        (value) => this.handleUpdateSchedule(
-                          schedule.id, value, 'buttonText')
+                      handleOnChangeButtonTextBlock={(value) =>
+                        this.handleUpdateSchedule(
+                          schedule.id,
+                          value,
+                          'buttonText'
+                        )
                       }
                     />
                   </div>

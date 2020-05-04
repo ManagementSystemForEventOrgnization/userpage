@@ -21,10 +21,8 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-
-        ...ScheduleState(this.props,1),
-      }
-
+          ...ScheduleState(this.props, 1),
+        };
   }
 
   componentDidMount = () => {
@@ -64,7 +62,6 @@ class Schedule1 extends Component {
     this.handleStoreBlock();
   }
 
-
   removeOption = (schedule) => {
     const scheduleText = this.state.scheduleText.filter(
       (e) => e.id !== schedule.id
@@ -89,13 +86,8 @@ class Schedule1 extends Component {
           ...scheduleText.slice(index + 1, scheduleText.length),
         ],
       });
-
     }
-
-  }
-
-
-
+  };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
@@ -119,7 +111,6 @@ class Schedule1 extends Component {
     });
     this.handleStoreBlock();
   }
-
 
   render() {
     // need to refactor
@@ -160,17 +151,15 @@ class Schedule1 extends Component {
       textTransform: transform,
       fontWeight: fontWeight,
       width: '100 %',
-    }
-
-
+    };
 
     return (
       <div className="child-block " key={key}>
-        <TextsBlock content={scheduleName} />
+        <TextsBlock content={scheduleName} child={true} />
         <div className="d-flex">
           <div style={divStyle}>
             {scheduleText.map((schedule, index) => (
-              <div className="child-block">
+              <div className="child-block" key={index}>
                 {editable && (
                   <div>
                     <PlusCircleTwoTone
@@ -190,30 +179,36 @@ class Schedule1 extends Component {
                       idItem={schedule.id}
                       editable={editable}
                       content={schedule.title}
-
-                      handleOnChangeTextBlock={
-                        (value) => this.handleUpdateSchedule(schedule.id, value, 'title')
+                      child={true}
+                      handleOnChangeTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'title')
                       }
                     ></TextsBlock>
 
                     <div className="mt-3">
                       <TextsBlock
+                        child={true}
                         idItem={schedule.id}
                         editable={editable}
                         content={schedule.description}
-                        handleOnChangeTextBlock={
-                          (value) => this.handleUpdateSchedule(schedule.id, value, 'description')
+                        handleOnChangeTextBlock={(value) =>
+                          this.handleUpdateSchedule(
+                            schedule.id,
+                            value,
+                            'description'
+                          )
                         }
                       ></TextsBlock>
                     </div>
                   </Col>
                   <Col span={6} pull={18}>
                     <TextsBlock
+                      child={true}
                       content={schedule.time}
                       idItem={schedule.id}
                       editable={editable}
-                      handleOnChangeTextBlock={
-                        (value) => this.handleUpdateSchedule(schedule.id, value, 'time')
+                      handleOnChangeTextBlock={(value) =>
+                        this.handleUpdateSchedule(schedule.id, value, 'time')
                       }
                     ></TextsBlock>
                   </Col>

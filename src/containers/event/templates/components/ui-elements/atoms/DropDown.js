@@ -18,8 +18,8 @@ class DropDownBlock extends Component {
     this.state = style
       ? { ...style }
       : {
-        ...DropDownState(this.props),
-      };
+          ...DropDownState(this.props),
+        };
   }
 
   componentDidMount = () => {
@@ -82,7 +82,6 @@ class DropDownBlock extends Component {
           ...items.slice(index + 1, items.length),
         ],
       });
-  
     }
 
     this.handleStoreBlock();
@@ -141,7 +140,10 @@ class DropDownBlock extends Component {
                   <div className="col">
                     <TextBlock
                       content={item.name}
-                      handleOnChangeTextBlock={(value) => this.onChangeTextBlock(item.id, value)}
+                      child={true}
+                      handleOnChangeTextBlock={(value) =>
+                        this.onChangeTextBlock(item.id, value)
+                      }
                     ></TextBlock>
                   </div>
                   <div className="col-3">
@@ -169,8 +171,8 @@ class DropDownBlock extends Component {
                   </Button>
                 </div>
               ) : (
-                  ''
-                )}
+                ''
+              )}
 
               <Button
                 className="mt-5  "

@@ -64,13 +64,15 @@ const loginWithGoogle = (profile) => {
 };
 
 const register = (email, password, fullName) => {
-  const regex = /^[0-9a-zA-Z][a-z0-9A-Z\.\_]{1,}@[a-z0-9]{2,}(\.[a-z0-9]{1,4}){1,2}$/gm;
+  const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
   return (dispatch) => {
     if (!regex.test(email)) {
       return dispatch(failure('Invalid email !'));
-    } else if (password.length < 3) {
-      return dispatch(failure('Password has at least 3 characters !'));
+    } else if (password.length < 3 || password.length > 20) {
+      return dispatch(failure('Password should be from 3 to 20 characters!'));
+    } else if (password.indexOf(' ') !== -1) {
+      return dispatch(failure('Password should not have white space !'));
     } else {
       dispatch(request());
       API.post(`/api/register`, {

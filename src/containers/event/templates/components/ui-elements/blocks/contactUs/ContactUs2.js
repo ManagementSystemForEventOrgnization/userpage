@@ -13,8 +13,8 @@ class ContactUs2 extends Component {
     this.state = style
       ? { ...style }
       : {
-          margin: [10, 10, 10, 10],
-          padding: [10, 10, 10, 10],
+          margin: [1, 1, 1, 1],
+          padding: [1, 1, 1, 1],
           textAlign: 'center',
         };
   }
@@ -72,16 +72,18 @@ class ContactUs2 extends Component {
           <Col span={12}>
             <MailTwoTone style={iconStyle} />
             <Text
+              child={true}
               content="123@123.com.vn"
-              style={textStyle}
+              newStyle={textStyle}
               editable={editable}
             />
           </Col>
           <Col span={12}>
             <PhoneTwoTone style={iconStyle} />
             <Text
+              child={true}
               content="0123456789"
-              style={textStyle}
+              newStyle={textStyle}
               leftModal={true}
               editable={editable}
             />

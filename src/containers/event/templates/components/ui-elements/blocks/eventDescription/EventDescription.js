@@ -107,29 +107,32 @@ class EventDescription extends Component {
           <div className="row">
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-8'}>
               <Text
+                child={true}
                 content="Title 1"
                 newStyle={titleStyle}
                 editable={editable}
               />
-              <Text editable={editable} />
+              <Text editable={editable} child={true} />
             </div>
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-4'}>
               <Text
+                child={true}
                 content="Title 2"
                 leftModal={true}
                 newStyle={titleStyle}
                 editable={editable}
               />
-              <Text leftModal={true} />
+              <Text leftModal={true} child={true} />
               {type === 3 && (
                 <div className="mt-5">
                   <Text
+                    child={true}
                     content="Title 2"
                     leftModal={true}
                     editable={editable}
                     newStyle={titleStyle}
                   />
-                  <Text leftModal={true} editable={editable} />
+                  <Text leftModal={true} child={true} editable={editable} />
                 </div>
               )}
             </div>

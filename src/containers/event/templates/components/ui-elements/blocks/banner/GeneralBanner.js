@@ -47,9 +47,19 @@ class GeneralBanner extends Component {
     });
   };
 
-  handleDuplicate = () => {};
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
 
-  handleDelete = () => {};
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
 
   onChangeStyle = (type, value) => {
     this.setState({
@@ -127,8 +137,9 @@ class GeneralBanner extends Component {
             <div className="col-sm-12">
               <Text
                 content={title}
+                child={true}
                 editable={editable}
-                style={{
+                newStyle={{
                   fontWeight: fontWeight,
                   fontSize: fontSize,
                   textAlign: textAlign,
@@ -141,7 +152,8 @@ class GeneralBanner extends Component {
               <Text
                 content={description}
                 editable={editable}
-                style={{
+                child={true}
+                newStyle={{
                   fontWeight: 'normal',
                   fontSize: 25,
                   textAlign: 'center',
@@ -222,6 +234,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralBanner);

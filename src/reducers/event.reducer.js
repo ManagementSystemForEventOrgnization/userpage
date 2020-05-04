@@ -1,4 +1,5 @@
 import { eventConstants } from '../constants/index';
+import { v4 as uuid } from 'uuid';
 
 const initialState = {
   nameEvent: '',
@@ -20,6 +21,7 @@ const initialState = {
 };
 
 const event = (state = initialState, action) => {
+  const { blocks } = state;
   switch (action.type) {
     case eventConstants.PREPARE_FOR_CREATE_EVENT:
       return {
@@ -50,6 +52,48 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         categories: [],
+      };
+
+    case eventConstants.DUPLICATE_BLOCK:
+      const idDuplicate = action.id;
+      const blockDuplicate = blocks.find((item) => item.id === idDuplicate);
+      if (blockDuplicate) {
+        const indexDuplicate = blocks.indexOf(blockDuplicate);
+        const newBlockListDuplicate = [
+          ...blocks.slice(0, indexDuplicate + 1),
+          {
+            ...blockDuplicate,
+            id: uuid(),
+          },
+          ...blocks.slice(indexDuplicate + 1, blocks.length),
+        ];
+        return {
+          ...state,
+          blocks: newBlockListDuplicate,
+        };
+      }
+
+      return {
+        ...state,
+      };
+
+    case eventConstants.DELETE_BLOCK:
+      const idDelete = action.id;
+      const blockDelete = blocks.find((item) => item.id === idDelete);
+      if (blockDelete) {
+        const indexDelete = blocks.indexOf(blockDelete);
+        const newBlockListDelete = [
+          ...blocks.slice(0, indexDelete),
+          ...blocks.slice(indexDelete + 1, blocks.length),
+        ];
+        return {
+          ...state,
+          blocks: newBlockListDelete,
+        };
+      }
+
+      return {
+        ...state,
       };
 
     default:

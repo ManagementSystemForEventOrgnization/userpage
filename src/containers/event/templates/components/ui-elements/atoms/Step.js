@@ -210,6 +210,7 @@ class StepBlock extends Component {
                         <TextBlock
                           content={step.title}
                           id={step.id}
+                          child={true}
                           handleOnChangeTextBlock={this.handleOnChangeTextBlock}
                         />
                       </div>
@@ -226,6 +227,7 @@ class StepBlock extends Component {
                     <TextBlock
                       content={step.description}
                       id={step.id}
+                      child={true}
                       handleOnChangeTextBlock={this.handleOnChangeDesTextBlock}
                     />
                   </div>

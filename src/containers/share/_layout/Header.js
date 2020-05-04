@@ -21,11 +21,11 @@ class Header extends React.Component {
             ) : (
               <>
                 <Link className="mr-4 login" to="/login">
-                  Đăng Nhập
+                  Login
                 </Link>
                 <Link to="/signup" className=" mr-3 register">
                   <Button size="large" type="danger">
-                    Đăng Ký Miễn Phí
+                    Register for free
                   </Button>
                 </Link>
               </>

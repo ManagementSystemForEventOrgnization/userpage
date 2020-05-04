@@ -79,8 +79,8 @@ class CardBlock extends React.Component {
                 }
               >
                 <Meta
-                  title={<Text content={title} />}
-                  description={<Text content={description} />}
+                  title={<Text content={title} child={true} />}
+                  description={<Text content={description} child={true} />}
                 />
               </Card>
             </Col>
