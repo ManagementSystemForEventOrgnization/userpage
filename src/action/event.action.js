@@ -1,15 +1,13 @@
-import { createBrowserHistory } from 'history';
 import API from './axious.config';
 import { eventConstants } from '../constants/index';
 
-const history = createBrowserHistory();
+import history from '../utils/history';
 
 const getCategories = () => {
   // /api/evenCategory
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           dispatch(success(res.data.result));
         } else {

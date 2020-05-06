@@ -7,7 +7,7 @@ import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
 
-import TrashDropContainer from '../event/templates/components/TrashDropContainer';
+// import TrashDropContainer from '../event/templates/components/TrashDropContainer';
 
 class CreateEvent extends React.Component {
   constructor(props) {
@@ -57,11 +57,11 @@ class CreateEvent extends React.Component {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="bg-secondary float-right border border-danger rounded-circle ">
             <TrashDropContainer />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -30,28 +30,11 @@ class HomePage extends Component {
         '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh',
     };
 
-    const orgnizations = [
-      {
-        name: 'Orgnization 1',
-        src: '/star.jpg',
-        description: 'description',
-      },
-      {
-        name: 'Orgnization 1',
-        src: '/star.jpg',
-        description: 'description',
-      },
-      {
-        name: 'Orgnization 1',
-        src: '/star.jpg',
-        description: 'description',
-      },
-      {
-        name: 'Orgnization 1',
-        src: '/star.jpg',
-        description: 'description',
-      },
-    ];
+    const orgnizations = {
+      name: 'Orgnization 1',
+      src: '/star.jpg',
+      description: 'description',
+    };
 
     const temp = [1, 2, 3, 4, 5];
 
@@ -95,11 +78,12 @@ class HomePage extends Component {
         <div className="orgnization">
           <h1>Organizers </h1>
           <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
-            {orgnizations.map((item, index) => (
-              <Orgnization key={index} orgnization={item} />
+            {temp.map((item) => (
+              <Orgnization key={item} orgnization={orgnizations} />
             ))}
           </div>
         </div>
+
         <div className="explore">
           <Link to="/about-us">
             <Button size="large" type="primary">
