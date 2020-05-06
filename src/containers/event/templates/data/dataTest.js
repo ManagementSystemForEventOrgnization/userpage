@@ -45,6 +45,8 @@ import IconSocial from '../components/ui-elements/blocks/Social/social';
 
 import Video1 from '../components/ui-elements/blocks/video/video1';
 
+import Video2 from '../components/ui-elements/blocks/video/video2';
+
 export default [
   {
     name: 'Simple Block',
@@ -352,17 +354,17 @@ export default [
     name: 'Video',
     value: [
       {
-        child: 'Option 1',
+        child: 'Upload video',
         style: {},
         options: ({ key, editable, style, id }) => (
           <Video1 key={key} editable={editable} style={style} id={id} />
         ),
       },
       {
-        child: 'Option 2',
+        child: 'Input Link',
         style: {},
         options: ({ key, editable, style, id }) => (
-          <ButtonBlock key={key} editable={editable} style={style} id={id} />
+          <Video2 key={key} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options }) => {
