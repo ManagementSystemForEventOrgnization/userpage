@@ -167,6 +167,7 @@ const getCurrentUser = () => {
         }
       })
       .catch((error) => {
+        console.log(error);
         const { data } = error.response;
         if (data.error) {
           return dispatch(failure(data.error.message));
@@ -190,29 +191,42 @@ const onUpdateUserProfile = (userInfor) => {
   console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
-    API.get(`/api/current_user`)
+    API.post(`/api/user/updateInfo`, {
+      fullName: userInfor.fullName,
+      birthday: userInfor.birthday,
+      gender: userInfor.gender,
+      job: userInfor.job,
+      phone: userInfor.phone,
+      discription: userInfor.discription,
+      avatarUrl: userInfor.avatar,
+    })
       .then((res) => {
+        console.log('TCL then : ', res);
+
         if (res.status === 200) {
-          dispatch(success(res.data));
-        } else {
-          dispatch(failure(res.message));
-        }
+          dispatch(success(res.data.result.user));
+        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
       })
       .catch((error) => {
-        return dispatch(failure(error));
+        console.log('TCL catch : ', error.response);
+        const { data } = error.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
       });
   };
 
   function request() {
-    return { type: userConstants.GET_CURRENT_USER_REQUEST };
+    return { type: userConstants.UPDATE_USER_PROFILE_REQUEST };
   }
   function success(user) {
-    return { type: userConstants.GET_CURRENT_USER_SUCCESS, user };
+    return { type: userConstants.UPDATE_USER_PROFILE_SUCESS, user };
   }
   function failure(error) {
-    return { type: userConstants.GET_CURRENT_USER_FAILURE, error };
+    return { type: userConstants.UPDATE_USER_PROFILE_FAILURE, error };
   }
 };
+
 export const userActions = {
   login,
   loginWithGoogle,

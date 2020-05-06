@@ -126,7 +126,7 @@ class Schedule2 extends Component {
       fontWeight,
       scheduleName,
     } = this.state;
-    const { key, editable, leftModal } = this.props;
+    const { editable, leftModal } = this.props;
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,

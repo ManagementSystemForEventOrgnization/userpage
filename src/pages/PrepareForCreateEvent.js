@@ -26,21 +26,9 @@ const layout = {
   },
 };
 
-const categoryEvents = [
-  'Hội nghị',
-  'Thể thao',
-  'Du lịch',
-  'Sân khấu-Nghệ thuật',
-  'Tình nguyện',
-  'Workshop',
-  'Talkshow',
-];
+const typeOfEvents = ['Public', 'Private'];
 
-const plainOptions = ['Yes', 'No    '];
-
-function callback(key) {
-  console.log(key);
-}
+const plainOptions = ['Yes', 'No'];
 
 class PrepareForCreateEvent extends Component {
   formRef = React.createRef();
@@ -57,24 +45,30 @@ class PrepareForCreateEvent extends Component {
       time: {},
       isSellTicket: 'Không',
       webAddress: '',
+      isFirstLoad: true,
     };
   }
 
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+      isFirstLoad: true,
     });
   };
 
-  onTypeOfVentChange = (value) => {
-    this.setState({
-      typeOfEvent: value,
-    });
+  checkWebAddress = (rule, value, callback) => {
+    const regex = /[^\w-_.]/;
+    if (regex.test(value) === true) {
+      callback('URL  must not contain special letter');
+    } else {
+      callback();
+    }
   };
 
-  onCategoryChange = (value) => {
+  onChoose = (type, value) => {
     this.setState({
-      category: value,
+      [type]: value,
+      isFirstLoad: true,
     });
   };
 
@@ -87,16 +81,43 @@ class PrepareForCreateEvent extends Component {
     };
     this.setState({
       time,
+      isFirstLoad: true,
     });
   };
 
-  onChangeSellTicket = (e) => {
+  handleNext = () => {
+    const {
+      nameEvent,
+      typeOfEvent,
+      category,
+      quantity,
+      address,
+      locationName,
+      time,
+      isSellTicket,
+      webAddress,
+      map,
+    } = this.state;
+    const { prepareForCreateEvent } = this.props;
+    prepareForCreateEvent(
+      nameEvent,
+      typeOfEvent,
+      category,
+      quantity,
+      address,
+      locationName,
+      map,
+      time,
+      isSellTicket,
+      webAddress
+    );
     this.setState({
-      isSellTicket: e.target.value,
+      isFirstLoad: false,
     });
   };
 
   render() {
+    const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
       quantity,
@@ -106,6 +127,8 @@ class PrepareForCreateEvent extends Component {
       category,
       time,
       typeOfEvent,
+      isFirstLoad,
+      map,
     } = this.state;
 
     const next =
@@ -115,10 +138,17 @@ class PrepareForCreateEvent extends Component {
       webAddress &&
       category &&
       time &&
-      typeOfEvent;
-    const { categories } = this.props;
-    const listCategory = categories.length === 0 ? categoryEvents : categories;
+      typeOfEvent &&
+      map;
 
+    const errorStyle = {
+      backgroundColor: '#e8b3b3',
+      color: '#7d0200',
+      borderRadius: '5px ',
+      lineHeight: '35px',
+      margin: '10px 100px',
+      padding: '1px 20px',
+    };
     const urlIMG =
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
@@ -130,7 +160,15 @@ class PrepareForCreateEvent extends Component {
           </Link>
         </div>
 
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        {/* {errMessage && (
+          <div className="error-message mt-2 mb-2">{errMessage}</div>
+        )} */}
+
+        {errMessage && !isFirstLoad && (
+          <div style={errorStyle}>{errMessage}</div>
+        )}
+
+        <Tabs defaultActiveKey="1">
           <TabPane
             tab={
               <span className="p-5">
@@ -140,12 +178,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="1"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="name"
                 label="Name of event "
@@ -169,11 +202,15 @@ class PrepareForCreateEvent extends Component {
                   {
                     required: true,
                   },
+                  {
+                    validator: this.checkWebAddress,
+                  },
                 ]}
               >
                 <Input
+                  addonBefore="http://event-in-your-hand/event/"
                   value={webAddress}
-                  name="webAddess"
+                  name="webAddress"
                   onChange={this.onChange}
                 />
               </Form.Item>
@@ -189,14 +226,18 @@ class PrepareForCreateEvent extends Component {
               >
                 <Select
                   placeholder="Choose category of event"
-                  onChange={this.onCategoryChange}
+                  name="category"
+                  onChange={(value) => this.onChoose('category', value)}
                   allowClear
                 >
-                  {categoryEvents.map((item) => (
-                    <Option key={item} value={item}>
-                      {item}
-                    </Option>
-                  ))}
+                  {categories.map(
+                    (item) =>
+                      !item.isDelete && (
+                        <Option key={item._id} value={item._id}>
+                          {item.name}
+                        </Option>
+                      )
+                  )}
                 </Select>
               </Form.Item>
             </Form>
@@ -205,17 +246,12 @@ class PrepareForCreateEvent extends Component {
             tab={
               <span className="p-5">
                 <InfoCircleTwoTone />
-                When
+                Which
               </span>
             }
             key="2"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="typeOfEvent"
                 label="Type of event"
@@ -227,10 +263,10 @@ class PrepareForCreateEvent extends Component {
               >
                 <Select
                   placeholder="Type of event"
-                  onChange={this.onTypeOfVentChange}
+                  onChange={(value) => this.onChoose('typeOfEvent', value)}
                   allowClear
                 >
-                  {listCategory.map((item) => (
+                  {typeOfEvents.map((item) => (
                     <Option key={item} value={item}>
                       {item}
                     </Option>
@@ -262,7 +298,8 @@ class PrepareForCreateEvent extends Component {
               >
                 <Radio.Group
                   options={plainOptions}
-                  onChange={this.onChangeSellTicket}
+                  name="isSellTicket"
+                  onChange={this.onChange}
                   value={isSellTicket}
                 />
               </Form.Item>
@@ -277,12 +314,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="3"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="time"
                 label="Time"
@@ -316,12 +348,7 @@ class PrepareForCreateEvent extends Component {
             }
             key="4"
           >
-            <Form
-              {...layout}
-              ref={this.formRef}
-              name="control-ref"
-              className="pt-5"
-            >
+            <Form {...layout} name="control-ref" className="pt-5">
               <Form.Item
                 name="locationName"
                 label="Detail Address"
@@ -347,28 +374,35 @@ class PrepareForCreateEvent extends Component {
                   },
                 ]}
               >
-                <AutoCompletePlace />
+                <AutoCompletePlace
+                  handleAddressChange={(value) =>
+                    this.onChoose('address', value)
+                  }
+                  handleMapChange={(value) => this.onChoose('map', value)}
+                />
               </Form.Item>
             </Form>
           </TabPane>
         </Tabs>
         <hr className="shadow border-bottom" />
+
         <div className="d-flex float-right">
           <Link to="/">
             <Button size="large" type="primary">
               Back to home
             </Button>
           </Link>
-          <Link to="/create">
-            <Button
-              disabled={!next}
-              size="large"
-              type="primary"
-              className="ml-3"
-            >
-              Next
-            </Button>
-          </Link>
+
+          <Button
+            size="large"
+            type="primary"
+            className="ml-3"
+            disabled={!next}
+            loading={pending}
+            onClick={this.handleNext}
+          >
+            Finish
+          </Button>
         </div>
       </div>
     );
@@ -377,6 +411,8 @@ class PrepareForCreateEvent extends Component {
 
 const mapStateToProps = (state) => ({
   categories: state.event.categories,
+  pending: state.event.pending,
+  errMessage: state.event.errMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -387,8 +423,10 @@ const mapDispatchToProps = (dispatch) => ({
     quantity,
     address,
     locationName,
+    map,
     time,
-    isSellTicket
+    isSellTicket,
+    webAddress
   ) =>
     dispatch(
       eventActions.prepareForCreateEvent(
@@ -398,8 +436,10 @@ const mapDispatchToProps = (dispatch) => ({
         quantity,
         address,
         locationName,
+        map,
         time,
-        isSellTicket
+        isSellTicket,
+        webAddress
       )
     ),
 });

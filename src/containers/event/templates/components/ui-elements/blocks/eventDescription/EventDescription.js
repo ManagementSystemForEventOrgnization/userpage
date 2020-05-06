@@ -11,6 +11,7 @@ class EventDescription extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
+    console.log(this.props);
     this.state = style
       ? { ...style }
       : {
@@ -37,8 +38,19 @@ class EventDescription extends Component {
     });
   };
 
-  handleDuplicate = () => {};
-  handleDelete = () => {};
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
 
   onChangeStyle = (type, value) => {
     this.setState({
@@ -194,6 +206,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDescription);

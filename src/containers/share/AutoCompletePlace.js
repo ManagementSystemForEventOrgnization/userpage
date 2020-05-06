@@ -10,26 +10,33 @@ class AutoCompletePlace extends React.Component {
     super(props);
     this.state = {
       address: '',
-      map: [],
+      map: {},
     };
   }
 
   handleChange = (address) => {
+    const { handleAddressChange } = this.props;
+    if (handleAddressChange) {
+      handleAddressChange(address);
+    }
     this.setState({ address });
   };
 
   handleSelect = (address) => {
+    const { handleAddressChange, handleMapChange } = this.props;
     this.setState({
       address,
     });
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
-        this.setState({
-          map: latLng,
-        });
+        if (handleMapChange) handleMapChange(latLng);
       })
       .catch((error) => console.error('Error', error));
+
+    if (handleAddressChange) {
+      handleAddressChange(address);
+    }
   };
 
   render() {

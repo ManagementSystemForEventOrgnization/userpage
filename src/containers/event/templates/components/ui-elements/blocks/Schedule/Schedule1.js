@@ -89,29 +89,6 @@ class Schedule1 extends Component {
     }
   };
 
-  handleStoreBlock = () => {
-    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
-    const currentStyle = this.state;
-
-    let item = blocks.find((ele) => ele.id === id);
-
-    if (item) {
-      const index = blocks.indexOf(item);
-      item.style = currentStyle;
-      storeBlocksWhenCreateEvent([
-        ...blocks.slice(0, index),
-        item,
-        ...blocks.slice(index + 1, blocks.length),
-      ]);
-    }
-  };
-  onChangeValue(newValue, valueParam) {
-    this.setState({
-      [valueParam]: newValue,
-    });
-    this.handleStoreBlock();
-  }
-
   render() {
     // need to refactor
     const {
