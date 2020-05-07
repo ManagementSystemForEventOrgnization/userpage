@@ -1,8 +1,6 @@
 import API from './axious.config';
 import { userConstants } from '../constants/index';
-import { createBrowserHistory } from 'history';
-
-const history = createBrowserHistory();
+import history from '../utils/history';
 
 const login = (email, password) => {
   return (dispatch) => {

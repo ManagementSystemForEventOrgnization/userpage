@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom';
 
 import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
-
-import TrashDropContainer from '../event/templates/components/TrashDropContainer';
+import { eventActions } from '../../action/event.action';
 
 class CreateEvent extends React.Component {
   constructor(props) {
@@ -17,16 +15,22 @@ class CreateEvent extends React.Component {
     };
   }
 
-  handlePreview = () => {};
-
   toggleCollapsed = (value) => {
     this.setState({
       collapsed: value,
     });
   };
 
+  handleSaveEvent = () => {
+    const { blocks, id, saveEvent } = this.props;
+    const eventId = id ? id : '5eb259b562bd742fe41c1205';
+    saveEvent(eventId, blocks);
+  };
+
   render() {
     const { collapsed } = this.state;
+    const { id, pending } = this.props;
+
     return (
       <div className=" create-event">
         <div className="fixed-top ">
@@ -34,12 +38,24 @@ class CreateEvent extends React.Component {
         </div>
 
         <div className="d-flex flex-row-reverse">
-          <Button className="mr-5 ml-3" type="primary" size="large">
+          <Button
+            className="mr-5 ml-3"
+            type="primary"
+            size="large"
+            loading={pending}
+            onClick={this.handleSaveEvent}
+          >
             Public
           </Button>
 
-          <Button type="dashed" size="large" onClick={this.handlePreview}>
-            <Link to="/create/preview">Preview</Link>
+          <Button type="dashed" size="large" onClick={this.handleSaveEvent}>
+            <a
+              href={id ? `/preview/${id}` : 'preview/5eb259b562bd742fe41c1205'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Preview
+            </a>
           </Button>
         </div>
 
@@ -56,21 +72,20 @@ class CreateEvent extends React.Component {
             <DropContainer />
           </div>
         </div>
-
-        <div>
-          <div className="bg-secondary float-right border border-danger rounded-circle ">
-            <TrashDropContainer />
-          </div>
-        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  id: state.event.id,
+  pending: state.event.pending,
+  blocks: state.event.blocks,
+});
 
-// const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
+  saveEvent: (eventId, block) =>
+    dispatch(eventActions.saveEvent(eventId, block)),
+});
 
-// });
-
-export default connect(mapStateToProps, null)(CreateEvent);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

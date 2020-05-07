@@ -21,8 +21,8 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-        ...ScheduleState(this.props, 1),
-      };
+          ...ScheduleState(this.props, 1),
+        };
   }
 
   componentDidMount = () => {

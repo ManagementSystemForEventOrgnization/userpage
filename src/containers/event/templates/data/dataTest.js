@@ -177,7 +177,7 @@ export default [
       {
         child: 'Medium Banner',
         style: {},
-        options: ({ key, editable, style, id }) => (
+        options: ({ id, key, editable, style }) => (
           <Banner3 id={id} key={key} editable={editable} style={style} />
         ),
       },

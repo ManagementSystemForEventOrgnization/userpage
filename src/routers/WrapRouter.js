@@ -1,14 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import { userActions } from '../action/user.action';
-
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AboutUs from '../pages/AboutUs';
@@ -26,6 +20,8 @@ import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
 import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
+
+import history from '../utils/history';
 
 class WrapRouter extends React.Component {
   constructor(props) {
@@ -105,7 +101,7 @@ class WrapRouter extends React.Component {
         main: (match) => <CreateEventPage match={match} />,
       },
       {
-        path: '/create/preview',
+        path: '/preview/:id',
         exact: true,
         main: () => <PreviewEvent />,
       },
@@ -127,7 +123,7 @@ class WrapRouter extends React.Component {
     ];
 
     return (
-      <Router>
+      <Router history={history}>
         <Switch>
           {routes.map((route, index) => (
             <Route

@@ -11,7 +11,6 @@ class EventDescription extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    console.log(this.props);
     this.state = style
       ? { ...style }
       : {
