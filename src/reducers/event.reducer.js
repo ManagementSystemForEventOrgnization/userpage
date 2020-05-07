@@ -15,24 +15,25 @@ const initialState = {
   isSellTicket: 'Không',
   webAddress: '',
   blocks: [
-    ...dataTest[0].value,
-    ...dataTest[1].value,
+    // ...dataTest[0].value,
+    // ...dataTest[1].value,
     ...dataTest[2].value,
     ...dataTest[3].value,
-    ...dataTest[4].value,
-    ...dataTest[5].value,
-    ...dataTest[6].value,
-    ...dataTest[7].value,
-    ...dataTest[8].value,
-    ...dataTest[9].value,
-    ...dataTest[10].value,
-    ...dataTest[11].value,
-    ...dataTest[12].value,
-    ...dataTest[13].value,
+    // ...dataTest[4].value,
+    // ...dataTest[5].value,
+    // ...dataTest[6].value,
+    // ...dataTest[7].value,
+    // ...dataTest[8].value,
+    // ...dataTest[9].value,
+    // ...dataTest[10].value,
+    // ...dataTest[11].value,
+    // ...dataTest[12].value,
+    // ...dataTest[13].value,
   ],
   categories: [],
   errMessage: '',
   pending: false,
+  id: '',
 };
 
 const event = (state = initialState, action) => {
@@ -48,6 +49,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
+        id: action.id,
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
@@ -133,6 +135,36 @@ const event = (state = initialState, action) => {
 
       return {
         ...state,
+      };
+
+    case eventConstants.GET_EVENT_DETAIL_SUCCESS:
+      return {
+        ...state,
+        page: action.page,
+      };
+
+    case eventConstants.GET_EVENT_DETAIL_FAILURE:
+      return {
+        ...state,
+        errMessage: action.err,
+      };
+
+    case eventConstants.SAVE_EVENT_DETAIL:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case eventConstants.SAVE_EVENT_DETAIL_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+      };
+
+    case eventConstants.SAVE_EVENT_DETAIL_FAILURE:
+      return {
+        ...state,
+        pending: false,
       };
 
     default:

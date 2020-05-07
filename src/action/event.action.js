@@ -1,7 +1,106 @@
 import API from './axious.config';
 import { eventConstants } from '../constants/index';
-
 import history from '../utils/history';
+
+const getEventDetail = (eventId) => {
+  return (dispatch) => {
+    API.get(`/api/event`, {
+      params: {
+        eventId,
+      },
+    })
+      .then((res) => {
+        console.log('TCL Get event detail  THEN: ', res);
+        if (res.status === 200) {
+          dispatch(success(res.data.result));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log('TCL Get event detail  CATCH: ', err.response);
+
+        const { data } = err.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
+      });
+  };
+
+  function success(page) {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
+      page,
+    };
+  }
+
+  function failure(err) {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_FAILURE,
+      err,
+    };
+  }
+};
+
+const saveEvent = (eventId, block) => {
+  //   let block = [];
+
+  //   blocks.map((item) => {
+  //     let temp = { ...item };
+
+  //     for (let key in item) {
+  //       let obj = {};
+  //       obj.key = item.key;
+  //       obj.id = item.id;
+  //       obj.editable = false;
+  //       obj.style = item.style;
+  //       console.log(obj.toString());
+  //       if (typeof item[key] === 'function') {
+  //         temp[
+  //           key
+  //           // ] = `(${item[key]}).apply(null,[])`;
+  //         ] = `(${item[key]}).apply(null,[${obj.toString()}])`;
+  //       }
+  //     }
+  //     block.push(temp);
+  //   });
+
+  return (dispatch) => {
+    dispatch(request());
+    API.post('/api/save/page_event', { block, eventId })
+      .then((res) => {
+        console.log('TCL Save event detail  THEN: ', res);
+
+        if (res.status === 200) {
+          dispatch(success());
+          history.push(`/event/${eventId}`);
+        }
+      })
+      .catch((err) => {
+        console.log('TCL Save event detail  CATCH: ', err.response);
+
+        const { data } = err.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
+      });
+  };
+  function request() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL,
+    };
+  }
+  function success() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_SUCCESS,
+    };
+  }
+  function failure(err) {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_FAILURE,
+      err,
+    };
+  }
+};
 
 const getCategories = () => {
   // /api/evenCategory
@@ -46,19 +145,6 @@ const prepareForCreateEvent = (
 ) => {
   return (dispatch) => {
     dispatch(request());
-    console.log(
-      nameEvent,
-      typeOfEvent,
-      category,
-      webAddress,
-      quantity,
-      address,
-      locationName,
-      map,
-      time.fromString,
-      time.toString,
-      isSellTicket
-    );
     API.post('api/save/event', {
       // { name, typeOfEvent, category, urlWeb, limitNumber, address, detailAddress, map, startTime, endTime, isSellTicket }
       name: nameEvent,
@@ -78,9 +164,11 @@ const prepareForCreateEvent = (
     })
       .then((res) => {
         if (res.status === 200) {
+          const id = res.data.result;
           setTimeout(
             dispatch(
               success(
+                id,
                 nameEvent,
                 typeOfEvent,
                 category,
@@ -114,6 +202,7 @@ const prepareForCreateEvent = (
   }
 
   function success(
+    id,
     nameEvent,
     typeOfEvent,
     category,
@@ -127,6 +216,7 @@ const prepareForCreateEvent = (
   ) {
     return {
       type: eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS,
+      id,
       nameEvent,
       typeOfEvent,
       category,
@@ -188,4 +278,6 @@ export const eventActions = {
   getCategories,
   duplicateBlock,
   deleteBlock,
+  getEventDetail,
+  saveEvent,
 };
