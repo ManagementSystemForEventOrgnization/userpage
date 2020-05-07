@@ -8,7 +8,7 @@ const VideoState = (props) => ({
     margin: props.margin || [1, 1, 1, 1],
     padding: props.padding || [1, 1, 2, 1],
     borderRadius: props.borderRadius || 0,
-    playing: props.playing || true,
+  
 
 })
 

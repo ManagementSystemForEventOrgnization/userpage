@@ -19,11 +19,11 @@ class Video2 extends React.Component {
     this.state = style
       ? { ...style }
       : {
-          ...VideoState(this.props),
-          isShowNotFound: true,
-          txtInput: ' ',
-          loop: false,
-        };
+        ...VideoState(this.props),
+        isShowNotFound: true,
+        txtInput: ' ',
+        loop: false,
+      };
   }
 
   componentDidMount = () => {
@@ -137,10 +137,10 @@ class Video2 extends React.Component {
             />
           </div>
         ) : (
-          <div style={{ textAlign: 'center', width: '100%' }}>
-            <img src="/not-found.jpg" alt="not-found" />
-          </div>
-        )}
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <img src="/not-found.jpg" alt="not-found" />
+            </div>
+          )}
         {editable && (
           <IconsHandle
             collapseModal={this.collapseModal}
