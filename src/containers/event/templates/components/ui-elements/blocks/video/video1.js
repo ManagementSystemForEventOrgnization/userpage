@@ -122,7 +122,6 @@ class Video1 extends React.Component {
 
 
                 <ReactPlayer url={uploadedFileCloudinaryUrl}
-                    playing
                     controls
                     width="100%" />
 
@@ -151,7 +150,7 @@ class Video1 extends React.Component {
 
 
                                 <div className="mt-4">
-                                    
+
                                     <UploadVideo
                                         url={uploadedFileCloudinaryUrl}
                                         progress={progress}

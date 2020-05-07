@@ -20,6 +20,7 @@ import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ProfilePage from '../pages/ProfilePage';
 import MyEventsPage from '../pages/MyEventsPage';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 
 import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
@@ -112,6 +113,11 @@ class WrapRouter extends React.Component {
         path: '/prepare',
         exact: true,
         main: () => <PrepareForCreateEvent />,
+      },
+      {
+        path: '/forgotpassword',
+        exact: true,
+        main: () => <ForgotPasswordPage />,
       },
       {
         path: '',

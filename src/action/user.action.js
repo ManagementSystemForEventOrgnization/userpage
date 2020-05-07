@@ -1,5 +1,8 @@
 import API from './axious.config';
 import { userConstants } from '../constants/index';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 const login = (email, password) => {
   return (dispatch) => {
@@ -62,6 +65,104 @@ const loginWithGoogle = (profile) => {
     return { type: userConstants.LOGIN_GOOGLE_FAILURE, error };
   }
 };
+
+const requestForgotPassword = (email) => {
+  const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+  return (dispatch) => {
+    if (!regex.test(email)) {
+      return dispatch(failure('Invalid email !'));
+
+    }
+    else {
+      dispatch(request());
+
+      API.post(`/api/requestForgotPassword`, {
+        email
+      }).then((res) => {
+        if (res.status === 200) {
+          dispatch(success());
+
+        } else {
+          dispatch(
+            failure(res.data.error.message || 'OOPs! something wrong')
+          );
+        }
+      }).catch((error) => {
+        const { data } = error.response;
+        if (data.error) {
+          return dispatch(
+            failure(data.error.message) || 'OOPs! something wrong'
+          );
+        }
+        return dispatch(failure(error) || 'OOPs! something wrong');
+      });
+
+    }
+  }
+  function request() {
+    return { type: userConstants.SENDEMAILFORGOTPASSWORD_REQUEST };
+  }
+  function success() {
+    return { type: userConstants.SENDEMAILFORGOTPASSWORD_SUCCESS };
+  }
+  function failure(error) {
+    return { type: userConstants.SENDEMAILFORGOTPASSWORD_FAILURE, error };
+  }
+}
+
+const forgotPassword = (email, otp, newPassword) => {
+  ///forgotPassword
+  const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+
+  return (dispatch) => {
+    if (!regex.test(email)) {
+      return dispatch(failure('Invalid email !'));
+    } else if (newPassword.length < 3 || newPassword.length > 20) {
+      return dispatch(failure('Password should be from 3 to 20 characters!'));
+    } else if (newPassword.indexOf(' ') !== -1) {
+      return dispatch(failure('Password should not have white space !'));
+    } else {
+      dispatch(request());
+      API.post(`/api/forgotPassword`, {
+        email,
+        otp,
+        newPassword,
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            history.push('/login')
+            dispatch(success());
+
+          } else {
+            dispatch(
+              failure(res.data.error.message || 'OOPs! something wrong')
+            );
+          }
+        })
+        .catch((error) => {
+          const { data } = error.response;
+          if (data.error) {
+            return dispatch(
+              failure(data.error.message) || 'OOPs! something wrong'
+            );
+          }
+          return dispatch(failure(error) || 'OOPs! something wrong');
+        });
+    }
+  };
+
+  function request() {
+    return { type: userConstants.FORGOTPASSWORD_REQUEST };
+  }
+  function success() {
+    return { type: userConstants.FORGOTPASSWORD_SUCCESS };
+  }
+  function failure(error) {
+    return { type: userConstants.FORGOTPASSWORD_FAILURE, error };
+  }
+
+}
+
 
 const register = (email, password, fullName) => {
   const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
@@ -235,4 +336,7 @@ export const userActions = {
   logout,
   getCurrentUser,
   onUpdateUserProfile,
+  forgotPassword,
+  requestForgotPassword,
+
 };

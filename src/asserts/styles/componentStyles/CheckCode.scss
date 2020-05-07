@@ -1,13 +1,18 @@
-.check-code{
+.check-code {
     font-weight: bold;
-    .notify-enter-code{
+    .notify-enter-code {
         text-align: center;
     }
-    .error-message{
+    .error-message {
         background-color: $background-error;
         color: $color-error;
-        border-radius:5px ;
+        border-radius: 5px;
         line-height: 35px;
         padding-left: 10px;
+    }
+    .changePassword {
+        width: 100% !important;
+        border-radius: 5px !important;
+        height: 40px !important;
     }
 }

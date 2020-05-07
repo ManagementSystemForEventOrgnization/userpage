@@ -7,6 +7,8 @@ const initialState = {
   userInfo: null,
   active: null,
   showCheckCode: false,
+  showVerifyForgotPassword: false,
+
 };
 
 const user = (state = initialState, action) => {
@@ -141,9 +143,57 @@ const user = (state = initialState, action) => {
         pending: false,
         errMessage: action.error,
       };
+    case userConstants.SENDEMAILFORGOTPASSWORD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+
+      }
+
+    case userConstants.SENDEMAILFORGOTPASSWORD_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        errMessage: null,
+        showVerifyForgotPassword: true
+
+      }
+
+    case userConstants.SENDEMAILFORGOTPASSWORD_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+        showVerifyForgotPassword: false,
+      }
+    case userConstants.FORGOTPASSWORD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+
+      }
+    case userConstants.FORGOTPASSWORD_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        errMessage: null,
+
+      }
+
+    case userConstants.FORGOTPASSWORD_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+
+      }
+
     default:
       return state;
   }
 };
+
 
 export default user;

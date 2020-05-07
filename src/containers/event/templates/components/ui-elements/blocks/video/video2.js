@@ -71,9 +71,10 @@ class Video2 extends React.Component {
     }
 
     collapseModal = () => {
-        const { visible } = this.state;
+        const { visible, uploadedFileCloudinaryUrl } = this.state;
         this.setState({
             visible: !visible,
+            txtInput: uploadedFileCloudinaryUrl
 
         });
     };
@@ -109,7 +110,7 @@ class Video2 extends React.Component {
             height,
             margin,
             padding,
-            borderRadius, isShowNotFound, txtInput, playing
+            borderRadius, isShowNotFound, txtInput,
         } = this.state;
 
         const { leftModal, editable } = this.props;
@@ -139,7 +140,7 @@ class Video2 extends React.Component {
                     <div style={videoStyle}>
 
                         <ReactPlayer url={uploadedFileCloudinaryUrl}
-                            playing={playing}
+
                             controls={true}
                             style={videoStyle}
 

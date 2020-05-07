@@ -9,11 +9,9 @@ class UploadVideo extends Component {
         super(props)
         this.state = {
             pending: false,
-
-
+            NotUpload :false,
         }
     }
-
 
     handleImageUpload = (files) => {
         const { handleImageDrop, handleProgress } = this.props;
@@ -28,23 +26,17 @@ class UploadVideo extends Component {
                     this.setState({ pending: false });
                 }
 
-
-
             }, (err) => {
                 console.log(err)
                 this.setState({
-                    pending: false
+                    NotUpload :true
                 })
             }, () => {
                 storage.ref('video').child(files.name).getDownloadURL()
                     .then(files => {
-
                         handleImageDrop(files);
-
                     })
             })
-
-
     }
 
     onImageDrop = files => {
@@ -52,17 +44,17 @@ class UploadVideo extends Component {
             pending: true
         })
         this.handleImageUpload(files[0]);
-
     }
 
 
     render() {
         const { url, progress } = this.props;
-        const { pending } = this.state;
+        const { pending,NotUpload } = this.state;
         return (
             <div>
                 <div className="mt-2 " >
-                    {
+                    { NotUpload ? <div style={{ textAlign: "center", width: '100%' }}><img src="/not-found.jpg" /></div>
+                    :
                         <div>
                             {pending ?
                                 <Progress
