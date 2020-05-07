@@ -91,10 +91,10 @@ class Schedule1 extends Component {
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
-
     const currentStyle = this.state;
 
     let item = blocks.find((ele) => ele.id === id);
+
     if (item) {
       const index = blocks.indexOf(item);
       item.style = currentStyle;
@@ -105,7 +105,6 @@ class Schedule1 extends Component {
       ]);
     }
   };
-
   render() {
     // need to refactor
     const {

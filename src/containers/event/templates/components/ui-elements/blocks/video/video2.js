@@ -2,56 +2,72 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReactPlayer from 'react-player';
 import IconsHandle from '../../shares/IconsHandle';
-import { Modal, InputNumber, Tabs } from 'antd';
+import { Modal, InputNumber, Tabs, Input, Button } from 'antd';
 
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
-import UploadVideo from '../../shares/UploadVideo';
+
 import { VideoState } from '../../stateInit/VideoState';
 import { eventActions } from '../../../../../../../action/event.action';
 
 const { TabPane } = Tabs;
 
-class Video1 extends React.Component {
+class Video2 extends React.Component {
   constructor(props) {
     super(props);
+
     const { style } = this.props;
     this.state = style
       ? { ...style }
       : {
           ...VideoState(this.props),
+          isShowNotFound: true,
+          txtInput: ' ',
+          loop: false,
         };
   }
 
   componentDidMount = () => {
     const { editable } = this.props;
+
     if (editable) {
       this.handleStoreBlock();
     }
   };
+
   // common function
-  onChangeValue(newValue, valueParam) {
+  onChangeValue = (newValue, valueParam) => {
     this.setState({
       [valueParam]: newValue,
     });
-  }
-  onImageDrop = (url) => {
+  };
+  onImageDrop = (event) => {
     this.setState({
-      uploadedFileCloudinaryUrl: url,
+      txtInput: event.target.value,
     });
-    this.handleStoreBlock();
   };
 
-  onVideoProgress = (progress) => {
-    this.setState({
-      progress,
-    });
-    this.handleStoreBlock();
+  handleSubmit = () => {
+    const { txtInput } = this.state;
+
+    let expression =
+      '(?:(?:https?|ftp|file)://|www.|ftp.)(?:([-A-Z0-9+&@#/%=~_|$?!:,.]*)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:([-A-Z0-9+&@#/%=~_|$?!:,.]*)|[A-Z0-9+&@#/%=~_|$])';
+    let regex = new RegExp(expression);
+
+    if (txtInput.match(regex)) {
+      this.setState({
+        uploadedFileCloudinaryUrl: txtInput,
+        isShowNotFound: true,
+      });
+    } else {
+      this.setState({ isShowNotFound: false });
+    }
   };
 
   collapseModal = () => {
-    const { visible } = this.state;
+    const { visible, uploadedFileCloudinaryUrl } = this.state;
     this.setState({
       visible: !visible,
+      txtInput: uploadedFileCloudinaryUrl,
     });
   };
 
@@ -86,7 +102,8 @@ class Video1 extends React.Component {
       margin,
       padding,
       borderRadius,
-      progress,
+      isShowNotFound,
+      txtInput,
     } = this.state;
 
     const { leftModal, editable } = this.props;
@@ -103,20 +120,27 @@ class Video1 extends React.Component {
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
       borderRadius: `${borderRadius}%`,
-
       maxWidth: '100%',
       maxHeight: '100%',
     };
 
     return (
       <div className=" child-block  d-flex">
-        <ReactPlayer
-          url={uploadedFileCloudinaryUrl}
-          controls
-          style={videoStyle}
-          width="100%"
-        />
-
+        {isShowNotFound ? (
+          <div style={videoStyle}>
+            <ReactPlayer
+              url={uploadedFileCloudinaryUrl}
+              //   playing={playing}
+              controls={true}
+              style={videoStyle}
+              width="100%"
+            />
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', width: '100%' }}>
+            <img src="/not-found.jpg" alt="not-found" />
+          </div>
+        )}
         {editable && (
           <IconsHandle
             collapseModal={this.collapseModal}
@@ -126,7 +150,7 @@ class Video1 extends React.Component {
         )}
         {editable && (
           <Modal
-            title="Edit Image"
+            title="Edit Video"
             visible={this.state.visible}
             onOk={this.collapseModal}
             onCancel={this.collapseModal}
@@ -139,12 +163,13 @@ class Video1 extends React.Component {
             <Tabs defaultActiveKey="1">
               <TabPane tab="Upload" key="1">
                 <div className="mt-4">
-                  <UploadVideo
-                    url={uploadedFileCloudinaryUrl}
-                    progress={progress}
-                    handleProgress={this.onVideoProgress}
-                    handleImageDrop={this.onImageDrop}
-                  />
+                  <h6>Change url video</h6>
+                  <div className="d-flex">
+                    <Input value={txtInput} onChange={this.onImageDrop} />
+                    <Button type="primary" onClick={this.handleSubmit}>
+                      save
+                    </Button>
+                  </div>
                 </div>
               </TabPane>
 
@@ -190,8 +215,6 @@ class Video1 extends React.Component {
           </Modal>
         )}
       </div>
-
-      // </div>
     );
   }
 }
@@ -206,4 +229,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Video1);
+export default connect(mapStateToProps, mapDispatchToProps)(Video2);

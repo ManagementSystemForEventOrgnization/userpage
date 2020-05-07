@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone';
 import { Button, Progress } from 'antd';
 import { storage } from '../firebase';
-import { Player } from 'video-react';
+import ReactPlayer from 'react-player'
 
 class UploadVideo extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class UploadVideo extends Component {
 
     handleImageUpload = (files) => {
         const { handleImageDrop, handleProgress } = this.props;
-      
+
         if (!handleImageDrop & !handleProgress) return;
         const uploadTask = storage.ref(`/video/${files.name}`).put(files)
         uploadTask.on('state_changed',
@@ -27,18 +27,20 @@ class UploadVideo extends Component {
                 if (progress === 100) {
                     this.setState({ pending: false });
                 }
-                
+
 
 
             }, (err) => {
-
                 console.log(err)
+                this.setState({
+                    pending: false
+                })
             }, () => {
                 storage.ref('video').child(files.name).getDownloadURL()
                     .then(files => {
 
                         handleImageDrop(files);
-                      
+
                     })
             })
 
@@ -69,9 +71,10 @@ class UploadVideo extends Component {
 
                                 > </Progress>
                                 :
-                                <Player
-                                    playsInline
-                                    src={url} />
+                                <ReactPlayer url={url}
+                                    playing
+                                    controls
+                                    width="100%" />
 
                             }
                         </div>
