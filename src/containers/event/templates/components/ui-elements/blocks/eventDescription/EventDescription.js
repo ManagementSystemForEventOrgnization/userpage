@@ -11,16 +11,17 @@ class EventDescription extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    this.state = style
-      ? { ...style }
-      : {
-          collapse: false,
-          margin: [1, 1, 1, 1],
-          padding: [7, 1, 1, 7],
-          url: '',
-          bgColor: 'white',
-          opacity: 0.3,
-        };
+    this.state =
+      style && Object.keys(style).length > 0
+        ? { ...style }
+        : {
+            collapse: false,
+            margin: [1, 1, 1, 1],
+            padding: [7, 1, 1, 7],
+            url: '',
+            bgColor: 'white',
+            opacity: 0.3,
+          };
   }
 
   componentDidMount = () => {
@@ -66,7 +67,8 @@ class EventDescription extends Component {
 
     if (item) {
       const index = blocks.indexOf(item);
-      item.style = currentStyle;
+      // item.style = currentStyle;
+      item.style = `${JSON.stringify(currentStyle)}`;
       storeBlocksWhenCreateEvent([
         ...blocks.slice(0, index),
         item,

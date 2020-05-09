@@ -43,13 +43,7 @@ class DropContainer extends React.Component {
           list={dropList}
           setList={this.handleSetDropList}
         >
-          {dropList.map((item, index) => {
-            return item.options({
-              key: index,
-              id: item.id,
-              editable: true,
-            });
-          })}
+          {dropList.map((item) => item.options(item.id, true))}
         </ReactSortable>
       </div>
     );
