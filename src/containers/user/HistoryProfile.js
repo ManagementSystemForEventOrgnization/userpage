@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { Pagination } from 'antd';
 import { Input, Select, List, DatePicker } from 'antd';
-import { Link } from 'react-router-dom';
-
+import { eventActions } from '../../action/event.action';
+import moment from 'moment';
 import CartEvent from '../../components/CardEvent';
 
 
@@ -14,21 +15,57 @@ const { RangePicker } = DatePicker;
 
 class HistoryProfile extends React.Component {
   constructor(props) {
+
     super(props);
+
     this.state = {
-      items: ['Tất cả địa điểm', 'Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng'],
-      name: '',
+      selectedOption: '',
+      dateStrings: " ",
+      dateStrings: " ",
+      categories: [],
+      search: " ",
+      pageNumber: '',
+
     }
   }
+  componentDidMount = () => {
+    const { getCategories, categories } = this.props;
 
-  onNameChange = event => {
+    getCategories();
     this.setState({
-      name: event.target.value,
+      categories,
     });
   };
 
+  handleChange = (selectedOption) => {
+
+    this.setState({
+      selectedOption,
+    })
+  }
+  onChange = (dates, dateStrings) => {
+    this.setState({
+      dates,
+      dateStrings
+    })
+  }
+
+  onChangeSearch = (value) => {
+    this.setState({
+      search: value,
+    })
+    console.log(this.state.search);
+  }
+
+  onChange = (pageNumber) => {
+    this.setState({
+      pageNumber,
+    })
+    console.log('Page: ', pageNumber);
+  }
+
   render() {
-    const { items } = this.state;
+    const { categories, } = this.state;
     const data = [
       {
         title: 'Tất cả ',
@@ -54,7 +91,7 @@ class HistoryProfile extends React.Component {
 
 
     ];
-    const src = "https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg";
+    const src = "https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg";
 
     const eventCartDetail = {
       coverURL: src,
@@ -69,57 +106,52 @@ class HistoryProfile extends React.Component {
         <div className="row">
 
           <div className="col ">
-            <RangePicker className="date" />
+            <RangePicker className="date"
+              ranges={{
+                Today: [moment(), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+              }}
+              format="YYYY/MM/DD HH:mm:ss"
+              onChange={this.onChange}
 
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-
-                    title={<Link to='#'> {item.title}</Link>}
-
-                  />
-                </List.Item>
-              )}
             />
-            <Select className="select-place"
-              placeholder="Tất cả địa điểm"
-              dropdownRender={menu => (
-                <div>
-                  {menu}
-                  <br></br>
-                </div>
-              )}
-            >
-              {items.map(item => (
-                <Option key={item}>{item}</Option>
-              ))}
+
+          </div >
+          <div className='col '>
+            <Select
+              style={{ width: '100%', }}
+              onChange={this.handleChange} >
+              {
+                categories.map((item) =>
+                  <Option key={item._id} value={item._id}>{item.name}</Option>
+                )}
+
             </Select>
           </div >
-
           <div className='col '>
-            <div className="movie_card">
-
-              <Search
-                className="largesearch place mb-4"
-                placeholder="input search text"
-                onSearch={value => console.log(value)}
-              />
-              <div className="row ">
-                {
-                  data.map((item, index) => <div key={index} className="col mt-4">
-                    <CartEvent eventDetail={eventCartDetail} />
-                  </div>)
-                }
-
-              </div>
-            </div>
+            <Search
+              className="research place mb-4"
+              placeholder="input search text"
+              onSearch={value => this.onChangeSearch(value)}
+            />
           </div>
+        </div>
+        <div className="row ">
+          {
+            data.map((item, index) => <div key={index} className="col mt-4">
+              <CartEvent eventDetail={eventCartDetail} />
+            </div>)
+          }
+
 
         </div>
-
+        <div className="mt-5" style={{ textAlign: "center" }}>
+          <Pagination
+            onChange={this.onChange}
+            defaultCurrent={1}
+            total={500}
+          />
+        </div>
       </div>
     )
   }
@@ -127,10 +159,13 @@ class HistoryProfile extends React.Component {
 
 const mapStateToProps = state => ({
   // map state of store to props
+  categories: state.event.categories,
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
+
+  getCategories: () => dispatch(eventActions.getCategories()),
 
 });
 
