@@ -61,6 +61,7 @@ class ProfileInfor extends React.Component {
   constructor(props) {
     super(props);
     const { userInfor } = this.props;
+    console.log(userInfor);
 
     this.state = userInfor
       ? { ...userInfor }

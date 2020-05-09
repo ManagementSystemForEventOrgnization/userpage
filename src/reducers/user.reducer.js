@@ -1,14 +1,13 @@
 import { userConstants } from '../constants/index';
 
 const initialState = {
-  isLogined: false,
+  isLogined: localStorage.getItem('isLogined'),
   errMessage: null,
   pending: false,
   userInfo: null,
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
-
 };
 
 const user = (state = initialState, action) => {
@@ -22,6 +21,8 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
+      localStorage.setItem('isLogined', true);
+
       return {
         ...state,
         isLogined: action.user.isActive,
@@ -39,6 +40,7 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_GOOGLE_SUCCESS:
+      localStorage.setItem('isLogined', true);
       return {
         ...state,
         userInfo: action.user,
@@ -83,6 +85,7 @@ const user = (state = initialState, action) => {
         errMessage: null,
       };
     case userConstants.CHECK_CODE_SUCCESS:
+      localStorage.setItem('isLogined', true);
       return {
         ...state,
         isLogined: true,
@@ -99,6 +102,7 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGOUT:
+      localStorage.removeItem('isLogined');
       return {
         ...state,
         userInfo: null,
@@ -148,17 +152,15 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: null,
-
-      }
+      };
 
     case userConstants.SENDEMAILFORGOTPASSWORD_SUCCESS:
       return {
         ...state,
         pending: false,
         errMessage: null,
-        showVerifyForgotPassword: true
-
-      }
+        showVerifyForgotPassword: true,
+      };
 
     case userConstants.SENDEMAILFORGOTPASSWORD_FAILURE:
       return {
@@ -166,34 +168,30 @@ const user = (state = initialState, action) => {
         pending: false,
         errMessage: action.error,
         showVerifyForgotPassword: false,
-      }
+      };
     case userConstants.FORGOTPASSWORD_REQUEST:
       return {
         ...state,
         pending: true,
         errMessage: null,
-
-      }
+      };
     case userConstants.FORGOTPASSWORD_SUCCESS:
       return {
         ...state,
         pending: false,
         errMessage: null,
-
-      }
+      };
 
     case userConstants.FORGOTPASSWORD_FAILURE:
       return {
         ...state,
         pending: false,
         errMessage: action.error,
-
-      }
+      };
 
     default:
       return state;
   }
 };
-
 
 export default user;
