@@ -112,7 +112,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="3">
           <TabPane
             tab={
               <span className="p-5">

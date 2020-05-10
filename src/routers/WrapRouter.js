@@ -29,13 +29,9 @@ class WrapRouter extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    const { getCurrentUser } = this.props;
-    getCurrentUser();
-  };
-
   render() {
-    const { isLogined } = this.props;
+    let { isLogined } = this.props;
+
     // NOTE : /create need to be logined
     const routes = [
       {
@@ -63,37 +59,37 @@ class WrapRouter extends React.Component {
       {
         path: '/login',
         exact: true,
-        main: () => (!isLogined ? <LoginPage /> : <Redirect to="/" />),
+        main: () => <LoginPage />,
       },
       {
         path: '/signup',
         exact: true,
-        main: () => (!isLogined ? <SignUpPage /> : <Redirect to="/" />),
+        main: () => <SignUpPage />,
       },
       {
         path: '/profile',
         exact: true,
-        main: () => (isLogined ? <ProfilePage /> : <Redirect to="/login" />),
+        main: () => <ProfilePage />,
       },
       {
         path: '/my-events',
         exact: true,
-        main: () => (isLogined ? <MyEventsPage /> : <Redirect to="/login" />),
+        main: () => <MyEventsPage />,
       },
       {
         path: '/registered-event',
         exact: true,
-        main: () => (isLogined ? <UserEventPage /> : <Redirect to="/login" />),
+        main: () => <UserEventPage />,
       },
       {
         path: '/participated-event',
         exact: true,
-        main: () => (isLogined ? <UserEventPage /> : <Redirect to="/login" />),
+        main: () => <UserEventPage />,
       },
       {
         path: '/created-event',
         exact: true,
-        main: () => (isLogined ? <UserEventPage /> : <Redirect to="/login" />),
+        main: () => <UserEventPage />,
       },
       {
         path: '/create',

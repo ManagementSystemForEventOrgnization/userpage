@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { eventActions } from '../../action/event.action';
-
+import EventDescription3 from '../event/templates/components/ui-elements/blocks/eventDescription/EventDescription3';
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -19,23 +19,25 @@ class EventDetail extends React.Component {
   };
 
   render() {
-    const { page } = this.props;
-    const blocks = page ? page[0].rows : [];
+    // const { page } = this.props;
+    // const blocks = page ? page[0].rows : [];
 
-    console.log(blocks);
-
+    const { blocks } = this.props;
     return (
       <div>
         {blocks.map((item) => {
-          console.log(item);
-          let temp = item.options;
-          let key = '"';
-          if (temp.indexOf(key)) {
-            console.log('yes');
-            temp.replace(/"/g, "'");
-          }
-          console.log('After : ', temp);
-          eval(temp);
+          let temp = item.options; // item.option(ggsjhsjfj)
+          //   console.log(item);
+          //   if (item.child === 'Option 3') {
+          //     return (
+          //       <EventDescription3
+          //         id={item.id}
+          //         editable={false}
+          //         style={item.style ? JSON.parse(item.style) : {}}
+          //       />
+          //     );
+          //   }
+          //eval(temp);
         })}
       </div>
     );

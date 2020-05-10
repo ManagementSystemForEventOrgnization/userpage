@@ -36,6 +36,7 @@ const getEventDetail = (eventId) => {
 
 const saveEvent = (eventId, blocks) => {
   let block = [];
+  console.log(blocks[0]);
 
   blocks.map((item) => {
     let temp = { ...item };
@@ -45,6 +46,8 @@ const saveEvent = (eventId, blocks) => {
         temp[key] = `(${item[key]}).apply(null,[${item.id},${false}, ${
           item.style
         }])`;
+
+        temp[key] = temp[key].replace(/\"/g, '\\"').replace(/\n/g, ' ');
       }
     }
     block.push(temp);
@@ -52,6 +55,11 @@ const saveEvent = (eventId, blocks) => {
 
   return (dispatch) => {
     dispatch(request());
+    let block1 = block[0]['options'];
+    console.log(block1);
+    // console.log('start function block1');
+    // eval(block1);
+
     API.post('/api/save/page_event', { block, eventId })
       .then((res) => {
         console.log('TCL Save event detail  THEN: ', res);

@@ -128,6 +128,10 @@ class ProfileInfor extends React.Component {
     });
   };
 
+  componentDidMount = () => {
+    const { demo } = this.props;
+    demo();
+  };
   render() {
     const {
       fullName,
@@ -304,6 +308,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   onUpdateUserProfile: (userInfor) =>
     dispatch(userActions.onUpdateUserProfile(userInfor)),
+
+  demo: () => userActions.demo(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor);

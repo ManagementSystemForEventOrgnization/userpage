@@ -140,6 +140,7 @@ class VerifyPassword extends React.Component {
                 className=" mt-2 changePassword"
                 loading={pending}
                 disabled={!active}
+                htmlType="submit"
                 onClick={this.handleForgotPassword}
               >
                 Change my password
