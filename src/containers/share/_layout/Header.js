@@ -7,10 +7,10 @@ import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action';
 
 class Header extends React.Component {
-  // componentWillMount = () => {
-  //   const { getCurrentUser } = this.props;
-  //   getCurrentUser();
-  // };
+  componentWillMount = () => {
+    const { getCurrentUser } = this.props;
+    getCurrentUser();
+  };
   render() {
     const { isLogined } = this.props;
     return (

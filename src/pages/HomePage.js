@@ -10,14 +10,8 @@ import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-// import { eventActions } from '../action/event.action';
 
 class HomePage extends Component {
-  // componentDidMount = () => {
-  //   const { getCategories } = this.props;
-  //   if (getCategories) getCategories();
-  // };
-
   render() {
     const src =
       'https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg';
@@ -105,7 +99,7 @@ class HomePage extends Component {
 // };
 
 // const mapDispatchToProps = (dispatch) => ({
-//   getCategories: () => dispatch(eventActions.getCategories()),
+//   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 // });
 
 export default connect(null, null)(HomePage);

@@ -102,14 +102,12 @@ const getCategories = () => {
     API.get(`/api/evenCategory`)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           dispatch(success(res.data.result));
         } else {
           dispatch(failure());
         }
       })
       .catch((error) => {
-        console.log(error.response);
         dispatch(failure());
       });
   };

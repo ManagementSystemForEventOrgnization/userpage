@@ -246,6 +246,7 @@ const logout = () => {
   API.get(`/api/logout`);
   return (dispatch) => {
     dispatch(request());
+    history.push('/');
   };
 
   function request() {
@@ -266,10 +267,13 @@ const getCurrentUser = () => {
       })
       .catch((error) => {
         const { data } = error.response;
+        console.log(data);
         if (data.error) {
-          return dispatch(failure(data.error.message));
+          dispatch(failure(data.error.message));
+          history.push('/');
         }
-        return dispatch(failure('OOPs! something wrong'));
+        dispatch(failure('OOPs! something wrong'));
+        history.push('/');
       });
   };
 
@@ -285,7 +289,6 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
