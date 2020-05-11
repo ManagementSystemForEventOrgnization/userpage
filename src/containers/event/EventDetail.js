@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { eventActions } from '../../action/event.action';
-import EventDescription3 from '../event/templates/components/ui-elements/blocks/eventDescription/EventDescription3';
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +25,6 @@ class EventDetail extends React.Component {
     return (
       <div>
         {blocks.map((item) => {
-          let temp = item.options; // item.option(ggsjhsjfj)
           //   console.log(item);
           //   if (item.child === 'Option 3') {
           //     return (

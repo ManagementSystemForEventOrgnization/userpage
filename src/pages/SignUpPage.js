@@ -162,7 +162,7 @@ class SignUp extends React.Component {
                         className=" mt-2 changePassword"
                         block
                         type="primary"
-                        htmlType="submit"
+                        htmlType="submit "
                         onClick={this.handleSignup}
                         disabled={!active}
                         loading={pending}

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { TimePicker, Input, Button } from 'antd';
-import {
-  PlusCircleTwoTone,
-  CloseCircleTwoTone,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
 import 'react-day-picker/lib/style.css';
@@ -24,8 +20,6 @@ class TabPane extends Component {
   handleDayClick = (day, { selected }) => {
     const { selectedDays, session } = this.state;
     console.log(selectedDays);
-    const count = selectedDays.length;
-
     if (selected) {
       const selectedIndex = selectedDays.findIndex((selectedDay) =>
         DateUtils.isSameDay(selectedDay, day)

@@ -10,13 +10,13 @@ import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-import { eventActions } from '../action/event.action';
+// import { eventActions } from '../action/event.action';
 
 class HomePage extends Component {
-  componentDidMount = () => {
-    const { getCategories } = this.props;
-    if (getCategories) getCategories();
-  };
+  // componentDidMount = () => {
+  //   const { getCategories } = this.props;
+  //   if (getCategories) getCategories();
+  // };
 
   render() {
     const src =
@@ -104,8 +104,8 @@ class HomePage extends Component {
 //   };
 // };
 
-const mapDispatchToProps = (dispatch) => ({
-  getCategories: () => dispatch(eventActions.getCategories()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   getCategories: () => dispatch(eventActions.getCategories()),
+// });
 
-export default connect(null, mapDispatchToProps)(HomePage);
+export default connect(null, null)(HomePage);

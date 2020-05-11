@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 
 import { userActions } from '../action/user.action';
 import HomePage from '../pages/HomePage';
@@ -30,9 +30,6 @@ class WrapRouter extends React.Component {
   }
 
   render() {
-    let { isLogined } = this.props;
-
-    // NOTE : /create need to be logined
     const routes = [
       {
         path: '/',
