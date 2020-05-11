@@ -6,12 +6,10 @@ import { Link } from 'react-router-dom';
 import {
   SettingTwoTone,
   HourglassTwoTone,
-  EnvironmentTwoTone,
   InfoCircleTwoTone,
 } from '@ant-design/icons';
 
 import What from './WhatTabPane';
-import Where from './WhereTabPane';
 import Which from './WhichTabPane';
 import When from './WhenTabPane';
 import { eventActions } from '../../../action/event.action';
@@ -155,18 +153,6 @@ class EventInfor extends Component {
             key="3"
           >
             <When onChange={this.onChange} />
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span className="p-5">
-                <EnvironmentTwoTone />
-                Where
-              </span>
-            }
-            key="4"
-          >
-            <Where locationName={locationName} onChange={this.onChange} />
           </TabPane>
         </Tabs>
         <hr className="shadow border-bottom" />

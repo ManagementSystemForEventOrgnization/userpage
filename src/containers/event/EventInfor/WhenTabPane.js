@@ -34,13 +34,13 @@ class TabPane extends Component {
       session.push({
         id: day.toString(),
         day,
-        address: '',
+        address: {},
         detail: [
           {
             id: 0,
             from: '',
             to: '',
-            desciption: '',
+            description: '',
           },
         ],
       });
@@ -49,9 +49,36 @@ class TabPane extends Component {
     this.setState({ selectedDays, session });
   };
 
-  handleChangeAddress = () => {};
+  handleChangeAddress = (id, address) => {
+    const { session } = this.state;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.address['location'] = address;
+      const newSS = [
+        ...session.slice(0, index),
+        item,
+        ...session.slice(index + 1, session.length),
+      ];
 
-  handleChangeMap = () => {};
+      this.setState({ session: newSS });
+    }
+  };
+
+  handleChangeMap = (id, map) => {
+    let { session } = this.state;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.address['map'] = map;
+      session = [
+        ...session.slice(0, index),
+        item,
+        ...session.slice(index + 1, session.length),
+      ];
+      this.setState({ session });
+    }
+  };
 
   handleAddTime = (id) => {
     const { session } = this.state;
@@ -81,8 +108,40 @@ class TabPane extends Component {
     }
   };
 
-  handleChangeTime = (value) => {};
-  handleChangeDescription = (value) => {};
+  handleChangeTime = (idSs, idTime, time, timeString) => {
+    const { session } = this.state;
+    const index = session.findIndex((item) => item.id === idSs);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.detail[idTime].from = timeString[0];
+      item.detail[idTime].to = timeString[1];
+
+      const newSS = [
+        ...session.slice(0, index),
+        item,
+        ...session.slice(index + 1, session.length),
+      ];
+      this.setState({
+        session: newSS,
+      });
+    }
+  };
+  handleChangeDescription = (idSs, idTime, value) => {
+    const { session } = this.state;
+    const index = session.findIndex((item) => item.id === idSs);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.detail[idTime].description = value;
+      const newSS = [
+        ...session.slice(0, index),
+        item,
+        ...session.slice(index + 1, session.length),
+      ];
+      this.setState({
+        session: newSS,
+      });
+    }
+  };
 
   render() {
     const { selectedDays, session } = this.state;
@@ -109,19 +168,28 @@ class TabPane extends Component {
                   {ss.day.toString()}
                 </div>
                 <AutoCompletePlace
-                  handleAddressChange={this.handleChangeAddress}
-                  handleMapChange={this.handleChangeMap}
+                  address={ss.address}
+                  handleAddressChange={(value) =>
+                    this.handleChangeAddress(ss.id, value)
+                  }
+                  handleMapChange={(value) =>
+                    this.handleChangeMap(ss.id, value)
+                  }
                 />
                 {ss.detail.map((item) => (
                   <div className="d-flex mt-2" key={item.id}>
                     <RangePicker
                       className="mr-2"
-                      onChange={this.handleChangeTime}
+                      onChange={(time, timeString) =>
+                        this.handleChangeTime(ss.id, item.id, time, timeString)
+                      }
                     />
                     <Input
                       placeholder="desciption"
                       className="mr-2"
-                      onChange={this.handleChangeDescription}
+                      onChange={(value) =>
+                        this.handleChangeDescription(ss.id, item.id, value)
+                      }
                     />
                     <Button
                       type="danger"
