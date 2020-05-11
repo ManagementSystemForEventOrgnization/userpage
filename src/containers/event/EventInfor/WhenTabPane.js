@@ -19,7 +19,6 @@ class TabPane extends Component {
 
   handleDayClick = (day, { selected }) => {
     const { selectedDays, session } = this.state;
-    console.log(selectedDays);
     if (selected) {
       const selectedIndex = selectedDays.findIndex((selectedDay) =>
         DateUtils.isSameDay(selectedDay, day)
@@ -28,33 +27,59 @@ class TabPane extends Component {
       const indexSS = session.findIndex((ss) => ss.id === day.toString());
       session.splice(indexSS, 1);
     } else {
+      if (DateUtils.isPastDay(day)) {
+        return;
+      }
       selectedDays.push(day);
+      session.push({
+        id: day.toString(),
+        day,
+        address: '',
+        detail: [
+          {
+            id: 0,
+            from: '',
+            to: '',
+            desciption: '',
+          },
+        ],
+      });
     }
 
-    const ss = {
-      id: day.toString(),
-      day,
-      address: '',
-      detail: [
-        {
-          from: '',
-          to: '',
-          desciption: '',
-        },
-      ],
-    };
-    session.push(ss);
-
-    this.setState({ selectedDays });
+    this.setState({ selectedDays, session });
   };
 
   handleChangeAddress = () => {};
 
   handleChangeMap = () => {};
 
-  handleAddTime = () => {};
+  handleAddTime = (id) => {
+    const { session } = this.state;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      session[index].detail.push({
+        id: session[index].detail.length,
+        from: '',
+        to: '',
+        desciption: '',
+      });
+      this.setState({ session });
+    }
+  };
 
-  handleDeleteTime = () => {};
+  handleDeleteTime = (idSs, idTime) => {
+    const { session } = this.state;
+    const indexSS = session.findIndex((item) => item.id === idSs);
+    if (indexSS !== -1) {
+      const indexItem = session[indexSS].detail.findIndex(
+        (item) => item.id === idTime
+      );
+      session[indexSS].detail.splice(indexItem, 1);
+      this.setState({
+        session,
+      });
+    }
+  };
 
   handleChangeTime = (value) => {};
   handleChangeDescription = (value) => {};
@@ -62,6 +87,9 @@ class TabPane extends Component {
   render() {
     const { selectedDays, session } = this.state;
     const count = selectedDays.length;
+    const dayStyle = {
+      color: 'blue',
+    };
     return (
       <div className="row container justify-content-md-center">
         <div className={count === 0 ? 'col-md-auto ' : 'col-6 col-md-6 pl-5'}>
@@ -71,39 +99,45 @@ class TabPane extends Component {
             onDayClick={this.handleDayClick}
           />
         </div>
+
         {count !== 0 && (
           <div className="col-6 col-md-6">
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
             {session.map((ss) => (
               <div className="mt-2 " key={ss.id}>
-                <div className="mt-1 mb-1">{ss.day.toString()}</div>
+                <div className="mt-1 mb-1" style={dayStyle}>
+                  {ss.day.toString()}
+                </div>
                 <AutoCompletePlace
                   handleAddressChange={this.handleChangeAddress}
                   handleMapChange={this.handleChangeMap}
                 />
-                <div className="d-flex mt-2">
-                  <RangePicker
-                    className="mr-2"
-                    onChange={this.handleChangeTime}
-                  />
-                  <Input
-                    placeholder="desciption"
-                    className="mr-2"
-                    onChange={this.handleChangeDescription}
-                  />
-                  <Button
-                    type="danger"
-                    onClick={this.handleDeleteTime}
-                    icon={
-                      <DeleteOutlined
-                        style={{ fontSize: '20px', color: '#eb2f96' }}
-                      />
-                    }
-                  />
-                </div>
+                {ss.detail.map((item) => (
+                  <div className="d-flex mt-2" key={item.id}>
+                    <RangePicker
+                      className="mr-2"
+                      onChange={this.handleChangeTime}
+                    />
+                    <Input
+                      placeholder="desciption"
+                      className="mr-2"
+                      onChange={this.handleChangeDescription}
+                    />
+                    <Button
+                      type="danger"
+                      onClick={() => this.handleDeleteTime(ss.id, item.id)}
+                      icon={
+                        <DeleteOutlined
+                          style={{ fontSize: '20px', color: '#eb2f96' }}
+                        />
+                      }
+                    />
+                  </div>
+                ))}
+
                 <Button
                   className="mt-1"
-                  onClick={this.handleAddTime}
+                  onClick={() => this.handleAddTime(ss.id)}
                   icon={
                     <PlusCircleTwoTone
                       style={{ fontSize: '20px', color: '#eb2f96' }}

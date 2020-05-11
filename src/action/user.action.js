@@ -267,7 +267,6 @@ const getCurrentUser = () => {
       })
       .catch((error) => {
         const { data } = error.response;
-        console.log(data);
         if (data.error) {
           dispatch(failure(data.error.message));
           history.push('/');
@@ -301,14 +300,11 @@ const onUpdateUserProfile = (userInfor) => {
       avatarUrl: userInfor.avatar,
     })
       .then((res) => {
-        console.log('TCL then : ', res);
-
         if (res.status === 200) {
           dispatch(success(res.data.result.user));
         } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
       })
       .catch((error) => {
-        console.log('TCL catch : ', error.response);
         const { data } = error.response;
         if (data.error) {
           dispatch(failure(data.error.message));
