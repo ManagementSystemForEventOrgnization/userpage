@@ -300,7 +300,7 @@ const onUpdateUserProfile = (userInfor) => {
       avatarUrl: userInfor.avatar,
     })
       .then((res) => {
-        console.log('TCL then : ', res);
+        // console.log('TCL then111 : ', res);
 
         if (res.status === 200) {
           dispatch(success(res.data.result.user));
@@ -326,6 +326,50 @@ const onUpdateUserProfile = (userInfor) => {
   }
 };
 
+const get_History = (categoryEventId, startDate, endDate, txtSearch, pageNumber, numberRecord) => {
+  console.log("mo:", categoryEventId,
+    startDate,
+    endDate,
+    txtSearch,
+    pageNumber,
+    numberRecord)
+  return (dispatch) => {
+
+    API.post(`/api/user/history`, {
+      categoryEventId,
+      startDate,
+      endDate,
+      txtSearch,
+      pageNumber,
+      numberRecord,
+    })
+      .then((res) => {
+        // console.log('TCL then : ', res);
+
+        if (res.status === 200) {
+          console.log("data:", res.data.result)
+          dispatch(success(res.data.result));
+
+        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
+      })
+      .catch((error) => {
+        console.log('TCL catch : ', error.response);
+        const { data } = error.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
+      });
+  };
+
+
+  function success(arrEvent) {
+    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORY_FAILURE, error };
+  }
+}
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -336,5 +380,6 @@ export const userActions = {
   onUpdateUserProfile,
   forgotPassword,
   requestForgotPassword,
+  get_History,
 
 };

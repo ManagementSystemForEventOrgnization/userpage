@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Pagination } from 'antd';
-import { Input, Select, List, DatePicker } from 'antd';
-import { eventActions } from '../../action/event.action';
+import { Input, Select, DatePicker } from 'antd';
+
 import moment from 'moment';
 import CartEvent from '../../components/CardEvent';
-
+import { userActions } from '../../action/user.action';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -19,53 +19,84 @@ class HistoryProfile extends React.Component {
     super(props);
 
     this.state = {
-      selectedOption: '',
-      dateStrings: " ",
-      dateStrings: " ",
-      categories: [],
-      search: " ",
-      pageNumber: '',
+      categoryEventId: " ",
+      startDate: " ",
+      endDate: " ",
+      txtSearch: ' ',
+      pageNumber: "",
+      numberRecord: "",
+      categories: this.props.categories,
+      arrEvent: [],
+
 
     }
   }
-  componentDidMount = () => {
-    const { getCategories, categories } = this.props;
 
-    getCategories();
-    this.setState({
-      categories,
-    });
-  };
 
-  handleChange = (selectedOption) => {
+
+
+
+  handleChange = (categoryEventId) => {
 
     this.setState({
-      selectedOption,
+      categoryEventId,
+
+
     })
+    this.handleFilter()
   }
-  onChange = (dates, dateStrings) => {
+
+  onChangeDates = (dates, dateStrings) => {
+    console.log('From: ', dates[0], ', to: ', dates[1]);
     this.setState({
-      dates,
-      dateStrings
+      startDate: dateStrings[0],
+      endDate: dateStrings[1],
+
     })
+    this.handleFilter()
+
   }
 
   onChangeSearch = (value) => {
+
+    console.log(value);
     this.setState({
-      search: value,
+      txtSearch: value,
+
+
     })
-    console.log(this.state.search);
+    // this.handleFilter()
+
   }
 
   onChange = (pageNumber) => {
     this.setState({
       pageNumber,
+
     })
-    console.log('Page: ', pageNumber);
+    // this.handleFilter();
+    // console.log('Page: ', pageNumber);
+  }
+  handleFilter = () => {
+    const { get_History } = this.props;
+    const {
+      categoryEventId,
+      startDate,
+      endDate,
+      txtSearch,
+      pageNumber,
+      numberRecord } = this.state;
+    get_History(categoryEventId,
+      startDate,
+      endDate,
+      txtSearch,
+      pageNumber,
+      numberRecord)
+
   }
 
   render() {
-    const { categories, } = this.state;
+    const { categories, arrEvent } = this.state;
     const data = [
       {
         title: 'Tất cả ',
@@ -77,7 +108,7 @@ class HistoryProfile extends React.Component {
         title: 'Du lịch',
       },
       {
-        title: 'Sân khấu-Nghệ thuật',
+        title: 'Sân khấu-N ghệ thuật',
       },
       {
         title: 'Tình nguyện',
@@ -94,9 +125,9 @@ class HistoryProfile extends React.Component {
     const src = "https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg";
 
     const eventCartDetail = {
-      coverURL: src,
-      title: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
-      timeStart: 'T2, 13 Tháng 4 2020 3:00 PM',
+      urlWeb: src,
+      name: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
+      startTime: 'T2, 13 Tháng 4 2020 3:00 PM',
       address: '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh'
     }
 
@@ -106,21 +137,19 @@ class HistoryProfile extends React.Component {
         <div className="row">
 
           <div className="col ">
-            <RangePicker className="date"
-              ranges={{
-                Today: [moment(), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-              }}
-              format="YYYY/MM/DD HH:mm:ss"
-              onChange={this.onChange}
+            <RangePicker
 
+              format="YYYY-MM-DD "
+              onChange={this.onChangeDates}
+              onOk={this.onOk}
             />
 
           </div >
           <div className='col '>
             <Select
               style={{ width: '100%', }}
-              onChange={this.handleChange} >
+              onChange={this.handleChange}
+            >
               {
                 categories.map((item) =>
                   <Option key={item._id} value={item._id}>{item.name}</Option>
@@ -130,17 +159,22 @@ class HistoryProfile extends React.Component {
           </div >
           <div className='col '>
             <Search
-              className="research place mb-4"
               placeholder="input search text"
-              onSearch={value => this.onChangeSearch(value)}
+
+              onSearch={(value) => this.onChangeSearch(value)}
             />
           </div>
         </div>
         <div className="row ">
           {
-            data.map((item, index) => <div key={index} className="col mt-4">
-              <CartEvent eventDetail={eventCartDetail} />
-            </div>)
+            arrEvent.map((item, index) =>
+              <div key={index} className="col mt-4">
+                <CartEvent eventDetail={eventCartDetail} />
+
+              </div>
+
+
+            )
           }
 
 
@@ -160,12 +194,15 @@ class HistoryProfile extends React.Component {
 const mapStateToProps = state => ({
   // map state of store to props
   categories: state.event.categories,
+  arrayEvent: state.user.arrEvent,
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
 
-  getCategories: () => dispatch(eventActions.getCategories()),
+  // getCategories: () => dispatch(eventActions.getCategories()),
+  // getHistory: (categoryEventId, startDate, endDate, txtSearch, pageNumber, numberRecord) => dispatch(userActions.getHistory(categoryEventId, startDate, endDate, txtSearch, pageNumber, numberRecord)),
+  get_History: (categoryEventId, startDate, endDate, txtSearch, pageNumber, numberRecord) => dispatch(userActions.get_History(categoryEventId, startDate, endDate, txtSearch, pageNumber, numberRecord))
 
 });
 

@@ -15,12 +15,12 @@ export default class Event extends Component {
                     cover={
                         <img className="img"
                             alt="example"
-                            src={eventDetail.coverURL}
+                            src={eventDetail.urlWeb}
                         />
                     }
                 >
-                    <b >{eventDetail.title}</b>
-                    <p ><FieldTimeOutlined /> {eventDetail.timeStart}</p>
+                    <b >{eventDetail.name}</b>
+                    <p ><FieldTimeOutlined /> {eventDetail.startTime}</p>
                     <p > {eventDetail.address}</p>
                 </Card>
             </Link>

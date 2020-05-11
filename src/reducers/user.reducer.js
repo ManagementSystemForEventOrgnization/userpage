@@ -8,7 +8,7 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
-  arrayEvent : [],
+  arrEvent: null  ,
 
 };
 
@@ -191,16 +191,18 @@ const user = (state = initialState, action) => {
 
       }
     case userConstants.GET_HISTORY_SUCCESS:
-      return{
-        arrayEvent :action.user,
-        errMessage:null,
+      return {
+        ...state,
+        arrEvent: action.arrEvent,
+        errMessage: null,
 
       }
 
-      case userConstants.GET_HISTORY_FAILURE:
-        return{
-          errMessage: action.error,
-        }
+    case userConstants.GET_HISTORY_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+      }
     default:
       return state;
   }
