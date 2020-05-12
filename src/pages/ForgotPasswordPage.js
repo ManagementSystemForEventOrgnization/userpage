@@ -14,7 +14,6 @@ class ForgotPassword extends React.Component {
     this.state = {
       isFirstLoad: true,
       email: '',
-
     };
   }
   handleSendEmail = () => {
@@ -41,7 +40,6 @@ class ForgotPassword extends React.Component {
     const { email, isFirstLoad } = this.state;
     const activeEmail = email.trim();
 
-
     const urlIMG =
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
@@ -58,52 +56,53 @@ class ForgotPassword extends React.Component {
             {showVerifyForgotPassword && !isFirstLoad ? (
               <VerifyPassword />
             ) : (
-                <Form className="mt-2" form={this.form}>
-                  <p className="notification" >We'll send you password reset instructions to your email address.</p>
-                  <Form.Item>
-                    {!isFirstLoad && message && (
-                      <div className="error-message mt-2 mb-2">{message}</div>
-                    )}
-                  </Form.Item>
+              <Form className="mt-2" form={this.form}>
+                <p className="notification">
+                  We'll send you password reset instructions to your email
+                  address.
+                </p>
+                <Form.Item>
+                  {!isFirstLoad && message && (
+                    <div className="error-message mt-2 mb-2">{message}</div>
+                  )}
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    className="inputStyle"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    value={email}
                     name="email"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="inputStyle"
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      value={email}
-                      name="email"
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Email"
-                    />
-                  </Form.Item>
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Email"
+                  />
+                </Form.Item>
 
-                  <Form.Item shouldUpdate>
-                    {() => (
-                      <Button
-                        type="primary"
-                        className=" mt-2 changePassword"
-                        loading={pending}
-                        disabled={!activeEmail}
-                        onClick={this.handleSendEmail}
-                      >
-                        Reset my password
-                      </Button>
-                    )}
-
-                  </Form.Item>
-                </Form>
-              )}
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      type="primary"
+                      className=" mt-2 changePassword"
+                      loading={pending}
+                      disabled={!activeEmail}
+                      htmlType="submit"
+                      onClick={this.handleSendEmail}
+                    >
+                      Reset my password
+                    </Button>
+                  )}
+                </Form.Item>
+              </Form>
+            )}
           </div>
-
-
         </div>
       </div>
     );
@@ -114,13 +113,13 @@ const mapStateToProps = (state) => {
   return {
     message: state.user.errMessage,
     pending: state.user.pending,
-    showVerifyForgotPassword: state.user.showVerifyForgotPassword
+    showVerifyForgotPassword: state.user.showVerifyForgotPassword,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  requestForgotPassword: (email) => dispatch(userActions.requestForgotPassword(email)),
-
+  requestForgotPassword: (email) =>
+    dispatch(userActions.requestForgotPassword(email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

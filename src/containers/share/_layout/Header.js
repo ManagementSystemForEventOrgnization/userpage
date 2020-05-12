@@ -7,6 +7,10 @@ import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action';
 
 class Header extends React.Component {
+  componentWillMount = () => {
+    const { getCurrentUser } = this.props;
+    getCurrentUser();
+  };
   render() {
     const { isLogined } = this.props;
     return (
@@ -45,6 +49,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
+  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -10,19 +10,12 @@ const getEventDetail = (eventId) => {
       },
     })
       .then((res) => {
-        console.log('TCL Get event detail  THEN: ', res);
         if (res.status === 200) {
           dispatch(success(res.data.result));
         }
       })
       .catch((err) => {
-        console.log(err);
-        console.log('TCL Get event detail  CATCH: ', err.response);
-
-        const { data } = err.response;
-        if (data.error) {
-          dispatch(failure(data.error.message));
-        }
+        dispatch(failure('Something wrong !!!'));
       });
   };
 
@@ -41,31 +34,32 @@ const getEventDetail = (eventId) => {
   }
 };
 
-const saveEvent = (eventId, block) => {
-  //   let block = [];
+const saveEvent = (eventId, blocks) => {
+  let block = [];
+  console.log(blocks[0]);
 
-  //   blocks.map((item) => {
-  //     let temp = { ...item };
+  blocks.map((item) => {
+    let temp = { ...item };
 
-  //     for (let key in item) {
-  //       let obj = {};
-  //       obj.key = item.key;
-  //       obj.id = item.id;
-  //       obj.editable = false;
-  //       obj.style = item.style;
-  //       console.log(obj.toString());
-  //       if (typeof item[key] === 'function') {
-  //         temp[
-  //           key
-  //           // ] = `(${item[key]}).apply(null,[])`;
-  //         ] = `(${item[key]}).apply(null,[${obj.toString()}])`;
-  //       }
-  //     }
-  //     block.push(temp);
-  //   });
+    for (let key in item) {
+      if (typeof item[key] === 'function') {
+        temp[key] = `(${item[key]}).apply(null,[${item.id},${false}, ${
+          item.style
+        }])`;
+
+        temp[key] = temp[key].replace(/\"/g, '\\"').replace(/\n/g, ' ');
+      }
+    }
+    block.push(temp);
+  });
 
   return (dispatch) => {
     dispatch(request());
+    let block1 = block[0]['options'];
+    console.log(block1);
+    // console.log('start function block1');
+    // eval(block1);
+
     API.post('/api/save/page_event', { block, eventId })
       .then((res) => {
         console.log('TCL Save event detail  THEN: ', res);

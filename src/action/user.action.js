@@ -12,6 +12,7 @@ const login = (email, password) => {
       .then((res) => {
         if (res.status === 200) {
           dispatch(success(res.data.result));
+          history.push('/');
         } else {
           dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
         }
@@ -44,8 +45,10 @@ const loginWithGoogle = (profile) => {
       profile,
     })
       .then((res) => {
-        if (res.status === 200) dispatch(success(res.data.result));
-        else
+        if (res.status === 200) {
+          dispatch(success(res.data.result));
+          history.push('/');
+        } else
           dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
       })
       .catch((err) => {
@@ -69,34 +72,32 @@ const requestForgotPassword = (email) => {
   return (dispatch) => {
     if (!regex.test(email)) {
       return dispatch(failure('Invalid email !'));
-
-    }
-    else {
+    } else {
       dispatch(request());
 
       API.post(`/api/requestForgotPassword`, {
-        email
-      }).then((res) => {
-        if (res.status === 200) {
-          dispatch(success());
-
-        } else {
-          dispatch(
-            failure(res.data.error.message || 'OOPs! something wrong')
-          );
-        }
-      }).catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          return dispatch(
-            failure(data.error.message) || 'OOPs! something wrong'
-          );
-        }
-        return dispatch(failure(error) || 'OOPs! something wrong');
-      });
-
+        email,
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(success());
+          } else {
+            dispatch(
+              failure(res.data.error.message || 'OOPs! something wrong')
+            );
+          }
+        })
+        .catch((error) => {
+          const { data } = error.response;
+          if (data.error) {
+            return dispatch(
+              failure(data.error.message) || 'OOPs! something wrong'
+            );
+          }
+          return dispatch(failure(error) || 'OOPs! something wrong');
+        });
     }
-  }
+  };
   function request() {
     return { type: userConstants.SENDEMAILFORGOTPASSWORD_REQUEST };
   }
@@ -106,7 +107,7 @@ const requestForgotPassword = (email) => {
   function failure(error) {
     return { type: userConstants.SENDEMAILFORGOTPASSWORD_FAILURE, error };
   }
-}
+};
 
 const forgotPassword = (email, otp, newPassword) => {
   ///forgotPassword
@@ -128,9 +129,8 @@ const forgotPassword = (email, otp, newPassword) => {
       })
         .then((res) => {
           if (res.status === 200) {
-            history.push('/login')
+            history.push('/login');
             dispatch(success());
-
           } else {
             dispatch(
               failure(res.data.error.message || 'OOPs! something wrong')
@@ -158,9 +158,7 @@ const forgotPassword = (email, otp, newPassword) => {
   function failure(error) {
     return { type: userConstants.FORGOTPASSWORD_FAILURE, error };
   }
-
-}
-
+};
 
 const register = (email, password, fullName) => {
   const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
@@ -220,6 +218,7 @@ const checkCode = (token) => {
       .then((res) => {
         if (res.status === 200) {
           dispatch(success());
+          history.push('/');
         } else {
           dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
         }
@@ -247,6 +246,7 @@ const logout = () => {
   API.get(`/api/logout`);
   return (dispatch) => {
     dispatch(request());
+    history.push('/');
   };
 
   function request() {
@@ -266,12 +266,14 @@ const getCurrentUser = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
         const { data } = error.response;
+        console.log(data);
         if (data.error) {
-          return dispatch(failure(data.error.message));
+          dispatch(failure(data.error.message));
+          history.push('/');
         }
-        return dispatch(failure('OOPs! something wrong'));
+        dispatch(failure('OOPs! something wrong'));
+        history.push('/');
       });
   };
 
@@ -287,7 +289,6 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {

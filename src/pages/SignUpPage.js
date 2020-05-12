@@ -70,116 +70,117 @@ class SignUp extends React.Component {
             {showCheckCode && !isFirstLoad ? (
               <CheckCode />
             ) : (
-                <Form className="mt-4" form={this.form}>
-                  <Form.Item>
-                    {!isFirstLoad && message && (
-                      <div className="error-message mt-2 mb-2">{message}</div>
-                    )}
-                  </Form.Item>
+              <Form className="mt-4" form={this.form}>
+                <Form.Item>
+                  {!isFirstLoad && message && (
+                    <div className="error-message mt-2 mb-2">{message}</div>
+                  )}
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="fullname"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    className="inputStyle"
                     name="fullname"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="inputStyle"
-                      name="fullname"
-                      value={fullname}
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      placeholder="Fullname"
-                    />
-                  </Form.Item>
+                    value={fullname}
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Fullname"
+                  />
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    className="inputStyle"
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    value={email}
                     name="email"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="inputStyle"
-                      prefix={<MailOutlined className="site-form-item-icon" />}
-                      value={email}
-                      name="email"
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Email"
-                    />
-                  </Form.Item>
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Email"
+                  />
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    className="inputStyle"
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
                     name="password"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input.Password
-                      className="inputStyle"
-                      prefix={<LockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      name="password"
-                      value={password}
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Password"
-                    />
-                  </Form.Item>
+                    value={password}
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Password"
+                  />
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="retypePassword"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    className="inputStyle"
+                    prefix={<UnlockOutlined className="site-form-item-icon" />}
+                    type="password"
                     name="retypePassword"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input.Password
-                      className="inputStyle"
-                      prefix={<UnlockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      name="retypePassword"
-                      value={retypePassword}
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Retype password"
-                    />
-                  </Form.Item>
+                    value={retypePassword}
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Retype password"
+                  />
+                </Form.Item>
 
-                  <Form.Item shouldUpdate>
-                    {() => (
-                      <div style={{ textAlign: 'center' }}>
-                        <Button
-                          className=" mt-2 changePassword"
-                          block
-                          type="primary"
-                          onClick={this.handleSignup}
-                          disabled={!active}
-                          loading={pending}
-                        >
-                          Register
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <div style={{ textAlign: 'center' }}>
+                      <Button
+                        className=" mt-2 changePassword"
+                        block
+                        type="primary"
+                        htmlType="submit "
+                        onClick={this.handleSignup}
+                        disabled={!active}
+                        loading={pending}
+                      >
+                        Register
                       </Button>
-                      </div>
-                    )}
-                  </Form.Item>
+                    </div>
+                  )}
+                </Form.Item>
 
-                  <p className="mt-2" style={{ textAlign: 'center' }}>
-                    You had account?{' '}
-                    <span>
-                      <Link to="/login">Login </Link>
-                    </span>{' '}
-                  </p>
-                </Form>
-              )}
+                <p className="mt-2" style={{ textAlign: 'center' }}>
+                  You had account?{' '}
+                  <span>
+                    <Link to="/login">Login </Link>
+                  </span>{' '}
+                </p>
+              </Form>
+            )}
           </div>
         </div>
       </div>

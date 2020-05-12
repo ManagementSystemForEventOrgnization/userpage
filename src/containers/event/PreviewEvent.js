@@ -9,15 +9,15 @@ class PreviewEvent extends React.Component {
   }
 
   componentDidMount = () => {
-    const { id, getEventDetail } = this.props;
-
-    const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
-    getEventDetail(eventId);
+    // const { id, getEventDetail } = this.props;
+    // const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
+    // getEventDetail(eventId);
   };
 
   render() {
-    const { page } = this.props;
-    const blocks = page ? page[0].rows : [];
+    // const { page } = this.props;
+    // const blocks = page ? page[0].rows : [];
+    const { blocks } = this.props;
 
     return (
       <div>

@@ -18,7 +18,7 @@ const initialState = {
     // ...dataTest[0].value,
     // ...dataTest[1].value,
     ...dataTest[2].value,
-    ...dataTest[3].value,
+    // ...dataTest[3].value,
     // ...dataTest[4].value,
     // ...dataTest[5].value,
     // ...dataTest[6].value,

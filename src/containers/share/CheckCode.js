@@ -61,6 +61,7 @@ class CheckCode extends React.Component {
             type="primary"
             disabled={disactive}
             loading={pending}
+            htmlType="submit"
             onClick={this.handleSendOTP}
           >
             Xác nhận

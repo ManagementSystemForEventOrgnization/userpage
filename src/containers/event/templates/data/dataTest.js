@@ -197,37 +197,34 @@ export default [
     value: [
       {
         child: 'Option 1',
-        style: {},
-        options: ({ key, editable, style, id }) => (
+        options: (id, editable, style) => (
           <EventDescription1
-            key={key}
-            editable={editable}
-            style={style}
+            key={id}
             id={id}
+            editable={editable}
+            style={style ? JSON.parse(style) : {}}
           />
         ),
       },
       {
         child: 'Option 2',
-        style: {},
-        options: ({ key, editable, style, id }) => (
+        options: (id, editable, style) => (
           <EventDescription2
-            key={key}
-            editable={editable}
-            style={style}
+            key={id}
             id={id}
+            editable={editable}
+            style={style ? JSON.parse(style) : {}}
           />
         ),
       },
       {
         child: 'Option 3',
-        style: {},
-        options: ({ key, editable, style, id }) => (
+        options: (id, editable, style) => (
           <EventDescription3
-            key={key}
-            editable={editable}
-            style={style}
+            key={id}
             id={id}
+            editable={editable}
+            style={style ? JSON.parse(style) : {}}
           />
         ),
       },
@@ -236,8 +233,7 @@ export default [
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
-        trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+        options,
       };
     }),
   },
