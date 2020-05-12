@@ -8,7 +8,7 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
-  arrEvent: null  ,
+  arrEvent: null,
 
 };
 
