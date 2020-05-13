@@ -300,6 +300,8 @@ const onUpdateUserProfile = (userInfor) => {
       avatarUrl: userInfor.avatar,
     })
       .then((res) => {
+        // console.log('TCL then111 : ', res);
+
         if (res.status === 200) {
           dispatch(success(res.data.result.user));
         } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
@@ -323,6 +325,53 @@ const onUpdateUserProfile = (userInfor) => {
   }
 };
 
+const get_History = (
+  categoryEventId,
+  startDate,
+  endDate,
+  txtSearch,
+  pageNumber,
+  numberRecord
+) => {
+  return (dispatch) => {
+    let dataSent = {};
+    if (categoryEventId != ' ') {
+      dataSent.categoryEventId = categoryEventId;
+      dataSent.pageNumber = pageNumber;
+    }
+    console.log(startDate);
+    if (startDate != '2020-04-02T09:56:07.000Z') {
+      dataSent.startDate = startDate;
+      dataSent.endDate = endDate;
+      dataSent.pageNumber = pageNumber;
+    }
+
+    if (txtSearch.trim() !== 'Event') {
+      dataSent.txtSearch = txtSearch;
+    }
+
+    API.post(`/api/user/history`, dataSent)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(success(res.data.result));
+        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        if (data.error) {
+          dispatch(failure(data.error.message));
+        }
+      });
+  };
+
+  function success(arrEvent) {
+    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORY_FAILURE, error };
+  }
+};
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -333,4 +382,5 @@ export const userActions = {
   onUpdateUserProfile,
   forgotPassword,
   requestForgotPassword,
+  get_History,
 };

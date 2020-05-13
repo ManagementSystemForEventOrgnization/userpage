@@ -8,6 +8,8 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
+  arrEvent: null,
+
 };
 
 const user = (state = initialState, action) => {
@@ -187,8 +189,21 @@ const user = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.error,
-      };
 
+      }
+    case userConstants.GET_HISTORY_SUCCESS:
+      return {
+        ...state,
+        arrEvent: action.arrEvent,
+        errMessage: null,
+
+      }
+
+    case userConstants.GET_HISTORY_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+      }
     default:
       return state;
   }
