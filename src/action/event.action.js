@@ -130,10 +130,7 @@ const prepareForCreateEvent = (
   typeOfEvent,
   category,
   quantity,
-  address,
-  locationName,
-  map,
-  time,
+  session,
   isSellTicket,
   webAddress
 ) => {
@@ -146,14 +143,7 @@ const prepareForCreateEvent = (
       category,
       urlWeb: webAddress,
       limitNumber: quantity,
-      address: address,
-      detailAddress: locationName,
-      map: {
-        long: map.lng,
-        lat: map.lat,
-      },
-      startTime: time.fromString,
-      endTime: time.toString,
+      session,
       isSellTicket: isSellTicket === 'True' ? true : false,
     })
       .then((res) => {
@@ -167,10 +157,7 @@ const prepareForCreateEvent = (
                 typeOfEvent,
                 category,
                 quantity,
-                address,
-                locationName,
-                map,
-                time,
+                session,
                 isSellTicket,
                 webAddress
               )

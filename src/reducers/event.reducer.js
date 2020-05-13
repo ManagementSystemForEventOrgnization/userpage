@@ -8,10 +8,7 @@ const initialState = {
   typeOfEvent: '',
   category: '',
   quantity: 0,
-  address: '',
-  locationName: '',
-  map: {},
-  time: {},
+  session: [],
   isSellTicket: 'Không',
   webAddress: '',
   blocks: [

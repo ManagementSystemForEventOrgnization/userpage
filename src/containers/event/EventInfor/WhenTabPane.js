@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
-import { TimePicker, Input, Button } from 'antd';
+import { TimePicker, Input, Button, Form } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
@@ -19,6 +19,7 @@ class TabPane extends Component {
 
   handleDayClick = (day, { selected }) => {
     const { selectedDays, session } = this.state;
+    const { onChange } = this.props;
     if (selected) {
       const selectedIndex = selectedDays.findIndex((selectedDay) =>
         DateUtils.isSameDay(selectedDay, day)
@@ -47,10 +48,12 @@ class TabPane extends Component {
     }
 
     this.setState({ selectedDays, session });
+    onChange('session', session);
   };
 
   handleChangeAddress = (id, address) => {
     const { session } = this.state;
+    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
@@ -62,11 +65,13 @@ class TabPane extends Component {
       ];
 
       this.setState({ session: newSS });
+      onChange('session', session);
     }
   };
 
   handleChangeMap = (id, map) => {
     let { session } = this.state;
+    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
@@ -77,25 +82,29 @@ class TabPane extends Component {
         ...session.slice(index + 1, session.length),
       ];
       this.setState({ session });
+      onChange('session', session);
     }
   };
 
   handleAddTime = (id) => {
     const { session } = this.state;
+    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       session[index].detail.push({
         id: session[index].detail.length,
         from: '',
         to: '',
-        desciption: '',
+        description: '',
       });
       this.setState({ session });
+      onChange('session', session);
     }
   };
 
   handleDeleteTime = (idSs, idTime) => {
     const { session } = this.state;
+    const { onChange } = this.props;
     const indexSS = session.findIndex((item) => item.id === idSs);
     if (indexSS !== -1) {
       const indexItem = session[indexSS].detail.findIndex(
@@ -105,11 +114,13 @@ class TabPane extends Component {
       this.setState({
         session,
       });
+      onChange('session', session);
     }
   };
 
   handleChangeTime = (idSs, idTime, time, timeString) => {
     const { session } = this.state;
+    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === idSs);
     if (index !== -1) {
       let item = { ...session[index] };
@@ -124,10 +135,12 @@ class TabPane extends Component {
       this.setState({
         session: newSS,
       });
+      onChange('session', newSS);
     }
   };
   handleChangeDescription = (idSs, idTime, value) => {
     const { session } = this.state;
+    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === idSs);
     if (index !== -1) {
       let item = { ...session[index] };
@@ -140,6 +153,7 @@ class TabPane extends Component {
       this.setState({
         session: newSS,
       });
+      onChange('session', newSS);
     }
   };
 
@@ -149,6 +163,7 @@ class TabPane extends Component {
     const dayStyle = {
       color: 'blue',
     };
+
     return (
       <div className="row container justify-content-md-center">
         <div className={count === 0 ? 'col-md-auto ' : 'col-6 col-md-6 pl-5'}>
@@ -176,31 +191,47 @@ class TabPane extends Component {
                     this.handleChangeMap(ss.id, value)
                   }
                 />
-                {ss.detail.map((item) => (
-                  <div className="d-flex mt-2" key={item.id}>
-                    <RangePicker
+
+                {ss.detail.map((item, index) => (
+                  <Form className="mt-1  d-flex" key={index}>
+                    <Form.Item>
+                      <RangePicker
+                        className="mr-2"
+                        onChange={(time, timeString) =>
+                          this.handleChangeTime(
+                            ss.id,
+                            item.id,
+                            time,
+                            timeString
+                          )
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name={`desc${index}`}
                       className="mr-2"
-                      onChange={(time, timeString) =>
-                        this.handleChangeTime(ss.id, item.id, time, timeString)
-                      }
-                    />
-                    <Input
-                      placeholder="desciption"
-                      className="mr-2"
-                      onChange={(value) =>
-                        this.handleChangeDescription(ss.id, item.id, value)
-                      }
-                    />
-                    <Button
-                      type="danger"
-                      onClick={() => this.handleDeleteTime(ss.id, item.id)}
-                      icon={
-                        <DeleteOutlined
-                          style={{ fontSize: '20px', color: '#eb2f96' }}
-                        />
-                      }
-                    />
-                  </div>
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder="description"
+                        name={`desc${index}`}
+                        className="mr-2"
+                        onChange={(value) =>
+                          this.handleChangeDescription(ss.id, item.id, value)
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item>
+                      <DeleteOutlined
+                        onClick={() => this.handleDeleteTime(ss.id, item.id)}
+                        style={{ fontSize: '20px', color: 'red' }}
+                      />
+                    </Form.Item>
+                  </Form>
                 ))}
 
                 <Button

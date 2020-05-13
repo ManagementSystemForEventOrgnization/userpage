@@ -23,9 +23,7 @@ class EventInfor extends Component {
       typeOfEvent: '',
       category: '',
       quantity: 100,
-      address: '',
-      locationName: '',
-      time: {},
+      session: [],
       isSellTicket: 'No',
       webAddress: '',
       isFirstLoad: true,
@@ -45,12 +43,9 @@ class EventInfor extends Component {
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      time,
+      session,
       isSellTicket,
       webAddress,
-      map,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
     prepareForCreateEvent(
@@ -58,10 +53,7 @@ class EventInfor extends Component {
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      map,
-      time,
+      session,
       isSellTicket,
       webAddress
     );
@@ -70,30 +62,45 @@ class EventInfor extends Component {
     });
   };
 
+  isSessionValid = () => {
+    const { session } = this.state;
+    let isValid = true;
+    console.log(session);
+    if (session.length === 0) {
+      return false;
+    }
+    session.map((item) => {
+      if (Object.keys(item.address).length === 0) {
+        isValid = false;
+      }
+      if (item.detail.length !== 0) {
+        isValid = item.detail.every(
+          (ele) => ele.from && ele.to && ele.description
+        );
+      }
+    });
+    return isValid;
+  };
+
   render() {
     const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
       quantity,
-      locationName,
       isSellTicket,
       webAddress,
       category,
-      time,
       typeOfEvent,
       isFirstLoad,
-      map,
     } = this.state;
 
     const next =
       nameEvent &&
       quantity &&
-      locationName &&
       webAddress &&
       category &&
-      time &&
       typeOfEvent &&
-      map;
+      this.isSessionValid();
 
     const errorStyle = {
       backgroundColor: '#e8b3b3',
@@ -192,10 +199,7 @@ const mapDispatchToProps = (dispatch) => ({
     typeOfEvent,
     category,
     quantity,
-    address,
-    locationName,
-    map,
-    time,
+    session,
     isSellTicket,
     webAddress
   ) =>
@@ -205,10 +209,7 @@ const mapDispatchToProps = (dispatch) => ({
         typeOfEvent,
         category,
         quantity,
-        address,
-        locationName,
-        map,
-        time,
+        session,
         isSellTicket,
         webAddress
       )
