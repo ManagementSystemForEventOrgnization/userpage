@@ -1,7 +1,9 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
-const proxyName = 'http://localhost:5000';
-//localhost:3000/login
+const proxyName = 'https://340c8d15.ngrok.io';
+//http://localhost:5000
+//https://340c8d15.ngrok.io
+
 module.exports = function (app) {
   //
   app.use(proxy('/api/login', { target: proxyName, changeOrigin: true }));

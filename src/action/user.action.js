@@ -1,6 +1,9 @@
 import API from './axious.config';
 import { userConstants } from '../constants/index';
 import history from '../utils/history';
+import handleCatch from './middleware';
+
+const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
 const login = (email, password) => {
   return (dispatch) => {
@@ -10,22 +13,10 @@ const login = (email, password) => {
       password,
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-          history.push('/');
-        } else {
-          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
-        }
-
-        return res.data;
+        dispatch(success(res.data.result));
+        history.push('/');
       })
-      .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          return dispatch(failure(data.error.message));
-        }
-        return dispatch(failure('OPPs! Something wrong'));
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function request() {
@@ -45,19 +36,10 @@ const loginWithGoogle = (profile) => {
       profile,
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-          history.push('/');
-        } else
-          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
+        dispatch(success(res.data.result));
+        history.push('/');
       })
-      .catch((err) => {
-        const { data } = err.response;
-        if (data.error) {
-          return dispatch(failure(data.error.message));
-        }
-        return dispatch(failure('OOPs! something wrong'));
-      });
+      .catch((err) => handleCatch(dispatch, failure, err));
   };
   function success(user) {
     return { type: userConstants.LOGIN_GOOGLE_SUCCESS, user };
@@ -74,28 +56,13 @@ const requestForgotPassword = (email) => {
       return dispatch(failure('Invalid email !'));
     } else {
       dispatch(request());
-
       API.post(`/api/requestForgotPassword`, {
         email,
       })
         .then((res) => {
-          if (res.status === 200) {
-            dispatch(success());
-          } else {
-            dispatch(
-              failure(res.data.error.message || 'OOPs! something wrong')
-            );
-          }
+          dispatch(success());
         })
-        .catch((error) => {
-          const { data } = error.response;
-          if (data.error) {
-            return dispatch(
-              failure(data.error.message) || 'OOPs! something wrong'
-            );
-          }
-          return dispatch(failure(error) || 'OOPs! something wrong');
-        });
+        .catch((error) => handleCatch(dispatch, failure, error));
     }
   };
   function request() {
@@ -110,9 +77,6 @@ const requestForgotPassword = (email) => {
 };
 
 const forgotPassword = (email, otp, newPassword) => {
-  ///forgotPassword
-  const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
-
   return (dispatch) => {
     if (!regex.test(email)) {
       return dispatch(failure('Invalid email !'));
@@ -128,24 +92,10 @@ const forgotPassword = (email, otp, newPassword) => {
         newPassword,
       })
         .then((res) => {
-          if (res.status === 200) {
-            history.push('/login');
-            dispatch(success());
-          } else {
-            dispatch(
-              failure(res.data.error.message || 'OOPs! something wrong')
-            );
-          }
+          dispatch(success());
+          history.push('/login');
         })
-        .catch((error) => {
-          const { data } = error.response;
-          if (data.error) {
-            return dispatch(
-              failure(data.error.message) || 'OOPs! something wrong'
-            );
-          }
-          return dispatch(failure(error) || 'OOPs! something wrong');
-        });
+        .catch((error) => handleCatch(dispatch, failure, error));
     }
   };
 
@@ -161,8 +111,6 @@ const forgotPassword = (email, otp, newPassword) => {
 };
 
 const register = (email, password, fullName) => {
-  const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
-
   return (dispatch) => {
     if (!regex.test(email)) {
       return dispatch(failure('Invalid email !'));
@@ -178,23 +126,9 @@ const register = (email, password, fullName) => {
         fullName,
       })
         .then((res) => {
-          if (res.status === 200) {
-            dispatch(success(res.data.result));
-          } else {
-            dispatch(
-              failure(res.data.error.message || 'OOPs! something wrong')
-            );
-          }
+          dispatch(success(res.data.result));
         })
-        .catch((error) => {
-          const { data } = error.response;
-          if (data.error) {
-            return dispatch(
-              failure(data.error.message) || 'OOPs! something wrong'
-            );
-          }
-          return dispatch(failure(error) || 'OOPs! something wrong');
-        });
+        .catch((error) => handleCatch(dispatch, failure, error));
     }
   };
 
@@ -216,19 +150,11 @@ const checkCode = (token) => {
       token,
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success());
-          history.push('/');
-        } else {
-          dispatch(failure(res.data.error.message || 'OOPs! something wrong'));
-        }
+        dispatch(success());
+        history.push('/');
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          return dispatch(failure(data.error.message));
-        }
-        return dispatch(failure('OOPs! something wrong'));
+        handleCatch(dispatch, failure, error);
       });
   };
   function request() {
@@ -259,20 +185,10 @@ const getCurrentUser = () => {
     dispatch(request());
     API.get(`/api/current_user`)
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure(res.data.error.message));
-        }
+        dispatch(success(res.data.result));
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          dispatch(failure(data.error.message));
-          history.push('/');
-        }
-        dispatch(failure('OOPs! something wrong'));
-        history.push('/');
+        handleCatch(dispatch, failure, error);
       });
   };
 
@@ -300,18 +216,9 @@ const onUpdateUserProfile = (userInfor) => {
       avatarUrl: userInfor.avatar,
     })
       .then((res) => {
-        // console.log('TCL then111 : ', res);
-
-        if (res.status === 200) {
-          dispatch(success(res.data.result.user));
-        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
+        dispatch(success(res.data.result.user));
       })
-      .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          dispatch(failure(data.error.message));
-        }
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function request() {
@@ -335,12 +242,12 @@ const get_History = (
 ) => {
   return (dispatch) => {
     let dataSent = {};
-    if (categoryEventId != ' ') {
+    if (categoryEventId !== ' ') {
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate);
-    if (startDate != '2020-04-02T09:56:07.000Z') {
+    if (startDate !== '2020-04-02T09:56:07.000Z') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
@@ -352,16 +259,9 @@ const get_History = (
 
     API.post(`/api/user/history`, dataSent)
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-        } else dispatch(failure(res.data.error.message || 'Some thing wrong'));
+        dispatch(success(res.data.result));
       })
-      .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          dispatch(failure(data.error.message));
-        }
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function success(arrEvent) {

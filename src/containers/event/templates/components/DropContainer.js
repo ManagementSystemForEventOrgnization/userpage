@@ -29,7 +29,6 @@ class DropContainer extends React.Component {
     return (
       <div className="drop-container">
         <ReactSortable
-          className="drop-container"
           id="drop-container"
           sort={true}
           group={{
@@ -43,7 +42,14 @@ class DropContainer extends React.Component {
           list={dropList}
           setList={this.handleSetDropList}
         >
-          {dropList.map((item) => item.options(item.id, true))}
+          {/* {dropList.map((item) => item.options(item.id, true))} */}
+          {dropList.map((item) =>
+            item.options({
+              key: item.id,
+              id: item.id,
+              editable: true,
+            })
+          )}
         </ReactSortable>
       </div>
     );

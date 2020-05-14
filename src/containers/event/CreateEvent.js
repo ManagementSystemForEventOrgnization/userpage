@@ -24,6 +24,7 @@ class CreateEvent extends React.Component {
   handleSaveEvent = () => {
     const { blocks, id, saveEvent } = this.props;
     const eventId = id ? id : '5eb259b562bd742fe41c1205';
+
     saveEvent(eventId, blocks);
   };
 

@@ -7,12 +7,20 @@ import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action';
 
 class Header extends React.Component {
-  componentWillMount = () => {
-    const { getCurrentUser } = this.props;
-    getCurrentUser();
+  // UNSAFE_componentWillMount = () => {
+  //   const { getCurrentUser } = this.props;
+  //   getCurrentUser();
+  // };
+
+  componentDidMount = () => {
+    const isLogined = localStorage.getItem('isLogined');
+    if (!isLogined) {
+      const { getCurrentUser } = this.props;
+      getCurrentUser();
+    }
   };
   render() {
-    const { isLogined } = this.props;
+    const isLogined = localStorage.getItem('isLogined');
     return (
       <div className="head ">
         <nav className="nav header ">

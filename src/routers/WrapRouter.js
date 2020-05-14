@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Router, Switch, Route } from 'react-router-dom';
 
-import { userActions } from '../action/user.action';
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AboutUs from '../pages/AboutUs';
@@ -138,8 +137,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WrapRouter);
+export default connect(mapStateToProps, null)(WrapRouter);

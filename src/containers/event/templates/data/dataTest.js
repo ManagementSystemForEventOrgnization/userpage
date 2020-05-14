@@ -5,7 +5,7 @@ import ButtonBlock from '../components/ui-elements/atoms/Button';
 import TextBlock from '../components/ui-elements/atoms/Text';
 import ImageBlock from '../components/ui-elements/atoms/Image';
 // import DropdownBlock from '../components/ui-elements/atoms/DropDown';
-import TableBlock from '../components/ui-elements/atoms/Table';
+// import TableBlock from '../components/ui-elements/atoms/Table';
 import StepBlock from '../components/ui-elements/atoms/Step';
 // import TimepickersBlock from '../components/ui-elements/atoms/Timepicker';
 // import DatepickersBlocks from '../components/ui-elements/atoms/Datepicker';
@@ -25,9 +25,9 @@ import Banner1 from '../components/ui-elements/blocks/banner/Banner1';
 import Banner2 from '../components/ui-elements/blocks/banner/Banner2';
 import Banner3 from '../components/ui-elements/blocks/banner/Banner3';
 
-import EventDescription1 from '../components/ui-elements/blocks/eventDescription/EventDescription1';
-import EventDescription2 from '../components/ui-elements/blocks/eventDescription/EventDescription2';
-import EventDescription3 from '../components/ui-elements/blocks/eventDescription/EventDescription3';
+// import EventDescription1 from '../components/ui-elements/blocks/eventDescription/EventDescription1';
+// import EventDescription2 from '../components/ui-elements/blocks/eventDescription/EventDescription2';
+// import EventDescription3 from '../components/ui-elements/blocks/eventDescription/EventDescription3';
 
 import Schedule1 from '../components/ui-elements/blocks/Schedule/Schedule1';
 import Schedule2 from '../components/ui-elements/blocks/Schedule/Schedule2';
@@ -72,13 +72,13 @@ export default [
           <ImageBlock key={key} editable={editable} style={style} id={id} />
         ),
       },
-      {
-        child: 'Table',
-        style: {},
-        options: ({ key, editable, style, id }) => (
-          <TableBlock key={key} editable={editable} style={style} id={id} />
-        ),
-      },
+      // {
+      //   child: 'Table',
+      //   style: {},
+      //   options: ({ key, editable, style, id }) => (
+      //     <TableBlock key={key} editable={editable} style={style} id={id} />
+      //   ),
+      // },
       // {
       //   child: 'Dropdown',
       //   style: {},
@@ -192,51 +192,56 @@ export default [
     }),
   },
 
-  {
-    name: 'Event Description',
-    value: [
-      {
-        child: 'Option 1',
-        options: (id, editable, style) => (
-          <EventDescription1
-            key={id}
-            id={id}
-            editable={editable}
-            style={style ? JSON.parse(style) : {}}
-          />
-        ),
-      },
-      {
-        child: 'Option 2',
-        options: (id, editable, style) => (
-          <EventDescription2
-            key={id}
-            id={id}
-            editable={editable}
-            style={style ? JSON.parse(style) : {}}
-          />
-        ),
-      },
-      {
-        child: 'Option 3',
-        options: (id, editable, style) => (
-          <EventDescription3
-            key={id}
-            id={id}
-            editable={editable}
-            style={style ? JSON.parse(style) : {}}
-          />
-        ),
-      },
-    ].map(({ child, options, style }) => {
-      return {
-        id: uuid(),
-        child,
-        style,
-        options,
-      };
-    }),
-  },
+  // {
+  //   name: 'Event Description',
+  //   value: [
+  //     {
+  //       child: 'Option 1',
+  //       options: (id, editable, style) => (
+  //         <EventDescription1
+  //           key={id}
+  //           id={id}
+  //           editable={editable}
+  //           style={style ? JSON.parse(style) : {}}
+  //         />
+  //       ),
+  //     },
+
+  //     // {
+  //     //   child: 'Option 2',
+  //     //   options: (id, editable, style) => (
+  //     //     <EventDescription2
+  //     //       key={id}
+  //     //       id={id}
+  //     //       editable={editable}
+  //     //       style={style ? JSON.parse(style) : {}}
+  //     //     />
+  //     //   ),
+  //     //   component: <EventDescription2 />,
+  //     // },
+  //     // {
+  //     //   child: 'Option 3',
+  //     //   options: (id, editable, style) => (
+  //     //     <EventDescription3
+  //     //       key={id}
+  //     //       id={id}
+  //     //       editable={editable}
+  //     //       style={style ? JSON.parse(style) : {}}
+  //     //     />
+  //     //   ),
+  //     //   component: <EventDescription3 />,
+  //     // },
+  //   ].map(({ child, options, style, component }) => {
+  //     return {
+  //       id: uuid(),
+  //       child,
+  //       style,
+  //       options,
+  //       component,
+  //     };
+  //   }),
+  // },
+
   {
     name: 'Speaker/Performer/Team',
     value: [

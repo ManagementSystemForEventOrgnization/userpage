@@ -17,6 +17,7 @@ import { eventActions } from '../../../action/event.action';
 const { TabPane } = Tabs;
 class EventInfor extends Component {
   constructor(props) {
+    // get category
     super(props);
     this.state = {
       nameEvent: '',
@@ -65,7 +66,6 @@ class EventInfor extends Component {
   isSessionValid = () => {
     const { session } = this.state;
     let isValid = true;
-    console.log(session);
     if (session.length === 0) {
       return false;
     }
@@ -117,7 +117,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="3">
+        <Tabs defaultActiveKey="1">
           <TabPane
             tab={
               <span className="p-5">

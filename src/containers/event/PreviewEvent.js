@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { eventActions } from '../../action/event.action';
 
 class PreviewEvent extends React.Component {
@@ -8,11 +9,11 @@ class PreviewEvent extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    // const { id, getEventDetail } = this.props;
-    // const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
-    // getEventDetail(eventId);
-  };
+  // componentDidMount = () => {
+  //   const { id, getEventDetail } = this.props;
+  //   const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
+  //   getEventDetail(eventId);
+  // };
 
   render() {
     // const { page } = this.props;
@@ -21,13 +22,7 @@ class PreviewEvent extends React.Component {
 
     return (
       <div>
-        {blocks.map((item) => {
-          return item.options({
-            key: item.id,
-            editable: false,
-            style: item.style,
-          });
-        })}
+        {blocks.map((item) => item.options(item.id, false, item.style))}
       </div>
     );
   }
