@@ -18,13 +18,9 @@ class PreviewEvent extends React.Component {
   render() {
     // const { page } = this.props;
     // const blocks = page ? page[0].rows : [];
-    const { blocks } = this.props;
+    const { blocks, id, match } = this.props;
 
-    return (
-      <div>
-        {blocks.map((item) => item.options(item.id, false, item.style))}
-      </div>
-    );
+    return <div></div>;
   }
 }
 

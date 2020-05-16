@@ -52,6 +52,13 @@ class TextsBlock extends React.Component {
     }
   };
 
+  onChangeUrl = (value) => {
+    const { handleChangeUrl } = this.props;
+    if (handleChangeUrl) {
+      handleChangeUrl(value);
+    }
+  };
+
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
 
@@ -74,7 +81,7 @@ class TextsBlock extends React.Component {
   handleDelete = () => {};
 
   render() {
-    const { key, leftModal, child, editable } = this.props;
+    const { key, leftModal, child, editable, editUrl } = this.props;
     const {
       visible,
       content,
@@ -166,61 +173,64 @@ class TextsBlock extends React.Component {
                   }}
                 />
               </TabPane>
-              <TabPane tab="design " key="2">
-                <EditText
-                  fonts={fonts}
-                  fontSize={fontSize}
-                  lineText={lineText}
-                  letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
-                  handleChangeFontSize={(value) =>
-                    this.onChangeValue(value, 'fontSize')
-                  }
-                  handleChangeLetterSpacing={(value) =>
-                    this.onChangeValue(value, 'letterSpacing')
-                  }
-                  handleChangeLineHeight={(value) =>
-                    this.onChangeValue(value, 'lineText')
-                  }
-                  handleChangeTextAlign={(value) =>
-                    this.onChangeValue(value, 'textAlign')
-                  }
-                  handleChangeTextTranform={(value) =>
-                    this.onChangeValue(value, 'tranform')
-                  }
-                />
 
-                <div className="mt-5 pl-2">
-                  <PaddingAndMargin
-                    padding={padding}
-                    margin={margin}
-                    handleChangeMargin={(value) =>
-                      this.onChangeValue(value, 'margin')
+              {!editUrl && (
+                <TabPane tab="design " key="2">
+                  <EditText
+                    fonts={fonts}
+                    fontSize={fontSize}
+                    lineText={lineText}
+                    letterSpacing={letterSpacing}
+                    handleChangeFonts={(value) =>
+                      this.onChangeValue(value, 'fonts')
                     }
-                    handleChangePadding={(value) =>
-                      this.onChangeValue(value, 'padding')
+                    handleChangeFontSize={(value) =>
+                      this.onChangeValue(value, 'fontSize')
+                    }
+                    handleChangeLetterSpacing={(value) =>
+                      this.onChangeValue(value, 'letterSpacing')
+                    }
+                    handleChangeLineHeight={(value) =>
+                      this.onChangeValue(value, 'lineText')
+                    }
+                    handleChangeTextAlign={(value) =>
+                      this.onChangeValue(value, 'textAlign')
+                    }
+                    handleChangeTextTranform={(value) =>
+                      this.onChangeValue(value, 'tranform')
                     }
                   />
-                </div>
-                <div className="d-flex mt-5 pl-2">
-                  <ChangeColorModal
-                    title="Change Text Color"
-                    color={color}
-                    handleChangeColor={(value) =>
-                      this.onChangeValue(value, 'color')
-                    }
-                  />
-                  <ChangeColorModal
-                    title="Change background"
-                    color={background}
-                    handleChangeColor={(value) =>
-                      this.onChangeValue(value, 'background')
-                    }
-                  />
-                </div>
-              </TabPane>
+
+                  <div className="mt-5 pl-2">
+                    <PaddingAndMargin
+                      padding={padding}
+                      margin={margin}
+                      handleChangeMargin={(value) =>
+                        this.onChangeValue(value, 'margin')
+                      }
+                      handleChangePadding={(value) =>
+                        this.onChangeValue(value, 'padding')
+                      }
+                    />
+                  </div>
+                  <div className="d-flex mt-5 pl-2">
+                    <ChangeColorModal
+                      title="Change Text Color"
+                      color={color}
+                      handleChangeColor={(value) =>
+                        this.onChangeValue(value, 'color')
+                      }
+                    />
+                    <ChangeColorModal
+                      title="Change background"
+                      color={background}
+                      handleChangeColor={(value) =>
+                        this.onChangeValue(value, 'background')
+                      }
+                    />
+                  </div>
+                </TabPane>
+              )}
             </Tabs>
           </Modal>
         )}

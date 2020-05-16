@@ -103,6 +103,17 @@ const getCategories = () => {
   }
 };
 
+const storeHtml = (data) => {
+  return (dispatch) => {
+    dispatch(request(data));
+  };
+  function request(data) {
+    return {
+      type: eventConstants.SAVE_HTML_TEST,
+      data,
+    };
+  }
+};
 const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
@@ -230,4 +241,5 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
+  storeHtml,
 };

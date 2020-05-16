@@ -1,6 +1,6 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
-const proxyName = 'https://340c8d15.ngrok.io';
+const proxyName = 'http://localhost:5000';
 //http://localhost:5000
 //https://340c8d15.ngrok.io
 

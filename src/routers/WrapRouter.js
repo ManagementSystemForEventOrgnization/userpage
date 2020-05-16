@@ -19,6 +19,7 @@ import UserEventPage from '../pages/UserEventPage';
 import CreateEventPage from '../pages/CreateEventPage';
 import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
+import ConfirmPage from '../pages/ConfirmPage';
 
 import history from '../utils/history';
 
@@ -95,7 +96,7 @@ class WrapRouter extends React.Component {
       {
         path: '/preview/:id',
         exact: true,
-        main: () => <PreviewEvent />,
+        main: (match) => <PreviewEvent match={match} />,
       },
       {
         path: '/prepare',
@@ -106,6 +107,11 @@ class WrapRouter extends React.Component {
         path: '/forgotpassword',
         exact: true,
         main: () => <ForgotPasswordPage />,
+      },
+      {
+        path: '/confirm',
+        exact: true,
+        main: (match) => <ConfirmPage match={match} />,
       },
       {
         path: '',

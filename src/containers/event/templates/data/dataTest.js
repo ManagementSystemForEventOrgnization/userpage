@@ -141,8 +141,14 @@ export default [
       {
         child: 'Header',
         style: {},
-        options: ({ key, editable, style, id }) => (
-          <HeaderBlock key={key} editable={editable} style={style} id={id} />
+        options: ({ key, editable, style, id, match }) => (
+          <HeaderBlock
+            key={key}
+            editable={editable}
+            style={style}
+            id={id}
+            match={match}
+          />
         ),
       },
     ].map(({ child, options, style }) => {
@@ -162,9 +168,11 @@ export default [
       {
         child: 'Only Image',
         style: {},
-        options: ({ id, key, editable, style }) => (
-          <Banner1 id={id} key={key} editable={editable} style={style} />
-        ),
+        options: function ({ id, key, editable, style }) {
+          return (
+            <Banner1 id={id} key={key} editable={editable} style={style} />
+          );
+        },
       },
       {
         child: 'Basic Banner',
@@ -181,11 +189,12 @@ export default [
           <Banner3 id={id} key={key} editable={editable} style={style} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, component }) => {
       return {
         id: uuid(),
         child,
         style,
+        component,
         options: options ? options : () => <></>,
         trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
       };

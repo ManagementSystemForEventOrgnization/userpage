@@ -24,33 +24,56 @@ class DropContainer extends React.Component {
     storeBlocksWhenCreateEvent(dropList);
   };
 
+  demo = (dropContainerHtml) => {
+    if (dropContainerHtml) {
+      const result = document.getElementsByClassName('drop-container')[0];
+      console.log(result.innerHTML);
+      console.log(dropContainerHtml);
+      result.innerHTML = dropContainerHtml;
+    } else {
+      const result = document.getElementsByClassName('drop-container')[0];
+      console.log(result);
+    }
+  };
+
   render() {
     const { dropList } = this.state;
+    const { match, editable, dropContainerHtml } = this.props;
+    console.log(dropContainerHtml && true);
     return (
       <div className="drop-container">
-        <ReactSortable
-          id="drop-container"
-          sort={true}
-          group={{
-            name: 'shared',
-            pull: true,
-            put: true,
-          }}
-          animation={300}
-          delayOnTouchStart={true}
-          delay={3}
-          list={dropList}
-          setList={this.handleSetDropList}
-        >
-          {/* {dropList.map((item) => item.options(item.id, true))} */}
-          {dropList.map((item) =>
-            item.options({
-              key: item.id,
-              id: item.id,
-              editable: true,
-            })
-          )}
-        </ReactSortable>
+        {dropContainerHtml ? (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: dropContainerHtml,
+            }}
+          ></div>
+        ) : (
+          <ReactSortable
+            id="drop-container"
+            sort={true}
+            group={{
+              name: 'shared',
+              pull: true,
+              put: true,
+            }}
+            animation={300}
+            delayOnTouchStart={true}
+            delay={3}
+            list={dropList}
+            setList={this.handleSetDropList}
+          >
+            {dropList.map((item) => {
+              let result = item.options({
+                key: item.id,
+                id: item.id,
+                editable: editable,
+                match: match,
+              });
+              return result;
+            })}
+          </ReactSortable>
+        )}
       </div>
     );
   }
@@ -58,6 +81,7 @@ class DropContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  dropContainerHtml: state.event.dropContainerHtml,
 });
 
 const mapDispatchToProps = (dispatch) => ({

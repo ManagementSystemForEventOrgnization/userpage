@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Menu, Modal, Button, Tabs, Radio, Input } from 'antd';
-import { DeleteTwoTone, PlusOutlined, EditTwoTone } from '@ant-design/icons';
+import { Menu, Modal, Button, Tabs } from 'antd';
+import { DeleteTwoTone, PlusOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
@@ -83,6 +84,7 @@ class HeaderBlock extends Component {
       });
     }
   };
+
   onClickChild = (id) => {
     const { menuName } = this.state;
     let item = menuName.find((ele) => ele.id === id);
@@ -109,6 +111,7 @@ class HeaderBlock extends Component {
       });
     }
   };
+
   handleUpdateTextChild = (idItem, name, idChild) => {
     const { menuName } = this.state;
     let item = menuName.find((ele) => ele.id === idItem);
@@ -149,8 +152,10 @@ class HeaderBlock extends Component {
       ]);
     }
   };
+
   render() {
-    const { editable, leftModal } = this.props;
+    const { editable, leftModal, match } = this.props;
+    const { url } = match.match;
 
     const {
       visible,
@@ -166,7 +171,6 @@ class HeaderBlock extends Component {
       transform,
       color,
       fontWeight,
-      showUpdateLink,
     } = this.state;
 
     const divStyle = {
@@ -201,12 +205,36 @@ class HeaderBlock extends Component {
           <Menu mode="horizontal" style={divStyle}>
             {menuName.map((sub) =>
               sub.items.length === 0 ? (
-                <Menu.Item key={sub.id}>{sub.title}</Menu.Item>
+                <Menu.Item key={sub.id}>
+                  {editable ? (
+                    sub.title
+                  ) : (
+                    // <Link
+                    //   to={`/preview/5eb259b562bd742fe41c1205/${sub.title.trim()}`}
+                    // >
+                    //   {sub.title}
+                    // </Link>
+
+                    <Link to={`${url}/${sub.title.trim()}  `}>{sub.title}</Link>
+                  )}
+                </Menu.Item>
               ) : (
                 <SubMenu key={sub.id} title={<span>{sub.title}</span>}>
                   {sub.items.map((item) => (
                     <Menu.Item key={item.id} style={dropdownStyle}>
-                      {item.name}
+                      {editable ? (
+                        item.name
+                      ) : (
+                        <Link
+                          to={
+                            match
+                              ? `/${url}/${item.name.trim()}`
+                              : `/${item.name.trim()}`
+                          }
+                        >
+                          {item.name}
+                        </Link>
+                      )}
                     </Menu.Item>
                   ))}
                 </SubMenu>
@@ -243,10 +271,14 @@ class HeaderBlock extends Component {
                         content={sub.title}
                         child={true}
                         editable={editable}
+                        editUrl={sub.items.length === 0 ? true : false}
                         handleOnChangeTextBlock={(value) =>
                           this.handleOnChangeTextBlock(sub.id, value)
                         }
-                      ></TextBlocks>
+                        handleChangeUrl={(value) =>
+                          this.handleChangeUrl(sub.id, value)
+                        }
+                      />
 
                       <Button
                         shape="round"
@@ -260,14 +292,8 @@ class HeaderBlock extends Component {
                         className="ml-4 mt-2"
                         onClick={() => this.removeOption(sub)}
                       />
-
-                      <EditTwoTone
-                        className="mt-2 ml-2"
-                        onClick={() =>
-                          this.onChangeValue(true, 'showUpdateLink')
-                        }
-                      />
                     </div>
+
                     <div className=" mt-2 ml-3">
                       {sub.items.map((item) => (
                         <div key={`items${item.id}`} className="d-flex">
@@ -275,8 +301,12 @@ class HeaderBlock extends Component {
                             child={true}
                             content={item.name}
                             editable={editable}
+                            editUrl={true}
                             handleOnChangeTextBlock={(value) =>
                               this.handleUpdateTextChild(sub.id, value, item.id)
+                            }
+                            handleChangeUrl={(value) =>
+                              this.handleChangeUrl(sub.id, value, item.id)
                             }
                           />
 
@@ -300,6 +330,7 @@ class HeaderBlock extends Component {
                   <PlusOutlined /> Add Page
                 </Button>
               </TabPane>
+
               <TabPane tab="Style" key="2">
                 <EditText
                   fonts={fonts}
@@ -358,24 +389,6 @@ class HeaderBlock extends Component {
             </Tabs>
           </Modal>
         )}
-
-        <Modal
-          title="Update "
-          visible={showUpdateLink}
-          onOk={() => this.onChangeValue(false, 'showUpdateLink')}
-          onCancel={() => this.onChangeValue(false, 'showUpdateLink')}
-          className={
-            leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
-          }
-          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
-        >
-          <Input defaultValue=""></Input>
-          <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">Using Session </Radio.Button>
-            <Radio.Button value="b">Internal Link</Radio.Button>
-            <Radio.Button value="c">External Link</Radio.Button>
-          </Radio.Group>
-        </Modal>
       </div>
     );
   }

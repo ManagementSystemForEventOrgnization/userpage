@@ -6,12 +6,14 @@ import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
 import { eventActions } from '../../action/event.action';
+import history from '../../utils/history';
 
 class CreateEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       collapsed: false,
+      editable: true,
     };
   }
 
@@ -22,15 +24,21 @@ class CreateEvent extends React.Component {
   };
 
   handleSaveEvent = () => {
-    const { blocks, id, saveEvent } = this.props;
-    const eventId = id ? id : '5eb259b562bd742fe41c1205';
+    // const { blocks, id, saveEvent, match } = this.props;
+    // const eventId = id ? id : '5eb259b562bd742fe41c1205';
+    // /
+    const { storeHtml } = this.props;
 
-    saveEvent(eventId, blocks);
+    const data = document.getElementById('drop-container');
+    storeHtml(data.innerHTML);
+    // let temp = eventActions.storeHtml(data);
+    // console.log(temp);
+    history.push('/confirm');
   };
 
   render() {
-    const { collapsed } = this.state;
-    const { id, pending } = this.props;
+    const { collapsed, editable } = this.state;
+    const { id, pending, match } = this.props;
 
     return (
       <div className=" create-event">
@@ -70,7 +78,7 @@ class CreateEvent extends React.Component {
                 : ' mt-1 drop-area  mb-5 p-3'
             }
           >
-            <DropContainer />
+            <DropContainer match={match} editable={editable} />
           </div>
         </div>
       </div>
@@ -85,6 +93,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  storeHtml: (data) => dispatch(eventActions.storeHtml(data)),
   saveEvent: (eventId, block) =>
     dispatch(eventActions.saveEvent(eventId, block)),
 });
