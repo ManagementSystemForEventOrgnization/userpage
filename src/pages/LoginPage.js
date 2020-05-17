@@ -3,209 +3,174 @@ import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import {
-    UserOutlined,
-    LockOutlined,
-
-} from '@ant-design/icons';
-
-
-
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { userActions } from '../action/user.action';
 import CheckCode from '../containers/share/CheckCode';
 
 class LoginPage extends React.Component {
-    _isMounted = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      isFirstLoad: true,
+      email: '',
+      password: '',
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isFirstLoad: true,
-            email: '',
-            password: '',
-            error: false,
-            showCheckCode: false,
-        }
-    }
+  handleLogin = () => {
+    const { email, password } = this.state;
+    const { login } = this.props;
+    login(email, password);
+    this.setState({ isFirstLoad: false });
+  };
 
-    componentDidMount = () => {
-        this._isMounted = true;
-    }
+  responseGoogle = (response) => {
+    const { loginWithGoogle } = this.props;
+    loginWithGoogle(response.profileObj);
+  };
 
-    handleLogin = () => {
-        const { email, password } = this.state;
-        const { login } = this.props;
-        login(email, password);
-        this.setState({ isFirstLoad: false });
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    }
+  onFocus = () => {
+    this.setState({
+      isFirstLoad: true,
+    });
+  };
 
-    responseGoogle = (response) => {
-        const { loginWithGoogle } = this.props;
-        loginWithGoogle(response.profileObj);
-    }
+  render() {
+    const { message, pending, active } = this.props;
+    const { email, password, isFirstLoad } = this.state;
+    const activeEmail = email && password.trim();
+    const clientID = process.env.REACT_APP_CLIENT_ID;
 
-    onChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
+    const urlIMG =
+      'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
-    onFocus = () => {
-        this.setState({
-            isFirstLoad: true
-        })
-    }
+    return (
+      <div className="login">
+        <div className=" row">
+          <Link to="/" className="col ">
+            <img alt="logo" src={urlIMG} />
+          </Link>
 
-    UNSAFE_componentWillReceiveProps = (nextProps) => {
-        if (this._isMounted && nextProps.active !== null) {
-            if (nextProps.active === false)
-                this.setState({
-                    showCheckCode: true,
-                })
+          <div className="col ">
+            <p className="website-name ">Event in your hand</p>
 
-        }
-    }
+            {active === false && !isFirstLoad ? (
+              <CheckCode />
+            ) : (
+              <Form className="mt-2">
+                <Form.Item>
+                  {!isFirstLoad && message && (
+                    <div className="error-message mt-2 mb-2">{message}</div>
+                  )}
+                </Form.Item>
 
+                <Form.Item
+                  name="Email"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    className="inputStyle"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    value={email}
+                    name="email"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Email"
+                  />
+                </Form.Item>
 
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    className="inputStyle"
+                    value={password}
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </Form.Item>
 
-    componentWillUnmount = () => {
-        this._isMounted = false;
-    }
-
-    render() {
-        const { message, pending } = this.props;
-        const { email, password, isFirstLoad, showCheckCode } = this.state;
-        const active = email && password.trim();
-        const clientID = process.env.REACT_APP_CLIENT_ID;
-
-        const urlIMG = "https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png";
-        return (
-            <div className="login">
-                <div className=" row"  >
-                    <Link to="/" className="col ">
-                        <img alt="logo" src={urlIMG} />
+                <div className="ant-row">
+                  <div className="ant-col ant-col-12 pl-5">
+                    <Form.Item shouldUpdate>
+                      {() => (
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          className="ml-5 mt-4"
+                          loading={pending}
+                          disabled={!activeEmail}
+                          onClick={this.handleLogin}
+                        >
+                          Login
+                        </Button>
+                      )}
+                    </Form.Item>
+                  </div>
+                  <div className="ant-col ant-col-12  ">
+                    <Link to="/forgotpassword" style={{ float: 'right' }}>
+                      Forgot password?
                     </Link>
-
-                    <div className="col " >
-
-                        <p className="website-name ">Event in your hand</p>
-
-                        {
-                            showCheckCode ?
-                                <CheckCode /> :
-
-                                <Form className="mt-2" form={this.form} >
-
-                                    <Form.Item>
-                                        {!isFirstLoad && message &&
-                                            <div className="error-message mt-2 mb-2">{message}</div>
-                                        }
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        name="Email"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Email là bắt buộc !',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            prefix={<UserOutlined className="site-form-item-icon" />}
-                                            value={email}
-                                            name="email"
-                                            onChange={this.onChange}
-                                            onFocus={this.onFocus}
-                                            placeholder="Email" />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        name="password"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Mật khẩu là bắt buộc !',
-                                            },
-                                        ]}
-                                    >
-                                        <Input.Password
-                                            value={password}
-                                            onChange={this.onChange}
-                                            onFocus={this.onFocus}
-                                            prefix={<LockOutlined className="site-form-item-icon" />}
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password"
-
-                                        />
-                                    </Form.Item>
-
-                                    <div className='ant-row'>
-                                        <div className="ant-col ant-col-12 pl-5">
-                                            <Form.Item shouldUpdate>
-                                                {() => (
-                                                    <Button
-                                                        type="primary"
-                                                        className="ml-5 mt-4"
-                                                        loading={pending}
-                                                        disabled={!active}
-                                                        onClick={this.handleLogin}
-                                                    >
-                                                        Đăng nhập
-                                                    </Button>
-                                                )}
-                                            </Form.Item>
-
-                                        </div>
-                                        <div className="ant-col ant-col-12  ">
-                                            <Link to="/" style={{ float: "right" }}>Quên mật khẩu?</Link>
-                                        </div>
-                                    </div>
-
-                                    <p style={{ textAlign: "center" }}>HOẶC</p>
-
-                                    <GoogleLogin
-                                        clientId={clientID}
-                                        buttonText="Đăng nhập với Google"
-                                        onSuccess={this.responseGoogle}
-                                        onFailure={this.responseGoogle}
-                                        cookiePolicy={'single_host_origin'}
-                                        icon={true}
-                                        className="button-login-google"
-                                    />
-                                    <p className="mt-2" style={{ textAlign: "center" }}>Bạn chưa có tài khoản? <span><Link to="/signup">Đăng ký ngay</Link></span>  </p>
-
-                                </Form>
-
-                        }
-
-
-                    </div>
+                  </div>
                 </div>
 
+                <p style={{ textAlign: 'center' }}>OR</p>
 
-            </div>
-
-        )
-    }
+                <GoogleLogin
+                  clientId={clientID}
+                  buttonText="Login with Google"
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                  icon={true}
+                  className="button-login-google"
+                />
+                <p className="mt-2" style={{ textAlign: 'center' }}>
+                  You don't have any account ?{' '}
+                  <span>
+                    <Link to="/signup">Register Now</Link>
+                  </span>{' '}
+                </p>
+              </Form>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        message: state.user.errMessage,
-        pending: state.user.pending,
-        active: state.user.active,
-    };
-}
+const mapStateToProps = (state) => {
+  return {
+    message: state.user.errMessage,
+    pending: state.user.pending,
+    active: state.user.active,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (email, password) => dispatch(userActions.login(email, password)),
-    loginWithGoogle: (profile) => dispatch(userActions.loginWithGoogle(profile))
+  login: (email, password) => dispatch(userActions.login(email, password)),
+  loginWithGoogle: (profile) => dispatch(userActions.loginWithGoogle(profile)),
 });
 
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

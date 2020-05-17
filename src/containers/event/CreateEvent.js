@@ -1,89 +1,91 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom'
 
 import DropContainer from './templates/components/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
-
-import TrashDropContainer from '../event/templates/components/TrashDropContainer';
-
+import { eventActions } from '../../action/event.action';
 
 class CreateEvent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            collapsed: false
-        }
-    }
-
-
-    handlePreview = () => {
-
-    }
-
-    toggleCollapsed = value => {
-        this.setState({
-            collapsed: value,
-        });
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: false,
     };
+  }
 
+  toggleCollapsed = (value) => {
+    this.setState({
+      collapsed: value,
+    });
+  };
 
-    render() {
-        const { collapsed } = this.state;
-        return (
-            <div className=" create-event">
-                <div className="fixed-top ">
-                    <Header />
+  handleSaveEvent = () => {
+    const { blocks, id, saveEvent } = this.props;
+    const eventId = id ? id : '5eb259b562bd742fe41c1205';
+    saveEvent(eventId, blocks);
+  };
 
-                </div>
+  render() {
+    const { collapsed } = this.state;
+    const { id, pending } = this.props;
 
-                <div className="d-flex flex-row-reverse">
-                    <Button className="mr-5 ml-3" type="primary" size="large">Public</Button>
-                    {/* <Button type="dashed" size="large" onClick={this.handlePreview}>
-                        <a href="/create/preview" target="_blank">
-                            Preview
-                        </a>
-                    </Button> */}
+    return (
+      <div className=" create-event">
+        <div className="fixed-top ">
+          <Header />
+        </div>
 
-                    <Button type="dashed" size="large" onClick={this.handlePreview}>
-                        <Link to='/create/preview'>Preview</Link>
-                    </Button>
+        <div className="d-flex flex-row-reverse">
+          <Button
+            className="mr-5 ml-3"
+            type="primary"
+            size="large"
+            loading={pending}
+            onClick={this.handleSaveEvent}
+          >
+            Public
+          </Button>
 
+          <Button type="dashed" size="large" onClick={this.handleSaveEvent}>
+            <a
+              href={id ? `/preview/${id}` : 'preview/5eb259b562bd742fe41c1205'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Preview
+            </a>
+          </Button>
+        </div>
 
+        <div className="d-flex">
+          <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
 
-                </div>
-
-                <div className="d-flex">
-                    <MenuBlockList
-                        toggleCollapsed={this.toggleCollapsed}
-                    />
-
-
-                    <div className={collapsed ? '  mt-1 drop-area  mb-5 move-right p-3' : ' mt-1 drop-area  mb-5 p-3'}>
-                        <DropContainer />
-                    </div>
-                </div>
-
-
-
-                <div>
-                    <div className="bg-secondary float-right border border-danger rounded-circle ">
-                        <TrashDropContainer />
-                    </div>
-                </div>
-            </div>
-        )
-    }
+          <div
+            className={
+              collapsed
+                ? '  mt-1 drop-area  mb-5 move-right p-3'
+                : ' mt-1 drop-area  mb-5 p-3'
+            }
+          >
+            <DropContainer />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-})
+const mapStateToProps = (state) => ({
+  id: state.event.id,
+  pending: state.event.pending,
+  blocks: state.event.blocks,
+});
 
-// const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
+  saveEvent: (eventId, block) =>
+    dispatch(eventActions.saveEvent(eventId, block)),
+});
 
-// });
-
-
-export default connect(mapStateToProps, null)(CreateEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

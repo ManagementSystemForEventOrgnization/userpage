@@ -2,21 +2,15 @@ import React, { Component } from 'react';
 import Image from '../../atoms/Image';
 
 class Banner1 extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-        this.state = {
-
-        }
-    }
-
-    render() {
-        const { editable } = this.props;
-        return (
-            <Image editable={editable} />
-
-        )
-    }
+  render() {
+    const { editable } = this.props;
+    return <Image editable={editable} {...this.props} />;
+  }
 }
 
-export default Banner1
+export default Banner1;

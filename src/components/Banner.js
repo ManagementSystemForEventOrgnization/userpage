@@ -1,27 +1,44 @@
 import React from 'react';
-
-import GeneralInfoEventModal from '../containers/event/GeneralInfoEventModal';
-
-
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button } from 'antd';
+import { StarFilled } from '@ant-design/icons';
 class Banner extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-
-    render() {
-        return (
-            <div className="banner">
-                <h1 className="title-name">EVENT IN YOUR HAND</h1>
-                <h2>Dễ dàng hơn với việc quản lý và tổ chức sự kiện ngay từ hôm nay</h2>
-                <GeneralInfoEventModal />
-
-            </div>
-        );
-    }
+  render() {
+    const { isLogined } = this.props;
+    return (
+      <div className="banner">
+        <h1 className="title-name">EVENT IN YOUR HAND</h1>
+        <h2>Be easier to create and organize event </h2>
+        {isLogined ? (
+          <Link to="/prepare">
+            <Button
+              type="danger"
+              icon={<StarFilled />}
+              size="large"
+              onClick={this.showModal}
+            >
+              Create Event Now
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <Button type="danger" icon={<StarFilled />} size="large">
+              Login To Expore Now
+            </Button>
+          </Link>
+        )}
+      </div>
+    );
+  }
 }
 
-export default Banner;
-
+const mapStateToProps = (state) => ({
+  isLogined: state.user.isLogined,
+});
+export default connect(mapStateToProps, null)(Banner);

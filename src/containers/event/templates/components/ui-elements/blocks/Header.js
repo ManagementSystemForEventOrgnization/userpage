@@ -1,369 +1,378 @@
-import React, { Component } from 'react'
-import { v4 as uuid } from "uuid";
-import {
-    Menu, Modal, Button, Input,
-    Tabs,
-} from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import DropdownBlocks from '../atoms/DropDown';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
+import { Menu, Modal, Button, Tabs } from 'antd';
+import { DeleteTwoTone, PlusOutlined } from '@ant-design/icons';
+
 import TextBlocks from '../atoms/Text';
 import EditText from '../shares/EditText';
+import IconsHandle from '../shares/IconsHandle';
+
+import PaddingAndMargin from '../shares/PaddingAndMargin';
+import ChangeColorModal from '../shares/ChangeColorModal';
+import { eventActions } from '../../../../../../action/event.action';
+import { HeaderState } from '../stateInit/HeaderState';
 
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 
-let index = 0;
 class HeaderBlock extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
+    const { style } = this.props;
+    this.state = style
+      ? { ...style }
+      : {
+          ...HeaderState(this.props),
+        };
+  }
 
-        this.state = {
-            visible: false,
-            isShowAdd: false,
-            txtname: "",
-            menuName: [{
-                id: 1,
-                title: 'home',
-                items: [
-                    { id: 1, name: "ca nhac" },
-                    { id: 2, name: "the thao" }
-                ]
-            },
-            {
-                id: 2,
-                title: "about",
-                items: []
+  componentDidMount = () => {
+    const { editable } = this.props;
+    if (editable) {
+      this.handleStoreBlock();
+    }
+  };
+
+  handleEditMenu = (e) => {
+    const { visible } = this.state;
+    this.setState({
+      visible: !visible,
+    });
+  };
+
+  onClickAdd = () => {
+    const { menuName } = this.state;
+    menuName.push({
+      id: uuid(),
+      title: `New Page `,
+      items: [],
+    });
+    this.setState({
+      menuName,
+    });
+  };
+
+  removeOption = (item) => {
+    const menuName = this.state.menuName.filter((e) => e.id !== item.id);
+    this.setState({
+      menuName,
+    });
+  };
+
+  removeOptionChild = (idMenu, sub) => {
+    const { menuName } = this.state;
+    let item = menuName.find((ele) => ele.id === idMenu);
+    const items = item.items.filter((e) => e.id !== sub.id);
+    this.handleUpdateChild(idMenu, items);
+  };
+
+  handleOnChangeTextBlock = (idItem, value) => {
+    const { menuName } = this.state;
+    const item = menuName.find((ele) => ele.id === idItem);
+    const index = menuName.indexOf(item);
+    item.title = value;
+    if (index === -1) return;
+    else {
+      this.setState({
+        menuName: [
+          ...menuName.slice(0, index),
+          item,
+          ...menuName.slice(index + 1, menuName.length),
+        ],
+      });
+    }
+  };
+  onClickChild = (id) => {
+    const { menuName } = this.state;
+    let item = menuName.find((ele) => ele.id === id);
+    item.items.push({
+      id: uuid(),
+      name: 'new child ',
+    });
+    this.handleUpdateChild(id, item.items);
+  };
+
+  handleUpdateChild = (idItem, sub) => {
+    const { menuName } = this.state;
+    let item = menuName.find((ele) => ele.id === idItem);
+    const index = menuName.indexOf(item);
+    if (index === -1) return;
+    else {
+      item.items = sub;
+      this.setState({
+        menuName: [
+          ...menuName.slice(0, index),
+          item,
+          ...menuName.slice(index + 1, menuName.length),
+        ],
+      });
+    }
+  };
+  handleUpdateTextChild = (idItem, name, idChild) => {
+    const { menuName } = this.state;
+    let item = menuName.find((ele) => ele.id === idItem);
+    const items = item.items.find((ele) => ele.id === idChild);
+    const index = item.items.indexOf(items);
+    items.name = name;
+    if (index === -1) return;
+    else {
+      const SubMenu = [
+        ...item.items.slice(0, index),
+        items,
+        ...item.items.slice(index + 1, item.items.length),
+      ];
+      this.handleUpdateChild(idItem, SubMenu);
+    }
+  };
+
+  onChangeValue(newValue, valueParam) {
+    this.setState({
+      [valueParam]: newValue,
+    });
+    this.handleStoreBlock();
+  }
+
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+
+    let item = blocks.find((ele) => ele.id === id);
+
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
+    }
+  };
+  render() {
+    const { key, editable, leftModal } = this.props;
+
+    const {
+      visible,
+      menuName,
+      margin,
+      padding,
+      background,
+      fontSize,
+      fonts,
+      lineText,
+      letterSpacing,
+      textAlign,
+      transform,
+      color,
+      fontWeight,
+    } = this.state;
+
+    const divStyle = {
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      color: color,
+      wordBreak: 'break-word',
+      alignContent: 'center',
+      background: background,
+      fontSize: `${fontSize}px`,
+      fontFamily: fonts,
+      lineHeight: `${lineText}%`,
+      letterSpacing: letterSpacing,
+      textAlign: textAlign,
+      textTransform: transform,
+      fontWeight: fontWeight,
+      width: '100 %',
+    };
+    const dropdownStyle = {
+      color: color,
+    };
+
+    return (
+      <div className="child-block d-flex">
+        <div style={{ width: '100%' }}>
+          <Menu key={key} mode="horizontal" style={divStyle}>
+            {menuName.map((sub) =>
+              sub.items.length === 0 ? (
+                <Menu.Item key={sub.id}>{sub.title}</Menu.Item>
+              ) : (
+                <SubMenu key={sub.id} title={<span>{sub.title}</span>}>
+                  {sub.items.map((item) => (
+                    <Menu.Item key={sub.id} style={dropdownStyle}>
+                      {item.name}
+                    </Menu.Item>
+                  ))}
+                </SubMenu>
+              )
+            )}
+          </Menu>
+        </div>
+        {editable && (
+          <IconsHandle
+            collapseModal={this.handleEditMenu}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
+        )}
+
+        {editable && (
+          <Modal
+            title="Header"
+            visible={visible}
+            width={600}
+            onOk={this.handleEditMenu}
+            onCancel={this.handleEditMenu}
+            className={
+              leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
             }
+            style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
+          >
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="Text" key="1">
+                {menuName.map((sub) => (
+                  <div key={sub.id}>
+                    <div key={sub.id} className="d-flex row mt-2">
+                      <div className="col">
+                        <TextBlocks
+                          content={sub.title}
+                          child={true}
+                          handleOnChangeTextBlock={(value) =>
+                            this.handleOnChangeTextBlock(sub.id, value)
+                          }
+                        ></TextBlocks>
+                      </div>
 
-            ],
-
-            background: "white",
-            inputValue: 20,
-            showColor: false,
-            isDesign: false,
-            activeFontFamily: "Times New Roman",
-            lineText: 80,
-            letterText: -2,
-            align: '',
-            tranform: ' ',
-            color: "black",
-            margin: [1, 1, 1, 1],
-            padding: [1, 1, 1, 1]
-
-
-        }
-    }
-
-    handleEditMenu = (e) => {
-        const { visible } = this.state;
-        this.setState({
-            visible: !visible
-        });
-    }
-
-    OnClickOption = (e) => {
-        const { isShowAdd } = this.state;
-        this.setState({
-            isShowAdd: !isShowAdd
-        });
-
-    };
-
-    onClickAdd = () => {
-        const { txtname, menuName } = this.state;
-
-        menuName.push({
-            id: uuid(),
-            title: txtname || `add item ${index++}`,
-            items: []
-        })
-        this.setState({
-            menuName,
-            txtname: ""
-        })
-    }
-
-    onNameChange = event => {
-        this.setState({
-            txtname: event.target.value,
-        });
-    };
-
-    removeOption = (item) => {
-        const menuName = this.state.menuName.filter(e => e.id !== item.id)
-        this.setState({
-            menuName,
-        })
-    }
-
-    removeOptionChild = (idMenu, sub) => {
-        const { menuName } = this.state;
-        let item = menuName.find(ele => ele.id === idMenu);
-        const index = menuName.indexOf(item);
-        if (index === -1) return;
-        else {
-            item.items = sub
-            this.setState({
-                menuName: [...menuName.slice(0, index),
-                    item,
-                ...menuName.slice(index + 1, menuName.length)]
-            })
-        }
-    }
-
-    handleOnChangeTextBlock = (id, value) => {
-
-        const { menuName } = this.state;
-        const item = menuName.find(ele => ele.id === id);
-        const index = menuName.indexOf(item);
-
-        if (index === -1) return;
-        else {
-            this.setState({
-                menuName: [...menuName.slice(0, index), { id, title: value, items: item.items },
-                ...menuName.slice(index + 1, menuName.length)]
-            })
-        }
-
-    }
-    handleUpdateChild = (id, sub) => {
-        const { menuName } = this.state;
-        let item = menuName.find(ele => ele.id === id);
-        const index = menuName.indexOf(item);
-        if (index === -1) return;
-        else {
-            item.items = sub;
-            this.setState({
-                menuName: [...menuName.slice(0, index), item,
-                ...menuName.slice(index + 1, menuName.length)]
-            })
-        }
-    }
-    //color
-    handleChangeComplete = (color) => {
-        this.setState({ background: color.hex });
-    };
-
-    handleChangeCompletecolor = (color) => {
-        this.setState({ color: color.hex });
-    };
-    // textalign
-    onChangeTextAlign = (value) => {
-        this.setState({
-            align: value
-        })
-    }
-    // tranform
-    onChangeTextTranform = (value) => {
-        this.setState({
-            tranform: value
-        })
-    }
-    // open color
-    onClickColor = e => {
-        const { showColor } = this.state
-        this.setState({
-            showColor: !showColor
-        });
-    };
-
-    //font size
-    onChange = value => {
-        this.setState({
-            inputValue: value,
-        });
-    };
-
-    // lineheight
-    onChangeLineHeight = value => {
-        this.setState({
-            lineText: value,
-        });
-    };
-
-    // letter space
-    onChangeLetterSpace = value => {
-        this.setState({
-            letterText: value,
-        });
-
-    };
-    showModalButton = () => {
-        const { isDesign } = this.state;
-        this.setState({
-            isDesign: !isDesign
-        });
-    };
-
-    handleChangeFonts = value => {
-        this.setState({
-            activeFontFamily: value
-        })
-    }
-
-    handleChangeColor = value => {
-        this.setState({
-            color: value
-        })
-    }
-
-    handleChangeBackground = value => {
-        this.setState({
-            background: value
-        })
-    }
-
-    onChangePadding = value => {
-        this.setState({
-            padding: value
-        })
-    }
-
-    onChangeMargin = value => {
-        this.setState({
-            margin: value
-        })
-    }
-
-
-    render() {
-        const { key, editable } = this.props;
-
-        const { visible, menuName, isShowAdd,
-            inputValue, activeFontFamily,
-            lineText, letterText, align, tranform,
-            background, color,
-            margin, padding
-        } = this.state;
-
-        const divStyle = {
-
-            textAlign: align,
-            textTransform: tranform,
-            background: background,
-            marginTop: `${margin[0]}%`,
-            marginLeft: `${margin[1]}%`,
-            marginRight: `${margin[2]}%`,
-            marginBottom: `${margin[3]}%`,
-            paddingTop: `${padding[0]}%`,
-            paddingLeft: `${padding[1]}%`,
-            paddingRight: `${padding[2]}%`,
-            paddingBottom: `${padding[3]}%`,
-        }
-
-        const menuStyle = {
-            color: color,
-            fontFamily: activeFontFamily,
-            fontSize: inputValue,
-            lineHeight: lineText + "%",
-            letterSpacing: letterText,
-        }
-        return (
-            <div style={divStyle} className="child-block">
-                <div onClick={this.handleEditMenu} >
-                    <Menu key={key} mode='horizontal' style={menuStyle}  >
-                        {
-                            menuName.map(sub =>
-                                sub.items.length === 0 ?
-                                    <Menu.Item key={sub.id}>{sub.title} </Menu.Item> :
-                                    <SubMenu title={
-                                        <span >
-                                            {sub.title}
-                                        </span>
-                                    }>
-                                        {
-                                            sub.items.map(item => <Menu.Item key={item.name}>{item.name}</Menu.Item>)
-                                        }
-                                    </SubMenu>
-                            )
-                        }
-                    </Menu>
-                </div>
-                {editable &&
-                    <Modal
-                        title="Header"
-                        visible={visible}
-                        width={600}
-                        onOk={this.handleEditMenu}
-                        onCancel={this.handleEditMenu}
-                        maskClosable={true}
-                    >
-                        <Tabs defaultActiveKey="1" >
-                            <TabPane tab="Text" key="1">
-                                {
-                                    menuName.map(sub =>
-                                        <div key={sub.id}>
-
-                                            <div key={sub.id} className="d-flex row mt-2">
-                                                <div className="col">
-                                                    <TextBlocks content={sub.title} id={sub.id} handleOnChangeTextBlock={this.handleOnChangeTextBlock}></TextBlocks>
-                                                </div>
-                                                <div className="col">
-                                                    <DeleteOutlined className="ml-5 mt-2" onClick={() => this.removeOption(sub)} />
-                                                </div>
-                                            </div>
-                                            <div className="col">
-
-                                                <DropdownBlocks options={sub.items} idMenu={sub.id}
-                                                    removeOptionChild={this.removeOptionChild}
-                                                    handleUpdateChild={this.handleUpdateChild}
-
-                                                > </DropdownBlocks>
-                                            </div>
-                                        </div>
-
-                                    )}
-
-                                {isShowAdd ?
-                                    <div className="d-flex mt-2" >
-                                        <Input value={this.state.txtname} onChange={this.onNameChange} />
-                                        <Button type="primary" onClick={() => { this.onClickAdd(); this.OnClickOption() }}>done </Button>
-                                    </div>
-                                    : ''
-                                }
-
-                                <Button className="mt-5 " style={{ marginLeft: '40%' }} onClick={this.OnClickOption}
-                                >  <PlusOutlined /> Add menu item
-
+                      <div className="col">
+                        <Button
+                          shape="round"
+                          onClick={() => this.onClickChild(sub.id)}
+                        >
+                          {' '}
+                          <PlusOutlined /> Add child
                         </Button>
-                            </TabPane>
-                            <TabPane tab="Style" key="2">
-                                <EditText
-                                    fonts={activeFontFamily}
-                                    fontSize={inputValue}
-                                    lineText={lineText}
-                                    letterSpacing={letterText}
-                                    color={color}
-                                    background={background}
-                                    margin={margin}
-                                    padding={padding}
+                        <DeleteTwoTone
+                          className="ml-4 mt-2"
+                          onClick={() => this.removeOption(sub)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col mt-2 ml-3">
+                      {sub.items.map((item, index) => (
+                        <div key={index} className="row">
+                          <div className="col mt-2">
+                            <TextBlocks
+                              child={true}
+                              content={item.name}
+                              handleOnChangeTextBlock={(value) =>
+                                this.handleUpdateTextChild(
+                                  sub.id,
+                                  value,
+                                  item.id
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col">
+                            <DeleteTwoTone
+                              className="ml-4 mt-2"
+                              onClick={() =>
+                                this.removeOptionChild(sub.id, item)
+                              }
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
 
-                                    handleChangeFonts={this.handleChangeFonts}
-                                    handleChangeFontSize={this.onChange}
-                                    handleChangeLetterSpacing={this.onChangeLetterSpace}
-                                    handleChangeLineHeight={this.onChangeLineHeight}
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="mt-5 "
+                  style={{ marginLeft: '40%' }}
+                  onClick={this.onClickAdd}
+                >
+                  {' '}
+                  <PlusOutlined /> Add Page
+                </Button>
+              </TabPane>
+              <TabPane tab="Style" key="2">
+                <EditText
+                  fonts={fonts}
+                  fontSize={fontSize}
+                  lineText={lineText}
+                  letterSpacing={letterSpacing}
+                  handleChangeFonts={(value) =>
+                    this.onChangeValue(value, 'fonts')
+                  }
+                  handleChangeFontSize={(value) =>
+                    this.onChangeValue(value, 'fontSize')
+                  }
+                  handleChangeLetterSpacing={(value) =>
+                    this.onChangeValue(value, 'letterSpacing')
+                  }
+                  handleChangeLineHeight={(value) =>
+                    this.onChangeValue(value, 'lineText')
+                  }
+                  handleChangeTextAlign={(value) =>
+                    this.onChangeValue(value, 'textAlign')
+                  }
+                  handleChangeTextTranform={(value) =>
+                    this.onChangeValue(value, 'transform')
+                  }
+                />
 
-                                    handleChangeTextAlign={this.onChangeTextAlign}
-                                    handleChangeTextTranform={this.onChangeTextTranform}
-                                    handleChangeTextColor={this.handleChangeColor}
-                                    handleChangeBackground={this.handleChangeBackground}
-
-                                    handleChangePadding={this.onChangePadding}
-                                    handleChangeMargin={this.onChangeMargin}
-
-
-
-
-                                />
-                            </TabPane>
-
-                        </Tabs>
-                    </Modal>
-
-                }
-            </div>
-        )
-    }
+                <div className="mt-5 pl-2">
+                  <PaddingAndMargin
+                    padding={padding}
+                    margin={margin}
+                    handleChangeMargin={(value) =>
+                      this.onChangeValue(value, 'margin')
+                    }
+                    handleChangePadding={(value) =>
+                      this.onChangeValue(value, 'padding')
+                    }
+                  />
+                </div>
+                <div className="d-flex mt-5 pl-2">
+                  <ChangeColorModal
+                    title="Change Text Color"
+                    color={color}
+                    handleChangeColor={(value) =>
+                      this.onChangeValue(value, 'color')
+                    }
+                  />
+                  <ChangeColorModal
+                    title="Change background"
+                    color={background}
+                    handleChangeColor={(value) =>
+                      this.onChangeValue(value, 'background')
+                    }
+                  />
+                </div>
+              </TabPane>
+            </Tabs>
+          </Modal>
+        )}
+      </div>
+    );
+  }
 }
 
-export default HeaderBlock;
+const mapStateToProps = (state) => ({
+  blocks: state.event.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  storeBlocksWhenCreateEvent: (blocks) =>
+    dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderBlock);

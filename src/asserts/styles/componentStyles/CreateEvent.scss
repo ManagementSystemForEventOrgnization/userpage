@@ -59,6 +59,7 @@
             z-index: 0;
             width: 250px;
             overflow-y: scroll;
+            overflow-x: hidden;
             height: 500px;
             .menu-item {
                 @include menu-items();
