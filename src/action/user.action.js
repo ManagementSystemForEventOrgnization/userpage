@@ -159,7 +159,7 @@ const onUpdateUserProfile = (userInfor) => {
         dispatch(request());
         API
             .post(`/api/user/updateInfor`, {
-                userInfor
+                ...userInfor
             })
             .then(res => {
                 if (res.status === 200) {

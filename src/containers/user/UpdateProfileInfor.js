@@ -33,11 +33,9 @@ class UpdateProfileInfor extends Component {
 
     componentWillReceiveProps(nextprops) {
         this.setState({ userInfor: nextprops.userInfor.result })
-        console.log(nextprops.userInfor)
-    }
+     }
 
     render() {
-        console.log(this.state);
         const { userInfor } = this.state;
         return (
             <div>
@@ -54,7 +52,7 @@ class UpdateProfileInfor extends Component {
                             <p><i className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.address}</p>
                             <p><i className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.email}</p>
                             <p><i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.phone}</p>
-                            <hr />
+                            <hr />  
                             <p className="w3-large"><b><i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />Profile</b></p>
                             <p>Personal Information</p>
                             <div className="w3-light-grey w3-round-xlarge w3-small">
