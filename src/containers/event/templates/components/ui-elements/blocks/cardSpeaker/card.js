@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, Row, Col } from 'antd';
+import { Card } from 'antd';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
 
 import Text from '../../atoms/Text';
@@ -65,12 +65,13 @@ class CardBlock extends React.Component {
 
   render() {
     const { list } = this.state;
+    const { editable } = this.props;
     return (
       // need to map style
-      <div>
-        <Row gutter={16}>
+      <div className="d-flex">
+        <div className="row">
           {list.map((item) => (
-            <Col className="gutter-row" key={item} span={6}>
+            <div className="col-sm-3">
               <Card
                 hoverable
                 style={{ height: 300 }}
@@ -83,21 +84,23 @@ class CardBlock extends React.Component {
                   description={<Text content={description} child={true} />}
                 />
               </Card>
-            </Col>
+            </div>
           ))}
-        </Row>
-        <div className="icons-handle">
-          <PlusCircleTwoTone
-            style={iconStyle}
-            className="mt-3"
-            onClick={this.addCard}
-          />
-          <MinusCircleTwoTone
-            style={iconStyle}
-            className="mt-3"
-            onClick={this.removeCard}
-          />
         </div>
+        {editable && (
+          <div className="icons-handle">
+            <PlusCircleTwoTone
+              style={iconStyle}
+              className="mt-3"
+              onClick={this.addCard}
+            />
+            <MinusCircleTwoTone
+              style={iconStyle}
+              className="mt-3"
+              onClick={this.removeCard}
+            />
+          </div>
+        )}
       </div>
     );
   }

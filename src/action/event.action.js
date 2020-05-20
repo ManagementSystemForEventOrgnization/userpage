@@ -31,34 +31,49 @@ const getEventDetail = (eventId) => {
   }
 };
 
-const saveEvent = (eventId, blocks) => {
-  let block = [...blocks];
+const getEventEdit = (eventId, route) => {
+  console.log('get event edit ');
+  return (dispatch) => {
+    API.get(`/api/getPageEventEdit`, {
+      params: {
+        eventId,
+        route,
+      },
+    })
+      .then((res) => {
+        dispatch(success(res.data.result[0].rows));
+      })
+      .catch((err) => handleCatch(dispatch, failure, err));
+  };
 
-  // blocks.map((item) => {
-  //   let temp = { ...item };
-  //   for (let key in item) {
-  //     if (typeof item[key] === 'function') {
-  //       temp[key] = `(${item[key]}).apply(null,[${item.id},${false}, ${
-  //         item.style
-  //       }])`;
+  function success(page) {
+    return {
+      type: eventConstants.GET_EVENT_EDIT,
+      page,
+    };
+  }
 
-  //       temp[key] = temp[key].replace(/\"/g, '\\"').replace(/\n/g, ' ');
-  //     }
-  //   }
-  //   block.push(temp);
-  // });
+  function failure(err) {
+    return {
+      type: eventConstants.GET_EVENT_EDIT_FAILURE,
+      err,
+    };
+  }
+};
 
-  //const block = [...blocks];
-
+const saveEvent = (block, eventId, unEditableHtml, isPreview, headerHtml) => {
   return (dispatch) => {
     dispatch(request());
-
-    API.post('/api/save/page_event', { block, eventId })
+    API.post('/api/save/page_event', {
+      block,
+      eventId,
+      unEditableHtml,
+      isPreview,
+      headerHtml,
+    })
       .then((res) => {
         console.log('TCL Save event detail  THEN: ', res);
-
         dispatch(success());
-        // history.push(`/event/${eventId}`);
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
@@ -103,17 +118,34 @@ const getCategories = () => {
   }
 };
 
-const storeHtml = (data) => {
+const savePage = (route, innerHtml, editable) => {
   return (dispatch) => {
-    dispatch(request(data));
+    dispatch(request(route, innerHtml, editable));
   };
-  function request(data) {
+  function request(route, innerHtml, editable) {
     return {
-      type: eventConstants.SAVE_HTML_TEST,
-      data,
+      type: eventConstants.SAVE_PAGE,
+      route,
+      innerHtml,
+      editable,
     };
   }
 };
+
+const updatePage = (route, innerHtml, editable) => {
+  return (dispatch) => {
+    dispatch(request(route, innerHtml, editable));
+  };
+  function request(route, innerHtml, editable) {
+    return {
+      type: eventConstants.UPDATE_PAGE,
+      route,
+      innerHtml,
+      editable,
+    };
+  }
+};
+
 const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
@@ -241,5 +273,7 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
-  storeHtml,
+  savePage,
+  updatePage,
+  getEventEdit,
 };

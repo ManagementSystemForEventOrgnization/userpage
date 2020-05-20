@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { eventActions } from '../../action/event.action';
+import { blockList } from './templates/data/data';
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -9,25 +11,35 @@ class EventDetail extends React.Component {
     };
   }
 
+  renderBlocks = (item) => {
+    const { match } = this.props;
+    const param = item.style
+      ? {
+          id: item.id,
+          style: item.style,
+          editable: true,
+          match,
+        }
+      : {
+          id: item.id,
+          editable: true,
+          match,
+        };
+
+    return blockList[item.type](param);
+  };
+
   componentDidMount = () => {
     // get id from url
     const { id, getEventDetail } = this.props;
-
     const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
     getEventDetail(eventId);
   };
 
   render() {
-    // const { page } = this.props;
-    // const blocks = page ? page[0].rows : [];
-
     const { blocks } = this.props;
-    // console.log(blocks);
 
-    // const temp =
-    //   '((e8170588-74b1-421b-8c49-00784f216c06, false, {"collapse":false,"margin":[1,1,1,1],"padding":[7,1,1,7],"url":"","bgColor":"white","opacity":0.3}) =>/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_ui_elements_blocks_eventDescription_EventDescription2__WEBPACK_IMPORTED_MODULE_17__["default"], {       key: id,       id: id,       editable: editable,       style: style ? JSON.parse(style) : {},       __self: undefined,       __source: {         fileName: _jsxFileName,         lineNumber: 212,         columnNumber: 11       }     }))()';
-
-    return <div>{blocks.map((item) => item.options(item.id, false))}</div>;
+    return <div>{blocks.map((item) => this.renderBlocks(item))}</div>;
   }
 }
 

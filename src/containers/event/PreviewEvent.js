@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { eventActions } from '../../action/event.action';
+import { blockList } from './templates/data/data';
 
 class PreviewEvent extends React.Component {
   constructor(props) {
@@ -9,18 +10,34 @@ class PreviewEvent extends React.Component {
     this.state = {};
   }
 
-  // componentDidMount = () => {
-  //   const { id, getEventDetail } = this.props;
-  //   const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
-  //   getEventDetail(eventId);
-  // };
+  componentDidMount = () => {
+    const { id, getEventDetail } = this.props;
+    const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
+    getEventDetail(eventId);
+  };
+
+  renderBlocks = (item) => {
+    const { match } = this.props;
+    const param = item.style
+      ? {
+          id: item.id,
+          style: item.style,
+          editable: true,
+          match,
+        }
+      : {
+          id: item.id,
+          editable: true,
+          match,
+        };
+
+    return blockList[item.type](param);
+  };
 
   render() {
-    // const { page } = this.props;
-    // const blocks = page ? page[0].rows : [];
-    const { blocks, id, match } = this.props;
+    const { blocks } = this.props;
 
-    return <div></div>;
+    return <div>{blocks.map((item) => this.renderBlocks(item))}</div>;
   }
 }
 
@@ -28,6 +45,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   id: state.event.id,
   page: state.event.page,
+  dropContainerHtml: state.event.dropContainerHtml,
 });
 
 const mapDispatchToProps = (dispatch) => ({

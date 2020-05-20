@@ -154,9 +154,8 @@ class HeaderBlock extends Component {
   };
 
   render() {
-    const { editable, leftModal, match } = this.props;
+    const { editable, leftModal, match, currentRoute } = this.props;
     const { url } = match.match;
-
     const {
       visible,
       menuName,
@@ -199,22 +198,27 @@ class HeaderBlock extends Component {
       color: color,
     };
 
+    // let currentIndex = menuName.findIndex(
+    //   (item) => item.title === currentRoute
+    // );
+    // if (currentIndex === -1) {
+    //   for (let item in menuName) {
+    //     if (item.items.length !== 0) {
+    //       let childIndex;
+    //     }
+    //   }
+    // }
+
     return (
       <div className="child-block d-flex">
         <div style={{ width: '100%' }}>
-          <Menu mode="horizontal" style={divStyle}>
+          <Menu mode="horizontal" style={divStyle} selectedKeys={currentRoute}>
             {menuName.map((sub) =>
               sub.items.length === 0 ? (
                 <Menu.Item key={sub.id}>
-                  {editable ? (
+                  {!editable ? (
                     sub.title
                   ) : (
-                    // <Link
-                    //   to={`/preview/5eb259b562bd742fe41c1205/${sub.title.trim()}`}
-                    // >
-                    //   {sub.title}
-                    // </Link>
-
                     <Link to={`${url}/${sub.title.trim()}  `}>{sub.title}</Link>
                   )}
                 </Menu.Item>
@@ -222,7 +226,7 @@ class HeaderBlock extends Component {
                 <SubMenu key={sub.id} title={<span>{sub.title}</span>}>
                   {sub.items.map((item) => (
                     <Menu.Item key={item.id} style={dropdownStyle}>
-                      {editable ? (
+                      {!editable ? (
                         item.name
                       ) : (
                         <Link
@@ -396,6 +400,8 @@ class HeaderBlock extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  routes: state.event.routes,
+  currentRoute: state.event.currentRoute,
 });
 
 const mapDispatchToProps = (dispatch) => ({

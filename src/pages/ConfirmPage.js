@@ -4,13 +4,11 @@ import { Button } from 'antd';
 
 class ConfirmPage extends Component {
   handleClick = () => {
-    const { dropContainerHtml } = this.props;
+    // const { dropContainerHtml } = this.props;
 
     const data = document.getElementById('blocks-list');
     const result = document.getElementById('result');
-    const editable = document.getElementById('editable');
     result.innerHTML = data.innerHTML;
-    editable.innerHTML = dropContainerHtml;
   };
   render() {
     const { blocks, match } = this.props;

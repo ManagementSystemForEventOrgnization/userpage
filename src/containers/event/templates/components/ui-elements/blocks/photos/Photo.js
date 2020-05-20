@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
 
 import ImageBlock from '../../atoms/Image';
@@ -69,6 +68,7 @@ class Photo extends Component {
 
   render() {
     const { margin, padding, list } = this.state;
+    const { editable } = this.props;
 
     const style = {
       marginTop: `${margin[0]}%`,
@@ -82,25 +82,28 @@ class Photo extends Component {
     };
     return (
       <div className="d-flex child-block" style={style}>
-        <Row gutter={8}>
+        <div className="row">
           {list.map((item) => (
-            <Col className="gutter-row" key={item} span={6}>
+            <div className="col-sm-3" key={item}>
               <ImageBlock url={urlDefault} height={high} leftModal={true} />
-            </Col>
+            </div>
           ))}
-        </Row>
-        <div className="icons-handle">
-          <PlusCircleTwoTone
-            style={iconStyle}
-            className="mt-3"
-            onClick={this.addPhoto}
-          />
-          <MinusCircleTwoTone
-            style={iconStyle}
-            className="mt-3"
-            onClick={this.removePhoto}
-          />
         </div>
+
+        {editable && (
+          <div className="icons-handle">
+            <PlusCircleTwoTone
+              style={iconStyle}
+              className="mt-3"
+              onClick={this.addPhoto}
+            />
+            <MinusCircleTwoTone
+              style={iconStyle}
+              className="mt-3"
+              onClick={this.removePhoto}
+            />
+          </div>
+        )}
       </div>
     );
   }

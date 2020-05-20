@@ -12,26 +12,28 @@ const initialState = {
   isSellTicket: 'Không',
   webAddress: '',
   blocks: [
-    ...dataTest[1].value,
     ...dataTest[0].value,
+    ...dataTest[1].value,
     ...dataTest[2].value,
-    // ...dataTest[4].value,
-    // ...dataTest[5].value,
-    // ...dataTest[6].value,
-    // ...dataTest[7].value,
-    // ...dataTest[8].value,
-    // ...dataTest[9].value,
-    // ...dataTest[10].value,
-    // ...dataTest[11].value,
-    // ...dataTest[12].value,
-    // ...dataTest[13].value,
+    ...dataTest[3].value,
+    ...dataTest[4].value,
+    ...dataTest[5].value,
+    ...dataTest[6].value,
+    ...dataTest[7].value,
+    ...dataTest[8].value,
+    ...dataTest[9].value,
+    ...dataTest[10].value,
+    ...dataTest[11].value,
+    ...dataTest[12].value,
   ],
   categories: [],
   errMessage: '',
   pending: false,
   id: '',
 
-  dropContainerHtml: '',
+  unEditableHtml: [],
+  routes: [],
+  currentRoute: 'home',
 };
 
 const event = (state = initialState, action) => {
@@ -165,10 +167,43 @@ const event = (state = initialState, action) => {
         pending: false,
       };
 
-    case eventConstants.SAVE_HTML_TEST:
+    case eventConstants.SAVE_PAGE:
+      let { unEditableHtml, routes } = state;
+      const { route, innerHtml, editable } = action;
+      const newPage = {
+        route,
+        innerHtml,
+        editable, // false
+      };
+
+      unEditableHtml.push(newPage);
       return {
         ...state,
-        dropContainerHtml: action.data,
+        unEditableHtml,
+        routes: routes.push(route),
+        currentRoute: route,
+      };
+
+    case eventConstants.UPDATE_PAGE:
+      const currentIndex = unEditableHtml.findIndex(
+        (item) => item.route === action.route
+      );
+      unEditableHtml[currentIndex].innerHtml = action.innerHtml;
+      return {
+        ...state,
+        unEditableHtml,
+      };
+
+    case eventConstants.GET_EVENT_EDIT:
+      return {
+        ...state,
+        blocks: action.page,
+      };
+
+    case eventConstants.GET_EVENT_EDIT_FAILURE:
+      return {
+        ...state,
+        errMessage: action.err,
       };
 
     default:

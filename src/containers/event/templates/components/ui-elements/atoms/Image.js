@@ -16,8 +16,8 @@ class ImageBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...ImageState(this.props),
-      };
+          ...ImageState(this.props),
+        };
   }
 
   componentDidMount = () => {
@@ -39,7 +39,7 @@ class ImageBlock extends React.Component {
       uploadedFileCloudinaryUrl: url,
     });
     if (handleOnChangeUrlTextBlock) {
-      handleOnChangeUrlTextBlock(this.state.uploadedFileCloudinaryUrl)
+      handleOnChangeUrlTextBlock(this.state.uploadedFileCloudinaryUrl);
     }
     //  if (id) {
     //       handleOnChangeUrlTextBlock(id, this.state.uploadedFileCloudinaryUrl);
