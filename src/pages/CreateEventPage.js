@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import CreateEvent from '../containers/event/CreateEvent';
 
 export default class UserEventPage extends Component {
-
-    render() {
-        return (
-            <div>
-                <CreateEvent />
-            </div>
-        )
-    }
+  render() {
+    const { match } = this.props;
+    return (
+      <div>
+        <CreateEvent match={match} />
+      </div>
+    );
+  }
 }

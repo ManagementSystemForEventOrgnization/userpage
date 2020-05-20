@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { ReactSortable } from 'react-sortablejs';
 
 import { eventActions } from '../../../../action/event.action';
+import { blockList } from '../data/data';
 
 class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dropList: [...this.props.blocks],
+      isUpdate: true,
     };
   }
 
@@ -24,12 +26,37 @@ class DropContainer extends React.Component {
     storeBlocksWhenCreateEvent(dropList);
   };
 
+  renderBlocks = (item) => {
+    const { match } = this.props;
+    const param = item.style
+      ? {
+          id: item.id,
+          style: item.style,
+          editable: true,
+          match,
+        }
+      : {
+          id: item.id,
+          editable: true,
+          match,
+        };
+    console.log(typeof blockList[item.type]);
+    // return callBack(param, blockList[item.type]);
+    return blockList[item.type](param);
+  };
+
+  callBackFunction = (params, callBack) => {
+    if (!callBack) return;
+    callBack(params);
+  };
+
   render() {
     const { dropList } = this.state;
+    const { match, editable, update, blocks } = this.props;
+
     return (
       <div className="drop-container">
         <ReactSortable
-          className="drop-container"
           id="drop-container"
           sort={true}
           group={{
@@ -43,7 +70,15 @@ class DropContainer extends React.Component {
           list={dropList}
           setList={this.handleSetDropList}
         >
-          {dropList.map((item) => item.options(item.id, true))}
+          {update
+            ? blocks.map((item) => this.renderBlocks(item))
+            : dropList.map((item) => {
+                return item.options({
+                  id: item.id,
+                  editable: editable,
+                  match,
+                });
+              })}
         </ReactSortable>
       </div>
     );
@@ -52,11 +87,14 @@ class DropContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  dropContainerHtml: state.event.dropContainerHtml,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  getEventEdit: (id, route) => dispatch(eventActions.getEventEdit(id, route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropContainer);

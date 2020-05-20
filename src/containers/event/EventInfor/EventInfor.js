@@ -6,12 +6,10 @@ import { Link } from 'react-router-dom';
 import {
   SettingTwoTone,
   HourglassTwoTone,
-  EnvironmentTwoTone,
   InfoCircleTwoTone,
 } from '@ant-design/icons';
 
 import What from './WhatTabPane';
-import Where from './WhereTabPane';
 import Which from './WhichTabPane';
 import When from './WhenTabPane';
 import { eventActions } from '../../../action/event.action';
@@ -19,15 +17,14 @@ import { eventActions } from '../../../action/event.action';
 const { TabPane } = Tabs;
 class EventInfor extends Component {
   constructor(props) {
+    // get category
     super(props);
     this.state = {
       nameEvent: '',
       typeOfEvent: '',
       category: '',
       quantity: 100,
-      address: '',
-      locationName: '',
-      time: {},
+      session: [],
       isSellTicket: 'No',
       webAddress: '',
       isFirstLoad: true,
@@ -47,12 +44,9 @@ class EventInfor extends Component {
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      time,
+      session,
       isSellTicket,
       webAddress,
-      map,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
     prepareForCreateEvent(
@@ -60,10 +54,7 @@ class EventInfor extends Component {
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      map,
-      time,
+      session,
       isSellTicket,
       webAddress
     );
@@ -72,30 +63,45 @@ class EventInfor extends Component {
     });
   };
 
+  isSessionValid = () => {
+    const { session } = this.state;
+    let isValid = true;
+    if (session.length === 0) {
+      return false;
+    }
+    for (let item in session) {
+      if (Object.keys(item.address).length === 0) {
+        return false;
+      }
+      if (item.detail.length !== 0) {
+        isValid = item.detail.every(
+          (ele) => ele.from && ele.to && ele.description
+        );
+      }
+    }
+
+    return isValid;
+  };
+
   render() {
     const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
       quantity,
-      locationName,
       isSellTicket,
       webAddress,
       category,
-      time,
       typeOfEvent,
       isFirstLoad,
-      map,
     } = this.state;
 
     const next =
       nameEvent &&
       quantity &&
-      locationName &&
       webAddress &&
       category &&
-      time &&
       typeOfEvent &&
-      map;
+      this.isSessionValid();
 
     const errorStyle = {
       backgroundColor: '#e8b3b3',
@@ -112,7 +118,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="3">
+        <Tabs defaultActiveKey="1">
           <TabPane
             tab={
               <span className="p-5">
@@ -145,6 +151,7 @@ class EventInfor extends Component {
               onChange={this.onChange}
             />
           </TabPane>
+
           <TabPane
             tab={
               <span className="p-5">
@@ -155,18 +162,6 @@ class EventInfor extends Component {
             key="3"
           >
             <When onChange={this.onChange} />
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span className="p-5">
-                <EnvironmentTwoTone />
-                Where
-              </span>
-            }
-            key="4"
-          >
-            <Where locationName={locationName} onChange={this.onChange} />
           </TabPane>
         </Tabs>
         <hr className="shadow border-bottom" />
@@ -206,10 +201,7 @@ const mapDispatchToProps = (dispatch) => ({
     typeOfEvent,
     category,
     quantity,
-    address,
-    locationName,
-    map,
-    time,
+    session,
     isSellTicket,
     webAddress
   ) =>
@@ -219,10 +211,7 @@ const mapDispatchToProps = (dispatch) => ({
         typeOfEvent,
         category,
         quantity,
-        address,
-        locationName,
-        map,
-        time,
+        session,
         isSellTicket,
         webAddress
       )

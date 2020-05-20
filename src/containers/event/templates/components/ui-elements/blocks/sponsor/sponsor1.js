@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
 
 import ImageBlock from '../../atoms/Image';
@@ -22,7 +21,7 @@ class Sponsor1Block extends Component {
     this.state = style
       ? { ...style }
       : {
-          sponsor: [1, 2, 3, 4],
+          sponsor: [1, 2, 3, 4, 5, 6, 7, 8, 9],
         };
   }
 
@@ -67,45 +66,53 @@ class Sponsor1Block extends Component {
       padding: '10px',
     };
     const { sponsor } = this.state;
+    const { editable } = this.props;
+    const newStyle = {
+      borderRadius: '50%',
+    };
 
     return (
       <div className="d-flex child-block" style={style}>
         <div style={style} className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <TextBlock
-                content={title}
-                child={true}
-                newStyle={{
-                  fontWeight: 'normal',
-                  fontSize: 60,
-                }}
-              />
-            </div>
-          </div>
+          <TextBlock
+            content={title}
+            child={true}
+            newStyle={{
+              fontWeight: 'normal',
+              fontSize: 60,
+            }}
+          />
 
           <hr></hr>
 
-          <div className="child-block d-flex">
-            <Row className="child-block" gutter={8}>
+          <div className=" d-flex">
+            <div className="row">
               {sponsor.map((item) => (
-                <Col className="gutter-row" key={item} span={4}>
-                  <ImageBlock url={urlDefault} height={high} leftModal={true} />
-                </Col>
+                <div className="col-sm-2">
+                  <ImageBlock
+                    url={urlDefault}
+                    height={high}
+                    leftModal={true}
+                    newStyle={newStyle}
+                  />
+                </div>
               ))}
-            </Row>
-            <div className="icons-handle">
-              <PlusCircleTwoTone
-                style={iconStyle}
-                className="mt-3"
-                onClick={this.addPhoto}
-              />
-              <MinusCircleTwoTone
-                style={iconStyle}
-                className="mt-3"
-                onClick={this.removePhoto}
-              />
             </div>
+
+            {editable && (
+              <div className="icons-handle">
+                <PlusCircleTwoTone
+                  style={iconStyle}
+                  className="mt-3"
+                  onClick={this.addPhoto}
+                />
+                <MinusCircleTwoTone
+                  style={iconStyle}
+                  className="mt-3"
+                  onClick={this.removePhoto}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
