@@ -1,7 +1,8 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
 const proxyName = 'http://localhost:5000';
-//localhost:3000/login
+//http://localhost:5000
+
 module.exports = function (app) {
   //
   app.use(proxy('/api/login', { target: proxyName, changeOrigin: true }));

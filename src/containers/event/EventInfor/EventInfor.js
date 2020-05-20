@@ -17,6 +17,7 @@ import { eventActions } from '../../../action/event.action';
 const { TabPane } = Tabs;
 class EventInfor extends Component {
   constructor(props) {
+    // get category
     super(props);
     this.state = {
       nameEvent: '',
@@ -65,20 +66,20 @@ class EventInfor extends Component {
   isSessionValid = () => {
     const { session } = this.state;
     let isValid = true;
-    console.log(session);
     if (session.length === 0) {
       return false;
     }
-    session.map((item) => {
+    for (let item in session) {
       if (Object.keys(item.address).length === 0) {
-        isValid = false;
+        return false;
       }
       if (item.detail.length !== 0) {
         isValid = item.detail.every(
           (ele) => ele.from && ele.to && ele.description
         );
       }
-    });
+    }
+
     return isValid;
   };
 
@@ -117,7 +118,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="3">
+        <Tabs defaultActiveKey="1">
           <TabPane
             tab={
               <span className="p-5">
@@ -150,6 +151,7 @@ class EventInfor extends Component {
               onChange={this.onChange}
             />
           </TabPane>
+
           <TabPane
             tab={
               <span className="p-5">

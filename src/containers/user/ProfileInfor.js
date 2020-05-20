@@ -1,13 +1,17 @@
-
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Form, Input, Button, Checkbox, Select, DatePicker, Upload, message } from 'antd';
-import { UserOutlined, LockOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Form, Input, Button, Select, DatePicker, Upload, message } from 'antd';
+import {
+  UserOutlined,
+  LockOutlined,
+  LoadingOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import { userActions } from '../../action/user.action';
 
 const { Option } = Select;
 
-// start upload 
+// start upload
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -35,32 +39,31 @@ class ProfileInfor extends Component {
 
     this.state = {
       userInfor: {
-        fullName: "",
-        gender: "",
-        job: "",
-        phone: "",
-        discription: "",
-        avatar: "",
-        address: "",
-        birthday: "",
-        email: "",
-        orgName: "",
-        orgDes: "",
-        orgWeb: "",
-        orgPhone: "",
-        orgEmail: "",
-        orgUrl: ""
+        fullName: '',
+        gender: '',
+        job: '',
+        phone: '',
+        discription: '',
+        avatar: '',
+        address: '',
+        birthday: '',
+        email: '',
+        orgName: '',
+        orgDes: '',
+        orgWeb: '',
+        orgPhone: '',
+        orgEmail: '',
+        orgUrl: '',
       },
       visible: false,
       loading: false,
-    }
+    };
   }
-
 
   componentDidMount = () => {
     const { getCurrentUser } = this.props;
     getCurrentUser();
-  }
+  };
 
   // componentWillReceiveProps(nextprops) {
   //   this.setState({ userInfor: nextprops.userInfor })
@@ -77,50 +80,48 @@ class ProfileInfor extends Component {
     var target = event.target;
     var name = target.name;
     var value = target.value;
-    this.setState(prevState => ({
-      userInfor: {                   // object that we want to update
-        ...prevState.userInfor,    // keep all other key-value pairs
-        [name]: value     // update the value of specific key
-      }
-    }))
-    console.log(this.state.userInfor)
-  }
+    this.setState((prevState) => ({
+      userInfor: {
+        // object that we want to update
+        ...prevState.userInfor, // keep all other key-value pairs
+        [name]: value, // update the value of specific key
+      },
+    }));
+    console.log(this.state.userInfor);
+  };
   //end onchange value
 
   //upload avatar
-  handleChange = info => {
+  handleChange = (info) => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, avatar =>
+      getBase64(info.file.originFileObj, (avatar) =>
         this.setState({
           userInfor: {
-            avatar
+            avatar,
           },
           loading: false,
-        }),
+        })
       );
     }
   };
   //end upload avatar
 
-
   onSave(values) {
-    const { onUpdateUserProfile } = this.props
+    const { onUpdateUserProfile } = this.props;
     if (onUpdateUserProfile) {
-      onUpdateUserProfile(...this.state.userInfor)
+      onUpdateUserProfile(...this.state.userInfor);
     }
-
   }
-
 
   render() {
     const { userInfor } = this.state;
 
-    const onFinish = values => {
+    const onFinish = (values) => {
       this.props.onUpdateUserProfile(...this.state.userInfor);
     };
 
@@ -138,53 +139,48 @@ class ProfileInfor extends Component {
     return (
       <div className="ProfileInfor p-5 border">
         {/* start form */}
-        <Form
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
+        <Form initialValues={{ remember: true }} onFinish={onFinish}>
           {/* personal infor */}
           <h2>Personal Information</h2>
           <div className="row">
             <div className="col">
-              <Form.Item
-                name="fullName">
-                <Input prefix={<UserOutlined className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />}
+              <Form.Item name="fullName">
+                <Input
+                  prefix={
+                    <UserOutlined className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
                   name="fullName"
                   placeholder="Full name"
                   onChange={this.onHandleChange}
-                  defaultValue={userInfor.fullName ? userInfor.fullName : "nhi"}
+                  defaultValue={userInfor.fullName ? userInfor.fullName : 'nhi'}
                 />
               </Form.Item>
 
-              <Form.Item
-                name="job"
-              >
+              <Form.Item name="job">
                 <Input
-                  prefix={<LockOutlined className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />}
+                  prefix={
+                    <LockOutlined className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
                   placeholder="Job"
                   name="job"
                   onChange={this.onHandleChange}
-
-
-                  onChange={this.onHandleChange}
-                  onChange={this.onHandleChange} defaultValue={userInfor.job}
+                  defaultValue={userInfor.job}
                 />
               </Form.Item>
 
-              <Form.Item
-                name="phone"
-              >
+              <Form.Item name="phone">
                 <Input
-                  prefix={<LockOutlined className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />}
+                  prefix={
+                    <LockOutlined className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
                   placeholder="Phone number"
                   name="phone"
                   onChange={this.onHandleChange}
                   defaultValue={userInfor.phone}
                 />
               </Form.Item>
-
             </div>
-            <div className="col" >
+            <div className="col">
               <Upload
                 name="avatar"
                 listType="picture-card"
@@ -194,13 +190,20 @@ class ProfileInfor extends Component {
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
               >
-                {userInfor.avatar ? <img src={userInfor.avatar} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                {userInfor.avatar ? (
+                  <img
+                    src={userInfor.avatar}
+                    alt="avatar"
+                    style={{ width: '100%' }}
+                  />
+                ) : (
+                  uploadButton
+                )}
               </Upload>
             </div>
           </div>
 
           <div className="row pl-2 pr-2 mb-2">
-
             <Form.Item className="col m-2" name="gender" placeholder="gender">
               <Select
                 placeholder="Gender"
@@ -219,23 +222,25 @@ class ProfileInfor extends Component {
             </Form.Item>
           </div>
 
-          <Form.Item
-            name="address"
-          >
+          <Form.Item name="address">
             <Input
-              prefix={<UserOutlined className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />}
+              prefix={
+                <UserOutlined className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
               placeholder="Address"
               name="address"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.address} />
+              defaultValue={userInfor.address}
+            />
           </Form.Item>
 
-          <Form.Item className="mt-2" >
+          <Form.Item className="mt-2">
             <Input.TextArea
               placeholder="Enter your descrpition"
               name="discription"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.discription} />
+              defaultValue={userInfor.discription}
+            />
           </Form.Item>
           {/* end personal infor */}
 
@@ -245,19 +250,25 @@ class ProfileInfor extends Component {
           <h2>Organization Information</h2>
 
           <div className="row p-2">
-            <Form.Item className="col m-2"
-              name=""
-            >
-              <Input prefix={<UserOutlined className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />}
+            <Form.Item className="col m-2" name="">
+              <Input
+                prefix={
+                  <UserOutlined className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
+                }
                 placeholder="Organization name"
                 name="orgName"
                 onChange={this.onHandleChange}
-                defaultValue={userInfor.orgName} />
+                defaultValue={userInfor.orgName}
+              />
             </Form.Item>
 
             <Form.Item className="col m-2">
               <Input
-                prefix={<span className="fa-fw w3-margin-right w3-text-teal">http(s):</span>}
+                prefix={
+                  <span className="fa-fw w3-margin-right w3-text-teal">
+                    http(s):
+                  </span>
+                }
                 placeholder="Website"
                 name="orgWeb"
                 onChange={this.onHandleChange}
@@ -265,10 +276,11 @@ class ProfileInfor extends Component {
               />
             </Form.Item>
           </div>
-          <Form.Item
-            name="orgPhone">
+          <Form.Item name="orgPhone">
             <Input
-              prefix={<LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />}
+              prefix={
+                <LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
               placeholder="Organization phone number"
               name="orgPhone"
               onChange={this.onHandleChange}
@@ -276,10 +288,11 @@ class ProfileInfor extends Component {
             />
           </Form.Item>
 
-          <Form.Item
-            name="orgEmail">
+          <Form.Item name="orgEmail">
             <Input
-              prefix={<LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />}
+              prefix={
+                <LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
               placeholder="Organization Email"
               name="orgEmail"
               onChange={this.onHandleChange}
@@ -292,31 +305,33 @@ class ProfileInfor extends Component {
               placeholder="enter your organization description"
               name="orgDes"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.orgDes} />
+              defaultValue={userInfor.orgDes}
+            />
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" onClick={(value) => this.onSave(value)}>
               Save
-        </Button>
+            </Button>
           </Form.Item>
           {/* end organization */}
         </Form>
         {/* end form */}
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    userInfor: state.user.userInfo
+    userInfor: state.user.userInfo,
   };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-  onUpdateUserProfile: (userInfor) => dispatch(userActions.onUpdateUserProfile(userInfor))
+  onUpdateUserProfile: (userInfor) =>
+    dispatch(userActions.onUpdateUserProfile(userInfor)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor)
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor);

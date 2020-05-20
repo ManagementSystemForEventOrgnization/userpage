@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
             ) : (
               <Form className="mt-2">
                 <Form.Item>
-                  {!isFirstLoad && message && (
+                  {message && (
                     <div className="error-message mt-2 mb-2">{message}</div>
                   )}
                 </Form.Item>

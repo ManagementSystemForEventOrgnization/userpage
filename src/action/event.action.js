@@ -1,6 +1,7 @@
 import API from './axious.config';
 import { eventConstants } from '../constants/index';
 import history from '../utils/history';
+import handleCatch from './middleware';
 
 const getEventDetail = (eventId) => {
   return (dispatch) => {
@@ -10,13 +11,9 @@ const getEventDetail = (eventId) => {
       },
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-        }
+        dispatch(success(res.data.result));
       })
-      .catch((err) => {
-        dispatch(failure('Something wrong !!!'));
-      });
+      .catch((err) => handleCatch(dispatch, failure, err));
   };
 
   function success(page) {
@@ -34,49 +31,51 @@ const getEventDetail = (eventId) => {
   }
 };
 
-const saveEvent = (eventId, blocks) => {
-  let block = [];
-  console.log(blocks[0]);
+const getEventEdit = (eventId, route) => {
+  console.log('get event edit ');
+  return (dispatch) => {
+    API.get(`/api/getPageEventEdit`, {
+      params: {
+        eventId,
+        route,
+      },
+    })
+      .then((res) => {
+        dispatch(success(res.data.result[0].rows));
+      })
+      .catch((err) => handleCatch(dispatch, failure, err));
+  };
 
-  blocks.map((item) => {
-    let temp = { ...item };
+  function success(page) {
+    return {
+      type: eventConstants.GET_EVENT_EDIT,
+      page,
+    };
+  }
 
-    for (let key in item) {
-      if (typeof item[key] === 'function') {
-        temp[key] = `(${item[key]}).apply(null,[${item.id},${false}, ${
-          item.style
-        }])`;
+  function failure(err) {
+    return {
+      type: eventConstants.GET_EVENT_EDIT_FAILURE,
+      err,
+    };
+  }
+};
 
-        temp[key] = temp[key].replace(/\"/g, '\\"').replace(/\n/g, ' ');
-      }
-    }
-    block.push(temp);
-  });
-
+const saveEvent = (block, eventId, unEditableHtml, isPreview, headerHtml) => {
   return (dispatch) => {
     dispatch(request());
-    let block1 = block[0]['options'];
-    console.log(block1);
-    // console.log('start function block1');
-    // eval(block1);
-
-    API.post('/api/save/page_event', { block, eventId })
+    API.post('/api/save/page_event', {
+      block,
+      eventId,
+      unEditableHtml,
+      isPreview,
+      headerHtml,
+    })
       .then((res) => {
         console.log('TCL Save event detail  THEN: ', res);
-
-        if (res.status === 200) {
-          dispatch(success());
-          history.push(`/event/${eventId}`);
-        }
+        dispatch(success());
       })
-      .catch((err) => {
-        console.log('TCL Save event detail  CATCH: ', err.response);
-
-        const { data } = err.response;
-        if (data.error) {
-          dispatch(failure(data.error.message));
-        }
-      });
+      .catch((err) => handleCatch(dispatch, failure, err));
   };
   function request() {
     return {
@@ -101,15 +100,9 @@ const getCategories = () => {
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure());
-        }
+        dispatch(success(res.data.result));
       })
-      .catch((error) => {
-        dispatch(failure());
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function success(categories) {
@@ -121,6 +114,34 @@ const getCategories = () => {
   function failure() {
     return {
       type: eventConstants.GET_CATEGORIES_FAILURE,
+    };
+  }
+};
+
+const savePage = (route, innerHtml, editable) => {
+  return (dispatch) => {
+    dispatch(request(route, innerHtml, editable));
+  };
+  function request(route, innerHtml, editable) {
+    return {
+      type: eventConstants.SAVE_PAGE,
+      route,
+      innerHtml,
+      editable,
+    };
+  }
+};
+
+const updatePage = (route, innerHtml, editable) => {
+  return (dispatch) => {
+    dispatch(request(route, innerHtml, editable));
+  };
+  function request(route, innerHtml, editable) {
+    return {
+      type: eventConstants.UPDATE_PAGE,
+      route,
+      innerHtml,
+      editable,
     };
   }
 };
@@ -137,7 +158,6 @@ const prepareForCreateEvent = (
   return (dispatch) => {
     dispatch(request());
     API.post('api/save/event', {
-      // { name, typeOfEvent, category, urlWeb, limitNumber, address, detailAddress, map, startTime, endTime, isSellTicket }
       name: nameEvent,
       typeOfEvent,
       category,
@@ -147,33 +167,25 @@ const prepareForCreateEvent = (
       isSellTicket: isSellTicket === 'True' ? true : false,
     })
       .then((res) => {
-        if (res.status === 200) {
-          const id = res.data.result;
-          setTimeout(
-            dispatch(
-              success(
-                id,
-                nameEvent,
-                typeOfEvent,
-                category,
-                quantity,
-                session,
-                isSellTicket,
-                webAddress
-              )
-            ),
-            5000
-          );
-          history.push('/create');
-        }
+        const id = res.data.result;
+        setTimeout(
+          dispatch(
+            success(
+              id,
+              nameEvent,
+              typeOfEvent,
+              category,
+              quantity,
+              session,
+              isSellTicket,
+              webAddress
+            )
+          ),
+          5000
+        );
+        history.push('/create');
       })
-      .catch((err) => {
-        const { data } = err.response;
-        console.log(data.error.message);
-        if (data.error) {
-          setTimeout(dispatch(failure(data.error.message)), 5000);
-        }
-      });
+      .catch((err) => handleCatch(dispatch, failure, err));
   };
 
   function request() {
@@ -261,4 +273,7 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
+  savePage,
+  updatePage,
+  getEventEdit,
 };

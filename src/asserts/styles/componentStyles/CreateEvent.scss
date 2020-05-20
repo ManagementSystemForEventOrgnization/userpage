@@ -1,76 +1,76 @@
 @mixin menu-items() {
-    padding-left: 35px;
-    font-weight: 300;
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.1);
-    }
+  padding-left: 35px;
+  font-weight: 300;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 }
 
 .create-event {
-    padding-top: 5%;
-    $base-duration: 500ms;
+  padding-top: 5%;
+  $base-duration: 500ms;
 
-    .drop-area {
-        border: dashed 1px rgb(228, 149, 149);
-        padding-top: 1%;
-        margin-left: 10% !important;
+  .drop-area {
+    border: dashed 1px rgb(228, 149, 149);
+    padding-top: 1%;
+    margin-left: 10% !important;
 
-        transition: right $base-duration ease;
-        .icons-handle {
-            padding: 2px;
-            margin-top: 12px;
-            height: 106px;
-            width: 26px;
+    transition: right $base-duration ease;
+    .icons-handle {
+      padding: 2px;
+      margin-top: 12px;
+      height: 106px;
+      width: 26px;
 
-            &:hover {
-                border: dashed 1px rgb(0, 50, 216);
-                opacity: 0.9;
-                cursor: pointer;
-            }
-            .anticon {
-                &:hover {
-                    transform: scale(1.2);
-                }
-            }
+      &:hover {
+        border: dashed 1px rgb(0, 50, 216);
+        opacity: 0.9;
+        cursor: pointer;
+      }
+      .anticon {
+        &:hover {
+          transform: scale(1.2);
         }
-
-        .child-block {
-            &:hover {
-                border: dotted 1px rgb(138, 134, 134);
-                opacity: 0.9;
-                cursor: pointer;
-            }
-        }
+      }
     }
 
-    .move-right {
-        margin-left: 20% !important;
-        margin-right: 2%;
-        transition: right $base-duration ease;
+    .child-block {
+      &:hover {
+        border: dotted 1px rgb(138, 134, 134);
+        opacity: 0.9;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .move-right {
+    margin-left: 20% !important;
+    margin-right: 2%;
+    transition: right $base-duration ease;
+  }
+
+  .menu-update {
+    position: fixed;
+    top: 10%;
+
+    .menu-show {
+      transition: left $base-duration ease;
+      z-index: 0;
+      width: 250px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: 500px;
+      .menu-item {
+        @include menu-items();
+      }
     }
 
-    .menu-update {
-        position: fixed;
-        top: 10%;
-
-        .menu-show {
-            transition: left $base-duration ease;
-            z-index: 0;
-            width: 250px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            height: 500px;
-            .menu-item {
-                @include menu-items();
-            }
-        }
-
-        .menu-hide {
-            margin-left: -500px;
-            transition: left $base-duration ease;
-            z-index: 0;
-            width: 0px;
-        }
+    .menu-hide {
+      margin-left: -500px;
+      transition: left $base-duration ease;
+      z-index: 0;
+      width: 0px;
     }
+  }
 }

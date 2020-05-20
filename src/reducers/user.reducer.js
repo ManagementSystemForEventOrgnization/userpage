@@ -9,7 +9,6 @@ const initialState = {
   showCheckCode: false,
   showVerifyForgotPassword: false,
   arrEvent: null,
-
 };
 
 const user = (state = initialState, action) => {
@@ -24,6 +23,8 @@ const user = (state = initialState, action) => {
 
     case userConstants.LOGIN_SUCCESS:
       localStorage.setItem('isLogined', true);
+      localStorage.setItem('username', action.user.fullName);
+      localStorage.setItem('avatar', action.user.avatar);
 
       return {
         ...state,
@@ -43,6 +44,8 @@ const user = (state = initialState, action) => {
 
     case userConstants.LOGIN_GOOGLE_SUCCESS:
       localStorage.setItem('isLogined', true);
+      localStorage.setItem('username', action.user.fullName);
+      localStorage.setItem('avatar', action.user.avatar);
       return {
         ...state,
         userInfo: action.user,
@@ -88,6 +91,8 @@ const user = (state = initialState, action) => {
       };
     case userConstants.CHECK_CODE_SUCCESS:
       localStorage.setItem('isLogined', true);
+      localStorage.setItem('username', state.userInfo.fullName);
+      localStorage.setItem('avatar', state.userInfo.avatar);
       return {
         ...state,
         isLogined: true,
@@ -105,6 +110,8 @@ const user = (state = initialState, action) => {
 
     case userConstants.LOGOUT:
       localStorage.removeItem('isLogined');
+      localStorage.removeItem('username');
+      localStorage.removeItem('avatar');
       return {
         ...state,
         userInfo: null,
@@ -189,21 +196,19 @@ const user = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.error,
-
-      }
+      };
     case userConstants.GET_HISTORY_SUCCESS:
       return {
         ...state,
         arrEvent: action.arrEvent,
         errMessage: null,
-
-      }
+      };
 
     case userConstants.GET_HISTORY_FAILURE:
       return {
         ...state,
         errMessage: action.error,
-      }
+      };
     default:
       return state;
   }
