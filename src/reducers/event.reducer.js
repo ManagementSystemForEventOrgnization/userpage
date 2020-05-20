@@ -34,6 +34,7 @@ const initialState = {
   errMessage: '',
   pending: false,
   id: '',
+  events:[],
 };
 
 const event = (state = initialState, action) => {
@@ -166,6 +167,18 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
       };
+    case eventConstants.GET_LIST_EVENT_SUCCESS:
+      return {
+        ...state,
+        events:action.events,
+      };
+      case eventConstants.GET_LIST_EVENT_FAILURE:
+        return {
+          ...state,
+          events:[],
+        
+        }
+
 
     default:
       return state;

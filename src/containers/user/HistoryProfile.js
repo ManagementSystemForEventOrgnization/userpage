@@ -23,9 +23,9 @@ class HistoryProfile extends React.Component {
     this.state = {
 
       categoryEventId: " ",
-      startDate: "2020-04-02T09:56:07.000Z",
-      endDate: " 2019-12-31T17:00:00.000Z",
-      txtSearch: ' Event ',
+      startDate: "",
+      endDate: " ",
+      txtSearch: '  ',
       pageNumber: 1,
       numberRecord: 10,
       categories: this.props.categories,

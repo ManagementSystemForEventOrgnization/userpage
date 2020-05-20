@@ -45,7 +45,7 @@ const saveEvent = (eventId, blocks) => {
       if (typeof item[key] === 'function') {
         temp[key] = `(${item[key]}).apply(null,[${item.id},${false}, ${
           item.style
-        }])`;
+          }])`;
 
         temp[key] = temp[key].replace(/\"/g, '\\"').replace(/\n/g, ' ');
       }
@@ -266,6 +266,35 @@ const deleteBlock = (id) => {
   }
 };
 
+const getListEvent = () => {
+  //api/getListEvent
+  return (dispatch) => {
+    API.get(`/api/getListEvent`)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("data:", res.data.result);
+          dispatch(success(res.data.result));
+        } else {
+          dispatch(failure());
+        }
+      })
+      .catch((error) => {
+        dispatch(failure());
+      });
+  };
+
+  function success(events) {
+    return {
+      type: eventConstants.GET_LIST_EVENT_SUCCESS,
+      events,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_FAILURE,
+    };
+  }
+}
 export const eventActions = {
   prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
@@ -274,4 +303,5 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
+  getListEvent,
 };

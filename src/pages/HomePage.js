@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Header from '../containers/share/_layout/Header';
@@ -10,18 +10,46 @@ import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
+import moment from 'moment';
+// import sessionCard from '../components/CardSession'
+import {
+  FieldTimeOutlined, EnvironmentOutlined, UserOutlined
+} from '@ant-design/icons';
 
+import { eventActions } from '../action/event.action';
 class HomePage extends Component {
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+
+      curTime: Date.now(),
+
+
+    }
+
+  }
+  componentDidMount = () => {
+    const { getListEvent } = this.props;
+
+    getListEvent();
+
+
+
+  }
+
+
   render() {
-    const src =
-      'https://images.freeimages.com/images/large-previews/977/beach-1364350.jpg';
+    const { events } = this.props;
+    const { curTime } = this.state;
+    const src = "https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg";
 
     const eventCartDetail = {
-      coverURL: src,
-      title: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
-      timeStart: 'T2, 13 Tháng 4 2020 3:00 PM',
-      address:
-        '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh',
+      urlWeb: src,
+      name: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
+      startTime: 'T2, 13 Tháng 4 2020 3:00 PM',
+      address: '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh'
     };
 
     const orgnizations = {
@@ -50,9 +78,46 @@ class HomePage extends Component {
           <div className="up-coming pl-2">
             <h1 className="">Upcoming Events </h1>
             <div className="row pl-5 ">
-              {temp.map((item) => (
-                <div className="col mt-4  shadow pb-3" key={item}>
-                  <CartEvent eventDetail={eventCartDetail} />
+              {events.map((item, index) => (
+
+                <div className="col mt-4  shadow pb-3" key={index}>
+
+                  < Link to="">
+                    <Card
+                      className="event-cart"
+                      cover={
+                        <img className="img"
+                          alt="example"
+                          src={item.urlWeb}
+                        />
+                      }
+                    >
+                      <div className="d-flex ">
+                        <h4 >{item.name}</h4>
+                        <div className="d-flex mt-1">
+                          <UserOutlined className="mt-1 ml-2" />
+                          <p className="ml-1 mt-1">{item.limitNumber}</p>
+                        </div>
+                      </div>
+                      {
+                        item.session.map((sess, i) =>
+                          <div key={i} >
+                            <div className="d-flex ">
+                              <FieldTimeOutlined className="mt-1" />
+                              <p className="ml-2"> {sess.day}</p>
+                            </div>
+                            <div className="d-flex ">
+                              <EnvironmentOutlined className="mt-1" />
+                              <p className="ml-2"> {sess.address.location}</p>
+                            </div>
+
+                          </div>
+                        )
+                      }
+
+                      <Button type="primary">Apply</Button>
+                    </Card>
+                  </ Link>
                 </div>
               ))}
             </div>
@@ -87,19 +152,21 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div>
+      </div >
     );
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     categories: state.event.categories,
-//   };
-// };
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-// });
+const mapStateToProps = (state) => {
+  return {
+    events: state.event.events,
+  };
+};
 
-export default connect(null, null)(HomePage);
+const mapDispatchToProps = (dispatch) => ({
+
+  getListEvent: () => dispatch(eventActions.getListEvent()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

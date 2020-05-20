@@ -335,13 +335,13 @@ const get_History = (categoryEventId, startDate, endDate, txtSearch, pageNumber,
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate);
-    if (startDate != "2020-04-02T09:56:07.000Z") {
+    if (startDate != "") {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
     }
 
-    if (txtSearch.trim() !== "Event") {
+    if (txtSearch.trim() !== "") {
       dataSent.txtSearch = txtSearch;
 
     }

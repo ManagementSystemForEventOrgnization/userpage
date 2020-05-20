@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Card } from 'antd';
+import { Card, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import {
-    FieldTimeOutlined,
+    FieldTimeOutlined, EnvironmentOutlined, UserOutlined
 } from '@ant-design/icons';
 
 export default class Event extends Component {
@@ -19,9 +19,17 @@ export default class Event extends Component {
                         />
                     }
                 >
-                    <b >{eventDetail.name}</b>
-                    <p ><FieldTimeOutlined /> {eventDetail.startTime}</p>
-                    <p > {eventDetail.address}</p>
+                    <h5 >{eventDetail.name}</h5>
+                    <div className="d-flex">
+                        <FieldTimeOutlined className="mt-1" />
+                        <p className="ml-2"> {eventDetail.startTime}</p>
+                    </div>
+                  
+                    <div className="d-flex">
+                        <UserOutlined className="mt-1" />
+                        <p className="ml-2">{eventDetail.limitNumber}</p>
+                    </div>
+                    <Button type="primary">Apply</Button>
                 </Card>
             </Link>
         )
