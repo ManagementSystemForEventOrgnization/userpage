@@ -39,14 +39,14 @@ class Photo extends Component {
     this.setState({
       list,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   removePhoto = () => {
     let { list } = this.state;
     list.pop(list.length - 1);
     this.setState({ list });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

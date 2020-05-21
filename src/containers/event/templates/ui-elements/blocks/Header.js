@@ -133,7 +133,7 @@ class HeaderBlock extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   handleStoreBlock = () => {

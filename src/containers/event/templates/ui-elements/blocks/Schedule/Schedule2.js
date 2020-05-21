@@ -106,7 +106,7 @@ class Schedule2 extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   render() {

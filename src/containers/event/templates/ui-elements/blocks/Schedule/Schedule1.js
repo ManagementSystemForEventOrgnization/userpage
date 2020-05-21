@@ -59,7 +59,7 @@ class Schedule1 extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   removeOption = (schedule) => {

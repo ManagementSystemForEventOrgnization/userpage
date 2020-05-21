@@ -37,14 +37,14 @@ class CardBlock extends React.Component {
     let { list } = this.state;
     list.push(list.length + 1);
     this.setState({ list });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   removeCard = () => {
     let { list } = this.state;
     list.pop(list.length - 1);
     this.setState({ list });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

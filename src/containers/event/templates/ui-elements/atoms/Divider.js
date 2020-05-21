@@ -33,7 +33,7 @@ class DividersBlock extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;

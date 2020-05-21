@@ -58,17 +58,12 @@ class ButtonBlock extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   handleEditorChange = (e) => {
     this.setState({ content: e.target.value });
-
-    // const { id, handleOnChangeButtonTextBlock } = this.props; // because buttonBlock always has id
-    // if (id) {
-    //   handleOnChangeButtonTextBlock(id, this.state.content);
-    // }
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
