@@ -80,44 +80,46 @@ class HomePage extends Component {
             <div className="row pl-5 ">
               {events.map((item, index) => (
 
-                <div className="col mt-4  shadow pb-3" key={index}>
-
-                  < Link to="">
-                    <Card
-                      className="event-cart"
-                      cover={
-                        <img className="img"
-                          alt="example"
-                          src={item.urlWeb}
-                        />
-                      }
-                    >
-                      <div className="d-flex ">
-                        <h4 >{item.name}</h4>
-                        <div className="d-flex mt-1">
-                          <UserOutlined className="mt-1 ml-2" />
-                          <p className="ml-1 mt-1">{item.limitNumber}</p>
-                        </div>
-                      </div>
-                      {
-                        item.session.map((sess, i) =>
-                          <div key={i} >
-                            <div className="d-flex ">
-                              <FieldTimeOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.day}</p>
-                            </div>
-                            <div className="d-flex ">
-                              <EnvironmentOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.address.location}</p>
-                            </div>
-
+                < div className="col mt-4  shadow pb-3" key={index} >
+                  {Date.parse(item.startTime) > curTime ?
+                    < Link to="">
+                      <Card
+                        className="event-cart"
+                        cover={
+                          <img className="img"
+                            alt="example"
+                            src={item.urlWeb}
+                          />
+                        }
+                      >
+                        <div className="d-flex ">
+                          <h4 >{item.name}</h4>
+                          <div className="d-flex mt-1">
+                            <UserOutlined className="mt-1 ml-2" />
+                            <p className="ml-1 mt-1">{item.limitNumber}</p>
                           </div>
-                        )
-                      }
+                        </div>
+                        {
+                          item.session.map((sess, i) =>
+                            <div key={i} >
+                              <div className="d-flex ">
+                                <FieldTimeOutlined className="mt-1" />
+                                <p className="ml-2"> {sess.day}</p>
+                              </div>
+                              <div className="d-flex ">
+                                <EnvironmentOutlined className="mt-1" />
+                                <p className="ml-2"> {sess.address.location}</p>
+                              </div>
 
-                      <Button type="primary">Apply</Button>
-                    </Card>
-                  </ Link>
+                            </div>
+                          )
+                        }
+
+                        <Button type="primary">Apply</Button>
+                      </Card>
+                    </ Link>
+                    : " "
+                  }
                 </div>
               ))}
             </div>
@@ -126,9 +128,48 @@ class HomePage extends Component {
           <div className="latest">
             <h1>Recent Events </h1>
             <div className="row pl-5">
-              {temp.map((item) => (
-                <div className="col mt-4 shadow pb-3" key={item}>
-                  <CartEvent eventDetail={eventCartDetail} />
+              {events.map((item, index) => (
+
+                < div className="col mt-4  shadow pb-3" key={index} >
+                  {Date.parse(item.startTime) >= curTime ?
+                    < Link to="">
+                      <Card
+                        className="event-cart"
+                        cover={
+                          <img className="img"
+                            alt="example"
+                            src={item.urlWeb}
+                          />
+                        }
+                      >
+                        <div className="d-flex ">
+                          <h4 >{item.name}</h4>
+                          <div className="d-flex mt-1">
+                            <UserOutlined className="mt-1 ml-2" />
+                            <p className="ml-1 mt-1">{item.limitNumber}</p>
+                          </div>
+                        </div>
+                        {
+                          item.session.map((sess, i) =>
+                            <div key={i} >
+                              <div className="d-flex ">
+                                <FieldTimeOutlined className="mt-1" />
+                                <p className="ml-2"> {sess.day}</p>
+                              </div>
+                              <div className="d-flex ">
+                                <EnvironmentOutlined className="mt-1" />
+                                <p className="ml-2"> {sess.address.location}</p>
+                              </div>
+
+                            </div>
+                          )
+                        }
+
+                        <Button type="primary">Apply</Button>
+                      </Card>
+                    </ Link>
+                    : " "
+                  }
                 </div>
               ))}
             </div>
