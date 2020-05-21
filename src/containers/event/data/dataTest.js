@@ -39,6 +39,8 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 
+import Comment from '../templates/ui-elements/blocks/comments/comments'
+
 export default [
   {
     name: 'Simple Block',
@@ -403,6 +405,26 @@ export default [
         style: {},
         options: ({ editable, style, id }) => (
           <Footer2 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options: options ? options : () => <></>,
+      };
+    }),
+  },
+  {
+    name: 'Comment',
+    value: [
+      {
+        child: 'comment',
+        type: 'Comment',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Comment key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options }) => {

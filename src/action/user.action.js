@@ -288,6 +288,26 @@ const get_History = (
     return { type: userConstants.GET_HISTORY_FAILURE, error };
   }
 };
+const getListNotification = () => {
+  return (dispatch) => {
+
+    API.get('api/getListNotification')
+      .then((res) => {
+        console.log("TLC,", res.data.result)
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function success(notifications) {
+    return { type: userConstants.GET_LIST_NOTIFICATION_SUCCESS, notifications };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
+  }
+};
 
 export const userActions = {
   login,
@@ -300,4 +320,5 @@ export const userActions = {
   forgotPassword,
   requestForgotPassword,
   get_History,
+  getListNotification,
 };
