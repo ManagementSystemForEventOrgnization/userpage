@@ -6,7 +6,7 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 
-import dataTest from './templates/data/dataTest';
+import dataTest from './data/dataTest';
 import Dragable from './Dragable';
 
 const { SubMenu } = Menu;

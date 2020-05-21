@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
-import dataTest from '../containers/event/templates/data/dataTest';
-import { eventConstants } from '../constants/index';
+import dataTest from 'containers/event/data/dataTest';
+import { eventConstants } from 'constants/index';
 
 const initialState = {
   nameEvent: '',
@@ -176,9 +176,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         events: [],
-
-      }
-
+      };
 
     case eventConstants.SAVE_PAGE:
       let { unEditableHtml, routes } = state;

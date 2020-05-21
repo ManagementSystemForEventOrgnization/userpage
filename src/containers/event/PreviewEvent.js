@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { eventActions } from '../../action/event.action';
-import { blockList } from './templates/data/data';
+import { eventActions } from 'action/event.action';
+import { blockList } from './data/data';
 
 class PreviewEvent extends React.Component {
   constructor(props) {

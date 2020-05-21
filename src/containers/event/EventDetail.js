@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { eventActions } from '../../action/event.action';
-import { blockList } from './templates/data/data';
+import { blockList } from './data/data';
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);

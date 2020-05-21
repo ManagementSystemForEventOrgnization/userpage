@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 // import { Button } from 'antd';
 import { Button } from 'react-bootstrap';
 
-import DropContainer from './templates/components/DropContainer';
+import DropContainer from './templates/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
-import { eventActions } from '../../action/event.action';
-import HeaderBlock from './templates/components/ui-elements/blocks/Header';
+import { eventActions } from 'action/event.action';
+import HeaderBlock from './templates/ui-elements/blocks/Header';
 
 class CreateEvent extends React.Component {
   constructor(props) {
