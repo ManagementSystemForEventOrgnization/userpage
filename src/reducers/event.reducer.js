@@ -24,7 +24,7 @@ const initialState = {
     // ...dataTest[9].value,
     // ...dataTest[10].value,
     // ...dataTest[11].value,
-    // ...dataTest[12].value,
+    ...dataTest[13].value,
   ],
   categories: [],
   errMessage: '',

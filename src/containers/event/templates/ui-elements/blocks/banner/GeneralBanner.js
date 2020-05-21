@@ -144,8 +144,8 @@ class GeneralBanner extends Component {
   };
 
   handleRequestApplyEvent = () => {
-    const { userInfo } = this.props;
-    if (!userInfo) {
+    const isLogined = localStorage.getItem('isLogined');
+    if (!isLogined) {
       history.push('/login');
     } else {
       console.log('handle apply event');

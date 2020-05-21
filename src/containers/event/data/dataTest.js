@@ -24,8 +24,6 @@ import EventDescription3 from '../templates/ui-elements/blocks/eventDescription/
 import Schedule1 from '../templates/ui-elements/blocks/Schedule/Schedule1';
 import Schedule2 from '../templates/ui-elements/blocks/Schedule/Schedule2';
 
-import TrashBlock from '../templates/ui-elements/atoms/Trash';
-
 import CardBlock from '../templates/ui-elements/blocks/cardSpeaker/card';
 
 import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
@@ -39,7 +37,7 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 
-import Comment from '../templates/ui-elements/blocks/comments/comments'
+import Comment from '../templates/ui-elements/blocks/comments/comments';
 
 export default [
   {
@@ -77,13 +75,13 @@ export default [
           <DividerBlock key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
-        trash: ({ key, name }) => <TrashBlock key={key} name={name} />,
+        options,
+        type,
       };
     }),
   },
@@ -107,12 +105,13 @@ export default [
           <Banner3 id={id} key={id} editable={editable} style={style} />
         ),
       },
-    ].map(({ child, options, style, component }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
         options,
+        type,
       };
     }),
   },
@@ -123,6 +122,7 @@ export default [
       {
         child: 'Event Description1',
         type: 'eventDescription1',
+        style: {},
         options: ({ id, editable, style }) => (
           <EventDescription1
             key={id}
@@ -136,6 +136,7 @@ export default [
       {
         type: 'eventDescription2',
         child: 'Event Description2',
+        style: {},
         options: ({ id, editable, style }) => (
           <EventDescription2
             key={id}
@@ -148,6 +149,7 @@ export default [
       {
         child: 'Event Description3',
         type: 'eventDescription3',
+        style: {},
         options: ({ id, editable, style }) => (
           <EventDescription3
             key={id}
@@ -157,12 +159,13 @@ export default [
           />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
         options,
+        type,
       };
     }),
   },
@@ -178,12 +181,13 @@ export default [
           <CardBlock key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -215,12 +219,13 @@ export default [
           <Schedule2 key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -236,12 +241,13 @@ export default [
           <ButtonBlock key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -263,12 +269,13 @@ export default [
           />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -291,12 +298,13 @@ export default [
           <Video2 key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -311,12 +319,13 @@ export default [
           <Sponsor1Block key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -331,12 +340,13 @@ export default [
           <IconSocial key={key} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -351,12 +361,13 @@ export default [
           <Photo key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -379,12 +390,13 @@ export default [
           <ContactUs2 key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ child, options, style }) => {
+    ].map(({ child, options, style, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -407,12 +419,13 @@ export default [
           <Footer2 key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },
@@ -420,19 +433,20 @@ export default [
     name: 'Comment',
     value: [
       {
-        child: 'comment',
-        type: 'Comment',
+        child: 'Comment',
+        type: 'comment',
         style: {},
         options: ({ editable, style, id }) => (
           <Comment key={id} editable={editable} style={style} id={id} />
         ),
       },
-    ].map(({ style, child, options }) => {
+    ].map(({ style, child, options, type }) => {
       return {
         id: uuid(),
         child,
         style,
-        options: options ? options : () => <></>,
+        options,
+        type,
       };
     }),
   },

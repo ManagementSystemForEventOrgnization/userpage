@@ -2,10 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Tooltip, Popover, Badge } from 'antd';
-import {
-  BellOutlined
-
-} from '@ant-design/icons';
+import { BellOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import UserNav from '../../user/UserNav';
 import { userActions } from '../../../action/user.action';
@@ -26,13 +23,13 @@ class Header extends React.Component {
       getListNotification();
     }
   };
-  handleVisibleChange = visible => {
+  handleVisibleChange = (visible) => {
     this.setState({ visible });
   };
 
   render() {
-    const src = "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png";
-    const { notifications } = this.props;
+    const src =
+      'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
     const isLogined = localStorage.getItem('isLogined');
     return (
       <div className="head ">
@@ -43,12 +40,17 @@ class Header extends React.Component {
           <div className="nav-link ml-auto user-nav">
             {isLogined ? (
               <div className="d-flex">
-                <Popover title="Notifications"
+                <Popover
+                  title="Notifications"
                   style={{ width: 1000 }}
                   content={
                     <div className="d-flex row">
                       <div className="col-2">
-                        <img src={src} style={{ width: '50px', height: '40px' }}></img>
+                        <img
+                          src={src}
+                          style={{ width: '50px', height: '40px' }}
+                          alt="avatar"
+                        ></img>
                       </div>
                       <div className="col ml-1">
                         <h6>Đã đăng ký thành công sự kiện</h6>
@@ -58,7 +60,8 @@ class Header extends React.Component {
                   }
                   trigger="click"
                   visible={this.state.visible}
-                  onVisibleChange={this.handleVisibleChange}>
+                  onVisibleChange={this.handleVisibleChange}
+                >
                   <Tooltip placement="bottom" title="notification">
                     <Badge count={1} className="mt-2">
                       <BellOutlined style={{ fontSize: 23 }} />
@@ -66,20 +69,19 @@ class Header extends React.Component {
                   </Tooltip>
                 </Popover>
                 <UserNav />
-
               </div>
             ) : (
-                <>
-                  <Link className="mr-4 login" to="/login">
-                    Login
+              <>
+                <Link className="mr-4 login" to="/login">
+                  Login
                 </Link>
-                  <Link to="/signup" className=" mr-3 register">
-                    <Button size="large" type="danger">
-                      Register for free
+                <Link to="/signup" className=" mr-3 register">
+                  <Button size="large" type="danger">
+                    Register for free
                   </Button>
-                  </Link>
-                </>
-              )}
+                </Link>
+              </>
+            )}
           </div>
         </nav>
 
@@ -97,8 +99,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-  getListNotification: () => dispatch(userActions.getListNotification())
-
+  getListNotification: () => dispatch(userActions.getListNotification()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

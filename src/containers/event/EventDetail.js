@@ -13,28 +13,29 @@ class EventDetail extends React.Component {
 
   renderBlocks = (item) => {
     const { match } = this.props;
-    const param = item.style
-      ? {
-          id: item.id,
-          style: item.style,
-          editable: true,
-          match,
-        }
-      : {
-          id: item.id,
-          editable: true,
-          match,
-        };
+    const param =
+      item.style && Object.keys(item.style).length > 0
+        ? {
+            id: item.id,
+            style: item.style,
+            editable: false,
+            match,
+          }
+        : {
+            id: item.id,
+            editable: false,
+            match,
+          };
 
     return blockList[item.type](param);
   };
 
-  componentDidMount = () => {
-    // get id from url
-    const { id, getEventDetail } = this.props;
-    const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
-    getEventDetail(eventId);
-  };
+  // componentDidMount = () => {
+  //   // get id from url
+  //   const { id, getEventDetail } = this.props;
+  //   const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
+  //   getEventDetail(eventId);
+  // };
 
   render() {
     const { blocks } = this.props;

@@ -10,32 +10,35 @@ class PreviewEvent extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    const { id, getEventDetail } = this.props;
-    const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
-    getEventDetail(eventId);
-  };
+  // componentDidMount = () => {
+  //   const { id, getEventDetail } = this.props;
+  //   const eventId = id ? id : '5eb259b562bd742fe41c1205'; // should get id from url
+  //   getEventDetail(eventId);
+  // };
 
   renderBlocks = (item) => {
     const { match } = this.props;
-    const param = item.style
-      ? {
-          id: item.id,
-          style: item.style,
-          editable: true,
-          match,
-        }
-      : {
-          id: item.id,
-          editable: true,
-          match,
-        };
+    console.log(item);
+    const param =
+      Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            style: item.style,
+            editable: false,
+            match,
+          }
+        : {
+            id: item.id,
+            editable: false,
+            match,
+          };
 
     return blockList[item.type](param);
   };
 
   render() {
     const { blocks } = this.props;
+    console.log(blocks);
 
     return <div>{blocks.map((item) => this.renderBlocks(item))}</div>;
   }

@@ -51,17 +51,15 @@ class CreateEvent extends React.Component {
   };
 
   handleSaveEvent = () => {
-    const { saveEvent, blocks, id, unEditableHtml } = this.props;
-
-    const headerHtml = document.getElementById('header-block');
-
-    saveEvent(
-      blocks,
-      id ? id : '5eb2889d5da55d2fa4b78ced',
-      unEditableHtml,
-      true,
-      headerHtml.outerHTML
-    );
+    // const { saveEvent, blocks, id, unEditableHtml } = this.props;
+    // const headerHtml = document.getElementById('header-block');
+    // saveEvent(
+    //   blocks,
+    //   id ? id : '5eb2889d5da55d2fa4b78ced',
+    //   unEditableHtml,
+    //   true,
+    //   headerHtml.outerHTML
+    // );
   };
 
   handleBack = () => {};
