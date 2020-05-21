@@ -264,13 +264,13 @@ const get_History = (
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate);
-    if (startDate != "") {
+    if (startDate !== '') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
     }
 
-    if (txtSearch.trim() !== "") {
+    if (txtSearch.trim() !== '') {
       dataSent.txtSearch = txtSearch;
     }
 

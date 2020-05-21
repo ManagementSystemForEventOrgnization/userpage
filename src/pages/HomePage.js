@@ -10,46 +10,40 @@ import EventList from '../containers/share/EventList';
 import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-import moment from 'moment';
-// import sessionCard from '../components/CardSession'
+/// import sessionCard from '../components/CardSession'
 import {
-  FieldTimeOutlined, EnvironmentOutlined, UserOutlined
+  FieldTimeOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 
 import { eventActions } from '../action/event.action';
 class HomePage extends Component {
   constructor(props) {
-
     super(props);
 
     this.state = {
-
       curTime: Date.now(),
-
-
-    }
-
+    };
   }
   componentDidMount = () => {
     const { getListEvent } = this.props;
 
     getListEvent();
-
-
-
-  }
-
+  };
 
   render() {
     const { events } = this.props;
     const { curTime } = this.state;
-    const src = "https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg";
+    const src =
+      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg';
 
     const eventCartDetail = {
       urlWeb: src,
       name: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
       startTime: 'T2, 13 Tháng 4 2020 3:00 PM',
-      address: '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh'
+      address:
+        '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh',
     };
 
     const orgnizations = {
@@ -193,11 +187,10 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -206,7 +199,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-
   getListEvent: () => dispatch(eventActions.getListEvent()),
 });
 
