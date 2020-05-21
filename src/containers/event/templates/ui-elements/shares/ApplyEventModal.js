@@ -5,61 +5,34 @@ import { Checkbox } from 'antd';
 class ApplyEventModal extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.session);
     this.state = {
       checkedList: [],
-      indeterminate: true,
-      checkAll: false,
-      plainOptions: this.props.session,
+      plainOptions: this.props.plainOptions,
     };
   }
 
   onChange = (checkedList) => {
-    const { plainOptions } = this.state;
-
-    this.setState({
-      checkedList,
-      indeterminate:
-        !!checkedList.length && checkedList.length < plainOptions.length,
-      checkAll: checkedList.length === plainOptions.length,
-    });
-  };
-
-  onCheckAllChange = (e) => {
-    const { plainOptions } = this.state;
-    this.setState({
-      checkedList: e.target.checked ? plainOptions : [],
-      indeterminate: false,
-      checkAll: e.target.checked,
-    });
+    const { handleCheckList } = this.props;
+    handleCheckList(checkedList);
   };
 
   render() {
-    const { indeterminate, checkAll, plainOptions } = this.state;
+    const { plainOptions } = this.state;
     const valid = plainOptions.length > 1;
 
     return (
       <div>
         {!valid ? (
-          <h3>Confirm apply this event ?</h3>
+          <h4>Confirm apply this event ?</h4>
         ) : (
-          <div>
-            <div className="site-checkbox-all-wrapper">
-              <Checkbox
-                indeterminate={indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={checkAll}
-              >
-                Check all
-              </Checkbox>
-            </div>
-
-            <br />
+          <Checkbox.Group onChange={this.onChange}>
             {plainOptions.map((ss) => (
-              <Checkbox value={ss.id} key={ss.id}>
-                {ss.day.toString()}
+              <Checkbox value={ss.id} key={ss.id} className="mt-3 ml-2">
+                {ss.id}
               </Checkbox>
             ))}
-          </div>
+          </Checkbox.Group>
         )}
       </div>
     );

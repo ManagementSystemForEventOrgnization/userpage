@@ -115,11 +115,12 @@ const getCategories = () => {
   }
 };
 
-const savePage = (route, innerHtml, editable) => {
+const savePage = (route, blocks, editable) => {
   return (dispatch) => {
-    dispatch(request(route, innerHtml, editable));
+    dispatch(request(route, blocks, editable));
   };
   function request(route, innerHtml, editable) {
+    // need to update
     return {
       type: eventConstants.SAVE_PAGE,
       route,
@@ -189,29 +190,23 @@ const prepareForCreateEvent = (
   }
 
   function success(
-    id,
+    _id,
     nameEvent,
     typeOfEvent,
     category,
     quantity,
-    address,
-    locationName,
-    map,
-    time,
+    session,
     isSellTicket,
     webAddress
   ) {
     return {
       type: eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS,
-      id,
+      _id,
       nameEvent,
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      map,
-      time,
+      session,
       isSellTicket,
       webAddress,
     };

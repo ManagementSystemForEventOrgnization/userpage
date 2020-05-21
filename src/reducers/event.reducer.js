@@ -47,7 +47,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS:
-      console.log(action);
       return {
         ...state,
         pending: false,
@@ -56,11 +55,8 @@ const event = (state = initialState, action) => {
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
         quantity: action.quantity,
-        address: action.address,
-        map: action.map,
+        session: action.session,
         category: action.category,
-        locationName: action.locationName,
-        time: action.time,
         isSellTicket: action.isSellTicket,
       };
 
@@ -179,7 +175,7 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
-    case eventConstants.SAVE_PAGE:
+    case eventConstants.SAVE_PAGE: // need to update
       let { unEditableHtml, routes } = state;
       const { route, innerHtml, editable } = action;
       const newPage = {

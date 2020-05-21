@@ -13,10 +13,64 @@ import history from 'utils/history';
 const title = 'Wellcome!!! Edit tittle here.';
 const description = 'Wellcome!!! Edit description here.';
 
+const PLAINOPTIONS = [
+  {
+    day: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+  {
+    day: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+
+  {
+    day: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+
+  {
+    day: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+];
+
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
-    const { style } = this.props;
+    const { style, session } = this.props;
+
     this.state =
       style && style !== {}
         ? { ...style }
@@ -32,6 +86,7 @@ class GeneralBanner extends Component {
 
             opacity: 0.3,
             bgColor: 'black',
+            plainOptions: session ? session : PLAINOPTIONS,
           };
   }
 
@@ -88,9 +143,8 @@ class GeneralBanner extends Component {
     }
   };
 
-  handleApplyEvent = () => {
+  handleRequestApplyEvent = () => {
     const { userInfo } = this.props;
-    console.log(userInfo);
     if (!userInfo) {
       history.push('/login');
     } else {
@@ -107,7 +161,26 @@ class GeneralBanner extends Component {
     });
   };
 
-  handleApply = () => {};
+  handleApply = (checkList) => {
+    const { plainOptions } = this.state;
+    const applySession = [];
+    for (let i = 0; i < plainOptions.length; i++) {
+      if (checkList.indexOf(plainOptions[i].id) !== -1) {
+        applySession.push(plainOptions[i]);
+      }
+    }
+    this.setState({
+      applySession,
+    });
+  };
+
+  handleApplyFinish = () => {
+    //get api apply event
+    const { applySession } = this.state;
+    console.log(applySession);
+    // call api apply event
+    this.handleCloseApplyEventModal();
+  };
 
   render() {
     const {
@@ -120,6 +193,7 @@ class GeneralBanner extends Component {
       opacity,
       margin,
       padding,
+      plainOptions,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -195,7 +269,10 @@ class GeneralBanner extends Component {
               >
                 <ButtonBlock
                   editable={editable}
-                  handleApplyEvent={this.handleApplyEvent}
+                  //   handleApplyEvent={
+                  //     editable ? this.collapseModal : this.handleRequestApplyEvent
+                  //   }
+                  handleApplyEvent={true && this.handleRequestApplyEvent}
                 />
               </div>
             </div>
@@ -254,10 +331,13 @@ class GeneralBanner extends Component {
           <Modal
             title="Apply Event"
             visible={this.state.applyEventModal}
-            onOk={this.handleApply}
+            onOk={this.handleApplyFinish}
             onCancel={this.handleCloseApplyEventModal}
           >
-            <ApplyEventModal />
+            <ApplyEventModal
+              handleCheckList={this.handleApply}
+              plainOptions={plainOptions}
+            />
           </Modal>
         }
       </div>
