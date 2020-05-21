@@ -9,6 +9,8 @@ const initialState = {
   showCheckCode: false,
   showVerifyForgotPassword: false,
   arrEvent: null,
+  notifications: [],
+
 };
 
 const user = (state = initialState, action) => {
