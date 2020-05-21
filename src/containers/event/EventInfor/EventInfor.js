@@ -69,12 +69,12 @@ class EventInfor extends Component {
     if (session.length === 0) {
       return false;
     }
-    for (let item in session) {
-      if (Object.keys(item.address).length === 0) {
+    for (let index in session) {
+      if (Object.keys(session[index].address).length === 0) {
         return false;
       }
-      if (item.detail.length !== 0) {
-        isValid = item.detail.every(
+      if (session[index].detail.length !== 0) {
+        isValid = session[index].detail.every(
           (ele) => ele.from && ele.to && ele.description
         );
       }
