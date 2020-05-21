@@ -7,6 +7,7 @@ import DropContainer from './templates/DropContainer';
 import Header from '../share/_layout/Header';
 import MenuBlockList from './MenuBlockList';
 import { eventActions } from 'action/event.action';
+import { userActions } from 'action/user.action';
 import HeaderBlock from './templates/ui-elements/blocks/Header';
 
 class CreateEvent extends React.Component {
@@ -18,6 +19,16 @@ class CreateEvent extends React.Component {
       currentRoute: 'home',
     };
   }
+
+  componentDidMount = () => {
+    // using to test apply event
+    // need to remove after completely
+
+    const { getCurrentUser } = this.props;
+    if (getCurrentUser) {
+      getCurrentUser();
+    }
+  };
 
   toggleCollapsed = (value) => {
     this.setState({
@@ -150,6 +161,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   savePage: (route, innerHtml, editable) =>
     dispatch(eventActions.savePage(route, innerHtml, editable)),
+
+  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 
   saveEvent: (block, eventId, unEditableHtml, isPreview, headerHtml) =>
     dispatch(

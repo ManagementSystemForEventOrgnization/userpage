@@ -48,10 +48,13 @@ class ButtonBlock extends React.Component {
   };
 
   onCollapseModal = () => {
-    const { isDesign } = this.state;
-    this.setState({
-      isDesign: !isDesign,
-    });
+    const { handleApplyEvent } = this.props;
+    if (!handleApplyEvent) {
+      const { isDesign } = this.state;
+      this.setState({
+        isDesign: !isDesign,
+      });
+    } else handleApplyEvent();
   };
   // common function
   onChangeValue(newValue, valueParam) {

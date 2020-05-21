@@ -71,7 +71,7 @@ class CardBlock extends React.Component {
       <div className="d-flex">
         <div className="row">
           {list.map((item) => (
-            <div className="col-sm-3">
+            <div className="col-sm-3" key={item}>
               <Card
                 hoverable
                 style={{ height: 300 }}

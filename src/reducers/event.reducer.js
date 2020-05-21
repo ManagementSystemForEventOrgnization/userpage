@@ -47,10 +47,11 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS:
+      console.log(action);
       return {
         ...state,
         pending: false,
-        id: action.id,
+        id: action._id,
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,

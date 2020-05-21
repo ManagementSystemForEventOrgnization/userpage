@@ -5,8 +5,10 @@ import { Modal, Button } from 'antd';
 import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
+import ApplyEventModal from '../../shares/ApplyEventModal';
 import ButtonBlock from '../../atoms/Button';
 import { eventActions } from 'action/event.action';
+import history from 'utils/history';
 
 const title = 'Wellcome!!! Edit tittle here.';
 const description = 'Wellcome!!! Edit description here.';
@@ -85,6 +87,27 @@ class GeneralBanner extends Component {
       ]);
     }
   };
+
+  handleApplyEvent = () => {
+    const { userInfo } = this.props;
+    console.log(userInfo);
+    if (!userInfo) {
+      history.push('/login');
+    } else {
+      console.log('handle apply event');
+      this.setState({
+        applyEventModal: true,
+      });
+    }
+  };
+
+  handleCloseApplyEventModal = () => {
+    this.setState({
+      applyEventModal: false,
+    });
+  };
+
+  handleApply = () => {};
 
   render() {
     const {
@@ -170,7 +193,10 @@ class GeneralBanner extends Component {
                   textAlign: 'center',
                 }}
               >
-                <ButtonBlock editable={editable} />
+                <ButtonBlock
+                  editable={editable}
+                  handleApplyEvent={this.handleApplyEvent}
+                />
               </div>
             </div>
           )}
@@ -223,6 +249,17 @@ class GeneralBanner extends Component {
             />
           </Modal>
         )}
+
+        {
+          <Modal
+            title="Apply Event"
+            visible={this.state.applyEventModal}
+            onOk={this.handleApply}
+            onCancel={this.handleCloseApplyEventModal}
+          >
+            <ApplyEventModal />
+          </Modal>
+        }
       </div>
     );
   }
@@ -230,6 +267,7 @@ class GeneralBanner extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -138,6 +138,7 @@ class TabPane extends Component {
       onChange('session', newSS);
     }
   };
+
   handleChangeDescription = (idSs, idTime, value) => {
     const { session } = this.state;
     const { onChange } = this.props;
