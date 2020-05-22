@@ -97,7 +97,7 @@ class ImageBlock extends React.Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      borderRadius: `${borderRadius}%`,
+      borderRadius: borderRadius,
 
       maxWidth: '100%',
       maxHeight: '100%',

@@ -74,6 +74,7 @@ class DropContainer extends React.Component {
             : dropList.map((item) => {
                 return item.options({
                   id: item.id,
+                  key: item.id,
                   editable: editable,
                   match,
                   type: item.type,
