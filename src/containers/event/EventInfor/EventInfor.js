@@ -21,13 +21,13 @@ class EventInfor extends Component {
     super(props);
     this.state = {
       nameEvent: '',
-      typeOfEvent: '',
+      typeOfEvent: 'Public',
       category: '',
-      quantity: 100,
       session: [],
       isSellTicket: 'No',
       webAddress: '',
       isFirstLoad: true,
+      banner: '/bg-2.jpg',
     };
   }
 
@@ -43,20 +43,20 @@ class EventInfor extends Component {
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
       webAddress,
+      banner,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
     prepareForCreateEvent(
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
-      webAddress
+      webAddress,
+      banner
     );
     this.setState({
       isFirstLoad: false,
@@ -87,17 +87,16 @@ class EventInfor extends Component {
     const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
-      quantity,
       isSellTicket,
       webAddress,
       category,
       typeOfEvent,
       isFirstLoad,
+      banner,
     } = this.state;
 
     const next =
       nameEvent &&
-      quantity &&
       webAddress &&
       category &&
       typeOfEvent &&
@@ -146,9 +145,10 @@ class EventInfor extends Component {
             key="2"
           >
             <Which
-              quantity={quantity}
               isSellTicket={isSellTicket}
               onChange={this.onChange}
+              typeOfEvent={typeOfEvent}
+              banner={banner}
             />
           </TabPane>
 
@@ -200,20 +200,20 @@ const mapDispatchToProps = (dispatch) => ({
     nameEvent,
     typeOfEvent,
     category,
-    quantity,
     session,
     isSellTicket,
-    webAddress
+    webAddress,
+    banner
   ) =>
     dispatch(
       eventActions.prepareForCreateEvent(
         nameEvent,
         typeOfEvent,
         category,
-        quantity,
         session,
         isSellTicket,
-        webAddress
+        webAddress,
+        banner
       )
     ),
 });

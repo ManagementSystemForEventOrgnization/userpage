@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
-import { TimePicker, Input, Button, Form } from 'antd';
+import { TimePicker, Input, Button, Form, InputNumber } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
@@ -36,6 +36,7 @@ class TabPane extends Component {
         id: day.toString(),
         day,
         address: {},
+        quantity: 100,
         detail: [
           {
             id: 0,
@@ -158,6 +159,23 @@ class TabPane extends Component {
     }
   };
 
+  handleChangeQuantity = (id, value) => {
+    let { session } = this.state;
+    const { onChange } = this.props;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.quantity = value;
+      session = [
+        ...session.slice(0, index),
+        item,
+        ...session.slice(index + 1, session.length),
+      ];
+      this.setState({ session });
+      onChange('session', session);
+    }
+  };
+
   render() {
     const { selectedDays, session } = this.state;
     const count = selectedDays.length;
@@ -183,15 +201,31 @@ class TabPane extends Component {
                 <div className="mt-1 mb-1" style={dayStyle}>
                   {ss.day.toString()}
                 </div>
-                <AutoCompletePlace
-                  address={ss.address}
-                  handleAddressChange={(value) =>
-                    this.handleChangeAddress(ss.id, value)
-                  }
-                  handleMapChange={(value) =>
-                    this.handleChangeMap(ss.id, value)
-                  }
-                />
+                <div className="d-flex mb-2">
+                  <p className="mr-2">Max quantity : </p>
+
+                  <InputNumber
+                    min={1}
+                    value={ss.quantity}
+                    onChange={(value) =>
+                      this.handleChangeQuantity(ss.id, value)
+                    }
+                  />
+                </div>
+                <div className=" row">
+                  <p className="col-sm-2">Address :</p>
+                  <div className="col-sm-10">
+                    <AutoCompletePlace
+                      address={ss.address}
+                      handleAddressChange={(value) =>
+                        this.handleChangeAddress(ss.id, value)
+                      }
+                      handleMapChange={(value) =>
+                        this.handleChangeMap(ss.id, value)
+                      }
+                    />
+                  </div>
+                </div>
 
                 {ss.detail.map((item, index) => (
                   <Form className="mt-1  d-flex" key={index}>
@@ -247,6 +281,7 @@ class TabPane extends Component {
                 >
                   Add time
                 </Button>
+                <hr />
               </div>
             ))}
           </div>
