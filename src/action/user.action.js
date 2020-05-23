@@ -233,7 +233,7 @@ const onUpdateUserProfile = (userInfor) => {
       avatarUrl: userInfor.avatar,
     })
       .then((res) => {
-        dispatch(success(res.data.result.user));
+        dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
@@ -290,10 +290,9 @@ const get_History = (
 };
 const getListNotification = () => {
   return (dispatch) => {
-
     API.get('api/getListNotification')
       .then((res) => {
-        console.log("TLC,", res.data.result)
+        console.log('TLC,', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {

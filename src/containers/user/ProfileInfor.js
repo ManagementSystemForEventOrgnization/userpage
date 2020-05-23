@@ -7,11 +7,9 @@ import {
   LoadingOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { userActions } from '../../action/user.action';
+import { userActions } from 'action/user.action';
 
 const { Option } = Select;
-
-// start upload
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -60,26 +58,15 @@ class ProfileInfor extends Component {
     };
   }
 
-  componentDidMount = () => {
-    const { getCurrentUser } = this.props;
-    getCurrentUser();
-  };
-
-  // componentWillReceiveProps(nextprops) {
-  //   this.setState({ userInfor: nextprops.userInfor })
-  // }
-
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.userInfor !== prevState.userInfor && nextProps.userInfor) {
+    if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
       return { userInfor: nextProps.userInfor };
     } else return null;
   }
 
   //onchange value
   onHandleChange = (event) => {
-    var target = event.target;
-    var name = target.name;
-    var value = target.value;
+    const { name, value } = event.target;
     this.setState((prevState) => ({
       userInfor: {
         // object that we want to update
@@ -87,7 +74,6 @@ class ProfileInfor extends Component {
         [name]: value, // update the value of specific key
       },
     }));
-    console.log(this.state.userInfor);
   };
   //end onchange value
 
@@ -113,8 +99,9 @@ class ProfileInfor extends Component {
 
   onSave(values) {
     const { onUpdateUserProfile } = this.props;
+    const { userInfor } = this.state;
     if (onUpdateUserProfile) {
-      onUpdateUserProfile(...this.state.userInfor);
+      onUpdateUserProfile(userInfor);
     }
   }
 
@@ -133,9 +120,6 @@ class ProfileInfor extends Component {
       </div>
     );
 
-    // const { avatar } = this.state.userInfor;
-
-    //end upload avatar
     return (
       <div className="ProfileInfor p-5 border">
         {/* start form */}
@@ -329,7 +313,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
   onUpdateUserProfile: (userInfor) =>
     dispatch(userActions.onUpdateUserProfile(userInfor)),
 });

@@ -5,7 +5,7 @@ import { Button, Tooltip, Popover, Badge } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import UserNav from '../../user/UserNav';
-import { userActions } from '../../../action/user.action';
+import { userActions } from 'action/user.action';
 
 class Header extends React.Component {
   constructor(props) {
@@ -18,8 +18,7 @@ class Header extends React.Component {
   componentDidMount = () => {
     const isLogined = localStorage.getItem('isLogined');
     if (!isLogined) {
-      const { getCurrentUser, getListNotification } = this.props;
-      getCurrentUser();
+      const { getListNotification } = this.props;
       getListNotification();
     }
   };
@@ -98,7 +97,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
-  getCurrentUser: () => dispatch(userActions.getCurrentUser()),
   getListNotification: () => dispatch(userActions.getListNotification()),
 });
 

@@ -27,9 +27,9 @@ class HomePage extends Component {
     };
   }
   componentDidMount = () => {
-    const { getListEvent } = this.props;
+    const { getHomeData } = this.props;
 
-    getListEvent();
+    getHomeData();
   };
 
   render() {
@@ -186,6 +186,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getListEvent: () => dispatch(eventActions.getListEvent()),
+  getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

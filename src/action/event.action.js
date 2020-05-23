@@ -284,6 +284,24 @@ const getListEvent = () => {
   }
 };
 
+const getHomeData = () => {
+  return (dispatch) =>
+    Promise.all([API.get('/api/getListEvent'), API.get('/api/evenCategory')])
+      .then(([events, categories]) => {
+        dispatch(success(categories.data.result));
+      })
+      .catch((err1) => {
+        console.log(err1.response);
+      });
+
+  function success(categories) {
+    return {
+      type: eventConstants.GET_CATEGORIES_SUCCESS,
+      categories,
+    };
+  }
+};
+
 export const eventActions = {
   prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
@@ -296,4 +314,5 @@ export const eventActions = {
   savePage,
   updatePage,
   getEventEdit,
+  getHomeData,
 };
