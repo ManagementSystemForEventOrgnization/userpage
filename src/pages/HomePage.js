@@ -26,11 +26,11 @@ class HomePage extends Component {
       curTime: Date.now(),
     };
   }
-  componentDidMount = () => {
-    const { getHomeData } = this.props;
+  //   componentDidMount = () => {
+  //     const { getHomeData } = this.props;
 
-    getHomeData();
-  };
+  //     getHomeData();
+  //   };
 
   render() {
     const { events } = this.props;

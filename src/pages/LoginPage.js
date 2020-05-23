@@ -61,12 +61,12 @@ class LoginPage extends React.Component {
           <div className="col ">
             <p className="website-name ">Event in your hand</p>
 
-            {active === false && !isFirstLoad ? (
+            {active === false ? (
               <CheckCode />
             ) : (
               <Form className="mt-2">
                 <Form.Item>
-                  {message && (
+                  {!isFirstLoad && message && (
                     <div className="error-message mt-2 mb-2">{message}</div>
                   )}
                 </Form.Item>

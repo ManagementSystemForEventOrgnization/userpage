@@ -93,7 +93,7 @@ const saveEvent = (block, eventId, isPreview) => {
 };
 
 const getCategories = () => {
-  // /api/evenCategory
+  // /api/evenCategory`
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {

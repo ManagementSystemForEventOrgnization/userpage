@@ -1,6 +1,6 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
-const proxyName = 'https://af37702b.ngrok.io';
+const proxyName = 'http://localhost:5000'; // 'https://af37702b.ngrok.io';
 //http://localhost:5000
 
 module.exports = function (app) {

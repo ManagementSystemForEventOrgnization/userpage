@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom';
 
 import { eventActions } from '../action/event.action';
 class NavBar extends React.Component {
-  // componentWillMount = () => {
-  //   const { getCategories } = this.props;
-  //   getCategories();
-  // };
+  componentWillMount = () => {
+    const { getCategories } = this.props;
+    getCategories();
+  };
 
   render() {
     const { categories } = this.props;
-
     return (
       <div className="shadow mb-4">
         <Menu onClick={this.handleClick} mode="horizontal">
