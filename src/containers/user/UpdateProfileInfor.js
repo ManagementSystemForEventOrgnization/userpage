@@ -9,32 +9,65 @@ class UpdateProfileInfor extends Component {
 
         this.state = {
             userInfor: {
-                fullName: "",
-                birthday: "",
-                gender: "",
-                job: "",
-                phone: "",
-                discription: "",
-                avatarUrl: "",
-                address: "",
-                email: ""
+                fullName: 'mamam',
+                gender: '',
+                job: '',
+                phone: '',
+                discription: '',
+                avatar: '',
+                address: '',
+                birthday: '',
+                email: '',
+                orgName: '',
+                orgDes: '',
+                orgWeb: '',
+                orgPhone: '',
+                orgEmail: '',
+                orgUrl: '',
             },
-            visible: false
+            visible: false,
+            percentOfPersonalInfor: 0,
+            percenOfOrgInfor: 0
         }
     }
 
+    componentWillUpdate() {
+        const attPersonalInfor = ['fullName', 'gender', 'job', 'phone',
+            'discription', 'avatar', 'address', 'birthday', 'email']
+        let countPersonalInfor = 0;
+        attPersonalInfor.forEach(element => {
+            if (this.state.userInfor[element] !== '')
+                countPersonalInfor++;
+        });
+
+        const attOrgInfor = ['orgName', 'orgDes', 'orgWeb',
+            'orgPhone', 'orgEmail', 'orgUrl',]
+
+        let countOrgInfor = 0;
+        attOrgInfor.forEach(element => {
+            if (this.state.userInfor[element] !== '')
+                countOrgInfor++;
+        });
+        this.setState({
+            percentOfPersonalInfor: countPersonalInfor * 100,
+            percenOfOrgInfor: countOrgInfor * 100
+        })
+        console.log(this.state)
+    }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+
             return {
                 userInfor: nextProps.userInfor,
             };
         } else return null;
     }
 
+
     render() {
         const { userInfor } = this.state;
-        console.log(userInfor)
+
         return (
             <div>
                 <div className="">
@@ -54,12 +87,12 @@ class UpdateProfileInfor extends Component {
                             <p className="w3-large"><b><i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />Profile</b></p>
                             <p>Personal Information</p>
                             <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: '90%' }}>90%</div>
+                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percentOfPersonalInfor }}>{this.state.percentOfPersonalInfor}</div>
                             </div>
                             <p>Organization</p>
                             <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: '80%' }}>
-                                    <div className="w3-center w3-text-white">80%</div>
+                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percenOfOrgInfor }}>
+                                    <div className="w3-center w3-text-white">{this.state.percenOfOrgInfor}</div>
                                 </div>
                             </div>
                             <br />
