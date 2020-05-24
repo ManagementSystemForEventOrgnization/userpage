@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import * as EmailValidator from 'email-validator';
-
+import moment from 'moment';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Select, DatePicker, InputNumber } from 'antd';
+import { Form, Input, Button, Select, DatePicker } from 'antd';
 import { userActions } from 'action/user.action';
 import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
 const { Option } = Select;
@@ -21,7 +21,7 @@ class ProfileInfor extends Component {
         discription: '',
         avatar: '',
         address: '',
-        birthday: new Date(),
+        birthday: '',
         email: '',
         orgName: '',
         orgDes: '',
@@ -94,7 +94,7 @@ class ProfileInfor extends Component {
   }
 
   onChangeBirthday = (e) => {
-    console.log(e._d);
+    console.log(e._d)
     this.setState({
       userInfor: {
         ...this.state.userInfor,
@@ -136,7 +136,7 @@ class ProfileInfor extends Component {
                   name="fullName"
                   placeholder="Full name"
                   onChange={this.onHandleChange}
-                  defaultValue={userInfor.fullName ? userInfor.fullName : 'nhi'}
+                  defaultValue={userInfor.fullName ? userInfor.fullName : ''}
                 />
               </Form.Item>
 
@@ -190,7 +190,7 @@ class ProfileInfor extends Component {
             </Form.Item>
 
             <Form.Item className="col m-2" name="date-picker">
-              <DatePicker placeholder="Birthday" name="birthday" onChange={this.onChangeBirthday} />
+              <DatePicker placeholder="Birthday" name="birthday" onChange={this.onChangeBirthday} defaultValue={moment(userInfor.birthday, 'YYYY-MM-DD')} />
             </Form.Item>
           </div>
 
