@@ -94,7 +94,7 @@ class ProfileInfor extends Component {
   }
 
   onChangeBirthday = (e) => {
-    console.log(e._d)
+    console.log(e._d);
     this.setState({
       userInfor: {
         ...this.state.userInfor,

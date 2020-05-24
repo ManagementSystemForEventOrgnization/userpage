@@ -10,7 +10,6 @@ const initialState = {
   showVerifyForgotPassword: false,
   arrEvent: null,
   notifications: [],
-
 };
 
 const user = (state = initialState, action) => {
@@ -24,9 +23,11 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
-      localStorage.setItem('isLogined', true);
-      localStorage.setItem('username', action.user.fullName);
-      localStorage.setItem('avatar', action.user.avatar);
+      if (action.user.isActive) {
+        localStorage.setItem('isLogined', true);
+        localStorage.setItem('username', action.user.fullName);
+        localStorage.setItem('avatar', action.user.avatar);
+      }
 
       return {
         ...state,
@@ -68,6 +69,7 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: null,
+        active: null,
       };
 
     case userConstants.REGISTER_SUCCESS:
