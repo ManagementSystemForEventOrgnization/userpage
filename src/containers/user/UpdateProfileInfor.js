@@ -24,8 +24,17 @@ class UpdateProfileInfor extends Component {
     }
 
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+            return {
+                userInfor: nextProps.userInfor,
+            };
+        } else return null;
+    }
+
     render() {
         const { userInfor } = this.state;
+        console.log(userInfor)
         return (
             <div>
                 <div className="">
