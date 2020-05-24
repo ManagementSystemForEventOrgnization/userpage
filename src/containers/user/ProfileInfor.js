@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as EmailValidator from 'email-validator';
-import NumberFormat from 'react-number-format';
+
 import { connect } from 'react-redux';
 import { Form, Input, Button, Select, DatePicker, InputNumber } from 'antd';
 import { userActions } from 'action/user.action';
@@ -162,7 +162,7 @@ class ProfileInfor extends Component {
                   onChange={this.onChangePhoneNumber}
                   defaultValue={userInfor.phone}
                 />
-                {this.state.phone ? (
+                {this.state.phone || userInfor.phone === '' ? (
                   <div></div>
                 ) : (<div className="text-danger">Invalid Phone Number</div>)}
               </Form.Item>
@@ -258,7 +258,7 @@ class ProfileInfor extends Component {
               onChange={this.onChangePhoneNumber}
               defaultValue={userInfor.orgPhone}
             />
-            {this.state.orgPhone ? (
+            {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
             ) : (<div className="text-danger">Invalid Phone Number</div>)}
 
@@ -297,7 +297,7 @@ class ProfileInfor extends Component {
                   block
                   type="primary"
                   htmlType="submit "
-                  disabled={!this.state.validEmail || !this.state.phone || !this.state.orgPhone || this.state.userInfor === this.props.userInfor}
+                  disabled={!(this.state.validEmail || this.state.userInfor.orgEmail === '') || !(this.state.phone || userInfor.phone === '') || !(this.state.orgPhone || userInfor.orgPhone === '') || this.state.userInfor === this.props.userInfor}
                   onClick={(value) => this.onSave(value)}
                   loading={pending}
                 >
