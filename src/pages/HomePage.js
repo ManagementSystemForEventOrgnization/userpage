@@ -26,11 +26,7 @@ class HomePage extends Component {
       curTime: Date.now(),
     };
   }
-  componentDidMount = () => {
-    const { getHomeData } = this.props;
 
-    getHomeData();
-  };
 
   render() {
     const { events } = this.props;

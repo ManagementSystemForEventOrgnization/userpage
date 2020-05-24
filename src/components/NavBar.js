@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 
 import { eventActions } from '../action/event.action';
 class NavBar extends React.Component {
-  // componentWillMount = () => {
-  //   const { getCategories } = this.props;
-  //   getCategories();
-  // };
+  componentWillMount = () => {
+    const { getCategories } = this.props;
+    getCategories();
+  };
 
   render() {
     const { categories } = this.props;
@@ -24,8 +24,8 @@ class NavBar extends React.Component {
                 <Link to={url}>{item.name}</Link>
               </Menu.Item>
             ) : (
-              ''
-            );
+                ''
+              );
           })}
         </Menu>
       </div>

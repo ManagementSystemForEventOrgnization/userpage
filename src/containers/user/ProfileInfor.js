@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as EmailValidator from 'email-validator';
-import NumberFormat from 'react-number-format';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Select, DatePicker, InputNumber } from 'antd';
 import { userActions } from 'action/user.action';
