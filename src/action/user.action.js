@@ -14,7 +14,6 @@ const login = (email, password) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        history.push('/');
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };

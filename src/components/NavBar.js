@@ -12,7 +12,6 @@ class NavBar extends React.Component {
 
   render() {
     const { categories } = this.props;
-
     return (
       <div className="shadow mb-4">
         <Menu onClick={this.handleClick} mode="horizontal">
