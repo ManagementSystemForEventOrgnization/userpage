@@ -31,7 +31,7 @@ class UpdateProfileInfor extends Component {
         }
     }
 
-    componentWillUpdate() {
+    componentDidMount() {
         const attPersonalInfor = ['fullName', 'gender', 'job', 'phone',
             'discription', 'avatar', 'address', 'birthday', 'email']
         let countPersonalInfor = 0;
@@ -49,10 +49,9 @@ class UpdateProfileInfor extends Component {
                 countOrgInfor++;
         });
         this.setState({
-            percentOfPersonalInfor: countPersonalInfor * 100,
-            percenOfOrgInfor: countOrgInfor * 100
+            percentOfPersonalInfor: (countPersonalInfor * 100 / 9) - (countPersonalInfor * 100 / 9) % 10,
+            percenOfOrgInfor: countOrgInfor * 100 / 6 - (countOrgInfor * 100 / 6) % 10
         })
-        console.log(this.state)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -85,13 +84,13 @@ class UpdateProfileInfor extends Component {
                             <p><i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.phone}</p>
                             <hr />
                             <p className="w3-large"><b><i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />Profile</b></p>
-                            <p>Personal Information</p>
+                            <p>Personal Information (%)</p>
                             <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percentOfPersonalInfor }}>{this.state.percentOfPersonalInfor}</div>
+                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percentOfPersonalInfor + '%' }}>{this.state.percentOfPersonalInfor} </div>
                             </div>
-                            <p>Organization</p>
+                            <p>Organization (%)</p>
                             <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percenOfOrgInfor }}>
+                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percenOfOrgInfor + '%' }}>
                                     <div className="w3-center w3-text-white">{this.state.percenOfOrgInfor}</div>
                                 </div>
                             </div>
