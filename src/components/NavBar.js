@@ -23,8 +23,8 @@ class NavBar extends React.Component {
                 <Link to={url}>{item.name}</Link>
               </Menu.Item>
             ) : (
-              ''
-            );
+                ''
+              );
           })}
         </Menu>
       </div>
