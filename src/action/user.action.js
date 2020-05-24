@@ -221,16 +221,11 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
+  console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
-      fullName: userInfor.fullName,
-      birthday: userInfor.birthday,
-      gender: userInfor.gender,
-      job: userInfor.job,
-      phone: userInfor.phone,
-      discription: userInfor.discription,
-      avatarUrl: userInfor.avatar,
+      ...userInfor
     })
       .then((res) => {
         dispatch(success(res.data.result));
