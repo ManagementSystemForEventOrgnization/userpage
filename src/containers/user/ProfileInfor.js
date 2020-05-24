@@ -1,35 +1,11 @@
 import React, { Component } from 'react';
+import * as EmailValidator from 'email-validator';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Select, DatePicker, Upload, message } from 'antd';
-import {
-  UserOutlined,
-  LockOutlined,
-  LoadingOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { Form, Input, Button, Select, DatePicker, InputNumber } from 'antd';
 import { userActions } from 'action/user.action';
-
+import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
 const { Option } = Select;
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
-//end upload
 
 class ProfileInfor extends Component {
   constructor(props) {
@@ -44,7 +20,7 @@ class ProfileInfor extends Component {
         discription: '',
         avatar: '',
         address: '',
-        birthday: '',
+        birthday: new Date(),
         email: '',
         orgName: '',
         orgDes: '',
@@ -55,49 +31,80 @@ class ProfileInfor extends Component {
       },
       visible: false,
       loading: false,
+      validEmail: true,
+      orgPhone: true,
+      phone: true,
+      isGetData: true
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
-      return { userInfor: nextProps.userInfor };
+    if (prevState.isGetData && nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+      return {
+        userInfor: nextProps.userInfor,
+        isGetData: false
+      };
     } else return null;
   }
 
   //onchange value
   onHandleChange = (event) => {
+    console.log(this.state);
     const { name, value } = event.target;
-    this.setState((prevState) => ({
+    this.setState({
       userInfor: {
-        // object that we want to update
-        ...prevState.userInfor, // keep all other key-value pairs
-        [name]: value, // update the value of specific key
+        ...this.state.userInfor,
+        [name]: value,
       },
-    }));
+    });
+    console.log(this.state);
   };
   //end onchange value
 
-  //upload avatar
-  handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (avatar) =>
-        this.setState({
-          userInfor: {
-            avatar,
-          },
-          loading: false,
-        })
-      );
-    }
-  };
-  //end upload avatar
+  onChangePhoneNumber = (e) => {
+    const re = /^[0-9\b]+$/;
+
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        [e.target.name]: e.target.value
+      },
+      [e.target.name]: !e.target.value === '' || re.test(e.target.value)
+    })
+  }
+
+  onChangeEmail = (e) => {
+    this.setState({
+      validEmail: EmailValidator.validate(e.target.value),
+      userInfor: {
+        orgEmail: e.target.value
+      }
+    })
+    console.log(this.state)
+  }
+
+  onChangeGender = (e) => {
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        gender: e
+      }
+    })
+  }
+
+  onChangeBirthday = (e) => {
+    console.log(e._d);
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        birthday: e._d
+      }
+    })
+  }
 
   onSave(values) {
+    console.log(this.state.userInfor)
+    console.log(this.props.userInfor)
     const { onUpdateUserProfile } = this.props;
     const { userInfor } = this.state;
     if (onUpdateUserProfile) {
@@ -107,18 +114,10 @@ class ProfileInfor extends Component {
 
   render() {
     const { userInfor } = this.state;
-
+    const { pending } = this.props
     const onFinish = (values) => {
       this.props.onUpdateUserProfile(...this.state.userInfor);
     };
-
-    //upload avatar
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
 
     return (
       <div className="ProfileInfor p-5 border">
@@ -131,7 +130,7 @@ class ProfileInfor extends Component {
               <Form.Item name="fullName">
                 <Input
                   prefix={
-                    <UserOutlined className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <a className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />
                   }
                   name="fullName"
                   placeholder="Full name"
@@ -143,7 +142,7 @@ class ProfileInfor extends Component {
               <Form.Item name="job">
                 <Input
                   prefix={
-                    <LockOutlined className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <a className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
                   }
                   placeholder="Job"
                   name="job"
@@ -155,35 +154,22 @@ class ProfileInfor extends Component {
               <Form.Item name="phone">
                 <Input
                   prefix={
-                    <LockOutlined className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <a className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
                   }
                   placeholder="Phone number"
                   name="phone"
-                  onChange={this.onHandleChange}
+                  onChange={this.onChangePhoneNumber}
                   defaultValue={userInfor.phone}
                 />
+                {this.state.phone ? (
+                  <div></div>
+                ) : (<div className="text-danger">Invalid Phone Number</div>)}
               </Form.Item>
             </div>
             <div className="col">
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                {userInfor.avatar ? (
-                  <img
-                    src={userInfor.avatar}
-                    alt="avatar"
-                    style={{ width: '100%' }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
+              <UploadImage url={userInfor.avatar}
+                handleImageDrop={(value) => { this.setState({ userInfor: { ...this.state.userInfor, avatar: value } }) }}
+              />
             </div>
           </div>
 
@@ -194,6 +180,7 @@ class ProfileInfor extends Component {
                 allowClear
                 defaultValue={userInfor.gender}
                 name="gender"
+                onChange={this.onChangeGender}
               >
                 <Option value="male">male</Option>
                 <Option value="female">female</Option>
@@ -202,14 +189,14 @@ class ProfileInfor extends Component {
             </Form.Item>
 
             <Form.Item className="col m-2" name="date-picker">
-              <DatePicker placeholder="Birthday" name="birthday" />
+              <DatePicker placeholder="Birthday" name="birthday" onChange={this.onChangeBirthday} />
             </Form.Item>
           </div>
 
           <Form.Item name="address">
             <Input
               prefix={
-                <UserOutlined className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
+                <a className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Address"
               name="address"
@@ -237,7 +224,7 @@ class ProfileInfor extends Component {
             <Form.Item className="col m-2" name="">
               <Input
                 prefix={
-                  <UserOutlined className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
+                  <a className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
                 }
                 placeholder="Organization name"
                 name="orgName"
@@ -263,25 +250,33 @@ class ProfileInfor extends Component {
           <Form.Item name="orgPhone">
             <Input
               prefix={
-                <LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+                <a className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Organization phone number"
               name="orgPhone"
-              onChange={this.onHandleChange}
+              onChange={this.onChangePhoneNumber}
               defaultValue={userInfor.orgPhone}
             />
+            {this.state.orgPhone ? (
+              <div></div>
+            ) : (<div className="text-danger">Invalid Phone Number</div>)}
+
           </Form.Item>
 
           <Form.Item name="orgEmail">
+
             <Input
               prefix={
-                <LockOutlined className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+                <a className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Organization Email"
               name="orgEmail"
-              onChange={this.onHandleChange}
+              onChange={this.onChangeEmail}
               defaultValue={userInfor.orgEmail}
             />
+            {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
+              <div></div>
+            ) : (<div className="text-danger">Invalid Email</div>)}
           </Form.Item>
 
           <Form.Item>
@@ -293,10 +288,22 @@ class ProfileInfor extends Component {
             />
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" onClick={(value) => this.onSave(value)}>
-              Save
-            </Button>
+          <Form.Item shouldUpdate>
+            {() => (
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  className=" mt-2"
+                  block
+                  type="primary"
+                  htmlType="submit "
+                  disabled={!this.state.validEmail || !this.state.phone || !this.state.orgPhone || this.state.userInfor === this.props.userInfor}
+                  onClick={(value) => this.onSave(value)}
+                  loading={pending}
+                >
+                  Save
+                  </Button>
+              </div>
+            )}
           </Form.Item>
           {/* end organization */}
         </Form>
@@ -308,6 +315,7 @@ class ProfileInfor extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    pending: state.user.pending,
     userInfor: state.user.userInfo,
   };
 };
@@ -318,3 +326,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor);
+
