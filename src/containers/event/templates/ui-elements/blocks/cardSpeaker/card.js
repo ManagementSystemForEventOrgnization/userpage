@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
+import { v4 as uuid } from 'uuid';
+
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
 
 import Text from '../../atoms/Text';
@@ -8,10 +10,6 @@ import Image from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
 const { Meta } = Card;
 
-const title = 'Card title';
-const description = 'This is description';
-const urlCardImage =
-  'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg';
 const height = 30;
 const iconStyle = {
   fontSize: '20px',
@@ -20,10 +18,35 @@ const iconStyle = {
 class CardBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      visible: false,
-      list: [1, 2, 3, 4],
-    };
+    const { state } = this.props;
+    this.state = state
+      ? { ...state }
+      : {
+          visible: false,
+          list: [
+            {
+              id: uuid(),
+              title: "Speaker's name",
+              description: 'This is description of speaker',
+              url:
+                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
+            },
+            {
+              id: uuid(),
+              title: "Speaker's name",
+              description: 'This is description of speaker',
+              url:
+                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
+            },
+            {
+              id: uuid(),
+              title: "Speaker's name",
+              description: 'This is description of speaker',
+              url:
+                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
+            },
+          ],
+        };
   }
 
   componentDidMount = () => {
@@ -35,16 +58,16 @@ class CardBlock extends React.Component {
 
   addCard = () => {
     let { list } = this.state;
-    list.push(list.length + 1);
-    this.setState({ list });
-    this.handleStoreBlock();
+    list.push({ ...list[list.length - 1], id: uuid() });
+    this.setState({});
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   removeCard = () => {
     let { list } = this.state;
-    list.pop(list.length - 1);
+    list.pop();
     this.setState({ list });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -69,26 +92,34 @@ class CardBlock extends React.Component {
     return (
       // need to map style
       <div className="d-flex">
-        <div className="row">
+        <div className="row d-flex justify-content-around">
           {list.map((item) => (
-            <div className="col-sm-3">
+            <div className="col-sm-3 mt-2" key={item.id}>
               <Card
                 hoverable
                 style={{ height: 300 }}
                 cover={
-                  <Image url={urlCardImage} editable={true} height={height} />
+                  <Image url={item.url} editable={editable} height={height} />
                 }
               >
                 <Meta
-                  title={<Text content={title} child={true} />}
-                  description={<Text content={description} child={true} />}
+                  title={
+                    <Text
+                      content={item.title}
+                      child={true}
+                      newStyle={{
+                        fontWeight: 'bold',
+                      }}
+                    />
+                  }
+                  description={<Text content={item.description} child={true} />}
                 />
               </Card>
             </div>
           ))}
         </div>
         {editable && (
-          <div className="icons-handle">
+          <div className="icons-handle ml-auto">
             <PlusCircleTwoTone
               style={iconStyle}
               className="mt-3"

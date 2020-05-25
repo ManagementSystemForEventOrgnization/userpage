@@ -7,7 +7,7 @@ import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
 import EventList from '../containers/share/EventList';
-import CartEvent from '../components/CardEvent';
+// import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 /// import sessionCard from '../components/CardSession'
@@ -23,12 +23,12 @@ class HomePage extends Component {
     super(props);
 
     this.state = {
-      curTime: Date.now(),
+
     };
   }
 
   componentDidMount = () => {
-    const { getListEvent, events } = this.props;
+    const { getListEvent } = this.props;
 
     getListEvent();
 
@@ -38,19 +38,9 @@ class HomePage extends Component {
     // const { events } = this.props;
 
     const events = this.props.events ? this.props.events : []
-    console.log("mo", events);
 
-    const { curTime } = this.state;
-    const src =
-      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg';
 
-    const eventCartDetail = {
-      urlWeb: src,
-      name: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
-      startTime: 'T2, 13 Tháng 4 2020 3:00 PM',
-      address:
-        '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh',
-    };
+
 
     const orgnizations = {
       name: 'Orgnization 1',
@@ -85,7 +75,8 @@ class HomePage extends Component {
                       <Card
                         className="event-cart"
                         cover={
-                          <img className="img"
+                          <img
+                            className="img"
                             alt="example"
                             src={item.urlWeb}
                           />
@@ -147,7 +138,8 @@ class HomePage extends Component {
                       <Card
                         className="event-cart"
                         cover={
-                          <img className="img"
+                          <img
+                            className="img"
                             alt="example"
                             src={item.urlWeb}
                           />
@@ -232,6 +224,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getListEvent: () => dispatch(eventActions.getListEvent()),
+  getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

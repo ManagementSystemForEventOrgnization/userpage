@@ -10,7 +10,6 @@ class DropContainer extends React.Component {
     super(props);
     this.state = {
       dropList: [...this.props.blocks],
-      isUpdate: true,
     };
   }
 
@@ -40,7 +39,6 @@ class DropContainer extends React.Component {
           editable: true,
           match,
         };
-    console.log(typeof blockList[item.type]);
     // return callBack(param, blockList[item.type]);
     return blockList[item.type](param);
   };
@@ -56,6 +54,7 @@ class DropContainer extends React.Component {
 
     return (
       <div className="drop-container">
+        {/* <Comment /> */}
         <ReactSortable
           id="drop-container"
           sort={true}
@@ -75,8 +74,10 @@ class DropContainer extends React.Component {
             : dropList.map((item) => {
                 return item.options({
                   id: item.id,
+                  key: item.id,
                   editable: editable,
                   match,
+                  type: item.type,
                 });
               })}
         </ReactSortable>
@@ -87,7 +88,6 @@ class DropContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
-  dropContainerHtml: state.event.dropContainerHtml,
 });
 
 const mapDispatchToProps = (dispatch) => ({

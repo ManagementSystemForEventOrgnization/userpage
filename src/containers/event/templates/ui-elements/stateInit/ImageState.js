@@ -8,7 +8,7 @@ const ImageState = (props) => ({
   href: '',
   margin: [1, 1, 1, 1],
   padding: [1, 1, 2, 1],
-  borderRadius: true,
+  borderRadius: props.borderRadius ? '50%' : 'none',
 });
 
 export { ImageState };

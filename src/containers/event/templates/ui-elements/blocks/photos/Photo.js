@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+import { v4 as uuid } from 'uuid';
 
 import ImageBlock from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
@@ -9,8 +10,6 @@ const high = 42;
 const iconStyle = {
   fontSize: '20px',
 };
-const urlDefault =
-  'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg';
 
 class Photo extends Component {
   constructor(props) {
@@ -22,7 +21,24 @@ class Photo extends Component {
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
-          list: [1, 2, 3, 4],
+          list: [
+            {
+              url: 'bg-1.jpg',
+              id: uuid(),
+            },
+            {
+              url: 'bg-2.jpg',
+              id: uuid(),
+            },
+            {
+              url: 'bg-3.jpg',
+              id: uuid(),
+            },
+            {
+              url: 'star.jpg',
+              id: uuid(),
+            },
+          ],
         };
   }
 
@@ -35,18 +51,18 @@ class Photo extends Component {
 
   addPhoto = () => {
     let { list } = this.state;
-    list.push(list.length + 1);
+    list.push({ ...list[list.length - 1], id: uuid() });
     this.setState({
       list,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   removePhoto = () => {
     let { list } = this.state;
-    list.pop(list.length - 1);
+    list.pop();
     this.setState({ list });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -80,18 +96,19 @@ class Photo extends Component {
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
     };
+
     return (
       <div className="d-flex child-block" style={style}>
-        <div className="row">
+        <div className="row d-flex justify-content-around">
           {list.map((item) => (
-            <div className="col-sm-3" key={item}>
-              <ImageBlock url={urlDefault} height={high} leftModal={true} />
+            <div className="col-sm-3" key={item.id}>
+              <ImageBlock url={item.url} height={high} leftModal={true} />
             </div>
           ))}
         </div>
 
         {editable && (
-          <div className="icons-handle">
+          <div className="icons-handle ml-auto">
             <PlusCircleTwoTone
               style={iconStyle}
               className="mt-3"

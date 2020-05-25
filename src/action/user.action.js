@@ -14,7 +14,9 @@ const login = (email, password) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        history.push('/');
+        if (res.data.result.isActive) {
+          history.push('/');
+        }
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
@@ -221,19 +223,14 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
+  console.log(userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
-      fullName: userInfor.fullName,
-      birthday: userInfor.birthday,
-      gender: userInfor.gender,
-      job: userInfor.job,
-      phone: userInfor.phone,
-      discription: userInfor.discription,
-      avatarUrl: userInfor.avatar,
+      ...userInfor
     })
       .then((res) => {
-        dispatch(success(res.data.result.user));
+        dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
@@ -290,10 +287,9 @@ const get_History = (
 };
 const getListNotification = () => {
   return (dispatch) => {
-
     API.get('api/getListNotification')
       .then((res) => {
-        console.log("TLC,", res.data.result)
+        console.log('TLC,', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {

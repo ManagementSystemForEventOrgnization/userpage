@@ -38,14 +38,14 @@ class Video1 extends React.Component {
     this.setState({
       uploadedFileCloudinaryUrl: url,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   onVideoProgress = (progress) => {
     this.setState({
       progress,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   collapseModal = () => {
@@ -59,7 +59,7 @@ class Video1 extends React.Component {
     this.setState({
       [type]: value,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

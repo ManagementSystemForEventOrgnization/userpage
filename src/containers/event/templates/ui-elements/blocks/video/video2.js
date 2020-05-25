@@ -75,7 +75,7 @@ class Video2 extends React.Component {
     this.setState({
       [type]: value,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

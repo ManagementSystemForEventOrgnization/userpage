@@ -48,27 +48,25 @@ class ButtonBlock extends React.Component {
   };
 
   onCollapseModal = () => {
-    const { isDesign } = this.state;
-    this.setState({
-      isDesign: !isDesign,
-    });
+    const { handleApplyEvent } = this.props;
+    if (!handleApplyEvent) {
+      const { isDesign } = this.state;
+      this.setState({
+        isDesign: !isDesign,
+      });
+    } else handleApplyEvent();
   };
   // common function
   onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   handleEditorChange = (e) => {
     this.setState({ content: e.target.value });
-
-    // const { id, handleOnChangeButtonTextBlock } = this.props; // because buttonBlock always has id
-    // if (id) {
-    //   handleOnChangeButtonTextBlock(id, this.state.content);
-    // }
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

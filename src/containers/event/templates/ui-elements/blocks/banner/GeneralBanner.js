@@ -5,16 +5,72 @@ import { Modal, Button } from 'antd';
 import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
+import ApplyEventModal from '../../shares/ApplyEventModal';
 import ButtonBlock from '../../atoms/Button';
 import { eventActions } from 'action/event.action';
+import history from 'utils/history';
 
 const title = 'Wellcome!!! Edit tittle here.';
 const description = 'Wellcome!!! Edit description here.';
 
+const PLAINOPTIONS = [
+  {
+    day: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+  {
+    day: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+
+  {
+    day: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+
+  {
+    day: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    detail: [],
+    id: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
+    address: {
+      location: 'dsfasdfhjk',
+      map: {
+        lat: '23424',
+        lng: '2342434',
+      },
+    },
+  },
+];
+
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
-    const { style } = this.props;
+    const { style, session } = this.props;
+
     this.state =
       style && style !== {}
         ? { ...style }
@@ -30,6 +86,7 @@ class GeneralBanner extends Component {
 
             opacity: 0.3,
             bgColor: 'black',
+            plainOptions: session ? session : PLAINOPTIONS,
           };
   }
 
@@ -65,7 +122,8 @@ class GeneralBanner extends Component {
     this.setState({
       [type]: value,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
+    // this.handleStoreBlock();
   };
 
   handleStoreBlock = () => {
@@ -85,6 +143,45 @@ class GeneralBanner extends Component {
     }
   };
 
+  handleRequestApplyEvent = () => {
+    const isLogined = localStorage.getItem('isLogined');
+    if (!isLogined) {
+      history.push('/login');
+    } else {
+      console.log('handle apply event');
+      this.setState({
+        applyEventModal: true,
+      });
+    }
+  };
+
+  handleCloseApplyEventModal = () => {
+    this.setState({
+      applyEventModal: false,
+    });
+  };
+
+  handleApply = (checkList) => {
+    const { plainOptions } = this.state;
+    const applySession = [];
+    for (let i = 0; i < plainOptions.length; i++) {
+      if (checkList.indexOf(plainOptions[i].id) !== -1) {
+        applySession.push(plainOptions[i]);
+      }
+    }
+    this.setState({
+      applySession,
+    });
+  };
+
+  handleApplyFinish = () => {
+    //get api apply event
+    const { applySession } = this.state;
+    console.log(applySession);
+    // call api apply event
+    this.handleCloseApplyEventModal();
+  };
+
   render() {
     const {
       url,
@@ -96,6 +193,7 @@ class GeneralBanner extends Component {
       opacity,
       margin,
       padding,
+      plainOptions,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -169,7 +267,13 @@ class GeneralBanner extends Component {
                   textAlign: 'center',
                 }}
               >
-                <ButtonBlock editable={editable} />
+                <ButtonBlock
+                  editable={editable}
+                  //   handleApplyEvent={
+                  //     editable ? this.collapseModal : this.handleRequestApplyEvent
+                  //   }
+                  handleApplyEvent={true && this.handleRequestApplyEvent}
+                />
               </div>
             </div>
           )}
@@ -222,6 +326,20 @@ class GeneralBanner extends Component {
             />
           </Modal>
         )}
+
+        {
+          <Modal
+            title="Apply Event"
+            visible={this.state.applyEventModal}
+            onOk={this.handleApplyFinish}
+            onCancel={this.handleCloseApplyEventModal}
+          >
+            <ApplyEventModal
+              handleCheckList={this.handleApply}
+              plainOptions={plainOptions}
+            />
+          </Modal>
+        }
       </div>
     );
   }
@@ -229,6 +347,7 @@ class GeneralBanner extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({

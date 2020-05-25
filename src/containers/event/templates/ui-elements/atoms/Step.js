@@ -33,7 +33,7 @@ class StepBlock extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   removeOption = (item) => {
@@ -42,7 +42,7 @@ class StepBlock extends Component {
       steps,
     });
 
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   OnClickOption = (e) => {
@@ -64,8 +64,7 @@ class StepBlock extends Component {
     this.setState({
       steps,
     });
-
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleOnChangeTextBlock = (id, value) => {
@@ -86,7 +85,7 @@ class StepBlock extends Component {
         txtdescription: '',
       });
     }
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleOnChangeDesTextBlock = (id, value) => {
@@ -108,7 +107,7 @@ class StepBlock extends Component {
       });
     }
 
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {

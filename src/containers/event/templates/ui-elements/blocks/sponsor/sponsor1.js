@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
 
 import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
 
-const high = 10;
+const high = 20;
 const title = 'Sponsor';
 const iconStyle = {
   fontSize: '20px',
 };
-const urlDefault =
-  'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg';
 
 class Sponsor1Block extends Component {
   constructor(props) {
@@ -21,7 +20,29 @@ class Sponsor1Block extends Component {
     this.state = style
       ? { ...style }
       : {
-          sponsor: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+          sponsor: [
+            {
+              url: 'bg-1.jpg',
+              id: uuid(),
+            },
+            {
+              url: 'bg-2.jpg',
+              id: uuid(),
+            },
+            {
+              url: 'bg-3.jpg',
+              id: uuid(),
+            },
+
+            {
+              url: 'star.jpg',
+              id: uuid(),
+            },
+            {
+              id: uuid(),
+              url: 'star1.jpg',
+            },
+          ],
         };
   }
 
@@ -34,14 +55,17 @@ class Sponsor1Block extends Component {
   addPhoto = () => {
     const { sponsor } = this.state;
     this.setState({
-      sponsor: sponsor.push(sponsor.length + 1),
+      sponsor: sponsor.push({ ...sponsor[sponsor.length - 1], id: uuid() }),
     });
+    this.handleStoreBlock();
   };
+
   removePhoto = () => {
     const { sponsor } = this.state;
     this.setState({
-      sponsor: sponsor.pop(sponsor.length - 1),
+      sponsor: sponsor.pop(),
     });
+    this.handleStoreBlock();
   };
 
   handleStoreBlock = () => {
@@ -67,9 +91,6 @@ class Sponsor1Block extends Component {
     };
     const { sponsor } = this.state;
     const { editable } = this.props;
-    const newStyle = {
-      borderRadius: '50%',
-    };
 
     return (
       <div className="d-flex child-block" style={style}>
@@ -77,6 +98,7 @@ class Sponsor1Block extends Component {
           <TextBlock
             content={title}
             child={true}
+            editable={editable}
             newStyle={{
               fontWeight: 'normal',
               fontSize: 60,
@@ -86,14 +108,14 @@ class Sponsor1Block extends Component {
           <hr></hr>
 
           <div className=" d-flex">
-            <div className="row">
+            <div className="row d-flex justify-content-around">
               {sponsor.map((item) => (
-                <div className="col-sm-2">
+                <div className="col-sm-2 mt-2" key={item.id}>
                   <ImageBlock
-                    url={urlDefault}
+                    url={item.url}
+                    editable={editable}
                     height={high}
-                    leftModal={true}
-                    newStyle={newStyle}
+                    borderRadius={true}
                   />
                 </div>
               ))}

@@ -25,6 +25,7 @@ const initialState = {
     ...dataTest[10].value,
     ...dataTest[11].value,
     ...dataTest[12].value,
+    ...dataTest[13].value,
   ],
   categories: [],
   errMessage: '',
@@ -50,16 +51,13 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        id: action.id,
+        id: action._id,
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
         quantity: action.quantity,
-        address: action.address,
-        map: action.map,
+        session: action.session,
         category: action.category,
-        locationName: action.locationName,
-        time: action.time,
         isSellTicket: action.isSellTicket,
       };
 
@@ -178,7 +176,7 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
-    case eventConstants.SAVE_PAGE:
+    case eventConstants.SAVE_PAGE: // need to update
       let { unEditableHtml, routes } = state;
       const { route, innerHtml, editable } = action;
       const newPage = {

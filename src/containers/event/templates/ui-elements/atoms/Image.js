@@ -41,10 +41,7 @@ class ImageBlock extends React.Component {
     if (handleOnChangeUrlTextBlock) {
       handleOnChangeUrlTextBlock(this.state.uploadedFileCloudinaryUrl);
     }
-    //  if (id) {
-    //       handleOnChangeUrlTextBlock(id, this.state.uploadedFileCloudinaryUrl);
-    //     }
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   collapseModal = () => {
@@ -58,7 +55,7 @@ class ImageBlock extends React.Component {
     this.setState({
       [type]: value,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -100,7 +97,7 @@ class ImageBlock extends React.Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      borderRadius: `${borderRadius}%`,
+      borderRadius: borderRadius,
 
       maxWidth: '100%',
       maxHeight: '100%',

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Input, Select, Radio } from 'antd';
-
-const { Option } = Select;
+import { Form, Radio } from 'antd';
+import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const layout = {
   labelCol: {
@@ -13,83 +12,63 @@ const layout = {
 };
 
 const typeOfEvents = ['Public', 'Private'];
-
 const plainOptions = ['Yes', 'No'];
 
 class TabPane extends Component {
-  handleChangeType = (value) => {
-    const { onChange } = this.props;
-    onChange('typeOfEvent', value);
-  };
-
-  handleChangeSellTicket = (e) => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     const { onChange } = this.props;
     onChange(name, value);
   };
 
-  handleChangeQuantity = (e) => {
-    const { name, value } = e.target;
+  onImageDrop = (url) => {
     const { onChange } = this.props;
-    onChange(name, value);
+    onChange('banner', url);
   };
+
   render() {
-    const { quantity, isSellTicket } = this.props;
+    const { isSellTicket, typeOfEvent, banner } = this.props;
 
     return (
-      <Form {...layout} name="control-ref" className="pt-5">
-        <Form.Item
-          name="typeOfEvent"
-          label="Type of event"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            placeholder="Type of event"
-            onChange={this.handleChangeType}
-            allowClear
+      <div className="p-5">
+        <Form {...layout} name="control-ref">
+          <Form.Item
+            label="Type of event "
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
-            {typeOfEvents.map((item) => (
-              <Option key={item} value={item}>
-                {item}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="quantity"
-          label="Số lượng người tham gia dự kiến"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input
-            value={quantity}
-            name="quantity"
-            onChange={this.handleChangeQuantity}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Ticket"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Radio.Group
-            options={plainOptions}
-            name="isSellTicket"
-            onChange={this.handleChangeSellTicket}
-            value={isSellTicket}
-          />
-        </Form.Item>
-      </Form>
+            <Radio.Group
+              options={typeOfEvents}
+              name="typeOfEvent"
+              onChange={this.handleChange}
+              value={typeOfEvent}
+            />
+          </Form.Item>
+
+          <Form.Item label="Banner ">
+            <UploadImage url={banner} handleImageDrop={this.onImageDrop} />
+          </Form.Item>
+
+          <Form.Item
+            label="Sell Ticket"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Radio.Group
+              options={plainOptions}
+              name="isSellTicket"
+              onChange={this.handleChange}
+              value={isSellTicket}
+            />
+          </Form.Item>
+        </Form>
+      </div>
     );
   }
 }

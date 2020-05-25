@@ -106,8 +106,10 @@ class Schedule2 extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
+
+  handleRequestApplyEvent = (ss) => {};
 
   render() {
     // need to refactor
@@ -222,6 +224,7 @@ class Schedule2 extends Component {
                   <div className=" mt-5 col">
                     <ButtonBlock
                       content={schedule.buttonText}
+                      handleApplyEvent={true && this.handleRequestApplyEvent}
                       handleOnChangeButtonTextBlock={(value) =>
                         this.handleUpdateSchedule(
                           schedule.id,

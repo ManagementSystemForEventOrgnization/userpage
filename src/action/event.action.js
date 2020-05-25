@@ -32,7 +32,6 @@ const getEventDetail = (eventId) => {
 };
 
 const getEventEdit = (eventId, route) => {
-  console.log('get event edit ');
   return (dispatch) => {
     API.get(`/api/getPageEventEdit`, {
       params: {
@@ -61,15 +60,13 @@ const getEventEdit = (eventId, route) => {
   }
 };
 
-const saveEvent = (block, eventId, unEditableHtml, isPreview, headerHtml) => {
+const saveEvent = (block, eventId, isPreview) => {
   return (dispatch) => {
     dispatch(request());
     API.post('/api/save/page_event', {
       block,
       eventId,
-      unEditableHtml,
       isPreview,
-      headerHtml,
     })
       .then((res) => {
         console.log('TCL Save event detail  THEN: ', res);
@@ -96,7 +93,7 @@ const saveEvent = (block, eventId, unEditableHtml, isPreview, headerHtml) => {
 };
 
 const getCategories = () => {
-  // /api/evenCategory
+  // /api/evenCategory`
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
@@ -118,11 +115,12 @@ const getCategories = () => {
   }
 };
 
-const savePage = (route, innerHtml, editable) => {
+const savePage = (route, blocks, editable) => {
   return (dispatch) => {
-    dispatch(request(route, innerHtml, editable));
+    dispatch(request(route, blocks, editable));
   };
   function request(route, innerHtml, editable) {
+    // need to update
     return {
       type: eventConstants.SAVE_PAGE,
       route,
@@ -167,21 +165,18 @@ const prepareForCreateEvent = (
       isSellTicket: isSellTicket === 'True' ? true : false,
     })
       .then((res) => {
-        const id = res.data.result;
-        setTimeout(
-          dispatch(
-            success(
-              id,
-              nameEvent,
-              typeOfEvent,
-              category,
-              quantity,
-              session,
-              isSellTicket,
-              webAddress
-            )
-          ),
-          5000
+        const { _id } = res.data.result;
+        dispatch(
+          success(
+            _id,
+            nameEvent,
+            typeOfEvent,
+            category,
+            quantity,
+            session,
+            isSellTicket,
+            webAddress
+          )
         );
         history.push('/create');
       })
@@ -195,29 +190,23 @@ const prepareForCreateEvent = (
   }
 
   function success(
-    id,
+    _id,
     nameEvent,
     typeOfEvent,
     category,
     quantity,
-    address,
-    locationName,
-    map,
-    time,
+    session,
     isSellTicket,
     webAddress
   ) {
     return {
       type: eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS,
-      id,
+      _id,
       nameEvent,
       typeOfEvent,
       category,
       quantity,
-      address,
-      locationName,
-      map,
-      time,
+      session,
       isSellTicket,
       webAddress,
     };
@@ -272,7 +261,7 @@ const getListEvent = () => {
     )
       .then((res) => {
         if (res.status === 200) {
-          console.log("data:", res.data.result);
+          console.log('data:', res.data.result);
           dispatch(success(res.data.result));
         } else {
           dispatch(failure());
@@ -294,7 +283,26 @@ const getListEvent = () => {
       type: eventConstants.GET_LIST_EVENT_FAILURE,
     };
   }
-}
+};
+
+const getHomeData = () => {
+  return (dispatch) =>
+    Promise.all([API.get('/api/getListEvent'), API.get('/api/evenCategory')])
+      .then(([events, categories]) => {
+        dispatch(success(categories.data.result));
+      })
+      .catch((err1) => {
+        console.log(err1.response);
+      });
+
+  function success(categories) {
+    return {
+      type: eventConstants.GET_CATEGORIES_SUCCESS,
+      categories,
+    };
+  }
+};
+
 export const eventActions = {
   prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
@@ -307,4 +315,5 @@ export const eventActions = {
   savePage,
   updatePage,
   getEventEdit,
+  getHomeData,
 };

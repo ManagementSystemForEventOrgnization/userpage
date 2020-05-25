@@ -36,13 +36,13 @@ class TextsBlock extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   handleEditorChange = (content) => {
     const { handleOnChangeTextBlock } = this.props;
     this.setState({ content });
-    this.handleStoreBlock();
+    setTimeout(this.handleStoreBlock(), 3000);
 
     if (handleOnChangeTextBlock) {
       handleOnChangeTextBlock(
