@@ -1,130 +1,330 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
-import { userActions } from '../../action/user.action';
-
-class UpdateProfileInfor extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            userInfor: {
-                fullName: 'mamam',
-                gender: '',
-                job: '',
-                phone: '',
-                discription: '',
-                avatar: '',
-                address: '',
-                birthday: '',
-                email: '',
-                orgName: '',
-                orgDes: '',
-                orgWeb: '',
-                orgPhone: '',
-                orgEmail: '',
-                orgUrl: '',
-            },
-            visible: false,
-            percentOfPersonalInfor: 0,
-            percenOfOrgInfor: 0
-        }
-    }
-
-    componentWillUpdate() {
-        const attPersonalInfor = ['fullName', 'gender', 'job', 'phone',
-            'discription', 'avatar', 'address', 'birthday', 'email']
-        let countPersonalInfor = 0;
-        attPersonalInfor.forEach(element => {
-            if (this.state.userInfor[element] !== '')
-                countPersonalInfor++;
-        });
-
-        const attOrgInfor = ['orgName', 'orgDes', 'orgWeb',
-            'orgPhone', 'orgEmail', 'orgUrl',]
-
-        let countOrgInfor = 0;
-        attOrgInfor.forEach(element => {
-            if (this.state.userInfor[element] !== '')
-                countOrgInfor++;
-        });
-        this.setState({
-            percentOfPersonalInfor: countPersonalInfor * 100,
-            percenOfOrgInfor: countOrgInfor * 100
-        })
-        console.log(this.state)
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
-
-            return {
-                userInfor: nextProps.userInfor,
-            };
-        } else return null;
-    }
+import React, { Component } from 'react';
+import * as EmailValidator from 'email-validator';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import { Form, Input, Button, Select, DatePicker } from 'antd';
+import { userActions } from 'action/user.action';
+import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
+const { Option } = Select;
 
 
-    render() {
-        const { userInfor } = this.state;
+class ProfileInfor extends Component {
+  constructor(props) {
+    super(props);
 
-        return (
-            <div>
-                <div className="">
-                    <div className="w3-white w3-text-grey w3-card-4">
-                        <div className="w3-display-container">
-                            <img src={userInfor.avatar} style={{ width: '100%' }} alt="Avatar" />
-                            <div className="w3-display-bottomleft w3-container w3-text-black">
-                                <h2>{userInfor.fullName}</h2>
-                            </div>
-                        </div>
-                        <div className="w3-container mt-3">
-                            <p><i className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.job}</p>
-                            <p><i className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.address}</p>
-                            <p><i className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.email}</p>
-                            <p><i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />{userInfor.phone}</p>
-                            <hr />
-                            <p className="w3-large"><b><i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />Profile</b></p>
-                            <p>Personal Information</p>
-                            <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percentOfPersonalInfor }}>{this.state.percentOfPersonalInfor}</div>
-                            </div>
-                            <p>Organization</p>
-                            <div className="w3-light-grey w3-round-xlarge w3-small">
-                                <div className="w3-container w3-center w3-round-xlarge w3-teal" style={{ width: this.state.percenOfOrgInfor }}>
-                                    <div className="w3-center w3-text-white">{this.state.percenOfOrgInfor}</div>
-                                </div>
-                            </div>
-                            <br />
-                            <p className="w3-large w3-text-theme"><b><i className="fa fa-globe fa-fw w3-margin-right w3-text-teal" />Bank Account</b></p>
-                            <p>Visa</p>
-                            <div className="w3-light-grey w3-round-xlarge">
-                                <div className="w3-round-xlarge w3-teal" style={{ height: '24px', width: '100%' }} />
-                            </div>
-                            <p>Local Credit</p>
-                            <div className="w3-light-grey w3-round-xlarge">
-                                <div className="w3-round-xlarge w3-teal" style={{ height: '24px', width: '55%' }} />
-                            </div>
-                            <br />
-                        </div>
-                    </div><br />
-                    {/* End Left Column */}
-                </div>
-            </div>
-        )
-    }
-}
-
-
-const mapStateToProps = state => {
-    return {
-        userInfor: state.user.userInfo
+    this.state = {
+      userInfor: {
+        fullName: '',
+        gender: '',
+        job: '',
+        phone: '',
+        discription: '',
+        avatar: '',
+        address: '',
+        birthday: '',
+        email: '',
+        orgName: '',
+        orgDes: '',
+        orgWeb: '',
+        orgPhone: '',
+        orgEmail: '',
+        orgUrl: '',
+      },
+      visible: false,
+      loading: false,
+      validEmail: true,
+      orgPhone: true,
+      phone: true,
+      isGetData: true
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.isGetData && nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+      return {
+        userInfor: nextProps.userInfor,
+        isGetData: false
+      };
+    } else return null;
+  }
+
+  //onchange value
+  onHandleChange = (event) => {
+    console.log(this.state);
+    const { name, value } = event.target;
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        [name]: value,
+      },
+    });
+    console.log(this.state);
+  };
+  //end onchange value
+
+  onChangePhoneNumber = (e) => {
+    const re = /^[0-9\b]+$/;
+
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        [e.target.name]: e.target.value
+      },
+      [e.target.name]: !e.target.value === '' || re.test(e.target.value)
+    })
+  }
+
+  onChangeEmail = (e) => {
+    this.setState({
+      validEmail: EmailValidator.validate(e.target.value),
+      userInfor: {
+        orgEmail: e.target.value
+      }
+    })
+    console.log(this.state)
+  }
+
+  onChangeGender = (e) => {
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        gender: e
+      }
+    })
+  }
+
+  onChangeBirthday = (e) => {
+    console.log(e._d);
+    this.setState({
+      userInfor: {
+        ...this.state.userInfor,
+        birthday: e._d
+      }
+    })
+  }
+
+  onSave(values) {
+    console.log(this.state.userInfor)
+    console.log(this.props.userInfor)
+    const { onUpdateUserProfile } = this.props;
+    const { userInfor } = this.state;
+    if (onUpdateUserProfile) {
+      onUpdateUserProfile(userInfor);
+    }
+  }
+
+  render() {
+    const { userInfor } = this.state;
+    const { pending } = this.props
+    const onFinish = (values) => {
+      this.props.onUpdateUserProfile(...this.state.userInfor);
+    };
+
+    return (
+      <div className="ProfileInfor p-5 border">
+        {/* start form */}
+        <Form initialValues={{ remember: true }} onFinish={onFinish}>
+          {/* personal infor */}
+          <h2>Personal Information</h2>
+          <div className="row">
+            <div className="col">
+              <Form.Item name="fullName">
+                <Input
+                  prefix={
+                    <a className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
+                  name="fullName"
+                  placeholder="Full name"
+                  onChange={this.onHandleChange}
+                  defaultValue={userInfor.fullName ? userInfor.fullName : ''}
+                />
+              </Form.Item>
+
+              <Form.Item name="job">
+                <Input
+                  prefix={
+                    <a className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
+                  placeholder="Job"
+                  name="job"
+                  onChange={this.onHandleChange}
+                  defaultValue={userInfor.job}
+                />
+              </Form.Item>
+
+              <Form.Item name="phone">
+                <Input
+                  prefix={
+                    <a className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
+                  }
+                  placeholder="Phone number"
+                  name="phone"
+                  onChange={this.onChangePhoneNumber}
+                  defaultValue={userInfor.phone}
+                />
+                {this.state.phone || userInfor.phone === '' ? (
+                  <div></div>
+                ) : (<div className="text-danger">Invalid Phone Number</div>)}
+              </Form.Item>
+            </div>
+            <div className="col">
+              <UploadImage url={userInfor.avatar}
+                handleImageDrop={(value) => { this.setState({ userInfor: { ...this.state.userInfor, avatar: value } }) }}
+              />
+            </div>
+          </div>
+
+          <div className="row pl-2 pr-2 mb-2">
+            <Form.Item className="col m-2" name="gender" placeholder="gender">
+              <Select
+                placeholder="Gender"
+                allowClear
+                defaultValue={userInfor.gender}
+                name="gender"
+                onChange={this.onChangeGender}
+              >
+                <Option value="male">male</Option>
+                <Option value="female">female</Option>
+                <Option value="other">other</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item className="col m-2" name="date-picker">
+              <DatePicker placeholder="Birthday" name="birthday" onChange={this.onChangeBirthday} defaultValue={moment(userInfor.birthday, 'YYYY-MM-DD')} />
+            </Form.Item>
+          </div>
+
+          <Form.Item name="address">
+            <Input
+              prefix={
+                <a className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
+              placeholder="Address"
+              name="address"
+              onChange={this.onHandleChange}
+              defaultValue={userInfor.address}
+            />
+          </Form.Item>
+
+          <Form.Item className="mt-2">
+            <Input.TextArea
+              placeholder="Enter your descrpition"
+              name="discription"
+              onChange={this.onHandleChange}
+              defaultValue={userInfor.discription}
+            />
+          </Form.Item>
+          {/* end personal infor */}
+
+          <hr />
+
+          {/* organization */}
+          <h2>Organization Information</h2>
+
+          <div className="row p-2">
+            <Form.Item className="col m-2" name="">
+              <Input
+                prefix={
+                  <a className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
+                }
+                placeholder="Organization name"
+                name="orgName"
+                onChange={this.onHandleChange}
+                defaultValue={userInfor.orgName}
+              />
+            </Form.Item>
+
+            <Form.Item className="col m-2">
+              <Input
+                prefix={
+                  <span className="fa-fw w3-margin-right w3-text-teal">
+                    http(s):
+                  </span>
+                }
+                placeholder="Website"
+                name="orgWeb"
+                onChange={this.onHandleChange}
+                defaultValue={userInfor.orgWeb}
+              />
+            </Form.Item>
+          </div>
+          <Form.Item name="orgPhone">
+            <Input
+              prefix={
+                <a className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
+              placeholder="Organization phone number"
+              name="orgPhone"
+              onChange={this.onChangePhoneNumber}
+              defaultValue={userInfor.orgPhone}
+            />
+            {this.state.orgPhone || userInfor.orgPhone === '' ? (
+              <div></div>
+            ) : (<div className="text-danger">Invalid Phone Number</div>)}
+
+          </Form.Item>
+
+          <Form.Item name="orgEmail">
+
+            <Input
+              prefix={
+                <a className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
+              placeholder="Organization Email"
+              name="orgEmail"
+              onChange={this.onChangeEmail}
+              defaultValue={userInfor.orgEmail}
+            />
+            {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
+              <div></div>
+            ) : (<div className="text-danger">Invalid Email</div>)}
+          </Form.Item>
+
+          <Form.Item>
+            <Input.TextArea
+              placeholder="enter your organization description"
+              name="orgDes"
+              onChange={this.onHandleChange}
+              defaultValue={userInfor.orgDes}
+            />
+          </Form.Item>
+
+          <Form.Item shouldUpdate>
+            {() => (
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  className=" mt-2"
+                  block
+                  type="primary"
+                  htmlType="submit "
+                  disabled={!(this.state.validEmail || this.state.userInfor.orgEmail === '') || !(this.state.phone || userInfor.phone === '') || !(this.state.orgPhone || userInfor.orgPhone === '') || this.state.userInfor === this.props.userInfor}
+                  onClick={(value) => this.onSave(value)}
+                  loading={pending}
+                >
+                  Save
+                  </Button>
+              </div>
+            )}
+          </Form.Item>
+          {/* end organization */}
+        </Form>
+        {/* end form */}
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    pending: state.user.pending,
+    userInfor: state.user.userInfo,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-    getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-    onUpdateUserProfile: (userInfor) => dispatch(userActions.onUpdateUserProfile(userInfor))
+  onUpdateUserProfile: (userInfor) =>
+    dispatch(userActions.onUpdateUserProfile(userInfor)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfileInfor);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor);
+
