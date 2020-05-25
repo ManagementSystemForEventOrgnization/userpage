@@ -29,6 +29,7 @@ class TabPane extends Component {
     if (regex.test(value) === true) {
       return callback('URL  must not contain special letter');
     }
+    return;
   };
 
   render() {
