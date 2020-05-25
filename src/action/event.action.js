@@ -268,7 +268,8 @@ const deleteBlock = (id) => {
 const getListEvent = () => {
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/getListEvent`)
+    API.get(`/api/getListEvent`,
+    )
       .then((res) => {
         if (res.status === 200) {
           console.log("data:", res.data.result);

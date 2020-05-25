@@ -274,7 +274,7 @@ const get_History = (
       dataSent.txtSearch = txtSearch;
     }
 
-    API.post(`/api/user/history`, dataSent)
+    API.get(`/api/user/history`, dataSent)
       .then((res) => {
         dispatch(success(res.data.result));
       })
