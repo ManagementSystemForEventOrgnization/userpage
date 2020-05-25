@@ -69,17 +69,25 @@ class EventInfor extends Component {
     if (session.length === 0) {
       return false;
     }
+
     for (let index in session) {
       if (Object.keys(session[index].address).length === 0) {
         return false;
       }
+      if (!session[index].quantity) {
+        return false;
+      }
+      if (session[index].documents.length !== 0) {
+        isValid = session[index].documents.every((ele) => ele.title && ele.url);
+      }
+
       if (session[index].detail.length !== 0) {
-        isValid = session[index].detail.every(
-          (ele) => ele.from && ele.to && ele.description
-        );
+        isValid = session[index].detail.every((ele) => {
+          console.log(ele);
+          return ele.from && ele.to && ele.description;
+        });
       }
     }
-
     return isValid;
   };
 
@@ -97,8 +105,8 @@ class EventInfor extends Component {
 
     const next =
       nameEvent &&
-      webAddress &&
       category &&
+      webAddress &&
       typeOfEvent &&
       this.isSessionValid();
 
@@ -138,6 +146,18 @@ class EventInfor extends Component {
           <TabPane
             tab={
               <span className="p-5">
+                <HourglassTwoTone />
+                When
+              </span>
+            }
+            key="3"
+          >
+            <When onChange={this.onChange} />
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span className="p-5">
                 <InfoCircleTwoTone />
                 Which
               </span>
@@ -150,18 +170,6 @@ class EventInfor extends Component {
               typeOfEvent={typeOfEvent}
               banner={banner}
             />
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span className="p-5">
-                <HourglassTwoTone />
-                When
-              </span>
-            }
-            key="3"
-          >
-            <When onChange={this.onChange} />
           </TabPane>
         </Tabs>
         <hr className="shadow border-bottom" />

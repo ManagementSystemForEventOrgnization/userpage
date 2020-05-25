@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
+import { v4 as uuid } from 'uuid';
+
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { TimePicker, Input, Button, Form, InputNumber } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
+
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
 import 'react-day-picker/lib/style.css';
 
 const { RangePicker } = TimePicker;
+const layout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 14,
+  },
+};
 
 class TabPane extends Component {
   constructor(props) {
@@ -16,6 +27,21 @@ class TabPane extends Component {
       session: [],
     };
   }
+
+  handleChangeItemSs = (index, item) => {
+    const { session } = this.state;
+    const { onChange } = this.props;
+
+    const newSS = [
+      ...session.slice(0, index),
+      item,
+      ...session.slice(index + 1, session.length),
+    ];
+    this.setState({
+      session: newSS,
+    });
+    onChange('session', newSS);
+  };
 
   handleDayClick = (day, { selected }) => {
     const { selectedDays, session } = this.state;
@@ -33,13 +59,20 @@ class TabPane extends Component {
       }
       selectedDays.push(day);
       session.push({
-        id: day.toString(),
+        id: uuid(),
         day,
         address: {},
         quantity: 100,
+        documents: [
+          {
+            id: uuid(),
+            title: '',
+            url: '',
+          },
+        ],
         detail: [
           {
-            id: 0,
+            id: uuid(),
             from: '',
             to: '',
             description: '',
@@ -52,38 +85,14 @@ class TabPane extends Component {
     onChange('session', session);
   };
 
-  handleChangeAddress = (id, address) => {
+  handleChangeAddressValue = (id, type, value) => {
     const { session } = this.state;
-    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
-      item.address['location'] = address;
-      const newSS = [
-        ...session.slice(0, index),
-        item,
-        ...session.slice(index + 1, session.length),
-      ];
+      item.address[type] = value;
 
-      this.setState({ session: newSS });
-      onChange('session', session);
-    }
-  };
-
-  handleChangeMap = (id, map) => {
-    let { session } = this.state;
-    const { onChange } = this.props;
-    const index = session.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      let item = { ...session[index] };
-      item.address['map'] = map;
-      session = [
-        ...session.slice(0, index),
-        item,
-        ...session.slice(index + 1, session.length),
-      ];
-      this.setState({ session });
-      onChange('session', session);
+      this.handleChangeItemSs(index, item);
     }
   };
 
@@ -93,7 +102,7 @@ class TabPane extends Component {
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       session[index].detail.push({
-        id: session[index].detail.length,
+        id: uuid(),
         from: '',
         to: '',
         description: '',
@@ -119,61 +128,88 @@ class TabPane extends Component {
     }
   };
 
-  handleChangeTime = (idSs, idTime, time, timeString) => {
+  handleChangeTime = (idSs, idTime, timeString) => {
     const { session } = this.state;
-    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === idSs);
     if (index !== -1) {
       let item = { ...session[index] };
-      item.detail[idTime].from = timeString[0];
-      item.detail[idTime].to = timeString[1];
+      const indexTimeline = item.detail.findIndex((item) => item.id === idTime);
+      item.detail[indexTimeline].from = timeString[0];
+      item.detail[indexTimeline].to = timeString[1];
 
-      const newSS = [
-        ...session.slice(0, index),
-        item,
-        ...session.slice(index + 1, session.length),
-      ];
-      this.setState({
-        session: newSS,
-      });
-      onChange('session', newSS);
+      this.handleChangeItemSs(index, item);
     }
   };
 
   handleChangeDescription = (idSs, idTime, value) => {
     const { session } = this.state;
-    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === idSs);
     if (index !== -1) {
       let item = { ...session[index] };
-      item.detail[idTime].description = value;
-      const newSS = [
-        ...session.slice(0, index),
-        item,
-        ...session.slice(index + 1, session.length),
-      ];
-      this.setState({
-        session: newSS,
-      });
-      onChange('session', newSS);
+      const indexTimeline = item.detail.findIndex((item) => item.id === idTime);
+      item.detail[indexTimeline].description = value;
+      this.handleChangeItemSs(index, item);
     }
   };
 
   handleChangeQuantity = (id, value) => {
     let { session } = this.state;
-    const { onChange } = this.props;
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
       item.quantity = value;
-      session = [
-        ...session.slice(0, index),
-        item,
-        ...session.slice(index + 1, session.length),
-      ];
+      this.handleChangeItemSs(index, item);
+    }
+  };
+
+  handleAddDocs = (id) => {
+    const { session } = this.state;
+    const { onChange } = this.props;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      session[index].documents.push({
+        id: uuid(),
+        url: '',
+        title: '',
+      });
       this.setState({ session });
       onChange('session', session);
     }
+  };
+
+  handleDeleteDocs = (idSs, idDoc) => {
+    const { session } = this.state;
+    const { onChange } = this.props;
+    const indexSS = session.findIndex((item) => item.id === idSs);
+    if (indexSS !== -1) {
+      const indexItem = session[indexSS].documents.findIndex(
+        (item) => item.id === idDoc
+      );
+      session[indexSS].documents.splice(indexItem, 1);
+      this.setState({
+        session,
+      });
+      onChange('session', session);
+    }
+  };
+
+  handleChangeDoc = (idSs, idDoc, type, value) => {
+    const { session } = this.state;
+    const index = session.findIndex((item) => item.id === idSs);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      const indexDoc = item.documents.findIndex((item) => item.id === idDoc);
+      item.documents[indexDoc][type] = value;
+      this.handleChangeItemSs(index, item);
+    }
+  };
+
+  checkUrl = (rule, value, callback) => {
+    const regex = /[^\w-_.]/;
+    if (regex.test(value) === true) {
+      return callback('URL  must not contain special letter');
+    }
+    return;
   };
 
   render() {
@@ -194,16 +230,22 @@ class TabPane extends Component {
         </div>
 
         {count !== 0 && (
-          <div className="col-6 col-md-6">
+          <Form className="col-6 col-md-6" {...layout}>
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
             {session.map((ss) => (
-              <div className="mt-2 " key={ss.id}>
+              <div className="mt-2" key={ss.id}>
                 <div className="mt-1 mb-1" style={dayStyle}>
                   {ss.day.toString()}
                 </div>
-                <div className="d-flex mb-2">
-                  <p className="mr-2">Max quantity : </p>
-
+                <Form.Item
+                  name="maxQuantity"
+                  label="Max quantity"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <InputNumber
                     min={1}
                     value={ss.quantity}
@@ -211,63 +253,92 @@ class TabPane extends Component {
                       this.handleChangeQuantity(ss.id, value)
                     }
                   />
-                </div>
-                <div className=" row">
-                  <p className="col-sm-2">Address :</p>
-                  <div className="col-sm-10">
-                    <AutoCompletePlace
-                      address={ss.address}
-                      handleAddressChange={(value) =>
-                        this.handleChangeAddress(ss.id, value)
-                      }
-                      handleMapChange={(value) =>
-                        this.handleChangeMap(ss.id, value)
-                      }
-                    />
-                  </div>
-                </div>
+                </Form.Item>
 
-                {ss.detail.map((item, index) => (
-                  <Form className="mt-1  d-flex" key={index}>
-                    <Form.Item>
+                <Form.Item
+                  name="address"
+                  label="Address"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <AutoCompletePlace
+                    address={ss.address}
+                    handleAddressChange={(value) =>
+                      this.handleChangeAddressValue(ss.id, 'location', value)
+                    }
+                    handleMapChange={(value) =>
+                      this.handleChangeAddressValue(ss.id, 'map', value)
+                    }
+                  />
+                </Form.Item>
+                <hr />
+                <Form.Item label="Link to document">
+                  {ss.documents.map((doc) => (
+                    <div className="d-flex mt-1" key={doc.id}>
+                      <Input
+                        placeholder="Enter title for documents"
+                        name={`title${doc.id}`}
+                        onChange={(value) =>
+                          this.handleChangeDoc(ss.id, doc.id, 'title', value)
+                        }
+                      />
+                      <Input
+                        placeholder="Enter link to your document"
+                        className="ml-2 mr-2"
+                        name={`url${doc.id}`}
+                        onChange={(value) =>
+                          this.handleChangeDoc(ss.id, doc.id, 'url', value)
+                        }
+                      />
+                      <DeleteOutlined
+                        onClick={() => this.handleDeleteDocs(ss.id, doc.id)}
+                        style={{ fontSize: '20px', color: 'red' }}
+                      />
+                    </div>
+                  ))}
+                </Form.Item>
+
+                <Button
+                  className="mt-1"
+                  onClick={() => this.handleAddDocs(ss.id)}
+                  icon={
+                    <PlusCircleTwoTone
+                      style={{ fontSize: '20px', color: '#eb2f96' }}
+                      className="mr-2"
+                    />
+                  }
+                >
+                  Add link
+                </Button>
+                <hr />
+                <Form.Item label="Timeline">
+                  {ss.detail.map((item) => (
+                    <div className="mt-1  d-flex" key={item.id}>
                       <RangePicker
                         className="mr-2"
                         onChange={(time, timeString) =>
-                          this.handleChangeTime(
-                            ss.id,
-                            item.id,
-                            time,
-                            timeString
-                          )
+                          this.handleChangeTime(ss.id, item.id, timeString)
                         }
                       />
-                    </Form.Item>
-                    <Form.Item
-                      name={`desc${index}`}
-                      className="mr-2"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    >
+
                       <Input
                         placeholder="description"
-                        name={`desc${index}`}
+                        name={`desc${item.id}`}
                         className="mr-2"
                         onChange={(value) =>
                           this.handleChangeDescription(ss.id, item.id, value)
                         }
                       />
-                    </Form.Item>
-                    <Form.Item>
                       <DeleteOutlined
                         onClick={() => this.handleDeleteTime(ss.id, item.id)}
                         style={{ fontSize: '20px', color: 'red' }}
                       />
-                    </Form.Item>
-                  </Form>
-                ))}
+                    </div>
+                  ))}
+                </Form.Item>
 
                 <Button
                   className="mt-1"
@@ -284,7 +355,7 @@ class TabPane extends Component {
                 <hr />
               </div>
             ))}
-          </div>
+          </Form>
         )}
       </div>
     );
