@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 import {
   PlusCircleTwoTone,
   MinusCircleTwoTone,
-  EditTwoTone,
   DeleteTwoTone,
 } from '@ant-design/icons';
 
