@@ -225,13 +225,17 @@ const event = (state = initialState, action) => {
 
     case eventConstants.SAVE_PAGE:
       const { system } = state;
+      const nextId = getIndexPage(state.pages, action.currentPage);
 
       return {
         ...state,
         system: [...system, action.blocks],
         pages: action.pages,
         currentPage: action.currentPage,
-        blocks: [...initialBlocks],
+        blocks:
+          nextId >= state.system.length
+            ? [...initialBlocks]
+            : state.system[nextId],
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
