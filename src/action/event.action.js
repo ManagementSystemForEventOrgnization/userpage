@@ -116,8 +116,6 @@ const getCategories = () => {
 };
 
 const savePage = (pages, currentPage, blocks) => {
-  console.log(currentPage);
-  console.log(pages);
   return (dispatch) => {
     dispatch(request(pages, currentPage, blocks));
   };
@@ -127,6 +125,18 @@ const savePage = (pages, currentPage, blocks) => {
       pages,
       currentPage,
       blocks,
+    };
+  }
+};
+
+const getPreviousPage = (currentPage) => {
+  return (dispatch) => {
+    dispatch(request(currentPage));
+  };
+  function request(currentPage) {
+    return {
+      type: eventConstants.GET_PREVIOUS_PAGE,
+      currentPage,
     };
   }
 };
@@ -316,4 +326,5 @@ export const eventActions = {
   updatePage,
   getEventEdit,
   getHomeData,
+  getPreviousPage,
 };

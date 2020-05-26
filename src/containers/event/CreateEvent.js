@@ -81,10 +81,6 @@ class CreateEvent extends React.Component {
     });
   };
 
-  handleSaveEvent = () => {};
-
-  handleBack = () => {};
-
   onHandleNext = () => {
     const { pages, handleChangeHeader, blocks, currentPage } = this.props;
     const { currentIndex } = this.state;
@@ -120,6 +116,46 @@ class CreateEvent extends React.Component {
       } else newPageId = this.getNextIdChild();
     }
     handleChangeHeader(pages, newPageId, blocks);
+  };
+
+  handleSaveEvent = () => {};
+
+  getPreviousId = () => {
+    const { pages } = this.props;
+    const { currentIndex } = this.state;
+    if (pages[currentIndex - 1].child.length === 0) {
+      return pages[currentIndex - 1].id;
+    } else {
+      const length = pages[currentIndex - 1].child.length;
+      return pages[currentIndex - 1].child[length - 1].id;
+    }
+  };
+
+  getPreviousChildId = () => {
+    const { pages, currentPage } = this.props;
+    const { currentIndex } = this.state;
+
+    const index = pages[currentIndex].child.findIndex(
+      (item) => item.id === currentPage
+    );
+    if (index === 0) {
+      return this.getPreviousId();
+    }
+    return pages[currentIndex].child[index - 1].id;
+  };
+
+  handleBack = () => {
+    const { pages, handlePreviousPage } = this.props;
+    const { currentIndex } = this.state;
+    let newPageId = '';
+
+    if (pages[currentIndex].child.length === 0) {
+      newPageId = this.getPreviousId();
+    } else {
+      newPageId = this.getPreviousChildId();
+    }
+
+    handlePreviousPage(newPageId);
   };
 
   render() {
@@ -191,7 +227,7 @@ class CreateEvent extends React.Component {
             className="mr-1 ml-1"
             onClick={this.onHandleNext}
           >
-            Next
+            Next Page
           </Button>
 
           <Button
@@ -200,7 +236,7 @@ class CreateEvent extends React.Component {
             onClick={this.handleBack}
             disabled={currentIndex === 0}
           >
-            Back
+            Previous Page
           </Button>
         </div>
       </div>
@@ -224,6 +260,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   handleChangeHeader: (pages, currentPage, blocks) =>
     dispatch(eventActions.savePage(pages, currentPage, blocks)),
+
+  handlePreviousPage: (currentPage) =>
+    dispatch(eventActions.getPreviousPage(currentPage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

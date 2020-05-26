@@ -59,6 +59,32 @@ const initialState = {
   system: [],
 };
 
+const getIndexPage = (pages, currentPage) => {
+  let count = 0;
+  let flag = false;
+  for (let index in pages) {
+    if (flag) break;
+    if (pages[index].child.length === 0) {
+      if (pages[index].id === currentPage) {
+        flag = true;
+        break;
+      }
+      count++;
+    } else {
+      const temp = pages[index].child;
+      for (let j in temp) {
+        if (temp[j].id === currentPage) {
+          flag = true;
+          break;
+        }
+        count++;
+      }
+    }
+  }
+
+  return count;
+};
+
 const event = (state = initialState, action) => {
   switch (action.type) {
     case eventConstants.PREPARE_FOR_CREATE_EVENT:
@@ -200,13 +226,19 @@ const event = (state = initialState, action) => {
     case eventConstants.SAVE_PAGE:
       const { system } = state;
 
-      console.log(system);
       return {
         ...state,
         system: [...system, action.blocks],
         pages: action.pages,
         currentPage: action.currentPage,
         blocks: [...initialBlocks],
+      };
+
+    case eventConstants.GET_PREVIOUS_PAGE:
+      return {
+        ...state,
+        currentPage: action.currentPage,
+        blocks: state.system[getIndexPage(state.pages, action.currentPage)],
       };
 
     case eventConstants.UPDATE_PAGE:

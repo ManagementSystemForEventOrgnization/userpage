@@ -21,6 +21,12 @@ class Header extends Component {
     const { storeStyleHeader } = this.props;
     storeStyleHeader(currentStyle);
   };
+
+  checkActive = (child) => {
+    const { currentPage } = this.props;
+    const result = child.findIndex((item) => item.id === currentPage);
+    return result === -1 ? true : false;
+  };
   render() {
     const style = {
       color: 'black',
@@ -43,7 +49,7 @@ class Header extends Component {
             <SubMenu
               key={item.id}
               title={<span>{item.title}</span>}
-              disabled={editable && item.id !== currentPage}
+              disabled={editable && this.checkActive(item.child)}
             >
               {item.child.map((child) => (
                 <Menu.Item key={child.id}>{child.title}</Menu.Item>
