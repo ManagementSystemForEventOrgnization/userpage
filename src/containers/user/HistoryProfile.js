@@ -9,6 +9,11 @@ import { userActions } from '../../action/user.action';
 const { Search } = Input;
 const { Option } = Select;
 
+//  { "email":"ptmaimai106@gmail.com",
+//    "password":"123456"
+
+//  }
+
 const { RangePicker } = DatePicker;
 
 const src =
@@ -102,6 +107,7 @@ class HistoryProfile extends React.Component {
 
   render() {
     const { categories, arrEvent } = this.state;
+    console.log("TEV:", arrEvent);
 
     return (
       <div className="history">

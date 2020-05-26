@@ -12,13 +12,14 @@ class ProfilePage extends Component {
   };
 
   render() {
+    console.log(this.props.userInfor)
     return (
       <div className="ProfileInfor mt-5 p-3 row">
         <div className=" col-3">
-          <UpdateProfileInfor />
+          <ProfileInfor />
         </div>
         <div className=" col-9">
-          <ProfileInfor />
+          <UpdateProfileInfor />
         </div>
       </div>
     );
