@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+import {
+  PlusCircleTwoTone,
+  MinusCircleTwoTone,
+  EditTwoTone,
+  DeleteTwoTone,
+} from '@ant-design/icons';
 
 import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
@@ -84,6 +89,13 @@ class Sponsor1Block extends Component {
     }
   };
 
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const style = {
       margin: '10px',
@@ -116,22 +128,29 @@ class Sponsor1Block extends Component {
                     editable={editable}
                     height={high}
                     borderRadius={true}
+                    child={true}
                   />
                 </div>
               ))}
             </div>
 
             {editable && (
-              <div className="icons-handle">
+              <div className="icons-handle ml-auto">
                 <PlusCircleTwoTone
                   style={iconStyle}
-                  className="mt-3"
+                  className="mt-1"
                   onClick={this.addPhoto}
                 />
                 <MinusCircleTwoTone
                   style={iconStyle}
-                  className="mt-3"
+                  className="mt-2"
                   onClick={this.removePhoto}
+                />
+
+                <DeleteTwoTone
+                  className="mt-2"
+                  onClick={this.handleDelete}
+                  style={iconStyle}
                 />
               </div>
             )}
@@ -149,6 +168,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sponsor1Block);

@@ -57,6 +57,20 @@ class footer2 extends Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { editable, leftModal } = this.props;
     const { collapse, padding, url, bgColor, opacity, margin } = this.state;
@@ -163,6 +177,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(footer2);

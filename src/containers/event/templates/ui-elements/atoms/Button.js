@@ -20,17 +20,18 @@ import ChangeColorModal from '../shares/ChangeColorModal';
 import { ButtonState } from '../stateInit/ButtonState';
 import { TabPane } from '../../constants/atom.constant';
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../shares/IconsHandle';
 
 const { Option } = Select;
 const borderStyles = ['dashed', 'dotted', 'solid', 'hidden'];
 class ButtonBlock extends React.Component {
   constructor(props) {
     super(props);
-    const { style } = this.props;
+    const { style } = props;
     this.state = style
       ? { ...style }
       : {
-          ...ButtonState(this.props),
+          ...ButtonState(props),
         };
   }
   showModalBorderColor = () => {
@@ -85,8 +86,22 @@ class ButtonBlock extends React.Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
-    const { key, leftModal, editable } = this.props;
+    const { key, leftModal, editable, child } = this.props;
     const {
       content,
       borderWidthButton,
@@ -141,7 +156,7 @@ class ButtonBlock extends React.Component {
 
     return (
       <div className="edittext  child-block" style={divStyle}>
-        <div onClick={this.onCollapseModal}>
+        <div className="d-flex">
           <Button
             key={key}
             className="ml-3"
@@ -151,7 +166,18 @@ class ButtonBlock extends React.Component {
             <span></span>
             {ReactHtmlParser(content)}
           </Button>
+
+          {editable && !child && (
+            <div className="ml-auto">
+              <IconsHandle
+                collapseModal={this.onCollapseModal}
+                handleDuplicate={this.handleDuplicate}
+                handleDelete={this.handleDelete}
+              />
+            </div>
+          )}
         </div>
+
         {editable && (
           <Modal
             title="Button design"
@@ -331,6 +357,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonBlock);

@@ -269,9 +269,7 @@ class GeneralBanner extends Component {
               >
                 <ButtonBlock
                   editable={editable}
-                  //   handleApplyEvent={
-                  //     editable ? this.collapseModal : this.handleRequestApplyEvent
-                  //   }
+                  child={true}
                   handleApplyEvent={true && this.handleRequestApplyEvent}
                 />
               </div>

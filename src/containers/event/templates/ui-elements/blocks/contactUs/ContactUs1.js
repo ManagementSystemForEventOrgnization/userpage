@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
 import { Form, Input, Button } from 'antd';
 
 import Text from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../../shares/IconsHandle';
 
 const layout = {
   labelCol: {
@@ -60,6 +60,20 @@ class ContactUs1 extends Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { editable } = this.props;
     const { margin, padding } = this.state;
@@ -79,9 +93,9 @@ class ContactUs1 extends Component {
       fontSize: '40',
     };
     return (
-      <div className="child-block" style={style}>
-        <Row>
-          <Col span={10}>
+      <div className="child-block d-flex" style={style}>
+        <div className="row flex-fill">
+          <div className="col-sm-5">
             <Text
               content="Contact Us"
               newStyle={titleStyle}
@@ -89,8 +103,9 @@ class ContactUs1 extends Component {
               editable={editable}
             />
             <Text editable={editable} child={true} />
-          </Col>
-          <Col span={14} className="pt-5 pr-5">
+          </div>
+
+          <div className=" col-sm-7 pt-5 pr-5">
             <Form
               {...layout}
               name="basic"
@@ -145,8 +160,17 @@ class ContactUs1 extends Component {
                 </Button>
               </Form.Item>
             </Form>
-          </Col>
-        </Row>
+          </div>
+        </div>
+        {editable && (
+          <div className="ml-auto">
+            <IconsHandle
+              collapseModal={this.collapseModal}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -159,6 +183,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactUs1);
