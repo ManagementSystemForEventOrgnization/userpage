@@ -198,17 +198,6 @@ class HeaderBlock extends Component {
       color: color,
     };
 
-    // let currentIndex = menuName.findIndex(
-    //   (item) => item.title === currentRoute
-    // );
-    // if (currentIndex === -1) {
-    //   for (let item in menuName) {
-    //     if (item.items.length !== 0) {
-    //       let childIndex;
-    //     }
-    //   }
-    // }
-
     return (
       <div className="child-block d-flex">
         <div style={{ width: '100%' }}>

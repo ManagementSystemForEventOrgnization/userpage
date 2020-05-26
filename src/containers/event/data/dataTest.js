@@ -254,11 +254,12 @@ export default [
 
   {
     name: 'Coundown',
-    type: 'countdown',
+
     value: [
       {
         child: 'Coundown',
         style: {},
+        type: 'countdown',
         options: ({ editable, style, id }) => (
           <CountDownBlock
             key={id}

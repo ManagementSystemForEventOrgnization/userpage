@@ -115,17 +115,18 @@ const getCategories = () => {
   }
 };
 
-const savePage = (route, blocks, editable) => {
+const savePage = (pages, currentPage, blocks) => {
+  console.log(currentPage);
+  console.log(pages);
   return (dispatch) => {
-    dispatch(request(route, blocks, editable));
+    dispatch(request(pages, currentPage, blocks));
   };
-  function request(route, innerHtml, editable) {
-    // need to update
+  function request(pages, currentPage, blocks) {
     return {
       type: eventConstants.SAVE_PAGE,
-      route,
-      innerHtml,
-      editable,
+      pages,
+      currentPage,
+      blocks,
     };
   }
 };

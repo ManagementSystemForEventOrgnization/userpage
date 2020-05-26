@@ -3,6 +3,22 @@ import { v4 as uuid } from 'uuid';
 import dataTest from 'containers/event/data/dataTest';
 import { eventConstants } from 'constants/index';
 
+const initialPageId = uuid();
+const initialBlocks = [
+  dataTest[1].value[1],
+  ...dataTest[2].value,
+  ...dataTest[3].value,
+  ...dataTest[4].value,
+  ...dataTest[5].value,
+  ...dataTest[6].value,
+  dataTest[7].value[0],
+  ...dataTest[8].value,
+  ...dataTest[9].value,
+  ...dataTest[10].value,
+  ...dataTest[11].value,
+  ...dataTest[13].value,
+  dataTest[12].value[0],
+];
 const initialState = {
   nameEvent: '',
   typeOfEvent: '',
@@ -11,35 +27,39 @@ const initialState = {
   session: [],
   isSellTicket: 'Không',
   webAddress: '',
-  blocks: [
-    ...dataTest[0].value,
-    ...dataTest[1].value,
-    ...dataTest[2].value,
-    ...dataTest[3].value,
-    ...dataTest[4].value,
-    ...dataTest[5].value,
-    ...dataTest[6].value,
-    ...dataTest[7].value,
-    ...dataTest[8].value,
-    ...dataTest[9].value,
-    ...dataTest[10].value,
-    ...dataTest[11].value,
-    ...dataTest[12].value,
-    ...dataTest[13].value,
-  ],
+  blocks: [...initialBlocks],
   categories: [],
   errMessage: '',
   pending: false,
   id: '',
   events: [],
 
-  unEditableHtml: [],
-  routes: [],
-  currentRoute: 'home',
+  pages: [
+    {
+      id: initialPageId,
+      title: 'Home',
+      child: [],
+    },
+    {
+      id: uuid(),
+      title: 'About',
+      child: [
+        {
+          id: uuid(),
+          title: 'About organization',
+        },
+        {
+          id: uuid(),
+          title: 'About us',
+        },
+      ],
+    },
+  ],
+  currentPage: initialPageId,
+  system: [],
 };
 
 const event = (state = initialState, action) => {
-  const { blocks } = state;
   switch (action.type) {
     case eventConstants.PREPARE_FOR_CREATE_EVENT:
       return {
@@ -96,6 +116,7 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.DUPLICATE_BLOCK:
+      const { blocks } = state;
       const idDuplicate = action.id;
       const blockDuplicate = blocks.find((item) => item.id === idDuplicate);
       if (blockDuplicate) {
@@ -119,12 +140,12 @@ const event = (state = initialState, action) => {
 
     case eventConstants.DELETE_BLOCK:
       const idDelete = action.id;
-      const blockDelete = blocks.find((item) => item.id === idDelete);
+      const blockDelete = state.blocks.find((item) => item.id === idDelete);
       if (blockDelete) {
-        const indexDelete = blocks.indexOf(blockDelete);
+        const indexDelete = state.blocks.indexOf(blockDelete);
         const newBlockListDelete = [
-          ...blocks.slice(0, indexDelete),
-          ...blocks.slice(indexDelete + 1, blocks.length),
+          ...state.blocks.slice(0, indexDelete),
+          ...state.blocks.slice(indexDelete + 1, state.blocks.length),
         ];
         return {
           ...state,
@@ -139,7 +160,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
       return {
         ...state,
-        page: action.page,
+        blocks: action.page,
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
@@ -176,31 +197,21 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
-    case eventConstants.SAVE_PAGE: // need to update
-      let { unEditableHtml, routes } = state;
-      const { route, innerHtml, editable } = action;
-      const newPage = {
-        route,
-        innerHtml,
-        editable, // false
-      };
+    case eventConstants.SAVE_PAGE:
+      const { system } = state;
 
-      unEditableHtml.push(newPage);
+      console.log(system);
       return {
         ...state,
-        unEditableHtml,
-        routes: routes.push(route),
-        currentRoute: route,
+        system: [...system, action.blocks],
+        pages: action.pages,
+        currentPage: action.currentPage,
+        blocks: [...initialBlocks],
       };
 
     case eventConstants.UPDATE_PAGE:
-      const currentIndex = unEditableHtml.findIndex(
-        (item) => item.route === action.route
-      );
-      unEditableHtml[currentIndex].innerHtml = action.innerHtml;
       return {
         ...state,
-        unEditableHtml,
       };
 
     case eventConstants.GET_EVENT_EDIT:
