@@ -220,7 +220,7 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log(userInfor);
+  console.log('TCL :', userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {

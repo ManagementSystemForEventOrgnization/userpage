@@ -104,7 +104,6 @@ const user = (state = initialState, action) => {
         active: true,
       };
     case userConstants.CHECK_CODE_FAILURE:
-      console.log(action.error);
       return {
         ...state,
         errMessage: action.error,
@@ -155,6 +154,7 @@ const user = (state = initialState, action) => {
         userInfo: action.user,
       };
     case userConstants.UPDATE_USER_PROFILE_FAILURE:
+      console.log(action.error);
       return {
         ...state,
         pending: false,
