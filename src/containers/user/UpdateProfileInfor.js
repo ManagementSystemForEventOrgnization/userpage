@@ -187,8 +187,8 @@ class ProfileInfor extends Component {
                 {this.state.phone || userInfor.phone === '' ? (
                   <div></div>
                 ) : (
-                  <div className="text-danger">Invalid Phone Number</div>
-                )}
+                    <div className="text-danger">Invalid Phone Number</div>
+                  )}
               </Form.Item>
             </div>
             <div className="col">
@@ -295,8 +295,8 @@ class ProfileInfor extends Component {
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Phone Number</div>
-            )}
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
           </Form.Item>
 
           <Form.Item name="orgEmail">
@@ -312,8 +312,8 @@ class ProfileInfor extends Component {
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Email</div>
-            )}
+                <div className="text-danger">Invalid Email</div>
+              )}
           </Form.Item>
 
           <Form.Item>
