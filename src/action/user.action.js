@@ -286,7 +286,6 @@ const getListNotification = () => {
   return (dispatch) => {
     API.get('api/getListNotification')
       .then((res) => {
-        console.log('TLC,', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {
