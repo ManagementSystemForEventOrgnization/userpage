@@ -31,12 +31,12 @@ class UpdateProfileInfor extends Component {
         }
     }
 
-    componentDidMount() {
+    updatePercentInfor() {
         const attPersonalInfor = ['fullName', 'gender', 'job', 'phone',
             'discription', 'avatar', 'address', 'birthday', 'email']
         let countPersonalInfor = 0;
         attPersonalInfor.forEach(element => {
-            if (this.state.userInfor[element] !== '')
+            if (this.state.userInfor[element] !== '' && this.state.userInfor[element] !== undefined)
                 countPersonalInfor++;
         });
 
@@ -45,25 +45,29 @@ class UpdateProfileInfor extends Component {
 
         let countOrgInfor = 0;
         attOrgInfor.forEach(element => {
-            if (this.state.userInfor[element] !== '')
+            if (this.state.userInfor[element] !== '' && this.state.userInfor[element] !== undefined)
                 countOrgInfor++;
         });
         this.setState({
             percentOfPersonalInfor: (countPersonalInfor * 100 / 9) - (countPersonalInfor * 100 / 9) % 10,
             percenOfOrgInfor: countOrgInfor * 100 / 6 - (countOrgInfor * 100 / 6) % 10
         })
+        // console.log(this.state);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
-
             return {
                 userInfor: nextProps.userInfor,
             };
         } else return null;
     }
 
-
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.userInfor !== this.props.userInfor) {
+            this.updatePercentInfor()
+        }
+    }
     render() {
         const { userInfor } = this.state;
 
