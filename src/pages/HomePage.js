@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card } from 'antd';
+import { Button, Card, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Header from '../containers/share/_layout/Header';
@@ -23,14 +23,24 @@ class HomePage extends Component {
     super(props);
 
     this.state = {
-      curTime: Date.now(),
+
     };
   }
 
+  componentDidMount = () => {
+    const { getListEvent } = this.props;
+
+    getListEvent();
+
+  };
 
   render() {
-    const { events } = this.props;
-    const { curTime } = this.state;
+    // const { events } = this.props;
+
+    const events = this.props.events ? this.props.events : []
+
+
+
 
     const orgnizations = {
       name: 'Orgnization 1',
@@ -59,9 +69,9 @@ class HomePage extends Component {
             <h1 className="">Upcoming Events </h1>
             <div className="row pl-5 ">
               {events.map((item, index) => (
-                <div className="col mt-4  shadow pb-3" key={index}>
-                  {Date.parse(item.startTime) > curTime ? (
-                    <Link to="">
+                < div className="row mt-4 ml-4  shadow pb-3" key={index} >
+                  <div className="col">
+                    < Link to="">
                       <Card
                         className="event-cart"
                         cover={
@@ -73,31 +83,45 @@ class HomePage extends Component {
                         }
                       >
                         <div className="d-flex ">
-                          <h4>{item.name}</h4>
+                          <Tooltip placement="bottomLeft" title={
+
+                            item.session ?
+                              item.session.map(e =>
+                                <div>
+                                  <div className="d-flex ">
+                                    <FieldTimeOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.day}</p>
+                                  </div>
+                                  <div className="d-flex ">
+                                    <EnvironmentOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.address.location}</p>
+                                  </div>
+                                </div>
+
+                              )
+                              : "No have start time events "
+                          }>
+                            <h4 >{item.name}</h4>
+                          </Tooltip>
+
                           <div className="d-flex mt-1">
                             <UserOutlined className="mt-1 ml-2" />
                             <p className="ml-1 mt-1">{item.limitNumber}</p>
                           </div>
                         </div>
-                        {item.session.map((sess, i) => (
-                          <div key={i}>
-                            <div className="d-flex ">
-                              <FieldTimeOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.day}</p>
-                            </div>
-                            <div className="d-flex ">
-                              <EnvironmentOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.address.location}</p>
-                            </div>
-                          </div>
-                        ))}
+
+                        <div className="d-flex ">
+                          <FieldTimeOutlined className="mt-1" />
+                          <p className="ml-2"> {item.startTime}</p>
+                        </div>
+
+
 
                         <Button type="primary">Apply</Button>
                       </Card>
-                    </Link>
-                  ) : (
-                    ' '
-                  )}
+                    </ Link>
+                  </div>
+
                 </div>
               ))}
             </div>
@@ -105,11 +129,12 @@ class HomePage extends Component {
           <hr />
           <div className="latest">
             <h1>Recent Events </h1>
-            <div className="row pl-5">
+
+            <div className="row pl-5 ">
               {events.map((item, index) => (
-                <div className="col mt-4  shadow pb-3" key={index}>
-                  {Date.parse(item.startTime) >= curTime ? (
-                    <Link to="">
+                < div className="row mt-4 ml-4  shadow pb-3" key={index} >
+                  <div className="col">
+                    < Link to="">
                       <Card
                         className="event-cart"
                         cover={
@@ -121,36 +146,53 @@ class HomePage extends Component {
                         }
                       >
                         <div className="d-flex ">
-                          <h4>{item.name}</h4>
+                          <Tooltip placement="bottomLeft" title={
+
+                            item.session ?
+                              item.session.map(e =>
+                                <div>
+                                  <div className="d-flex ">
+                                    <FieldTimeOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.day}</p>
+                                  </div>
+                                  <div className="d-flex ">
+                                    <EnvironmentOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.address.location}</p>
+                                  </div>
+                                </div>
+
+                              )
+                              : "No have start time events "
+                          }>
+                            <h4 >{item.name}</h4>
+                          </Tooltip>
+
                           <div className="d-flex mt-1">
                             <UserOutlined className="mt-1 ml-2" />
                             <p className="ml-1 mt-1">{item.limitNumber}</p>
                           </div>
                         </div>
-                        {item.session.map((sess, i) => (
-                          <div key={i}>
-                            <div className="d-flex ">
-                              <FieldTimeOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.day}</p>
-                            </div>
-                            <div className="d-flex ">
-                              <EnvironmentOutlined className="mt-1" />
-                              <p className="ml-2"> {sess.address.location}</p>
-                            </div>
-                          </div>
-                        ))}
+
+                        <div className="d-flex ">
+                          <FieldTimeOutlined className="mt-1" />
+                          <p className="ml-2"> {item.startTime}</p>
+                        </div>
+
+
 
                         <Button type="primary">Apply</Button>
                       </Card>
-                    </Link>
-                  ) : (
-                    ' '
-                  )}
+                    </ Link>
+                  </div>
+
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+
+
         <div className="orgnization">
           <h1>Organizers </h1>
           <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
@@ -169,11 +211,11 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div>
+      </div >
     );
   }
-}
 
+}
 const mapStateToProps = (state) => {
   return {
     events: state.event.events,

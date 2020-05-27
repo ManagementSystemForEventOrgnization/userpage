@@ -38,7 +38,6 @@ class PreviewEvent extends React.Component {
 
   render() {
     const { blocks } = this.props;
-    console.log(blocks);
 
     return <div>{blocks.map((item) => this.renderBlocks(item))}</div>;
   }
@@ -47,7 +46,6 @@ class PreviewEvent extends React.Component {
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   id: state.event.id,
-  page: state.event.page,
   dropContainerHtml: state.event.dropContainerHtml,
 });
 

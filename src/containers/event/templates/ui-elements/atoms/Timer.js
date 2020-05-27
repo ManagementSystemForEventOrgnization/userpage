@@ -6,6 +6,7 @@ import { buttonWidth, Option } from '../../constants/atom.constant';
 import { TimerState } from '../stateInit/TimerState';
 
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../shares/IconsHandle';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -101,6 +102,21 @@ class Timer extends React.Component {
       ]);
     }
   };
+
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { key, style, editable } = this.props;
     const {
@@ -122,16 +138,13 @@ class Timer extends React.Component {
           marginBottom: bottomButton,
           alignContent: 'center',
           backgroundColor,
+          width: '100%',
         };
 
     return (
       <div className="container" key={this.props.key}>
-        <div
-          key={key}
-          style={divStyle}
-          onClick={() => this.onChangeValue(true, 'visible')}
-        >
-          <div className="row border border-primary ml-0 mr-0">
+        <div key={key} style={divStyle} className="d-flex ">
+          <div className="row border border-primary  flex-fill mr-1">
             <div className="col">
               <h2> {this.state.days} </h2>
               days
@@ -149,7 +162,18 @@ class Timer extends React.Component {
               seconds
             </div>
           </div>
+
+          {editable && (
+            <div className="ml-auto ">
+              <IconsHandle
+                collapseModal={() => this.onChangeValue(true, 'visible')}
+                handleDuplicate={this.handleDuplicate}
+                handleDelete={this.handleDelete}
+              />
+            </div>
+          )}
         </div>
+
         {editable && (
           <Modal
             title="Text"
@@ -278,5 +302,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

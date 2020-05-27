@@ -115,17 +115,28 @@ const getCategories = () => {
   }
 };
 
-const savePage = (route, blocks, editable) => {
+const savePage = (pages, currentPage, blocks) => {
   return (dispatch) => {
-    dispatch(request(route, blocks, editable));
+    dispatch(request(pages, currentPage, blocks));
   };
-  function request(route, innerHtml, editable) {
-    // need to update
+  function request(pages, currentPage, blocks) {
     return {
       type: eventConstants.SAVE_PAGE,
-      route,
-      innerHtml,
-      editable,
+      pages,
+      currentPage,
+      blocks,
+    };
+  }
+};
+
+const getPreviousPage = (currentPage) => {
+  return (dispatch) => {
+    dispatch(request(currentPage));
+  };
+  function request(currentPage) {
+    return {
+      type: eventConstants.GET_PREVIOUS_PAGE,
+      currentPage,
     };
   }
 };
@@ -257,7 +268,8 @@ const deleteBlock = (id) => {
 const getListEvent = () => {
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/getListEvent`)
+    API.get(`/api/getListEvent`,
+    )
       .then((res) => {
         if (res.status === 200) {
           console.log('data:', res.data.result);
@@ -315,4 +327,5 @@ export const eventActions = {
   updatePage,
   getEventEdit,
   getHomeData,
+  getPreviousPage,
 };

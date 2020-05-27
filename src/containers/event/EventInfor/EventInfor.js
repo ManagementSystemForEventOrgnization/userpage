@@ -21,13 +21,13 @@ class EventInfor extends Component {
     super(props);
     this.state = {
       nameEvent: '',
-      typeOfEvent: '',
+      typeOfEvent: 'Public',
       category: '',
-      quantity: 100,
       session: [],
       isSellTicket: 'No',
       webAddress: '',
       isFirstLoad: true,
+      banner: '/bg-2.jpg',
     };
   }
 
@@ -43,20 +43,20 @@ class EventInfor extends Component {
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
       webAddress,
+      banner,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
     prepareForCreateEvent(
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
-      webAddress
+      webAddress,
+      banner
     );
     this.setState({
       isFirstLoad: false,
@@ -69,17 +69,25 @@ class EventInfor extends Component {
     if (session.length === 0) {
       return false;
     }
+
     for (let index in session) {
       if (Object.keys(session[index].address).length === 0) {
         return false;
       }
+      if (!session[index].quantity) {
+        return false;
+      }
+      if (session[index].documents.length !== 0) {
+        isValid = session[index].documents.every((ele) => ele.title && ele.url);
+      }
+
       if (session[index].detail.length !== 0) {
-        isValid = session[index].detail.every(
-          (ele) => ele.from && ele.to && ele.description
-        );
+        isValid = session[index].detail.every((ele) => {
+          console.log(ele);
+          return ele.from && ele.to && ele.description;
+        });
       }
     }
-
     return isValid;
   };
 
@@ -87,19 +95,18 @@ class EventInfor extends Component {
     const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
-      quantity,
       isSellTicket,
       webAddress,
       category,
       typeOfEvent,
       isFirstLoad,
+      banner,
     } = this.state;
 
     const next =
       nameEvent &&
-      quantity &&
-      webAddress &&
       category &&
+      webAddress &&
       typeOfEvent &&
       this.isSessionValid();
 
@@ -139,22 +146,6 @@ class EventInfor extends Component {
           <TabPane
             tab={
               <span className="p-5">
-                <InfoCircleTwoTone />
-                Which
-              </span>
-            }
-            key="2"
-          >
-            <Which
-              quantity={quantity}
-              isSellTicket={isSellTicket}
-              onChange={this.onChange}
-            />
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span className="p-5">
                 <HourglassTwoTone />
                 When
               </span>
@@ -162,6 +153,23 @@ class EventInfor extends Component {
             key="3"
           >
             <When onChange={this.onChange} />
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span className="p-5">
+                <InfoCircleTwoTone />
+                Which
+              </span>
+            }
+            key="2"
+          >
+            <Which
+              isSellTicket={isSellTicket}
+              onChange={this.onChange}
+              typeOfEvent={typeOfEvent}
+              banner={banner}
+            />
           </TabPane>
         </Tabs>
         <hr className="shadow border-bottom" />
@@ -200,20 +208,20 @@ const mapDispatchToProps = (dispatch) => ({
     nameEvent,
     typeOfEvent,
     category,
-    quantity,
     session,
     isSellTicket,
-    webAddress
+    webAddress,
+    banner
   ) =>
     dispatch(
       eventActions.prepareForCreateEvent(
         nameEvent,
         typeOfEvent,
         category,
-        quantity,
         session,
         isSellTicket,
-        webAddress
+        webAddress,
+        banner
       )
     ),
 });

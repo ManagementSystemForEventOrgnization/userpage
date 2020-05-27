@@ -206,9 +206,22 @@ const user = (state = initialState, action) => {
         ...state,
         arrEvent: action.arrEvent,
         errMessage: null,
+        isLogined: true,
       };
 
     case userConstants.GET_HISTORY_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+      };
+    case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        notifications: action.notifications,
+        errMessage: null,
+      };
+
+    case userConstants.GET_LIST_NOTIFICATION_FAILURE:
       return {
         ...state,
         errMessage: action.error,

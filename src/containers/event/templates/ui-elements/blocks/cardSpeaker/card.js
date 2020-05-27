@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { Card } from 'antd';
 import { v4 as uuid } from 'uuid';
 
-import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+import {
+  PlusCircleTwoTone,
+  MinusCircleTwoTone,
+  DeleteTwoTone,
+} from '@ant-design/icons';
 
 import Text from '../../atoms/Text';
 import Image from '../../atoms/Image';
@@ -70,6 +74,13 @@ class CardBlock extends React.Component {
     setTimeout(this.handleStoreBlock(), 3000);
   };
 
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;
@@ -99,7 +110,12 @@ class CardBlock extends React.Component {
                 hoverable
                 style={{ height: 300 }}
                 cover={
-                  <Image url={item.url} editable={editable} height={height} />
+                  <Image
+                    url={item.url}
+                    editable={editable}
+                    height={height}
+                    child={true}
+                  />
                 }
               >
                 <Meta
@@ -122,13 +138,19 @@ class CardBlock extends React.Component {
           <div className="icons-handle ml-auto">
             <PlusCircleTwoTone
               style={iconStyle}
-              className="mt-3"
+              className="mt-2"
               onClick={this.addCard}
             />
             <MinusCircleTwoTone
               style={iconStyle}
-              className="mt-3"
+              className="mt-2"
               onClick={this.removeCard}
+            />
+
+            <DeleteTwoTone
+              style={iconStyle}
+              className="mt-2"
+              onClick={this.handleDelete}
             />
           </div>
         )}
@@ -145,5 +167,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CardBlock);
