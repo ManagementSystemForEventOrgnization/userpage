@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Input, Select, DatePicker, Card, Pagination } from 'antd';
+import { Input, Select, DatePicker, Card, Pagination, Skeleton, Tooltip, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import { FieldTimeOutlined, EnvironmentOutlined } from '@ant-design/icons';
-
+import { FieldTimeOutlined, EnvironmentOutlined, UserOutlined, } from '@ant-design/icons';
+import moment from 'moment';
 import { userActions } from '../../action/user.action';
 
 const { Search } = Input;
@@ -31,26 +31,21 @@ class HistoryProfile extends React.Component {
       pageNumber: 1,
       numberRecord: 10,
       categories: this.props.categories,
-      arrEvent:
-        this.props.arrEvent !== null
-          ? this.props.arrEvent
-          : [
-            {
-              _id: 1,
-              events: [
-                {
-                  urlWeb: src,
-                  name: 'Nâng Cao Nghiệp Vụ Hướng Dẫn Viên Châu Âu',
-                  startTime: 'T2, 13 Tháng 4 2020 3:00 PM',
-                  address:
-                    '02 Tôn Đức Thắng Street,Bến Nghé Ward, Quận 1, Thành Phố Hồ Chí Minh',
-                },
-              ],
-            },
-          ],
+      arrEvent: this.props.arrEvent
+
     };
   }
+  componentDidMount = () => {
+    const { get_History, getCreateHistory, match } = this.props;
 
+    if (match.location.pathname === '/registered-event') {
+      get_History();
+    }
+    else {
+      getCreateHistory();
+    }
+
+  }
   handleChange = (categoryEventId) => {
     this.setState({
       categoryEventId,
@@ -58,23 +53,25 @@ class HistoryProfile extends React.Component {
     this.handleFilter();
   };
 
-  onChangeDates = (dates, dateStrings) => {
-    console.log('From: ', dates[0], ', to: ', dates[1]);
+  onChangeDates = (dates) => {
     this.setState({
-      startDate: dateStrings[0],
-      endDate: dateStrings[1],
+      startDate: dates[0]._d,
+      endDate: dates[1]._d,
     });
     this.handleFilter();
+
+
   };
 
-  onChangeSearch = (value) => {
-    console.log(value);
-    this.setState({
-      txtSearch: value,
-    });
-
+  onChangeSearch = () => {
     this.handleFilter();
+
   };
+  handleChangeSearch = e => {
+    this.setState({
+      txtSearch: e.target.value
+    })
+  }
 
   onChange = (pageNumber) => {
     this.setState({
@@ -83,7 +80,7 @@ class HistoryProfile extends React.Component {
     this.handleFilter();
   };
   handleFilter = () => {
-    const { get_History, arrEvent } = this.props;
+    const { get_History, getCreateHistory, match } = this.props;
     const {
       categoryEventId,
       startDate,
@@ -92,23 +89,37 @@ class HistoryProfile extends React.Component {
       pageNumber,
       numberRecord,
     } = this.state;
-    get_History(
-      categoryEventId,
-      startDate,
-      endDate,
-      txtSearch,
-      pageNumber,
-      numberRecord
-    );
-    if (arrEvent !== null) {
-      this.setState({ arrEvent });
+    console.log('before filter', startDate, endDate);
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        categoryEventId,
+        startDate,
+        endDate,
+        txtSearch,
+        pageNumber,
+        numberRecord
+      );
     }
+    else {
+      getCreateHistory(
+        categoryEventId,
+        startDate,
+        endDate,
+        txtSearch,
+        pageNumber,
+        numberRecord
+      );
+
+    }
+
+
+
   };
 
   render() {
-    const { categories, arrEvent } = this.state;
-    console.log("TEV:", arrEvent);
-
+    const { categories } = this.state;
+    const { pending, arrEvent } = this.props;
+    console.log('match', this.props.match);
     return (
       <div className="history">
         <div className="row">
@@ -117,6 +128,7 @@ class HistoryProfile extends React.Component {
               format="YYYY-MM-DD "
               onChange={this.onChangeDates}
               onOk={this.onOk}
+
             />
           </div>
           <div className="col ">
@@ -130,41 +142,84 @@ class HistoryProfile extends React.Component {
           </div>
           <div className="col ">
             <Search
+              value={this.state.txtSearch}
               placeholder="input search text"
-              onSearch={(value) => this.onChangeSearch(value)}
+              onChange={this.handleChangeSearch}
+
+              onSearch={this.onChangeSearch}
             />
           </div>
         </div>
-        <div className="row ">
-          {arrEvent.map((item, index) => (
-            <div key={index} className="col mt-4">
-              {item.events.map((event) => (
-                <Link to="">
-                  <Card
-                    className="event-cart"
-                    cover={
-                      <img className="img" alt="example" src={event.urlWeb} />
-                    }
-                  >
-                    <b>{event.name}</b>
-                    <div className="d-flex">
-                      <FieldTimeOutlined className="mt-1" />
-                      <p className="ml-2"> {event.startTime}</p>
-                    </div>
-                    <div className="d-flex">
-                      <EnvironmentOutlined className="mt-1" />
-                      <p className="ml-2"> {event.address}</p>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
+        {pending ?
+          <Skeleton />
+          : <div>
+            <div className="row pl-5 ">
+              {arrEvent.map((item, index) =>
+                < div className="row mt-4 ml-5  shadow pb-3" key={index} >
+                  <div className="col">
+                    < Link to="">
+                      <Card
+                        className="event-cart"
+                        cover={
+                          <img
+                            className="img"
+                            alt="example"
+                            src={item.urlWeb}
+                          />
+                        }
+                      >
+                        <div className="d-flex ">
+                          <Tooltip placement="bottomLeft" title={
+                            item.session ?
+                              item.session.map(e =>
+                                <div>
+                                  <div className="d-flex ">
+                                    <FieldTimeOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.day}</p>
+                                  </div>
+                                  <div className="d-flex ">
+                                    <EnvironmentOutlined className="mt-1" />
+                                    <p className="ml-2"> {e.address.location}</p>
+                                  </div>
+                                </div>
+
+                              )
+                              : "No have start time events "
+                          }>
+                            <h4 >{item.name}</h4>
+                          </Tooltip>
+
+                          <div className="d-flex mt-1">
+                            <UserOutlined className="mt-1 ml-2" />
+                            <p className="ml-1 mt-1">{item.limitNumber}</p>
+                          </div>
+                        </div>
+
+                        <div className="d-flex ">
+                          <FieldTimeOutlined className="mt-1" />
+                          <p className="ml-2"> {item.startTime}</p>
+                        </div>
+
+
+
+                        <Button type="primary">Apply</Button>
+                      </Card>
+                    </ Link>
+                  </div>
+
+
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-        <div className="mt-5" style={{ textAlign: 'center' }}>
-          <Pagination onChange={this.onChange} defaultCurrent={1} total={500} />
-        </div>
-      </div>
+            <div className="mt-5" style={{ textAlign: 'center' }}>
+              <Pagination onChange={this.onChange} defaultCurrent={1} total={500} />
+            </div>
+          </div>
+
+        }
+
+
+      </div >
     );
   }
 }
@@ -173,6 +228,7 @@ const mapStateToProps = (state) => ({
   // map state of store to props
   categories: state.event.categories,
   arrEvent: state.user.arrEvent,
+  pending: state.user.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -194,6 +250,25 @@ const mapDispatchToProps = (dispatch) => ({
         numberRecord
       )
     ),
+  getCreateHistory: (
+    categoryEventId,
+    startDate,
+    endDate,
+    txtSearch,
+    pageNumber,
+    numberRecord
+  ) =>
+    dispatch(
+      userActions.getCreateHistory(
+        categoryEventId,
+        startDate,
+        endDate,
+        txtSearch,
+        pageNumber,
+        numberRecord
+      )
+    ),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryProfile);

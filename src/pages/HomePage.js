@@ -27,17 +27,17 @@ class HomePage extends Component {
     };
   }
 
-  componentDidMount = () => {
-    const { getListEvent } = this.props;
+  // componentDidMount = () => {
+  //   const { getListEvent } = this.props;
 
-    getListEvent();
+  //   getListEvent();
 
-  };
+  // };
 
   render() {
     // const { events } = this.props;
 
-    const events = this.props.events ? this.props.events : []
+    // const events = this.props.events ? this.props.events : []
 
 
 
@@ -63,7 +63,7 @@ class HomePage extends Component {
           <h1>Highlight Events</h1>
           <EventList></EventList>
         </div>
-
+        {/* 
         <div className="list-event">
           <div className="up-coming pl-2">
             <h1 className="">Upcoming Events </h1>
@@ -190,7 +190,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-
+ */}
 
 
         <div className="orgnization">
@@ -218,12 +218,12 @@ class HomePage extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    events: state.event.events,
+    // events: state.event.events,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getListEvent: () => dispatch(eventActions.getListEvent()),
+  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 

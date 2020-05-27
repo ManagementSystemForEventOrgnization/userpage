@@ -254,36 +254,36 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = () => {
-  //api/getListEvent
-  return (dispatch) => {
-    API.get(`/api/getListEvent`,
-    )
-      .then((res) => {
-        if (res.status === 200) {
-          console.log('data:', res.data.result);
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure());
-        }
-      })
-      .catch((error) => {
-        dispatch(failure());
-      });
-  };
+// const getListEvent = () => {
+//   //api/getListEvent
+//   return (dispatch) => {
+//     API.get(`/api/getListEvent`,
+//     )
+//       .then((res) => {
+//         if (res.status === 200) {
+//           console.log('data:', res.data.result);
+//           dispatch(success(res.data.result));
+//         } else {
+//           dispatch(failure());
+//         }
+//       })
+//       .catch((error) => {
+//         dispatch(failure());
+//       });
+//   };
 
-  function success(events) {
-    return {
-      type: eventConstants.GET_LIST_EVENT_SUCCESS,
-      events,
-    };
-  }
-  function failure() {
-    return {
-      type: eventConstants.GET_LIST_EVENT_FAILURE,
-    };
-  }
-};
+//   function success(events) {
+//     return {
+//       type: eventConstants.GET_LIST_EVENT_SUCCESS,
+//       events,
+//     };
+//   }
+//   function failure() {
+//     return {
+//       type: eventConstants.GET_LIST_EVENT_FAILURE,
+//     };
+//   }
+// };
 
 const getHomeData = () => {
   return (dispatch) =>
@@ -311,7 +311,7 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
-  getListEvent,
+
   savePage,
   updatePage,
   getEventEdit,

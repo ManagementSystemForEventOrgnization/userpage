@@ -8,8 +8,9 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
-  arrEvent: null,
+  arrEvent: [],
   notifications: [],
+
 };
 
 const user = (state = initialState, action) => {
@@ -23,11 +24,9 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
-      if (action.user.isActive) {
-        localStorage.setItem('isLogined', true);
-        localStorage.setItem('username', action.user.fullName);
-        localStorage.setItem('avatar', action.user.avatar);
-      }
+      localStorage.setItem('isLogined', true);
+      localStorage.setItem('username', action.user.fullName);
+      localStorage.setItem('avatar', action.user.avatar);
 
       return {
         ...state,
@@ -69,7 +68,6 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: null,
-        active: null,
       };
 
     case userConstants.REGISTER_SUCCESS:
@@ -201,17 +199,26 @@ const user = (state = initialState, action) => {
         pending: false,
         errMessage: action.error,
       };
+    case userConstants.GET_HISTORY_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+
+      };
     case userConstants.GET_HISTORY_SUCCESS:
       return {
         ...state,
         arrEvent: action.arrEvent,
+        pending: false,
         errMessage: null,
-        isLogined: true,
+
       };
 
     case userConstants.GET_HISTORY_FAILURE:
       return {
         ...state,
+        pending: true,
         errMessage: action.error,
       };
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
@@ -226,6 +233,28 @@ const user = (state = initialState, action) => {
         ...state,
         errMessage: action.error,
       };
+      case userConstants.GET_HISTORY_CREATE_REQUEST:
+        return {
+          ...state,
+          pending: true,
+          errMessage: null,
+  
+        };
+      case userConstants.GET_HISTORY_CREATE_SUCCESS:
+        return {
+          ...state,
+          arrEvent: action.arrEvent,
+          pending: false,
+          errMessage: null,
+  
+        };
+  
+      case userConstants.GET_HISTORY_CREATE_FAILURE:
+        return {
+          ...state,
+          pending: true,
+          errMessage: action.error,
+        };
     default:
       return state;
   }
