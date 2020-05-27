@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
 import { MailTwoTone, PhoneTwoTone } from '@ant-design/icons';
 
 import Text from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../../shares/IconsHandle';
 
 class ContactUs2 extends Component {
   constructor(props) {
@@ -43,6 +43,20 @@ class ContactUs2 extends Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { editable } = this.props;
     const { margin, padding, textAlign } = this.state;
@@ -67,9 +81,9 @@ class ContactUs2 extends Component {
     };
 
     return (
-      <div className="child-block" style={blockStyle}>
-        <Row>
-          <Col span={12}>
+      <div className="child-block d-flex" style={blockStyle}>
+        <div className="row flex-fill">
+          <div className="col-6 col-sm-6">
             <MailTwoTone style={iconStyle} />
             <Text
               child={true}
@@ -77,8 +91,8 @@ class ContactUs2 extends Component {
               newStyle={textStyle}
               editable={editable}
             />
-          </Col>
-          <Col span={12}>
+          </div>
+          <div className="col-6 col-sm-6">
             <PhoneTwoTone style={iconStyle} />
             <Text
               child={true}
@@ -87,8 +101,18 @@ class ContactUs2 extends Component {
               leftModal={true}
               editable={editable}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
+
+        {editable && (
+          <div className="ml-auto">
+            <IconsHandle
+              collapseModal={this.collapseModal}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -101,6 +125,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactUs2);

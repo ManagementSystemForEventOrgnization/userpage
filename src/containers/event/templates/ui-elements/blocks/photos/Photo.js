@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+import {
+  PlusCircleTwoTone,
+  MinusCircleTwoTone,
+  DeleteTwoTone,
+} from '@ant-design/icons';
 import { v4 as uuid } from 'uuid';
 
 import ImageBlock from '../../atoms/Image';
@@ -82,6 +86,13 @@ class Photo extends Component {
     }
   };
 
+  deleteBlock = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { margin, padding, list } = this.state;
     const { editable } = this.props;
@@ -102,7 +113,12 @@ class Photo extends Component {
         <div className="row d-flex justify-content-around">
           {list.map((item) => (
             <div className="col-sm-3" key={item.id}>
-              <ImageBlock url={item.url} height={high} leftModal={true} />
+              <ImageBlock
+                url={item.url}
+                height={high}
+                leftModal={true}
+                child={true}
+              />
             </div>
           ))}
         </div>
@@ -111,13 +127,19 @@ class Photo extends Component {
           <div className="icons-handle ml-auto">
             <PlusCircleTwoTone
               style={iconStyle}
-              className="mt-3"
+              className="mt-2"
               onClick={this.addPhoto}
             />
             <MinusCircleTwoTone
               style={iconStyle}
-              className="mt-3"
+              className="mt-2"
               onClick={this.removePhoto}
+            />
+
+            <DeleteTwoTone
+              style={iconStyle}
+              className="mt-2"
+              onClick={this.deleteBlock}
             />
           </div>
         )}
@@ -133,6 +155,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photo);

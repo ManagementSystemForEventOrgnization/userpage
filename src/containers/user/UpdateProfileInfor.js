@@ -7,7 +7,6 @@ import { userActions } from 'action/user.action';
 import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
 const { Option } = Select;
 
-
 class ProfileInfor extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,8 @@ class ProfileInfor extends Component {
       validEmail: true,
       orgPhone: true,
       phone: true,
-      isGetData: true
+      isGetData: true,
+      isSaved: false
     };
   }
 
@@ -43,14 +43,13 @@ class ProfileInfor extends Component {
     if (prevState.isGetData && nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
       return {
         userInfor: nextProps.userInfor,
-        isGetData: false
+        isGetData: false,
       };
     } else return null;
   }
 
   //onchange value
   onHandleChange = (event) => {
-    console.log(this.state);
     const { name, value } = event.target;
     this.setState({
       userInfor: {
@@ -58,9 +57,7 @@ class ProfileInfor extends Component {
         [name]: value,
       },
     });
-    console.log(this.state);
   };
-  //end onchange value
 
   onChangePhoneNumber = (e) => {
     const re = /^[0-9\b]+$/;
@@ -68,11 +65,11 @@ class ProfileInfor extends Component {
     this.setState({
       userInfor: {
         ...this.state.userInfor,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       },
-      [e.target.name]: !e.target.value === '' || re.test(e.target.value)
-    })
-  }
+      [e.target.name]: !e.target.value === '' || re.test(e.target.value),
+    });
+  };
 
   onChangeEmail = (e) => {
     this.setState({
@@ -81,47 +78,69 @@ class ProfileInfor extends Component {
         orgEmail: e.target.value
       }
     })
-    console.log(this.state)
   }
 
   onChangeGender = (e) => {
     this.setState({
       userInfor: {
         ...this.state.userInfor,
-        gender: e
-      }
-    })
-  }
+        gender: e,
+      },
+    });
+  };
 
   onChangeBirthday = (e) => {
-    console.log(e._d);
     this.setState({
       userInfor: {
         ...this.state.userInfor,
-        birthday: e._d
-      }
-    })
-  }
+        birthday: e._d,
+      },
+    });
+  };
 
   onSave(values) {
-    console.log(this.state.userInfor)
-    console.log(this.props.userInfor)
     const { onUpdateUserProfile } = this.props;
     const { userInfor } = this.state;
+
     if (onUpdateUserProfile) {
-      onUpdateUserProfile(userInfor);
+      onUpdateUserProfile(userInfor)
+    }
+
+    this.setState({
+      isSaved: true
+    })
+
+  }
+
+  errorHandle() {
+    if (this.props.errMessage)
+      return (<div class="alert alert-danger" role="alert" enable>
+        {this.props.errMessage}ss
+      </div>)
+    if (this.state.isSaved && !this.props.pending) {
+      return (< div class="alert alert-success" role="alert">
+        Save changes sucessfully
+      </div>)
+    }
+    if (JSON.stringify(this.state.userInfor) === JSON.stringify(this.props.userInfor)) {
+      return (
+        <div class="alert alert-danger" role="alert" enable>
+          there is no changes! please
+         </div>
+      )
     }
   }
 
   render() {
     const { userInfor } = this.state;
-    const { pending } = this.props
+    const { pending } = this.props;
     const onFinish = (values) => {
       this.props.onUpdateUserProfile(...this.state.userInfor);
     };
 
     return (
       <div className="ProfileInfor p-5 border">
+        {this.errorHandle()}
         {/* start form */}
         <Form initialValues={{ remember: true }} onFinish={onFinish}>
           {/* personal infor */}
@@ -131,7 +150,10 @@ class ProfileInfor extends Component {
               <Form.Item name="fullName">
                 <Input
                   prefix={
-                    <a className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <i
+                      className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"
+                      href="#"
+                    />
                   }
                   name="fullName"
                   placeholder="Full name"
@@ -143,7 +165,7 @@ class ProfileInfor extends Component {
               <Form.Item name="job">
                 <Input
                   prefix={
-                    <a className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <i className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
                   }
                   placeholder="Job"
                   name="job"
@@ -155,7 +177,7 @@ class ProfileInfor extends Component {
               <Form.Item name="phone">
                 <Input
                   prefix={
-                    <a className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
+                    <i className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
                   }
                   placeholder="Phone number"
                   name="phone"
@@ -164,12 +186,19 @@ class ProfileInfor extends Component {
                 />
                 {this.state.phone || userInfor.phone === '' ? (
                   <div></div>
-                ) : (<div className="text-danger">Invalid Phone Number</div>)}
+                ) : (
+                    <div className="text-danger">Invalid Phone Number</div>
+                  )}
               </Form.Item>
             </div>
             <div className="col">
-              <UploadImage url={userInfor.avatar}
-                handleImageDrop={(value) => { this.setState({ userInfor: { ...this.state.userInfor, avatar: value } }) }}
+              <UploadImage
+                url={userInfor.avatar}
+                handleImageDrop={(value) => {
+                  this.setState({
+                    userInfor: { ...this.state.userInfor, avatar: value },
+                  });
+                }}
               />
             </div>
           </div>
@@ -190,14 +219,19 @@ class ProfileInfor extends Component {
             </Form.Item>
 
             <Form.Item className="col m-2" name="date-picker">
-              <DatePicker placeholder="Birthday" name="birthday" onChange={this.onChangeBirthday} defaultValue={moment(userInfor.birthday, 'YYYY-MM-DD')} />
+              <DatePicker
+                placeholder="Birthday"
+                name="birthday"
+                onChange={this.onChangeBirthday}
+                defaultValue={moment(userInfor.birthday, 'YYYY-MM-DD')}
+              />
             </Form.Item>
           </div>
 
           <Form.Item name="address">
             <Input
               prefix={
-                <a className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
+                <i className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Address"
               name="address"
@@ -225,7 +259,7 @@ class ProfileInfor extends Component {
             <Form.Item className="col m-2" name="">
               <Input
                 prefix={
-                  <a className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
+                  <i className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
                 }
                 placeholder="Organization name"
                 name="orgName"
@@ -251,7 +285,7 @@ class ProfileInfor extends Component {
           <Form.Item name="orgPhone">
             <Input
               prefix={
-                <a className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
+                <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Organization phone number"
               name="orgPhone"
@@ -260,15 +294,15 @@ class ProfileInfor extends Component {
             />
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
-            ) : (<div className="text-danger">Invalid Phone Number</div>)}
-
+            ) : (
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
           </Form.Item>
 
           <Form.Item name="orgEmail">
-
             <Input
               prefix={
-                <a className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />
+                <i className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />
               }
               placeholder="Organization Email"
               name="orgEmail"
@@ -277,7 +311,9 @@ class ProfileInfor extends Component {
             />
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
-            ) : (<div className="text-danger">Invalid Email</div>)}
+            ) : (
+                <div className="text-danger">Invalid Email</div>
+              )}
           </Form.Item>
 
           <Form.Item>
@@ -297,19 +333,27 @@ class ProfileInfor extends Component {
                   block
                   type="primary"
                   htmlType="submit "
-                  disabled={!(this.state.validEmail || this.state.userInfor.orgEmail === '') || !(this.state.phone || userInfor.phone === '') || !(this.state.orgPhone || userInfor.orgPhone === '') || this.state.userInfor === this.props.userInfor}
+                  disabled={
+                    !(
+                      this.state.validEmail ||
+                      this.state.userInfor.orgEmail === ''
+                    ) ||
+                    !(this.state.phone || userInfor.phone === '') ||
+                    !(this.state.orgPhone || userInfor.orgPhone === '') ||
+                    this.state.userInfor === this.props.userInfor
+                  }
                   onClick={(value) => this.onSave(value)}
                   loading={pending}
                 >
                   Save
-                  </Button>
+                </Button>
               </div>
             )}
           </Form.Item>
           {/* end organization */}
         </Form>
         {/* end form */}
-      </div>
+      </div >
     );
   }
 }
@@ -318,6 +362,7 @@ const mapStateToProps = (state) => {
   return {
     pending: state.user.pending,
     userInfor: state.user.userInfo,
+    errMessage: state.user.errMessage
   };
 };
 
@@ -327,4 +372,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfor);
-

@@ -223,7 +223,7 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log(userInfor);
+  console.log('TCL :', userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
@@ -349,7 +349,6 @@ const getListNotification = () => {
   return (dispatch) => {
     API.get('api/getListNotification')
       .then((res) => {
-        console.log('TLC,', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {

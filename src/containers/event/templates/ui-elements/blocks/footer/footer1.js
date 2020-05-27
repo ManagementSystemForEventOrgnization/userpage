@@ -57,6 +57,20 @@ class footer1 extends Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { editable } = this.props;
     const { collapse, padding, url, bgColor, opacity, margin } = this.state;
@@ -121,7 +135,12 @@ class footer1 extends Component {
                 newStyle={titleStyle}
               />
               <span className="mt-3">
-                <ButtonsBlock content="+458 669 221" newStyle={styleButton} />
+                <ButtonsBlock
+                  content="+458 669 221"
+                  newStyle={styleButton}
+                  child={true}
+                  editable={editable}
+                />
               </span>
             </div>
 
@@ -190,6 +209,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(footer1);

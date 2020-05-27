@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
+import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -100,6 +100,13 @@ class CommentEvent extends Component {
     }
   };
 
+  deleteBlock = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const {
       margin,
@@ -163,16 +170,12 @@ class CommentEvent extends Component {
         </div>
 
         {editable && (
-          <div className="icons-handle">
-            <PlusCircleTwoTone
+          <div className="icons-handle ml-auto">
+            <EditTwoTone style={iconStyle} />
+            <DeleteTwoTone
               style={iconStyle}
               className="mt-3"
-              onClick={this.addPhoto}
-            />
-            <MinusCircleTwoTone
-              style={iconStyle}
-              className="mt-3"
-              onClick={this.removePhoto}
+              onClick={this.deleteBlock}
             />
           </div>
         )}
@@ -189,6 +192,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentEvent);

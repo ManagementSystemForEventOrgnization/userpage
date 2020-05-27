@@ -6,6 +6,7 @@ import PaddingAndMargin from '../shares/PaddingAndMargin';
 import UploadImage from '../shares/UploadImage';
 import { ImageState } from '../stateInit/ImageState';
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../shares/IconsHandle';
 
 const { TabPane } = Tabs;
 
@@ -74,6 +75,20 @@ class ImageBlock extends React.Component {
     }
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const {
       uploadedFileCloudinaryUrl,
@@ -84,7 +99,7 @@ class ImageBlock extends React.Component {
       borderRadius,
     } = this.state;
 
-    const { leftModal, editable } = this.props;
+    const { leftModal, editable, child } = this.props;
 
     const imageStyle = {
       width: `${width}%`,
@@ -105,12 +120,18 @@ class ImageBlock extends React.Component {
 
     return (
       <div className="image-block child-block">
-        <img
-          style={imageStyle}
-          alt="img"
-          src={uploadedFileCloudinaryUrl}
-          onClick={this.collapseModal}
-        />
+        <div className="d-flex">
+          <img style={imageStyle} alt="img" src={uploadedFileCloudinaryUrl} />
+          {editable && !child && (
+            <div className="ml-auto">
+              <IconsHandle
+                collapseModal={this.collapseModal}
+                handleDuplicate={this.handleDuplicate}
+                handleDelete={this.handleDelete}
+              />
+            </div>
+          )}
+        </div>
 
         {editable && (
           <Modal
@@ -217,6 +238,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageBlock);

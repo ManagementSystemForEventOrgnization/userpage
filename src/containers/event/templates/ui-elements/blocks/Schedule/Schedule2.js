@@ -111,6 +111,19 @@ class Schedule2 extends Component {
 
   handleRequestApplyEvent = (ss) => {};
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
   render() {
     // need to refactor
     const {
@@ -223,6 +236,8 @@ class Schedule2 extends Component {
                   </div>
                   <div className=" mt-5 col">
                     <ButtonBlock
+                      child={true}
+                      editable={editable}
                       content={schedule.buttonText}
                       handleApplyEvent={true && this.handleRequestApplyEvent}
                       handleOnChangeButtonTextBlock={(value) =>
@@ -324,6 +339,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule2);

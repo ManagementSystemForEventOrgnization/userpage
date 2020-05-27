@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Button } from 'antd';
 import { Button } from 'react-bootstrap';
+import { v4 as uuid } from 'uuid';
 
-import DropContainer from './templates/DropContainer';
-import Header from '../share/_layout/Header';
-import MenuBlockList from './MenuBlockList';
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
-import HeaderBlock from './templates/ui-elements/blocks/Header';
+
+import DropContainer from './templates/DropContainer';
+import Header from 'containers/share/_layout/Header';
+import MenuBlockList from './MenuBlockList';
+import NavigationMenu from './NavigationMenu';
+import EditableHeader from './Header';
 
 class CreateEvent extends React.Component {
   constructor(props) {
@@ -16,17 +18,60 @@ class CreateEvent extends React.Component {
     this.state = {
       collapsed: false,
       editable: true,
-      currentRoute: 'home',
+      currentIndex: 0,
+      currentPage: props.currentPage,
     };
   }
 
-  componentDidMount = () => {
-    // using to test apply event
-    // need to remove after completely
+  getCurrentIndex = () => {
+    const { pages, currentPage } = this.props;
+    let temp = 0;
+    for (let index in pages) {
+      if (pages[index].child.length === 0 && pages[index].id === currentPage) {
+        temp = index;
+        break;
+      } else {
+        for (let i in pages[index].child) {
+          if (pages[index].child[i].id === currentPage) {
+            temp = index;
+            break;
+          }
+        }
+      }
+    }
+    this.setState({
+      currentIndex: +temp,
+      currentPage: currentPage,
+    });
+  };
 
-    const { getCurrentUser } = this.props;
-    if (getCurrentUser) {
-      getCurrentUser();
+  getNextId = () => {
+    const { pages } = this.props;
+    const { currentIndex } = this.state;
+    if (pages[currentIndex + 1].child.length === 0) {
+      return pages[currentIndex + 1].id;
+    }
+    return pages[currentIndex + 1].child[0].id;
+  };
+
+  getNextIdChild = () => {
+    const { pages, currentPage } = this.props;
+    const { currentIndex } = this.state;
+    const index = pages[currentIndex].child.findIndex(
+      (item) => item.id === currentPage
+    );
+    return index === pages[currentIndex].child.length - 1
+      ? this.getNextId()
+      : pages[currentIndex].child[index + 1].id;
+  };
+
+  componentDidMount = () => {
+    this.getCurrentIndex();
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      this.getCurrentIndex();
     }
   };
 
@@ -36,36 +81,85 @@ class CreateEvent extends React.Component {
     });
   };
 
-  handleSavePage = () => {
-    const { savePage } = this.props;
-    const { currentRoute } = this.state;
+  onHandleNext = () => {
+    const { pages, handleChangeHeader, blocks, currentPage } = this.props;
+    const { currentIndex } = this.state;
+    let newPageId = '';
 
-    this.setState({
-      editable: false,
-    });
-    this.forceUpdate();
+    if (currentIndex === pages.length - 1) {
+      if (pages[currentIndex].child.length === 0) {
+        newPageId = uuid();
+        pages.push({
+          id: newPageId,
+          title: 'New Page',
+          child: [],
+        });
+      } else {
+        const index = pages[currentIndex].child.findIndex(
+          (item) => item.id === currentPage
+        );
 
-    const data = document.getElementById('drop-container');
-
-    savePage(currentRoute, data.outerHTML, this.state.editable);
+        if (index === pages[currentIndex].child.length - 1) {
+          newPageId = uuid();
+          pages.push({
+            id: newPageId,
+            title: 'New Page',
+            child: [],
+          });
+        } else {
+          newPageId = pages[currentIndex].child[index + 1].id;
+        }
+      }
+    } else {
+      if (pages[currentIndex].child.length === 0) {
+        newPageId = this.getNextId();
+      } else newPageId = this.getNextIdChild();
+    }
+    handleChangeHeader(pages, newPageId, blocks);
   };
 
-  handleSaveEvent = () => {
-    // const { saveEvent, blocks, id, unEditableHtml } = this.props;
-    // const headerHtml = document.getElementById('header-block');
-    // saveEvent(
-    //   blocks,
-    //   id ? id : '5eb2889d5da55d2fa4b78ced',
-    //   unEditableHtml,
-    //   true,
-    //   headerHtml.outerHTML
-    // );
+  handleSaveEvent = () => {};
+
+  getPreviousId = () => {
+    const { pages } = this.props;
+    const { currentIndex } = this.state;
+    if (pages[currentIndex - 1].child.length === 0) {
+      return pages[currentIndex - 1].id;
+    } else {
+      const length = pages[currentIndex - 1].child.length;
+      return pages[currentIndex - 1].child[length - 1].id;
+    }
   };
 
-  handleBack = () => {};
+  getPreviousChildId = () => {
+    const { pages, currentPage } = this.props;
+    const { currentIndex } = this.state;
+
+    const index = pages[currentIndex].child.findIndex(
+      (item) => item.id === currentPage
+    );
+    if (index === 0) {
+      return this.getPreviousId();
+    }
+    return pages[currentIndex].child[index - 1].id;
+  };
+
+  handleBack = () => {
+    const { pages, handlePreviousPage } = this.props;
+    const { currentIndex } = this.state;
+    let newPageId = '';
+
+    if (pages[currentIndex].child.length === 0) {
+      newPageId = this.getPreviousId();
+    } else {
+      newPageId = this.getPreviousChildId();
+    }
+
+    handlePreviousPage(newPageId);
+  };
 
   render() {
-    const { collapsed, editable } = this.state;
+    const { collapsed, editable, currentIndex } = this.state;
     const { id, match } = this.props;
     const textStyle = {
       color: 'white',
@@ -116,12 +210,12 @@ class CreateEvent extends React.Component {
             }
           >
             <div id="header-block">
-              <HeaderBlock
-                key="header"
-                id="header"
-                editable={false}
-                match={match}
-              />
+              <EditableHeader editable={editable} />
+
+              <div className="d-flex">
+                <p className="mr-2">Current page : </p>
+                <NavigationMenu />
+              </div>
             </div>
             <DropContainer match={match} editable={editable} />
           </div>
@@ -131,17 +225,18 @@ class CreateEvent extends React.Component {
           <Button
             variant="info"
             className="mr-1 ml-1"
-            onClick={this.handleSavePage}
+            onClick={this.onHandleNext}
           >
-            Next
+            Next Page
           </Button>
 
           <Button
             variant="secondary"
             className="mr-1 ml-1"
             onClick={this.handleBack}
+            disabled={currentIndex === 0}
           >
-            Back
+            Previous Page
           </Button>
         </div>
       </div>
@@ -153,7 +248,8 @@ const mapStateToProps = (state) => ({
   id: state.event.id,
   pending: state.event.pending,
   blocks: state.event.blocks,
-  unEditableHtml: state.event.unEditableHtml,
+  pages: state.event.pages,
+  currentPage: state.event.currentPage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -162,16 +258,11 @@ const mapDispatchToProps = (dispatch) => ({
 
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 
-  saveEvent: (block, eventId, unEditableHtml, isPreview, headerHtml) =>
-    dispatch(
-      eventActions.saveEvent(
-        block,
-        eventId,
-        unEditableHtml,
-        isPreview,
-        headerHtml
-      )
-    ),
+  handleChangeHeader: (pages, currentPage, blocks) =>
+    dispatch(eventActions.savePage(pages, currentPage, blocks)),
+
+  handlePreviousPage: (currentPage) =>
+    dispatch(eventActions.getPreviousPage(currentPage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
