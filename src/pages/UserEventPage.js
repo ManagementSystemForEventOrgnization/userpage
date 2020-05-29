@@ -10,7 +10,7 @@ export default class UserEventPage extends Component {
                 <div className="fixed-top">
                     <Header />
                 </div>
-                <HistoryProfile></HistoryProfile>
+                <HistoryProfile match={this.props.match}></HistoryProfile>
                 <Footer />
             </div>
         )

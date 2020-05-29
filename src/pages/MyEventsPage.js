@@ -12,7 +12,7 @@ class ProfilePage extends Component {
   };
 
   render() {
-    console.log(this.props.userInfor)
+    // console.log(this.props.userInfor)
     return (
       <div className="ProfileInfor mt-5 p-3 row">
         <div className=" col-3">

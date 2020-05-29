@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Tooltip } from 'antd';
+import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Header from '../containers/share/_layout/Header';
@@ -11,36 +11,26 @@ import EventList from '../containers/share/EventList';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 /// import sessionCard from '../components/CardSession'
-import {
-  FieldTimeOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 
 import { eventActions } from '../action/event.action';
 class HomePage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    };
+    this.state = {};
   }
 
-  componentDidMount = () => {
-    const { getListEvent } = this.props;
+  // componentDidMount = () => {
+  //   const { getListEvent } = this.props;
 
-    getListEvent();
+  //   getListEvent();
 
-  };
+  // };
 
   render() {
     // const { events } = this.props;
 
-    const events = this.props.events ? this.props.events : []
-
-
-
+    // const events = this.props.events ? this.props.events : []
 
     const orgnizations = {
       name: 'Orgnization 1',
@@ -63,7 +53,7 @@ class HomePage extends Component {
           <h1>Highlight Events</h1>
           <EventList></EventList>
         </div>
-
+        {/* 
         <div className="list-event">
           <div className="up-coming pl-2">
             <h1 className="">Upcoming Events </h1>
@@ -190,8 +180,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-
-
+ */}
 
         <div className="orgnization">
           <h1>Organizers </h1>
@@ -211,19 +200,18 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
   }
-
 }
 const mapStateToProps = (state) => {
   return {
-    events: state.event.events,
+    // events: state.event.events,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getListEvent: () => dispatch(eventActions.getListEvent()),
+  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 

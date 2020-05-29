@@ -12,6 +12,7 @@ const handleCatch = (dispatch, call, err) => {
         history.push('/');
       }
     }
+    dispatch(call('OPPs! Something wrong'));
   } else {
     dispatch(call('OPPs! Something wrong'));
   }

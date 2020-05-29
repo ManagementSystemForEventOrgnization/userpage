@@ -223,7 +223,7 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log(userInfor);
+  console.log('TCL :', userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
@@ -255,28 +255,88 @@ const get_History = (
   numberRecord
 ) => {
   return (dispatch) => {
+    dispatch(request());
     let dataSent = {};
     if (categoryEventId !== ' ') {
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
     }
-    console.log(startDate);
-    if (startDate !== '') {
+    console.log(startDate, endDate);
+    if (startDate !== '' && endDate !== ' ') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
     }
-
-    if (txtSearch.trim() !== '') {
+    console.log(startDate, endDate);
+    if (txtSearch !== " ") {
       dataSent.txtSearch = txtSearch;
+      dataSent.pageNumber = pageNumber;
     }
 
-    API.get(`/api/user/history`, dataSent)
+
+    API.get(`/api/user/history`, {
+      params: dataSent
+
+    })
       .then((res) => {
+        console.log("THT:", res.data.result)
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
+  function request() {
+    return { type: userConstants.GET_HISTORY_REQUEST };
+  }
+
+  function success(arrEvent) {
+    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORY_FAILURE, error };
+  }
+};
+
+const getCreateHistory = (
+  categoryEventId,
+  startDate,
+  endDate,
+  txtSearch,
+  pageNumber,
+  numberRecord
+) => {
+  return (dispatch) => {
+    dispatch(request());
+    let dataSent = {};
+    if (categoryEventId !== ' ') {
+      dataSent.categoryEventId = categoryEventId;
+      dataSent.pageNumber = pageNumber;
+    }
+    console.log(startDate, endDate);
+    if (startDate !== '' && endDate !== ' ') {
+      dataSent.startDate = startDate;
+      dataSent.endDate = endDate;
+      dataSent.pageNumber = pageNumber;
+    }
+    console.log(startDate, endDate);
+    if (txtSearch !== " ") {
+      dataSent.txtSearch = txtSearch;
+      dataSent.pageNumber = pageNumber;
+    }
+
+
+    API.get(`/api/user/historyCreate`, {
+      params: dataSent
+
+    })
+      .then((res) => {
+        console.log("THT:", res.data.result)
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+  function request() {
+    return { type: userConstants.GET_HISTORY_REQUEST };
+  }
 
   function success(arrEvent) {
     return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
@@ -289,7 +349,6 @@ const getListNotification = () => {
   return (dispatch) => {
     API.get('api/getListNotification')
       .then((res) => {
-        console.log('TLC,', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {
@@ -317,4 +376,5 @@ export const userActions = {
   requestForgotPassword,
   get_History,
   getListNotification,
+  getCreateHistory
 };

@@ -79,17 +79,17 @@ class WrapRouter extends React.Component {
       {
         path: '/registered-event',
         exact: true,
-        main: () => <UserEventPage />,
+        main: (match) => <UserEventPage match={match} />,
       },
-      {
-        path: '/participated-event',
-        exact: true,
-        main: () => <UserEventPage />,
-      },
+      // {
+      //   path: '/participated-event',
+      //   exact: true,
+      //   main: (match) => <UserEventPage match={match} />,
+      // },
       {
         path: '/created-event',
         exact: true,
-        main: () => <UserEventPage />,
+        main: (match) => <UserEventPage match={match} />,
       },
       {
         path: '/create',

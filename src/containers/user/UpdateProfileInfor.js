@@ -35,15 +35,12 @@ class ProfileInfor extends Component {
       orgPhone: true,
       phone: true,
       isGetData: true,
+      isSaved: false
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      prevState.isGetData &&
-      nextProps.userInfor &&
-      nextProps.userInfor !== prevState.userInfor
-    ) {
+    if (prevState.isGetData && nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
       return {
         userInfor: nextProps.userInfor,
         isGetData: false,
@@ -53,7 +50,6 @@ class ProfileInfor extends Component {
 
   //onchange value
   onHandleChange = (event) => {
-    console.log(this.state);
     const { name, value } = event.target;
     this.setState({
       userInfor: {
@@ -61,9 +57,7 @@ class ProfileInfor extends Component {
         [name]: value,
       },
     });
-    console.log(this.state);
   };
-  //end onchange value
 
   onChangePhoneNumber = (e) => {
     const re = /^[0-9\b]+$/;
@@ -81,11 +75,10 @@ class ProfileInfor extends Component {
     this.setState({
       validEmail: EmailValidator.validate(e.target.value),
       userInfor: {
-        orgEmail: e.target.value,
-      },
-    });
-    console.log(this.state);
-  };
+        orgEmail: e.target.value
+      }
+    })
+  }
 
   onChangeGender = (e) => {
     this.setState({
@@ -97,7 +90,6 @@ class ProfileInfor extends Component {
   };
 
   onChangeBirthday = (e) => {
-    console.log(e._d);
     this.setState({
       userInfor: {
         ...this.state.userInfor,
@@ -107,12 +99,35 @@ class ProfileInfor extends Component {
   };
 
   onSave(values) {
-    console.log(this.state.userInfor);
-    console.log(this.props.userInfor);
     const { onUpdateUserProfile } = this.props;
     const { userInfor } = this.state;
+
     if (onUpdateUserProfile) {
-      onUpdateUserProfile(userInfor);
+      onUpdateUserProfile(userInfor)
+    }
+
+    this.setState({
+      isSaved: true
+    })
+
+  }
+
+  errorHandle() {
+    if (this.props.errMessage)
+      return (<div class="alert alert-danger" role="alert" enable>
+        {this.props.errMessage}ss
+      </div>)
+    if (this.state.isSaved && !this.props.pending) {
+      return (< div class="alert alert-success" role="alert">
+        Save changes sucessfully
+      </div>)
+    }
+    if (JSON.stringify(this.state.userInfor) === JSON.stringify(this.props.userInfor)) {
+      return (
+        <div class="alert alert-danger" role="alert" enable>
+          there is no changes! please
+         </div>
+      )
     }
   }
 
@@ -125,6 +140,7 @@ class ProfileInfor extends Component {
 
     return (
       <div className="ProfileInfor p-5 border">
+        {this.errorHandle()}
         {/* start form */}
         <Form initialValues={{ remember: true }} onFinish={onFinish}>
           {/* personal infor */}
@@ -171,8 +187,8 @@ class ProfileInfor extends Component {
                 {this.state.phone || userInfor.phone === '' ? (
                   <div></div>
                 ) : (
-                  <div className="text-danger">Invalid Phone Number</div>
-                )}
+                    <div className="text-danger">Invalid Phone Number</div>
+                  )}
               </Form.Item>
             </div>
             <div className="col">
@@ -279,8 +295,8 @@ class ProfileInfor extends Component {
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Phone Number</div>
-            )}
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
           </Form.Item>
 
           <Form.Item name="orgEmail">
@@ -296,8 +312,8 @@ class ProfileInfor extends Component {
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Email</div>
-            )}
+                <div className="text-danger">Invalid Email</div>
+              )}
           </Form.Item>
 
           <Form.Item>
@@ -337,7 +353,7 @@ class ProfileInfor extends Component {
           {/* end organization */}
         </Form>
         {/* end form */}
-      </div>
+      </div >
     );
   }
 }
@@ -346,6 +362,7 @@ const mapStateToProps = (state) => {
   return {
     pending: state.user.pending,
     userInfor: state.user.userInfo,
+    errMessage: state.user.errMessage
   };
 };
 
