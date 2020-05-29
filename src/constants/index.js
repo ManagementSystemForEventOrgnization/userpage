@@ -71,6 +71,7 @@ export const eventConstants = {
   STORE_HEADER_STYLE: 'STORE_HEADER_STYLE',
 
   CHANGE_CURRENT_PAGE: 'CHANGE_CURRENT_PAGE',
+  CHANGE_PAGES: 'CHANGE_PAGES',
 };
 
 export const applyEventConstants = {

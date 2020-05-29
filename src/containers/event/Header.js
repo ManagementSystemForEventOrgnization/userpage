@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Menu, Modal, Tabs } from 'antd';
-import SubMenu from 'antd/lib/menu/SubMenu';
+import { v4 as uuid } from 'uuid';
+import { Menu, Modal, Tabs, Input, Button } from 'antd';
 import { connect } from 'react-redux';
-import { EditTwoTone } from '@ant-design/icons';
+import { EditTwoTone, PlusOutlined } from '@ant-design/icons';
+import { eventActions } from 'action/event.action';
+import { Link } from 'react-router-dom';
 
 import EditText from './templates/ui-elements/shares/EditText';
 import { HeaderState } from './templates/ui-elements/stateInit/HeaderState';
 import PaddingAndMargin from './templates/ui-elements/shares/PaddingAndMargin';
 import ChangeColorModal from './templates/ui-elements/shares/ChangeColorModal';
-import { eventActions } from 'action/event.action';
-import { Link } from 'react-router-dom';
+
 const { TabPane } = Tabs;
+const { SubMenu } = Menu;
 
 class Header extends Component {
   constructor(props) {
@@ -21,6 +23,11 @@ class Header extends Component {
       : {
           ...HeaderState(this.props),
           isCollapsed: false,
+          currentItem: {
+            id: '',
+            title: '',
+            child: [],
+          },
         };
   }
 
@@ -29,6 +36,7 @@ class Header extends Component {
     const currentStyle = this.state;
     if (editable) {
       storeStyleHeader(currentStyle);
+      this.currentItem();
     }
   };
 
@@ -54,14 +62,83 @@ class Header extends Component {
   };
 
   handleClickMenuItem = (item) => {
-    // console.log('Header click : ', item);
     const { changeCurrentPage } = this.props;
     changeCurrentPage(item.id);
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      this.currentItem();
+    }
+  };
+
+  currentItem = () => {
+    const { currentPage, pages } = this.props;
+    for (let index in pages) {
+      if (pages[index].child.length === 0) {
+        if (pages[index].id === currentPage) {
+          this.setState({
+            currentItem: pages[index],
+          });
+        }
+      } else {
+        const childIndex = pages[index].child.findIndex(
+          (item) => item.id === currentPage
+        );
+        if (childIndex !== -1) {
+          this.setState({
+            currentItem: pages[index],
+          });
+        }
+      }
+    }
+  };
+
+  handleAddNewChild = (currentItem) => {
+    const { pages, changePages, currentPage } = this.props;
+    const index = pages.findIndex((item) => item.id === currentItem.id);
+    const newPages = [...pages];
+    const newChildId = uuid();
+    if (currentItem.child.length === 0) {
+      newPages[index].child.push({
+        id: newChildId,
+        title: 'New Item',
+      });
+      changePages(newPages, newChildId);
+    } else {
+      newPages[index].child.push({
+        id: uuid(),
+        title: 'New Item',
+      });
+      changePages(newPages, currentPage);
+    }
+  };
+
+  handleChangeHeaderItem = (value, child) => {
+    const { pages, currentPage, changePages } = this.props;
+    let newPages = [...pages];
+
+    let { currentItem } = this.state;
+    if (!child) {
+      currentItem.title = value;
+    } else {
+      const childIndex = currentItem.child.findIndex(
+        (item) => item.id === child.id
+      );
+      currentItem.child[childIndex].title = value;
+    }
+
+    const pageIndex = newPages.findIndex((item) => item.id === currentItem.id);
+    newPages[pageIndex] = currentItem;
+    changePages(newPages, currentPage);
+    this.setState(currentItem);
+  };
+
   render() {
     const { pages, currentPage, editable } = this.props;
-    const id = this.props.id || '5ece70ae695f320470fb4753';
+    const { currentItem } = this.state;
+    const id = this.props.id || localStorage.getItem('currentId');
+
     const {
       isCollapsed,
       fonts,
@@ -78,6 +155,10 @@ class Header extends Component {
     } = this.state;
     const iconStyle = {
       fontSize: '20px',
+    };
+
+    const inputInModalStyle = {
+      width: '200px',
     };
 
     const divStyle = {
@@ -102,6 +183,7 @@ class Header extends Component {
       fontWeight: fontWeight,
       width: '100 %',
     };
+
     return (
       <div className="d-flex">
         <Menu
@@ -171,7 +253,48 @@ class Header extends Component {
             onCancel={this.collapsedModal}
           >
             <Tabs defaultActiveKey="1">
-              <TabPane tab="Text" key="1"></TabPane>
+              <TabPane tab="Text" key="1">
+                <div>
+                  <div className="d-flex">
+                    <p className="mr-5">Parent </p>
+                    <Input
+                      value={currentItem.title}
+                      size="small"
+                      style={inputInModalStyle}
+                      onChange={(e) =>
+                        this.handleChangeHeaderItem(e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <Button
+                    shape="round"
+                    className="mt-5"
+                    onClick={() => this.handleAddNewChild(currentItem)}
+                  >
+                    <PlusOutlined /> Add child
+                  </Button>
+
+                  {currentItem.child.length !== 0 && (
+                    <div className="pl-5">
+                      {currentItem.child.map((item) => (
+                        <div className="d-flex mt-2" key={item.id}>
+                          <p className="mr-5">Child </p>
+                          <Input
+                            value={item.title}
+                            size="small"
+                            disabled={currentPage !== item.id}
+                            style={inputInModalStyle}
+                            onChange={(e) =>
+                              this.handleChangeHeaderItem(e.target.value, item)
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </TabPane>
 
               <TabPane tab="Style" key="2">
                 <EditText
@@ -245,6 +368,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeStyleHeader: (style) => dispatch(eventActions.storeHeaderStyle(style)),
   changeCurrentPage: (id) => dispatch(eventActions.changeCurrentPage(id)),
+  changePages: (pages, currentPage) =>
+    dispatch(eventActions.changePages(pages, currentPage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

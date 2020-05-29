@@ -37,19 +37,6 @@ const getEventDetail = (eventId, index) => {
   }
 };
 
-const changeCurrentPage = (id) => {
-  return (dispatch) => {
-    return dispatch(request(id));
-  };
-
-  function request(currentPage) {
-    return {
-      type: eventConstants.CHANGE_CURRENT_PAGE,
-      currentPage,
-    };
-  }
-};
-
 const getEventEdit = (eventId, route) => {
   return (dispatch) => {
     API.get(`/api/getPageEventEdit`, {
@@ -301,7 +288,7 @@ const getHomeData = () => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id || '5ece70ae695f320470fb4753';
+  const eventId = id;
 
   return (dispatch) => {
     dispatch(request());
@@ -310,9 +297,6 @@ const saveEvent = (id, blocks, header, isPreview) => {
         console.log('TCL Save event detail  THEN: ', res);
         dispatch(success());
         localStorage.removeItem('currentIndex');
-        // if(!isPreview){
-        //     history.push(`/event/${eventId}`)
-        // }
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
@@ -346,6 +330,33 @@ const storeHeaderStyle = (style) => {
   }
 };
 
+const changeCurrentPage = (id) => {
+  return (dispatch) => {
+    return dispatch(request(id));
+  };
+
+  function request(currentPage) {
+    return {
+      type: eventConstants.CHANGE_CURRENT_PAGE,
+      currentPage,
+    };
+  }
+};
+
+const changePages = (pages, currentPage) => {
+  return (dispatch) => {
+    return dispatch(request(pages, currentPage));
+  };
+
+  function request(pages, currentPage) {
+    return {
+      type: eventConstants.CHANGE_PAGES,
+      pages,
+      currentPage,
+    };
+  }
+};
+
 export const eventActions = {
   prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
@@ -362,4 +373,5 @@ export const eventActions = {
   getPreviousPage,
   storeHeaderStyle,
   changeCurrentPage,
+  changePages,
 };

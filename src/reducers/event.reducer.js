@@ -39,20 +39,6 @@ const initialState = {
       title: 'Home',
       child: [],
     },
-    {
-      id: uuid(),
-      title: 'About',
-      child: [
-        {
-          id: uuid(),
-          title: 'About organization',
-        },
-        {
-          id: uuid(),
-          title: 'About us',
-        },
-      ],
-    },
   ],
   currentPage: initialPageId,
   system: [],
@@ -112,16 +98,6 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.err,
-        // nameEvent: '',
-        // typeOfEvent: '',
-        // category: '',
-        // quantity: 0,
-        // address: '',
-        // locationName: '',
-        // map: {},
-        // time: {},
-        // isSellTicket: 'Không',
-        // webAddress: '',
       };
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
@@ -278,6 +254,12 @@ const event = (state = initialState, action) => {
         currentIndex: getIndexPage(state.pages, action.currentPage),
       };
 
+    case eventConstants.CHANGE_PAGES:
+      return {
+        ...state,
+        pages: action.pages,
+        currentPage: action.currentPage,
+      };
     default:
       return state;
   }
