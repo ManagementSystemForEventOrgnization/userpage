@@ -192,8 +192,6 @@ class CreateEvent extends React.Component {
           >
             <a
               href={id ? `/event/${id}` : `event/${this.props.id}`}
-              //   target="_blank"
-              //   rel="noopener noreferrer"
               style={textStyle}
             >
               Finish
@@ -218,8 +216,8 @@ class CreateEvent extends React.Component {
           <div
             className={
               collapsed
-                ? '  mt-1 drop-area  mb-5 move-right p-3'
-                : ' mt-1 drop-area  mb-5 p-3'
+                ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
+                : ' mt-1 drop-area  mb-5 p-3 ml-auto'
             }
           >
             <div id="header-block">

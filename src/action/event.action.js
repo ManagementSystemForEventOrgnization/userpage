@@ -176,25 +176,25 @@ const prepareForCreateEvent = (
   }
 
   function success(
-    _id,
+    id,
     nameEvent,
     typeOfEvent,
     category,
-    quantity,
     session,
     isSellTicket,
-    webAddress
+    webAddress,
+    banner
   ) {
     return {
       type: eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS,
-      _id,
+      id,
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
       webAddress,
+      banner,
     };
   }
 

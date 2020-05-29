@@ -8,15 +8,15 @@ const initialBlocks = [
   dataTest[1].value[1],
   ...dataTest[2].value,
   ...dataTest[3].value,
-  ...dataTest[4].value,
+  dataTest[4].value[0],
   ...dataTest[5].value,
   ...dataTest[6].value,
   dataTest[7].value[0],
   ...dataTest[8].value,
   ...dataTest[9].value,
-  ...dataTest[10].value,
-  ...dataTest[11].value,
+  dataTest[10].value[0],
   dataTest[12].value[0],
+  dataTest[11].value[0],
 ];
 const initialState = {
   nameEvent: '',
@@ -83,7 +83,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        id: action._id,
+        id: action.id,
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
@@ -196,6 +196,7 @@ const event = (state = initialState, action) => {
         ...state,
         events: action.events,
       };
+
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {
         ...state,

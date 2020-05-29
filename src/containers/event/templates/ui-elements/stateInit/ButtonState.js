@@ -5,18 +5,19 @@ const ButtonState = (props) => ({
   isButton: false,
 
   borderWidthButton: 1,
-  borderColorButton: 'black',
+  borderColorButton: '#40a9ff',
   borderStyle: 'solid',
 
   margin: [1, 1, 1, 1],
   padding: [1, 1, 1, 1],
 
-  background: 'white',
+  background: '#40a9ff',
+
   color: props.style
     ? props.style.color
       ? props.style.color
-      : 'black'
-    : 'black',
+      : '#fff'
+    : '#fff',
 
   fontSize: props.style
     ? props.style.fontSize
@@ -25,12 +26,13 @@ const ButtonState = (props) => ({
     : 20,
   fonts: 'Times New Roman',
   lineText: 80,
+
   letterSpacing: 0,
   textAlign: props.style
     ? props.style.textAlign
       ? props.style.textAlign
-      : 'left'
-    : 'left',
+      : 'center'
+    : 'center',
   tranform: ' ',
 
   fontWeight: props.style
@@ -38,7 +40,11 @@ const ButtonState = (props) => ({
       ? props.style.fontWeight
       : 'normal'
     : 'normal',
-  borderRadius: 1,
+  borderRadius: 2,
+  display: 'inline-block',
+  whiteSpace: 'nowrap',
+  touchAction: 'manipulation',
+  height: '38px',
 });
 
 export { ButtonState };

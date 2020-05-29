@@ -69,13 +69,14 @@ const PLAINOPTIONS = [
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
-    const { style, session } = this.props;
+    const { style, session, banner } = this.props;
 
+    console.log(banner);
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style }
         : {
-            url: '/bg-3.jpg',
+            url: banner || '/bg-3.jpg',
             visible: false,
             margin: [1, 1, 1, 1],
             padding: [10, 5, 5, 10],
@@ -346,6 +347,7 @@ class GeneralBanner extends Component {
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   userInfo: state.user.userInfo,
+  banner: state.event.banner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
