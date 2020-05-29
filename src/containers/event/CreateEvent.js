@@ -118,7 +118,19 @@ class CreateEvent extends React.Component {
     handleChangeHeader(pages, newPageId, blocks);
   };
 
-  handleSaveEvent = () => {};
+  handleSaveEvent = (isPreview) => {
+    const { id, blocks, system, pages, saveEvent, headerStyle } = this.props;
+
+    const header = [
+      {
+        pages,
+        type: 'header',
+        style: headerStyle,
+      },
+    ];
+
+    saveEvent(id, [...system, blocks], header, isPreview);
+  };
 
   getPreviousId = () => {
     const { pages } = this.props;
@@ -160,7 +172,8 @@ class CreateEvent extends React.Component {
 
   render() {
     const { collapsed, editable, currentIndex } = this.state;
-    const { id, match } = this.props;
+    const { match } = this.props;
+    const id = localStorage.getItem('currentId');
     const textStyle = {
       color: 'white',
     };
@@ -175,21 +188,21 @@ class CreateEvent extends React.Component {
           <Button
             className="mr-5 ml-1"
             variant="primary"
-            onClick={this.handleSaveEvent}
+            onClick={() => this.handleSaveEvent(false)}
           >
             <a
-              href={id ? `/event/${id}` : 'event/5eb259b562bd742fe41c1205'}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={id ? `/event/${id}` : `event/${this.props.id}`}
+              //   target="_blank"
+              //   rel="noopener noreferrer"
               style={textStyle}
             >
               Finish
             </a>
           </Button>
 
-          <Button variant="success" onClick={this.handleSaveEvent}>
+          <Button variant="success" onClick={() => this.handleSaveEvent(true)}>
             <a
-              href={id ? `/preview/${id}` : 'preview/5eb259b562bd742fe41c1205'}
+              href={id ? `/preview/${id}` : `preview/${this.props.id}`}
               target="_blank"
               style={textStyle}
               rel="noopener noreferrer"
@@ -250,11 +263,13 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   pages: state.event.pages,
   currentPage: state.event.currentPage,
+  headerStyle: state.event.headerStyle,
+  system: state.event.system,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  savePage: (route, innerHtml, editable) =>
-    dispatch(eventActions.savePage(route, innerHtml, editable)),
+  savePage: (eventId, blocks, header, isPreview) =>
+    dispatch(eventActions.savePage(eventId, blocks, header, isPreview)),
 
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 
@@ -263,6 +278,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   handlePreviousPage: (currentPage) =>
     dispatch(eventActions.getPreviousPage(currentPage)),
+
+  saveEvent: (eventId, blocks, header, isPreview) =>
+    dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

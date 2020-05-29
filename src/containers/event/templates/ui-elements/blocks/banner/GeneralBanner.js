@@ -72,7 +72,7 @@ class GeneralBanner extends Component {
     const { style, session } = this.props;
 
     this.state =
-      style && style !== {}
+      style && Object.keys(style).length !== 0
         ? { ...style }
         : {
             url: '/bg-3.jpg',

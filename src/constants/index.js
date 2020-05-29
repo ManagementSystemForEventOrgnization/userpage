@@ -68,6 +68,9 @@ export const eventConstants = {
 
   GET_EVENT_EDIT: 'GET_EVENT_EDIT',
   GET_EVENT_EDIT_FAILURE: 'GET_EVENT_EDIT_FAILURE',
+  STORE_HEADER_STYLE: 'STORE_HEADER_STYLE',
+
+  CHANGE_CURRENT_PAGE: 'CHANGE_CURRENT_PAGE',
 };
 
 export const applyEventConstants = {

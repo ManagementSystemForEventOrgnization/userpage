@@ -16,14 +16,13 @@ const initialBlocks = [
   ...dataTest[9].value,
   ...dataTest[10].value,
   ...dataTest[11].value,
-  ...dataTest[13].value,
   dataTest[12].value[0],
 ];
 const initialState = {
   nameEvent: '',
   typeOfEvent: '',
   category: '',
-  quantity: 0,
+  banner: '',
   session: [],
   isSellTicket: 'Không',
   webAddress: '',
@@ -57,6 +56,7 @@ const initialState = {
   ],
   currentPage: initialPageId,
   system: [],
+  headerStyle: {},
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -101,7 +101,7 @@ const event = (state = initialState, action) => {
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
-        quantity: action.quantity,
+        banner: action.banner,
         session: action.session,
         category: action.category,
         isSellTicket: action.isSellTicket,
@@ -112,16 +112,16 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.err,
-        nameEvent: '',
-        typeOfEvent: '',
-        category: '',
-        quantity: 0,
-        address: '',
-        locationName: '',
-        map: {},
-        time: {},
-        isSellTicket: 'Không',
-        webAddress: '',
+        // nameEvent: '',
+        // typeOfEvent: '',
+        // category: '',
+        // quantity: 0,
+        // address: '',
+        // locationName: '',
+        // map: {},
+        // time: {},
+        // isSellTicket: 'Không',
+        // webAddress: '',
       };
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
@@ -187,6 +187,9 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         blocks: action.page,
+        pages: action.header.pages,
+        headerStyle: action.header.style,
+        currentIndex: action.index,
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
@@ -260,6 +263,19 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         errMessage: action.err,
+      };
+
+    case eventConstants.STORE_HEADER_STYLE:
+      return {
+        ...state,
+        headerStyle: action.headerStyle,
+      };
+
+    case eventConstants.CHANGE_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.currentPage,
+        currentIndex: getIndexPage(state.pages, action.currentPage),
       };
 
     default:

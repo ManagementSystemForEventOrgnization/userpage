@@ -3,23 +3,29 @@ import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
 
-const getEventDetail = (eventId) => {
+const getEventDetail = (eventId, index) => {
   return (dispatch) => {
     API.get(`/api/event`, {
       params: {
         eventId,
+        index,
       },
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        // console.log(res.data.result);
+        const { rows, header } = res.data.result;
+
+        dispatch(success(rows, header[0], index));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
 
-  function success(page) {
+  function success(page, header, index) {
     return {
       type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
       page,
+      header,
+      index,
     };
   }
 
@@ -27,6 +33,19 @@ const getEventDetail = (eventId) => {
     return {
       type: eventConstants.GET_EVENT_DETAIL_FAILURE,
       err,
+    };
+  }
+};
+
+const changeCurrentPage = (id) => {
+  return (dispatch) => {
+    return dispatch(request(id));
+  };
+
+  function request(currentPage) {
+    return {
+      type: eventConstants.CHANGE_CURRENT_PAGE,
+      currentPage,
     };
   }
 };
@@ -55,38 +74,6 @@ const getEventEdit = (eventId, route) => {
   function failure(err) {
     return {
       type: eventConstants.GET_EVENT_EDIT_FAILURE,
-      err,
-    };
-  }
-};
-
-const saveEvent = (block, eventId, isPreview) => {
-  return (dispatch) => {
-    dispatch(request());
-    API.post('/api/save/page_event', {
-      block,
-      eventId,
-      isPreview,
-    })
-      .then((res) => {
-        console.log('TCL Save event detail  THEN: ', res);
-        dispatch(success());
-      })
-      .catch((err) => handleCatch(dispatch, failure, err));
-  };
-  function request() {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL,
-    };
-  }
-  function success() {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL_SUCCESS,
-    };
-  }
-  function failure(err) {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL_FAILURE,
       err,
     };
   }
@@ -159,10 +146,10 @@ const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
   category,
-  quantity,
   session,
   isSellTicket,
-  webAddress
+  webAddress,
+  banner
 ) => {
   return (dispatch) => {
     dispatch(request());
@@ -171,22 +158,23 @@ const prepareForCreateEvent = (
       typeOfEvent,
       category,
       urlWeb: webAddress,
-      limitNumber: quantity,
       session,
       isSellTicket: isSellTicket === 'True' ? true : false,
+      banner,
     })
       .then((res) => {
         const { _id } = res.data.result;
+        localStorage.setItem('currentId', _id);
         dispatch(
           success(
             _id,
             nameEvent,
             typeOfEvent,
             category,
-            quantity,
             session,
             isSellTicket,
-            webAddress
+            webAddress,
+            banner
           )
         );
         history.push('/create');
@@ -268,8 +256,7 @@ const deleteBlock = (id) => {
 const getListEvent = () => {
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/getListEvent`,
-    )
+    API.get(`/api/getListEvent`)
       .then((res) => {
         if (res.status === 200) {
           console.log('data:', res.data.result);
@@ -305,11 +292,56 @@ const getHomeData = () => {
       .catch((err1) => {
         console.log(err1.response);
       });
-
   function success(categories) {
     return {
       type: eventConstants.GET_CATEGORIES_SUCCESS,
       categories,
+    };
+  }
+};
+
+const saveEvent = (id, blocks, header, isPreview) => {
+  const eventId = id || '5ece70ae695f320470fb4753';
+
+  return (dispatch) => {
+    dispatch(request());
+    API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
+      .then((res) => {
+        console.log('TCL Save event detail  THEN: ', res);
+        dispatch(success());
+        localStorage.removeItem('currentIndex');
+        // if(!isPreview){
+        //     history.push(`/event/${eventId}`)
+        // }
+      })
+      .catch((err) => handleCatch(dispatch, failure, err));
+  };
+  function request() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL,
+    };
+  }
+  function success() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_SUCCESS,
+    };
+  }
+  function failure(err) {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_FAILURE,
+      err,
+    };
+  }
+};
+
+const storeHeaderStyle = (style) => {
+  return (dispatch) => {
+    dispatch(request(style));
+  };
+  function request(headerStyle) {
+    return {
+      type: eventConstants.STORE_HEADER_STYLE,
+      headerStyle,
     };
   }
 };
@@ -328,4 +360,6 @@ export const eventActions = {
   getEventEdit,
   getHomeData,
   getPreviousPage,
+  storeHeaderStyle,
+  changeCurrentPage,
 };

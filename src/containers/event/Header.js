@@ -8,6 +8,8 @@ import EditText from './templates/ui-elements/shares/EditText';
 import { HeaderState } from './templates/ui-elements/stateInit/HeaderState';
 import PaddingAndMargin from './templates/ui-elements/shares/PaddingAndMargin';
 import ChangeColorModal from './templates/ui-elements/shares/ChangeColorModal';
+import { eventActions } from 'action/event.action';
+import { Link } from 'react-router-dom';
 const { TabPane } = Tabs;
 
 class Header extends Component {
@@ -23,24 +25,20 @@ class Header extends Component {
   }
 
   componentDidMount = () => {
-    // const { editable } = this.props;
-    // if (editable) {
-    //   this.handleStoreStyleHeader();
-    // }
+    const { editable, storeStyleHeader } = this.props;
+    const currentStyle = this.state;
+    if (editable) {
+      storeStyleHeader(currentStyle);
+    }
   };
 
   onChangeValue(newValue, valueParam) {
+    const { storeStyleHeader } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreStyleHeader(), 3000);
+    setTimeout(storeStyleHeader(this.state), 3000);
   }
-
-  handleStoreStyleHeader = () => {
-    // const currentStyle = this.state;
-    // const { storeStyleHeader } = this.props;
-    // storeStyleHeader(currentStyle);
-  };
 
   checkActive = (child) => {
     const { currentPage } = this.props;
@@ -55,8 +53,15 @@ class Header extends Component {
     });
   };
 
+  handleClickMenuItem = (item) => {
+    // console.log('Header click : ', item);
+    const { changeCurrentPage } = this.props;
+    changeCurrentPage(item.id);
+  };
+
   render() {
     const { pages, currentPage, editable } = this.props;
+    const id = this.props.id || '5ece70ae695f320470fb4753';
     const {
       isCollapsed,
       fonts,
@@ -111,7 +116,16 @@ class Header extends Component {
                 key={item.id}
                 disabled={editable && item.id !== currentPage}
               >
-                {item.title}
+                {editable ? (
+                  item.title
+                ) : (
+                  <Link
+                    to={`/event/${id}/${item.title}`}
+                    onClick={() => this.handleClickMenuItem(item)}
+                  >
+                    {item.title}
+                  </Link>
+                )}
               </Menu.Item>
             ) : (
               <SubMenu
@@ -120,7 +134,18 @@ class Header extends Component {
                 disabled={editable && this.checkActive(item.child)}
               >
                 {item.child.map((child) => (
-                  <Menu.Item key={child.id}>{child.title}</Menu.Item>
+                  <Menu.Item key={child.id}>
+                    {editable ? (
+                      child.title
+                    ) : (
+                      <Link
+                        to={`/event/${id}/${child.title}`}
+                        onClick={() => this.handleClickMenuItem(child)}
+                      >
+                        {child.title}
+                      </Link>
+                    )}
+                  </Menu.Item>
                 ))}
               </SubMenu>
             )
@@ -214,6 +239,12 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
   pages: state.event.pages,
   currentPage: state.event.currentPage,
+  id: state.event.id,
 });
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch) => ({
+  storeStyleHeader: (style) => dispatch(eventActions.storeHeaderStyle(style)),
+  changeCurrentPage: (id) => dispatch(eventActions.changeCurrentPage(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
