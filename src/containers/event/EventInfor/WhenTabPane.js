@@ -8,6 +8,7 @@ import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 
 const { RangePicker } = TimePicker;
 const layout = {
@@ -58,9 +59,11 @@ class TabPane extends Component {
         return;
       }
       selectedDays.push(day);
+
+      const newDay = moment(day).format('DD/MM/YYYY');
       session.push({
         id: uuid(),
-        day,
+        day: newDay,
         address: {},
         quantity: 100,
         name: '',
@@ -243,11 +246,11 @@ class TabPane extends Component {
         {count !== 0 && (
           <Form className="col-6 col-md-6" {...layout}>
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
-            {session.map((ss) => (
+            {session.map((ss, index) => (
               <div className="mt-2" key={ss.id}>
-                <div className="mt-1 mb-1" style={dayStyle}>
-                  {ss.day.toString()}
-                </div>
+                <h6 className="mt-1 mb-2 ml-5" style={dayStyle}>
+                  Session {index + 1} : {ss.day.toString()}
+                </h6>
 
                 <Form.Item
                   name="name"
