@@ -21,7 +21,7 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-          ...ScheduleState(this.props),
+          ...ScheduleState(this.props, 1),
         };
   }
 
@@ -307,7 +307,6 @@ class Schedule1 extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
-  session: state.event.session,
 });
 
 const mapDispatchToProps = (dispatch) => ({

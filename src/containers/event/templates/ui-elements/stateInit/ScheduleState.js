@@ -72,6 +72,28 @@ const ScheduleState = (props) => ({
   //         },
   //       ],
 
-  scheduleText: [...props.session],
+  scheduleText:
+    props.session.length > 0
+      ? [...props.session]
+      : [
+          {
+            id: 1,
+            day: 'dd/mm/yyyy',
+            address: {
+              location: '227 Nguyen Van Cu',
+            },
+            quantity: 1000,
+            name: ' Coffee & Conversation',
+          },
+          {
+            id: 2,
+            day: 'dd/mm/yyyy',
+            address: {
+              location: '227 Nguyen Van Cu',
+            },
+            quantity: 1000,
+            name: ' Coffee & Conversation',
+          },
+        ],
 });
 export { ScheduleState };

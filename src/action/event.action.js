@@ -12,9 +12,9 @@ const getEventDetail = (eventId, index) => {
       },
     })
       .then((res) => {
-        // console.log(res.data.result);
         const { rows, header } = res.data.result;
-
+        localStorage.setItem('currentIndex', index);
+        localStorage.setItem('currentId', eventId);
         dispatch(success(rows, header[0], index));
       })
       .catch((err) => handleCatch(dispatch, failure, err));

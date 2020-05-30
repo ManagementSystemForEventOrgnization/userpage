@@ -63,6 +63,7 @@ class TabPane extends Component {
         day,
         address: {},
         quantity: 100,
+        name: '',
         documents: [
           {
             id: uuid(),
@@ -162,6 +163,16 @@ class TabPane extends Component {
     }
   };
 
+  handleChangeName = (id, value) => {
+    let { session } = this.state;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.name = value;
+      this.handleChangeItemSs(index, item);
+    }
+  };
+
   handleAddDocs = (id) => {
     const { session } = this.state;
     const { onChange } = this.props;
@@ -237,6 +248,22 @@ class TabPane extends Component {
                 <div className="mt-1 mb-1" style={dayStyle}>
                   {ss.day.toString()}
                 </div>
+
+                <Form.Item
+                  name="name"
+                  label="Name"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    value={ss.name}
+                    onChange={(value) => this.handleChangeName(ss.id, value)}
+                  />
+                </Form.Item>
+
                 <Form.Item
                   name="maxQuantity"
                   label="Max quantity"
