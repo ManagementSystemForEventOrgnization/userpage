@@ -48,14 +48,21 @@ class ButtonBlock extends React.Component {
     }
   };
 
-  onCollapseModal = () => {
-    const { handleApplyEvent } = this.props;
-    if (!handleApplyEvent) {
+  handleApplyEvent = () => {
+    const { handleApplyEvent, editable } = this.props;
+    if (!editable && handleApplyEvent) {
+      handleApplyEvent();
+    } else if (editable) {
       const { isDesign } = this.state;
-      this.setState({
-        isDesign: !isDesign,
-      });
-    } else handleApplyEvent();
+      this.setState({ isDesign: !isDesign });
+    }
+  };
+
+  onCollapseModal = () => {
+    const { isDesign } = this.state;
+    this.setState({
+      isDesign: !isDesign,
+    });
   };
   // common function
   onChangeValue(newValue, valueParam) {
@@ -170,6 +177,7 @@ class ButtonBlock extends React.Component {
             className="ml-3"
             style={styleButton}
             value={isButton}
+            onClick={this.handleApplyEvent}
           >
             <span></span>
             {ReactHtmlParser(content)}

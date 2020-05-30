@@ -70,8 +70,6 @@ class GeneralBanner extends Component {
   constructor(props) {
     super(props);
     const { style, session, banner } = this.props;
-
-    console.log(banner);
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style }
@@ -149,7 +147,6 @@ class GeneralBanner extends Component {
     if (!isLogined) {
       history.push('/login');
     } else {
-      console.log('handle apply event');
       this.setState({
         applyEventModal: true,
       });
@@ -271,7 +268,7 @@ class GeneralBanner extends Component {
                 <ButtonBlock
                   editable={editable}
                   child={true}
-                  handleApplyEvent={true && this.handleRequestApplyEvent}
+                  handleApplyEvent={this.handleRequestApplyEvent}
                 />
               </div>
             </div>

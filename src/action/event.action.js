@@ -289,7 +289,7 @@ const getHomeData = () => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id;
+  const eventId = id || localStorage.getItem('currentId');
 
   return (dispatch) => {
     dispatch(request());
@@ -298,6 +298,7 @@ const saveEvent = (id, blocks, header, isPreview) => {
         console.log('TCL Save event detail  THEN: ', res);
         dispatch(success());
         localStorage.removeItem('currentIndex');
+        history.push(`/event/${eventId}`);
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };

@@ -38,7 +38,7 @@ class EventDetail extends React.Component {
     const { id } = this.state;
     const index = localStorage.getItem('currentIndex');
 
-    getEventDetail(id, index || 0);
+    getEventDetail(id, +index || 0);
   };
 
   renderHeader = () => {
@@ -63,9 +63,14 @@ class EventDetail extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.currentIndex !== this.props.currentIndex) {
+    if (
+      prevProps.currentIndex !== undefined &&
+      prevProps.currentIndex !== this.props.currentIndex
+    ) {
       localStorage.setItem('currentIndex', this.props.currentIndex);
+
       const { id, name } = this.props.match.match.params;
+      console.log('changed ', prevProps.currentIndex, this.props.currentIndex);
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
   };
