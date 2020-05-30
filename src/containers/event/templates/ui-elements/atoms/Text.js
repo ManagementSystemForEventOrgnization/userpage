@@ -138,11 +138,13 @@ class TextsBlock extends React.Component {
           {content ? ReactHtmlParser(content) : ''}
         </div>
         {editable && !child && (
-          <IconsHandle
-            collapseModal={() => this.onChangeValue(!visible, 'visible')}
-            handleDuplicate={this.handleDuplicate}
-            handleDelete={this.handleDelete}
-          />
+          <div className="ml-auto">
+            <IconsHandle
+              collapseModal={() => this.onChangeValue(!visible, 'visible')}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          </div>
         )}
         {editable && (
           <Modal

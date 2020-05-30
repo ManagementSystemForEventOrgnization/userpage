@@ -15,6 +15,7 @@
     border: dashed 1px rgb(228, 149, 149);
     padding-top: 1%;
     margin-left: 10% !important;
+    width: 1200px;
 
     transition: right $base-duration ease;
     .icons-handle {
@@ -36,6 +37,7 @@
     }
 
     .child-block {
+      width: 100%;
       &:hover {
         border: dotted 1px rgb(138, 134, 134);
         opacity: 0.9;

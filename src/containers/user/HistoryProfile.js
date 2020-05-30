@@ -1,9 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Input, Select, DatePicker, Card, Pagination, Skeleton, Tooltip, Button } from 'antd';
+import {
+  Input,
+  Select,
+  DatePicker,
+  Card,
+  Pagination,
+  Skeleton,
+  Tooltip,
+  Button,
+} from 'antd';
 import { Link } from 'react-router-dom';
-import { FieldTimeOutlined, EnvironmentOutlined, UserOutlined, } from '@ant-design/icons';
-import moment from 'moment';
+import {
+  FieldTimeOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { userActions } from '../../action/user.action';
 
 const { Search } = Input;
@@ -15,24 +27,19 @@ const { Option } = Select;
 //  }
 
 const { RangePicker } = DatePicker;
-
-const src =
-  'https://res.cloudinary.com/dwt4njhmt/image/upload/v1588052185/por9cvfqtxvzmmdrvlsw.jpg';
 class HistoryProfile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
-      categoryEventId: " ",
-      startDate: "",
-      endDate: " ",
+      categoryEventId: ' ',
+      startDate: '',
+      endDate: ' ',
       txtSearch: '  ',
       pageNumber: 1,
       numberRecord: 10,
       categories: this.props.categories,
-      arrEvent: this.props.arrEvent
-
+      arrEvent: this.props.arrEvent,
     };
   }
   componentDidMount = () => {
@@ -40,12 +47,10 @@ class HistoryProfile extends React.Component {
 
     if (match.location.pathname === '/registered-event') {
       get_History();
-    }
-    else {
+    } else {
       getCreateHistory();
     }
-
-  }
+  };
   handleChange = (categoryEventId) => {
     this.setState({
       categoryEventId,
@@ -59,19 +64,16 @@ class HistoryProfile extends React.Component {
       endDate: dates[1]._d,
     });
     this.handleFilter();
-
-
   };
 
   onChangeSearch = () => {
     this.handleFilter();
-
   };
-  handleChangeSearch = e => {
+  handleChangeSearch = (e) => {
     this.setState({
-      txtSearch: e.target.value
-    })
-  }
+      txtSearch: e.target.value,
+    });
+  };
 
   onChange = (pageNumber) => {
     this.setState({
@@ -99,8 +101,7 @@ class HistoryProfile extends React.Component {
         pageNumber,
         numberRecord
       );
-    }
-    else {
+    } else {
       getCreateHistory(
         categoryEventId,
         startDate,
@@ -109,11 +110,7 @@ class HistoryProfile extends React.Component {
         pageNumber,
         numberRecord
       );
-
     }
-
-
-
   };
 
   render() {
@@ -128,7 +125,6 @@ class HistoryProfile extends React.Component {
               format="YYYY-MM-DD "
               onChange={this.onChangeDates}
               onOk={this.onOk}
-
             />
           </div>
           <div className="col ">
@@ -145,19 +141,19 @@ class HistoryProfile extends React.Component {
               value={this.state.txtSearch}
               placeholder="input search text"
               onChange={this.handleChangeSearch}
-
               onSearch={this.onChangeSearch}
             />
           </div>
         </div>
-        {pending ?
+        {pending ? (
           <Skeleton />
-          : <div>
+        ) : (
+          <div>
             <div className="row pl-5 ">
-              {arrEvent.map((item, index) =>
-                < div className="row mt-4 ml-5  shadow pb-3" key={index} >
+              {arrEvent.map((item, index) => (
+                <div className="row mt-4 ml-5  shadow pb-3" key={index}>
                   <div className="col">
-                    < Link to="">
+                    <Link to="">
                       <Card
                         className="event-cart"
                         cover={
@@ -169,24 +165,29 @@ class HistoryProfile extends React.Component {
                         }
                       >
                         <div className="d-flex ">
-                          <Tooltip placement="bottomLeft" title={
-                            item.session ?
-                              item.session.map(e =>
-                                <div>
-                                  <div className="d-flex ">
-                                    <FieldTimeOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.day}</p>
-                                  </div>
-                                  <div className="d-flex ">
-                                    <EnvironmentOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.address.location}</p>
-                                  </div>
-                                </div>
-
-                              )
-                              : "No have start time events "
-                          }>
-                            <h4 >{item.name}</h4>
+                          <Tooltip
+                            placement="bottomLeft"
+                            title={
+                              item.session
+                                ? item.session.map((e) => (
+                                    <div>
+                                      <div className="d-flex ">
+                                        <FieldTimeOutlined className="mt-1" />
+                                        <p className="ml-2"> {e.day}</p>
+                                      </div>
+                                      <div className="d-flex ">
+                                        <EnvironmentOutlined className="mt-1" />
+                                        <p className="ml-2">
+                                          {' '}
+                                          {e.address.location}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))
+                                : 'No have start time events '
+                            }
+                          >
+                            <h4>{item.name}</h4>
                           </Tooltip>
 
                           <div className="d-flex mt-1">
@@ -200,26 +201,23 @@ class HistoryProfile extends React.Component {
                           <p className="ml-2"> {item.startTime}</p>
                         </div>
 
-
-
                         <Button type="primary">Apply</Button>
                       </Card>
-                    </ Link>
+                    </Link>
                   </div>
-
-
                 </div>
-              )}
+              ))}
             </div>
             <div className="mt-5" style={{ textAlign: 'center' }}>
-              <Pagination onChange={this.onChange} defaultCurrent={1} total={500} />
+              <Pagination
+                onChange={this.onChange}
+                defaultCurrent={1}
+                total={500}
+              />
             </div>
           </div>
-
-        }
-
-
-      </div >
+        )}
+      </div>
     );
   }
 }
@@ -268,7 +266,6 @@ const mapDispatchToProps = (dispatch) => ({
         numberRecord
       )
     ),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryProfile);

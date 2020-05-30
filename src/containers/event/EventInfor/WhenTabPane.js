@@ -281,16 +281,26 @@ class TabPane extends Component {
                       <Input
                         placeholder="Enter title for documents"
                         name={`title${doc.id}`}
-                        onChange={(value) =>
-                          this.handleChangeDoc(ss.id, doc.id, 'title', value)
+                        onChange={(event) =>
+                          this.handleChangeDoc(
+                            ss.id,
+                            doc.id,
+                            'title',
+                            event.target.value
+                          )
                         }
                       />
                       <Input
                         placeholder="Enter link to your document"
                         className="ml-2 mr-2"
                         name={`url${doc.id}`}
-                        onChange={(value) =>
-                          this.handleChangeDoc(ss.id, doc.id, 'url', value)
+                        onChange={(event) =>
+                          this.handleChangeDoc(
+                            ss.id,
+                            doc.id,
+                            'url',
+                            event.target.value
+                          )
                         }
                       />
                       <DeleteOutlined
@@ -328,8 +338,12 @@ class TabPane extends Component {
                         placeholder="description"
                         name={`desc${item.id}`}
                         className="mr-2"
-                        onChange={(value) =>
-                          this.handleChangeDescription(ss.id, item.id, value)
+                        onChange={(event) =>
+                          this.handleChangeDescription(
+                            ss.id,
+                            item.id,
+                            event.target.value
+                          )
                         }
                       />
                       <DeleteOutlined

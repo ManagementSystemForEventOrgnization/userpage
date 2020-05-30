@@ -67,8 +67,7 @@ class EventDescription extends Component {
 
     if (item) {
       const index = blocks.indexOf(item);
-      // item.style = currentStyle;
-      item.style = `${JSON.stringify(currentStyle)}`;
+      item.style = currentStyle;
       storeBlocksWhenCreateEvent([
         ...blocks.slice(0, index),
         item,
@@ -76,6 +75,7 @@ class EventDescription extends Component {
       ]);
     }
   };
+
   render() {
     const { collapse, padding, url, bgColor, opacity, margin } = this.state;
 

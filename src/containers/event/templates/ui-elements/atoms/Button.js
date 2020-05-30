@@ -121,6 +121,10 @@ class ButtonBlock extends React.Component {
       fontWeight,
       isDesign,
       borderStyle,
+      whiteSpace,
+      display,
+      touchAction,
+      height,
     } = this.state;
 
     const divStyle = {
@@ -152,6 +156,10 @@ class ButtonBlock extends React.Component {
       borderWidth: `${borderWidthButton}px`,
       borderRadius: `${borderRadius}%`,
       borderStyle: borderStyle,
+      whiteSpace,
+      display,
+      touchAction,
+      height,
     };
 
     return (

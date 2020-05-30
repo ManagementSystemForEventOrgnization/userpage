@@ -83,7 +83,6 @@ class EventInfor extends Component {
 
       if (session[index].detail.length !== 0) {
         isValid = session[index].detail.every((ele) => {
-          console.log(ele);
           return ele.from && ele.to && ele.description;
         });
       }

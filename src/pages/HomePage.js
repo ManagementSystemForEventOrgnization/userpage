@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
+import {
 
+  FieldTimeOutlined, UserOutlined, EnvironmentOutlined
+} from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
@@ -11,20 +14,13 @@ import EventList from '../containers/share/EventList';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 /// import sessionCard from '../components/CardSession'
-import {
-  FieldTimeOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 
 import { eventActions } from '../action/event.action';
 class HomePage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   componentDidMount = () => {
@@ -95,12 +91,14 @@ class HomePage extends Component {
                   < Link to="">
                     <Card
                       className="event-cart"
+
                       cover={
                         <img
                           className="img"
                           alt="example"
-                          src={item.urlWeb}
+                          src={item.bannerUrl}
                         />
+
                       }
                     >
                       <div className="d-flex ">
@@ -167,7 +165,6 @@ class HomePage extends Component {
         </div>
         <hr />
 
-
         <div className="orgnization">
           <h1>Organizers </h1>
           <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
@@ -186,7 +183,7 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
 
 

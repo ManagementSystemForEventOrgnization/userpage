@@ -8,22 +8,21 @@ const initialBlocks = [
   dataTest[1].value[1],
   ...dataTest[2].value,
   ...dataTest[3].value,
-  ...dataTest[4].value,
+  dataTest[4].value[0],
   ...dataTest[5].value,
   ...dataTest[6].value,
   dataTest[7].value[0],
   ...dataTest[8].value,
   ...dataTest[9].value,
-  ...dataTest[10].value,
-  ...dataTest[11].value,
-  ...dataTest[13].value,
+  dataTest[10].value[0],
   dataTest[12].value[0],
+  dataTest[11].value[0],
 ];
 const initialState = {
   nameEvent: '',
   typeOfEvent: '',
   category: '',
-  quantity: 0,
+  banner: '',
   session: [],
   isSellTicket: 'Không',
   webAddress: '',
@@ -40,23 +39,10 @@ const initialState = {
       title: 'Home',
       child: [],
     },
-    {
-      id: uuid(),
-      title: 'About',
-      child: [
-        {
-          id: uuid(),
-          title: 'About organization',
-        },
-        {
-          id: uuid(),
-          title: 'About us',
-        },
-      ],
-    },
   ],
   currentPage: initialPageId,
   system: [],
+  headerStyle: {},
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -97,11 +83,11 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        id: action._id,
+        id: action.id,
         nameEvent: action.nameEvent,
         webAddress: action.webAddress,
         typeOfEvent: action.typeOfEvent,
-        quantity: action.quantity,
+        banner: action.banner,
         session: action.session,
         category: action.category,
         isSellTicket: action.isSellTicket,
@@ -112,16 +98,6 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.err,
-        nameEvent: '',
-        typeOfEvent: '',
-        category: '',
-        quantity: 0,
-        address: '',
-        locationName: '',
-        map: {},
-        time: {},
-        isSellTicket: 'Không',
-        webAddress: '',
       };
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
@@ -187,6 +163,9 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         blocks: action.page,
+        pages: action.header.pages,
+        headerStyle: action.header.style,
+        currentIndex: action.index,
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
@@ -217,6 +196,7 @@ const event = (state = initialState, action) => {
         ...state,
         events: action.events,
       };
+
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {
         ...state,
@@ -272,6 +252,25 @@ const event = (state = initialState, action) => {
         errMessage: action.err,
       };
 
+    case eventConstants.STORE_HEADER_STYLE:
+      return {
+        ...state,
+        headerStyle: action.headerStyle,
+      };
+
+    case eventConstants.CHANGE_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.currentPage,
+        currentIndex: getIndexPage(state.pages, action.currentPage),
+      };
+
+    case eventConstants.CHANGE_PAGES:
+      return {
+        ...state,
+        pages: action.pages,
+        currentPage: action.currentPage,
+      };
     default:
       return state;
   }

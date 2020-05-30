@@ -11,7 +11,7 @@ import StepBlock from '../templates/ui-elements/atoms/Step';
 // import IconBlock from '../templates/ui-elements/atoms/Icon';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
-import HeaderBlock from '../templates/ui-elements/blocks/Header';
+// import HeaderBlock from '../templates/ui-elements/blocks/Header';
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
 
 import Photo from '../templates/ui-elements/blocks/photos/Photo';
@@ -43,6 +43,7 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
+import Header from 'containers/event/Header';
 
 export const blockList = {
   button: ({ editable, style, id }) => (
@@ -57,15 +58,28 @@ export const blockList = {
   divider: ({ editable, style, id }) => (
     <DividerBlock key={id} editable={editable} style={style} id={id} />
   ),
-  header: ({ editable, style, id, match }) => (
-    <HeaderBlock
+  // header: ({ editable, style, id, match }) => (
+  //   <HeaderBlock
+  //     key={id}
+  //     editable={editable}
+  //     style={style}
+  //     id={id}
+  //     match={match}
+  //   />
+  // ),
+
+  header: ({ editable, style, id, match, pages, currentPage }) => (
+    <Header
       key={id}
       editable={editable}
       style={style}
       id={id}
       match={match}
+      pages={pages}
+      currentPage={currentPage}
     />
   ),
+
   banner2: ({ id, key, editable, style }) => (
     <Banner2 id={id} key={key} editable={editable} style={style} />
   ),

@@ -7,7 +7,7 @@ export default class EventDetailPage extends Component {
     return (
       <div>
         <Header />
-        <EventDetail></EventDetail>
+        <EventDetail {...this.props}></EventDetail>
       </div>
     );
   }

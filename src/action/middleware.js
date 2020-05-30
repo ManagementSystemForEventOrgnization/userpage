@@ -9,7 +9,7 @@ const handleCatch = (dispatch, call, err) => {
         localStorage.removeItem('isLogined');
         localStorage.removeItem('username');
         localStorage.removeItem('avatar');
-        //history.push('/');
+        history.push('/');
       }
     }
     dispatch(call('OPPs! Something wrong'));
