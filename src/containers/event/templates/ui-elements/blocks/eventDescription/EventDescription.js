@@ -135,7 +135,7 @@ class EventDescription extends Component {
                 newStyle={titleStyle}
                 editable={editable}
               />
-              <Text leftModal={true} child={true} />
+              <Text leftModal={true} child={true} editable={editable} />
               {type === 3 && (
                 <div className="mt-5">
                   <Text

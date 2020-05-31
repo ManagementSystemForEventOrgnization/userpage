@@ -38,6 +38,11 @@ class EventInfor extends Component {
     });
   };
 
+  componentDidMount = () => {
+    const { getCategories } = this.props;
+    getCategories();
+  };
+
   handleNext = () => {
     const {
       nameEvent,
@@ -74,7 +79,7 @@ class EventInfor extends Component {
       if (Object.keys(session[index].address).length === 0) {
         return false;
       }
-      if (!session[index].quantity) {
+      if (!session[index].limitNumber) {
         return false;
       }
       if (session[index].documents.length !== 0) {
@@ -223,6 +228,8 @@ const mapDispatchToProps = (dispatch) => ({
         banner
       )
     ),
+
+  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventInfor);

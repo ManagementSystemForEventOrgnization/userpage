@@ -65,7 +65,7 @@ class TabPane extends Component {
         id: uuid(),
         day: newDay,
         address: {},
-        quantity: 100,
+        limitNumber: 100,
         name: '',
         documents: [
           {
@@ -161,7 +161,7 @@ class TabPane extends Component {
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
-      item.quantity = value;
+      item.limitNumber = value;
       this.handleChangeItemSs(index, item);
     }
   };
@@ -263,7 +263,9 @@ class TabPane extends Component {
                 >
                   <Input
                     value={ss.name}
-                    onChange={(value) => this.handleChangeName(ss.id, value)}
+                    onChange={(e) =>
+                      this.handleChangeName(ss.id, e.target.value)
+                    }
                   />
                 </Form.Item>
 
@@ -278,7 +280,7 @@ class TabPane extends Component {
                 >
                   <InputNumber
                     min={1}
-                    value={ss.quantity}
+                    value={ss.limitNumber}
                     onChange={(value) =>
                       this.handleChangeQuantity(ss.id, value)
                     }

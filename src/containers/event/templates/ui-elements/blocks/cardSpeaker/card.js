@@ -123,12 +123,19 @@ class CardBlock extends React.Component {
                     <Text
                       content={item.title}
                       child={true}
+                      editable={editable}
                       newStyle={{
                         fontWeight: 'bold',
                       }}
                     />
                   }
-                  description={<Text content={item.description} child={true} />}
+                  description={
+                    <Text
+                      content={item.description}
+                      child={true}
+                      editable={editable}
+                    />
+                  }
                 />
               </Card>
             </div>
