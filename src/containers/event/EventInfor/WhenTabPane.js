@@ -52,7 +52,10 @@ class TabPane extends Component {
         DateUtils.isSameDay(selectedDay, day)
       );
       selectedDays.splice(selectedIndex, 1);
-      const indexSS = session.findIndex((ss) => ss.id === day.toString());
+
+      const indexSS = session.findIndex(
+        (ss) => ss.day.toString() === day.toString()
+      );
       session.splice(indexSS, 1);
     } else {
       if (DateUtils.isPastDay(day)) {
@@ -254,7 +257,6 @@ class TabPane extends Component {
                 </h6>
 
                 <Form.Item
-                  name="name"
                   label="Name"
                   rules={[
                     {
@@ -271,7 +273,6 @@ class TabPane extends Component {
                 </Form.Item>
 
                 <Form.Item
-                  name="maxQuantity"
                   label="Max quantity"
                   rules={[
                     {

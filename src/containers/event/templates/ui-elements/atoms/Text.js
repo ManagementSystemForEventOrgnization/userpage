@@ -25,8 +25,8 @@ class TextsBlock extends React.Component {
   }
 
   componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
+    const { editable, child } = this.props;
+    if (editable && !child) {
       this.handleStoreBlock();
     }
   };

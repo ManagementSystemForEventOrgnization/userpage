@@ -103,7 +103,7 @@ class CardBlock extends React.Component {
     return (
       // need to map style
       <div className="d-flex">
-        <div className="row d-flex justify-content-around">
+        <div className="row d-flex justify-content-around child-block">
           {list.map((item) => (
             <div className="col-sm-3 mt-2" key={item.id}>
               <Card
@@ -115,6 +115,9 @@ class CardBlock extends React.Component {
                     editable={editable}
                     height={height}
                     child={true}
+                    handleChangeItem={(value) => {
+                      this.handleChangeItem(item.id, 'url', value);
+                    }}
                   />
                 }
               >
@@ -127,6 +130,9 @@ class CardBlock extends React.Component {
                       newStyle={{
                         fontWeight: 'bold',
                       }}
+                      handleChangeItem={(value) => {
+                        this.handleChangeItem(item.id, 'title', value);
+                      }}
                     />
                   }
                   description={
@@ -134,6 +140,9 @@ class CardBlock extends React.Component {
                       content={item.description}
                       child={true}
                       editable={editable}
+                      handleChangeItem={(value) => {
+                        this.handleChangeItem(item.id, 'description', value);
+                      }}
                     />
                   }
                 />

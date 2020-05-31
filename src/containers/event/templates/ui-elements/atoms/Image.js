@@ -22,8 +22,8 @@ class ImageBlock extends React.Component {
   }
 
   componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
+    const { editable, child } = this.props;
+    if (editable && !child) {
       this.handleStoreBlock();
     }
   };
@@ -89,6 +89,17 @@ class ImageBlock extends React.Component {
     }
   };
 
+  handlleClick = () => {
+    const { child, editable } = this.props;
+
+    if (child && editable) {
+      const { visible } = this.state;
+
+      this.setState({
+        visible: !visible,
+      });
+    }
+  };
   render() {
     const {
       uploadedFileCloudinaryUrl,
@@ -121,7 +132,12 @@ class ImageBlock extends React.Component {
     return (
       <div className="image-block child-block">
         <div className="d-flex">
-          <img style={imageStyle} alt="img" src={uploadedFileCloudinaryUrl} />
+          <img
+            style={imageStyle}
+            alt="img"
+            src={uploadedFileCloudinaryUrl}
+            onClick={this.handlleClick}
+          />
           {editable && !child && (
             <div className="ml-auto">
               <IconsHandle
