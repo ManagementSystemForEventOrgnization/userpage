@@ -10,7 +10,6 @@ const initialState = {
   showVerifyForgotPassword: false,
   arrEvent: [],
   notifications: [],
-
 };
 
 const user = (state = initialState, action) => {
@@ -37,6 +36,8 @@ const user = (state = initialState, action) => {
         active: action.user.isActive,
       };
     case userConstants.LOGIN_FAILURE:
+      console.log(action.error);
+
       return {
         ...state,
         errMessage: action.error,
@@ -204,7 +205,6 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: null,
-
       };
     case userConstants.GET_HISTORY_SUCCESS:
       return {
@@ -212,7 +212,6 @@ const user = (state = initialState, action) => {
         arrEvent: action.arrEvent,
         pending: false,
         errMessage: null,
-
       };
 
     case userConstants.GET_HISTORY_FAILURE:
@@ -233,28 +232,26 @@ const user = (state = initialState, action) => {
         ...state,
         errMessage: action.error,
       };
-      case userConstants.GET_HISTORY_CREATE_REQUEST:
-        return {
-          ...state,
-          pending: true,
-          errMessage: null,
-  
-        };
-      case userConstants.GET_HISTORY_CREATE_SUCCESS:
-        return {
-          ...state,
-          arrEvent: action.arrEvent,
-          pending: false,
-          errMessage: null,
-  
-        };
-  
-      case userConstants.GET_HISTORY_CREATE_FAILURE:
-        return {
-          ...state,
-          pending: true,
-          errMessage: action.error,
-        };
+    case userConstants.GET_HISTORY_CREATE_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+      };
+    case userConstants.GET_HISTORY_CREATE_SUCCESS:
+      return {
+        ...state,
+        arrEvent: action.arrEvent,
+        pending: false,
+        errMessage: null,
+      };
+
+    case userConstants.GET_HISTORY_CREATE_FAILURE:
+      return {
+        ...state,
+        pending: true,
+        errMessage: action.error,
+      };
     default:
       return state;
   }
