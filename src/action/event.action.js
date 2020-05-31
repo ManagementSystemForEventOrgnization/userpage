@@ -3,23 +3,29 @@ import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
 
-const getEventDetail = (eventId) => {
+const getEventDetail = (eventId, index) => {
   return (dispatch) => {
     API.get(`/api/event`, {
       params: {
         eventId,
+        index,
       },
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        const { rows, header } = res.data.result;
+        localStorage.setItem('currentIndex', index);
+        localStorage.setItem('currentId', eventId);
+        dispatch(success(rows, header[0], index));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
 
-  function success(page) {
+  function success(page, header, index) {
     return {
       type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
       page,
+      header,
+      index,
     };
   }
 
@@ -55,38 +61,6 @@ const getEventEdit = (eventId, route) => {
   function failure(err) {
     return {
       type: eventConstants.GET_EVENT_EDIT_FAILURE,
-      err,
-    };
-  }
-};
-
-const saveEvent = (block, eventId, isPreview) => {
-  return (dispatch) => {
-    dispatch(request());
-    API.post('/api/save/page_event', {
-      block,
-      eventId,
-      isPreview,
-    })
-      .then((res) => {
-        console.log('TCL Save event detail  THEN: ', res);
-        dispatch(success());
-      })
-      .catch((err) => handleCatch(dispatch, failure, err));
-  };
-  function request() {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL,
-    };
-  }
-  function success() {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL_SUCCESS,
-    };
-  }
-  function failure(err) {
-    return {
-      type: eventConstants.SAVE_EVENT_DETAIL_FAILURE,
       err,
     };
   }
@@ -159,10 +133,10 @@ const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
   category,
-  quantity,
   session,
   isSellTicket,
-  webAddress
+  webAddress,
+  banner
 ) => {
   return (dispatch) => {
     dispatch(request());
@@ -171,22 +145,23 @@ const prepareForCreateEvent = (
       typeOfEvent,
       category,
       urlWeb: webAddress,
-      limitNumber: quantity,
       session,
-      isSellTicket: isSellTicket === 'True' ? true : false,
+      isSellTicket: isSellTicket === 'Yes' ? true : false,
+      banner,
     })
       .then((res) => {
         const { _id } = res.data.result;
+        localStorage.setItem('currentId', _id);
         dispatch(
           success(
             _id,
             nameEvent,
             typeOfEvent,
             category,
-            quantity,
             session,
             isSellTicket,
-            webAddress
+            webAddress,
+            banner
           )
         );
         history.push('/create');
@@ -201,25 +176,25 @@ const prepareForCreateEvent = (
   }
 
   function success(
-    _id,
+    id,
     nameEvent,
     typeOfEvent,
     category,
-    quantity,
     session,
     isSellTicket,
-    webAddress
+    webAddress,
+    banner
   ) {
     return {
       type: eventConstants.PREPARE_FOR_CREATE_EVENT_SUCCESS,
-      _id,
+      id,
       nameEvent,
       typeOfEvent,
       category,
-      quantity,
       session,
       isSellTicket,
       webAddress,
+      banner,
     };
   }
 
@@ -265,11 +240,41 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = () => {
+// const getListEvent = () => {
+//   //api/getListEvent
+//   return (dispatch) => {
+//     API.get(`/api/getListEvent`,
+//     )
+//       .then((res) => {
+//         if (res.status === 200) {
+//           console.log('data:', res.data.result);
+//           dispatch(success(res.data.result));
+//         } else {
+//           dispatch(failure());
+//         }
+//       })
+//       .catch((error) => {
+//         dispatch(failure());
+//       });
+//   };
+
+//   function success(events) {
+//     return {
+//       type: eventConstants.GET_LIST_EVENT_SUCCESS,
+//       events,
+//     };
+//   }
+//   function failure() {
+//     return {
+//       type: eventConstants.GET_LIST_EVENT_FAILURE,
+//     };
+//   }
+// };
+
+const getListEventUpComing = () => {
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/getListEvent`,
-    )
+    API.get(`/api/get_list_event_coming_up`)
       .then((res) => {
         if (res.status === 200) {
           console.log('data:', res.data.result);
@@ -285,13 +290,13 @@ const getListEvent = () => {
 
   function success(events) {
     return {
-      type: eventConstants.GET_LIST_EVENT_SUCCESS,
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS,
       events,
     };
   }
   function failure() {
     return {
-      type: eventConstants.GET_LIST_EVENT_FAILURE,
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE,
     };
   }
 };
@@ -305,11 +310,81 @@ const getHomeData = () => {
       .catch((err1) => {
         console.log(err1.response);
       });
-
   function success(categories) {
     return {
       type: eventConstants.GET_CATEGORIES_SUCCESS,
       categories,
+    };
+  }
+};
+
+const saveEvent = (id, blocks, header, isPreview) => {
+  const eventId = id || localStorage.getItem('currentId');
+
+  return (dispatch) => {
+    dispatch(request());
+    API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
+      .then((res) => {
+        console.log('TCL Save event detail  THEN: ', res);
+        dispatch(success());
+        localStorage.removeItem('currentIndex');
+        history.push(`/event/${eventId}`);
+      })
+      .catch((err) => handleCatch(dispatch, failure, err));
+  };
+  function request() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL,
+    };
+  }
+  function success() {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_SUCCESS,
+    };
+  }
+  function failure(err) {
+    return {
+      type: eventConstants.SAVE_EVENT_DETAIL_FAILURE,
+      err,
+    };
+  }
+};
+
+const storeHeaderStyle = (style) => {
+  return (dispatch) => {
+    dispatch(request(style));
+  };
+  function request(headerStyle) {
+    return {
+      type: eventConstants.STORE_HEADER_STYLE,
+      headerStyle,
+    };
+  }
+};
+
+const changeCurrentPage = (id) => {
+  return (dispatch) => {
+    return dispatch(request(id));
+  };
+
+  function request(currentPage) {
+    return {
+      type: eventConstants.CHANGE_CURRENT_PAGE,
+      currentPage,
+    };
+  }
+};
+
+const changePages = (pages, currentPage) => {
+  return (dispatch) => {
+    return dispatch(request(pages, currentPage));
+  };
+
+  function request(pages, currentPage) {
+    return {
+      type: eventConstants.CHANGE_PAGES,
+      pages,
+      currentPage,
     };
   }
 };
@@ -322,10 +397,13 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
-  getListEvent,
+  getListEventUpComing,
   savePage,
   updatePage,
   getEventEdit,
   getHomeData,
   getPreviousPage,
+  storeHeaderStyle,
+  changeCurrentPage,
+  changePages,
 };

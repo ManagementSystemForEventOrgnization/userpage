@@ -32,10 +32,18 @@ class EventInfor extends Component {
   }
 
   onChange = (type, value) => {
+    if (type === 'isSellTicket') {
+      console.log(value);
+    }
     this.setState({
       [type]: value,
       isFirstLoad: true,
     });
+  };
+
+  componentDidMount = () => {
+    const { getCategories } = this.props;
+    getCategories();
   };
 
   handleNext = () => {
@@ -49,6 +57,8 @@ class EventInfor extends Component {
       banner,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
+
+    console.log(isSellTicket);
     prepareForCreateEvent(
       nameEvent,
       typeOfEvent,
@@ -74,7 +84,7 @@ class EventInfor extends Component {
       if (Object.keys(session[index].address).length === 0) {
         return false;
       }
-      if (!session[index].quantity) {
+      if (!session[index].limitNumber) {
         return false;
       }
       if (session[index].documents.length !== 0) {
@@ -83,7 +93,6 @@ class EventInfor extends Component {
 
       if (session[index].detail.length !== 0) {
         isValid = session[index].detail.every((ele) => {
-          console.log(ele);
           return ele.from && ele.to && ele.description;
         });
       }
@@ -224,6 +233,8 @@ const mapDispatchToProps = (dispatch) => ({
         banner
       )
     ),
+
+  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventInfor);

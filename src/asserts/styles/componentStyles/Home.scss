@@ -31,4 +31,9 @@
         text-align: center;
         padding: 50px;
     }
+    .line-clamp {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }

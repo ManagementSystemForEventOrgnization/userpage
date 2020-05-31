@@ -118,6 +118,7 @@ class Photo extends Component {
                 height={high}
                 leftModal={true}
                 child={true}
+                editable={editable}
               />
             </div>
           ))}

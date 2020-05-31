@@ -8,6 +8,7 @@ import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 
 const { RangePicker } = TimePicker;
 const layout = {
@@ -51,18 +52,24 @@ class TabPane extends Component {
         DateUtils.isSameDay(selectedDay, day)
       );
       selectedDays.splice(selectedIndex, 1);
-      const indexSS = session.findIndex((ss) => ss.id === day.toString());
+
+      const indexSS = session.findIndex(
+        (ss) => ss.day.toString() === day.toString()
+      );
       session.splice(indexSS, 1);
     } else {
       if (DateUtils.isPastDay(day)) {
         return;
       }
       selectedDays.push(day);
+
+      // const newDay = moment(day).format('DD/MM/YYYY');
       session.push({
         id: uuid(),
         day,
         address: {},
-        quantity: 100,
+        limitNumber: 100,
+        name: '',
         documents: [
           {
             id: uuid(),
@@ -157,7 +164,17 @@ class TabPane extends Component {
     const index = session.findIndex((item) => item.id === id);
     if (index !== -1) {
       let item = { ...session[index] };
-      item.quantity = value;
+      item.limitNumber = value;
+      this.handleChangeItemSs(index, item);
+    }
+  };
+
+  handleChangeName = (id, value) => {
+    let { session } = this.state;
+    const index = session.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      let item = { ...session[index] };
+      item.name = value;
       this.handleChangeItemSs(index, item);
     }
   };
@@ -232,13 +249,30 @@ class TabPane extends Component {
         {count !== 0 && (
           <Form className="col-6 col-md-6" {...layout}>
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
-            {session.map((ss) => (
+            {session.map((ss, index) => (
               <div className="mt-2" key={ss.id}>
-                <div className="mt-1 mb-1" style={dayStyle}>
-                  {ss.day.toString()}
-                </div>
+                <h6 className="mt-1 mb-2 ml-5" style={dayStyle}>
+                  Session {index + 1} :{' '}
+                  {moment(ss.day).format('DD/MM/YYYY').toString()}
+                </h6>
+
                 <Form.Item
-                  name="maxQuantity"
+                  label="Name"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    value={ss.name}
+                    onChange={(e) =>
+                      this.handleChangeName(ss.id, e.target.value)
+                    }
+                  />
+                </Form.Item>
+
+                <Form.Item
                   label="Max quantity"
                   rules={[
                     {
@@ -248,7 +282,7 @@ class TabPane extends Component {
                 >
                   <InputNumber
                     min={1}
-                    value={ss.quantity}
+                    value={ss.limitNumber}
                     onChange={(value) =>
                       this.handleChangeQuantity(ss.id, value)
                     }
@@ -281,16 +315,26 @@ class TabPane extends Component {
                       <Input
                         placeholder="Enter title for documents"
                         name={`title${doc.id}`}
-                        onChange={(value) =>
-                          this.handleChangeDoc(ss.id, doc.id, 'title', value)
+                        onChange={(event) =>
+                          this.handleChangeDoc(
+                            ss.id,
+                            doc.id,
+                            'title',
+                            event.target.value
+                          )
                         }
                       />
                       <Input
                         placeholder="Enter link to your document"
                         className="ml-2 mr-2"
                         name={`url${doc.id}`}
-                        onChange={(value) =>
-                          this.handleChangeDoc(ss.id, doc.id, 'url', value)
+                        onChange={(event) =>
+                          this.handleChangeDoc(
+                            ss.id,
+                            doc.id,
+                            'url',
+                            event.target.value
+                          )
                         }
                       />
                       <DeleteOutlined
@@ -328,8 +372,12 @@ class TabPane extends Component {
                         placeholder="description"
                         name={`desc${item.id}`}
                         className="mr-2"
-                        onChange={(value) =>
-                          this.handleChangeDescription(ss.id, item.id, value)
+                        onChange={(event) =>
+                          this.handleChangeDescription(
+                            ss.id,
+                            item.id,
+                            event.target.value
+                          )
                         }
                       />
                       <DeleteOutlined

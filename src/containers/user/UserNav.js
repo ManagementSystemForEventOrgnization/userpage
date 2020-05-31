@@ -43,12 +43,12 @@ class UserNav extends Component {
                 Sự kiện đã đăng ký
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link className="link" to="/participated-event">
                 <MoneyCollectOutlined className="mr-2 icon" />
                 Sự kiện đã tham gia
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/created-event" className="link">
                 <CalendarOutlined className="mr-2 icon" />

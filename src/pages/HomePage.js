@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
+import {
 
+  FieldTimeOutlined, UserOutlined, EnvironmentOutlined
+} from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
@@ -11,33 +14,47 @@ import EventList from '../containers/share/EventList';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 /// import sessionCard from '../components/CardSession'
-import {
-  FieldTimeOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 
 import { eventActions } from '../action/event.action';
 class HomePage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   componentDidMount = () => {
-    const { getListEvent } = this.props;
+    const { getListEventUpComing } = this.props;
 
-    getListEvent();
+    // console.log("mo", events);
+
+    getListEventUpComing();
 
   };
 
-  render() {
-    // const { events } = this.props;
+  sumDiscount = (ticket, discount) => {
 
-    const events = this.props.events ? this.props.events : []
+    let newDiscount = (1 - discount)
+
+    let sum = newDiscount * ticket;
+
+    return sum;
+  }
+  percentDiscount = (discount) => {
+
+    let newDiscount = discount * 100
+
+    let percent = `-${newDiscount}%`
+
+    return percent
+  }
+
+  render() {
+    const { events } = this.props;
+    console.log("mo", events);
+
+    // const events = this.props.events ? this.props.events : []
+
 
 
 
@@ -67,131 +84,86 @@ class HomePage extends Component {
         <div className="list-event">
           <div className="up-coming pl-2">
             <h1 className="">Upcoming Events </h1>
-            <div className="row pl-5 ">
+            <div className="row pl-5 ml-2 ">
               {events.map((item, index) => (
-                < div className="row mt-4 ml-4  shadow pb-3" key={index} >
-                  <div className="col">
-                    < Link to="">
-                      <Card
-                        className="event-cart"
-                        cover={
-                          <img
-                            className="img"
-                            alt="example"
-                            src={item.urlWeb}
-                          />
-                        }
-                      >
-                        <div className="d-flex ">
-                          <Tooltip placement="bottomLeft" title={
+                < div className="row mt-4 ml-5  shadow pb-3" key={index} >
 
-                            item.session ?
-                              item.session.map(e =>
-                                <div>
+                  < Link to="">
+                    <Card
+                      className="event-cart"
+
+                      cover={
+                        <img
+                          className="img"
+                          alt="example"
+                          src={item.bannerUrl}
+                        />
+
+                      }
+                    >
+                      <div className="d-flex ">
+                        <Tooltip placement="bottomLeft" title={
+
+                          item.session ?
+                            item.session.map((e, i) =>
+                              <div key={i}>
+                                <div className="d-flex ">
                                   <div className="d-flex ">
                                     <FieldTimeOutlined className="mt-1" />
                                     <p className="ml-2"> {e.day}</p>
                                   </div>
-                                  <div className="d-flex ">
-                                    <EnvironmentOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.address.location}</p>
+                                  <div className="d-flex mt-1">
+                                    <UserOutlined className=" ml-2" />
+                                    <p className="ml-1 ">{e.limitNumber}</p>
                                   </div>
                                 </div>
 
-                              )
-                              : "No have start time events "
-                          }>
-                            <h4 >{item.name}</h4>
-                          </Tooltip>
 
-                          <div className="d-flex mt-1">
-                            <UserOutlined className="mt-1 ml-2" />
-                            <p className="ml-1 mt-1">{item.limitNumber}</p>
-                          </div>
+
+                                {e.address && <div className="d-flex ">
+                                  <EnvironmentOutlined className="mt-1" />
+                                  <p className="ml-2"> {e.address.location}</p>
+                                </div>}
+
+                              </div>
+
+                            )
+                            : "No have start time events "
+                        }>
+                          <h4 className="line-clamp"
+                          >{item.name}</h4>
+                        </Tooltip>
+
+
+                      </div>
+                      {item.ticket ?
+                        <div className="d-flex mt-1">
+                          {item.ticket.discount ?
+                            <div className="d-flex mt-1">
+                              <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 mt-1">{item.ticket.price}</p>
+                              <p className="ml-1"> {this.percentDiscount(item.ticket.discount)}</p>
+                              <p style={{ fontWeight: "bold" }} className="ml-2 mt-1">{this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
+                            </div>
+                            : <p style={{ fontWeight: "bold" }} className="ml-1 mt-1">{item.ticket.price}</p>
+                          }
                         </div>
+                        : <p style={{ fontWeight: "bold" }} className="ml-1 mt-1">Free</p>
 
-                        <div className="d-flex ">
-                          <FieldTimeOutlined className="mt-1" />
-                          <p className="ml-2"> {item.startTime}</p>
-                        </div>
+                      }
 
 
 
-                        <Button type="primary">Apply</Button>
-                      </Card>
-                    </ Link>
-                  </div>
+                      <Button type="primary">Apply</Button>
+                    </Card>
+                  </ Link>
 
-                </div>
-              ))}
-            </div>
-          </div>
-          <hr />
-          <div className="latest">
-            <h1>Recent Events </h1>
-
-            <div className="row pl-5 ">
-              {events.map((item, index) => (
-                < div className="row mt-4 ml-4  shadow pb-3" key={index} >
-                  <div className="col">
-                    < Link to="">
-                      <Card
-                        className="event-cart"
-                        cover={
-                          <img
-                            className="img"
-                            alt="example"
-                            src={item.urlWeb}
-                          />
-                        }
-                      >
-                        <div className="d-flex ">
-                          <Tooltip placement="bottomLeft" title={
-
-                            item.session ?
-                              item.session.map(e =>
-                                <div>
-                                  <div className="d-flex ">
-                                    <FieldTimeOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.day}</p>
-                                  </div>
-                                  <div className="d-flex ">
-                                    <EnvironmentOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.address.location}</p>
-                                  </div>
-                                </div>
-
-                              )
-                              : "No have start time events "
-                          }>
-                            <h4 >{item.name}</h4>
-                          </Tooltip>
-
-                          <div className="d-flex mt-1">
-                            <UserOutlined className="mt-1 ml-2" />
-                            <p className="ml-1 mt-1">{item.limitNumber}</p>
-                          </div>
-                        </div>
-
-                        <div className="d-flex ">
-                          <FieldTimeOutlined className="mt-1" />
-                          <p className="ml-2"> {item.startTime}</p>
-                        </div>
-
-
-
-                        <Button type="primary">Apply</Button>
-                      </Card>
-                    </ Link>
-                  </div>
 
                 </div>
               ))}
             </div>
           </div>
         </div>
-
-
+        <hr />
 
         <div className="orgnization">
           <h1>Organizers </h1>
@@ -211,10 +183,11 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
-  }
 
+
+  }
 }
 const mapStateToProps = (state) => {
   return {
@@ -223,7 +196,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getListEvent: () => dispatch(eventActions.getListEvent()),
+  getListEventUpComing: () => dispatch(eventActions.getListEventUpComing()),
+  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 

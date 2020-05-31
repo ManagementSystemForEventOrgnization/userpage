@@ -49,9 +49,12 @@ class WrapRouter extends React.Component {
       {
         path: '/event/:id',
         exact: true,
-        main: ({ match, history }) => (
-          <EventDetailPage match={match} history={history} />
-        ),
+        main: (match) => <EventDetailPage match={match} />,
+      },
+      {
+        path: '/event/:id/:name',
+        exact: true,
+        main: (match) => <EventDetailPage match={match} />,
       },
       {
         path: '/login',
@@ -76,17 +79,17 @@ class WrapRouter extends React.Component {
       {
         path: '/registered-event',
         exact: true,
-        main: () => <UserEventPage />,
+        main: (match) => <UserEventPage match={match} />,
       },
-      {
-        path: '/participated-event',
-        exact: true,
-        main: () => <UserEventPage />,
-      },
+      // {
+      //   path: '/participated-event',
+      //   exact: true,
+      //   main: (match) => <UserEventPage match={match} />,
+      // },
       {
         path: '/created-event',
         exact: true,
-        main: () => <UserEventPage />,
+        main: (match) => <UserEventPage match={match} />,
       },
       {
         path: '/create',

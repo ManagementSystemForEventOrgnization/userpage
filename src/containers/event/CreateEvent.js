@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
+import { Popover } from 'antd';
+import { QuestionCircleTwoTone } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
@@ -118,7 +120,19 @@ class CreateEvent extends React.Component {
     handleChangeHeader(pages, newPageId, blocks);
   };
 
-  handleSaveEvent = () => {};
+  handleSaveEvent = (isPreview) => {
+    const { id, blocks, system, pages, saveEvent, headerStyle } = this.props;
+
+    const header = [
+      {
+        pages,
+        type: 'header',
+        style: headerStyle,
+      },
+    ];
+
+    saveEvent(id, [...system, blocks], header, isPreview);
+  };
 
   getPreviousId = () => {
     const { pages } = this.props;
@@ -160,9 +174,31 @@ class CreateEvent extends React.Component {
 
   render() {
     const { collapsed, editable, currentIndex } = this.state;
-    const { id, match } = this.props;
+    const { match, pending } = this.props;
+    const id = localStorage.getItem('currentId');
     const textStyle = {
       color: 'white',
+    };
+
+    const content = (
+      <div className={{ width: '50px', height: '100px' }}>
+        Create event : Drag each block from menu to below container. <br />
+        Menu for Event : Click edit icon to change each item of menu. <br />
+        Next Page : Move to next page in Menu.
+        <br />
+        Previous Page : Move to previous page in Menu.
+        <br />
+        Public :Public this page event.
+        <br />
+        Preview : Preview this page event. <br />
+      </div>
+    );
+
+    const inconStyle = {
+      fontSize: ' 25px',
+      color: '#ef0a0a',
+      marginRight: '10px',
+      marginTop: '5px',
     };
 
     return (
@@ -175,21 +211,15 @@ class CreateEvent extends React.Component {
           <Button
             className="mr-5 ml-1"
             variant="primary"
-            onClick={this.handleSaveEvent}
+            onClick={() => this.handleSaveEvent(false)}
+            disabled={pending}
           >
-            <a
-              href={id ? `/event/${id}` : 'event/5eb259b562bd742fe41c1205'}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={textStyle}
-            >
-              Finish
-            </a>
+            Finish
           </Button>
 
-          <Button variant="success" onClick={this.handleSaveEvent}>
+          <Button variant="success" onClick={() => this.handleSaveEvent(true)}>
             <a
-              href={id ? `/preview/${id}` : 'preview/5eb259b562bd742fe41c1205'}
+              href={id ? `/preview/${id}` : `preview/${this.props.id}`}
               target="_blank"
               style={textStyle}
               rel="noopener noreferrer"
@@ -197,6 +227,10 @@ class CreateEvent extends React.Component {
               Preview
             </a>
           </Button>
+
+          <Popover content={content} title="Help" trigger="click" id="help">
+            <QuestionCircleTwoTone style={inconStyle} />
+          </Popover>
         </div>
 
         <div className="d-flex">
@@ -205,8 +239,8 @@ class CreateEvent extends React.Component {
           <div
             className={
               collapsed
-                ? '  mt-1 drop-area  mb-5 move-right p-3'
-                : ' mt-1 drop-area  mb-5 p-3'
+                ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
+                : ' mt-1 drop-area  mb-5 p-3 ml-auto'
             }
           >
             <div id="header-block">
@@ -250,11 +284,13 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   pages: state.event.pages,
   currentPage: state.event.currentPage,
+  headerStyle: state.event.headerStyle,
+  system: state.event.system,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  savePage: (route, innerHtml, editable) =>
-    dispatch(eventActions.savePage(route, innerHtml, editable)),
+  savePage: (eventId, blocks, header, isPreview) =>
+    dispatch(eventActions.savePage(eventId, blocks, header, isPreview)),
 
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 
@@ -263,6 +299,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   handlePreviousPage: (currentPage) =>
     dispatch(eventActions.getPreviousPage(currentPage)),
+
+  saveEvent: (eventId, blocks, header, isPreview) =>
+    dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
