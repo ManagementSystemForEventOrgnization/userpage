@@ -180,7 +180,20 @@ class CreateEvent extends React.Component {
       color: 'white',
     };
 
-    const content = 'Create event : Drag block in side menu';
+    const content = (
+      <div className={{ width: '50px', height: '100px' }}>
+        Create event : Drag each block from menu to below container. <br />
+        Menu for Event : Click edit icon to change each item of menu. <br />
+        Next Page : Move to next page in Menu.
+        <br />
+        Previous Page : Move to previous page in Menu.
+        <br />
+        Public :Public this page event.
+        <br />
+        Preview : Preview this page event. <br />
+      </div>
+    );
+
     const inconStyle = {
       fontSize: ' 25px',
       color: '#ef0a0a',
@@ -215,7 +228,7 @@ class CreateEvent extends React.Component {
             </a>
           </Button>
 
-          <Popover content={content} title="Help" trigger="click">
+          <Popover content={content} title="Help" trigger="click" id="help">
             <QuestionCircleTwoTone style={inconStyle} />
           </Popover>
         </div>
