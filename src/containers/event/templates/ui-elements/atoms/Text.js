@@ -33,33 +33,43 @@ class TextsBlock extends React.Component {
   // common function
 
   onChangeValue(newValue, valueParam) {
-    const { changeContent } = this.props;
+    const { changeContent, handleChangeContent } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(
-      changeContent
-        ? changeContent({ value: this.state.content, style: this.state })
-        : this.handleStoreBlock(),
-      3000
-    );
+    setTimeout(() => {
+      const value = {
+        value: this.state.content,
+        style: this.state,
+      };
+      if (changeContent) {
+        changeContent(value);
+      } else if (handleChangeContent) {
+        handleChangeContent(value);
+      } else this.handleStoreBlock();
+    }, 3000);
   }
 
   handleEditorChange = (content) => {
-    const { handleOnChangeTextBlock, changeContent } = this.props;
+    const {
+      handleOnChangeTextBlock,
+      changeContent,
+      handleChangeContent,
+    } = this.props;
     this.setState({ content });
-    setTimeout(function () {
+    setTimeout(() => {
+      const value = {
+        value: content ? ReactHtmlParser(content)[0].props.children[0] : '',
+        style: this.state,
+      };
       if (handleOnChangeTextBlock) {
         handleOnChangeTextBlock(
           content ? ReactHtmlParser(content)[0].props.children[0] : ''
         );
-      }
-      if (changeContent) {
-        const newStyle = this.state;
-        changeContent({
-          value: content ? ReactHtmlParser(content)[0].props.children[0] : '',
-          style: newStyle,
-        });
+      } else if (changeContent) {
+        changeContent(value);
+      } else if (handleChangeContent) {
+        handleChangeContent(value);
       }
     }, 3000);
   };

@@ -141,8 +141,6 @@ class GeneralBanner extends Component {
   };
 
   handleChangeContent = (type, value) => {
-    console.log(type);
-    console.log(value);
     let { content } = this.state;
 
     content[type] = value;

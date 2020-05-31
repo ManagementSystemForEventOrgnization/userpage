@@ -6,7 +6,21 @@ import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import { eventActions } from 'action/event.action';
+import { exampleText } from '../../../constants/atom.constant';
 
+const defaultTitle = {
+  value: 'Title',
+  style: {
+    fontWeight: 'bolder',
+    fontSize: '40',
+  },
+};
+const defaultDescription = {
+  value: exampleText,
+  style: {
+    fontSize: '20',
+  },
+};
 class EventDescription extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +35,18 @@ class EventDescription extends Component {
             url: '',
             bgColor: 'white',
             opacity: 0.3,
+            content: {
+              col1: {
+                title: defaultTitle,
+                description: defaultDescription,
+              },
+              col2: {
+                title: defaultTitle,
+                description: defaultDescription,
+                subTitle: defaultTitle,
+                subDescription: defaultDescription,
+              },
+            },
           };
   }
 
@@ -76,8 +102,23 @@ class EventDescription extends Component {
     }
   };
 
+  handleChangeContent = (column, type, value) => {
+    let { content } = this.state;
+
+    content[column][type] = value;
+    this.setState({ content });
+  };
+
   render() {
-    const { collapse, padding, url, bgColor, opacity, margin } = this.state;
+    const {
+      collapse,
+      padding,
+      url,
+      bgColor,
+      opacity,
+      margin,
+      content,
+    } = this.state;
 
     const { type, editable } = this.props;
 
@@ -108,11 +149,6 @@ class EventDescription extends Component {
       backgroundColor: bgColor,
     };
 
-    const titleStyle = {
-      fontWeight: 'bolder',
-      fontSize: '40',
-    };
-
     return (
       <div className="child-block d-flex">
         <div style={style}>
@@ -121,31 +157,66 @@ class EventDescription extends Component {
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-8'}>
               <Text
                 child={true}
-                content="Title 1"
-                newStyle={titleStyle}
+                content={content.col1.title.value}
+                newStyle={content.col1.title.style}
                 editable={editable}
+                handleChangeContent={(value) =>
+                  this.handleChangeContent('col1', 'title', value)
+                }
               />
-              <Text editable={editable} child={true} />
+              <Text
+                editable={editable}
+                child={true}
+                content={content.col1.description.value}
+                newStyle={content.col1.description.style}
+                handleChangeContent={(value) =>
+                  this.handleChangeContent('col1', 'description', value)
+                }
+              />
             </div>
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-4'}>
               <Text
                 child={true}
-                content="Title 2"
                 leftModal={true}
-                newStyle={titleStyle}
                 editable={editable}
+                content={content.col2.title.value}
+                newStyle={content.col2.title.style}
+                handleChangeContent={(value) =>
+                  this.handleChangeContent('col2', 'title', value)
+                }
               />
-              <Text leftModal={true} child={true} editable={editable} />
+              <Text
+                leftModal={true}
+                child={true}
+                editable={editable}
+                content={content.col2.description.value}
+                newStyle={content.col2.description.style}
+                handleChangeContent={(value) =>
+                  this.handleChangeContent('col2', 'description', value)
+                }
+              />
               {type === 3 && (
                 <div className="mt-5">
                   <Text
                     child={true}
-                    content="Title 2"
                     leftModal={true}
                     editable={editable}
-                    newStyle={titleStyle}
+                    content={content.col2.subTitle.value}
+                    newStyle={content.col2.subTitle.style}
+                    handleChangeContent={(value) =>
+                      this.handleChangeContent('col2', 'subTitle', value)
+                    }
                   />
-                  <Text leftModal={true} child={true} editable={editable} />
+                  <Text
+                    leftModal={true}
+                    child={true}
+                    editable={editable}
+                    content={content.col2.subDescription.value}
+                    newStyle={content.col2.subDescription.style}
+                    handleChangeContent={(value) =>
+                      this.handleChangeContent('col2', 'subDescription', value)
+                    }
+                  />
                 </div>
               )}
             </div>
