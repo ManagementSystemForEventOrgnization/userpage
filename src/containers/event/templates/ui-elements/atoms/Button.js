@@ -66,15 +66,37 @@ class ButtonBlock extends React.Component {
   };
   // common function
   onChangeValue(newValue, valueParam) {
+    const { changeContent } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(() => {
+      this.handleStoreBlock();
+      if (changeContent) {
+        changeContent({
+          value: this.state.content,
+          style: this.state,
+        });
+      }
+    }, 3000);
   }
 
   handleEditorChange = (e) => {
+    const { changeContent, child } = this.props;
+
     this.setState({ content: e.target.value });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(() => {
+      if (!child) {
+        this.handleStoreBlock();
+      }
+
+      if (changeContent) {
+        changeContent({
+          value: this.state.content,
+          style: this.state,
+        });
+      }
+    }, 3000);
   };
 
   handleStoreBlock = () => {

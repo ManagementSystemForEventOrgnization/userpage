@@ -32,6 +32,9 @@ class EventInfor extends Component {
   }
 
   onChange = (type, value) => {
+    if (type === 'isSellTicket') {
+      console.log(value);
+    }
     this.setState({
       [type]: value,
       isFirstLoad: true,
@@ -54,6 +57,8 @@ class EventInfor extends Component {
       banner,
     } = this.state;
     const { prepareForCreateEvent } = this.props;
+
+    console.log(isSellTicket);
     prepareForCreateEvent(
       nameEvent,
       typeOfEvent,

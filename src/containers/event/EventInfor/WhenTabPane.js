@@ -60,10 +60,10 @@ class TabPane extends Component {
       }
       selectedDays.push(day);
 
-      const newDay = moment(day).format('DD/MM/YYYY');
+      // const newDay = moment(day).format('DD/MM/YYYY');
       session.push({
         id: uuid(),
-        day: newDay,
+        day,
         address: {},
         limitNumber: 100,
         name: '',
@@ -249,7 +249,8 @@ class TabPane extends Component {
             {session.map((ss, index) => (
               <div className="mt-2" key={ss.id}>
                 <h6 className="mt-1 mb-2 ml-5" style={dayStyle}>
-                  Session {index + 1} : {ss.day.toString()}
+                  Session {index + 1} :{' '}
+                  {moment(ss.day).format('DD/MM/YYYY').toString()}
                 </h6>
 
                 <Form.Item

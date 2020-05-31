@@ -146,7 +146,7 @@ const prepareForCreateEvent = (
       category,
       urlWeb: webAddress,
       session,
-      isSellTicket: isSellTicket === 'True' ? true : false,
+      isSellTicket: isSellTicket === 'Yes' ? true : false,
       banner,
     })
       .then((res) => {
@@ -274,8 +274,7 @@ const deleteBlock = (id) => {
 const getListEventUpComing = () => {
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/get_list_event_coming_up`,
-    )
+    API.get(`/api/get_list_event_coming_up`)
       .then((res) => {
         if (res.status === 200) {
           console.log('data:', res.data.result);
