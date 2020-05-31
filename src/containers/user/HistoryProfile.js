@@ -148,28 +148,28 @@ class HistoryProfile extends React.Component {
         {pending ? (
           <Skeleton />
         ) : (
-          <div>
-            <div className="row pl-5 ">
-              {arrEvent.map((item, index) => (
-                <div className="row mt-4 ml-5  shadow pb-3" key={index}>
-                  <div className="col">
-                    <Link to="">
-                      <Card
-                        className="event-cart"
-                        cover={
-                          <img
-                            className="img"
-                            alt="example"
-                            src={item.urlWeb}
-                          />
-                        }
-                      >
-                        <div className="d-flex ">
-                          <Tooltip
-                            placement="bottomLeft"
-                            title={
-                              item.session
-                                ? item.session.map((e) => (
+            <div>
+              <div className="row pl-5 ">
+                {arrEvent.map((item, index) => (
+                  <div className="row mt-4 ml-5  shadow pb-3" key={index}>
+                    <div className="col">
+                      <Link to="">
+                        <Card
+                          className="event-cart"
+                          cover={
+                            <img
+                              className="img"
+                              alt="example"
+                              src={item.urlWeb}
+                            />
+                          }
+                        >
+                          <div className="d-flex ">
+                            <Tooltip
+                              placement="bottomLeft"
+                              title={
+                                item.session
+                                  ? item.session.map((e) => (
                                     <div>
                                       <div className="d-flex ">
                                         <FieldTimeOutlined className="mt-1" />
@@ -184,39 +184,39 @@ class HistoryProfile extends React.Component {
                                       </div>
                                     </div>
                                   ))
-                                : 'No have start time events '
-                            }
-                          >
-                            <h4>{item.name}</h4>
-                          </Tooltip>
+                                  : 'No have start time events '
+                              }
+                            >
+                              <h4>{item.name}</h4>
+                            </Tooltip>
 
-                          <div className="d-flex mt-1">
-                            <UserOutlined className="mt-1 ml-2" />
-                            <p className="ml-1 mt-1">{item.limitNumber}</p>
+                            <div className="d-flex mt-1">
+                              <UserOutlined className="mt-1 ml-2" />
+                              <p className="ml-1 mt-1">{item.limitNumber}</p>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="d-flex ">
-                          <FieldTimeOutlined className="mt-1" />
-                          <p className="ml-2"> {item.startTime}</p>
-                        </div>
+                          <div className="d-flex ">
+                            <FieldTimeOutlined className="mt-1" />
+                            <p className="ml-2"> {item.startTime}</p>
+                          </div>
 
-                        <Button type="primary">Apply</Button>
-                      </Card>
-                    </Link>
+                          <Button type="primary">Apply</Button>
+                        </Card>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="mt-5" style={{ textAlign: 'center' }}>
+                <Pagination
+                  onChange={this.onChange}
+                  defaultCurrent={1}
+                  total={500}
+                />
+              </div>
             </div>
-            <div className="mt-5" style={{ textAlign: 'center' }}>
-              <Pagination
-                onChange={this.onChange}
-                defaultCurrent={1}
-                total={500}
-              />
-            </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }

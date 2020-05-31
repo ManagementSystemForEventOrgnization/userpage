@@ -271,10 +271,16 @@ const deleteBlock = (id) => {
 //   }
 // };
 
-const getListEventUpComing = () => {
+const getListEventUpComing = (pageNumber, numberRecord) => {
+  // let numberRecord = 12;
+  let data = {
+    numberRecord, pageNumber
+  };
   //api/getListEvent
   return (dispatch) => {
-    API.get(`/api/get_list_event_coming_up`,
+    API.get(`/api/get_list_event_coming_up`, {
+      params: data
+    }
     )
       .then((res) => {
         if (res.status === 200) {

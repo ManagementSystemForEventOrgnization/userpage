@@ -1,8 +1,10 @@
 .event-cart {
-    width: 260px;
+    width: 360px;
+
     border-radius: 5px !important;
     .img {
-        height: 150px;
+        height: 180px !important ;
+        width: 340px;
     }
 
     &:hover {
