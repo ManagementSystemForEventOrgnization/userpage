@@ -271,6 +271,37 @@ const deleteBlock = (id) => {
 //   }
 // };
 
+const getListEventUpComing = () => {
+  //api/getListEvent
+  return (dispatch) => {
+    API.get(`/api/get_list_event_coming_up`,
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('data:', res.data.result);
+          dispatch(success(res.data.result));
+        } else {
+          dispatch(failure());
+        }
+      })
+      .catch((error) => {
+        dispatch(failure());
+      });
+  };
+
+  function success(events) {
+    return {
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS,
+      events,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE,
+    };
+  }
+};
+
 const getHomeData = () => {
   return (dispatch) =>
     Promise.all([API.get('/api/getListEvent'), API.get('/api/evenCategory')])
@@ -367,7 +398,7 @@ export const eventActions = {
   deleteBlock,
   getEventDetail,
   saveEvent,
-
+  getListEventUpComing,
   savePage,
   updatePage,
   getEventEdit,

@@ -202,7 +202,17 @@ const event = (state = initialState, action) => {
         ...state,
         events: [],
       };
-
+      case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
+        return {
+          ...state,
+          events: action.events,
+        };
+      case eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE:
+        return {
+          ...state,
+          events: [],
+        };
+  
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);
