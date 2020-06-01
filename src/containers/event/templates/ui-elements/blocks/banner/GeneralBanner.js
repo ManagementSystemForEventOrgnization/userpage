@@ -10,6 +10,10 @@ import ButtonBlock from '../../atoms/Button';
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 
+import { exampleText } from '../../../constants/atom.constant';
+import { Input } from 'antd';
+const { TextArea } = Input;
+
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
@@ -45,15 +49,17 @@ class GeneralBanner extends Component {
               },
               buttonText: { value: 'Register Now', style: {} },
             },
+
+            inputText: exampleText + exampleText + exampleText,
           };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
+  //   componentDidMount = () => {
+  //     const { editable } = this.props;
+  //     if (editable) {
+  //       this.handleStoreBlock();
+  //     }
+  //   };
 
   collapseModal = () => {
     const { visible } = this.state;
@@ -81,15 +87,12 @@ class GeneralBanner extends Component {
       [type]: value,
     });
     setTimeout(this.handleStoreBlock(), 3000);
-    // this.handleStoreBlock();
   };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;
-
     let item = blocks.find((ele) => ele.id === id);
-
     if (item) {
       const index = blocks.indexOf(item);
       item.style = currentStyle;
@@ -146,6 +149,7 @@ class GeneralBanner extends Component {
     content[type] = value;
     this.setState(content);
   };
+
   render() {
     const {
       url,
@@ -156,6 +160,7 @@ class GeneralBanner extends Component {
       padding,
       plainOptions,
       content,
+      inputText,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -186,6 +191,11 @@ class GeneralBanner extends Component {
       height: '100%',
       opacity: opacity,
       backgroundColor: bgColor,
+    };
+
+    const inputStyle = {
+      backgroundColor: 'none',
+      background: 'none',
     };
 
     return (
@@ -219,6 +229,15 @@ class GeneralBanner extends Component {
               />
             </div>
           </div>
+
+          <TextArea
+            style={inputStyle}
+            placeholder="Autosize height based on content lines"
+            value={inputText}
+            onChange={(e) => this.onChangeStyle('inputText', e.target.value)}
+            autoSize
+          />
+
           {type === 3 && (
             <div className="row">
               <div

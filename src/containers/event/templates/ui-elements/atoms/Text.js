@@ -122,7 +122,6 @@ class TextsBlock extends React.Component {
       tranform,
       color,
       fontWeight,
-      clicked,
     } = this.state;
 
     const divStyle = {

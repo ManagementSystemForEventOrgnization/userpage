@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { ReactSortable } from 'react-sortablejs';
+
 import { eventActions } from '../../action/event.action';
 import { blockList } from './data/data';
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      blocks: [],
+      dropList: props.blocks,
       currentPage: props.currentPage,
       currentIndex: props.match.match.params.name || props.currentIndex,
       id: props.match.match.params.id || localStorage.getItem('currentId'),
@@ -75,6 +77,11 @@ class EventDetail extends React.Component {
     }
   };
 
+  handleChangeList = (dropList) => {
+    console.log('TCL');
+    // this.setState({ dropList });
+  };
+
   render() {
     const { blocks } = this.props;
 
@@ -82,6 +89,26 @@ class EventDetail extends React.Component {
       <div>
         {this.renderHeader()}
         {blocks.map((item) => this.renderBlocks(item))}
+
+        <ReactSortable
+          id="drop-container"
+          sort={true}
+          group={{
+            name: 'shared',
+            pull: true,
+            put: true,
+          }}
+          animation={300}
+          delayOnTouchStart={true}
+          delay={3}
+          //   list={dropList}
+          //   setList={this.handleSetDropList}
+
+          list={this.state.dropList}
+          setList={this.handleChangeList}
+        >
+          {this.state.dropList.map((item) => this.renderBlocks(item))}
+        </ReactSortable>
       </div>
     );
   }

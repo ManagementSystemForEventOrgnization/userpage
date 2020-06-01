@@ -207,6 +207,8 @@ const prepareForCreateEvent = (
 };
 
 const storeBlocksWhenCreateEvent = (blocks) => {
+  // console.log('here');
+  // console.log(blocks);
   return (dispatch) => {
     dispatch(request(blocks));
   };

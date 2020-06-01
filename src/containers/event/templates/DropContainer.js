@@ -4,57 +4,86 @@ import { ReactSortable } from 'react-sortablejs';
 
 import { eventActions } from 'action/event.action';
 import { blockList } from '../data/data';
+import { exampleText } from './constants/atom.constant';
+
+import { Input } from 'antd';
+const { TextArea } = Input;
 
 class DropContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dropList: [...this.props.blocks],
+      inputText: exampleText + exampleText + exampleText + exampleText,
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.blocks !== prevState.dropList) {
-      return { dropList: nextProps.blocks };
-    } else return null;
-  }
+  //   static getDerivedStateFromProps(nextProps, prevState) {
+  //     if (nextProps.blocks !== prevState.dropList) {
+  //       return { dropList: nextProps.blocks };
+  //     } else return null;
+  //   }
 
-  handleSetDropList = (dropList) => {
-    const { storeBlocksWhenCreateEvent } = this.props;
-    this.setState({ dropList });
-    storeBlocksWhenCreateEvent(dropList);
-  };
+  //   handleSetDropList = (dropList) => {
+  //     const { storeBlocksWhenCreateEvent } = this.props;
+  //     this.setState({ dropList });
+  //     storeBlocksWhenCreateEvent(dropList);
+  //   };
 
-  renderBlocks = (item) => {
-    const { match } = this.props;
-    const param = item.style
-      ? {
-          id: item.id,
-          style: item.style,
-          editable: true,
-          match,
-        }
-      : {
-          id: item.id,
-          editable: true,
-          match,
-        };
-    // return callBack(param, blockList[item.type]);
+  renderEditedBlock = (item, match, editable) => {
+    console.log(item);
+    const param =
+      Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            style: item.style,
+            editable,
+            match,
+          }
+        : {
+            id: item.id,
+            editable,
+            match,
+          };
+
     return blockList[item.type](param);
   };
 
-  handleChangeInput = (e) => {
+  renderBlock = (item, match, editable) => {
+    console.log('before ', item);
+    return item.options({
+      id: item.id,
+      key: item.id,
+      editable,
+      match,
+      type: item.type,
+    });
+  };
+
+  handleChangeTextArea = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      inputText: e.target.value,
     });
   };
 
   render() {
-    const { dropList } = this.state;
-    const { match, editable, update, blocks } = this.props;
+    const { inputText } = this.state;
+    const { match, editable, blocks, storeBlocksWhenCreateEvent } = this.props;
+    const inputStyle = {
+      backgroundColor: 'none',
+      background: 'none',
+    };
 
+    const update = true;
     return (
       <div className="drop-container">
+        <TextArea
+          style={inputStyle}
+          placeholder="Autosize height based on content lines"
+          value={inputText}
+          onChange={this.handleChangeTextArea}
+          autoSize
+        />
         <ReactSortable
           id="drop-container"
           sort={true}
@@ -66,20 +95,17 @@ class DropContainer extends React.Component {
           animation={300}
           delayOnTouchStart={true}
           delay={3}
-          list={dropList}
-          setList={this.handleSetDropList}
+          //   list={dropList}
+          //   setList={this.handleSetDropList}
+
+          list={blocks}
+          setList={storeBlocksWhenCreateEvent}
         >
           {update
-            ? blocks.map((item) => this.renderBlocks(item))
-            : dropList.map((item) => {
-                return item.options({
-                  id: item.id,
-                  key: item.id,
-                  editable: editable,
-                  match,
-                  type: item.type,
-                });
-              })}
+            ? blocks.map((item) =>
+                this.renderEditedBlock(item, match, editable)
+              )
+            : blocks.map((item) => this.renderBlock(item, match, editable))}
         </ReactSortable>
       </div>
     );

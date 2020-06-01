@@ -6,7 +6,10 @@ import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import { eventActions } from 'action/event.action';
+
 import { exampleText } from '../../../constants/atom.constant';
+// import { Input } from 'antd';
+// const { TextArea } = Input;
 
 const defaultTitle = {
   value: 'Title',
@@ -47,6 +50,8 @@ class EventDescription extends Component {
                 subDescription: defaultDescription,
               },
             },
+
+            inputText: exampleText + exampleText + exampleText,
           };
   }
 
@@ -109,6 +114,12 @@ class EventDescription extends Component {
     this.setState({ content });
   };
 
+  handleChangeTextArea = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
+  };
+
   render() {
     const {
       collapse,
@@ -118,6 +129,7 @@ class EventDescription extends Component {
       opacity,
       margin,
       content,
+      inputText,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -149,10 +161,34 @@ class EventDescription extends Component {
       backgroundColor: bgColor,
     };
 
+    const inputStyle = {
+      backgroundColor: 'none',
+      background: 'none',
+    };
+
     return (
       <div className="child-block d-flex">
         <div style={style}>
           {url && <div style={bg}></div>}
+          <input
+            style={inputStyle}
+            value={inputText}
+            onChange={this.handleChangeTextArea}
+          />
+          {/* 
+          <Input
+            style={inputStyle}
+            value={inputText}
+            onChange={this.handleChangeTextArea}
+          />
+          <TextArea
+            style={inputStyle}
+            placeholder="Autosize height based on content lines"
+            value={inputText}
+            onChange={this.handleChangeTextArea}
+            autoSize
+          /> */}
+
           <div className="row">
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-8'}>
               <Text
