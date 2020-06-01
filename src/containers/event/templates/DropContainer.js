@@ -43,9 +43,10 @@ class DropContainer extends React.Component {
     return blockList[item.type](param);
   };
 
-  callBackFunction = (params, callBack) => {
-    if (!callBack) return;
-    callBack(params);
+  handleChangeInput = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
   render() {
@@ -54,7 +55,6 @@ class DropContainer extends React.Component {
 
     return (
       <div className="drop-container">
-        {/* <Comment /> */}
         <ReactSortable
           id="drop-container"
           sort={true}

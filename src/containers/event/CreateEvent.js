@@ -172,8 +172,22 @@ class CreateEvent extends React.Component {
     handlePreviousPage(newPageId);
   };
 
+  isDisablePrevious = () => {
+    const { currentIndex } = this.state;
+    const { pages, currentPage } = this.props;
+
+    if (currentIndex === 0) {
+      if (pages[currentIndex].child.length === 0) {
+        return true;
+      } else {
+        return pages[currentIndex].child[0].id === currentPage ? true : false;
+      }
+    }
+    return false;
+  };
+
   render() {
-    const { collapsed, editable, currentIndex } = this.state;
+    const { collapsed, editable } = this.state;
     const { match, pending } = this.props;
     const id = localStorage.getItem('currentId');
     const textStyle = {
@@ -181,7 +195,7 @@ class CreateEvent extends React.Component {
     };
 
     const content = (
-      <div className={{ width: '50px', height: '100px' }}>
+      <div className="p-3">
         Create event : Drag each block from menu to below container. <br />
         Menu for Event : Click edit icon to change each item of menu. <br />
         Next Page : Move to next page in Menu.
@@ -228,7 +242,12 @@ class CreateEvent extends React.Component {
             </a>
           </Button>
 
-          <Popover content={content} title="Help" trigger="click" id="help">
+          <Popover
+            content={content}
+            title="Help"
+            trigger="click"
+            placement="bottomLeft"
+          >
             <QuestionCircleTwoTone style={inconStyle} />
           </Popover>
         </div>
@@ -268,7 +287,7 @@ class CreateEvent extends React.Component {
             variant="secondary"
             className="mr-1 ml-1"
             onClick={this.handleBack}
-            disabled={currentIndex === 0}
+            disabled={this.isDisablePrevious()}
           >
             Previous Page
           </Button>

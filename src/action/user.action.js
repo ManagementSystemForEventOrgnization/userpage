@@ -165,8 +165,10 @@ const register = (email, password, fullName) => {
 const checkCode = (token) => {
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/verifyToken`, {
-      token,
+    API.get(`/api/verifyToken`, {
+      params: {
+        token,
+      },
     })
       .then((res) => {
         dispatch(success());
@@ -227,7 +229,7 @@ const onUpdateUserProfile = (userInfor) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
-      ...userInfor
+      ...userInfor,
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -268,18 +270,16 @@ const get_History = (
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate, endDate);
-    if (txtSearch !== " ") {
+    if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
     }
 
-
     API.get(`/api/user/history`, {
-      params: dataSent
-
+      params: dataSent,
     })
       .then((res) => {
-        console.log("THT:", res.data.result)
+        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -318,18 +318,16 @@ const getCreateHistory = (
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate, endDate);
-    if (txtSearch !== " ") {
+    if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
     }
 
-
     API.get(`/api/user/historyCreate`, {
-      params: dataSent
-
+      params: dataSent,
     })
       .then((res) => {
-        console.log("THT:", res.data.result)
+        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -376,5 +374,5 @@ export const userActions = {
   requestForgotPassword,
   get_History,
   getListNotification,
-  getCreateHistory
+  getCreateHistory,
 };
