@@ -31,7 +31,19 @@ const ScheduleState = (props, first) => ({
     : 'normal',
 
   scheduleName: 'Schedule',
-
+  /**
+   * day
+   * limit number
+   * name
+   * address: {
+   *      location
+   *      map: {
+   *
+   *              lat
+   *              lng
+   *  }
+   * }
+   */
   scheduleText: first
     ? [
         {

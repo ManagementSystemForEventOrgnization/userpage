@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Button, Card, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import {
-
-  FieldTimeOutlined, UserOutlined, EnvironmentOutlined
+  FieldTimeOutlined,
+  UserOutlined,
+  EnvironmentOutlined,
 } from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
@@ -24,40 +25,30 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing } = this.props;
-
-    // console.log("mo", events);
-
-    getListEventUpComing();
-
+    const { getHomeData } = this.props;
+    getHomeData();
   };
 
   sumDiscount = (ticket, discount) => {
-
-    let newDiscount = (1 - discount)
+    let newDiscount = 1 - discount;
 
     let sum = newDiscount * ticket;
 
     return sum;
-  }
+  };
   percentDiscount = (discount) => {
+    let newDiscount = discount * 100;
 
-    let newDiscount = discount * 100
+    let percent = `-${newDiscount}%`;
 
-    let percent = `-${newDiscount}%`
-
-    return percent
-  }
+    return percent;
+  };
 
   render() {
     const { events } = this.props;
-    console.log("mo", events);
+    console.log('mo', events);
 
     // const events = this.props.events ? this.props.events : []
-
-
-
-
 
     const orgnizations = {
       name: 'Orgnization 1',
@@ -86,78 +77,98 @@ class HomePage extends Component {
             <h1 className="">Upcoming Events </h1>
             <div className="row pl-5 ml-2 ">
               {events.map((item, index) => (
-                < div className="row mt-4 ml-5  shadow pb-3" key={index} >
-
-                  < Link to="">
+                <div className="row mt-4 ml-5  shadow pb-3" key={index}>
+                  <Link to="">
                     <Card
                       className="event-cart"
-
                       cover={
                         <img
                           className="img"
                           alt="example"
                           src={item.bannerUrl}
                         />
-
                       }
                     >
                       <div className="d-flex ">
-                        <Tooltip placement="bottomLeft" title={
+                        <Tooltip
+                          placement="bottomLeft"
+                          title={
+                            item.session
+                              ? item.session.map((e, i) => (
+                                  <div key={i}>
+                                    <div className="d-flex ">
+                                      <div className="d-flex ">
+                                        <FieldTimeOutlined className="mt-1" />
+                                        <p className="ml-2"> {e.day}</p>
+                                      </div>
+                                      <div className="d-flex mt-1">
+                                        <UserOutlined className=" ml-2" />
+                                        <p className="ml-1 ">{e.limitNumber}</p>
+                                      </div>
+                                    </div>
 
-                          item.session ?
-                            item.session.map((e, i) =>
-                              <div key={i}>
-                                <div className="d-flex ">
-                                  <div className="d-flex ">
-                                    <FieldTimeOutlined className="mt-1" />
-                                    <p className="ml-2"> {e.day}</p>
+                                    {e.address && (
+                                      <div className="d-flex ">
+                                        <EnvironmentOutlined className="mt-1" />
+                                        <p className="ml-2">
+                                          {' '}
+                                          {e.address.location}
+                                        </p>
+                                      </div>
+                                    )}
                                   </div>
-                                  <div className="d-flex mt-1">
-                                    <UserOutlined className=" ml-2" />
-                                    <p className="ml-1 ">{e.limitNumber}</p>
-                                  </div>
-                                </div>
-
-
-
-                                {e.address && <div className="d-flex ">
-                                  <EnvironmentOutlined className="mt-1" />
-                                  <p className="ml-2"> {e.address.location}</p>
-                                </div>}
-
-                              </div>
-
-                            )
-                            : "No have start time events "
-                        }>
-                          <h4 className="line-clamp"
-                          >{item.name}</h4>
-                        </Tooltip>
-
-
-                      </div>
-                      {item.ticket ?
-                        <div className="d-flex mt-1">
-                          {item.ticket.discount ?
-                            <div className="d-flex mt-1">
-                              <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 mt-1">{item.ticket.price}</p>
-                              <p className="ml-1"> {this.percentDiscount(item.ticket.discount)}</p>
-                              <p style={{ fontWeight: "bold" }} className="ml-2 mt-1">{this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
-                            </div>
-                            : <p style={{ fontWeight: "bold" }} className="ml-1 mt-1">{item.ticket.price}</p>
+                                ))
+                              : 'No have start time events '
                           }
+                        >
+                          <h4 className="line-clamp">{item.name}</h4>
+                        </Tooltip>
+                      </div>
+                      {item.ticket ? (
+                        <div className="d-flex mt-1">
+                          {item.ticket.discount ? (
+                            <div className="d-flex mt-1">
+                              <p
+                                style={{
+                                  textDecoration: 'line-through',
+                                  fontWeight: 'bold',
+                                }}
+                                className="ml-1 mt-1"
+                              >
+                                {item.ticket.price}
+                              </p>
+                              <p className="ml-1">
+                                {' '}
+                                {this.percentDiscount(item.ticket.discount)}
+                              </p>
+                              <p
+                                style={{ fontWeight: 'bold' }}
+                                className="ml-2 mt-1"
+                              >
+                                {this.sumDiscount(
+                                  item.ticket.price,
+                                  item.ticket.discount
+                                )}
+                              </p>
+                            </div>
+                          ) : (
+                            <p
+                              style={{ fontWeight: 'bold' }}
+                              className="ml-1 mt-1"
+                            >
+                              {item.ticket.price}
+                            </p>
+                          )}
                         </div>
-                        : <p style={{ fontWeight: "bold" }} className="ml-1 mt-1">Free</p>
-
-                      }
-
-
+                      ) : (
+                        <p style={{ fontWeight: 'bold' }} className="ml-1 mt-1">
+                          Free
+                        </p>
+                      )}
 
                       <Button type="primary">Apply</Button>
                     </Card>
-                  </ Link>
-
-
+                  </Link>
                 </div>
               ))}
             </div>
@@ -185,8 +196,6 @@ class HomePage extends Component {
         <Footer />
       </div>
     );
-
-
   }
 }
 const mapStateToProps = (state) => {
@@ -196,8 +205,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getListEventUpComing: () => dispatch(eventActions.getListEventUpComing()),
-  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
 });
 

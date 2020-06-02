@@ -3,32 +3,26 @@ import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
 
-const getListEventUpComing = () => {
-  //api/getListEvent
-  return (dispatch) => {
-    API.get(`/api/get_list_event_coming_up`)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log('data:', res.data.result);
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure());
-        }
+const getHomeData = () => {
+  return (dispatch) =>
+    Promise.all([
+      API.get('/api/get_list_event_coming_up'),
+      API.get('/api/evenCategory'),
+    ])
+      .then(([events, categories]) => {
+        dispatch(success(events.data.result, categories.data.result));
       })
-      .catch((error) => {
-        dispatch(failure());
-      });
-  };
-
-  function success(events) {
+      .catch((error) => handleCatch(dispatch, failure, error));
+  function success(events, categories) {
     return {
-      type: eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS,
+      type: eventConstants.GET_HOME_DATA_SUSSESS,
       events,
+      categories,
     };
   }
   function failure() {
     return {
-      type: eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE,
+      type: eventConstants.GET_HOME_DATA_FAILURE,
     };
   }
 };
@@ -106,7 +100,6 @@ const getEventEdit = (eventId, route) => {
 };
 
 const getCategories = () => {
-  // /api/evenCategory`
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
@@ -316,23 +309,6 @@ const prepareForCreateEvent = (
   }
 };
 
-const getHomeData = () => {
-  return (dispatch) =>
-    Promise.all([API.get('/api/getListEvent'), API.get('/api/evenCategory')])
-      .then(([events, categories]) => {
-        dispatch(success(categories.data.result));
-      })
-      .catch((err1) => {
-        console.log(err1.response);
-      });
-  function success(categories) {
-    return {
-      type: eventConstants.GET_CATEGORIES_SUCCESS,
-      categories,
-    };
-  }
-};
-
 const saveEvent = (id, blocks, header, isPreview) => {
   const eventId = id || localStorage.getItem('currentId');
 
@@ -382,7 +358,7 @@ export const eventActions = {
 
   prepareForCreateEvent,
   getEventDetail,
-  getListEventUpComing,
+  //   getListEventUpComing,
   getEventEdit,
 
   saveEvent,

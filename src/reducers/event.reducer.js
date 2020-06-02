@@ -200,17 +200,7 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
       };
-    case eventConstants.GET_LIST_EVENT_SUCCESS:
-      return {
-        ...state,
-        events: action.events,
-      };
 
-    case eventConstants.GET_LIST_EVENT_FAILURE:
-      return {
-        ...state,
-        events: [],
-      };
     case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
       return {
         ...state,
@@ -222,6 +212,12 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
+    case eventConstants.GET_HOME_DATA_SUSSESS:
+      return {
+        ...state,
+        events: action.events,
+        categories: action.categories,
+      };
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);
