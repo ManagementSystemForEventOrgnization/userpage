@@ -224,6 +224,7 @@ class Schedule1 extends Component {
               </div>
             ))}
           </div>
+
           {editable && (
             <IconsHandle
               collapseModal={this.showModal}

@@ -10,68 +10,10 @@ import ButtonBlock from '../../atoms/Button';
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 
-const title = 'Wellcome!!! Edit tittle here.';
-const description = 'Wellcome!!! Edit description here.';
-
-const PLAINOPTIONS = [
-  {
-    day: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    detail: [],
-    id: ' Fri May 22 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    address: {
-      location: 'dsfasdfhjk',
-      map: {
-        lat: '23424',
-        lng: '2342434',
-      },
-    },
-  },
-  {
-    day: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    detail: [],
-    id: ' Fri May 30 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    address: {
-      location: 'dsfasdfhjk',
-      map: {
-        lat: '23424',
-        lng: '2342434',
-      },
-    },
-  },
-
-  {
-    day: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    detail: [],
-    id: ' Fri May 3 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    address: {
-      location: 'dsfasdfhjk',
-      map: {
-        lat: '23424',
-        lng: '2342434',
-      },
-    },
-  },
-
-  {
-    day: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    detail: [],
-    id: ' Fri May 5 2020 12:00:00 GMT+0700 (Indochina Time) ',
-    address: {
-      location: 'dsfasdfhjk',
-      map: {
-        lat: '23424',
-        lng: '2342434',
-      },
-    },
-  },
-];
-
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
-    const { style, session, banner } = this.props;
-
-    console.log(banner);
+    const { style, session, banner, nameEvent } = this.props;
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style }
@@ -81,13 +23,28 @@ class GeneralBanner extends Component {
             margin: [1, 1, 1, 1],
             padding: [10, 5, 5, 10],
 
-            fontWeight: 'bolder',
-            fontSize: 50,
-            textAlign: 'center',
-
             opacity: 0.3,
             bgColor: 'black',
-            plainOptions: session ? session : PLAINOPTIONS,
+            plainOptions: session,
+            content: {
+              title: {
+                value: nameEvent || 'Wellcome !!! Edit title here !',
+                style: {
+                  fontWeight: 'bolder',
+                  fontSize: 50,
+                  textAlign: 'center',
+                },
+              },
+              description: {
+                value: 'Wellcome !!! Edit description here !',
+                style: {
+                  fontWeight: 'normal',
+                  fontSize: 25,
+                  textAlign: 'center',
+                },
+              },
+              buttonText: { value: 'Register Now', style: {} },
+            },
           };
   }
 
@@ -149,7 +106,6 @@ class GeneralBanner extends Component {
     if (!isLogined) {
       history.push('/login');
     } else {
-      console.log('handle apply event');
       this.setState({
         applyEventModal: true,
       });
@@ -163,11 +119,12 @@ class GeneralBanner extends Component {
   };
 
   handleApply = (checkList) => {
-    const { plainOptions } = this.state;
+    const { session } = this.props;
+
     const applySession = [];
-    for (let i = 0; i < plainOptions.length; i++) {
-      if (checkList.indexOf(plainOptions[i].id) !== -1) {
-        applySession.push(plainOptions[i]);
+    for (let i = 0; i < session.length; i++) {
+      if (checkList.indexOf(session[i].id) !== -1) {
+        session.push(session[i]);
       }
     }
     this.setState({
@@ -183,18 +140,22 @@ class GeneralBanner extends Component {
     this.handleCloseApplyEventModal();
   };
 
+  handleChangeContent = (type, value) => {
+    let { content } = this.state;
+
+    content[type] = value;
+    this.setState(content);
+  };
   render() {
     const {
       url,
       bgColor,
       visible,
-      fontSize,
-      fontWeight,
-      textAlign,
       opacity,
       margin,
       padding,
       plainOptions,
+      content,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -235,28 +196,26 @@ class GeneralBanner extends Component {
           <div className="row">
             <div className="col-sm-12">
               <Text
-                content={title}
+                content={content.title.value}
                 child={true}
                 editable={editable}
-                newStyle={{
-                  fontWeight: fontWeight,
-                  fontSize: fontSize,
-                  textAlign: textAlign,
-                }}
+                newStyle={content.title.style}
+                changeContent={(value) =>
+                  this.handleChangeContent('title', value)
+                }
               />
             </div>
           </div>
           <div className="row">
             <div className="col-sm-12">
               <Text
-                content={description}
+                content={content.description.value}
                 editable={editable}
                 child={true}
-                newStyle={{
-                  fontWeight: 'normal',
-                  fontSize: 25,
-                  textAlign: 'center',
-                }}
+                newStyle={content.description.style}
+                changeContent={(value) =>
+                  this.handleChangeContent('description', value)
+                }
               />
             </div>
           </div>
@@ -271,7 +230,11 @@ class GeneralBanner extends Component {
                 <ButtonBlock
                   editable={editable}
                   child={true}
-                  handleApplyEvent={true && this.handleRequestApplyEvent}
+                  content={content.buttonText.value}
+                  handleApplyEvent={this.handleRequestApplyEvent}
+                  changeContent={(value) =>
+                    this.handleChangeContent('buttonText', value)
+                  }
                 />
               </div>
             </div>
@@ -348,6 +311,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   userInfo: state.user.userInfo,
   banner: state.event.banner,
+  nameEvent: state.event.nameEvent,
 });
 
 const mapDispatchToProps = (dispatch) => ({

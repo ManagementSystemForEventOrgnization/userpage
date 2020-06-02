@@ -25,37 +25,53 @@ class TextsBlock extends React.Component {
   }
 
   componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
+    const { editable, child } = this.props;
+    if (editable && !child) {
       this.handleStoreBlock();
     }
   };
   // common function
 
   onChangeValue(newValue, valueParam) {
+    const { changeContent, handleChangeContent } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(() => {
+      const value = {
+        value: this.state.content,
+        style: this.state,
+      };
+      if (changeContent) {
+        changeContent(value);
+      } else if (handleChangeContent) {
+        handleChangeContent(value);
+      } else this.handleStoreBlock();
+    }, 3000);
   }
 
   handleEditorChange = (content) => {
-    const { handleOnChangeTextBlock } = this.props;
+    const {
+      handleOnChangeTextBlock,
+      changeContent,
+      handleChangeContent,
+    } = this.props;
     this.setState({ content });
-    setTimeout(this.handleStoreBlock(), 3000);
-
-    if (handleOnChangeTextBlock) {
-      handleOnChangeTextBlock(
-        content ? ReactHtmlParser(content)[0].props.children[0] : ''
-      );
-    }
-  };
-
-  onChangeUrl = (value) => {
-    const { handleChangeUrl } = this.props;
-    if (handleChangeUrl) {
-      handleChangeUrl(value);
-    }
+    setTimeout(() => {
+      const value = {
+        value: content ? ReactHtmlParser(content)[0].props.children[0] : '',
+        style: this.state,
+      };
+      if (handleOnChangeTextBlock) {
+        handleOnChangeTextBlock(
+          content ? ReactHtmlParser(content)[0].props.children[0] : ''
+        );
+      } else if (changeContent) {
+        changeContent(value);
+      } else if (handleChangeContent) {
+        handleChangeContent(value);
+      }
+    }, 3000);
   };
 
   handleStoreBlock = () => {

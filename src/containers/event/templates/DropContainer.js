@@ -29,16 +29,16 @@ class DropContainer extends React.Component {
     const { match } = this.props;
     const param = item.style
       ? {
-          id: item.id,
-          style: item.style,
-          editable: true,
-          match,
-        }
+        id: item.id,
+        style: item.style,
+        editable: true,
+        match,
+      }
       : {
-          id: item.id,
-          editable: true,
-          match,
-        };
+        id: item.id,
+        editable: true,
+        match,
+      };
     // return callBack(param, blockList[item.type]);
     return blockList[item.type](param);
   };
@@ -65,21 +65,21 @@ class DropContainer extends React.Component {
           }}
           animation={300}
           delayOnTouchStart={true}
-          delay={3}
+          delay={200}
           list={dropList}
           setList={this.handleSetDropList}
         >
           {update
             ? blocks.map((item) => this.renderBlocks(item))
             : dropList.map((item) => {
-                return item.options({
-                  id: item.id,
-                  key: item.id,
-                  editable: editable,
-                  match,
-                  type: item.type,
-                });
-              })}
+              return item.options({
+                id: item.id,
+                key: item.id,
+                editable: editable,
+                match,
+                type: item.type,
+              });
+            })}
         </ReactSortable>
       </div>
     );

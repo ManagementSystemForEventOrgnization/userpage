@@ -9,8 +9,8 @@ class EventDetail extends React.Component {
     this.state = {
       blocks: [],
       currentPage: props.currentPage,
-      currentIndex: props.currentIndex,
-      id: localStorage.getItem('currentId'),
+      currentIndex: props.match.match.params.name || props.currentIndex,
+      id: props.match.match.params.id || localStorage.getItem('currentId'),
     };
   }
 
@@ -35,10 +35,10 @@ class EventDetail extends React.Component {
 
   componentDidMount = () => {
     const { getEventDetail } = this.props;
-    const { id } = this.state;
-    const index = localStorage.getItem('currentIndex');
+    const { id, currentIndex } = this.state;
+    const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
-    getEventDetail(id, index || 0);
+    getEventDetail(id, index);
   };
 
   renderHeader = () => {
@@ -63,9 +63,14 @@ class EventDetail extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.currentIndex !== this.props.currentIndex) {
+    if (
+      prevProps.currentIndex !== undefined &&
+      prevProps.currentIndex !== this.props.currentIndex
+    ) {
       localStorage.setItem('currentIndex', this.props.currentIndex);
+
       const { id, name } = this.props.match.match.params;
+      console.log('changed ', prevProps.currentIndex, this.props.currentIndex);
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
   };

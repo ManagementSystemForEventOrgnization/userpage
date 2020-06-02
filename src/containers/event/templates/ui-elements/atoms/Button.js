@@ -42,32 +42,61 @@ class ButtonBlock extends React.Component {
   };
 
   componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
+    const { editable, child } = this.props;
+    if (editable && !child) {
       this.handleStoreBlock();
     }
   };
 
-  onCollapseModal = () => {
-    const { handleApplyEvent } = this.props;
-    if (!handleApplyEvent) {
+  handleApplyEvent = () => {
+    const { handleApplyEvent, editable } = this.props;
+    if (!editable && handleApplyEvent) {
+      handleApplyEvent();
+    } else if (editable) {
       const { isDesign } = this.state;
-      this.setState({
-        isDesign: !isDesign,
-      });
-    } else handleApplyEvent();
+      this.setState({ isDesign: !isDesign });
+    }
+  };
+
+  onCollapseModal = () => {
+    const { isDesign } = this.state;
+    this.setState({
+      isDesign: !isDesign,
+    });
   };
   // common function
   onChangeValue(newValue, valueParam) {
+    const { changeContent } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(() => {
+      this.handleStoreBlock();
+      if (changeContent) {
+        changeContent({
+          value: this.state.content,
+          style: this.state,
+        });
+      }
+    }, 3000);
   }
 
   handleEditorChange = (e) => {
+    const { changeContent, child } = this.props;
+
     this.setState({ content: e.target.value });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(() => {
+      if (!child) {
+        this.handleStoreBlock();
+      }
+
+      if (changeContent) {
+        changeContent({
+          value: this.state.content,
+          style: this.state,
+        });
+      }
+    }, 3000);
   };
 
   handleStoreBlock = () => {
@@ -170,6 +199,7 @@ class ButtonBlock extends React.Component {
             className="ml-3"
             style={styleButton}
             value={isButton}
+            onClick={this.handleApplyEvent}
           >
             <span></span>
             {ReactHtmlParser(content)}

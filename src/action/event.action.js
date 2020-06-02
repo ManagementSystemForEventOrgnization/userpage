@@ -12,9 +12,9 @@ const getEventDetail = (eventId, index) => {
       },
     })
       .then((res) => {
-        // console.log(res.data.result);
         const { rows, header } = res.data.result;
-
+        localStorage.setItem('currentIndex', index);
+        localStorage.setItem('currentId', eventId);
         dispatch(success(rows, header[0], index));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
@@ -146,7 +146,7 @@ const prepareForCreateEvent = (
       category,
       urlWeb: webAddress,
       session,
-      isSellTicket: isSellTicket === 'True' ? true : false,
+      isSellTicket: isSellTicket === 'Yes' ? true : false,
       banner,
     })
       .then((res) => {
@@ -326,7 +326,7 @@ const getHomeData = () => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id;
+  const eventId = id || localStorage.getItem('currentId');
 
   return (dispatch) => {
     dispatch(request());
@@ -335,6 +335,7 @@ const saveEvent = (id, blocks, header, isPreview) => {
         console.log('TCL Save event detail  THEN: ', res);
         dispatch(success());
         localStorage.removeItem('currentIndex');
+        history.push(`/event/${eventId}`);
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };

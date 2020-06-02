@@ -94,15 +94,15 @@ class HomePage extends Component {
         <div className="list-event">
           <div className="up-coming pl-2">
             <h1 className="">Upcoming Events </h1>
-            <div className="container pl-5  d-flex justify-content-around ">
+            <div className=" row  pl-4 ">
               {events.map((item, index) =>
-                < div className=" mt-4 ml-5  shadow pb-3" key={index} >
+                < div className=" mt-4 ml-5 row  " key={index} >
 
                   < Link to="" >
                     <Card
                       className="event-cart"
                       cover={
-                        <div className="p-2"  >
+                        <div >
                           {
                             item.session ?
                               item.session.map((e, i) =>
@@ -133,14 +133,17 @@ class HomePage extends Component {
 
                       }
                     >
-                      <h4 className="line-clamp" style={{ textAlign: "center" }}>{item.name}</h4>
+                      <div className="d-flex ">
+                        <h5 className="ml-2 line-clamp " > {item.name}</h5>
+
+                      </div>
                       <div className="d-flex ">
                         <FieldTimeOutlined className="mt-1" />
                         <div className="d-flex ">
-                          <p className="ml-2"> {moment(item.session[0].day).format('DD/MM/YYYY')},</p>
+                          <p className="ml-2" style={{ color: '#d1410c', fontWeight: "bold" }}> {moment(item.session[0].day).format('DD/MM/YYYY ')}</p>
                           {
                             item.session.length === 1 ? " " :
-                              <p className="ml-2"> + {item.session.length - 1}more</p>
+                              <p className="ml-2" style={{ color: '#d1410c', fontWeight: "bold" }}> + {item.session.length - 1}more events</p>
 
                           }
                         </div>
@@ -148,15 +151,10 @@ class HomePage extends Component {
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
                         <div className="d-flex ">
-                          <p className="ml-2 line-clamp "> {item.session[0].address.location}</p>
+                          <p className="ml-2 address "> {item.session[0].address.location}</p>
 
                         </div>
                       </div>
-
-
-
-
-
 
                       < div className="row">
                         <div className="col">
@@ -171,7 +169,7 @@ class HomePage extends Component {
                                 : <p className=" mt-1 ">{item.ticket.price}</p>
                               }
                             </div>
-                            : <p className="ml-1  ">0 VNĐ</p>
+                            : <p style={{ fontWeight: 'bold' }} className="ml-1  ">0 VNĐ</p>
 
                           }
                         </div>
@@ -179,14 +177,10 @@ class HomePage extends Component {
                           <p style={{ fontWeight: 400, textAlign: "center" }}>{item.eventCategories.name}</p>
                         </div>
                       </ div>
-                      <Button className="apply" type="primary">tickets</Button>
 
 
                     </Card>
                   </ Link>
-
-
-
                 </div>
               )}
             </div>

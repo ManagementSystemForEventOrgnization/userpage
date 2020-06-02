@@ -10,7 +10,6 @@ const initialState = {
   showVerifyForgotPassword: false,
   arrEvent: [],
   notifications: [],
-
 };
 
 const user = (state = initialState, action) => {
@@ -37,6 +36,8 @@ const user = (state = initialState, action) => {
         active: action.user.isActive,
       };
     case userConstants.LOGIN_FAILURE:
+      console.log(action.error);
+
       return {
         ...state,
         errMessage: action.error,
@@ -130,16 +131,35 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         userInfo: action.user,
-        isLogined: true,
         pending: false,
       };
     case userConstants.GET_CURRENT_USER_FAILURE:
       return {
         ...state,
         userInfo: null,
-        isLogined: false,
         pending: false,
       };
+
+    case userConstants.GET_BANK_INFOR_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case userConstants.GET_BANK_INFOR_SUCCESS:
+      return {
+        ...state,
+        bankInfor: action.bankInfor || {},
+        pending: false,
+      };
+
+    case userConstants.GET_BANK_INFOR_FAILURE:
+      return {
+        ...state,
+        bankInfor: null,
+        pending: false,
+      };
+
     case userConstants.UPDATE_USER_PROFILE_REQUEST:
       return {
         ...state,
@@ -152,7 +172,6 @@ const user = (state = initialState, action) => {
         userInfo: action.user,
       };
     case userConstants.UPDATE_USER_PROFILE_FAILURE:
-      console.log(action.error);
       return {
         ...state,
         pending: false,
@@ -204,7 +223,6 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: null,
-
       };
     case userConstants.GET_HISTORY_SUCCESS:
       return {
@@ -212,7 +230,6 @@ const user = (state = initialState, action) => {
         arrEvent: action.arrEvent,
         pending: false,
         errMessage: null,
-
       };
 
     case userConstants.GET_HISTORY_FAILURE:
@@ -233,28 +250,26 @@ const user = (state = initialState, action) => {
         ...state,
         errMessage: action.error,
       };
-      case userConstants.GET_HISTORY_CREATE_REQUEST:
-        return {
-          ...state,
-          pending: true,
-          errMessage: null,
-  
-        };
-      case userConstants.GET_HISTORY_CREATE_SUCCESS:
-        return {
-          ...state,
-          arrEvent: action.arrEvent,
-          pending: false,
-          errMessage: null,
-  
-        };
-  
-      case userConstants.GET_HISTORY_CREATE_FAILURE:
-        return {
-          ...state,
-          pending: true,
-          errMessage: action.error,
-        };
+    case userConstants.GET_HISTORY_CREATE_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+      };
+    case userConstants.GET_HISTORY_CREATE_SUCCESS:
+      return {
+        ...state,
+        arrEvent: action.arrEvent,
+        pending: false,
+        errMessage: null,
+      };
+
+    case userConstants.GET_HISTORY_CREATE_FAILURE:
+      return {
+        ...state,
+        pending: true,
+        errMessage: action.error,
+      };
     default:
       return state;
   }

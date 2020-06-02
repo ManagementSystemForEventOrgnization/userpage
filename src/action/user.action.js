@@ -223,7 +223,6 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
-  console.log('TCL :', userInfor);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
@@ -245,6 +244,53 @@ const onUpdateUserProfile = (userInfor) => {
     return { type: userConstants.UPDATE_USER_PROFILE_FAILURE, error };
   }
 };
+
+const getBankAccount = () => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/user/bank_inf`)
+      .then((res) => {
+        dispatch(success(res.data.result.bank));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_BANK_INFOR_REQUEST };
+  }
+  function success(bankInfor) {
+    return { type: userConstants.GET_BANK_INFOR_SUCCESS, bankInfor };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_BANK_INFOR_FAILURE, error };
+  }
+};
+
+const onUpdateBankInfor = (bankInfor) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/user/update_bank_inf`, {
+      ...bankInfor
+    })
+      .then((res) => {
+        console.log(res)
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.UPDATE_BANK_INFOR_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.UPDATE_BANK_INFOR_SUCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.UPDATE_BANK_INFOR_FAILURE, error };
+  }
+}
 
 const get_History = (
   categoryEventId,
@@ -376,5 +422,7 @@ export const userActions = {
   requestForgotPassword,
   get_History,
   getListNotification,
+  getBankAccount,
+  onUpdateBankInfor,
   getCreateHistory
 };

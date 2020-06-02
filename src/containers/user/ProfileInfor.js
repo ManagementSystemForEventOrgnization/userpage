@@ -28,6 +28,8 @@ class UpdateProfileInfor extends Component {
             percentOfPersonalInfor: 0,
             percenOfOrgInfor: 0,
         };
+
+        this.updatePercentInfor = this.updatePercentInfor.bind(this);
     }
 
     updatePercentInfor() {
@@ -56,11 +58,11 @@ class UpdateProfileInfor extends Component {
             percentOfPersonalInfor: (countPersonalInfor * 100 / 9) - (countPersonalInfor * 100 / 9) % 10,
             percenOfOrgInfor: countOrgInfor * 100 / 5 - (countOrgInfor * 100 / 5) % 10
         })
-        // console.log(this.state);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+            console.log("getDerivedStateFromProps");
             return {
                 userInfor: nextProps.userInfor,
             };
@@ -69,11 +71,15 @@ class UpdateProfileInfor extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.userInfor !== this.props.userInfor) {
+            console.log("componentDidUpdate");
+
             this.updatePercentInfor()
         }
     }
+
     render() {
         const { userInfor } = this.state;
+        console.log(userInfor);
 
         return (
             <div>
@@ -171,8 +177,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    getCurrentUser: () => dispatch(userActions.getCurrentUser()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//     getCurrentUser: () => dispatch(userActions.getCurrentUser()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfileInfor);
+export default connect(mapStateToProps, null)(UpdateProfileInfor);
