@@ -6,17 +6,17 @@ import { eventConstants } from 'constants/index';
 const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[1],
-  // ...dataTest[2].value,
-  // ...dataTest[3].value,
-  // dataTest[4].value[0],
-  // ...dataTest[5].value,
-  // ...dataTest[6].value,
-  // dataTest[7].value[0],
-  // ...dataTest[8].value,
-  // ...dataTest[9].value,
-  // dataTest[10].value[0],
-  // dataTest[12].value[0],
-  // dataTest[11].value[0],
+  ...dataTest[2].value,
+  ...dataTest[3].value,
+  dataTest[4].value[0],
+  ...dataTest[5].value,
+  ...dataTest[6].value,
+  dataTest[7].value[0],
+  ...dataTest[8].value,
+  ...dataTest[9].value,
+  dataTest[10].value[0],
+  dataTest[12].value[0],
+  dataTest[11].value[0],
 ];
 
 const initialState = {
