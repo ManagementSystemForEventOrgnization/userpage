@@ -8,15 +8,15 @@ const initialBlocks = [
   dataTest[1].value[1],
   ...dataTest[2].value,
   ...dataTest[3].value,
-  dataTest[4].value[0],
+  ...dataTest[4].value,
   ...dataTest[5].value,
   ...dataTest[6].value,
-  dataTest[7].value[0],
+  ...dataTest[7].value,
   ...dataTest[8].value,
   ...dataTest[9].value,
-  dataTest[10].value[0],
-  dataTest[12].value[0],
-  dataTest[11].value[0],
+  ...dataTest[10].value,
+  ...dataTest[12].value,
+  ...dataTest[11].value,
 ];
 const initialState = {
   nameEvent: '',
@@ -202,17 +202,17 @@ const event = (state = initialState, action) => {
         ...state,
         events: [],
       };
-      case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
-        return {
-          ...state,
-          events: action.events,
-        };
-      case eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE:
-        return {
-          ...state,
-          events: [],
-        };
-  
+    case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
+      return {
+        ...state,
+        events: action.events,
+      };
+    case eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE:
+      return {
+        ...state,
+        events: [],
+      };
+
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);

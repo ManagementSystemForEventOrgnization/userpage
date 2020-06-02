@@ -17,7 +17,7 @@ import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown'
 import Photo from '../templates/ui-elements/blocks/photos/Photo';
 // import Photos from '../templates/ui-elements/blocks/photos/Photos';
 
-import ContactUs1 from '../templates/ui-elements/blocks/contactUs/ContactUs1';
+// import ContactUs1 from '../templates/ui-elements/blocks/contactUs/ContactUs1';
 import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
@@ -142,9 +142,9 @@ export const blockList = {
   photo2: ({ editable, style, id }) => (
     <Photo key={id} editable={editable} style={style} id={id} />
   ),
-  contactUs1: ({ editable, style, id }) => (
-    <ContactUs1 key={id} editable={editable} style={style} id={id} />
-  ),
+  // contactUs1: ({ editable, style, id }) => (
+  //   <ContactUs1 key={id} editable={editable} style={style} id={id} />
+  // ),
   contactUs2: ({ editable, style, id }) => (
     <ContactUs2 key={id} editable={editable} style={style} id={id} />
   ),

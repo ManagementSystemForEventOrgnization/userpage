@@ -154,7 +154,6 @@ class GeneralBanner extends Component {
       opacity,
       margin,
       padding,
-      plainOptions,
       content,
     } = this.state;
 
@@ -296,10 +295,7 @@ class GeneralBanner extends Component {
             onOk={this.handleApplyFinish}
             onCancel={this.handleCloseApplyEventModal}
           >
-            <ApplyEventModal
-              handleCheckList={this.handleApply}
-              plainOptions={plainOptions}
-            />
+            <ApplyEventModal handleCheckList={this.handleApply} />
           </Modal>
         }
       </div>

@@ -15,6 +15,7 @@ const getEventDetail = (eventId, index) => {
         const { rows, header } = res.data.result;
         localStorage.setItem('currentIndex', index);
         localStorage.setItem('currentId', eventId);
+        console.log(res.data.result);
         dispatch(success(rows, header[0], index));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
@@ -390,20 +391,22 @@ const changePages = (pages, currentPage) => {
 };
 
 export const eventActions = {
-  prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
   getCategories,
   duplicateBlock,
   deleteBlock,
-  getEventDetail,
-  saveEvent,
-  getListEventUpComing,
-  savePage,
-  updatePage,
-  getEventEdit,
-  getHomeData,
-  getPreviousPage,
   storeHeaderStyle,
   changeCurrentPage,
   changePages,
+
+  prepareForCreateEvent,
+  getEventDetail,
+  getListEventUpComing,
+  getEventEdit,
+
+  saveEvent,
+  savePage,
+  updatePage,
+  getPreviousPage,
+  getHomeData,
 };

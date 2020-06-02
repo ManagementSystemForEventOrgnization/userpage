@@ -21,7 +21,6 @@ class TextsBlock extends React.Component {
       ? { ...style }
       : {
           ...TextState(this.props),
-          clicked: false,
         };
   }
 
@@ -122,7 +121,6 @@ class TextsBlock extends React.Component {
       tranform,
       color,
       fontWeight,
-      clicked,
     } = this.state;
 
     const divStyle = {
@@ -154,12 +152,6 @@ class TextsBlock extends React.Component {
           onClick={child ? () => this.onChangeValue(true, 'visible') : () => {}}
         >
           {content ? ReactHtmlParser(content) : ''}
-          {/*             
-          {clicked ? (
-            <input value={content ? ReactHtmlParser(content) : ''} />
-          ) : (
-            <p> {content ? ReactHtmlParser(content) : ''}</p>
-          )} */}
         </div>
 
         {editable && !child && (
