@@ -337,15 +337,21 @@ const saveEvent = (id, blocks, header, isPreview) => {
   const eventId = id || localStorage.getItem('currentId');
 
   return (dispatch) => {
-    dispatch(request());
-    API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
-      .then((res) => {
-        console.log('TCL Save event detail  THEN: ', res);
-        dispatch(success());
-        localStorage.removeItem('currentIndex');
-        history.push(`/event/${eventId}`);
-      })
-      .catch((err) => handleCatch(dispatch, failure, err));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
+        .then((res) => {
+          console.log('TCL Save event detail  THEN: ', res);
+          dispatch(success());
+          localStorage.removeItem('currentIndex');
+          if (!isPreview) {
+            history.push(`/event/${eventId}`);
+            reject('err');
+          }
+          resolve('tsrue');
+        })
+        .catch((err) => handleCatch(dispatch, failure, err));
+    });
   };
   function request() {
     return {

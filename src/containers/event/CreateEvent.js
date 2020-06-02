@@ -138,7 +138,16 @@ class CreateEvent extends React.Component {
       },
     ];
 
-    saveEvent(webAddress, [...system, blocks], header, isPreview);
+    saveEvent(webAddress, [...system, blocks], header, isPreview)
+      .then((data) => {
+        window.open(
+          `/event/${webAddress || localStorage.getItem('currentId')}`,
+          '_blank'
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   getPreviousId = () => {
