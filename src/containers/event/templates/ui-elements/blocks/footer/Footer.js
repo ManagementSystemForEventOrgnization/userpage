@@ -121,14 +121,14 @@ class footer1 extends Component {
         <div style={style}>
           {url && <div style={bg}></div>}
           <div className="row  " style={styleRow}>
-            <div className="col-sm-4">
+            <div className="col">
               <TextsBlock
                 content="© 2018 All rights reserved."
                 child={true}
                 newStyle={titleStyle}
               />
             </div>
-            <div className="col-sm-4">
+            <div className="col">
               <TextsBlock
                 content="Support 24/7"
                 child={true}
@@ -144,7 +144,7 @@ class footer1 extends Component {
               </span>
             </div>
 
-            <div className="col-sm-4">
+            <div className="col">
               <TextsBlock
                 content="Follow Us"
                 child={true}

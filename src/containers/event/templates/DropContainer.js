@@ -31,15 +31,26 @@ class DropContainer extends React.Component {
     return blockList[item.type](param);
   };
 
-  renderBlock = (item, match, editable) => {
-    console.log('before ', item);
-    return item.options({
-      id: item.id,
-      key: item.id,
-      editable,
-      match,
-      type: item.type,
-    });
+  renderItem = (item, match, editable, update) => {
+    const param =
+      item.style && Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            key: item.id,
+            style: item.style,
+            editable,
+            match,
+            type: item.type,
+          }
+        : {
+            id: item.id,
+            editable,
+            key: item.id,
+            match,
+            type: item.type,
+          };
+
+    return update ? blockList[item.type](param) : item.options(param);
   };
 
   handleChangeTextArea = (e) => {
@@ -68,11 +79,7 @@ class DropContainer extends React.Component {
           list={blocks}
           setList={storeBlocksWhenCreateEvent}
         >
-          {update
-            ? blocks.map((item) =>
-                this.renderEditedBlock(item, match, editable)
-              )
-            : blocks.map((item) => this.renderBlock(item, match, editable))}
+          {blocks.map((item) => this.renderItem(item, match, editable, update))}
         </ReactSortable>
       </div>
     );

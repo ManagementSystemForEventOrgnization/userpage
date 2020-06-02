@@ -18,10 +18,12 @@ class ApplyEventModal extends Component {
   };
 
   render() {
-    const { plainOptions } = this.state;
+    // const { plainOptions } = this.state;
+    // const valid = plainOptions.length > 1;
+    // console.log('session in banner : ', this.props.session);
+    console.log(this.props.session);
+    const plainOptions = this.props.session;
     const valid = plainOptions.length > 1;
-    console.log('session in banner : ', this.props.session);
-
     return (
       <div>
         {!valid ? (

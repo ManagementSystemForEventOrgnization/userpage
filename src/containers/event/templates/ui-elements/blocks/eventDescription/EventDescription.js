@@ -30,7 +30,7 @@ class EventDescription extends Component {
     const { style } = this.props;
     this.state =
       style && Object.keys(style).length > 0
-        ? { ...style }
+        ? { ...style, collapse: false }
         : {
             collapse: false,
             margin: [1, 1, 1, 1],
@@ -50,8 +50,6 @@ class EventDescription extends Component {
                 subDescription: defaultDescription,
               },
             },
-
-            inputText: exampleText + exampleText + exampleText,
           };
   }
 
@@ -129,7 +127,6 @@ class EventDescription extends Component {
       opacity,
       margin,
       content,
-      inputText,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -161,33 +158,10 @@ class EventDescription extends Component {
       backgroundColor: bgColor,
     };
 
-    const inputStyle = {
-      backgroundColor: 'none',
-      background: 'none',
-    };
-
     return (
       <div className="child-block d-flex">
         <div style={style}>
           {url && <div style={bg}></div>}
-          <input
-            style={inputStyle}
-            value={inputText}
-            onChange={this.handleChangeTextArea}
-          />
-          {/* 
-          <Input
-            style={inputStyle}
-            value={inputText}
-            onChange={this.handleChangeTextArea}
-          />
-          <TextArea
-            style={inputStyle}
-            placeholder="Autosize height based on content lines"
-            value={inputText}
-            onChange={this.handleChangeTextArea}
-            autoSize
-          /> */}
 
           <div className="row">
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-8'}>

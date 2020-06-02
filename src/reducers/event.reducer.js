@@ -8,15 +8,15 @@ const initialBlocks = [
   dataTest[1].value[1],
   ...dataTest[2].value,
   ...dataTest[3].value,
-  dataTest[4].value[0],
-  ...dataTest[5].value,
-  ...dataTest[6].value,
-  dataTest[7].value[0],
-  ...dataTest[8].value,
-  ...dataTest[9].value,
-  dataTest[10].value[0],
-  dataTest[12].value[0],
-  dataTest[11].value[0],
+  //   ...dataTest[4].value,
+  //   ...dataTest[5].value,
+  //   ...dataTest[6].value,
+  //   ...dataTest[7].value,
+  //   ...dataTest[8].value,
+  //   ...dataTest[9].value,
+  //   ...dataTest[10].value,
+  //   ...dataTest[12].value,
+  //   ...dataTest[11].value,
 ];
 
 const initialState = {
@@ -120,17 +120,15 @@ const event = (state = initialState, action) => {
 
     case eventConstants.DUPLICATE_BLOCK:
       const { blocks } = state;
-      const idDuplicate = action.id;
-      const blockDuplicate = blocks.find((item) => item.id === idDuplicate);
-      if (blockDuplicate) {
-        const indexDuplicate = blocks.indexOf(blockDuplicate);
+      const index = blocks.findIndex((item) => item.id === action.id);
+      if (index !== -1) {
         const newBlockListDuplicate = [
-          ...blocks.slice(0, indexDuplicate + 1),
+          ...blocks.slice(0, index + 1),
           {
-            ...blockDuplicate,
+            ...blocks[index],
             id: uuid(),
           },
-          ...blocks.slice(indexDuplicate + 1, blocks.length),
+          ...blocks.slice(index + 1, blocks.length),
         ];
         return {
           ...state,
@@ -160,19 +158,29 @@ const event = (state = initialState, action) => {
         ...state,
       };
 
+    case eventConstants.GET_EVENT_DETAIL_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
       return {
         ...state,
+        pending: false,
         blocks: action.page,
         pages: action.header.pages,
         headerStyle: action.header.style,
         currentIndex: action.index,
+        session: action.event.session,
+
+        // update event infor
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
       return {
         ...state,
         errMessage: action.err,
+        pending: false,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:

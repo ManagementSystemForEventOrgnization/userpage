@@ -11,7 +11,7 @@ import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown'
 
 import Photo from '../templates/ui-elements/blocks/photos/Photo';
 
-import ContactUs1 from '../templates/ui-elements/blocks/contactUs/ContactUs1';
+// import ContactUs1 from '../templates/ui-elements/blocks/contactUs/ContactUs1';
 import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
@@ -377,14 +377,6 @@ export default [
     value: [
       {
         child: 'Contact Us 1',
-        type: 'contactUs1',
-        style: {},
-        options: ({ editable, style, id }) => (
-          <ContactUs1 key={id} editable={editable} style={style} id={id} />
-        ),
-      },
-      {
-        child: 'Contact Us 2',
         type: 'contactUs2',
         style: {},
         options: ({ editable, style, id }) => (

@@ -121,7 +121,14 @@ class CreateEvent extends React.Component {
   };
 
   handleSaveEvent = (isPreview) => {
-    const { id, blocks, system, pages, saveEvent, headerStyle } = this.props;
+    const {
+      blocks,
+      system,
+      pages,
+      saveEvent,
+      headerStyle,
+      webAddress,
+    } = this.props;
 
     const header = [
       {
@@ -131,7 +138,16 @@ class CreateEvent extends React.Component {
       },
     ];
 
-    saveEvent(id, [...system, blocks], header, isPreview);
+    saveEvent(webAddress, [...system, blocks], header, isPreview)
+      .then((data) => {
+        window.open(
+          `/event/${webAddress || localStorage.getItem('currentId')}`,
+          '_blank'
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   getPreviousId = () => {
@@ -189,10 +205,10 @@ class CreateEvent extends React.Component {
   render() {
     const { collapsed, editable } = this.state;
     const { match, pending } = this.props;
-    const id = localStorage.getItem('currentId');
-    const textStyle = {
-      color: 'white',
-    };
+    // const id = localStorage.getItem('currentId');
+    // const textStyle = {
+    //   color: 'white',
+    // };
 
     const content = (
       <div className="p-3">
@@ -232,14 +248,15 @@ class CreateEvent extends React.Component {
           </Button>
 
           <Button variant="success" onClick={() => this.handleSaveEvent(true)}>
-            <a
+            {/* <a
               href={id ? `/preview/${id}` : `preview/${this.props.id}`}
               target="_blank"
               style={textStyle}
               rel="noopener noreferrer"
             >
               Preview
-            </a>
+            </a> */}
+            Preview
           </Button>
 
           <Popover
@@ -298,13 +315,13 @@ class CreateEvent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  id: state.event.id,
   pending: state.event.pending,
   blocks: state.event.blocks,
   pages: state.event.pages,
   currentPage: state.event.currentPage,
   headerStyle: state.event.headerStyle,
   system: state.event.system,
+  webAddress: state.event.webAddress,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -166,7 +166,7 @@ class Schedule2 extends Component {
     };
     return (
       <div className="child-block" style={divStyle}>
-        <Text content={scheduleName} child={true} />
+        <Text content={scheduleName} child={true} editable={editable} />
         <div className="d-flex">
           <div>
             {scheduleText.map((schedule, index) => (
@@ -187,6 +187,7 @@ class Schedule2 extends Component {
                   <div className="col-2 mt-5 ml-4">
                     <Text
                       child={true}
+                      editable={editable}
                       content={schedule.time}
                       handleOnChangeTextBlock={(value) =>
                         this.handleUpdateSchedule(schedule.id, value, 'time')
@@ -196,6 +197,8 @@ class Schedule2 extends Component {
                   <div className=" col-2">
                     <Image
                       url={schedule.url}
+                      editable={editable}
+                      child={true}
                       handleOnChangeUrlTextBlock={(value) =>
                         this.handleUpdateSchedule(schedule.id, value, 'url')
                       }
@@ -206,6 +209,7 @@ class Schedule2 extends Component {
                   <div className="mt-5 col-5">
                     <Text
                       child={true}
+                      editable={editable}
                       content={schedule.title}
                       handleOnChangeTextBlock={(value) =>
                         this.handleUpdateSchedule(schedule.id, value, 'title')
@@ -214,6 +218,7 @@ class Schedule2 extends Component {
                     <div className="mt-3">
                       <Text
                         child={true}
+                        editable={editable}
                         content={schedule.description}
                         handleOnChangeTextBlock={(value) =>
                           this.handleUpdateSchedule(
@@ -228,6 +233,7 @@ class Schedule2 extends Component {
                   <div className="mt-5 col">
                     <Text
                       child={true}
+                      editable={editable}
                       content={schedule.ticket}
                       handleOnChangeTextBlock={(value) =>
                         this.handleUpdateSchedule(schedule.id, value, 'ticket')
