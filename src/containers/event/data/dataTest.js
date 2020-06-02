@@ -38,7 +38,7 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 
 import Comment from '../templates/ui-elements/blocks/comments/comments';
-
+import Map from '../templates/ui-elements/blocks/map/MapContainer';
 export default [
   {
     name: 'Simple Block',
@@ -238,7 +238,7 @@ export default [
         type: 'map1',
         style: {},
         options: ({ editable, style, id }) => (
-          <ButtonBlock key={id} editable={editable} style={style} id={id} />
+          <Map key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options, type }) => {

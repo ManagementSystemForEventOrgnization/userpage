@@ -248,14 +248,6 @@ class CreateEvent extends React.Component {
           </Button>
 
           <Button variant="success" onClick={() => this.handleSaveEvent(true)}>
-            {/* <a
-              href={id ? `/preview/${id}` : `preview/${this.props.id}`}
-              target="_blank"
-              style={textStyle}
-              rel="noopener noreferrer"
-            >
-              Preview
-            </a> */}
             Preview
           </Button>
 

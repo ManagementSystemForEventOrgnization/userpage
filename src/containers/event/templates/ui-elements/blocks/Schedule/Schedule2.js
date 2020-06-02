@@ -170,7 +170,7 @@ class Schedule2 extends Component {
         <div className="d-flex">
           <div>
             {scheduleText.map((schedule, index) => (
-              <div className="child-block" key={index}>
+              <div key={index}>
                 {editable && (
                   <div>
                     <PlusCircleTwoTone

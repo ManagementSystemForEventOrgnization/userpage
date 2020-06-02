@@ -44,6 +44,7 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Header from 'containers/event/Header';
+import Map from '../templates/ui-elements/blocks/map/MapContainer';
 
 export const blockList = {
   button: ({ editable, style, id }) => (
@@ -109,10 +110,7 @@ export const blockList = {
     <Schedule2 key={id} editable={editable} style={style} id={id} />
   ),
   map1: ({ editable, style, id }) => (
-    <ButtonBlock key={id} editable={editable} style={style} id={id} />
-  ),
-  map2: ({ editable, style, id }) => (
-    <ButtonBlock key={id} editable={editable} style={style} id={id} />
+    <Map key={id} editable={editable} style={style} id={id} />
   ),
   countdown: ({ editable, style, id }) => (
     <CountDownBlock
