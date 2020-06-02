@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Skeleton } from 'antd';
 
-import { eventActions } from '../../action/event.action';
+import { eventActions } from 'action/event.action';
 import { blockList } from './data/data';
+
 class EventDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -76,12 +78,18 @@ class EventDetail extends React.Component {
   };
 
   render() {
-    const { blocks } = this.props;
+    const { blocks, pending } = this.props;
 
     return (
       <div>
-        {this.renderHeader()}
-        {blocks.map((item) => this.renderBlocks(item))}
+        {pending ? (
+          <Skeleton active paragraph={{ rows: 20 }} className="p-5" />
+        ) : (
+          <div>
+            {this.renderHeader()}
+            {blocks.map((item) => this.renderBlocks(item))}
+          </div>
+        )}
       </div>
     );
   }
@@ -94,6 +102,7 @@ const mapStateToProps = (state) => ({
   headerStyle: state.event.headerStyle,
   currentPage: state.event.currentPage,
   currentIndex: state.event.currentIndex,
+  pending: state.event.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -25,22 +25,26 @@ class DropContainer extends React.Component {
     storeBlocksWhenCreateEvent(dropList);
   };
 
-  renderBlocks = (item) => {
-    const { match } = this.props;
-    const param = item.style
-      ? {
-          id: item.id,
-          style: item.style,
-          editable: true,
-          match,
-        }
-      : {
-          id: item.id,
-          editable: true,
-          match,
-        };
-    // return callBack(param, blockList[item.type]);
-    return blockList[item.type](param);
+  renderItem = (item, match, editable, update) => {
+    const param =
+      item.style && Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            key: item.id,
+            style: item.style,
+            editable,
+            match,
+            type: item.type,
+          }
+        : {
+            id: item.id,
+            editable,
+            key: item.id,
+            match,
+            type: item.type,
+          };
+
+    return update ? blockList[item.type](param) : item.options(param);
   };
 
   handleChangeInput = (e) => {
@@ -69,17 +73,7 @@ class DropContainer extends React.Component {
           list={dropList}
           setList={this.handleSetDropList}
         >
-          {update
-            ? blocks.map((item) => this.renderBlocks(item))
-            : dropList.map((item) => {
-                return item.options({
-                  id: item.id,
-                  key: item.id,
-                  editable: editable,
-                  match,
-                  type: item.type,
-                });
-              })}
+          {blocks.map((item) => this.renderItem(item, match, editable, update))}
         </ReactSortable>
       </div>
     );

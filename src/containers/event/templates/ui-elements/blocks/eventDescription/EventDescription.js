@@ -27,7 +27,7 @@ class EventDescription extends Component {
     const { style } = this.props;
     this.state =
       style && Object.keys(style).length > 0
-        ? { ...style }
+        ? { ...style, collapse: false }
         : {
             collapse: false,
             margin: [1, 1, 1, 1],

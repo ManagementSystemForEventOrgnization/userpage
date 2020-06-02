@@ -16,7 +16,7 @@ class GeneralBanner extends Component {
     const { style, session, banner, nameEvent } = this.props;
     this.state =
       style && Object.keys(style).length !== 0
-        ? { ...style }
+        ? { ...style, visible: false }
         : {
             url: banner || '/bg-3.jpg',
             visible: false,
@@ -134,18 +134,18 @@ class GeneralBanner extends Component {
 
   handleApplyFinish = () => {
     //get api apply event
-    const { applySession } = this.state;
-    console.log(applySession);
+    // const { applySession } = this.state;
+    // console.log(applySession);
     // call api apply event
     this.handleCloseApplyEventModal();
   };
 
   handleChangeContent = (type, value) => {
     let { content } = this.state;
-
     content[type] = value;
     this.setState(content);
   };
+
   render() {
     const {
       url,

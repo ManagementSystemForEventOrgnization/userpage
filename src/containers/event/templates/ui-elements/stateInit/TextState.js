@@ -4,7 +4,7 @@ const TextState = (props) => ({
   visible: false,
   content: props.content || exampleText,
   margin: [1, 1, 1, 1],
-  padding: [1, 1, 1, 1],
+  padding: [2, 2, 2, 2],
   background: 'none',
   fontSize: props.newStyle
     ? props.newStyle.fontSize
