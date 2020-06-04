@@ -198,15 +198,6 @@ const storeHeaderStyle = (style) => {
     };
   }
 };
-const storeBlocksWhenCreateEvent = (blocks) => {
-  return (dispatch) => {
-    dispatch(request(blocks));
-  };
-
-  function request(blocks) {
-    return { type: eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT, blocks };
-  }
-};
 
 const duplicateBlock = (id) => {
   return (dispatch) => {
@@ -309,6 +300,53 @@ const prepareForCreateEvent = (
   }
 };
 
+const storeBlocksWhenCreateEvent = (blocks) => {
+  return (dispatch) => {
+    dispatch(request(blocks));
+  };
+
+  function request(blocks) {
+    return { type: eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT, blocks };
+  }
+};
+
+const getListEventUpComing = (pageNumber, numberRecord) => {
+  // let numberRecord = 12;
+  let data = {
+    numberRecord,
+    pageNumber,
+  };
+  //api/getListEvent
+  return (dispatch) => {
+    API.get(`/api/get_list_event_coming_up`, {
+      params: data,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('data:', res.data.result);
+          dispatch(success(res.data.result));
+        } else {
+          dispatch(failure());
+        }
+      })
+      .catch((error) => {
+        dispatch(failure());
+      });
+  };
+
+  function success(events) {
+    return {
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS,
+      events,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE,
+    };
+  }
+};
+
 const saveEvent = (id, blocks, header, isPreview) => {
   const eventId = id || localStorage.getItem('currentId');
 
@@ -358,7 +396,7 @@ export const eventActions = {
 
   prepareForCreateEvent,
   getEventDetail,
-  //   getListEventUpComing,
+  getListEventUpComing,
   getEventEdit,
 
   saveEvent,
