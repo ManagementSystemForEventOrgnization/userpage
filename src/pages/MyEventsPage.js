@@ -23,7 +23,6 @@ class ProfilePage extends Component {
         </div>
         <div className=" col-9">
           {/* <UpdateProfileInfor /> */}
-          {/* <BankAccount /> */}
           <BankAccount />
         </div>
       </div>

@@ -87,9 +87,9 @@ class UpdateProfileInfor extends Component {
     }
   }
 
-  render() {
-    const { userInfor } = this.state;
-    console.log(userInfor);
+    render() {
+        const { userInfor } = this.state;
+        // console.log(userInfor);
 
     return (
       <div>

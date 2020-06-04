@@ -20,7 +20,7 @@ class ProfileInfor extends Component {
         discription: '',
         avatar: '',
         address: '',
-        birthday: '',
+        birthday: '01/01/2020',
         email: '',
         orgName: '',
         orgDes: '',
@@ -46,6 +46,15 @@ class ProfileInfor extends Component {
         isGetData: false,
       };
     } else return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.userInfor !== this.props.userInfor) {
+      //Perform some operation here
+      this.setState({ userInfor: this.props.userInfor });
+
+    }
+    console.log(this.state)
   }
 
   //onchange value
@@ -93,7 +102,7 @@ class ProfileInfor extends Component {
     this.setState({
       userInfor: {
         ...this.state.userInfor,
-        birthday: e._d,
+        birthday: e._d
       },
     });
   };
@@ -114,17 +123,17 @@ class ProfileInfor extends Component {
 
   errorHandle() {
     if (this.props.errMessage)
-      return (<div class="alert alert-danger" role="alert" enable>
-        {this.props.errMessage}ss
+      return (<div className="alert alert-danger" role="alert" enable>
+        {this.props.errMessage}
       </div>)
     if (this.state.isSaved && !this.props.pending) {
-      return (< div class="alert alert-success" role="alert">
+      return (< div className="alert alert-success" role="alert">
         Save changes sucessfully
       </div>)
     }
     if (JSON.stringify(this.state.userInfor) === JSON.stringify(this.props.userInfor)) {
       return (
-        <div class="alert alert-danger" role="alert" enable>
+        <div className="alert alert-danger" role="alert">
           there is no changes! please
          </div>
       )
@@ -137,79 +146,77 @@ class ProfileInfor extends Component {
     const onFinish = (values) => {
       this.props.onUpdateUserProfile(...this.state.userInfor);
     };
-
+    const birthday = new Date(userInfor.birthday);
+    const birthDate = (birthday.getUTCDate() + '/' + 0 + birthday.getMonth() + '/' + birthday.getUTCFullYear()).toString()
     return (
       <div className="ProfileInfor p-5 border">
         {this.errorHandle()}
         {/* start form */}
-        <Form initialValues={{ remember: true }} onFinish={onFinish}>
+        <div className="col">
+          <UploadImage
+            url={userInfor.avatar}
+            handleImageDrop={(value) => {
+              this.setState({
+                userInfor: { ...this.state.userInfor, avatar: value },
+              });
+            }}
+          />
+        </div>
+        <Form initialValues={{ remember: true }} >
           {/* personal infor */}
           <h2>Personal Information</h2>
-          <div className="row">
-            <div className="col">
-              <Form.Item name="fullName">
-                <Input
-                  prefix={
-                    <i
-                      className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"
-                      href="#"
-                    />
-                  }
-                  name="fullName"
-                  placeholder="Full name"
-                  onChange={this.onHandleChange}
-                  defaultValue={userInfor.fullName ? userInfor.fullName : ''}
+          <Form.Item >
+            <Input
+              prefix={
+                <i
+                  className="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"
+                  href="#"
                 />
-              </Form.Item>
+              }
+              name="fullName"
+              placeholder="Full name"
+              onChange={this.onHandleChange}
+              value={userInfor.fullName}
+            />
+          </Form.Item>
 
-              <Form.Item name="job">
-                <Input
-                  prefix={
-                    <i className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
-                  }
-                  placeholder="Job"
-                  name="job"
-                  onChange={this.onHandleChange}
-                  defaultValue={userInfor.job}
-                />
-              </Form.Item>
+          <Form.Item>
+            <Input
+              prefix={
+                <i className="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
+              placeholder="Job"
+              name="job"
+              onChange={this.onHandleChange}
+              value={userInfor.job}
+            />
+          </Form.Item>
 
-              <Form.Item name="phone">
-                <Input
-                  prefix={
-                    <i className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
-                  }
-                  placeholder="Phone number"
-                  name="phone"
-                  onChange={this.onChangePhoneNumber}
-                  defaultValue={userInfor.phone}
-                />
-                {this.state.phone || userInfor.phone === '' ? (
-                  <div></div>
-                ) : (
-                    <div className="text-danger">Invalid Phone Number</div>
-                  )}
-              </Form.Item>
-            </div>
-            <div className="col">
-              <UploadImage
-                url={userInfor.avatar}
-                handleImageDrop={(value) => {
-                  this.setState({
-                    userInfor: { ...this.state.userInfor, avatar: value },
-                  });
-                }}
-              />
-            </div>
-          </div>
+          <Form.Item >
+            <Input
+              prefix={
+                <i className="fa fa-mobile fa-fw w3-margin-right w3-large w3-text-teal" />
+              }
+              placeholder="Phone number"
+              name="phone"
+              onChange={this.onHandleChange}
+              value={userInfor.phone}
+            />
+            {this.state.phone || userInfor.phone === '' ? (
+              <div></div>
+            ) : (
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
+          </Form.Item>
 
           <div className="row pl-2 pr-2 mb-2">
-            <Form.Item className="col m-2" name="gender" placeholder="gender">
+            <Form.Item className="col m-2" placeholder="gender">
               <Select
                 placeholder="Gender"
                 allowClear
-                defaultValue={userInfor.gender}
+                value={userInfor.gender}
                 name="gender"
+
                 onChange={this.onChangeGender}
               >
                 <Option value="male">male</Option>
@@ -218,17 +225,20 @@ class ProfileInfor extends Component {
               </Select>
             </Form.Item>
 
-            <Form.Item className="col m-2" name="date-picker">
+            <Form.Item className="col m-2" >
               <DatePicker
                 placeholder="Birthday"
                 name="birthday"
                 onChange={this.onChangeBirthday}
-                defaultValue={moment(userInfor.birthday, 'YYYY-MM-DD')}
+                // value={moment(userInfor.birthday, 'YYYY-MM-DD')}
+
+                defaultValue={moment(birthDate.toString(), 'DD/MM/YYYY')} format={'DD/MM/YYYY'}
               />
+              {birthDate}
             </Form.Item>
           </div>
 
-          <Form.Item name="address">
+          <Form.Item>
             <Input
               prefix={
                 <i className="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal" />
@@ -236,7 +246,7 @@ class ProfileInfor extends Component {
               placeholder="Address"
               name="address"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.address}
+              value={userInfor.address}
             />
           </Form.Item>
 
@@ -245,7 +255,7 @@ class ProfileInfor extends Component {
               placeholder="Enter your descrpition"
               name="discription"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.discription}
+              value={userInfor.discription}
             />
           </Form.Item>
           {/* end personal infor */}
@@ -256,7 +266,7 @@ class ProfileInfor extends Component {
           <h2>Organization Information</h2>
 
           <div className="row p-2">
-            <Form.Item className="col m-2" name="">
+            <Form.Item className="col m-2">
               <Input
                 prefix={
                   <i className="fa fa-users fa-fw w3-margin-right w3-large w3-text-teal" />
@@ -264,7 +274,7 @@ class ProfileInfor extends Component {
                 placeholder="Organization name"
                 name="orgName"
                 onChange={this.onHandleChange}
-                defaultValue={userInfor.orgName}
+                value={userInfor.orgName}
               />
             </Form.Item>
 
@@ -278,11 +288,11 @@ class ProfileInfor extends Component {
                 placeholder="Website"
                 name="orgWeb"
                 onChange={this.onHandleChange}
-                defaultValue={userInfor.orgWeb}
+                value={userInfor.orgWeb}
               />
             </Form.Item>
           </div>
-          <Form.Item name="orgPhone">
+          <Form.Item >
             <Input
               prefix={
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
@@ -290,7 +300,7 @@ class ProfileInfor extends Component {
               placeholder="Organization phone number"
               name="orgPhone"
               onChange={this.onChangePhoneNumber}
-              defaultValue={userInfor.orgPhone}
+              value={userInfor.orgPhone}
             />
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
@@ -299,7 +309,7 @@ class ProfileInfor extends Component {
               )}
           </Form.Item>
 
-          <Form.Item name="orgEmail">
+          <Form.Item>
             <Input
               prefix={
                 <i className="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal" />
@@ -307,7 +317,7 @@ class ProfileInfor extends Component {
               placeholder="Organization Email"
               name="orgEmail"
               onChange={this.onChangeEmail}
-              defaultValue={userInfor.orgEmail}
+              value={userInfor.orgEmail}
             />
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
@@ -316,12 +326,12 @@ class ProfileInfor extends Component {
               )}
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item >
             <Input.TextArea
               placeholder="enter your organization description"
               name="orgDes"
               onChange={this.onHandleChange}
-              defaultValue={userInfor.orgDes}
+              value={userInfor.orgDes}
             />
           </Form.Item>
 
@@ -354,6 +364,7 @@ class ProfileInfor extends Component {
         </Form>
         {/* end form */}
       </div >
+
     );
   }
 }
