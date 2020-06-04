@@ -322,16 +322,9 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
-        if (res.status === 200) {
-          console.log('data:', res.data.result);
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure());
-        }
+        dispatch(success(res.data.result));
       })
-      .catch((error) => {
-        dispatch(failure());
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function success(events) {

@@ -331,11 +331,11 @@ const get_History = (
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {
-    return { type: userConstants.GET_HISTORY_REQUEST };
+    return { type: userActions.GET_HISTORY_REQUEST };
   }
 
   function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+    return { type: userActions.GET_HISTORY_SUCCESS, arrEvent };
   }
   function failure(error) {
     return { type: userConstants.GET_HISTORY_FAILURE, error };
