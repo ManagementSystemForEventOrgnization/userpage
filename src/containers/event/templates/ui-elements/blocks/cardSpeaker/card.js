@@ -14,6 +14,7 @@ import Text from '../../atoms/Text';
 import Image from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
 import { responsive } from '../../../constants/atom.constant';
+import SpeakerState from '../../stateInit/SpeakerState';
 const { Meta } = Card;
 
 const height = 30;
@@ -28,30 +29,7 @@ class CardBlock extends React.Component {
     this.state = state
       ? { ...state }
       : {
-          visible: false,
-          list: [
-            {
-              id: uuid(),
-              title: "Speaker's name",
-              description: 'This is description of speaker',
-              url:
-                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
-            },
-            {
-              id: uuid(),
-              title: "Speaker's name",
-              description: 'This is description of speaker',
-              url:
-                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
-            },
-            {
-              id: uuid(),
-              title: "Speaker's name",
-              description: 'This is description of speaker',
-              url:
-                'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
-            },
-          ],
+          ...SpeakerState(props),
         };
   }
 
@@ -104,7 +82,7 @@ class CardBlock extends React.Component {
     return (
       <div
         key={item.id}
-        className={type === 1 ? 'col-md-4 col-sm-4 mt-2 mb-2' : 'mr-2'}
+        className={type === 1 ? 'col-md-3 col-sm-3 mt-2 mb-2' : 'mr-2'}
       >
         <Card
           hoverable

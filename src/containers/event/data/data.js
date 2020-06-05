@@ -20,6 +20,7 @@ import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/
 import EventDescription3 from '../templates/ui-elements/blocks/eventDescription/EventDescription3';
 
 import Schedule from '../templates/ui-elements/blocks/Schedule/Schedule';
+import Timeline from '../templates/ui-elements/blocks/Schedule/Timeline';
 
 import Card1 from '../templates/ui-elements/blocks/cardSpeaker/card1';
 import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
@@ -101,6 +102,9 @@ export const blockList = {
   ),
   schedule2: ({ editable, style, id }) => (
     <Schedule key={id} editable={editable} style={style} id={id} />
+  ),
+  timeline: ({ editable, style, id }) => (
+    <Timeline key={id} editable={editable} style={style} id={id} />
   ),
   map1: ({ editable, style, id }) => (
     <Map key={id} editable={editable} style={style} id={id} />

@@ -22,6 +22,7 @@ import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/
 import EventDescription3 from '../templates/ui-elements/blocks/eventDescription/EventDescription3';
 
 import Schedule from '../templates/ui-elements/blocks/Schedule/Schedule';
+import Timeline from '../templates/ui-elements/blocks/Schedule/Timeline';
 
 import Card1 from '../templates/ui-elements/blocks/cardSpeaker/card1';
 import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
@@ -209,6 +210,14 @@ export default [
         type: 'step',
         options: ({ editable, style, id }) => (
           <StepBlock key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Timeline',
+        style: {},
+        type: 'timeline',
+        options: ({ editable, style, id }) => (
+          <Timeline key={id} editable={editable} style={style} id={id} />
         ),
       },
       {
