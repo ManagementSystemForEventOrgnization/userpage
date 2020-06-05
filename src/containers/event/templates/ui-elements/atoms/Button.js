@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   Button,
-  Modal,
   Input,
   Tabs,
   Slider,
@@ -11,6 +10,7 @@ import {
   Col,
   Select,
 } from 'antd';
+import ReactModal from 'react-modal-resizable-draggable';
 
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
@@ -123,8 +123,14 @@ class ButtonBlock extends React.Component {
     }
   };
 
+  collapseModal = () => {
+    console.log(window.pageYOffset);
+    const { isDesign } = this.state;
+    this.setState({ isDesign: !isDesign });
+  };
+
   render() {
-    const { key, leftModal, editable, child } = this.props;
+    const { key, editable, child } = this.props;
     const {
       content,
       borderWidthButton,
@@ -193,7 +199,7 @@ class ButtonBlock extends React.Component {
             className="ml-3"
             style={styleButton}
             value={isButton}
-            onClick={this.handleApplyEvent}
+            onClick={editable ? this.collapseModal : this.handleApplyEvent}
           >
             {content}
           </Button>
@@ -209,6 +215,166 @@ class ButtonBlock extends React.Component {
           )}
         </div>
 
+        {editable && (
+          <ReactModal
+            initWidth={700}
+            initHeight={500}
+            className={'custom-modal'}
+            onRequestClose={this.onCollapseModal}
+            isOpen={isDesign}
+          >
+            <h3 className="header-modal">My Modal</h3>
+            <Tabs defaultActiveKey="1" className="body">
+              <TabPane tab="Edit text" key="1">
+                <h6>Nội dung </h6>
+
+                <Input
+                  style={{ borderRadius: 50 }}
+                  value={content}
+                  onChange={this.handleEditorChange}
+                ></Input>
+
+                <h6 className="mt-3">Đường dẫn </h6>
+                <div className="d-flex flex-row mt-2">
+                  <Input
+                    style={{ borderRadius: 50 }}
+                    placeholder="Thêm đường link"
+                    onChange={this.OnChangeLink}
+                  ></Input>
+                </div>
+              </TabPane>
+
+              <TabPane tab="Design" key="2">
+                <EditText
+                  fonts={fonts}
+                  fontSize={fontSize}
+                  lineText={lineText}
+                  letterSpacing={letterSpacing}
+                  handleChangeFonts={(value) =>
+                    this.onChangeValue(value, 'fonts')
+                  }
+                  handleChangeFontSize={(value) =>
+                    this.onChangeValue(value, 'fontSize')
+                  }
+                  handleChangeLetterSpacing={(value) =>
+                    this.onChangeValue(value, 'letterSpacing')
+                  }
+                  handleChangeLineHeight={(value) =>
+                    this.onChangeValue(value, 'lineText')
+                  }
+                  handleChangeTextAlign={(value) =>
+                    this.onChangeValue(value, 'textAlign')
+                  }
+                  handleChangeTextTranform={(value) =>
+                    this.onChangeValue(value, 'tranform')
+                  }
+                />
+
+                <div className="mt-5 pl-2">
+                  <PaddingAndMargin
+                    padding={padding}
+                    margin={margin}
+                    handleChangeMargin={(value) =>
+                      this.onChangeValue(value, 'margin')
+                    }
+                    handleChangePadding={(value) =>
+                      this.onChangeValue(value, 'padding')
+                    }
+                  />
+                </div>
+
+                <div className="d-flex mt-5 pl-2">
+                  <ChangeColorModal
+                    title="Change Text Color"
+                    color={color}
+                    handleChangeColor={(value) =>
+                      this.onChangeValue(value, 'color')
+                    }
+                  />
+                  <ChangeColorModal
+                    title="Change background"
+                    color={background}
+                    handleChangeColor={(value) =>
+                      this.onChangeValue(value, 'background')
+                    }
+                  />
+                </div>
+
+                <div className="mt-5 ">
+                  <h6>Border </h6>
+
+                  <div className="d-flex">
+                    <Select
+                      style={{ width: '150px', height: '40px' }}
+                      onChange={(value) =>
+                        this.onChangeValue(value, 'borderStyle')
+                      }
+                      defaultValue="solid"
+                    >
+                      {borderStyles.map((item, index) => (
+                        <Option value={item} key={index}>
+                          {item}
+                        </Option>
+                      ))}
+                    </Select>
+
+                    <InputNumber
+                      min={0}
+                      max={15}
+                      value={borderWidthButton}
+                      style={{
+                        margin: '0 16px',
+                        height: '35px',
+                        borderRadius: '15px',
+                      }}
+                      onChange={(value) =>
+                        this.onChangeValue(value, 'borderWidthButton')
+                      }
+                    />
+
+                    <ChangeColorModal
+                      title="Color : "
+                      color={borderColorButton}
+                      handleChangeColor={(value) =>
+                        this.onChangeValue(value, 'borderColorButton')
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="mt-2">
+                  <h6> border Radius</h6>
+                  <Row>
+                    <Col span={12}>
+                      <Slider
+                        min={0}
+                        max={100}
+                        onChange={(value) =>
+                          this.onChangeValue(value, 'borderRadius')
+                        }
+                        value={borderRadius}
+                      />
+                    </Col>
+                    <Col span={2}>
+                      <InputNumber
+                        min={0}
+                        max={100}
+                        style={{ margin: '0 16px', borderRadius: '15px' }}
+                        value={borderRadius}
+                        onChange={(value) =>
+                          this.onChangeValue(value, 'borderRadius')
+                        }
+                      />
+                    </Col>
+                  </Row>
+                </div>
+              </TabPane>
+            </Tabs>
+            <button onClick={() => this.onChangeValue(false, 'isDesign')}>
+              Close modal
+            </button>
+          </ReactModal>
+        )}
+        {/* 
         {editable && (
           <Modal
             title="Button design"
@@ -375,7 +541,7 @@ class ButtonBlock extends React.Component {
               </TabPane>
             </Tabs>
           </Modal>
-        )}
+        )} */}
       </div>
     );
   }

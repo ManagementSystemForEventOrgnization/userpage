@@ -7,9 +7,11 @@ import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import ApplyEventModal from '../../shares/ApplyEventModal';
 import ButtonBlock from '../../atoms/Button';
+
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 import { BannerState } from '../../stateInit/BannerState';
+
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
@@ -253,16 +255,14 @@ class GeneralBanner extends Component {
           </Modal>
         )}
 
-        {
-          <Modal
-            title="Apply Event"
-            visible={this.state.applyEventModal}
-            onOk={this.handleApplyFinish}
-            onCancel={this.handleCloseApplyEventModal}
-          >
-            <ApplyEventModal handleCheckList={this.handleApply} />
-          </Modal>
-        }
+        <Modal
+          title="Apply Event"
+          visible={this.state.applyEventModal}
+          onOk={this.handleApplyFinish}
+          onCancel={this.handleCloseApplyEventModal}
+        >
+          <ApplyEventModal handleCheckList={this.handleApply} />
+        </Modal>
       </div>
     );
   }
