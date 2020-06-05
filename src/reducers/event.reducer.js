@@ -5,19 +5,19 @@ import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
 const initialBlocks = [
-  dataTest[1].value[1],
-  ...dataTest[0].value,
-  dataTest[2].value[0],
-  ...dataTest[3].value,
-  ...dataTest[4].value,
-  ...dataTest[5].value,
-  ...dataTest[6].value,
-  ...dataTest[7].value,
-  ...dataTest[8].value,
-  ...dataTest[9].value,
-  ...dataTest[10].value,
-  ...dataTest[12].value,
-  ...dataTest[11].value,
+  dataTest[1].value[1], //banner
+  //...dataTest[0].value,
+  dataTest[2].value[0], // event description
+  ...dataTest[3].value, // speaker, card
+  ...dataTest[4].value, // schedule
+  ...dataTest[5].value, //map
+  ...dataTest[6].value, // countdown
+  dataTest[7].value[1], // video
+  ...dataTest[8].value, // sponsors
+  ...dataTest[9].value, //gallery
+  ...dataTest[10].value, //contact us
+  ...dataTest[12].value, //comment
+  dataTest[11].value[0], //footer
 ];
 
 const initialState = {
@@ -182,6 +182,17 @@ const event = (state = initialState, action) => {
         ...state,
         errMessage: action.err,
         pending: false,
+      };
+
+    case eventConstants.GET_EVENT_INFO:
+      return {
+        ...state,
+        nameEvent: action.eventInfo.name,
+        isSellTicket: action.eventInfo.isSellTicket,
+        session: action.eventInfo.session,
+        banner: action.eventInfo.bannerUrl,
+        ticket: action.eventInfo.ticket,
+        countComment: action.countComment,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:

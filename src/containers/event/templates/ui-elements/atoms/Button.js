@@ -4,13 +4,13 @@ import {
   Button,
   Input,
   Tabs,
+  Modal,
   Slider,
   InputNumber,
   Row,
   Col,
   Select,
 } from 'antd';
-import ReactModal from 'react-modal-resizable-draggable';
 
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
@@ -130,7 +130,7 @@ class ButtonBlock extends React.Component {
   };
 
   render() {
-    const { key, editable, child } = this.props;
+    const { key, editable, child, leftModal } = this.props;
     const {
       content,
       borderWidthButton,
@@ -193,7 +193,8 @@ class ButtonBlock extends React.Component {
 
     return (
       <div className="edittext  child-block" style={divStyle}>
-        <div className="d-flex">
+        <div className="d-flex justify-content-center">
+          <div></div>
           <Button
             key={key}
             className="ml-3"
@@ -215,7 +216,7 @@ class ButtonBlock extends React.Component {
           )}
         </div>
 
-        {editable && (
+        {/* {editable && (
           <ReactModal
             initWidth={700}
             initHeight={500}
@@ -373,8 +374,8 @@ class ButtonBlock extends React.Component {
               Close modal
             </button>
           </ReactModal>
-        )}
-        {/* 
+        )} */}
+
         {editable && (
           <Modal
             title="Button design"
@@ -541,7 +542,7 @@ class ButtonBlock extends React.Component {
               </TabPane>
             </Tabs>
           </Modal>
-        )} */}
+        )}
       </div>
     );
   }

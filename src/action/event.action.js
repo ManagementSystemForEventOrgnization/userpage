@@ -198,6 +198,7 @@ const storeHeaderStyle = (style) => {
     };
   }
 };
+
 const storeBlocksWhenCreateEvent = (blocks) => {
   return (dispatch) => {
     dispatch(request(blocks));
@@ -324,7 +325,7 @@ const saveEvent = (id, blocks, header, isPreview) => {
             history.push(`/event/${eventId}`);
             reject('err');
           }
-          resolve('tsrue');
+          resolve('true');
         })
         .catch((err) => handleCatch(dispatch, failure, err));
     });
@@ -347,6 +348,34 @@ const saveEvent = (id, blocks, header, isPreview) => {
   }
 };
 
+const getEventInfo = (urlWeb) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      API.get('/api/get_event_inf', {
+        params: {
+          urlWeb,
+        },
+      })
+        .then((res) => {
+          console.log('TCL : ', res.data.result);
+          dispatch(
+            request(res.data.result.event, res.data.result.countComment)
+          );
+          resolve('true');
+        })
+        .catch((err) => {});
+    });
+  };
+
+  function request(eventInfo, countComment) {
+    return {
+      type: eventConstants.GET_EVENT_INFO,
+      eventInfo,
+      countComment,
+    };
+  }
+};
+
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -360,6 +389,7 @@ export const eventActions = {
   getEventDetail,
   //   getListEventUpComing,
   getEventEdit,
+  getEventInfo,
 
   saveEvent,
   savePage,

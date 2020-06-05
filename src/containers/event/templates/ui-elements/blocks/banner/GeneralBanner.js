@@ -186,24 +186,15 @@ class GeneralBanner extends Component {
           </div>
 
           {type === 3 && (
-            <div className="row">
-              <div
-                className="col-sm-12"
-                style={{
-                  textAlign: 'center',
-                }}
-              >
-                <ButtonBlock
-                  editable={editable}
-                  child={true}
-                  content={content.buttonText.value}
-                  handleApplyEvent={this.handleRequestApplyEvent}
-                  changeContent={(value) =>
-                    this.handleChangeContent('buttonText', value)
-                  }
-                />
-              </div>
-            </div>
+            <ButtonBlock
+              editable={editable}
+              child={true}
+              content={content.buttonText.value}
+              handleApplyEvent={this.handleRequestApplyEvent}
+              changeContent={(value) =>
+                this.handleChangeContent('buttonText', value)
+              }
+            />
           )}
         </div>
 

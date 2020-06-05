@@ -284,6 +284,7 @@ class StepBlock extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  session: state.event.session,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -21,10 +21,10 @@ import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
 import EventDescription3 from '../templates/ui-elements/blocks/eventDescription/EventDescription3';
 
-import Schedule1 from '../templates/ui-elements/blocks/Schedule/Schedule1';
-import Schedule2 from '../templates/ui-elements/blocks/Schedule/Schedule2';
+import Schedule from '../templates/ui-elements/blocks/Schedule/Schedule';
 
-import CardBlock from '../templates/ui-elements/blocks/cardSpeaker/card';
+import Card1 from '../templates/ui-elements/blocks/cardSpeaker/card1';
+import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
 
 import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 
@@ -174,11 +174,19 @@ export default [
     name: 'Speaker/Performer/Team',
     value: [
       {
-        child: 'Speakers',
-        type: 'speakers',
+        child: 'Speakers Gallery',
+        type: 'speakers1',
         style: {},
         options: ({ editable, style, id }) => (
-          <CardBlock key={id} editable={editable} style={style} id={id} />
+          <Card1 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Speakers Carousel',
+        type: 'speakers2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Card2 key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ child, options, style, type }) => {
@@ -196,14 +204,6 @@ export default [
     name: 'Schedule/Program/Step',
     value: [
       {
-        child: 'Schedule1',
-        type: 'schedule1',
-        style: {},
-        options: ({ editable, style, id }) => (
-          <Schedule1 key={id} editable={editable} style={style} id={id} />
-        ),
-      },
-      {
         child: 'Step',
         style: {},
         type: 'step',
@@ -216,7 +216,7 @@ export default [
         type: 'schedule2',
         style: {},
         options: ({ editable, style, id }) => (
-          <Schedule2 key={id} editable={editable} style={style} id={id} />
+          <Schedule key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ child, options, style, type }) => {
