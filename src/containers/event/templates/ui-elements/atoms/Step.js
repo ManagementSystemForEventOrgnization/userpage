@@ -163,7 +163,7 @@ class StepBlock extends Component {
       textTransform: tranform,
     };
     return (
-      <div className="child-block" style={divStyle}>
+      <div className="child-block p-3" style={divStyle}>
         <Steps
           size="small"
           current={current}

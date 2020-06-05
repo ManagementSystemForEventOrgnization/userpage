@@ -7,59 +7,22 @@ import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import ApplyEventModal from '../../shares/ApplyEventModal';
 import ButtonBlock from '../../atoms/Button';
+
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
-
-import { exampleText } from '../../../constants/atom.constant';
-import { Input } from 'antd';
-const { TextArea } = Input;
+import { BannerState } from '../../stateInit/BannerState';
 
 class GeneralBanner extends Component {
   constructor(props) {
     super(props);
-    const { style, session, banner, nameEvent } = this.props;
+    const { style } = this.props;
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }
         : {
-            url: banner || '/bg-3.jpg',
-            visible: false,
-            margin: [1, 1, 1, 1],
-            padding: [10, 5, 5, 10],
-
-            opacity: 0.3,
-            bgColor: 'black',
-            plainOptions: session,
-            content: {
-              title: {
-                value: nameEvent || 'Wellcome !!! Edit title here !',
-                style: {
-                  fontWeight: 'bolder',
-                  fontSize: 50,
-                  textAlign: 'center',
-                },
-              },
-              description: {
-                value: 'Wellcome !!! Edit description here !',
-                style: {
-                  fontWeight: 'normal',
-                  fontSize: 25,
-                  textAlign: 'center',
-                },
-              },
-              buttonText: { value: 'Register Now', style: {} },
-            },
-
-            inputText: exampleText + exampleText + exampleText,
+            ...BannerState(this.props),
           };
   }
-
-  //   componentDidMount = () => {
-  //     const { editable } = this.props;
-  //     if (editable) {
-  //       this.handleStoreBlock();
-  //     }
-  //   };
 
   collapseModal = () => {
     const { visible } = this.state;
@@ -158,7 +121,6 @@ class GeneralBanner extends Component {
       margin,
       padding,
       content,
-      inputText,
     } = this.state;
 
     const { type, editable } = this.props;
@@ -189,11 +151,6 @@ class GeneralBanner extends Component {
       height: '100%',
       opacity: opacity,
       backgroundColor: bgColor,
-    };
-
-    const inputStyle = {
-      backgroundColor: 'none',
-      background: 'none',
     };
 
     return (
@@ -228,33 +185,16 @@ class GeneralBanner extends Component {
             </div>
           </div>
 
-          <TextArea
-            style={inputStyle}
-            placeholder="Autosize height based on content lines"
-            value={inputText}
-            onChange={(e) => this.onChangeStyle('inputText', e.target.value)}
-            autoSize
-          />
-
           {type === 3 && (
-            <div className="row">
-              <div
-                className="col-sm-12"
-                style={{
-                  textAlign: 'center',
-                }}
-              >
-                <ButtonBlock
-                  editable={editable}
-                  child={true}
-                  content={content.buttonText.value}
-                  handleApplyEvent={this.handleRequestApplyEvent}
-                  changeContent={(value) =>
-                    this.handleChangeContent('buttonText', value)
-                  }
-                />
-              </div>
-            </div>
+            <ButtonBlock
+              editable={editable}
+              child={true}
+              content={content.buttonText.value}
+              handleApplyEvent={this.handleRequestApplyEvent}
+              changeContent={(value) =>
+                this.handleChangeContent('buttonText', value)
+              }
+            />
           )}
         </div>
 
@@ -306,16 +246,14 @@ class GeneralBanner extends Component {
           </Modal>
         )}
 
-        {
-          <Modal
-            title="Apply Event"
-            visible={this.state.applyEventModal}
-            onOk={this.handleApplyFinish}
-            onCancel={this.handleCloseApplyEventModal}
-          >
-            <ApplyEventModal handleCheckList={this.handleApply} />
-          </Modal>
-        }
+        <Modal
+          title="Apply Event"
+          visible={this.state.applyEventModal}
+          onOk={this.handleApplyFinish}
+          onCancel={this.handleCloseApplyEventModal}
+        >
+          <ApplyEventModal handleCheckList={this.handleApply} />
+        </Modal>
       </div>
     );
   }

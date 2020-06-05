@@ -56,7 +56,6 @@ class HomePage extends Component {
 
   render() {
     const { events } = this.props;
-    console.log('mo', events);
 
     // const events = this.props.events ? this.props.events : []
 

@@ -90,6 +90,8 @@ export const eventConstants = {
 
   CHANGE_CURRENT_PAGE: 'CHANGE_CURRENT_PAGE',
   CHANGE_PAGES: 'CHANGE_PAGES',
+
+  GET_EVENT_INFO: 'GET_EVENT_INFO',
 };
 
 export const applyEventConstants = {
