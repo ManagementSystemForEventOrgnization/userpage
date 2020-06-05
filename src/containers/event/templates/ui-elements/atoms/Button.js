@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
 import {
   Button,
   Modal,
@@ -34,19 +33,13 @@ class ButtonBlock extends React.Component {
           ...ButtonState(props),
         };
   }
-  showModalBorderColor = () => {
-    const { isBorderColor } = this.state;
-    this.setState({
-      isBorderColor: !isBorderColor,
-    });
-  };
 
-  componentDidMount = () => {
-    const { editable, child } = this.props;
-    if (editable && !child) {
-      this.handleStoreBlock();
-    }
-  };
+  //   componentDidMount = () => {
+  //     const { editable, child } = this.props;
+  //     if (editable && !child) {
+  //       this.handleStoreBlock();
+  //     }
+  //   };
 
   handleApplyEvent = () => {
     const { handleApplyEvent, editable } = this.props;
@@ -65,6 +58,7 @@ class ButtonBlock extends React.Component {
     });
   };
   // common function
+
   onChangeValue(newValue, valueParam) {
     const { changeContent } = this.props;
     this.setState({
@@ -201,8 +195,7 @@ class ButtonBlock extends React.Component {
             value={isButton}
             onClick={this.handleApplyEvent}
           >
-            <span></span>
-            {ReactHtmlParser(content)}
+            {content}
           </Button>
 
           {editable && !child && (

@@ -43,6 +43,18 @@
         opacity: 0.9;
         cursor: pointer;
       }
+
+      .edit-text {
+        display: none;
+      }
+
+      .text-block {
+        &:hover {
+          .edit-text {
+            display: block;
+          }
+        }
+      }
     }
   }
 

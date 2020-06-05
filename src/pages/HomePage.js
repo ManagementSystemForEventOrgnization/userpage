@@ -46,7 +46,6 @@ class HomePage extends Component {
 
   render() {
     const { events } = this.props;
-    console.log('mo', events);
 
     // const events = this.props.events ? this.props.events : []
 
@@ -111,7 +110,6 @@ class HomePage extends Component {
                                       <div className="d-flex ">
                                         <EnvironmentOutlined className="mt-1" />
                                         <p className="ml-2">
-                                          {' '}
                                           {e.address.location}
                                         </p>
                                       </div>

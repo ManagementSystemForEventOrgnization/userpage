@@ -118,6 +118,8 @@ class CreateEvent extends React.Component {
       } else newPageId = this.getNextIdChild();
     }
     handleChangeHeader(pages, newPageId, blocks);
+
+    window.scrollTo(0, 0);
   };
 
   handleSaveEvent = (isPreview) => {
@@ -186,6 +188,7 @@ class CreateEvent extends React.Component {
     }
 
     handlePreviousPage(newPageId);
+    window.scrollTo(0, 0);
   };
 
   isDisablePrevious = () => {

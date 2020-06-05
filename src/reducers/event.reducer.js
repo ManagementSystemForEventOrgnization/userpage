@@ -6,7 +6,8 @@ import { eventConstants } from 'constants/index';
 const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[1],
-  ...dataTest[2].value,
+  ...dataTest[0].value,
+  dataTest[2].value[0],
   ...dataTest[3].value,
   ...dataTest[4].value,
   ...dataTest[5].value,
