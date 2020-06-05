@@ -33,7 +33,7 @@ class TextsBlock extends React.Component {
   // common function
 
   onChangeValue(newValue, valueParam) {
-    const { changeContent, handleChangeContent } = this.props;
+    const { changeContent, handleChangeContent, handleChangeItem } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
@@ -46,6 +46,8 @@ class TextsBlock extends React.Component {
         changeContent(value);
       } else if (handleChangeContent) {
         handleChangeContent(value);
+      } else if (handleChangeItem) {
+        handleChangeItem(value);
       } else this.handleStoreBlock();
     }, 3000);
   }
@@ -55,6 +57,7 @@ class TextsBlock extends React.Component {
       handleOnChangeTextBlock,
       changeContent,
       handleChangeContent,
+      handleChangeItem,
     } = this.props;
 
     this.setState({
@@ -66,12 +69,17 @@ class TextsBlock extends React.Component {
         value: content,
         style: this.state,
       };
+
+      console.log(value);
+      console.log(handleChangeItem);
       if (handleOnChangeTextBlock) {
         handleOnChangeTextBlock(content);
       } else if (changeContent) {
         changeContent(value);
       } else if (handleChangeContent) {
         handleChangeContent(value);
+      } else if (handleChangeItem) {
+        handleChangeItem(value);
       }
     }, 3000);
   };

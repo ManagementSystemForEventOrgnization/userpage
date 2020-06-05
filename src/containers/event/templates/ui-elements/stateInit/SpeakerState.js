@@ -32,6 +32,10 @@ const SpeakerState = (props) => ({
         'https://easydrawingart.com/wp-content/uploads/2019/07/How-to-Draw-a-Chibi-Girl.jpg',
     },
   ],
+
+  title: {},
+  description: {},
+  url: {},
 });
 
 export default SpeakerState;

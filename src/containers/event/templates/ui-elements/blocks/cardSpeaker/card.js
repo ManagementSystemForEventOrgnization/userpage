@@ -77,8 +77,21 @@ class CardBlock extends React.Component {
     }
   };
 
+  handleChangeItem = (itemId, type, value) => {
+    let { list } = this.state;
+    const index = list.findIndex((item) => item.id === itemId);
+    if (index !== -1) {
+      list[index][type] = value.value;
+    }
+
+    this.setState({ list, [type]: value.style });
+    this.handleStoreBlock();
+  };
+
   renderList = (item) => {
     const { editable, type } = this.props;
+    const { title, url, description } = this.state;
+
     return (
       <div
         key={item.id}
@@ -93,6 +106,7 @@ class CardBlock extends React.Component {
               editable={editable}
               height={height}
               child={true}
+              newStyle={url}
               handleChangeItem={(value) => {
                 this.handleChangeItem(item.id, 'url', value);
               }}
@@ -105,9 +119,7 @@ class CardBlock extends React.Component {
                 content={item.title}
                 child={true}
                 editable={editable}
-                newStyle={{
-                  fontWeight: 'bold',
-                }}
+                newStyle={{ ...title, fontWeight: 'bold' }}
                 handleChangeItem={(value) => {
                   this.handleChangeItem(item.id, 'title', value);
                 }}
@@ -118,6 +130,7 @@ class CardBlock extends React.Component {
                 content={item.description}
                 child={true}
                 editable={editable}
+                newStyle={description}
                 handleChangeItem={(value) => {
                   this.handleChangeItem(item.id, 'description', value);
                 }}
