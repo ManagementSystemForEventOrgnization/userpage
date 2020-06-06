@@ -240,43 +240,42 @@ const deleteBlock = (id) => {
   }
 };
 
-// const getListEvent = () => {
-//   //api/getListEvent
-//   return (dispatch) => {
-//     API.get(`/api/getListEvent`,
-//     )
-//       .then((res) => {
-//         if (res.status === 200) {
-//           console.log('data:', res.data.result);
-//           dispatch(success(res.data.result));
-//         } else {
-//           dispatch(failure());
-//         }
-//       })
-//       .catch((error) => {
-//         dispatch(failure());
-//       });
-//   };
+const getListEvent = () => {
+  //api/getListEvent
+  return (dispatch) => {
+    API.get(`/api/get_list_event`,
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('hlEvent:', res.data.result);
+          dispatch(success(res.data.result));
+        } else {
+          dispatch(failure());
+        }
+      })
+      .catch((error) => {
+        dispatch(failure());
+      });
+  };
 
-//   function success(events) {
-//     return {
-//       type: eventConstants.GET_LIST_EVENT_SUCCESS,
-//       events,
-//     };
-//   }
-//   function failure() {
-//     return {
-//       type: eventConstants.GET_LIST_EVENT_FAILURE,
-//     };
-//   }
-// };
+  function success(hlEvent) {
+    return {
+      type: eventConstants.GET_LIST_EVENT_SUCCESS,
+      hlEvent,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_FAILURE,
+    };
+  }
+};
 
 const getListEventUpComing = (pageNumber, numberRecord) => {
-  // let numberRecord = 12;
+
   let data = {
     numberRecord, pageNumber
   };
-  //api/getListEvent
   return (dispatch) => {
     API.get(`/api/get_list_event_coming_up`, {
       params: data
@@ -413,4 +412,5 @@ export const eventActions = {
   storeHeaderStyle,
   changeCurrentPage,
   changePages,
+  getListEvent,
 };

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Tooltip, Badge } from 'antd';
+import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import moment from 'moment'
 import {
 
-  FieldTimeOutlined, UserOutlined, EnvironmentOutlined
+  FieldTimeOutlined, EnvironmentOutlined
 } from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
@@ -15,6 +15,8 @@ import EventList from '../containers/share/EventList';
 // import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
+import Carousel from 'react-multi-carousel';
+import "react-multi-carousel/lib/styles.css";
 /// import sessionCard from '../components/CardSession'
 
 import { eventActions } from '../action/event.action';
@@ -30,14 +32,15 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing } = this.props;
+    const { getListEventUpComing, hlEvent, getListEvent } = this.props;
     const { pageNumber, numberRecord } = this.state;
 
     console.log(pageNumber, numberRecord);
-
-    // console.log("mo", events);
-
     getListEventUpComing(pageNumber, numberRecord);
+    getListEvent();
+
+
+
 
   };
 
@@ -46,7 +49,7 @@ class HomePage extends Component {
     let newDiscount = (1 - discount)
 
     let sum = newDiscount * ticket;
-    let money = `${sum} VNĐ`;
+    let money = `${sum} VNĐ `;
 
     return money
   }
@@ -60,11 +63,29 @@ class HomePage extends Component {
   }
 
   render() {
-    const { events } = this.props;
-    console.log("mo", events);
+    const { events, hlEvent } = this.props;
+    console.log("hlEvent", hlEvent);
 
-    // const events = this.props.events ? this.props.events : []
 
+    const responsive = {
+      superLargeDesktop: {
+
+        breakpoint: { max: 3000, min: 2000 },
+        items: 5
+      },
+      desktop: {
+        breakpoint: { max: 2000, min: 1024 },
+        items: 3
+      },
+      tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 1
+      },
+      mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1
+      }
+    };
 
 
 
@@ -88,7 +109,45 @@ class HomePage extends Component {
 
         <div className="high-light">
           <h1>Highlight Events</h1>
-          <EventList></EventList>
+
+          <div className=" pl-5 mr-5 ">
+            <Carousel responsive={responsive}
+              swipeable={false}
+              draggable={false}
+              showDots={true}
+              ssr={true}
+              infinite={true}
+              autoPlay={this.props.deviceType !== "mobile" ? true : false}
+              autoPlaySpeed={2000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={1000}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={["tablet", "mobile"]}
+              deviceType={this.props.deviceType}
+              dotListClass="custom-dot-list-style"
+              itemClass="carousel-item-padding-40-px">
+              {
+                hlEvent.map((item, index) =>
+                  < div className=" ml-5 shadow event-list" style={{ background: '#fff' }} key={index}  >
+                    {
+                      item.bannerUrl &&
+                      < img
+                        className="cart "
+                        alt="example"
+                        src={item.bannerUrl}
+                      />
+                    }
+
+                    <h5 className="line-clamp mt-2 ml-1 " > {item.name}</h5>
+
+
+
+                  </div>
+                )
+              }
+            </Carousel>
+          </div>
         </div>
 
         <div className="list-event">
@@ -96,11 +155,12 @@ class HomePage extends Component {
             <h1 className="">Upcoming Events </h1>
             <div className=" row  pl-4 ">
               {events.map((item, index) =>
-                < div className=" mt-4 ml-5 row  " key={index} >
+                < div className=" mt-4 ml-5 row  shadow" key={index} >
 
                   < Link to="" >
                     <Card
-                      className="event-cart"
+
+                      className="event-cart "
                       cover={
                         <div >
                           {
@@ -109,11 +169,11 @@ class HomePage extends Component {
                                 item.ticket ?
                                   <div className="d-flex ">
                                     {item.ticket.discount ?
-                                      <div className="d-flex mt-1">
 
-                                        <Button className="ml-1"> {this.percentDiscount(item.ticket.discount)}</Button>
 
-                                      </div>
+                                      <Button className="ml-1 mt-1 ticket"> {this.percentDiscount(item.ticket.discount)}</Button>
+
+
                                       : ""
                                     }
                                   </div>
@@ -156,29 +216,28 @@ class HomePage extends Component {
                         </div>
                       </div>
 
-                      < div className="row">
-                        <div className="col">
+                      <div className='row'>
+                        <div className='col' >
                           {item.ticket ?
-                            <div className="d-flex mt-1">
+                            <div className="d-flex ">
                               {item.ticket.discount ?
-                                <div className="d-flex ">
-                                  <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 mt-1">{item.ticket.price}</p>
-
-                                  <p className="ml-2 mt-1 ">{this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
+                                <div >
+                                  <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price} VNĐ</p>
+                                  <p style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
                                 </div>
-                                : <p className=" mt-1 ">{item.ticket.price}</p>
+                                : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
                               }
                             </div>
                             : <p style={{ fontWeight: 'bold' }} className="ml-1  ">0 VNĐ</p>
 
                           }
                         </div>
-                        <div className="col ">
-                          <p style={{ fontWeight: 400, textAlign: "center" }}>{item.eventCategories.name}</p>
+                        <div className="col " >
+                          <p style={{ textAlign: "center" }}>{item.eventCategories.name}</p>
                         </div>
-                      </ div>
 
 
+                      </div>
                     </Card>
                   </ Link>
                 </div>
@@ -215,6 +274,7 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return {
     events: state.event.events,
+    hlEvent: state.event.hlEvent,
   };
 };
 
@@ -222,6 +282,8 @@ const mapDispatchToProps = (dispatch) => ({
   getListEventUpComing: (pageNumber, numberRecord) => dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
   // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
+  getListEvent: () => dispatch(eventActions.getListEvent()),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
