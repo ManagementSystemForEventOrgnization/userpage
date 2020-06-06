@@ -6,8 +6,6 @@ import { TimePicker, Input, Button, Form, InputNumber } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 
 import AutoCompletePlace from '../../share/AutoCompletePlace';
-
-import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
 const { RangePicker } = TimePicker;

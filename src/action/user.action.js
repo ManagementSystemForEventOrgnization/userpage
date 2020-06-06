@@ -165,8 +165,10 @@ const register = (email, password, fullName) => {
 const checkCode = (token) => {
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/verifyToken`, {
-      token,
+    API.get(`/api/verifyToken`, {
+      params: {
+        token,
+      },
     })
       .then((res) => {
         dispatch(success());
@@ -226,7 +228,7 @@ const onUpdateUserProfile = (userInfor) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
-      ...userInfor
+      ...userInfor,
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -272,10 +274,10 @@ const onUpdateBankInfor = (bankInfor) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/update_bank_inf`, {
-      ...bankInfor
+      ...bankInfor,
     })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -290,7 +292,7 @@ const onUpdateBankInfor = (bankInfor) => {
   function failure(error) {
     return { type: userConstants.UPDATE_BANK_INFOR_FAILURE, error };
   }
-}
+};
 
 const get_History = (
   categoryEventId,
@@ -314,28 +316,26 @@ const get_History = (
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate, endDate);
-    if (txtSearch !== " ") {
+    if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
     }
 
-
     API.get(`/api/user/history`, {
-      params: dataSent
-
+      params: dataSent,
     })
       .then((res) => {
-        console.log("THT:", res.data.result)
+        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {
-    return { type: userConstants.GET_HISTORY_REQUEST };
+    return { type: userActions.GET_HISTORY_REQUEST };
   }
 
   function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+    return { type: userActions.GET_HISTORY_SUCCESS, arrEvent };
   }
   function failure(error) {
     return { type: userConstants.GET_HISTORY_FAILURE, error };
@@ -364,18 +364,16 @@ const getCreateHistory = (
       dataSent.pageNumber = pageNumber;
     }
     console.log(startDate, endDate);
-    if (txtSearch !== " ") {
+    if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
     }
 
-
     API.get(`/api/user/historyCreate`, {
-      params: dataSent
-
+      params: dataSent,
     })
       .then((res) => {
-        console.log("THT:", res.data.result)
+        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -424,5 +422,5 @@ export const userActions = {
   getListNotification,
   getBankAccount,
   onUpdateBankInfor,
-  getCreateHistory
+  getCreateHistory,
 };

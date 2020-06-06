@@ -13,48 +13,58 @@ class DropContainer extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.blocks !== prevState.dropList) {
-      return { dropList: nextProps.blocks };
-    } else return null;
-  }
+  renderEditedBlock = (item, match, editable) => {
+    const param =
+      Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            style: item.style,
+            editable,
+            match,
+          }
+        : {
+            id: item.id,
+            editable,
+            match,
+          };
 
-  handleSetDropList = (dropList) => {
-    const { storeBlocksWhenCreateEvent } = this.props;
-    this.setState({ dropList });
-    storeBlocksWhenCreateEvent(dropList);
-  };
-
-  renderBlocks = (item) => {
-    const { match } = this.props;
-    const param = item.style
-      ? {
-        id: item.id,
-        style: item.style,
-        editable: true,
-        match,
-      }
-      : {
-        id: item.id,
-        editable: true,
-        match,
-      };
-    // return callBack(param, blockList[item.type]);
     return blockList[item.type](param);
   };
 
-  callBackFunction = (params, callBack) => {
-    if (!callBack) return;
-    callBack(params);
+  renderItem = (item, match, editable, update) => {
+    const param =
+      item.style && Object.keys(item.style).length !== 0
+        ? {
+            id: item.id,
+            key: item.id,
+            style: item.style,
+            editable,
+            match,
+            type: item.type,
+          }
+        : {
+            id: item.id,
+            editable,
+            key: item.id,
+            match,
+            type: item.type,
+          };
+
+    return update ? blockList[item.type](param) : item.options(param);
+  };
+
+  handleChangeTextArea = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
   };
 
   render() {
-    const { dropList } = this.state;
-    const { match, editable, update, blocks } = this.props;
+    const { match, editable, blocks, storeBlocksWhenCreateEvent } = this.props;
 
+    const update = true;
     return (
       <div className="drop-container">
-        {/* <Comment /> */}
         <ReactSortable
           id="drop-container"
           sort={true}
@@ -63,23 +73,13 @@ class DropContainer extends React.Component {
             pull: true,
             put: true,
           }}
-          animation={300}
+          // animation={300}
           delayOnTouchStart={true}
-          delay={200}
-          list={dropList}
-          setList={this.handleSetDropList}
+          delay={300}
+          list={blocks}
+          setList={storeBlocksWhenCreateEvent}
         >
-          {update
-            ? blocks.map((item) => this.renderBlocks(item))
-            : dropList.map((item) => {
-              return item.options({
-                id: item.id,
-                key: item.id,
-                editable: editable,
-                match,
-                type: item.type,
-              });
-            })}
+          {blocks.map((item) => this.renderItem(item, match, editable, update))}
         </ReactSortable>
       </div>
     );

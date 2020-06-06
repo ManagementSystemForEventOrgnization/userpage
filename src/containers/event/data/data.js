@@ -3,21 +3,13 @@ import React from 'react';
 import ButtonBlock from '../templates/ui-elements/atoms/Button';
 import TextBlock from '../templates/ui-elements/atoms/Text';
 import ImageBlock from '../templates/ui-elements/atoms/Image';
-// import DropdownBlock from '../templates/ui-elements/atoms/DropDown';
-// import TableBlock from '../templates/ui-elements/atoms/Table';
 import StepBlock from '../templates/ui-elements/atoms/Step';
-// import TimepickersBlock from '../templates/ui-elements/atoms/Timepicker';
-// import DatepickersBlocks from '../templates/ui-elements/atoms/Datepicker';
-// import IconBlock from '../templates/ui-elements/atoms/Icon';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
-// import HeaderBlock from '../templates/ui-elements/blocks/Header';
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
 
 import Photo from '../templates/ui-elements/blocks/photos/Photo';
-// import Photos from '../templates/ui-elements/blocks/photos/Photos';
 
-import ContactUs1 from '../templates/ui-elements/blocks/contactUs/ContactUs1';
 import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
@@ -27,10 +19,11 @@ import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
 import EventDescription3 from '../templates/ui-elements/blocks/eventDescription/EventDescription3';
 
-import Schedule1 from '../templates/ui-elements/blocks/Schedule/Schedule1';
-import Schedule2 from '../templates/ui-elements/blocks/Schedule/Schedule2';
+import Schedule from '../templates/ui-elements/blocks/Schedule/Schedule';
+import Timeline from '../templates/ui-elements/blocks/Schedule/Timeline';
 
-import CardBlock from '../templates/ui-elements/blocks/cardSpeaker/card';
+import Card1 from '../templates/ui-elements/blocks/cardSpeaker/card1';
+import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
 
 import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 
@@ -44,6 +37,7 @@ import Video1 from '../templates/ui-elements/blocks/video/video1';
 import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Header from 'containers/event/Header';
+import Map from '../templates/ui-elements/blocks/map/MapContainer';
 
 export const blockList = {
   button: ({ editable, style, id }) => (
@@ -96,23 +90,24 @@ export const blockList = {
   eventDescription3: ({ id, editable, style }) => (
     <EventDescription3 key={id} id={id} editable={editable} style={style} />
   ),
-  speakers: ({ editable, style, id }) => (
-    <CardBlock key={id} editable={editable} style={style} id={id} />
+  speakers1: ({ editable, style, id }) => (
+    <Card1 key={id} editable={editable} style={style} id={id} />
   ),
-  schedule1: ({ editable, style, id }) => (
-    <Schedule1 key={id} editable={editable} style={style} id={id} />
+  speakers2: ({ editable, style, id }) => (
+    <Card2 key={id} editable={editable} style={style} id={id} />
   ),
+
   step: ({ editable, style, id }) => (
     <StepBlock key={id} editable={editable} style={style} id={id} />
   ),
   schedule2: ({ editable, style, id }) => (
-    <Schedule2 key={id} editable={editable} style={style} id={id} />
+    <Schedule key={id} editable={editable} style={style} id={id} />
+  ),
+  timeline: ({ editable, style, id }) => (
+    <Timeline key={id} editable={editable} style={style} id={id} />
   ),
   map1: ({ editable, style, id }) => (
-    <ButtonBlock key={id} editable={editable} style={style} id={id} />
-  ),
-  map2: ({ editable, style, id }) => (
-    <ButtonBlock key={id} editable={editable} style={style} id={id} />
+    <Map key={id} editable={editable} style={style} id={id} />
   ),
   countdown: ({ editable, style, id }) => (
     <CountDownBlock
@@ -142,9 +137,9 @@ export const blockList = {
   photo2: ({ editable, style, id }) => (
     <Photo key={id} editable={editable} style={style} id={id} />
   ),
-  contactUs1: ({ editable, style, id }) => (
-    <ContactUs1 key={id} editable={editable} style={style} id={id} />
-  ),
+  // contactUs1: ({ editable, style, id }) => (
+  //   <ContactUs1 key={id} editable={editable} style={style} id={id} />
+  // ),
   contactUs2: ({ editable, style, id }) => (
     <ContactUs2 key={id} editable={editable} style={style} id={id} />
   ),

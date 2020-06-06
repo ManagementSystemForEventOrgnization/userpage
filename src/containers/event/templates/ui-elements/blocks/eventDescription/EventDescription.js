@@ -6,7 +6,10 @@ import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import { eventActions } from 'action/event.action';
+
 import { exampleText } from '../../../constants/atom.constant';
+// import { Input } from 'antd';
+// const { TextArea } = Input;
 
 const defaultTitle = {
   value: 'Title',
@@ -27,7 +30,7 @@ class EventDescription extends Component {
     const { style } = this.props;
     this.state =
       style && Object.keys(style).length > 0
-        ? { ...style }
+        ? { ...style, collapse: false }
         : {
             collapse: false,
             margin: [1, 1, 1, 1],
@@ -109,6 +112,12 @@ class EventDescription extends Component {
     this.setState({ content });
   };
 
+  handleChangeTextArea = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
+  };
+
   render() {
     const {
       collapse,
@@ -153,6 +162,7 @@ class EventDescription extends Component {
       <div className="child-block d-flex">
         <div style={style}>
           {url && <div style={bg}></div>}
+
           <div className="row">
             <div className={type === 1 ? 'col-sm-6' : 'col-sm-8'}>
               <Text

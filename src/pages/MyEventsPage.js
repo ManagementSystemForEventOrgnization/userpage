@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import ProfileInfor from 'containers/user/ProfileInfor';
-import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
+// import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 // import BankAccount from 'containers/user/BankAccount/BankAccount';
 import BankAccount from 'containers/user/BankAccount';
 
@@ -15,7 +15,7 @@ class ProfilePage extends Component {
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div className="ProfileInfor mt-5 p-3 row">
         <div className=" col-3">
@@ -23,7 +23,6 @@ class ProfilePage extends Component {
         </div>
         <div className=" col-9">
           {/* <UpdateProfileInfor /> */}
-          {/* <BankAccount /> */}
           <BankAccount />
         </div>
       </div>

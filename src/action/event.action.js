@@ -3,8 +3,33 @@ import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
 
+const getHomeData = () => {
+  return (dispatch) =>
+    Promise.all([
+      API.get('/api/get_list_event_coming_up'),
+      API.get('/api/evenCategory'),
+    ])
+      .then(([events, categories]) => {
+        dispatch(success(events.data.result, categories.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  function success(events, categories) {
+    return {
+      type: eventConstants.GET_HOME_DATA_SUSSESS,
+      events,
+      categories,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_HOME_DATA_FAILURE,
+    };
+  }
+};
+
 const getEventDetail = (eventId, index) => {
   return (dispatch) => {
+    dispatch(request());
     API.get(`/api/event`, {
       params: {
         eventId,
@@ -12,20 +37,28 @@ const getEventDetail = (eventId, index) => {
       },
     })
       .then((res) => {
-        const { rows, header } = res.data.result;
+        const { rows, header, event } = res.data.result;
         localStorage.setItem('currentIndex', index);
         localStorage.setItem('currentId', eventId);
-        dispatch(success(rows, header[0], index));
+        console.log(res.data.result);
+        dispatch(success(rows, header[0], index, event));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
 
-  function success(page, header, index) {
+  function request() {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_REQUEST,
+    };
+  }
+
+  function success(page, header, index, event) {
     return {
       type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
       page,
       header,
       index,
+      event,
     };
   }
 
@@ -67,7 +100,6 @@ const getEventEdit = (eventId, route) => {
 };
 
 const getCategories = () => {
-  // /api/evenCategory`
   return (dispatch) => {
     API.get(`/api/evenCategory`)
       .then((res) => {
@@ -128,6 +160,47 @@ const updatePage = (route, innerHtml, editable) => {
     };
   }
 };
+const changeCurrentPage = (id) => {
+  return (dispatch) => {
+    return dispatch(request(id));
+  };
+
+  function request(currentPage) {
+    return {
+      type: eventConstants.CHANGE_CURRENT_PAGE,
+      currentPage,
+    };
+  }
+};
+
+const changePages = (pages, currentPage) => {
+  return (dispatch) => {
+    return dispatch(request(pages, currentPage));
+  };
+
+  function request(pages, currentPage) {
+    return {
+      type: eventConstants.CHANGE_PAGES,
+      pages,
+      currentPage,
+    };
+  }
+};
+
+const storeHeaderStyle = (style) => {
+  return (dispatch) => {
+    dispatch(request(style));
+  };
+  function request(headerStyle) {
+    return {
+      type: eventConstants.STORE_HEADER_STYLE,
+      headerStyle,
+    };
+  }
+};
+
+
+
 
 const prepareForCreateEvent = (
   nameEvent,
@@ -272,26 +345,18 @@ const getListEvent = () => {
 };
 
 const getListEventUpComing = (pageNumber, numberRecord) => {
-
   let data = {
-    numberRecord, pageNumber
+    numberRecord,
+    pageNumber,
   };
   return (dispatch) => {
     API.get(`/api/get_list_event_coming_up`, {
-      params: data
-    }
-    )
+      params: data,
+    })
       .then((res) => {
-        if (res.status === 200) {
-          console.log('data:', res.data.result);
-          dispatch(success(res.data.result));
-        } else {
-          dispatch(failure());
-        }
+        dispatch(success(res.data.result));
       })
-      .catch((error) => {
-        dispatch(failure());
-      });
+      .catch((error) => handleCatch(dispatch, failure, error));
   };
 
   function success(events) {
@@ -307,36 +372,25 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
   }
 };
 
-const getHomeData = () => {
-  return (dispatch) =>
-    Promise.all([API.get('/api/getListEvent'), API.get('/api/evenCategory')])
-      .then(([events, categories]) => {
-        dispatch(success(categories.data.result));
-      })
-      .catch((err1) => {
-        console.log(err1.response);
-      });
-  function success(categories) {
-    return {
-      type: eventConstants.GET_CATEGORIES_SUCCESS,
-      categories,
-    };
-  }
-};
-
 const saveEvent = (id, blocks, header, isPreview) => {
   const eventId = id || localStorage.getItem('currentId');
 
   return (dispatch) => {
-    dispatch(request());
-    API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
-      .then((res) => {
-        console.log('TCL Save event detail  THEN: ', res);
-        dispatch(success());
-        localStorage.removeItem('currentIndex');
-        history.push(`/event/${eventId}`);
-      })
-      .catch((err) => handleCatch(dispatch, failure, err));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
+        .then((res) => {
+          console.log('TCL Save event detail  THEN: ', res);
+          dispatch(success());
+          localStorage.removeItem('currentIndex');
+          if (!isPreview) {
+            history.push(`/event/${eventId}`);
+            reject('err');
+          }
+          resolve('true');
+        })
+        .catch((err) => handleCatch(dispatch, failure, err));
+    });
   };
   function request() {
     return {
@@ -356,61 +410,56 @@ const saveEvent = (id, blocks, header, isPreview) => {
   }
 };
 
-const storeHeaderStyle = (style) => {
+const getEventInfo = (urlWeb) => {
   return (dispatch) => {
-    dispatch(request(style));
-  };
-  function request(headerStyle) {
-    return {
-      type: eventConstants.STORE_HEADER_STYLE,
-      headerStyle,
-    };
-  }
-};
-
-const changeCurrentPage = (id) => {
-  return (dispatch) => {
-    return dispatch(request(id));
-  };
-
-  function request(currentPage) {
-    return {
-      type: eventConstants.CHANGE_CURRENT_PAGE,
-      currentPage,
-    };
-  }
-};
-
-const changePages = (pages, currentPage) => {
-  return (dispatch) => {
-    return dispatch(request(pages, currentPage));
+    return new Promise((resolve, reject) => {
+      API.get('/api/get_event_inf', {
+        params: {
+          urlWeb,
+        },
+      })
+        .then((res) => {
+          console.log('TCL : ', res.data.result);
+          dispatch(
+            request(res.data.result.event, res.data.result.countComment)
+          );
+          resolve('true');
+        })
+        .catch((err) => { });
+    });
   };
 
-  function request(pages, currentPage) {
+  function request(eventInfo, countComment) {
     return {
-      type: eventConstants.CHANGE_PAGES,
-      pages,
-      currentPage,
+      type: eventConstants.GET_EVENT_INFO,
+      eventInfo,
+      countComment,
     };
   }
 };
 
 export const eventActions = {
-  prepareForCreateEvent,
   storeBlocksWhenCreateEvent,
   getCategories,
   duplicateBlock,
   deleteBlock,
+  storeHeaderStyle,
+  changeCurrentPage,
+  changePages,
+
+  prepareForCreateEvent,
   getEventDetail,
-  saveEvent,
   getListEventUpComing,
+  getEventEdit,
+  getEventInfo,
+
+  saveEvent,
   savePage,
   updatePage,
-  getEventEdit,
-  getHomeData,
   getPreviousPage,
   storeHeaderStyle,
   changeCurrentPage,
   changePages,
   getListEvent,
+  getHomeData,
 };

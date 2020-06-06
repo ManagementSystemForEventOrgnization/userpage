@@ -42,8 +42,10 @@ class EventInfor extends Component {
   };
 
   componentDidMount = () => {
-    const { getCategories } = this.props;
-    getCategories();
+    const { getCategories, categories } = this.props;
+    if (categories.length === 0) {
+      getCategories();
+    }
   };
 
   handleNext = () => {
@@ -58,7 +60,6 @@ class EventInfor extends Component {
     } = this.state;
     const { prepareForCreateEvent } = this.props;
 
-    console.log(isSellTicket);
     prepareForCreateEvent(
       nameEvent,
       typeOfEvent,

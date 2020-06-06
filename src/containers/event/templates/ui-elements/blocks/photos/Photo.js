@@ -6,9 +6,11 @@ import {
   DeleteTwoTone,
 } from '@ant-design/icons';
 import { v4 as uuid } from 'uuid';
+import Carousel from 'react-multi-carousel';
 
 import ImageBlock from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
+import { responsive } from '../../../constants/atom.constant';
 
 const high = 42;
 const iconStyle = {
@@ -110,19 +112,35 @@ class Photo extends Component {
 
     return (
       <div className="d-flex child-block" style={style}>
-        <div className="row d-flex justify-content-around">
+        <Carousel
+          responsive={responsive}
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+          deviceType={'desktop'}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
           {list.map((item) => (
-            <div className="col-sm-3" key={item.id}>
-              <ImageBlock
-                url={item.url}
-                height={high}
-                leftModal={true}
-                child={true}
-                editable={editable}
-              />
-            </div>
+            <ImageBlock
+              key={item.id}
+              url={item.url}
+              height={high}
+              leftModal={true}
+              child={true}
+              editable={editable}
+            />
           ))}
-        </div>
+        </Carousel>
 
         {editable && (
           <div className="icons-handle ml-auto">

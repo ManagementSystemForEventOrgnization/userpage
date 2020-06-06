@@ -11,7 +11,7 @@ import {
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
-import EventList from '../containers/share/EventList';
+
 // import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
@@ -28,11 +28,10 @@ class HomePage extends Component {
       numberRecord: 12,
       pageNumber: 1,
     };
-
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing, hlEvent, getListEvent } = this.props;
+    const { getListEventUpComing, getListEvent } = this.props;
     const { pageNumber, numberRecord } = this.state;
 
     console.log(pageNumber, numberRecord);
@@ -41,35 +40,31 @@ class HomePage extends Component {
 
 
 
-
   };
 
   sumDiscount = (ticket, discount) => {
-
-    let newDiscount = (1 - discount)
+    let newDiscount = 1 - discount;
 
     let sum = newDiscount * ticket;
     let money = `${sum} VNĐ `;
 
-    return money
-  }
+    return money;
+  };
   percentDiscount = (discount) => {
+    let newDiscount = discount * 100;
 
-    let newDiscount = discount * 100
+    let percent = `-${newDiscount}%`;
 
-    let percent = `-${newDiscount}%`
-
-    return percent
-  }
+    return percent;
+  };
 
   render() {
     const { events, hlEvent } = this.props;
-    console.log("hlEvent", hlEvent);
+
 
 
     const responsive = {
       superLargeDesktop: {
-
         breakpoint: { max: 3000, min: 2000 },
         items: 5
       },
@@ -162,57 +157,70 @@ class HomePage extends Component {
 
                       className="event-cart "
                       cover={
-                        <div >
-                          {
-                            item.session ?
-                              item.session.map((e, i) =>
-                                item.ticket ?
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ?
+                        <div>
+                          {item.session
+                            ? item.session.map((e, i) =>
+                              item.ticket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ?
 
 
-                                      <Button className="ml-1 mt-1 ticket"> {this.percentDiscount(item.ticket.discount)}</Button>
+                                    <Button className="ml-1 mt-1 ticket"> {this.percentDiscount(item.ticket.discount)}</Button>
 
 
-                                      : ""
-                                    }
-                                  </div>
-                                  : <Button className="ml-1 mt-1 ticket">Free</Button>
-                              ) : " "
-                          }
-                          {
-                            item.bannerUrl &&
-                            < img
+                                    : ""
+                                  }
+                                </div>
+                              ) : (
+                                  <Button className="ml-1 mt-1 ticket">
+                                    Free
+                                  </Button>
+                                )
+                            )
+                            : ' '}
+                          {item.bannerUrl && (
+                            <img
                               className="img "
                               alt="example"
                               src={item.bannerUrl}
                             />
-                          }
-
+                          )}
                         </div>
-
                       }
                     >
                       <div className="d-flex ">
-                        <h5 className="ml-2 line-clamp " > {item.name}</h5>
-
+                        <h5 className="ml-2 line-clamp "> {item.name}</h5>
                       </div>
                       <div className="d-flex ">
                         <FieldTimeOutlined className="mt-1" />
                         <div className="d-flex ">
-                          <p className="ml-2" style={{ color: '#d1410c', fontWeight: "bold" }}> {moment(item.session[0].day).format('DD/MM/YYYY ')}</p>
-                          {
-                            item.session.length === 1 ? " " :
-                              <p className="ml-2" style={{ color: '#d1410c', fontWeight: "bold" }}> + {item.session.length - 1}more events</p>
+                          <p
+                            className="ml-2"
+                            style={{ color: '#d1410c', fontWeight: 'bold' }}
+                          >
+                            {' '}
+                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                          </p>
+                          {item.session.length === 1 ? ''
 
+                            :
+                            <p
+                              className="ml-2"
+                              style={{ color: '#d1410c', fontWeight: 'bold' }}
+                            >
+
+                              + {item.session.length - 1}more events
+                              </p>
                           }
                         </div>
                       </div>
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
                         <div className="d-flex ">
-                          <p className="ml-2 address "> {item.session[0].address.location}</p>
-
+                          <p className="ml-2 address ">
+                            {' '}
+                            {item.session[0].address.location}
+                          </p>
                         </div>
                       </div>
 
@@ -228,8 +236,13 @@ class HomePage extends Component {
                                 : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
                               }
                             </div>
-                            : <p style={{ fontWeight: 'bold' }} className="ml-1  ">0 VNĐ</p>
-
+                            :
+                            <p
+                              style={{ fontWeight: 'bold' }}
+                              className="ml-1  "
+                            >
+                              0 VNĐ
+                            </p>
                           }
                         </div>
                         <div className="col " >
@@ -239,7 +252,7 @@ class HomePage extends Component {
 
                       </div>
                     </Card>
-                  </ Link>
+                  </Link>
                 </div>
               )}
             </div>
@@ -265,10 +278,8 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
-
-
   }
 }
 const mapStateToProps = (state) => {
@@ -279,7 +290,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getListEventUpComing: (pageNumber, numberRecord) => dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
+  getListEventUpComing: (pageNumber, numberRecord) =>
+    dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
   // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
   getListEvent: () => dispatch(eventActions.getListEvent()),

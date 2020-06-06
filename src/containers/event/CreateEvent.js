@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
-import { Popover } from 'antd';
+import { Popover, Skeleton } from 'antd';
 import { QuestionCircleTwoTone } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -22,6 +22,7 @@ class CreateEvent extends React.Component {
       editable: true,
       currentIndex: 0,
       currentPage: props.currentPage,
+      loading: true,
     };
   }
 
@@ -68,7 +69,15 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
+    const { getEventInfo } = this.props;
+    const eventId = localStorage.getItem('currentId');
+
     this.getCurrentIndex();
+    getEventInfo(eventId).then((data) => {
+      this.setState({
+        loading: false,
+      });
+    });
   };
 
   componentDidUpdate = (prevProps) => {
@@ -118,10 +127,19 @@ class CreateEvent extends React.Component {
       } else newPageId = this.getNextIdChild();
     }
     handleChangeHeader(pages, newPageId, blocks);
+
+    window.scrollTo(0, 0);
   };
 
   handleSaveEvent = (isPreview) => {
-    const { id, blocks, system, pages, saveEvent, headerStyle } = this.props;
+    const {
+      blocks,
+      system,
+      pages,
+      saveEvent,
+      headerStyle,
+      webAddress,
+    } = this.props;
 
     const header = [
       {
@@ -131,7 +149,16 @@ class CreateEvent extends React.Component {
       },
     ];
 
-    saveEvent(id, [...system, blocks], header, isPreview);
+    saveEvent(webAddress, [...system, blocks], header, isPreview)
+      .then((data) => {
+        window.open(
+          `/event/${webAddress || localStorage.getItem('currentId')}`,
+          '_blank'
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   getPreviousId = () => {
@@ -170,18 +197,33 @@ class CreateEvent extends React.Component {
     }
 
     handlePreviousPage(newPageId);
+    window.scrollTo(0, 0);
+  };
+
+  isDisablePrevious = () => {
+    const { currentIndex } = this.state;
+    const { pages, currentPage } = this.props;
+
+    if (currentIndex === 0) {
+      if (pages[currentIndex].child.length === 0) {
+        return true;
+      } else {
+        return pages[currentIndex].child[0].id === currentPage ? true : false;
+      }
+    }
+    return false;
   };
 
   render() {
-    const { collapsed, editable, currentIndex } = this.state;
+    const { collapsed, editable, loading } = this.state;
     const { match, pending } = this.props;
-    const id = localStorage.getItem('currentId');
-    const textStyle = {
-      color: 'white',
-    };
+    // const id = localStorage.getItem('currentId');
+    // const textStyle = {
+    //   color: 'white',
+    // };
 
     const content = (
-      <div className={{ width: '50px', height: '100px' }}>
+      <div className="p-3">
         Create event : Drag each block from menu to below container. <br />
         Menu for Event : Click edit icon to change each item of menu. <br />
         Next Page : Move to next page in Menu.
@@ -206,86 +248,92 @@ class CreateEvent extends React.Component {
         <div className="fixed-top ">
           <Header />
         </div>
+        {loading ? (
+          <Skeleton />
+        ) : (
+          <div>
+            <div className="d-flex flex-row-reverse">
+              <Button
+                className="mr-5 ml-1"
+                variant="primary"
+                onClick={() => this.handleSaveEvent(false)}
+                disabled={pending}
+              >
+                Finish
+              </Button>
 
-        <div className="d-flex flex-row-reverse">
-          <Button
-            className="mr-5 ml-1"
-            variant="primary"
-            onClick={() => this.handleSaveEvent(false)}
-            disabled={pending}
-          >
-            Finish
-          </Button>
+              <Button
+                variant="success"
+                onClick={() => this.handleSaveEvent(true)}
+              >
+                Preview
+              </Button>
 
-          <Button variant="success" onClick={() => this.handleSaveEvent(true)}>
-            <a
-              href={id ? `/preview/${id}` : `preview/${this.props.id}`}
-              target="_blank"
-              style={textStyle}
-              rel="noopener noreferrer"
-            >
-              Preview
-            </a>
-          </Button>
+              <Popover
+                content={content}
+                title="Help"
+                trigger="click"
+                placement="bottomLeft"
+              >
+                <QuestionCircleTwoTone style={inconStyle} />
+              </Popover>
+            </div>
 
-          <Popover content={content} title="Help" trigger="click" id="help">
-            <QuestionCircleTwoTone style={inconStyle} />
-          </Popover>
-        </div>
+            <div className="d-flex">
+              <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
 
-        <div className="d-flex">
-          <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
+              <div
+                className={
+                  collapsed
+                    ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
+                    : ' mt-1 drop-area  mb-5 p-3 ml-auto'
+                }
+              >
+                <div id="header-block">
+                  <EditableHeader editable={editable} />
 
-          <div
-            className={
-              collapsed
-                ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
-                : ' mt-1 drop-area  mb-5 p-3 ml-auto'
-            }
-          >
-            <div id="header-block">
-              <EditableHeader editable={editable} />
-
-              <div className="d-flex">
-                <p className="mr-2">Current page : </p>
-                <NavigationMenu />
+                  <div className="d-flex">
+                    <p className="mr-2">Current page : </p>
+                    <NavigationMenu />
+                  </div>
+                </div>
+                <DropContainer match={match} editable={editable} />
               </div>
             </div>
-            <DropContainer match={match} editable={editable} />
+
+            <div className="d-flex   flex-row-reverse mr-5 mb-5">
+              <Button
+                variant="info"
+                className="mr-1 ml-1"
+                onClick={this.onHandleNext}
+              >
+                Next Page
+              </Button>
+
+              <Button
+                variant="secondary"
+                className="mr-1 ml-1"
+                onClick={this.handleBack}
+                disabled={this.isDisablePrevious()}
+              >
+                Previous Page
+              </Button>
+            </div>
           </div>
-        </div>
-
-        <div className="d-flex   flex-row-reverse mr-5 mb-5">
-          <Button
-            variant="info"
-            className="mr-1 ml-1"
-            onClick={this.onHandleNext}
-          >
-            Next Page
-          </Button>
-
-          <Button
-            variant="secondary"
-            className="mr-1 ml-1"
-            onClick={this.handleBack}
-            disabled={currentIndex === 0}
-          >
-            Previous Page
-          </Button>
-        </div>
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  id: state.event.id,
   pending: state.event.pending,
   blocks: state.event.blocks,
   pages: state.event.pages,
   currentPage: state.event.currentPage,
   headerStyle: state.event.headerStyle,
   system: state.event.system,
+  webAddress: state.event.webAddress,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -302,6 +350,8 @@ const mapDispatchToProps = (dispatch) => ({
 
   saveEvent: (eventId, blocks, header, isPreview) =>
     dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
+
+  getEventInfo: (eventId) => dispatch(eventActions.getEventInfo(eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

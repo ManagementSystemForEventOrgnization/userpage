@@ -3,8 +3,7 @@ import { Zoom } from 'react-slideshow-image';
 import EventCard from './EventCard';
 import { connect } from 'react-redux';
 import { eventActions } from '../../action/event.action';
-import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
+
 const images = [
     'https://static.rootsrated.com/image/upload/s--LbVVifxy--/t_rr_large_natural/a582hei6yo6itc6fvdjl.jpg',
     'https://d1ez3020z2uu9b.cloudfront.net/imagecache/blog-photos/6118.jpg',
@@ -23,25 +22,7 @@ const zoomOutProperties = {
     scale: 0.4,
     arrows: true
 }
-const responsive = {
-    superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5
-    },
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 3
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1
-    }
-};
+
 class EventList extends Component {
     componentDidMount = () => {
         const { getListEvent, hlEvent } = this.props;
