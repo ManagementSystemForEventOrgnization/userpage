@@ -14,11 +14,13 @@ import ApplyEventModal from '../../shares/ApplyEventModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
+import { applyEventAction } from 'action/applyEvent';
 
 class Schedule1 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
+    console.log(this.props.session);
     this.state = style
       ? { ...style }
       : {
@@ -28,10 +30,12 @@ class Schedule1 extends Component {
   }
 
   componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
+    // const { editable } = this.props;
+    // if (editable) {
+    //   this.handleStoreBlock();
+    // }
+    // console.log(this.props.session);
+    // console.log(this.state.content);
   };
 
   //show modal
@@ -122,11 +126,54 @@ class Schedule1 extends Component {
     }
   };
 
-  handleClickButton = () => {
-    const { apply } = this.state;
-    this.setState({
-      apply: !apply,
-    });
+  isApplied = (idSession) => {
+    const { content } = this.state;
+    const index = content.findIndex((item) => item.id === idSession);
+    console.log(content[index].status);
+    return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
+  };
+
+  changeLoadingSS = (idSession) => {
+    let { content } = this.state;
+    let index = content.findIndex((ss) => ss.id === idSession);
+
+    if (index !== -1) {
+      content[index].pending = !content[index].pending;
+      this.setState({ content });
+    }
+  };
+
+  changeStatusSS = (idSession, status) => {
+    let { content } = this.state;
+    let index = content.findIndex((ss) => ss.id === idSession);
+
+    if (index !== -1) {
+      content[index].status = status ? 'JOINED' : 'CANCEL';
+      content[index].pending = false;
+      this.setState({ content });
+    }
+  };
+
+  handleClickButton = (ssId) => {
+    const { handleApply, handleCancel, id } = this.props;
+    const temp = [];
+    temp.push(ssId);
+
+    if (this.isApplied(ssId)) {
+      this.changeLoadingSS(ssId);
+      handleCancel(id, temp)
+        .then((res) => {
+          this.changeStatusSS(ssId, 0);
+        })
+        .catch((err) => {
+          this.changeLoadingSS(ssId);
+        });
+    } else {
+      this.changeLoadingSS(ssId);
+      handleApply(id, temp)
+        .then((res) => this.changeStatusSS(ssId, 1))
+        .catch((err) => this.changeLoadingSS(ssId));
+    }
   };
 
   render() {
@@ -224,9 +271,14 @@ class Schedule1 extends Component {
                   icon={<CalendarOutlined />}
                   type="primary"
                   className="mt-2"
-                  onClick={this.handleClickButton}
+                  loading={ss.pending}
+                  onClick={() => this.handleClickButton(ss.id)}
                 >
-                  {isSellTicket ? 'Buy Ticket' : 'Register free'}
+                  {this.isApplied(ss.id)
+                    ? 'Cancel'
+                    : isSellTicket
+                    ? 'Buy Ticket'
+                    : 'Register free'}
                 </Button>
               </div>
             </div>
@@ -240,16 +292,6 @@ class Schedule1 extends Component {
             handleDelete={this.handleDelete}
           />
         )}
-
-        <Modal
-          title="Apply event"
-          visible={apply && !editable}
-          onOk={this.handleClickButton}
-          onCancel={this.handleClickButton}
-          width={700}
-        >
-          <ApplyEventModal />
-        </Modal>
 
         <Modal
           title="Edit Schedule"
@@ -320,6 +362,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   isSellTicket: state.event.isSellTicket,
   session: state.event.session,
+  id: state.event.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -327,6 +370,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
   duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
+
+  handleApply: (eventId, sessionIds) =>
+    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+  handleCancel: (eventId, sessionIds) =>
+    dispatch(applyEventAction.cancelEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule1);

@@ -16,13 +16,13 @@ class ApplyEventModal extends Component {
 
   isApplied = (idSession) => {
     const { session } = this.state;
-    const index = session.findIndex((item) => item._id === idSession);
+    const index = session.findIndex((item) => item.id === idSession);
     return session[index].status && session[index].status === 'JOINED' ? 1 : 0;
   };
 
   changeLoadingSS = (idSession) => {
     let { session } = this.state;
-    let index = session.findIndex((ss) => ss._id === idSession);
+    let index = session.findIndex((ss) => ss.id === idSession);
 
     if (index !== -1) {
       session[index].pending = !session[index].pending;
@@ -32,7 +32,7 @@ class ApplyEventModal extends Component {
 
   changeStatusSS = (idSession, status) => {
     let { session } = this.state;
-    let index = session.findIndex((ss) => ss._id === idSession);
+    let index = session.findIndex((ss) => ss.id === idSession);
 
     if (index !== -1) {
       session[index].status = status ? 'JOINED' : 'CANCEL';
@@ -68,16 +68,16 @@ class ApplyEventModal extends Component {
     return (
       <div>
         {session.map((ss) => (
-          <div key={ss._id} className="d-flex justify-content-around">
+          <div key={ss.id} className="d-flex justify-content-around">
             <p>
               {moment(ss.day).format('LLL')} - {ss.name}
             </p>
             <Button
-              onClick={() => this.handleClick(ss._id)}
+              onClick={() => this.handleClick(ss.id)}
               loading={ss.pending}
-              type={this.isApplied(ss._id) ? 'danger' : 'primary'}
+              type={this.isApplied(ss.id) ? 'danger' : 'primary'}
             >
-              {this.isApplied(ss._id) ? 'Cancel' : 'Register'}
+              {this.isApplied(ss.id) ? 'Cancel' : 'Register'}
             </Button>
           </div>
         ))}
