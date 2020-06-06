@@ -153,7 +153,7 @@ class ProfileInfor extends Component {
     const birthday = new Date(userInfor.birthday);
     const birthDate = (birthday.getUTCDate() + '/' + 0 + birthday.getMonth() + '/' + birthday.getUTCFullYear()).toString()
     return (
-      <div className="ProfileInfor p-5 border">
+      <div className="ProfileInfor p-3 border">
         {this.errorHandle()}
         {/* start form */}
         <div className="col">
