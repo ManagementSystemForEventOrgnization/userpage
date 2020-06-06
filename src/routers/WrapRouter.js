@@ -77,9 +77,6 @@ class WrapRouter extends React.Component {
         path: '/my-events',
         exact: true,
         main: () => <MyEventsPage />,
-        child: {
-         
-        }
       },
       // {
       //   path: '/my-events/profile',

@@ -294,6 +294,28 @@ const onUpdateBankInfor = (bankInfor) => {
   }
 };
 
+const onChangePassword = (passwords) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/updatePassword`, {
+      ...passwords,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.CHANGEPASSWORD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.CHANGEPASSWORD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.CHECK_CODE_FAILURE, error };
+  }
+}
 const get_History = (
   categoryEventId,
   startDate,
@@ -423,4 +445,5 @@ export const userActions = {
   getBankAccount,
   onUpdateBankInfor,
   getCreateHistory,
+  onChangePassword
 };
