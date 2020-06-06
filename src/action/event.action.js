@@ -254,8 +254,10 @@ const prepareForCreateEvent = (
       banner,
     })
       .then((res) => {
-        const { _id } = res.data.result;
+        const { _id, urlWeb } = res.data.result;
+        console.log(res.data.result);
         localStorage.setItem('currentId', _id);
+        localStorage.setItem('webAddress', urlWeb);
         dispatch(
           success(
             _id,
@@ -341,7 +343,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id || localStorage.getItem('currentId');
+  const eventId = id || localStorage.getItem('webAddress');
 
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -393,7 +395,9 @@ const getEventInfo = (urlWeb) => {
           );
           resolve('true');
         })
-        .catch((err) => {});
+        .catch((err) => {
+          reject('err');
+        });
     });
   };
 

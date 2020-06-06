@@ -69,15 +69,25 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getEventInfo } = this.props;
-    const eventId = localStorage.getItem('currentId');
+    const { getEventInfo, webAddress } = this.props;
+    const eventId = localStorage.getItem('webAddress');
 
     this.getCurrentIndex();
-    getEventInfo(eventId).then((data) => {
-      this.setState({
-        loading: false,
-      });
-    });
+    if (!webAddress) {
+      getEventInfo(eventId)
+        .then((data) => {
+          this.setState({
+            loading: false,
+          });
+        })
+        .catch((err) =>
+          this.setState({
+            loading: false,
+          })
+        );
+    } else {
+      this.setState({ loading: false });
+    }
   };
 
   componentDidUpdate = (prevProps) => {
@@ -149,10 +159,15 @@ class CreateEvent extends React.Component {
       },
     ];
 
-    saveEvent(webAddress, [...system, blocks], header, isPreview)
+    saveEvent(
+      webAddress || localStorage.getItem('webAddress'),
+      [...system, blocks],
+      header,
+      isPreview
+    )
       .then((data) => {
         window.open(
-          `/event/${webAddress || localStorage.getItem('currentId')}`,
+          `/event/${webAddress || localStorage.getItem('webAddress')}`,
           '_blank'
         );
       })

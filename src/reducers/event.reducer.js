@@ -165,6 +165,7 @@ const event = (state = initialState, action) => {
         pending: true,
       };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
+      console.log(action.event);
       return {
         ...state,
         pending: false,
@@ -173,6 +174,9 @@ const event = (state = initialState, action) => {
         headerStyle: action.header.style,
         currentIndex: action.index,
         session: action.event.session,
+        id: action.event._id,
+        banner: action.event.bannerUrl,
+        nameEvent: action.event.name,
 
         // update event infor
       };

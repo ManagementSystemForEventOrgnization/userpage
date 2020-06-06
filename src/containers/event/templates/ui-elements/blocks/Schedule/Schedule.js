@@ -10,6 +10,7 @@ import IconsHandle from '../../shares/IconsHandle';
 import TextsBlock from '../../atoms/Text';
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import ChangeColorModal from '../../shares/ChangeColorModal';
+import ApplyEventModal from '../../shares/ApplyEventModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
@@ -22,6 +23,7 @@ class Schedule1 extends Component {
       ? { ...style }
       : {
           ...ScheduleState(this.props, 1),
+          apply: false,
         };
   }
 
@@ -120,6 +122,13 @@ class Schedule1 extends Component {
     }
   };
 
+  handleClickButton = () => {
+    const { apply } = this.state;
+    this.setState({
+      apply: !apply,
+    });
+  };
+
   render() {
     // need to refactor
     const {
@@ -136,6 +145,8 @@ class Schedule1 extends Component {
       fontWeight,
       scheduleName,
       content,
+      visible,
+      apply,
     } = this.state;
     const { key, editable, leftModal, isSellTicket } = this.props;
     const divStyle = {
@@ -170,14 +181,15 @@ class Schedule1 extends Component {
     const calendar = {
       border: 'brown solid 1px',
       width: '83px',
-      height: '86px',
+      height: '90px',
       textAlign: 'center',
-      fontSize: '12px',
+      fontSize: '13px',
+      fontWeight: 'bold',
     };
 
     const monthStyle = {
       background: 'red',
-      fontWeight: 'bold',
+      fontWeight: 'bolder',
     };
 
     return (
@@ -212,6 +224,7 @@ class Schedule1 extends Component {
                   icon={<CalendarOutlined />}
                   type="primary"
                   className="mt-2"
+                  onClick={this.handleClickButton}
                 >
                   {isSellTicket ? 'Buy Ticket' : 'Register free'}
                 </Button>
@@ -228,71 +241,76 @@ class Schedule1 extends Component {
           />
         )}
 
-        {editable && (
-          <Modal
-            title="schedule"
-            visible={this.state.visible}
-            onOk={this.showModal}
-            onCancel={this.showModal}
-            width={700}
-            className={
-              leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+        <Modal
+          title="Apply event"
+          visible={apply && !editable}
+          onOk={this.handleClickButton}
+          onCancel={this.handleClickButton}
+          width={700}
+        >
+          <ApplyEventModal />
+        </Modal>
+
+        <Modal
+          title="Edit Schedule"
+          visible={visible}
+          onOk={this.showModal}
+          onCancel={this.showModal}
+          width={700}
+          className={
+            leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+          }
+          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
+        >
+          <EditText
+            fonts={fonts}
+            fontSize={fontSize}
+            lineText={lineText}
+            letterSpacing={letterSpacing}
+            handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
+            handleChangeFontSize={(value) =>
+              this.onChangeValue(value, 'fontSize')
             }
-            style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
-          >
-            <EditText
-              fonts={fonts}
-              fontSize={fontSize}
-              lineText={lineText}
-              letterSpacing={letterSpacing}
-              handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
-              handleChangeFontSize={(value) =>
-                this.onChangeValue(value, 'fontSize')
+            handleChangeLetterSpacing={(value) =>
+              this.onChangeValue(value, 'letterSpacing')
+            }
+            handleChangeLineHeight={(value) =>
+              this.onChangeValue(value, 'lineText')
+            }
+            handleChangeTextAlign={(value) =>
+              this.onChangeValue(value, 'textAlign')
+            }
+            handleChangeTextTransform={(value) =>
+              this.onChangeValue(value, 'transform')
+            }
+          />
+          <div className="mt-5 pl-2">
+            <PaddingAndMargin
+              padding={padding}
+              margin={margin}
+              handleChangeMargin={(value) =>
+                this.onChangeValue(value, 'margin')
               }
-              handleChangeLetterSpacing={(value) =>
-                this.onChangeValue(value, 'letterSpacing')
-              }
-              handleChangeLineHeight={(value) =>
-                this.onChangeValue(value, 'lineText')
-              }
-              handleChangeTextAlign={(value) =>
-                this.onChangeValue(value, 'textAlign')
-              }
-              handleChangeTextTransform={(value) =>
-                this.onChangeValue(value, 'transform')
+              handleChangePadding={(value) =>
+                this.onChangeValue(value, 'padding')
               }
             />
-
-            <div className="mt-5 pl-2">
-              <PaddingAndMargin
-                padding={padding}
-                margin={margin}
-                handleChangeMargin={(value) =>
-                  this.onChangeValue(value, 'margin')
-                }
-                handleChangePadding={(value) =>
-                  this.onChangeValue(value, 'padding')
-                }
-              />
-            </div>
-            <div className="d-flex mt-5 pl-2">
-              <ChangeColorModal
-                title="Change Text Color"
-                color={color}
-                handleChangeColor={(value) =>
-                  this.onChangeValue(value, 'color')
-                }
-              />
-              <ChangeColorModal
-                title="Change background"
-                color={background}
-                handleChangeColor={(value) =>
-                  this.onChangeValue(value, 'background')
-                }
-              />
-            </div>
-          </Modal>
-        )}
+          </div>
+          <div className="d-flex mt-5 pl-2">
+            <ChangeColorModal
+              title="Change Text Color"
+              color={color}
+              handleChangeColor={(value) => this.onChangeValue(value, 'color')}
+            />
+            <ChangeColorModal
+              title="Change background"
+              color={background}
+              handleChangeColor={(value) =>
+                this.onChangeValue(value, 'background')
+              }
+            />
+          </div>
+        </Modal>
       </div>
     );
   }
