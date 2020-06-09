@@ -39,8 +39,7 @@ const getEventDetail = (eventId, index) => {
       .then((res) => {
         const { rows, header, event } = res.data.result;
         localStorage.setItem('currentIndex', index);
-        localStorage.setItem('currentId', eventId);
-        console.log(res.data.result);
+        localStorage.setItem('currentId', res.data.result.eventId);
         dispatch(success(rows, header[0], index, event));
       })
       .catch((err) => handleCatch(dispatch, failure, err));
@@ -147,19 +146,6 @@ const getPreviousPage = (currentPage) => {
   }
 };
 
-const updatePage = (route, innerHtml, editable) => {
-  return (dispatch) => {
-    dispatch(request(route, innerHtml, editable));
-  };
-  function request(route, innerHtml, editable) {
-    return {
-      type: eventConstants.UPDATE_PAGE,
-      route,
-      innerHtml,
-      editable,
-    };
-  }
-};
 const changeCurrentPage = (id) => {
   return (dispatch) => {
     return dispatch(request(id));
@@ -221,7 +207,6 @@ const prepareForCreateEvent = (
     })
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
-        console.log(res.data.result);
         localStorage.setItem('currentId', _id);
         localStorage.setItem('webAddress', urlWeb);
         dispatch(
@@ -322,12 +307,10 @@ const getListEvent = (categoryEventId, type) => {
   if (type) {
     sentData.type = type;
   }
-  console.log('sentData', sentData);
   return (dispatch) => {
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
-          console.log('hlEvent:', res.data.result);
           dispatch(success(res.data.result));
         } else {
           dispatch(failure());
@@ -361,7 +344,6 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
-        console.log('res.data.result', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -388,7 +370,6 @@ const saveEvent = (id, blocks, header, isPreview) => {
       dispatch(request());
       API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
         .then((res) => {
-          console.log('TCL Save event detail  THEN: ', res);
           dispatch(success());
           localStorage.removeItem('currentIndex');
           if (!isPreview) {
@@ -427,12 +408,15 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
-          dispatch(
-            request(res.data.result.event, res.data.result.countComment)
-          );
+          const { event, countComment } = res.data.result;
+          dispatch(request(event, countComment));
+          localStorage.setItem('currentId', event._id);
+
           resolve('true');
         })
-        .catch((err) => {});
+        .catch((err) => {
+          reject(err);
+        });
     });
   };
 
@@ -460,7 +444,6 @@ export const eventActions = {
 
   saveEvent,
   savePage,
-  updatePage,
   getPreviousPage,
   changeCurrentPage,
   changePages,

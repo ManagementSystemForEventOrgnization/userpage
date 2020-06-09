@@ -20,7 +20,7 @@ class CreateEvent extends React.Component {
     this.state = {
       collapsed: false,
       editable: true,
-      currentIndex: 0,
+      currentIndex: localStorage.getItem('currentIndex') || 0,
       currentPage: props.currentPage,
       loading: true,
     };
@@ -136,6 +136,10 @@ class CreateEvent extends React.Component {
         newPageId = this.getNextId();
       } else newPageId = this.getNextIdChild();
     }
+
+    // console.log(newPageId);
+    // console.log(pages);
+
     handleChangeHeader(pages, newPageId, blocks);
 
     window.scrollTo(0, 0);
