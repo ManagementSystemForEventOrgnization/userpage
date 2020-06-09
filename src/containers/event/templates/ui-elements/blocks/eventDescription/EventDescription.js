@@ -76,6 +76,8 @@ class EventDescription extends Component {
 
   handleDelete = () => {
     const { id, deleteBlock } = this.props;
+    console.log(id);
+    console.log(deleteBlock);
     if (deleteBlock) {
       deleteBlock(id);
     }

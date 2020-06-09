@@ -427,7 +427,6 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
-          console.log('TCL : ', res.data.result);
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
@@ -452,7 +451,6 @@ export const eventActions = {
   duplicateBlock,
   deleteBlock,
   storeHeaderStyle,
-  changePages,
 
   prepareForCreateEvent,
   getEventDetail,
@@ -465,6 +463,7 @@ export const eventActions = {
   updatePage,
   getPreviousPage,
   changeCurrentPage,
+  changePages,
   getListEvent,
   getHomeData,
 };

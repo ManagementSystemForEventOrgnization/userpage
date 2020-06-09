@@ -19,7 +19,6 @@ class Schedule1 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    console.log(this.props.session);
     this.state = style
       ? { ...style }
       : {
@@ -27,15 +26,6 @@ class Schedule1 extends Component {
           apply: false,
         };
   }
-
-  componentDidMount = () => {
-    // const { editable } = this.props;
-    // if (editable) {
-    //   this.handleStoreBlock();
-    // }
-    // console.log(this.props.session);
-    // console.log(this.state.content);
-  };
 
   //show modal
   showModal = () => {
@@ -128,7 +118,6 @@ class Schedule1 extends Component {
   isApplied = (idSession) => {
     const { content } = this.state;
     const index = content.findIndex((item) => item.id === idSession);
-    console.log(content[index].status);
     return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
   };
 
@@ -154,13 +143,13 @@ class Schedule1 extends Component {
   };
 
   handleClickButton = (ssId) => {
-    const { handleApply, handleCancel, id } = this.props;
+    const { handleApply, handleCancel, eventId } = this.props;
     const temp = [];
     temp.push(ssId);
 
     if (this.isApplied(ssId)) {
       this.changeLoadingSS(ssId);
-      handleCancel(id, temp)
+      handleCancel(eventId, temp)
         .then((res) => {
           this.changeStatusSS(ssId, 0);
         })
@@ -169,7 +158,7 @@ class Schedule1 extends Component {
         });
     } else {
       this.changeLoadingSS(ssId);
-      handleApply(id, temp)
+      handleApply(eventId, temp)
         .then((res) => this.changeStatusSS(ssId, 1))
         .catch((err) => this.changeLoadingSS(ssId));
     }
@@ -360,7 +349,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   isSellTicket: state.event.isSellTicket,
   session: state.event.session,
-  id: state.event.id,
+  eventId: state.event.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
