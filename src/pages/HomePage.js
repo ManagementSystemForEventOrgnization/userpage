@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card } from 'antd';
+import { Button, Card, Popover } from 'antd';
 import { Link } from 'react-router-dom';
 import { Zoom } from 'react-slideshow-image';
-
 import moment from 'moment';
 import { FieldTimeOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ChatBox } from 'react-chatbox-component';
+import Chat from 'containers/chat/ChatWidget';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
-// import EventList from '../containers/share/EventList';
-// import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-// import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-/// import sessionCard from '../components/CardSession'
 
 import { eventActions } from '../action/event.action';
+
+const messages = [
+  {
+    text: 'Hello there',
+    id: '1',
+    sender: {
+      name: 'Ironman',
+      uid: 'user1',
+      avatar: 'https://data.cometchat.com/assets/images/avatars/ironman.png',
+    },
+  },
+];
+const user = {
+  uid: 'user1',
+};
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +37,7 @@ class HomePage extends Component {
     this.state = {
       numberRecord: 12,
       pageNumber: 1,
+      visible: false,
     };
   }
 
@@ -52,6 +65,13 @@ class HomePage extends Component {
     let percent = `-${newDiscount}%`;
 
     return percent;
+  };
+
+  handleVisibleChange = () => {
+    const { visible } = this.state;
+    this.setState({
+      visible: !visible,
+    });
   };
 
   render() {
@@ -288,6 +308,17 @@ class HomePage extends Component {
           </div>
         </div>
 
+        <div className="chat-block">
+          <Popover
+            content={<ChatBox messages={messages} user={user} />}
+            trigger="click"
+            visible={this.state.visible}
+            onVisibleChange={this.handleVisibleChange}
+          >
+            <Button type="primary">Click me</Button>
+          </Popover>
+        </div>
+        <Chat />
         <div className="explore">
           <Link to="/about-us">
             <Button size="large" type="primary">
