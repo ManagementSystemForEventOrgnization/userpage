@@ -313,10 +313,20 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = () => {
+const getListEvent = (categoryEventId, type) => {
   //api/getListEvent
+  let sentData = {};
+  console.log("categoryEventId", categoryEventId);
+  if (categoryEventId) {
+    sentData.categoryEventId = categoryEventId;
+  }
+  if (type) {
+    sentData.type = type;
+  }
+  console.log("sentData", sentData);
   return (dispatch) => {
     API.get(`/api/get_list_event`,
+      { params: sentData }
     )
       .then((res) => {
         if (res.status === 200) {
@@ -354,6 +364,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
+        console.log("res.data.result", res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));

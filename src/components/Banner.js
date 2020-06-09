@@ -13,11 +13,13 @@ class Banner extends React.Component {
     const { isLogined } = this.props;
     return (
       <div className="banner">
-        <h1 className="title-name">EVENT IN YOUR HAND</h1>
-        <h2>Be easier to create and organize event </h2>
+        <div className="title-name">EVENT IN YOUR HAND</div>
+        <div className=" title-h2">Be easier to create and organize event </div>
         {isLogined ? (
           <Link to="/prepare">
             <Button
+
+
               type="danger"
               icon={<StarFilled />}
               size="large"
@@ -27,12 +29,12 @@ class Banner extends React.Component {
             </Button>
           </Link>
         ) : (
-          <Link to="/login">
-            <Button type="danger" icon={<StarFilled />} size="large">
-              Login To Expore Now
+            <Link to="/login">
+              <Button type="danger" icon={<StarFilled />} size="large">
+                Login To Expore Now
             </Button>
-          </Link>
-        )}
+            </Link>
+          )}
       </div>
     );
   }

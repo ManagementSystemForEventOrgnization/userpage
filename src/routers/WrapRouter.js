@@ -44,7 +44,7 @@ class WrapRouter extends React.Component {
       {
         path: '/event-list/:id',
         exact: false,
-        main: () => <CategoryDetailPage />,
+        main: (match) => <CategoryDetailPage match={match} />,
       },
       {
         path: '/event/:id',

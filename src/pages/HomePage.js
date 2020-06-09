@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card } from 'antd';
+import { Button, Card, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
+import { Zoom } from 'react-slideshow-image';
 
 import moment from 'moment'
 import {
@@ -11,11 +12,11 @@ import {
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
-
+import EventList from '../containers/share/EventList';
 // import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-import Carousel from 'react-multi-carousel';
+// import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 /// import sessionCard from '../components/CardSession'
 
@@ -31,13 +32,14 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing, getListEvent } = this.props;
+    const { getListEventUpComing, getListEvent, getHomeData, getCategories } = this.props;
     const { pageNumber, numberRecord } = this.state;
-
+    let type = 'HEIGHT_LIGHT';
     console.log(pageNumber, numberRecord);
+    // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
-    getListEvent();
-
+    getListEvent(type);
+    getCategories()
 
 
   };
@@ -63,25 +65,16 @@ class HomePage extends Component {
 
 
 
-    const responsive = {
-      superLargeDesktop: {
-        breakpoint: { max: 3000, min: 2000 },
-        items: 5
-      },
-      desktop: {
-        breakpoint: { max: 2000, min: 1024 },
-        items: 3
-      },
-      tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 1
-      },
-      mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1
-      }
-    };
+    const zoomOutProperties = {
+      duration: 1000,
+      transitionDuration: 500,
+      infinite: true,
 
+      indicators: true,
+      arrows: true,
+      pauseOnHover: true,
+      autoplay: true
+    }
 
 
 
@@ -94,7 +87,7 @@ class HomePage extends Component {
     const temp = [1, 2, 3, 4, 5];
 
     return (
-      <div className="homepage">
+      <div className="homepage" >
         <div className="fixed-top">
           <Header />
 
@@ -102,52 +95,57 @@ class HomePage extends Component {
         </div>
         <Banner />
 
-        <div className="high-light">
-          <h1>Highlight Events</h1>
-
-          <div className=" pl-5 mr-5 ">
-            <Carousel responsive={responsive}
-              swipeable={false}
-              draggable={false}
-              showDots={true}
-              ssr={true}
-              infinite={true}
-              autoPlay={this.props.deviceType !== "mobile" ? true : false}
-              autoPlaySpeed={2000}
-              keyBoardControl={true}
-              customTransition="all .5"
-              transitionDuration={1000}
-              containerClass="carousel-container"
-              removeArrowOnDeviceType={["tablet", "mobile"]}
-              deviceType={this.props.deviceType}
-              dotListClass="custom-dot-list-style"
-              itemClass="carousel-item-padding-40-px">
-              {
-                hlEvent.map((item, index) =>
-                  < div className=" ml-5 shadow event-list" style={{ background: '#fff' }} key={index}  >
-                    {
-                      item.bannerUrl &&
-                      < img
-                        className="cart "
-                        alt="example"
-                        src={item.bannerUrl}
-                      />
-                    }
-
-                    <h5 className="line-clamp mt-2 ml-1 " > {item.name}</h5>
-
-
-
-                  </div>
-                )
-              }
-            </Carousel>
-          </div>
-        </div>
-
         <div className="list-event">
+          <p style={{ textAlign: 'center', color: '#333', 'fontWeight': 700, fontSize: '25px' }}>Highlight event</p>
+
+          <div className="event-list mt-5">
+            <div className="slide-container">
+              <Zoom {...zoomOutProperties}>
+                {
+
+                  hlEvent.map((item, index) =>
+                    < div className=" ml-4 shadow event-list" style={{ background: '#fff' }} key={index}  >
+
+                      < Link to="" > {
+                        item.bannerUrl &&
+                        < img
+                          className="cart "
+                          alt="example"
+                          src={item.bannerUrl}
+                        />
+                      }
+                      </Link>
+
+                      <h5 className=" mt-2 ml-1 nameCard " > {item.name}</h5>
+
+                      {/* <div className="ml-4 shadow event-list" style={{
+                        background: `url(${item.bannerUrl})`, height: '300px',
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        width: '100%',
+                        top: '50%',
+                        padding: '10%',
+                      }}></div> */}
+                    </div>
+
+                  )}
+
+              </Zoom>
+
+            </div>
+          </div>
+
+
+
+
+        </div >
+
+        <div className="list-event mt-5">
           <div className="up-coming pl-2">
-            <h1 className="">Upcoming Events </h1>
+            <p style={{ textAlign: 'center', color: '#333', 'fontWeight': 700, fontSize: '25px' }}>Coming event</p>
+
+
             <div className=" row  pl-4 ">
               {events.map((item, index) =>
                 < div className=" mt-4 ml-5 row  shadow" key={index} >
@@ -198,7 +196,7 @@ class HomePage extends Component {
                             className="ml-2"
                             style={{ color: '#d1410c', fontWeight: 'bold' }}
                           >
-                            {' '}
+
                             {moment(item.session[0].day).format('DD/MM/YYYY ')}
                           </p>
                           {item.session.length === 1 ? ''
@@ -214,15 +212,16 @@ class HomePage extends Component {
                           }
                         </div>
                       </div>
+
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
                         <div className="d-flex ">
                           <p className="ml-2 address ">
-                            {' '}
                             {item.session[0].address.location}
                           </p>
                         </div>
                       </div>
+
 
                       <div className='row'>
                         <div className='col' >
@@ -258,6 +257,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
+
         <hr />
 
         <div className="orgnization">
@@ -278,7 +278,7 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div>
+      </div >
     );
   }
 }
@@ -294,7 +294,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
   // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
-  getListEvent: () => dispatch(eventActions.getListEvent()),
+  getListEvent: (type) => dispatch(eventActions.getListEvent(type)),
+  getCategories: () => dispatch(eventActions.getCategories())
 
 });
 
