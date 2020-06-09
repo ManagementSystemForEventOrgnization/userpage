@@ -452,7 +452,6 @@ export const eventActions = {
   duplicateBlock,
   deleteBlock,
   storeHeaderStyle,
-  changeCurrentPage,
   changePages,
 
   prepareForCreateEvent,
@@ -465,9 +464,7 @@ export const eventActions = {
   savePage,
   updatePage,
   getPreviousPage,
-  storeHeaderStyle,
   changeCurrentPage,
-  changePages,
   getListEvent,
   getHomeData,
 };

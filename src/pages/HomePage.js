@@ -29,15 +29,9 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const {
-      getListEventUpComing,
-      getListEvent,
-      getHomeData,
-      getCategories,
-    } = this.props;
+    const { getListEventUpComing, getListEvent, getCategories } = this.props;
     const { pageNumber, numberRecord } = this.state;
     let type = 'HEIGHT_LIGHT';
-    console.log(pageNumber, numberRecord);
     // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(type);

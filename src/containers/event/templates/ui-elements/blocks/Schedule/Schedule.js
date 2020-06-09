@@ -10,7 +10,6 @@ import IconsHandle from '../../shares/IconsHandle';
 import TextsBlock from '../../atoms/Text';
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import ChangeColorModal from '../../shares/ChangeColorModal';
-import ApplyEventModal from '../../shares/ApplyEventModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
@@ -193,7 +192,6 @@ class Schedule1 extends Component {
       scheduleName,
       content,
       visible,
-      apply,
     } = this.state;
     const { key, editable, leftModal, isSellTicket } = this.props;
     const divStyle = {

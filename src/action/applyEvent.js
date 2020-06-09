@@ -1,6 +1,4 @@
 import API from 'config/axious.config';
-import { applyEventConstants } from 'constants/index';
-import handleCatch from './middleware';
 
 const applyEvent = (eventId, sessionIds) => {
   return (dispatch) => {
