@@ -12,7 +12,8 @@ class EventDetail extends React.Component {
       dropList: props.blocks,
       currentPage: props.currentPage,
       currentIndex: props.match.match.params.name || props.currentIndex,
-      id: props.match.match.params.id || localStorage.getItem('currentId'),
+      webAddress:
+        props.match.match.params.id || localStorage.getItem('webAddress'),
     };
   }
 
@@ -37,10 +38,10 @@ class EventDetail extends React.Component {
 
   componentDidMount = () => {
     const { getEventDetail } = this.props;
-    const { id, currentIndex } = this.state;
+    const { webAddress, currentIndex } = this.state;
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
-    getEventDetail(id, index);
+    getEventDetail(webAddress, index);
   };
 
   renderHeader = () => {
@@ -75,11 +76,6 @@ class EventDetail extends React.Component {
       console.log('changed ', prevProps.currentIndex, this.props.currentIndex);
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
-  };
-
-  handleChangeList = (dropList) => {
-    console.log('TCL');
-    // this.setState({ dropList });
   };
 
   render() {

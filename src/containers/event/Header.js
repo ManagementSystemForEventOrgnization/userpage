@@ -137,7 +137,7 @@ class Header extends Component {
   render() {
     const { pages, currentPage, editable } = this.props;
     const { currentItem } = this.state;
-    const id = this.props.id || localStorage.getItem('currentId');
+    const id = this.props.id || localStorage.getItem('webAddress');
 
     const {
       isCollapsed,

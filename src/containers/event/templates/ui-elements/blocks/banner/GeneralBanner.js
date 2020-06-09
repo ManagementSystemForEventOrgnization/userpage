@@ -6,11 +6,11 @@ import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import ApplyEventModal from '../../shares/ApplyEventModal';
-import ButtonBlock from '../../atoms/Button';
 
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 import { BannerState } from '../../stateInit/BannerState';
+import { applyEventAction } from 'action/applyEvent';
 
 class GeneralBanner extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class GeneralBanner extends Component {
         ? { ...style, visible: false }
         : {
             ...BannerState(this.props),
+            applySession: [],
           };
   }
 
@@ -67,43 +68,16 @@ class GeneralBanner extends Component {
     }
   };
 
-  handleRequestApplyEvent = () => {
+  collapseApplyModal = () => {
     const isLogined = localStorage.getItem('isLogined');
+    const { applyEventModal } = this.state;
     if (!isLogined) {
       history.push('/login');
     } else {
       this.setState({
-        applyEventModal: true,
+        applyEventModal: !applyEventModal,
       });
     }
-  };
-
-  handleCloseApplyEventModal = () => {
-    this.setState({
-      applyEventModal: false,
-    });
-  };
-
-  handleApply = (checkList) => {
-    const { session } = this.props;
-
-    const applySession = [];
-    for (let i = 0; i < session.length; i++) {
-      if (checkList.indexOf(session[i].id) !== -1) {
-        session.push(session[i]);
-      }
-    }
-    this.setState({
-      applySession,
-    });
-  };
-
-  handleApplyFinish = () => {
-    //get api apply event
-    // const { applySession } = this.state;
-    // console.log(applySession);
-    // call api apply event
-    this.handleCloseApplyEventModal();
   };
 
   handleChangeContent = (type, value) => {
@@ -186,15 +160,15 @@ class GeneralBanner extends Component {
           </div>
 
           {type === 3 && (
-            <ButtonBlock
-              editable={editable}
-              child={true}
-              content={content.buttonText.value}
-              handleApplyEvent={this.handleRequestApplyEvent}
-              changeContent={(value) =>
-                this.handleChangeContent('buttonText', value)
-              }
-            />
+            <div className="text-center mt-2">
+              <Button
+                type="primary"
+                size="large"
+                onClick={!editable && this.collapseApplyModal}
+              >
+                Register Now
+              </Button>
+            </div>
           )}
         </div>
 
@@ -249,10 +223,14 @@ class GeneralBanner extends Component {
         <Modal
           title="Apply Event"
           visible={this.state.applyEventModal}
-          onOk={this.handleApplyFinish}
-          onCancel={this.handleCloseApplyEventModal}
+          onCancel={this.collapseApplyModal}
+          footer={[
+            <Button key="ok" onClick={this.collapseApplyModal} type="dashed">
+              Close
+            </Button>,
+          ]}
         >
-          <ApplyEventModal handleCheckList={this.handleApply} />
+          <ApplyEventModal />
         </Modal>
       </div>
     );
@@ -264,6 +242,8 @@ const mapStateToProps = (state) => ({
   userInfo: state.user.userInfo,
   banner: state.event.banner,
   nameEvent: state.event.nameEvent,
+  id: state.event.id,
+  session: state.event.session,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -272,6 +252,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+
+  applyEvent: (eventId, sessionIds) =>
+    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralBanner);
