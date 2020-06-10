@@ -40,6 +40,8 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import Document from '../templates/ui-elements/blocks/documents/Document';
+
 export default [
   {
     name: 'Simple Block',
@@ -440,6 +442,28 @@ export default [
         style: {},
         options: ({ editable, style, id }) => (
           <Comment key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+
+  {
+    name: 'Link document',
+    value: [
+      {
+        child: 'List Of Link',
+        type: 'listOfLink',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Document key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options, type }) => {

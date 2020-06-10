@@ -69,7 +69,7 @@ class DropContainer extends React.Component {
           }}
           // animation={300}
           delayOnTouchStart={true}
-          delay={300}
+          delay={200}
           list={blocks}
           setList={storeBlocksWhenCreateEvent}
         >

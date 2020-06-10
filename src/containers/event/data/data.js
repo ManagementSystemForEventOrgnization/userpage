@@ -38,8 +38,13 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Header from 'containers/event/Header';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import Document from '../templates/ui-elements/blocks/documents/Document';
 
 export const blockList = {
+  listOfLink: ({ editable, style, id }) => (
+    <Document key={id} editable={editable} style={style} id={id} />
+  ),
+
   button: ({ editable, style, id }) => (
     <ButtonBlock key={id} editable={editable} style={style} id={id} />
   ),

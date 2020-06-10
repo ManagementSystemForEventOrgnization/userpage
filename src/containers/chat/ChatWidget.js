@@ -5,16 +5,38 @@ import {
   //   addLinkSnippet,
   //   addUserMessage,
 } from 'react-chat-widget';
+import io from 'socket.io-client';
+import { v4 as uuid } from 'uuid';
 
-import 'react-chat-widget/lib/styles.css';
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: localStorage.getItem('userId') || uuid(),
+    };
+    this.socket = null;
+  }
+
   componentDidMount() {
     addResponseMessage('Welcome to this awesome chat!');
   }
 
   handleNewUserMessage = (newMessage) => {
-    console.log(`New message incomig! ${newMessage}`);
+    const { userId } = this.state;
+    this.socket.emit('user-send-message', {
+      content: newMessage,
+      id: userId,
+      fullName: userId,
+    });
+
     // Now send the message throught the backend API
+  };
+
+  UNSAFE_componentWillMount = () => {
+    this.socket = io('http://localhost:4000');
+    this.socket.on('admin-reply', (data) => {
+      console.log(data);
+    });
   };
   render() {
     return (

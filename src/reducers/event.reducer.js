@@ -8,6 +8,7 @@ const initialBlocks = [
   dataTest[1].value[1], //banner
   //...dataTest[0].value,
   dataTest[2].value[0], // event description
+  dataTest[13].value[0], //list of link
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   ...dataTest[5].value, //map

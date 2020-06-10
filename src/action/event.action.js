@@ -300,7 +300,6 @@ const deleteBlock = (id) => {
 const getListEvent = (categoryEventId, type) => {
   //api/getListEvent
   let sentData = {};
-  console.log('categoryEventId', categoryEventId);
   if (categoryEventId) {
     sentData.categoryEventId = categoryEventId;
   }

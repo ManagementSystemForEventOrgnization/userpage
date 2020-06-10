@@ -26,6 +26,7 @@
     "react-color": "^2.18.0",
     "react-day-picker": "^7.4.8",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.1",
     "react-google-login": "^5.1.2",
     "react-multi-carousel": "^2.5.5",
     "react-number-format": "^4.4.1",
@@ -38,6 +39,7 @@
     "react-sortablejs": "^2.0.11",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "superagent": "^5.2.2"
   },
   "scripts": {

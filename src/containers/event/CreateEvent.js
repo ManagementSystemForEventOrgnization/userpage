@@ -236,10 +236,6 @@ class CreateEvent extends React.Component {
   render() {
     const { collapsed, editable, loading } = this.state;
     const { match, pending } = this.props;
-    // const id = localStorage.getItem('currentId');
-    // const textStyle = {
-    //   color: 'white',
-    // };
 
     const content = (
       <div className="p-3">

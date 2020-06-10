@@ -1,34 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Popover } from 'antd';
+import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { Zoom } from 'react-slideshow-image';
 import moment from 'moment';
 import { FieldTimeOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { ChatBox } from 'react-chatbox-component';
-import Chat from 'containers/chat/ChatWidget';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 
-import { eventActions } from '../action/event.action';
+// import Chat from 'containers/chat/ChatWidget';
 
-const messages = [
-  {
-    text: 'Hello there',
-    id: '1',
-    sender: {
-      name: 'Ironman',
-      uid: 'user1',
-      avatar: 'https://data.cometchat.com/assets/images/avatars/ironman.png',
-    },
-  },
-];
-const user = {
-  uid: 'user1',
-};
+import { eventActions } from '../action/event.action';
 
 class HomePage extends Component {
   constructor(props) {
@@ -86,6 +71,7 @@ class HomePage extends Component {
       arrows: true,
       pauseOnHover: true,
       autoplay: true,
+      scale: 0.4,
     };
 
     const orgnizations = {
@@ -177,12 +163,11 @@ class HomePage extends Component {
                       cover={
                         <div>
                           {item.session
-                            ? item.session.map((e, i) =>
+                            ? item.session.map((ss, i) =>
                                 item.ticket ? (
-                                  <div className="d-flex ">
+                                  <div className="d-flex " key={ss.id}>
                                     {item.ticket.discount ? (
                                       <Button className="ml-1 mt-1 ticket">
-                                        {' '}
                                         {this.percentDiscount(
                                           item.ticket.discount
                                         )}
@@ -192,7 +177,10 @@ class HomePage extends Component {
                                     )}
                                   </div>
                                 ) : (
-                                  <Button className="ml-1 mt-1 ticket">
+                                  <Button
+                                    className="ml-1 mt-1 ticket"
+                                    key={ss.id}
+                                  >
                                     Free
                                   </Button>
                                 )
@@ -307,18 +295,7 @@ class HomePage extends Component {
             ))}
           </div>
         </div>
-
-        <div className="chat-block">
-          <Popover
-            content={<ChatBox messages={messages} user={user} />}
-            trigger="click"
-            visible={this.state.visible}
-            onVisibleChange={this.handleVisibleChange}
-          >
-            <Button type="primary">Click me</Button>
-          </Popover>
-        </div>
-        <Chat />
+        {/* <Chat /> */}
         <div className="explore">
           <Link to="/about-us">
             <Button size="large" type="primary">
