@@ -428,6 +428,67 @@ const getEventInfo = (urlWeb) => {
   }
 };
 
+const getComment = (eventId, pageNumber, numberRecord) => {
+  return (dispatch) => {
+    API.get('/api/comment/get_list', {
+      params: {
+        eventId,
+        pageNumber,
+        numberRecord,
+      },
+    })
+      .then((res) => {
+        const { result } = res.data.result;
+        dispatch(request(result));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  function request(comments) {
+    return {
+      type: eventConstants.GET_COMMENT,
+      comments,
+    };
+  }
+};
+
+const saveComment = (eventId, content) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get('/api/comment/save', {
+      eventId,
+      content,
+    })
+      .then((res) => {
+        const { result } = res.data.result;
+        dispatch(success(result));
+      })
+      .catch((err) => {
+        handleCatch(dispatch, failure, err);
+      });
+  };
+
+  function request() {
+    return {
+      type: eventConstants.SAVE_COMMENT,
+    };
+  }
+  function success(comment) {
+    return {
+      type: eventConstants.SAVE_COMMENT_SUCCESS,
+      comment,
+    };
+  }
+
+  function failure() {
+    return {
+      type: eventConstants.SAVE_COMMNET_FAILURE,
+    };
+  }
+};
+
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -448,4 +509,7 @@ export const eventActions = {
   changePages,
   getListEvent,
   getHomeData,
+
+  getComment,
+  saveComment,
 };

@@ -11,7 +11,7 @@ import Banner from '../components/Banner';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 
-// import Chat from 'containers/chat/ChatWidget';
+import Chat from 'containers/chat/ChatWidget';
 
 import { eventActions } from '../action/event.action';
 
@@ -295,7 +295,7 @@ class HomePage extends Component {
             ))}
           </div>
         </div>
-        {/* <Chat /> */}
+        <Chat />
         <div className="explore">
           <Link to="/about-us">
             <Button size="large" type="primary">

@@ -26,6 +26,7 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('userId', action.user._id);
 
       return {
         ...state,
@@ -49,12 +50,15 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('userId', action.user._id);
+
       return {
         ...state,
         userInfo: action.user,
         isLogined: true,
         pending: false,
       };
+
     case userConstants.LOGIN_GOOGLE_FAILURE:
       return {
         ...state,
@@ -96,6 +100,8 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
+      localStorage.setItem('userId', action.user._id);
+
       return {
         ...state,
         isLogined: true,
@@ -114,6 +120,8 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('isLogined');
       localStorage.removeItem('username');
       localStorage.removeItem('avatar');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('currentSocket');
       return {
         ...state,
         userInfo: null,
