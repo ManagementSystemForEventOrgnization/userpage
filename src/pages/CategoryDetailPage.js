@@ -11,6 +11,7 @@ import {
 
     FieldTimeOutlined, EnvironmentOutlined
 } from '@ant-design/icons';
+import NavBar from 'components/NavBar';
 class CategoryDetailPage extends React.Component {
     constructor(props) {
         super(props);
@@ -48,14 +49,18 @@ class CategoryDetailPage extends React.Component {
         const { hlEvent } = this.props;
         return (
             <div className="category-detail homepage">
-                <Header />
+                <div className="fixed-top">
+                    <Header />
+
+                    <NavBar />
+                </div>
                 <Banner />
-                <div className="list-event">
+                <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
                     <div className="up-coming pl-2">
 
-                        <div className=" row  pl-4 ">
+                        <div className="row p-5 ">
                             {hlEvent.map((item, index) =>
-                                < div className=" mt-4 ml-5 row  shadow" key={index} >
+                                <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
 
                                     < Link to="" >
                                         <Card
@@ -93,32 +98,65 @@ class CategoryDetailPage extends React.Component {
                                                 </div>
                                             }
                                         >
-                                            <div className="d-flex ">
-                                                <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                                            </div>
-                                            <div className="d-flex ">
-                                                <FieldTimeOutlined className="mt-1" />
-                                                <div className="d-flex ">
+                                            <div className="row">
+                                                <div className="col">
+                                                    <p style={{
+                                                        textAlign: "center", background: '#ff4d4f',
+                                                        color: '#fff',
+                                                        fontWeight: 'bold',
+                                                        padding: '3px 10px 2px 10px',
+                                                        marginRight: '13px',
+                                                    }}>{item.eventCategories.name}</p>
+                                                </div>
+                                                <div className="d-flex col ">
                                                     <p
                                                         className="ml-2"
-                                                        style={{ color: '#d1410c', fontWeight: 'bold' }}
+                                                        style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
                                                     >
 
                                                         {moment(item.session[0].day).format('DD/MM/YYYY ')}
                                                     </p>
-                                                    {item.session.length === 1 ? ''
 
-                                                        :
-                                                        <p
-                                                            className="ml-2"
-                                                            style={{ color: '#d1410c', fontWeight: 'bold' }}
-                                                        >
 
-                                                            + {item.session.length - 1}more events
-                              </p>
-                                                    }
                                                 </div>
+
                                             </div>
+                                            <div className="d-flex ">
+                                                <h5 className="ml-2 line-clamp "> {item.name}</h5>
+                                                <div >    {item.session.length === 1 ? ''
+
+                                                    :
+                                                    <p
+                                                        className="ml-2"
+                                                        style={{ fontWeight: 'bold' }}
+                                                    >
+
+                                                        + {item.session.length - 1}more events
+</p>
+                                                }</div>
+                                            </div>
+                                            <div  >
+                                                {item.ticket ?
+                                                    <div className="d-flex ">
+                                                        {item.ticket.discount ?
+                                                            <div className="d-flex " >
+                                                                <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price}</p>
+                                                                <p className="ml-3" style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
+                                                            </div>
+                                                            : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
+                                                        }
+                                                    </div>
+                                                    :
+                                                    <p
+                                                        style={{ fontWeight: 'bold' }}
+                                                        className="ml-1  "
+                                                    >
+                                                        0 VNĐ
+                            </p>
+                                                }
+                                            </div>
+
+
 
                                             <div className="d-flex ">
                                                 <EnvironmentOutlined className="mt-1" />
@@ -130,43 +168,20 @@ class CategoryDetailPage extends React.Component {
                                             </div>
 
 
-
-                                            <div className='row'>
-                                                <div className='col' >
-                                                    {item.ticket ?
-                                                        <div className="d-flex ">
-                                                            {item.ticket.discount ?
-                                                                <div >
-                                                                    <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price} VNĐ</p>
-                                                                    <p style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
-                                                                </div>
-                                                                : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
-                                                            }
-                                                        </div>
-                                                        :
-                                                        <p
-                                                            style={{ fontWeight: 'bold' }}
-                                                            className="ml-1  "
-                                                        >
-                                                            0 VNĐ
-                            </p>
-                                                    }
-                                                </div>
-                                                <div className="col " >
-                                                    <p style={{ textAlign: "center" }}>{item.eventCategories.name}</p>
-                                                </div>
-
-
-                                            </div>
                                         </Card>
                                     </Link>
                                 </div>
+
+
+
+
+
                             )}
                         </div>
+
+
                     </div>
                 </div>
-
-
 
                 <Footer />
             </div>

@@ -313,15 +313,17 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = (categoryEventId, type) => {
+const getListEvent = (type) => {
   //api/getListEvent
+  let numberRecord = 12;
   let sentData = {};
-  console.log("categoryEventId", categoryEventId);
-  if (categoryEventId) {
-    sentData.categoryEventId = categoryEventId;
-  }
-  if (type) {
+  if (type === 'HEIGHT_LIGHT') {
     sentData.type = type;
+    sentData.numberRecord = numberRecord;
+  }
+  else {
+    sentData.categoryEventId = type;
+
   }
   console.log("sentData", sentData);
   return (dispatch) => {
@@ -330,7 +332,7 @@ const getListEvent = (categoryEventId, type) => {
     )
       .then((res) => {
         if (res.status === 200) {
-          console.log('hlEvent:', res.data.result);
+          console.log('hightlightEvent:', res.data.result);
           dispatch(success(res.data.result));
         } else {
           dispatch(failure());
