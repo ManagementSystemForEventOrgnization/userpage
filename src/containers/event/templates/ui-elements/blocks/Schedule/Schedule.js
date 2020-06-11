@@ -13,6 +13,7 @@ import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
+import { applyEventAction } from 'action/applyEvent';
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -22,15 +23,9 @@ class Schedule1 extends Component {
       ? { ...style }
       : {
           ...ScheduleState(this.props, 1),
+          apply: false,
         };
   }
-
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
 
   //show modal
   showModal = () => {
@@ -120,6 +115,55 @@ class Schedule1 extends Component {
     }
   };
 
+  isApplied = (idSession) => {
+    const { content } = this.state;
+    const index = content.findIndex((item) => item.id === idSession);
+    return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
+  };
+
+  changeLoadingSS = (idSession) => {
+    let { content } = this.state;
+    let index = content.findIndex((ss) => ss.id === idSession);
+
+    if (index !== -1) {
+      content[index].pending = !content[index].pending;
+      this.setState({ content });
+    }
+  };
+
+  changeStatusSS = (idSession, status) => {
+    let { content } = this.state;
+    let index = content.findIndex((ss) => ss.id === idSession);
+
+    if (index !== -1) {
+      content[index].status = status ? 'JOINED' : 'CANCEL';
+      content[index].pending = false;
+      this.setState({ content });
+    }
+  };
+
+  handleClickButton = (ssId) => {
+    const { handleApply, handleCancel, eventId } = this.props;
+    const temp = [];
+    temp.push(ssId);
+
+    if (this.isApplied(ssId)) {
+      this.changeLoadingSS(ssId);
+      handleCancel(eventId, temp)
+        .then((res) => {
+          this.changeStatusSS(ssId, 0);
+        })
+        .catch((err) => {
+          this.changeLoadingSS(ssId);
+        });
+    } else {
+      this.changeLoadingSS(ssId);
+      handleApply(eventId, temp)
+        .then((res) => this.changeStatusSS(ssId, 1))
+        .catch((err) => this.changeLoadingSS(ssId));
+    }
+  };
+
   render() {
     // need to refactor
     const {
@@ -136,6 +180,7 @@ class Schedule1 extends Component {
       fontWeight,
       scheduleName,
       content,
+      visible,
     } = this.state;
     const { key, editable, leftModal, isSellTicket } = this.props;
     const divStyle = {
@@ -170,14 +215,15 @@ class Schedule1 extends Component {
     const calendar = {
       border: 'brown solid 1px',
       width: '83px',
-      height: '86px',
+      height: '90px',
       textAlign: 'center',
-      fontSize: '12px',
+      fontSize: '13px',
+      fontWeight: 'bold',
     };
 
     const monthStyle = {
       background: 'red',
-      fontWeight: 'bold',
+      fontWeight: 'bolder',
     };
 
     return (
@@ -212,8 +258,14 @@ class Schedule1 extends Component {
                   icon={<CalendarOutlined />}
                   type="primary"
                   className="mt-2"
+                  loading={ss.pending}
+                  onClick={() => this.handleClickButton(ss.id)}
                 >
-                  {isSellTicket ? 'Buy Ticket' : 'Register free'}
+                  {this.isApplied(ss.id)
+                    ? 'Cancel'
+                    : isSellTicket
+                    ? 'Buy Ticket'
+                    : 'Register free'}
                 </Button>
               </div>
             </div>
@@ -228,71 +280,66 @@ class Schedule1 extends Component {
           />
         )}
 
-        {editable && (
-          <Modal
-            title="schedule"
-            visible={this.state.visible}
-            onOk={this.showModal}
-            onCancel={this.showModal}
-            width={700}
-            className={
-              leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+        <Modal
+          title="Edit Schedule"
+          visible={visible}
+          onOk={this.showModal}
+          onCancel={this.showModal}
+          width={700}
+          className={
+            leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
+          }
+          style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
+        >
+          <EditText
+            fonts={fonts}
+            fontSize={fontSize}
+            lineText={lineText}
+            letterSpacing={letterSpacing}
+            handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
+            handleChangeFontSize={(value) =>
+              this.onChangeValue(value, 'fontSize')
             }
-            style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
-          >
-            <EditText
-              fonts={fonts}
-              fontSize={fontSize}
-              lineText={lineText}
-              letterSpacing={letterSpacing}
-              handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
-              handleChangeFontSize={(value) =>
-                this.onChangeValue(value, 'fontSize')
+            handleChangeLetterSpacing={(value) =>
+              this.onChangeValue(value, 'letterSpacing')
+            }
+            handleChangeLineHeight={(value) =>
+              this.onChangeValue(value, 'lineText')
+            }
+            handleChangeTextAlign={(value) =>
+              this.onChangeValue(value, 'textAlign')
+            }
+            handleChangeTextTransform={(value) =>
+              this.onChangeValue(value, 'transform')
+            }
+          />
+          <div className="mt-5 pl-2">
+            <PaddingAndMargin
+              padding={padding}
+              margin={margin}
+              handleChangeMargin={(value) =>
+                this.onChangeValue(value, 'margin')
               }
-              handleChangeLetterSpacing={(value) =>
-                this.onChangeValue(value, 'letterSpacing')
-              }
-              handleChangeLineHeight={(value) =>
-                this.onChangeValue(value, 'lineText')
-              }
-              handleChangeTextAlign={(value) =>
-                this.onChangeValue(value, 'textAlign')
-              }
-              handleChangeTextTransform={(value) =>
-                this.onChangeValue(value, 'transform')
+              handleChangePadding={(value) =>
+                this.onChangeValue(value, 'padding')
               }
             />
-
-            <div className="mt-5 pl-2">
-              <PaddingAndMargin
-                padding={padding}
-                margin={margin}
-                handleChangeMargin={(value) =>
-                  this.onChangeValue(value, 'margin')
-                }
-                handleChangePadding={(value) =>
-                  this.onChangeValue(value, 'padding')
-                }
-              />
-            </div>
-            <div className="d-flex mt-5 pl-2">
-              <ChangeColorModal
-                title="Change Text Color"
-                color={color}
-                handleChangeColor={(value) =>
-                  this.onChangeValue(value, 'color')
-                }
-              />
-              <ChangeColorModal
-                title="Change background"
-                color={background}
-                handleChangeColor={(value) =>
-                  this.onChangeValue(value, 'background')
-                }
-              />
-            </div>
-          </Modal>
-        )}
+          </div>
+          <div className="d-flex mt-5 pl-2">
+            <ChangeColorModal
+              title="Change Text Color"
+              color={color}
+              handleChangeColor={(value) => this.onChangeValue(value, 'color')}
+            />
+            <ChangeColorModal
+              title="Change background"
+              color={background}
+              handleChangeColor={(value) =>
+                this.onChangeValue(value, 'background')
+              }
+            />
+          </div>
+        </Modal>
       </div>
     );
   }
@@ -302,6 +349,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   isSellTicket: state.event.isSellTicket,
   session: state.event.session,
+  eventId: state.event.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -309,6 +357,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
   duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
+
+  handleApply: (eventId, sessionIds) =>
+    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+  handleCancel: (eventId, sessionIds) =>
+    dispatch(applyEventAction.cancelEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule1);

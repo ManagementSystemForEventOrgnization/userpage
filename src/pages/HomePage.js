@@ -4,15 +4,12 @@ import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { Zoom } from 'react-slideshow-image';
 
-import moment from 'moment'
-import {
-
-  FieldTimeOutlined, EnvironmentOutlined
-} from '@ant-design/icons';
+import moment from 'moment';
+import { FieldTimeOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
-import EventList from '../containers/share/EventList';
+// import EventList from '../containers/share/EventList';
 // import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
@@ -20,7 +17,7 @@ import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 /// import sessionCard from '../components/CardSession'
 
-import { eventActions } from '../action/event.action';
+import { eventActions } from 'action/event.action';
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -32,16 +29,13 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing, getListEvent, getHomeData, getCategories } = this.props;
+    const { getListEventUpComing, getListEvent, getCategories } = this.props;
     const { pageNumber, numberRecord } = this.state;
     let type = 'HEIGHT_LIGHT';
-    console.log(pageNumber, numberRecord);
     // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(type);
-    getCategories()
-
-
+    getCategories();
   };
 
   sumDiscount = (ticket, discount) => {
@@ -113,7 +107,7 @@ class HomePage extends Component {
     const temp = [1, 2, 3, 4, 5];
 
     return (
-      <div className="homepage" >
+      <div className="homepage">
         <div className="fixed-top">
           <Header />
 
@@ -205,7 +199,6 @@ class HomePage extends Component {
 
                   < Link to="" >
                     <Card
-
                       className="event-cart "
                       cover={
                         <div>
@@ -213,14 +206,16 @@ class HomePage extends Component {
                             ? item.session.map((e, i) =>
                               item.ticket ? (
                                 <div className="d-flex ">
-                                  {item.ticket.discount ?
-
-
-                                    <Button className="ml-1 mt-1 ticket"> {this.percentDiscount(item.ticket.discount)}</Button>
-
-
-                                    : ""
-                                  }
+                                  {item.ticket.discount ? (
+                                    <Button className="ml-1 mt-1 ticket">
+                                      {' '}
+                                      {this.percentDiscount(
+                                        item.ticket.discount
+                                      )}
+                                    </Button>
+                                  ) : (
+                                      ''
+                                    )}
                                 </div>
                               ) : (
                                   <Button className="ml-1 mt-1 ticket">
@@ -254,7 +249,6 @@ class HomePage extends Component {
                             className="ml-2"
                             style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
                           >
-
                             {moment(item.session[0].day).format('DD/MM/YYYY ')}
                           </p>
 
@@ -344,7 +338,7 @@ class HomePage extends Component {
         </div>
 
         <Footer />
-      </div >
+      </div>
     );
   }
 }
@@ -361,8 +355,7 @@ const mapDispatchToProps = (dispatch) => ({
   // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
   getListEvent: (type) => dispatch(eventActions.getListEvent(type)),
-  getCategories: () => dispatch(eventActions.getCategories())
-
+  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

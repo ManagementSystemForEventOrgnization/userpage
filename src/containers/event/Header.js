@@ -137,7 +137,7 @@ class Header extends Component {
   render() {
     const { pages, currentPage, editable } = this.props;
     const { currentItem } = this.state;
-    const id = this.props.id || localStorage.getItem('currentId');
+    const id = this.props.webAddress || localStorage.getItem('webAddress');
 
     const {
       isCollapsed,
@@ -362,7 +362,7 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
   pages: state.event.pages,
   currentPage: state.event.currentPage,
-  id: state.event.id,
+  webAddress: state.event.webAddress,
 });
 
 const mapDispatchToProps = (dispatch) => ({

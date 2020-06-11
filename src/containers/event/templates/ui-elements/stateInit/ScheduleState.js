@@ -38,6 +38,8 @@ const ScheduleState = (props, first) => ({
     limitNumber: item.limitNumber,
     name: item.name,
     location: item.address.location,
+    pending: false,
+    status: item.status || 'error',
   })),
 });
 export { ScheduleState };

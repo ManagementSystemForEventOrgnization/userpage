@@ -18,8 +18,8 @@ import {
   EnvironmentOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { userActions } from '../../action/user.action';
-import { eventActions } from '../../action/event.action';
+import { userActions } from 'action/user.action';
+import { eventActions } from 'action/event.action';
 const { Search } = Input;
 const { Option } = Select;
 

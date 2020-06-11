@@ -67,6 +67,7 @@ class TabPane extends Component {
         day,
         address: {},
         limitNumber: 100,
+        joinNumber: 0,
         name: '',
         documents: [
           {

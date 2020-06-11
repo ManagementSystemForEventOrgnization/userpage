@@ -10,7 +10,7 @@ import EditText from '../shares/EditText';
 import { StepState } from '../stateInit/StepState';
 import { Step, TabPane, Option } from '../../constants/atom.constant';
 import { eventActions } from 'action/event.action';
-
+import IconsHandle from '../shares/IconsHandle';
 class StepBlock extends Component {
   constructor(props) {
     super(props);
@@ -126,6 +126,27 @@ class StepBlock extends Component {
     }
   };
 
+  collapseModal = () => {
+    const { visible } = this.state;
+    this.setState({
+      visible: !visible,
+    });
+  };
+
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   render() {
     const { key, editable } = this.props;
     const {
@@ -141,6 +162,7 @@ class StepBlock extends Component {
       current,
       textAlign,
       tranform,
+      visible,
     } = this.state;
     const divStyle = {
       marginTop: `${margin[0]}%`,
@@ -163,7 +185,7 @@ class StepBlock extends Component {
       textTransform: tranform,
     };
     return (
-      <div className="child-block p-3" style={divStyle}>
+      <div className="child-block d-flex" style={divStyle}>
         <Steps
           size="small"
           current={current}
@@ -180,9 +202,16 @@ class StepBlock extends Component {
         </Steps>
 
         {editable && (
+          <IconsHandle
+            collapseModal={this.collapseModal}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
+        )}
+        {editable && (
           <Modal
             title="Step Modal"
-            visible={this.state.visible}
+            visible={visible}
             onOk={() => this.onChangeValue(false, 'visible')}
             onCancel={() => this.onChangeValue(false, 'visible')}
           >
@@ -289,6 +318,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(StepBlock);
