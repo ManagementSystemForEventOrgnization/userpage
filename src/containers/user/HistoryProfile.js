@@ -1,23 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Input,
-  Select,
-  DatePicker,
-  Card,
-  Pagination,
-  Skeleton,
-  Tooltip,
-  Button,
-} from 'antd';
-import { Link } from 'react-router-dom';
-import {
-  FieldTimeOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { userActions } from '../../action/user.action';
 
+import moment from 'moment';
+import { Input, Select, DatePicker, Card, Skeleton, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { EnvironmentOutlined } from '@ant-design/icons';
+import { userActions } from 'action/user.action';
+import { eventActions } from 'action/event.action';
 const { Search } = Input;
 const { Option } = Select;
 
@@ -43,7 +32,9 @@ class HistoryProfile extends React.Component {
     };
   }
   componentDidMount = () => {
-    const { get_History, getCreateHistory, match } = this.props;
+    const { get_History, getCreateHistory, match, getCategories } = this.props;
+
+    getCategories();
 
     if (match.location.pathname === '/registered-event') {
       get_History();
@@ -55,7 +46,10 @@ class HistoryProfile extends React.Component {
     this.setState({
       categoryEventId,
     });
-    this.handleFilter();
+    setTimeout(this.handleFilter(), 3000);
+    console.log(categoryEventId);
+    console.log('a', this.state);
+    // this.handleFilter();
   };
 
   onChangeDates = (dates) => {
@@ -81,6 +75,18 @@ class HistoryProfile extends React.Component {
     });
     this.handleFilter();
   };
+  loadEvent = () => {
+    const { pageNumber } = this.state;
+    let number = +pageNumber + 1;
+    console.log('number', number);
+    this.setState({
+      pageNumber: number,
+    });
+
+    setTimeout(this.handleFilter(), 3000);
+  };
+
+  // }
   handleFilter = () => {
     const { get_History, getCreateHistory, match } = this.props;
     const {
@@ -91,7 +97,9 @@ class HistoryProfile extends React.Component {
       pageNumber,
       numberRecord,
     } = this.state;
-    console.log('before filter', startDate, endDate);
+    // console.log(numberRecord)
+    console.log('b', this.state);
+    console.log('before filter', numberRecord);
     if (match.location.pathname === '/registered-event') {
       get_History(
         categoryEventId,
@@ -111,6 +119,22 @@ class HistoryProfile extends React.Component {
         numberRecord
       );
     }
+  };
+
+  sumDiscount = (ticket, discount) => {
+    let newDiscount = 1 - discount;
+
+    let sum = newDiscount * ticket;
+    let money = `${sum} VNĐ `;
+
+    return money;
+  };
+  percentDiscount = (discount) => {
+    let newDiscount = discount * 100;
+
+    let percent = `-${newDiscount}%`;
+
+    return percent;
   };
 
   render() {
@@ -146,77 +170,121 @@ class HistoryProfile extends React.Component {
           </div>
         </div>
         {pending ? (
-          <Skeleton />
+          <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-            <div>
-              <div className="row pl-5 ">
-                {arrEvent.map((item, index) => (
-                  <div className="row mt-4 ml-5  shadow pb-3" key={index}>
-                    <div className="col">
-                      <Link to="">
-                        <Card
-                          className="event-cart"
-                          cover={
-                            <img
-                              className="img"
-                              alt="example"
-                              src={item.urlWeb}
-                            />
-                          }
+          <div className="row p-5 ">
+            {arrEvent.map((item, index) => (
+              <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
+                <Link to="">
+                  <Card
+                    className="event-cart "
+                    cover={
+                      <div>
+                        <Button className="ml-1 mt-1 ticket">
+                          {' '}
+                          {item.status}
+                        </Button>
+
+                        {item.bannerUrl && (
+                          <img
+                            className="img "
+                            alt="example"
+                            src={item.bannerUrl}
+                          />
+                        )}
+                      </div>
+                    }
+                  >
+                    <div className="row">
+                      {/* <div className="col">
+                          <p style={{
+                            textAlign: "center", background: '#ff4d4f',
+                            color: '#fff',
+                            fontWeight: 'bold',
+                            padding: '3px 10px 2px 10px',
+                            marginRight: '13px',
+                          }}>{item.eventCategories.name}</p>
+                        </div> */}
+                      <div className="d-flex col ">
+                        <p
+                          className="ml-2"
+                          style={{
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                          }}
                         >
-                          <div className="d-flex ">
-                            <Tooltip
-                              placement="bottomLeft"
-                              title={
-                                item.session
-                                  ? item.session.map((e) => (
-                                    <div>
-                                      <div className="d-flex ">
-                                        <FieldTimeOutlined className="mt-1" />
-                                        <p className="ml-2"> {e.day}</p>
-                                      </div>
-                                      <div className="d-flex ">
-                                        <EnvironmentOutlined className="mt-1" />
-                                        <p className="ml-2">
-                                          {' '}
-                                          {e.address.location}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  ))
-                                  : 'No have start time events '
-                              }
-                            >
-                              <h4>{item.name}</h4>
-                            </Tooltip>
-
-                            <div className="d-flex mt-1">
-                              <UserOutlined className="mt-1 ml-2" />
-                              <p className="ml-1 mt-1">{item.limitNumber}</p>
-                            </div>
-                          </div>
-
-                          <div className="d-flex ">
-                            <FieldTimeOutlined className="mt-1" />
-                            <p className="ml-2"> {item.startTime}</p>
-                          </div>
-
-                          <Button type="primary">Apply</Button>
-                        </Card>
-                      </Link>
+                          {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                    <div className="d-flex ">
+                      <h5 className="ml-2 line-clamp "> {item.name}</h5>
+                      <div>
+                        {' '}
+                        {item.session.length === 1 ? (
+                          ''
+                        ) : (
+                          <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                            + {item.session.length - 1}more events
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      {item.ticket ? (
+                        <div className="d-flex ">
+                          {item.ticket.discount ? (
+                            <div className="d-flex ">
+                              <p
+                                style={{
+                                  textDecoration: 'line-through',
+                                  fontWeight: 'bold',
+                                }}
+                                className="ml-1 "
+                              >
+                                {item.ticket.price}
+                              </p>
+                              <p
+                                className="ml-3"
+                                style={{ fontWeight: 'bold' }}
+                              >
+                                {' '}
+                                {this.sumDiscount(
+                                  item.ticket.price,
+                                  item.ticket.discount
+                                )}
+                              </p>
+                            </div>
+                          ) : (
+                            <p
+                              className=" mt-1 "
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {item.ticket.price} VNĐ
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                          0 VNĐ
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="d-flex ">
+                      <EnvironmentOutlined className="mt-1" />
+                      <div className="d-flex ">
+                        <p className="ml-2 address ">
+                          {item.session[0].address.location}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
               </div>
-              <div className="mt-5" style={{ textAlign: 'center' }}>
-                <Pagination
-                  onChange={this.onChange}
-                  defaultCurrent={1}
-                  total={500}
-                />
-              </div>
-            </div>
-          )}
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -266,6 +334,7 @@ const mapDispatchToProps = (dispatch) => ({
         numberRecord
       )
     ),
+  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryProfile);
