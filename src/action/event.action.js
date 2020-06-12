@@ -29,20 +29,26 @@ const getHomeData = () => {
 
 const getEventDetail = (eventId, index) => {
   return (dispatch) => {
-    dispatch(request());
-    API.get(`/api/event`, {
-      params: {
-        eventId,
-        index,
-      },
-    })
-      .then((res) => {
-        const { rows, header, event } = res.data.result;
-        localStorage.setItem('currentIndex', index);
-        localStorage.setItem('currentId', res.data.result.eventId);
-        dispatch(success(rows, header[0], index, event));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get(`/api/event`, {
+        params: {
+          eventId,
+          index,
+        },
       })
-      .catch((err) => handleCatch(dispatch, failure, err));
+        .then((res) => {
+          const { rows, header, event } = res.data.result;
+          localStorage.setItem('currentIndex', index);
+          localStorage.setItem('currentId', res.data.result.eventId);
+          dispatch(success(rows, header[0], index, event));
+          resolve();
+        })
+        .catch((err) => {
+          handleCatch(dispatch, failure, err);
+          reject(err);
+        });
+    });
   };
 
   function request() {
@@ -438,7 +444,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
       },
     })
       .then((res) => {
-        const { result } = res.data.result;
+        const { result } = res.data;
         dispatch(request(result));
       })
       .catch((err) => {
@@ -457,12 +463,13 @@ const getComment = (eventId, pageNumber, numberRecord) => {
 const saveComment = (eventId, content) => {
   return (dispatch) => {
     dispatch(request());
-    API.get('/api/comment/save', {
+    API.post('/api/comment/save', {
       eventId,
+
       content,
     })
       .then((res) => {
-        const { result } = res.data.result;
+        const { result } = res.data;
         dispatch(success(result));
       })
       .catch((err) => {

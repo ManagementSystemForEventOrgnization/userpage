@@ -41,7 +41,15 @@ class EventDetail extends React.Component {
     const { webAddress, currentIndex } = this.state;
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
-    getEventDetail(webAddress, index);
+    getEventDetail(webAddress, index)
+      .then(() => {
+        const { getComment, id } = this.props;
+        const eventId = localStorage.getItem('currentId');
+        getComment(id || eventId);
+      })
+      .catch((err) => {
+        console.log('Get event detail catch in promise : ', err);
+      });
   };
 
   renderHeader = () => {
@@ -109,6 +117,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getEventDetail: (eventId, index) =>
     dispatch(eventActions.getEventDetail(eventId, index)),
+
+  getComment: (eventId, pageNumber, numberRecord) =>
+    dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

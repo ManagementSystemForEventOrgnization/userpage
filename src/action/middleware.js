@@ -1,6 +1,7 @@
 import history from '../utils/history';
 
 const handleCatch = (dispatch, call, err) => {
+  console.log(err.response);
   if (err.response) {
     const { data, status } = err.response;
 

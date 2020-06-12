@@ -32,9 +32,6 @@ class EventInfor extends Component {
   }
 
   onChange = (type, value) => {
-    if (type === 'isSellTicket') {
-      console.log(value);
-    }
     this.setState({
       [type]: value,
       isFirstLoad: true,

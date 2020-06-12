@@ -100,8 +100,9 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
-      localStorage.setItem('userId', action.user._id);
+      localStorage.setItem('userId', state.userInfor._id);
 
+      console.log('object');
       return {
         ...state,
         isLogined: true,

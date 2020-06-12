@@ -29,7 +29,7 @@ class Document extends Component {
     const { session } = this.props;
     this.state = {
       session,
-      visible: true,
+      visible: false,
       document: [],
     };
   }

@@ -47,13 +47,10 @@ const initialState = {
   currentPage: initialPageId,
   system: [],
   headerStyle: {},
+  comments: [],
 };
 
 const getIndexPage = (pages, currentPage) => {
-  console.log('GET INDEX : ');
-  console.log(pages);
-  console.log(currentPage);
-
   let count = 0;
   let flag = false;
   for (let index in pages) {
@@ -251,8 +248,6 @@ const event = (state = initialState, action) => {
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);
-      console.log('Next : ', nextId, state.system.length);
-      console.log(state.system);
 
       return {
         ...state,
@@ -266,7 +261,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
-      console.log(getIndexPage(state.pages, action.currentPage));
       return {
         ...state,
         currentPage: action.currentPage,
@@ -308,6 +302,31 @@ const event = (state = initialState, action) => {
         ...state,
         pages: action.pages,
         currentPage: action.currentPage,
+      };
+
+    case eventConstants.GET_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments, ...action.comments],
+      };
+
+    case eventConstants.SAVE_COMMENT:
+      return {
+        ...state,
+        submitting: true,
+      };
+
+    case eventConstants.SAVE_COMMNET_FAILURE:
+      return {
+        ...state,
+        submitting: false,
+      };
+
+    case eventConstants.SAVE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        submitting: false,
+        // comments: [action.comment, ...state.comments],
       };
     default:
       return state;
