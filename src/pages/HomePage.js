@@ -329,7 +329,8 @@ class HomePage extends Component {
           </div>
         </div>
         <Chat />
-        <div className="explore">
+        <hr />
+        <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">
             <Button size="large" type="primary">
               About Us
