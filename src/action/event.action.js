@@ -211,7 +211,7 @@ const prepareForCreateEvent = (
   session,
   isSellTicket,
   webAddress,
-  banner
+  bannerUrl
 ) => {
   return (dispatch) => {
     dispatch(request());
@@ -222,7 +222,7 @@ const prepareForCreateEvent = (
       urlWeb: webAddress,
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
-      banner,
+      bannerUrl,
     })
       .then((res) => {
         const { _id } = res.data.result;
@@ -236,7 +236,7 @@ const prepareForCreateEvent = (
             session,
             isSellTicket,
             webAddress,
-            banner
+            bannerUrl
           )
         );
         history.push('/create');
@@ -317,11 +317,10 @@ const deleteBlock = (id) => {
 
 const getListEvent = (type) => {
   //api/getListEvent
-  let numberRecord = 12;
   let sentData = {};
   if (type === 'HEIGHT_LIGHT') {
     sentData.type = type;
-    sentData.numberRecord = numberRecord;
+    // sentData.numberRecord = numberRecord;
   } else {
     sentData.categoryEventId = type;
   }
@@ -331,7 +330,7 @@ const getListEvent = (type) => {
       .then((res) => {
         if (res.status === 200) {
           console.log('hightlightEvent:', res.data.result);
-          dispatch(success(res.data.result));
+          dispatch(success(res.data.result.event));
         } else {
           dispatch(failure());
         }
@@ -364,7 +363,6 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
-        console.log('res.data.result', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));

@@ -10,6 +10,7 @@ const initialState = {
   showVerifyForgotPassword: false,
   arrEvent: [],
   notifications: [],
+  numUnreadNotification: 0,
 };
 
 const user = (state = initialState, action) => {
@@ -279,6 +280,13 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: action.error,
       };
+
+    case userConstants.GET_UNREADNOTIFICATION:
+      return {
+        ...state,
+        numUnreadNotification: action.numUnreadNotification,
+      };
+
     default:
       return state;
   }

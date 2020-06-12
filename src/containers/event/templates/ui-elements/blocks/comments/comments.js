@@ -4,6 +4,8 @@ import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import io from 'socket.io-client';
+
 import { eventActions } from 'action/event.action';
 
 const { TextArea } = Input;
@@ -27,6 +29,8 @@ const avatar = localStorage.getItem('avatar');
 class CommentEvent extends Component {
   constructor(props) {
     super(props);
+    this.socket = io('http://localhost:4000');
+
     const { style, id } = this.props;
     this.state = style
       ? { ...style }
@@ -46,21 +50,53 @@ class CommentEvent extends Component {
       author: item.usersComment
         ? item.usersComment.fullName
         : localStorage.getItem('username'),
-      avatar,
+      avatar: item.usersComment.avatar,
       content: <p>{item.content}</p>,
       datetime: moment(item.createAt).format('LLL'),
     }));
   };
 
   componentDidMount = () => {
-    const { editable } = this.props;
+    const { editable, id } = this.props;
     if (editable) {
       this.handleStoreBlock();
+    } else {
+      this.socket.on(`cmt-${id}`, (data) => {
+        let { newComment } = this.state;
+
+        newComment = newComment
+          ? [
+              ...newComment,
+              {
+                author: data.userId.fullName,
+                avatar: data.userId.avatar,
+                content: <p>{data.content}</p>,
+                datetime: moment(data.createAt).format('LLLL'),
+              },
+            ]
+          : [
+              {
+                author: data.userId.fullName,
+                avatar: data.userId.avatar,
+                content: <p>{data.content}</p>,
+                datetime: moment(data.createAt).format('LLLL'),
+              },
+            ];
+
+        setTimeout(
+          this.setState({
+            newComment,
+          }),
+          2000
+        );
+
+        console.log(data);
+      });
     }
   };
 
   handleSubmit = () => {
-    let { value, eventId, newComment } = this.state;
+    let { value, eventId } = this.state;
     const { saveComment, id } = this.props;
     if (!value) {
       return;
@@ -68,28 +104,9 @@ class CommentEvent extends Component {
 
     saveComment(eventId || id, value);
 
-    newComment = newComment
-      ? [
-          ...newComment,
-          {
-            author: localStorage.getItem('username'),
-            avatar,
-            content: <p>{value}</p>,
-            datetime: moment().format('LLLL'),
-          },
-        ]
-      : [
-          {
-            author: localStorage.getItem('username'),
-            avatar,
-            content: <p>{value}</p>,
-            datetime: moment().format('LLLL'),
-          },
-        ];
     setTimeout(() => {
       this.setState({
         value: '',
-        newComment,
       });
     }, 1000);
   };

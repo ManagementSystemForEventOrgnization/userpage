@@ -95,7 +95,8 @@ class EventDetail extends React.Component {
           <Skeleton active paragraph={{ rows: 20 }} className="p-5" />
         ) : (
           <div>
-            {this.renderHeader()}
+            <div className="">{this.renderHeader()}</div>
+
             {blocks.map((item) => this.renderBlocks(item))}
           </div>
         )}

@@ -221,7 +221,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_LIST_EVENT_SUCCESS:
       return {
         ...state,
-        hlEvent: action.hlEvent,
+        hlEvent: action.hlEvent || [],
       };
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {

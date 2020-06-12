@@ -3,7 +3,7 @@ import {
   Widget,
   addResponseMessage,
   //   addLinkSnippet,
-  //   addUserMessage,
+  // addUserMessage,
 } from 'react-chat-widget';
 import io from 'socket.io-client';
 import { v4 as uuid } from 'uuid';
@@ -14,7 +14,7 @@ class Chat extends Component {
     this.state = {
       userId: '',
     };
-    this.socket = io('http://localhost:4000');
+    this.socket = io('https://417ce7227616.ngrok.io');
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class Chat extends Component {
     //client-send-Username
     this.socket.emit('client-send-Username', {
       _id: currentSocket.id,
-      fullName: `guest ${currentSocket.id}`,
+      fullName: localStorage.getItem('username') || `guest ${currentSocket.id}`,
     });
 
     // get old chatcontent whenever reload(in expiry time)
@@ -61,10 +61,13 @@ class Chat extends Component {
 
     //listen to admin-reply event
     this.socket.on('admin-reply', (data) => {
-      console.log('admin-reply : ', data);
       addResponseMessage(data.content);
     });
   }
+
+  handleSubmit = (value) => {
+    console.log(value);
+  };
 
   handleNewUserMessage = (newMessage) => {
     const { currentSocket } = this.state;
@@ -83,6 +86,11 @@ class Chat extends Component {
           //   profileAvatar={logo}
           title="Event in your hand"
           subtitle="Contact with admin"
+          addUserMessage={() => {
+            // debugger;
+            console.log(1);
+            return;
+          }}
         />
       </div>
     );

@@ -360,14 +360,13 @@ const getCreateHistory = (
     if (categoryEventId !== ' ') {
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
-
     }
     console.log(startDate, endDate);
     if (startDate !== '' && endDate !== ' ') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
-      dataSent.numberRecord = numberRecord
+      dataSent.numberRecord = numberRecord;
     }
     console.log(startDate, endDate);
     if (txtSearch !== ' ') {
@@ -377,8 +376,8 @@ const getCreateHistory = (
     if (pageNumber) {
       dataSent.pageNumber = pageNumber;
     }
-    console.log("numberRecord", numberRecord);
-    console.log("mo", dataSent);
+    console.log('numberRecord', numberRecord);
+    console.log('mo', dataSent);
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })
@@ -399,9 +398,14 @@ const getCreateHistory = (
     return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
   }
 };
-const getListNotification = () => {
+const getListNotification = (pageNumber, numberRecord) => {
   return (dispatch) => {
-    API.get('api/getListNotification')
+    API.get('api/getListNotification', {
+      params: {
+        pageNumber,
+        numberRecord,
+      },
+    })
       .then((res) => {
         dispatch(success(res.data.result));
       })
@@ -415,6 +419,24 @@ const getListNotification = () => {
   }
   function failure(error) {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
+  }
+};
+
+const getNumUnreadNotification = () => {
+  return (dispatch) => {
+    API.get('api/getBadgeNumber')
+      .then((res) => {
+        const { result } = res.data;
+        dispatch(success(result));
+      })
+      .catch((err) => {});
+  };
+
+  function success(numUnreadNotification) {
+    return {
+      type: userConstants.GET_UNREADNOTIFICATION,
+      numUnreadNotification,
+    };
   }
 };
 
@@ -433,4 +455,5 @@ export const userActions = {
   getBankAccount,
   onUpdateBankInfor,
   getCreateHistory,
+  getNumUnreadNotification,
 };
