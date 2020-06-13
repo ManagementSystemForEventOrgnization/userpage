@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { List, Avatar, Spin } from 'antd';
-import { Link } from 'react-router-dom';
+// import { CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 // import reqwest from 'reqwest';
+
 import InfiniteScroll from 'react-infinite-scroller';
-// import moment from 'moment';
+import moment from 'moment';
+
 import { connect } from 'react-redux';
 import { userActions } from 'action/user.action';
 import { notificationTypeConstants } from 'constants/index';
+
+const timeStyle = {
+  fontSize: '10px',
+};
+const titleStyle = {};
 
 class Notification extends Component {
   constructor(props) {
@@ -42,7 +49,16 @@ class Notification extends Component {
     getListNotification(Math.round(data.length / 10) + 1);
   };
 
-  handleClick = () => {};
+  handleClick = (id, type) => {
+    // if(type === '')
+    // Get info of event => redirect to event page
+  };
+
+  getNameSender = (title, username) => {
+    const start = title.indexOf('{');
+    const end = title.indexOf('}');
+    return title.replace(title.slice(start, end + 1), username);
+  };
 
   renderNotification = (item) => {
     switch (item.type) {
@@ -74,23 +90,32 @@ class Notification extends Component {
         item.url = notificationTypeConstants.JOINED_EVENT;
     }
 
+    switch (item.linkTo.key) {
+    }
+
     return (
-      <Link to="">
-        <List.Item key={item._id} onClick={this.handleClick}>
-          <List.Item.Meta
-            avatar={<Avatar src={item.url} />}
-            title={<a href="https://ant.design">{item.name}</a>}
-            description={item.email}
-          />
-          <div>Content</div>
-        </List.Item>
-      </Link>
+      <List.Item
+        key={item._id}
+        onClick={() => this.handleClick(item._id, item.type)}
+        type="button"
+      >
+        <List.Item.Meta avatar={<Avatar src={item.url} />} />
+        {item.isRead ? (
+          <div style={titleStyle}>{item.title}</div>
+        ) : (
+          <h6 style={titleStyle}>
+            {this.getNameSender(item.title, item.users_sender.fullName)}
+          </h6>
+        )}
+        <p style={timeStyle} className="ml-3">
+          {moment(item.createdAt).startOf('day').fromNow()}
+        </p>
+      </List.Item>
     );
   };
 
   render() {
     const { data, loading, hasMore } = this.state;
-
     return (
       <InfiniteScroll
         initialLoad={false}
@@ -98,6 +123,12 @@ class Notification extends Component {
         loadMore={this.loadMoreNotification}
         hasMore={!loading && hasMore}
         useWindow={false}
+        style={{
+          height: '360px',
+          fontSize: '13px',
+          overflowY: 'scroll',
+          width: '320px',
+        }}
       >
         <List
           dataSource={data}

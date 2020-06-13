@@ -21,8 +21,10 @@ class Chat extends Component {
 
   UNSAFE_componentWillMount = () => {
     const { getChatHistory } = this.props;
-    const { userId } = localStorage.getItem('userId');
-    getChatHistory(userId);
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      getChatHistory(userId);
+    }
   };
 
   componentDidMount() {
