@@ -10,10 +10,6 @@ import CheckoutForm from './CheckoutForm';
 const stripePromise = loadStripe('pk_test_pahNUQKG2WVBshWCDSeY5opJ00IFrwZjO3');
 
 class BankCard extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
 
   render() {
     console.log(this.props.getBankAccount);
@@ -27,23 +23,5 @@ class BankCard extends Component {
   }
 }
 
-
-const mapStateToProps = (state) => {
-  return {
-    // pending: state.user.pending,
-    // success: state.user.success,
-    // errMessage: state.user.errMessage,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  getBankAccount: () => dispatch(userActions.getBankAccount()),
-  addPaymentCard: (token) =>
-    dispatch(userActions.addPaymentCard(token)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BankCard);
+export default BankCard;
 
