@@ -169,11 +169,13 @@ const user = (state = initialState, action) => {
       };
 
     //------------------------------
-    case userConstants.ADD_PAYMENT_CARD_REQUEST:
+    case userConstants.ADD_PAYMENT_CARD_REQUEST: {
+      console.log(action)
       return {
         ...state,
         pending: true,
       };
+    }
 
     case userConstants.ADD_PAYMENT_CARD_SUCCESS:
       return {

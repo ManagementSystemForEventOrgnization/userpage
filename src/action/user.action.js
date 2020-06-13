@@ -317,13 +317,14 @@ const onChangePassword = (passwords) => {
 };
 
 const addPaymentCard = (cardToken) => {
-  console.log('cr' + cardToken);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/add_card`, {
       cardToken,
     })
       .then((res) => {
+        console.log('cr' + cardToken);
+
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -463,7 +464,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {
