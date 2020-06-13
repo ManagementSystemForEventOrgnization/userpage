@@ -19,6 +19,8 @@ import CreateEventPage from '../pages/CreateEventPage';
 import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
+// import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
+import BankCard from '../containers/user/BankAccount/BankCard';
 
 import history from '../utils/history';
 
@@ -70,10 +72,25 @@ class WrapRouter extends React.Component {
         exact: true,
         main: () => <MyEventsPage />,
       },
+      // {
+      //   path: '/my-events/profile',
+      //   exact: false,
+      //   main: () => <UpdateProfileInfor />,
+      // },
+      // {
+      //   path: '/my-events/bankaccount',
+      //   exact: false,
+      //   main: () => <BankAccount />,
+      // },
       {
         path: '/registered-event',
         exact: true,
         main: (match) => <UserEventPage match={match} />,
+      },
+      {
+        path: '/transfer',
+        exact: true,
+        main: () => <BankCard />,
       },
       {
         path: '/created-event',

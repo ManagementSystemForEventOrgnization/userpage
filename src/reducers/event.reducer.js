@@ -72,6 +72,7 @@ const getIndexPage = (pages, currentPage) => {
       }
     }
   }
+
   return count;
 };
 
@@ -167,6 +168,7 @@ const event = (state = initialState, action) => {
         pending: true,
       };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
+      console.log(action.event);
       return {
         ...state,
         pending: false,
@@ -239,6 +241,8 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
+
+
     case eventConstants.GET_HOME_DATA_SUSSESS:
       return {
         ...state,
@@ -255,7 +259,7 @@ const event = (state = initialState, action) => {
         pages: action.pages,
         currentPage: action.currentPage,
         blocks:
-          nextId > state.system.length
+          nextId >= state.system.length
             ? [...initialBlocks]
             : state.system[nextId],
       };

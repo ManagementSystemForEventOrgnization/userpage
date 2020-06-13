@@ -170,8 +170,7 @@ class HomePage extends Component {
           </div>
         </div>
 
-        <hr />
-        <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
+        <div className="list-event mt-5">
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">
               Upcomming Events

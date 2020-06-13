@@ -225,8 +225,10 @@ const prepareForCreateEvent = (
       bannerUrl,
     })
       .then((res) => {
-        const { _id } = res.data.result;
+        const { _id, urlWeb } = res.data.result;
+        console.log(res.data.result);
         localStorage.setItem('currentId', _id);
+        localStorage.setItem('webAddress', urlWeb);
         dispatch(
           success(
             _id,
@@ -315,7 +317,7 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = (type) => {
+const getListEvent = (categoryEventId, type) => {
   //api/getListEvent
   let sentData = {};
   if (type === 'HEIGHT_LIGHT') {
@@ -380,7 +382,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id || localStorage.getItem('currentId');
+  const eventId = id || localStorage.getItem('webAddress');
 
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -509,7 +511,6 @@ export const eventActions = {
   duplicateBlock,
   deleteBlock,
   storeHeaderStyle,
-  changeCurrentPage,
   changePages,
 
   prepareForCreateEvent,
@@ -527,4 +528,6 @@ export const eventActions = {
 
   getComment,
   saveComment,
+
+  changeCurrentPage,
 };
