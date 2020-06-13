@@ -199,9 +199,6 @@ const storeHeaderStyle = (style) => {
   }
 };
 
-
-
-
 const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
@@ -223,8 +220,10 @@ const prepareForCreateEvent = (
       banner,
     })
       .then((res) => {
-        const { _id } = res.data.result;
+        const { _id, urlWeb } = res.data.result;
+        console.log(res.data.result);
         localStorage.setItem('currentId', _id);
+        localStorage.setItem('webAddress', urlWeb);
         dispatch(
           success(
             _id,
@@ -313,26 +312,22 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = (type) => {
+const getListEvent = (categoryEventId, type) => {
   //api/getListEvent
-  let numberRecord = 12;
   let sentData = {};
-  if (type === 'HEIGHT_LIGHT') {
+  console.log('categoryEventId', categoryEventId);
+  if (categoryEventId) {
+    sentData.categoryEventId = categoryEventId;
+  }
+  if (type) {
     sentData.type = type;
-    sentData.numberRecord = numberRecord;
   }
-  else {
-    sentData.categoryEventId = type;
-
-  }
-  console.log("sentData", sentData);
+  console.log('sentData', sentData);
   return (dispatch) => {
-    API.get(`/api/get_list_event`,
-      { params: sentData }
-    )
+    API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
-          console.log('hightlightEvent:', res.data.result);
+          console.log('hlEvent:', res.data.result);
           dispatch(success(res.data.result));
         } else {
           dispatch(failure());
@@ -366,7 +361,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
-        console.log("res.data.result", res.data.result);
+        console.log('res.data.result', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -386,7 +381,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id || localStorage.getItem('currentId');
+  const eventId = id || localStorage.getItem('webAddress');
 
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -438,7 +433,7 @@ const getEventInfo = (urlWeb) => {
           );
           resolve('true');
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -457,7 +452,6 @@ export const eventActions = {
   duplicateBlock,
   deleteBlock,
   storeHeaderStyle,
-  changeCurrentPage,
   changePages,
 
   prepareForCreateEvent,
@@ -470,9 +464,7 @@ export const eventActions = {
   savePage,
   updatePage,
   getPreviousPage,
-  storeHeaderStyle,
   changeCurrentPage,
-  changePages,
   getListEvent,
   getHomeData,
 };

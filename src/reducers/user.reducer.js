@@ -160,6 +160,28 @@ const user = (state = initialState, action) => {
         pending: false,
       };
 
+    //------------------------------
+    case userConstants.ADD_PAYMENT_CARD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case userConstants.ADD_PAYMENT_CARD_SUCCESS:
+      return {
+        ...state,
+        success: action.success,
+        pending: false,
+      };
+
+    case userConstants.ADD_PAYMENT_CARD_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        pending: false,
+      };
+    //----------------------------- 
+
     case userConstants.UPDATE_USER_PROFILE_REQUEST:
       return {
         ...state,
@@ -205,6 +227,27 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: null,
       };
+
+    case userConstants.CHANGEPASSWORD_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        errMessage: null,
+      };
+
+    case userConstants.CHANGEPASSWORD_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+      };
+
+    case userConstants.CHANGEPASSWORD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+      };
     case userConstants.FORGOTPASSWORD_SUCCESS:
       return {
         ...state,
@@ -218,6 +261,7 @@ const user = (state = initialState, action) => {
         pending: false,
         errMessage: action.error,
       };
+
     case userConstants.GET_HISTORY_REQUEST:
       return {
         ...state,

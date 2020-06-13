@@ -294,6 +294,54 @@ const onUpdateBankInfor = (bankInfor) => {
   }
 };
 
+const onChangePassword = (passwords) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/updatePassword`, {
+      ...passwords,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.CHANGEPASSWORD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.CHANGEPASSWORD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.CHECK_CODE_FAILURE, error };
+  }
+}
+
+
+const addPaymentCard = (cardToken) => {
+  console.log("cr" + cardToken);
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/add_card`, {
+      cardToken,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.ADD_PAYMENT_CARD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.ADD_PAYMENT_CARD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.ADD_PAYMENT_CARD_FAILURE, error };
+  }
+}
+
 const get_History = (
   categoryEventId,
   startDate,
@@ -321,7 +369,7 @@ const get_History = (
       dataSent.pageNumber = pageNumber;
     }
 
-    API.get(`/api/user/get_history_take_part_in`, {
+    API.get(`/api/user/history`, {
       params: dataSent,
     })
       .then((res) => {
@@ -331,11 +379,11 @@ const get_History = (
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {
-    return { type: userConstants.GET_HISTORY_REQUEST };
+    return { type: userActions.GET_HISTORY_REQUEST };
   }
 
   function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
+    return { type: userActions.GET_HISTORY_SUCCESS, arrEvent };
   }
   function failure(error) {
     return { type: userConstants.GET_HISTORY_FAILURE, error };
@@ -356,25 +404,19 @@ const getCreateHistory = (
     if (categoryEventId !== ' ') {
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
-
     }
     console.log(startDate, endDate);
     if (startDate !== '' && endDate !== ' ') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
-      dataSent.numberRecord = numberRecord
     }
     console.log(startDate, endDate);
     if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
     }
-    if (pageNumber) {
-      dataSent.pageNumber = pageNumber;
-    }
-    console.log("numberRecord", numberRecord);
-    console.log("mo", dataSent);
+
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })
@@ -385,14 +427,14 @@ const getCreateHistory = (
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {
-    return { type: userConstants.GET_HISTORY_CREATE_REQUEST };
+    return { type: userConstants.GET_HISTORY_REQUEST };
   }
 
   function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent };
+    return { type: userConstants.GET_HISTORY_SUCCESS, arrEvent };
   }
   function failure(error) {
-    return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
+    return { type: userConstants.GET_HISTORY_FAILURE, error };
   }
 };
 const getListNotification = () => {
@@ -429,4 +471,6 @@ export const userActions = {
   getBankAccount,
   onUpdateBankInfor,
   getCreateHistory,
+  onChangePassword,
+  addPaymentCard
 };

@@ -49,10 +49,6 @@ const initialState = {
 };
 
 const getIndexPage = (pages, currentPage) => {
-  console.log('GET INDEX : ');
-  console.log(pages);
-  console.log(currentPage);
-
   let count = 0;
   let flag = false;
   for (let index in pages) {
@@ -74,6 +70,7 @@ const getIndexPage = (pages, currentPage) => {
       }
     }
   }
+
   return count;
 };
 
@@ -169,6 +166,7 @@ const event = (state = initialState, action) => {
         pending: true,
       };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
+      console.log(action.event);
       return {
         ...state,
         pending: false,
@@ -241,6 +239,8 @@ const event = (state = initialState, action) => {
         events: [],
       };
 
+
+
     case eventConstants.GET_HOME_DATA_SUSSESS:
       return {
         ...state,
@@ -250,8 +250,6 @@ const event = (state = initialState, action) => {
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);
-      console.log('Next : ', nextId, state.system.length);
-      console.log(state.system);
 
       return {
         ...state,
@@ -259,13 +257,12 @@ const event = (state = initialState, action) => {
         pages: action.pages,
         currentPage: action.currentPage,
         blocks:
-          nextId > state.system.length
+          nextId >= state.system.length
             ? [...initialBlocks]
             : state.system[nextId],
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
-      console.log(getIndexPage(state.pages, action.currentPage));
       return {
         ...state,
         currentPage: action.currentPage,

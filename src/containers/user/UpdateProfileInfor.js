@@ -7,6 +7,7 @@ import { userActions } from 'action/user.action';
 import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
 const { Option } = Select;
 
+let fistValueUserInfor = {};
 class ProfileInfor extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +42,7 @@ class ProfileInfor extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.isGetData && nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
+      fistValueUserInfor = nextProps.userInfor
       return {
         userInfor: nextProps.userInfor,
         isGetData: false,
@@ -54,7 +56,6 @@ class ProfileInfor extends Component {
       this.setState({ userInfor: this.props.userInfor });
 
     }
-    console.log(this.state)
   }
 
   //onchange value
@@ -65,6 +66,7 @@ class ProfileInfor extends Component {
         ...this.state.userInfor,
         [name]: value,
       },
+      isSaved: false
     });
   };
 
@@ -77,6 +79,7 @@ class ProfileInfor extends Component {
         [e.target.name]: e.target.value,
       },
       [e.target.name]: !e.target.value === '' || re.test(e.target.value),
+      isSaved: false
     });
   };
 
@@ -85,7 +88,8 @@ class ProfileInfor extends Component {
       validEmail: EmailValidator.validate(e.target.value),
       userInfor: {
         orgEmail: e.target.value
-      }
+      },
+      isSaved: false
     })
   }
 
@@ -95,6 +99,7 @@ class ProfileInfor extends Component {
         ...this.state.userInfor,
         gender: e,
       },
+      isSaved: false
     });
   };
 
@@ -104,6 +109,7 @@ class ProfileInfor extends Component {
         ...this.state.userInfor,
         birthday: e._d
       },
+      isSaved: false
     });
   };
 
@@ -118,7 +124,7 @@ class ProfileInfor extends Component {
     this.setState({
       isSaved: true
     })
-
+    fistValueUserInfor = this.state.userInfor
   }
 
   errorHandle() {
@@ -126,30 +132,28 @@ class ProfileInfor extends Component {
       return (<div className="alert alert-danger" role="alert" enable>
         {this.props.errMessage}
       </div>)
-    if (this.state.isSaved && !this.props.pending) {
-      return (< div className="alert alert-success" role="alert">
-        Save changes sucessfully
-      </div>)
-    }
-    if (JSON.stringify(this.state.userInfor) === JSON.stringify(this.props.userInfor)) {
+    if (JSON.stringify(this.state.userInfor) === JSON.stringify(fistValueUserInfor)) {
       return (
         <div className="alert alert-danger" role="alert">
           there is no changes! please
          </div>
       )
     }
+    if (this.state.isSaved && !this.props.pending) {
+      return (< div className="alert alert-success" role="alert">
+        Save changes sucessfully
+      </div>)
+    }
+
   }
 
   render() {
     const { userInfor } = this.state;
     const { pending } = this.props;
-    const onFinish = (values) => {
-      this.props.onUpdateUserProfile(...this.state.userInfor);
-    };
     const birthday = new Date(userInfor.birthday);
     const birthDate = (birthday.getUTCDate() + '/' + 0 + birthday.getMonth() + '/' + birthday.getUTCFullYear()).toString()
     return (
-      <div className="ProfileInfor p-5 border">
+      <div className="ProfileInfor p-3 border">
         {this.errorHandle()}
         {/* start form */}
         <div className="col">
@@ -350,7 +354,8 @@ class ProfileInfor extends Component {
                     ) ||
                     !(this.state.phone || userInfor.phone === '') ||
                     !(this.state.orgPhone || userInfor.orgPhone === '') ||
-                    this.state.userInfor === this.props.userInfor
+                    JSON.stringify(this.state.userInfor) === JSON.stringify(fistValueUserInfor) ||
+                    this.state.isSaved && !this.props.pending
                   }
                   onClick={(value) => this.onSave(value)}
                   loading={pending}

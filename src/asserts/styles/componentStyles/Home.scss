@@ -11,7 +11,7 @@
     }
 
     .list-event {
-        // background: url("/bg-1.jpg") center fixed;
+        background: url("/bg-1.jpg") center fixed;
         height: 100%;
 
         .up-coming {
@@ -35,26 +35,27 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        line-height: 10x;
+        // font-size: 30x;
+        line-height: 25px;
         height: 50px;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        font-weight: 700;
-        color: #333333;
-        text-transform: uppercase;
+        font-weight: 500 !important;
     }
     .line-clamp1 {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
+        // font-size: 30x;
         line-height: 25px;
         height: 50px;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         font-weight: bolder;
-        color: #ff4d4f;
-        z-index: 19;
-        font-size: 20px;
+        color: black;
+        // color: rgb(255, 255, 255);
+        z-index: 7;
+        font-size: 30px;
         font-family: "Times New Roman", Times, serif;
         text-transform: uppercase;
         visibility: inherit;
@@ -62,6 +63,8 @@
         transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         transform-origin: 50% 50% 0px;
         white-space: nowrap;
+        
+        // background: rgb(255, 255, 255);
     }
     .address {
         overflow: hidden;
@@ -88,9 +91,9 @@
         // text-align: center;
         // font-size: 20px;
         position: absolute;
-        top: 2px;
+        top: 5px;
         left: "10%";
-        right: 10px;
+        right: 1px;
         border-radius: 10px 10px 10px 30px;
         color: white;
         background: rgb(255, 52, 37);

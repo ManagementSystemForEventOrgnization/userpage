@@ -13,11 +13,11 @@ import Banner from '../components/Banner';
 // import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
-import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
+// import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 /// import sessionCard from '../components/CardSession'
 
-import { eventActions } from 'action/event.action';
+import { eventActions } from '../action/event.action';
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -53,55 +53,25 @@ class HomePage extends Component {
 
     return percent;
   };
-  splitAddress = (add) => {
-    const words = add.split(', ');
-    let str = words[2];
-    let str1 = words[3];
-    let a = str + ',' + str1;
-    return a;
-  }
 
   render() {
     const { events, hlEvent } = this.props;
 
+    const zoomOutProperties = {
+      duration: 1000,
+      transitionDuration: 500,
+      infinite: true,
 
-
-
-    const HIGHT = {
-      textAlign: 'center', color: '333333', 'fontWeight': '700', fontSize: '36px',
-      fontFamily: `Oswald`,
-
-      marginBottom: '15px',
-      textTransform: 'capitalize'
-
-
-    }
-
-
+      indicators: true,
+      arrows: true,
+      pauseOnHover: true,
+      autoplay: true,
+    };
 
     const orgnizations = {
-      name: 'DIANA L. CACERES',
-      src: 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591865822/images_qukx6e.jpg',
-      description: 'Developer',
-    };
-    const responsive = {
-      superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5
-      },
-      desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 4
-      },
-      tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 1
-      },
-      mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1
-      }
+      name: 'Orgnization 1',
+      src: '/star.jpg',
+      description: 'description',
     };
 
     const temp = [1, 2, 3, 4, 5];
@@ -115,114 +85,98 @@ class HomePage extends Component {
         </div>
         <Banner />
 
+        <div className="list-event">
+          <p
+            style={{
+              textAlign: 'center',
+              color: '#333',
+              fontWeight: 700,
+              fontSize: '25px',
+            }}
+          >
+            Highlight event
+          </p>
 
-
-        <div style={{ marginTop: '10%' }}>
-          <h1 style={HIGHT}> Highlight Event</h1>
-          < div className="slide-container p-4 ml-5 mt-5 " >
-
-            <Carousel responsive={responsive}
-              swipeable={false}
-              draggable={false}
-              // showDots={true}
-
-              ssr={true} // means to render carousel on server-side.
-              infinite={true}
-              autoPlay={this.props.deviceType !== "mobile" ? true : false}
-              autoPlaySpeed={1000}
-              keyBoardControl={true}
-
-              transitionDuration={2000}
-              containerClass="carousel-container"
-              removeArrowOnDeviceType={["tablet", "mobile"]}
-              deviceType={this.props.deviceType}
-              dotListClass="custom-dot-list-style"
-              itemClass="carousel-item-padding-40-px"
-            >
-
-              {
-
-                hlEvent.map((item, index) =>
-
-                  < div className="  shadow ml-2" key={index} >
-                    <div className=" event-list">
+          <div className="event-list mt-5">
+            <div className="slide-container">
+              <Zoom {...zoomOutProperties}>
+                {hlEvent.map((item, index) => (
+                  <div
+                    className=" ml-4 shadow event-list"
+                    style={{ background: '#fff' }}
+                    key={index}
+                  >
+                    <Link to="">
+                      {' '}
                       {item.bannerUrl && (
                         <img
-                          className="img "
+                          className="cart "
                           alt="example"
                           src={item.bannerUrl}
                         />
                       )}
-                      <div className="title">
-                        <h5 className="title-name" > {item.name}</h5>
-                        <div className="title-time " >
-                          <p
+                    </Link>
 
-                          >
-                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                          </p>
-                          {item.session.length === 1 ? ''
-                            :
-                            <p
-                            >
-                              + {item.session.length - 1}more events
-                              </p>
-                          }
-                        </div>
-                      </div>
-                    </div>
+                    <h5 className=" mt-2 ml-1 nameCard "> {item.name}</h5>
 
-
-
-
+                    {/* <div className="ml-4 shadow event-list" style={{
+                        background: `url(${item.bannerUrl})`, height: '300px',
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        width: '100%',
+                        top: '50%',
+                        padding: '10%',
+                      }}></div> */}
                   </div>
-
-
-
-
-
-
-
-                )}
-
-            </Carousel>
+                ))}
+              </Zoom>
+            </div>
           </div>
-        </div >
+        </div>
 
-        <hr />
-        <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
+        <div className="list-event mt-5">
           <div className="up-coming pl-2">
-            <h1 style={HIGHT} className="mt-5 mb-5">Upcomming Events</h1>
-            <div className="row p-5 ">
-              {events.map((item, index) =>
-                <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
+            <p
+              style={{
+                textAlign: 'center',
+                color: '#333',
+                fontWeight: 700,
+                fontSize: '25px',
+              }}
+            >
+              Coming event
+            </p>
 
-                  < Link to="" >
+            <div className=" row  pl-4 ">
+              {events.map((item, index) => (
+                <div className=" mt-4 ml-5 row  shadow" key={index}>
+                  <Link to="">
                     <Card
                       className="event-cart "
                       cover={
                         <div>
                           {item.session
                             ? item.session.map((e, i) =>
-                              item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <Button className="ml-1 mt-1 ticket">
-                                      {' '}
-                                      {this.percentDiscount(
-                                        item.ticket.discount
-                                      )}
-                                    </Button>
-                                  ) : (
+                                item.ticket ? (
+                                  <div className="d-flex ">
+                                    {item.ticket.discount ? (
+                                      <Button className="ml-1 mt-1 ticket">
+                                        {' '}
+                                        {this.percentDiscount(
+                                          item.ticket.discount
+                                        )}
+                                      </Button>
+                                    ) : (
                                       ''
                                     )}
-                                </div>
-                              ) : (
+                                  </div>
+                                ) : (
                                   <Button className="ml-1 mt-1 ticket">
                                     Free
                                   </Button>
                                 )
-                            )
+                              )
                             : ' '}
                           {item.bannerUrl && (
                             <img
@@ -234,64 +188,30 @@ class HomePage extends Component {
                         </div>
                       }
                     >
-                      <div className="row">
-                        <div className="col">
-                          <p style={{
-                            textAlign: "center", background: '#ff4d4f',
-                            color: '#fff',
-                            fontWeight: 'bold',
-                            padding: '3px 10px 2px 10px',
-                            marginRight: '13px',
-                          }}>{item.eventCategories.name}</p>
-                        </div>
-                        <div className="d-flex col ">
+                      <div className="d-flex ">
+                        <h5 className="ml-2 line-clamp "> {item.name}</h5>
+                      </div>
+                      <div className="d-flex ">
+                        <FieldTimeOutlined className="mt-1" />
+                        <div className="d-flex ">
                           <p
                             className="ml-2"
-                            style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
+                            style={{ color: '#d1410c', fontWeight: 'bold' }}
                           >
                             {moment(item.session[0].day).format('DD/MM/YYYY ')}
                           </p>
-
-
-                        </div>
-
-                      </div>
-                      <div className="d-flex ">
-                        <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                        <div >    {item.session.length === 1 ? ''
-
-                          :
-                          <p
-                            className="ml-2"
-                            style={{ fontWeight: 'bold' }}
-                          >
-
-                            + {item.session.length - 1}more events
-</p>
-                        }</div>
-                      </div>
-                      <div  >
-                        {item.ticket ?
-                          <div className="d-flex ">
-                            {item.ticket.discount ?
-                              <div className="d-flex " >
-                                <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price}</p>
-                                <p className="ml-3" style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
-                              </div>
-                              : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
-                            }
-                          </div>
-                          :
-                          <p
-                            style={{ fontWeight: 'bold' }}
-                            className="ml-1  "
-                          >
-                            0 VNĐ
+                          {item.session.length === 1 ? (
+                            ''
+                          ) : (
+                            <p
+                              className="ml-2"
+                              style={{ color: '#d1410c', fontWeight: 'bold' }}
+                            >
+                              + {item.session.length - 1}more events
                             </p>
-                        }
+                          )}
+                        </div>
                       </div>
-
-
 
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
@@ -302,23 +222,62 @@ class HomePage extends Component {
                         </div>
                       </div>
 
-
+                      <div className="row">
+                        <div className="col">
+                          {item.ticket ? (
+                            <div className="d-flex ">
+                              {item.ticket.discount ? (
+                                <div>
+                                  <p
+                                    style={{
+                                      textDecoration: 'line-through',
+                                      fontWeight: 'bold',
+                                    }}
+                                    className="ml-1 "
+                                  >
+                                    {item.ticket.price} VNĐ
+                                  </p>
+                                  <p style={{ fontWeight: 'bold' }}>
+                                    {' '}
+                                    {this.sumDiscount(
+                                      item.ticket.price,
+                                      item.ticket.discount
+                                    )}
+                                  </p>
+                                </div>
+                              ) : (
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
+                                </p>
+                              )}
+                            </div>
+                          ) : (
+                            <p
+                              style={{ fontWeight: 'bold' }}
+                              className="ml-1  "
+                            >
+                              0 VNĐ
+                            </p>
+                          )}
+                        </div>
+                        <div className="col ">
+                          <p style={{ textAlign: 'center' }}>
+                            {item.eventCategories.name}
+                          </p>
+                        </div>
+                      </div>
                     </Card>
                   </Link>
                 </div>
-
-
-
-
-
-              )}
+              ))}
             </div>
-
-
           </div>
         </div>
 
-        <hr style={{ fontSize: '30px', background: `linear-gradient(to right, #0d0d8b, #44aea9)` }} />
+        <hr />
 
         <div className="orgnization">
           <h1>Organizers </h1>
