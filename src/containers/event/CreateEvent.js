@@ -175,9 +175,7 @@ class CreateEvent extends React.Component {
           '_blank'
         );
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   getPreviousId = () => {
@@ -275,6 +273,15 @@ class CreateEvent extends React.Component {
                 disabled={pending}
               >
                 Finish
+              </Button>
+
+              <Button
+                className="mr-2 ml-2"
+                variant="success"
+                // onClick={() => this.handleSaveEvent(false)}
+                disabled={pending}
+              >
+                Save Draft
               </Button>
 
               <Button

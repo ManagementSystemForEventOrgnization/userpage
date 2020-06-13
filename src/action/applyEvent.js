@@ -9,7 +9,6 @@ const applyEvent = (eventId, sessionIds) => {
         sessionIds,
       })
         .then((res) => {
-          console.log('TCL Save event detail  THEN: ', res);
           // dispatch(success(res.data.result));
           resolve('true');
         })
@@ -43,7 +42,6 @@ const cancelEvent = (eventId, sessionIds) => {
         sessionIds,
       })
         .then((res) => {
-          console.log('TCL Save event detail  THEN: ', res);
           resolve('true');
         })
         .catch((err) => reject(err));

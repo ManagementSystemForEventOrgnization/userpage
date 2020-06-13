@@ -30,7 +30,6 @@ class UploadVideo extends Component {
         }
       },
       (err) => {
-        console.log(err);
         this.setState({
           NotUpload: true,
         });

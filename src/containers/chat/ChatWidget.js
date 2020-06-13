@@ -3,10 +3,12 @@ import {
   Widget,
   addResponseMessage,
   //   addLinkSnippet,
-  // addUserMessage,
+  addUserMessage,
 } from 'react-chat-widget';
 import io from 'socket.io-client';
 import { v4 as uuid } from 'uuid';
+import { userActions } from 'action/user.action';
+import { connect } from 'react-redux';
 
 class Chat extends Component {
   constructor(props) {
@@ -14,8 +16,14 @@ class Chat extends Component {
     this.state = {
       userId: '',
     };
-    this.socket = io('https://417ce7227616.ngrok.io');
+    this.socket = io(process.env.REACT_APP_CHAT_SERVER);
   }
+
+  UNSAFE_componentWillMount = () => {
+    const { getChatHistory } = this.props;
+    const { userId } = localStorage.getItem('userId');
+    getChatHistory(userId);
+  };
 
   componentDidMount() {
     addResponseMessage('Wellcome to our system !!! Can we help you ?');
@@ -48,7 +56,6 @@ class Chat extends Component {
 
     //listen to  login-failure event
     this.socket.on('login-failure', (data) => {
-      console.log('login failure : ', data);
       localStorage.removeItem('currentSocket');
       // should create new socket
     });
@@ -65,10 +72,6 @@ class Chat extends Component {
     });
   }
 
-  handleSubmit = (value) => {
-    console.log(value);
-  };
-
   handleNewUserMessage = (newMessage) => {
     const { currentSocket } = this.state;
     this.socket.emit('user-send-message', {
@@ -78,7 +81,16 @@ class Chat extends Component {
     });
   };
 
+  renderChatHistory = (chatHistory) =>
+    chatHistory.map((item) =>
+      item.sender === 'admin'
+        ? addResponseMessage(item.content)
+        : addUserMessage(item.content)
+    );
+
   render() {
+    const { chatHistory } = this.props;
+    this.renderChatHistory(chatHistory);
     return (
       <div className="App">
         <Widget
@@ -86,15 +98,20 @@ class Chat extends Component {
           //   profileAvatar={logo}
           title="Event in your hand"
           subtitle="Contact with admin"
-          addUserMessage={() => {
-            // debugger;
-            console.log(1);
-            return;
-          }}
         />
       </div>
     );
   }
 }
 
-export default Chat;
+const mapStateToProps = (state) => {
+  return {
+    chatHistory: state.user.chatHistory,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getChatHistory: (userId) => dispatch(userActions.getChatHistory(userId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

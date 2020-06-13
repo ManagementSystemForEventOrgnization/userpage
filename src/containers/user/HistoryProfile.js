@@ -76,7 +76,6 @@ class HistoryProfile extends React.Component {
   loadEvent = () => {
     const { pageNumber } = this.state;
     let number = +pageNumber + 1;
-    console.log('number', number);
     this.setState({
       pageNumber: number,
     });
@@ -135,7 +134,6 @@ class HistoryProfile extends React.Component {
   render() {
     const { categories } = this.state;
     const { pending, arrEvent } = this.props;
-    console.log('match', this.props.match);
     return (
       <div className="history">
         <div className="row">
@@ -168,7 +166,7 @@ class HistoryProfile extends React.Component {
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
           <div className="row p-5 ">
-            {arrEvent.map((item, index) => (
+            {arrEvent.map((item) => (
               <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
                 <Link to="">
                   <Card
@@ -176,7 +174,6 @@ class HistoryProfile extends React.Component {
                     cover={
                       <div>
                         <Button className="ml-1 mt-1 ticket">
-                          {' '}
                           {item.status}
                         </Button>
 
@@ -191,15 +188,6 @@ class HistoryProfile extends React.Component {
                     }
                   >
                     <div className="row">
-                      {/* <div className="col">
-                          <p style={{
-                            textAlign: "center", background: '#ff4d4f',
-                            color: '#fff',
-                            fontWeight: 'bold',
-                            padding: '3px 10px 2px 10px',
-                            marginRight: '13px',
-                          }}>{item.eventCategories.name}</p>
-                        </div> */}
                       <div className="d-flex col ">
                         <p
                           className="ml-2"

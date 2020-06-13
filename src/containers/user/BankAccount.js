@@ -276,7 +276,6 @@ class BankAccount extends Component {
     const { bankInfor } = this.state;
 
     const onFinish = (values) => {
-      console.log(values);
       const { onUpdateBankInfor } = this.props;
       const { ...bankInfor } = this.state;
 

@@ -324,12 +324,10 @@ const getListEvent = (type) => {
   } else {
     sentData.categoryEventId = type;
   }
-  console.log('sentData', sentData);
   return (dispatch) => {
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
-          console.log('hightlightEvent:', res.data.result);
           dispatch(success(res.data.result.event));
         } else {
           dispatch(failure());
@@ -389,7 +387,6 @@ const saveEvent = (id, blocks, header, isPreview) => {
       dispatch(request());
       API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
         .then((res) => {
-          console.log('TCL Save event detail  THEN: ', res);
           dispatch(success());
           localStorage.removeItem('currentIndex');
           if (!isPreview) {
@@ -428,7 +425,6 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
-          console.log('TCL : ', res.data.result);
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
@@ -460,9 +456,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   function request(comments) {

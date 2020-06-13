@@ -40,9 +40,7 @@ class Notification extends Component {
     getListNotification(Math.round(data.length / 10) + 1);
   };
 
-  handleClick = () => {
-    console.log('click notification');
-  };
+  handleClick = () => {};
 
   render() {
     const { data, loading, hasMore } = this.state;

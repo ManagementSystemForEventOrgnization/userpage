@@ -89,8 +89,6 @@ class CommentEvent extends Component {
           }),
           2000
         );
-
-        console.log(data);
       });
     }
   };

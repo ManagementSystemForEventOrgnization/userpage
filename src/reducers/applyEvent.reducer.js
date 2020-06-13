@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const applyEvent = (state = initialState, action) => {
-  console.log(state, action);
   switch (action.type) {
     case applyEventConstants.APPLY_EVENT_REQUEST:
       return {

@@ -124,7 +124,6 @@ class ButtonBlock extends React.Component {
   };
 
   collapseModal = () => {
-    console.log(window.pageYOffset);
     const { isDesign } = this.state;
     this.setState({ isDesign: !isDesign });
   };

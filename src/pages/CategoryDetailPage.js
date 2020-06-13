@@ -15,11 +15,10 @@ class CategoryDetailPage extends React.Component {
     this.state = {};
   }
   componentDidMount = () => {
-    const { getListEvent, hlEvent } = this.props;
+    const { getListEvent } = this.props;
 
     const categoryEventId = localStorage.getItem('currentCategory');
-    console.log('Event', hlEvent);
-    console.log('id', categoryEventId);
+
     getListEvent(categoryEventId);
   };
 

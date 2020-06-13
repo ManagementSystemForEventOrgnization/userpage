@@ -178,7 +178,7 @@ class HomePage extends Component {
             </h1>
             <div className="row p-5 ">
               {events.map((item, index) => (
-                <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
+                <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
                   <Link to="">
                     <Card
                       className="event-cart "
@@ -200,7 +200,10 @@ class HomePage extends Component {
                                     )}
                                   </div>
                                 ) : (
-                                  <Button className="ml-1 mt-1 ticket">
+                                  <Button
+                                    className="ml-1 mt-1 ticket"
+                                    key={e.id}
+                                  >
                                     Free
                                   </Button>
                                 )

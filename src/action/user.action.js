@@ -8,7 +8,6 @@ const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@
 const login = (email, password) => {
   return (dispatch) => {
     dispatch(request());
-    console.log(email, password);
     API.post(`/api/login`, {
       email,
       password,
@@ -172,13 +171,10 @@ const checkCode = (token) => {
       },
     })
       .then((res) => {
-        console.log(res);
         dispatch(success());
-        console.log('1');
         history.push('/');
       })
       .catch((error) => {
-        console.log('2');
         handleCatch(dispatch, failure, error);
       });
   };
@@ -281,7 +277,6 @@ const onUpdateBankInfor = (bankInfor) => {
       ...bankInfor,
     })
       .then((res) => {
-        console.log(res);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -313,13 +308,11 @@ const get_History = (
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
     }
-    console.log(startDate, endDate);
     if (startDate !== '' && endDate !== ' ') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
     }
-    console.log(startDate, endDate);
     if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
@@ -329,7 +322,6 @@ const get_History = (
       params: dataSent,
     })
       .then((res) => {
-        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -361,14 +353,12 @@ const getCreateHistory = (
       dataSent.categoryEventId = categoryEventId;
       dataSent.pageNumber = pageNumber;
     }
-    console.log(startDate, endDate);
     if (startDate !== '' && endDate !== ' ') {
       dataSent.startDate = startDate;
       dataSent.endDate = endDate;
       dataSent.pageNumber = pageNumber;
       dataSent.numberRecord = numberRecord;
     }
-    console.log(startDate, endDate);
     if (txtSearch !== ' ') {
       dataSent.txtSearch = txtSearch;
       dataSent.pageNumber = pageNumber;
@@ -376,13 +366,10 @@ const getCreateHistory = (
     if (pageNumber) {
       dataSent.pageNumber = pageNumber;
     }
-    console.log('numberRecord', numberRecord);
-    console.log('mo', dataSent);
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })
       .then((res) => {
-        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -440,6 +427,25 @@ const getNumUnreadNotification = () => {
   }
 };
 
+const getChatHistory = (sender) => {
+  return (dispatch) => {
+    API.get('api/chat/get_list', {
+      params: {
+        sender,
+      },
+    }).then((res) => {
+      dispatch(success(res.data.result));
+    });
+  };
+
+  function success(chatHistory) {
+    return {
+      type: userConstants.GET_CHAT_HISTORY,
+      chatHistory,
+    };
+  }
+};
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -456,4 +462,5 @@ export const userActions = {
   onUpdateBankInfor,
   getCreateHistory,
   getNumUnreadNotification,
+  getChatHistory,
 };

@@ -47,9 +47,7 @@ class EventDetail extends React.Component {
         const eventId = localStorage.getItem('currentId');
         getComment(id || eventId);
       })
-      .catch((err) => {
-        console.log('Get event detail catch in promise : ', err);
-      });
+      .catch((err) => {});
   };
 
   renderHeader = () => {
@@ -81,7 +79,6 @@ class EventDetail extends React.Component {
       localStorage.setItem('currentIndex', this.props.currentIndex);
 
       const { id, name } = this.props.match.match.params;
-      console.log('changed ', prevProps.currentIndex, this.props.currentIndex);
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
   };

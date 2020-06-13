@@ -11,6 +11,7 @@ const initialState = {
   arrEvent: [],
   notifications: [],
   numUnreadNotification: 0,
+  chatHistory: [],
 };
 
 const user = (state = initialState, action) => {
@@ -38,8 +39,6 @@ const user = (state = initialState, action) => {
         active: action.user.isActive,
       };
     case userConstants.LOGIN_FAILURE:
-      console.log(action.error);
-
       return {
         ...state,
         errMessage: action.error,
@@ -103,7 +102,6 @@ const user = (state = initialState, action) => {
       localStorage.setItem('avatar', state.userInfo.avatar);
       localStorage.setItem('userId', state.userInfor._id);
 
-      console.log('object');
       return {
         ...state,
         isLogined: true,
@@ -285,6 +283,12 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         numUnreadNotification: action.numUnreadNotification,
+      };
+
+    case userConstants.GET_CHAT_HISTORY:
+      return {
+        ...state,
+        chatHistory: action.chatHistory,
       };
 
     default:
