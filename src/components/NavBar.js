@@ -4,11 +4,9 @@ import { Menu, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 
 class NavBar extends React.Component {
-
-
-  handleClickItem = id => {
-    localStorage.setItem('currentCategory', id)
-  }
+  handleClickItem = (id) => {
+    localStorage.setItem('currentCategory', id);
+  };
   render() {
     const { categories } = this.props;
     return (
@@ -21,18 +19,21 @@ class NavBar extends React.Component {
               size="large"
             />
           ) : (
-              categories.map((item) => {
-                const newName = item.name.toLowerCase().replace(/\s/g, '');
-                const url = `/event-list/${newName}`;
-                return !item.isDelete ? (
-                  <Menu.Item key={item._id} onClick={() => this.handleClickItem(item._id)}>
-                    <Link to={url}>{item.name}</Link>
-                  </Menu.Item>
-                ) : (
-                    ''
-                  );
-              })
-            )}
+            categories.map((item) => {
+              const newName = item.name.toLowerCase().replace(/\s/g, '');
+              const url = `/event-list/${newName}`;
+              return !item.isDelete ? (
+                <Menu.Item
+                  key={item._id}
+                  onClick={() => this.handleClickItem(item._id)}
+                >
+                  <Link to={url}>{item.name}</Link>
+                </Menu.Item>
+              ) : (
+                ''
+              );
+            })
+          )}
         </Menu>
       </div>
     );
