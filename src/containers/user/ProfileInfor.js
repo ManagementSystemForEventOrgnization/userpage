@@ -72,7 +72,6 @@ class UpdateProfileInfor extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.userInfor && nextProps.userInfor !== prevState.userInfor) {
-      console.log('getDerivedStateFromProps');
       return {
         userInfor: nextProps.userInfor,
       };
@@ -81,15 +80,13 @@ class UpdateProfileInfor extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.userInfor !== this.props.userInfor) {
-      console.log('componentDidUpdate');
-
       this.updatePercentInfor();
     }
   }
 
-    render() {
-        const { userInfor } = this.state;
-        // console.log(userInfor);
+  render() {
+    const { userInfor } = this.state;
+    // console.log(userInfor);
 
     return (
       <div>

@@ -1,7 +1,7 @@
 const VideoState = (props) => ({
   uploadedFileCloudinaryUrl: props.url
     ? props.url
-    : 'https://www.youtube.com/watch?v=ddaEtFOsFeM',
+    : '//www.youtube.com/watch?v=ddaEtFOsFeM',
   visible: false,
   progress: props.progress || 0,
   width: props.width || 100,

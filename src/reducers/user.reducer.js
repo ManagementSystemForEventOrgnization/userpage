@@ -10,6 +10,8 @@ const initialState = {
   showVerifyForgotPassword: false,
   arrEvent: [],
   notifications: [],
+  numUnreadNotification: 0,
+  chatHistory: [],
 };
 
 const user = (state = initialState, action) => {
@@ -26,6 +28,7 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('userId', action.user._id);
 
       return {
         ...state,
@@ -36,8 +39,6 @@ const user = (state = initialState, action) => {
         active: action.user.isActive,
       };
     case userConstants.LOGIN_FAILURE:
-      console.log(action.error);
-
       return {
         ...state,
         errMessage: action.error,
@@ -49,12 +50,15 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('userId', action.user._id);
+
       return {
         ...state,
         userInfo: action.user,
         isLogined: true,
         pending: false,
       };
+
     case userConstants.LOGIN_GOOGLE_FAILURE:
       return {
         ...state,
@@ -96,6 +100,8 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
+      localStorage.setItem('userId', state.userInfor._id);
+
       return {
         ...state,
         isLogined: true,
@@ -114,6 +120,8 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('isLogined');
       localStorage.removeItem('username');
       localStorage.removeItem('avatar');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('currentSocket');
       return {
         ...state,
         userInfo: null,
@@ -270,6 +278,19 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: action.error,
       };
+
+    case userConstants.GET_UNREADNOTIFICATION:
+      return {
+        ...state,
+        numUnreadNotification: action.numUnreadNotification,
+      };
+
+    case userConstants.GET_CHAT_HISTORY:
+      return {
+        ...state,
+        chatHistory: action.chatHistory,
+      };
+
     default:
       return state;
   }

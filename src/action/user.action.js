@@ -277,7 +277,6 @@ const onUpdateBankInfor = (bankInfor) => {
       ...bankInfor,
     })
       .then((res) => {
-        console.log(res);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -300,12 +299,10 @@ const get_History = (
   return (dispatch) => {
     dispatch(request());
 
-
     API.get(`/api/user/get_history_take_part_in`, {
       params: dataSent,
     })
       .then((res) => {
-        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -328,12 +325,10 @@ const getCreateHistory = (
 ) => {
   return (dispatch) => {
     dispatch(request());
-
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })
       .then((res) => {
-        console.log('THT:', res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -349,9 +344,14 @@ const getCreateHistory = (
     return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
   }
 };
-const getListNotification = () => {
+const getListNotification = (pageNumber, numberRecord) => {
   return (dispatch) => {
-    API.get('api/getListNotification')
+    API.get('api/getListNotification', {
+      params: {
+        pageNumber,
+        numberRecord,
+      },
+    })
       .then((res) => {
         dispatch(success(res.data.result));
       })
@@ -365,6 +365,43 @@ const getListNotification = () => {
   }
   function failure(error) {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
+  }
+};
+
+const getNumUnreadNotification = () => {
+  return (dispatch) => {
+    API.get('api/getBadgeNumber')
+      .then((res) => {
+        const { result } = res.data;
+        dispatch(success(result));
+      })
+      .catch((err) => { });
+  };
+
+  function success(numUnreadNotification) {
+    return {
+      type: userConstants.GET_UNREADNOTIFICATION,
+      numUnreadNotification,
+    };
+  }
+};
+
+const getChatHistory = (sender) => {
+  return (dispatch) => {
+    API.get('api/chat/get_list', {
+      params: {
+        sender,
+      },
+    }).then((res) => {
+      dispatch(success(res.data.result));
+    });
+  };
+
+  function success(chatHistory) {
+    return {
+      type: userConstants.GET_CHAT_HISTORY,
+      chatHistory,
+    };
   }
 };
 
@@ -383,4 +420,6 @@ export const userActions = {
   getBankAccount,
   onUpdateBankInfor,
   getCreateHistory,
+  getNumUnreadNotification,
+  getChatHistory,
 };

@@ -8,6 +8,7 @@ const initialBlocks = [
   dataTest[1].value[1], //banner
   //...dataTest[0].value,
   dataTest[2].value[0], // event description
+  dataTest[13].value[0], //list of link
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   ...dataTest[5].value, //map
@@ -46,13 +47,10 @@ const initialState = {
   currentPage: initialPageId,
   system: [],
   headerStyle: {},
+  comments: [],
 };
 
 const getIndexPage = (pages, currentPage) => {
-  console.log('GET INDEX : ');
-  console.log(pages);
-  console.log(currentPage);
-
   let count = 0;
   let flag = false;
   for (let index in pages) {
@@ -223,7 +221,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_LIST_EVENT_SUCCESS:
       return {
         ...state,
-        hlEvent: action.hlEvent,
+        hlEvent: action.hlEvent || [],
       };
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {
@@ -250,8 +248,6 @@ const event = (state = initialState, action) => {
     case eventConstants.SAVE_PAGE:
       const { system } = state;
       const nextId = getIndexPage(state.pages, action.currentPage);
-      console.log('Next : ', nextId, state.system.length);
-      console.log(state.system);
 
       return {
         ...state,
@@ -265,7 +261,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
-      console.log(getIndexPage(state.pages, action.currentPage));
       return {
         ...state,
         currentPage: action.currentPage,
@@ -307,6 +302,31 @@ const event = (state = initialState, action) => {
         ...state,
         pages: action.pages,
         currentPage: action.currentPage,
+      };
+
+    case eventConstants.GET_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments, ...action.comments],
+      };
+
+    case eventConstants.SAVE_COMMENT:
+      return {
+        ...state,
+        submitting: true,
+      };
+
+    case eventConstants.SAVE_COMMNET_FAILURE:
+      return {
+        ...state,
+        submitting: false,
+      };
+
+    case eventConstants.SAVE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        submitting: false,
+        // comments: [action.comment, ...state.comments],
       };
     default:
       return state;

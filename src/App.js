@@ -3,6 +3,10 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-multi-carousel/lib/styles.css';
 import 'react-day-picker/lib/style.css';
+import 'react-multi-carousel/lib/styles.css';
+
+import 'react-chat-widget/lib/styles.css';
+
 import WrappRouter from './routers/WrapRouter';
 
 class App extends Component {

@@ -45,7 +45,6 @@ class HistoryProfile extends React.Component {
     const { get_History, getCreateHistory, match, getCategories } = this.props;
 
 
-
     if (match.location.pathname === '/registered-event') {
       getCategories();
       get_History(
@@ -120,10 +119,8 @@ class HistoryProfile extends React.Component {
 
   };
   loadEvent = () => {
-
     const { pageNumber } = this.state;
     let number = +pageNumber + 1;
-    console.log("number", number);
     this.setState({
       pageNumber: number,
     })
@@ -131,8 +128,8 @@ class HistoryProfile extends React.Component {
 
 
 
-  }
-
+    setTimeout(this.handleFilter(), 3000);
+  };
 
 
   sumDiscount = (ticket, discount) => {
@@ -154,7 +151,6 @@ class HistoryProfile extends React.Component {
   render() {
     const { categories } = this.state;
     const { pending, arrEvent } = this.props;
-    console.log('match', this.props.match);
     return (
       <div className="history">
         <div className="row">
@@ -184,24 +180,19 @@ class HistoryProfile extends React.Component {
           </div>
         </div>
         {pending ? (
-          <Skeleton className="mt-2"
-            avatar paragraph={{ rows: 4 }} active avatar />
+          <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
             <div className="row p-5 ">
-              {arrEvent.map((item, index) =>
+              {arrEvent.map((item) => (
                 <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
-
-                  < Link to="" >
+                  <Link to="">
                     <Card
-
                       className="event-cart "
                       cover={
                         <div>
-
-
-                          <Button className="ml-1 mt-1 ticket"> {item.status}</Button>
-
-
+                          <Button className="ml-1 mt-1 ticket">
+                            {item.status}
+                          </Button>
 
                           {item.bannerUrl && (
                             <img
@@ -214,64 +205,71 @@ class HistoryProfile extends React.Component {
                       }
                     >
                       <div className="row">
-                        {/* <div className="col">
-                          <p style={{
-                            textAlign: "center", background: '#ff4d4f',
-                            color: '#fff',
-                            fontWeight: 'bold',
-                            padding: '3px 10px 2px 10px',
-                            marginRight: '13px',
-                          }}>{item.eventCategories.name}</p>
-                        </div> */}
                         <div className="d-flex col ">
                           <p
                             className="ml-2"
-                            style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
+                            style={{
+                              fontWeight: 'bold',
+                              textTransform: 'uppercase',
+                            }}
                           >
-
                             {moment(item.session[0].day).format('DD/MM/YYYY ')}
                           </p>
-
-
                         </div>
-
                       </div>
                       <div className="d-flex ">
                         <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                        <div >    {item.session.length === 1 ? ''
-
-                          :
-                          <p
-                            className="ml-2"
-                            style={{ fontWeight: 'bold' }}
-                          >
-
-                            + {item.session.length - 1}more events
-</p>
-                        }</div>
+                        <div>
+                          {' '}
+                          {item.session.length === 1 ? (
+                            ''
+                          ) : (
+                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                + {item.session.length - 1}more events
+                              </p>
+                            )}
+                        </div>
                       </div>
-                      <div  >
-                        {item.ticket ?
+                      <div>
+                        {item.ticket ? (
                           <div className="d-flex ">
-                            {item.ticket.discount ?
-                              <div className="d-flex " >
-                                <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price}</p>
-                                <p className="ml-3" style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
+                            {item.ticket.discount ? (
+                              <div className="d-flex ">
+                                <p
+                                  style={{
+                                    textDecoration: 'line-through',
+                                    fontWeight: 'bold',
+                                  }}
+                                  className="ml-1 "
+                                >
+                                  {item.ticket.price}
+                                </p>
+                                <p
+                                  className="ml-3"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {' '}
+                                  {this.sumDiscount(
+                                    item.ticket.price,
+                                    item.ticket.discount
+                                  )}
+                                </p>
                               </div>
-                              : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
-                            }
+                            ) : (
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
+                                </p>
+                              )}
                           </div>
-                          :
-                          <p
-                            style={{ fontWeight: 'bold' }}
-                            className="ml-1  "
-                          >
-                            0 VNĐ
-                        </p>
-                        }
+                        ) : (
+                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                              0 VNĐ
+                            </p>
+                          )}
                       </div>
-
-
 
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
@@ -281,23 +279,12 @@ class HistoryProfile extends React.Component {
                           </p>
                         </div>
                       </div>
-
-
                     </Card>
                   </Link>
                 </div>
-
-
-
-
-
-              )}
+              ))}
             </div>
-
-
-
-          )
-        }
+          )}
       </div>
     );
   }
@@ -329,7 +316,7 @@ const mapDispatchToProps = (dispatch) => ({
 
       )
     ),
-  getCategories: () => dispatch(eventActions.getCategories())
+  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryProfile);

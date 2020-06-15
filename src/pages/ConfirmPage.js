@@ -12,7 +12,6 @@ class ConfirmPage extends Component {
   };
   render() {
     const { blocks, match } = this.props;
-    console.log(blocks);
     return (
       <div>
         <Button onClick={this.handleClick}>Confirm</Button>

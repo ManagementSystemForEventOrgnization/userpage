@@ -18,7 +18,6 @@ class PreviewEvent extends React.Component {
 
   renderBlocks = (item) => {
     const { match } = this.props;
-    console.log(item);
     const param =
       Object.keys(item.style).length !== 0
         ? {

@@ -50,6 +50,12 @@ export const userConstants = {
   GET_LIST_NOTIFICATION_SUCCESS: 'USERS_LIST_NOTIFICATION_SUCCESS',
   GET_LIST_NOTIFICATION_FAILURE: 'USERS_LIST_NOTIFICATION_FAILURE',
 
+  GET_UNREADNOTIFICATION: 'GET_UNREADNOTIFICATION',
+  SET_READ_NOTIFICATION: 'SET_READ_NOTIFICATION',
+  DELETE_NOTIFICATION: 'DELETE_NOTIFICATION',
+
+  GET_CHAT_HISTORY: 'GET_CHAT_HISTORY',
+
   LOGOUT: 'LOGOUT',
 };
 
@@ -62,7 +68,6 @@ export const eventConstants = {
 
   GET_LIST_EVENT_COMING_UP_SUCCESS: 'GET_LIST_EVENT_COMING_UP_SUCCESS',
   GET_LIST_EVENT_COMING_UP_FAILURE: 'GET_LIST_EVENT_COMING_UP_FAILURE',
-
 
   GET_LIST_EVENT_SUCCESS: 'GET_LIST_EVENT_SUCCESS',
   GET_LIST_EVENT_FAILURE: 'GET_LIST_EVENT_FAILURE',
@@ -96,10 +101,37 @@ export const eventConstants = {
   CHANGE_PAGES: 'CHANGE_PAGES',
 
   GET_EVENT_INFO: 'GET_EVENT_INFO',
+  GET_COMMENT: 'GET_COMMENT',
+
+  SAVE_COMMENT: 'SAVE_COMMENT',
+  SAVE_COMMENT_SUCCESS: 'SAVE_COMMENT_SUCCESS',
+  SAVE_COMMNET_FAILURE: 'SAVE_COMMNET_FAILURE',
 };
 
 export const applyEventConstants = {
   APPLY_EVENT_REQUEST: 'APPLY_EVENT_REQUEST',
   APPLY_EVENT_REQUEST_SUCCESS: 'APPLY_EVENT_REQUEST_SUCCESS',
   APPLY_EVENT_REQUEST_FAILURE: 'APPLY_EVENT_REQUEST_FAILURE',
+};
+
+export const notificationTypeConstants = {
+  CREDIT_REFUND_SUCCESS:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035622/NotifyIcon/credit-card-refund-pngrepo-com_jom3oh.png',
+  CREDIT_REFUND_FAILED:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035614/NotifyIcon/Failed-Payment-Limit-300x300_lxf4q7.png',
+  SESSION_CANCEL:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035650/NotifyIcon/calendar-cancel-512_f9syk9.png',
+  EVENT_REJECT:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035636/NotifyIcon/time_event_calendar_remove_cancel_delete-512_w3oyse.png',
+  EVENT_CANCEL:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035629/NotifyIcon/icons8-cancel_oighvs.png',
+  ZALOPAY_REFUND_SUCCESS:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035663/NotifyIcon/1024x1024bb_vxlebi.png',
+  ZALOPAY_REFUND_FAILED:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035656/NotifyIcon/unnamed_hgy4pg.png',
+  START_EVENT: 'START_EVENT',
+  JOINED_EVENT:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035642/NotifyIcon/icons8-tear_off_calendar_snrtfo.png',
+  FINISH_EVENT: 'FINISH_EVENT',
+  UNKNOW: 'UNKNOW',
 };

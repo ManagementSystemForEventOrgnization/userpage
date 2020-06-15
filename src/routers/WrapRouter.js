@@ -11,7 +11,6 @@ import EventDetailPage from '../pages/EventDetailPage';
 
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
-import ProfilePage from '../pages/ProfilePage';
 import MyEventsPage from '../pages/MyEventsPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 
@@ -68,11 +67,6 @@ class WrapRouter extends React.Component {
         main: () => <SignUpPage />,
       },
       {
-        path: '/profile',
-        exact: true,
-        main: () => <ProfilePage />,
-      },
-      {
         path: '/my-events',
         exact: true,
         main: () => <MyEventsPage />,
@@ -87,11 +81,6 @@ class WrapRouter extends React.Component {
         exact: true,
         main: (match) => <UserEventPage match={match} />,
       },
-      // {
-      //   path: '/participated-event',
-      //   exact: true,
-      //   main: (match) => <UserEventPage match={match} />,
-      // },
       {
         path: '/created-event',
         exact: true,

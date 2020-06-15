@@ -41,7 +41,13 @@ class EventDetail extends React.Component {
     const { webAddress, currentIndex } = this.state;
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
-    getEventDetail(webAddress, index);
+    getEventDetail(webAddress, index)
+      .then(() => {
+        const { getComment, id } = this.props;
+        const eventId = localStorage.getItem('currentId');
+        getComment(id || eventId);
+      })
+      .catch((err) => {});
   };
 
   renderHeader = () => {
@@ -73,7 +79,6 @@ class EventDetail extends React.Component {
       localStorage.setItem('currentIndex', this.props.currentIndex);
 
       const { id, name } = this.props.match.match.params;
-      console.log('changed ', prevProps.currentIndex, this.props.currentIndex);
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
   };
@@ -87,7 +92,8 @@ class EventDetail extends React.Component {
           <Skeleton active paragraph={{ rows: 20 }} className="p-5" />
         ) : (
           <div>
-            {this.renderHeader()}
+            <div className="">{this.renderHeader()}</div>
+
             {blocks.map((item) => this.renderBlocks(item))}
           </div>
         )}
@@ -109,6 +115,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getEventDetail: (eventId, index) =>
     dispatch(eventActions.getEventDetail(eventId, index)),
+
+  getComment: (eventId, pageNumber, numberRecord) =>
+    dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

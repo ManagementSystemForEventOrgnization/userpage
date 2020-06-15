@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Tooltip, Popover, Badge } from 'antd';
+import { Button, Popover, Badge } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import UserNav from '../../user/UserNav';
 import { userActions } from 'action/user.action';
+import Notification from 'containers/user/Notification';
 
 class Header extends React.Component {
   constructor(props) {
@@ -15,21 +15,22 @@ class Header extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    const isLogined = localStorage.getItem('isLogined');
-    if (!isLogined) {
-      const { getListNotification } = this.props;
-      getListNotification();
-    }
-  };
   handleVisibleChange = (visible) => {
     this.setState({ visible });
   };
 
+  componentDidMount = () => {
+    if (localStorage.getItem('isLogined')) {
+      const { getNumUnreadNotification, getListNotification } = this.props;
+      getNumUnreadNotification();
+      getListNotification();
+    }
+  };
+
   render() {
-    const src =
-      'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
     const isLogined = localStorage.getItem('isLogined');
+    const { numUnreadNotification } = this.props;
+
     return (
       <div className="head ">
         <nav className="nav header ">
@@ -38,35 +39,34 @@ class Header extends React.Component {
           </Link>
           <div className="nav-link ml-auto user-nav">
             {isLogined ? (
-              <div className="d-flex">
+              <div className="d-flex  mr-5">
                 <Popover
                   title="Notifications"
                   style={{ width: 1000 }}
-                  content={
-                    <div className="d-flex row">
-                      <div className="col-2">
-                        <img
-                          src={src}
-                          style={{ width: '50px', height: '40px' }}
-                          alt="avatar"
-                        ></img>
-                      </div>
-                      <div className="col ml-1">
-                        <h6>Đã đăng ký thành công sự kiện</h6>
-                        <p> {moment().fromNow()}</p>
-                      </div>
-                    </div>
-                  }
+                  content={<Notification type="button" />}
                   trigger="click"
                   visible={this.state.visible}
                   onVisibleChange={this.handleVisibleChange}
                 >
-                  <Tooltip placement="bottom" title="notification">
-                    <Badge count={1} className="mt-2">
+                  {numUnreadNotification > 0 ? (
+                    <Badge
+                      count={numUnreadNotification}
+                      className="mt-2"
+                      type="button"
+                    >
                       <BellOutlined style={{ fontSize: 23 }} />
                     </Badge>
-                  </Tooltip>
+                  ) : (
+                    <div type="button">
+                      {/* <span className="mr-2 font-weight-normal ">
+                        Notifications
+                      </span> */}
+
+                      <BellOutlined style={{ fontSize: 20 }} />
+                    </div>
+                  )}
                 </Popover>
+
                 <UserNav />
               </div>
             ) : (
@@ -83,8 +83,6 @@ class Header extends React.Component {
             )}
           </div>
         </nav>
-
-        {/* <NavBar typeOfEvents={typeOfEvents} /> */}
       </div>
     );
   }
@@ -92,12 +90,16 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   isLogined: state.user.isLogined,
-  notifications: state.user.notifications,
+  numUnreadNotification: state.user.numUnreadNotification,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
-  getListNotification: () => dispatch(userActions.getListNotification()),
+  getNumUnreadNotification: () =>
+    dispatch(userActions.getNumUnreadNotification()),
+
+  getListNotification: (pageNumber, numberRecord) =>
+    dispatch(userActions.getListNotification(pageNumber, numberRecord)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

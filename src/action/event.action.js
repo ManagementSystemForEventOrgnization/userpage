@@ -29,21 +29,26 @@ const getHomeData = () => {
 
 const getEventDetail = (eventId, index) => {
   return (dispatch) => {
-    dispatch(request());
-    API.get(`/api/event`, {
-      params: {
-        eventId,
-        index,
-      },
-    })
-      .then((res) => {
-        const { rows, header, event } = res.data.result;
-        localStorage.setItem('currentIndex', index);
-        localStorage.setItem('currentId', eventId);
-        console.log(res.data.result);
-        dispatch(success(rows, header[0], index, event));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get(`/api/event`, {
+        params: {
+          eventId,
+          index,
+        },
       })
-      .catch((err) => handleCatch(dispatch, failure, err));
+        .then((res) => {
+          const { rows, header, event } = res.data.result;
+          localStorage.setItem('currentIndex', index);
+          localStorage.setItem('currentId', res.data.result.eventId);
+          dispatch(success(rows, header[0], index, event));
+          resolve();
+        })
+        .catch((err) => {
+          handleCatch(dispatch, failure, err);
+          reject(err);
+        });
+    });
   };
 
   function request() {
@@ -199,9 +204,6 @@ const storeHeaderStyle = (style) => {
   }
 };
 
-
-
-
 const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
@@ -209,7 +211,7 @@ const prepareForCreateEvent = (
   session,
   isSellTicket,
   webAddress,
-  banner
+  bannerUrl
 ) => {
   return (dispatch) => {
     dispatch(request());
@@ -220,7 +222,7 @@ const prepareForCreateEvent = (
       urlWeb: webAddress,
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
-      banner,
+      bannerUrl,
     })
       .then((res) => {
         const { _id } = res.data.result;
@@ -234,7 +236,7 @@ const prepareForCreateEvent = (
             session,
             isSellTicket,
             webAddress,
-            banner
+            bannerUrl
           )
         );
         history.push('/create');
@@ -315,25 +317,17 @@ const deleteBlock = (id) => {
 
 const getListEvent = (type) => {
   //api/getListEvent
-  let numberRecord = 12;
   let sentData = {};
   if (type === 'HEIGHT_LIGHT') {
     sentData.type = type;
-    sentData.numberRecord = numberRecord;
-
-  }
-  else {
+    // sentData.numberRecord = numberRecord;
+  } else {
     sentData.categoryEventId = type;
-
   }
-  console.log("sentData", sentData);
   return (dispatch) => {
-    API.get(`/api/get_list_event`,
-      { params: sentData }
-    )
+    API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
-
           dispatch(success(res.data.result.event));
         } else {
           dispatch(failure());
@@ -367,7 +361,6 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
       params: data,
     })
       .then((res) => {
-        console.log("res.data.result", res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -394,7 +387,6 @@ const saveEvent = (id, blocks, header, isPreview) => {
       dispatch(request());
       API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
         .then((res) => {
-          console.log('TCL Save event detail  THEN: ', res);
           dispatch(success());
           localStorage.removeItem('currentIndex');
           if (!isPreview) {
@@ -433,7 +425,6 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
-          console.log('TCL : ', res.data.result);
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
@@ -448,6 +439,66 @@ const getEventInfo = (urlWeb) => {
       type: eventConstants.GET_EVENT_INFO,
       eventInfo,
       countComment,
+    };
+  }
+};
+
+const getComment = (eventId, pageNumber, numberRecord) => {
+  return (dispatch) => {
+    API.get('/api/comment/get_list', {
+      params: {
+        eventId,
+        pageNumber,
+        numberRecord,
+      },
+    })
+      .then((res) => {
+        const { result } = res.data;
+        dispatch(request(result));
+      })
+      .catch((err) => { });
+  };
+
+  function request(comments) {
+    return {
+      type: eventConstants.GET_COMMENT,
+      comments,
+    };
+  }
+};
+
+const saveComment = (eventId, content) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post('/api/comment/save', {
+      eventId,
+
+      content,
+    })
+      .then((res) => {
+        const { result } = res.data;
+        dispatch(success(result));
+      })
+      .catch((err) => {
+        handleCatch(dispatch, failure, err);
+      });
+  };
+
+  function request() {
+    return {
+      type: eventConstants.SAVE_COMMENT,
+    };
+  }
+  function success(comment) {
+    return {
+      type: eventConstants.SAVE_COMMENT_SUCCESS,
+      comment,
+    };
+  }
+
+  function failure() {
+    return {
+      type: eventConstants.SAVE_COMMNET_FAILURE,
     };
   }
 };
@@ -476,4 +527,7 @@ export const eventActions = {
   changePages,
   getListEvent,
   getHomeData,
+
+  getComment,
+  saveComment,
 };

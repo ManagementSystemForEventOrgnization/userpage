@@ -66,7 +66,7 @@ class TabPane extends Component {
           ]}
         >
           <Input
-            addonBefore="http://event-in-your-hand/event/"
+            addonBefore={process.env.REACT_APP_DOMAIN_EVENT}
             value={webAddress}
             name="webAddress"
             onChange={this.handleChange}

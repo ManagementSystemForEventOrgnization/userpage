@@ -22,7 +22,6 @@ class TabPane extends Component {
   };
 
   onImageDrop = (url) => {
-    console.log(url);
     const { onChange } = this.props;
     onChange('banner', url);
   };

@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-
 import moment from 'moment';
 import { EnvironmentOutlined } from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
-// import EventList from '../containers/share/EventList';
-// import CartEvent from '../components/CardEvent';
 import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
+import 'react-multi-carousel/lib/styles.css';
 /// import sessionCard from '../components/CardSession'
 
-import { eventActions } from 'action/event.action';
+import Chat from 'containers/chat/ChatWidget';
+
+import { eventActions } from '../action/event.action';
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +24,7 @@ class HomePage extends Component {
     this.state = {
       numberRecord: 12,
       pageNumber: 1,
+      visible: false,
     };
   }
 
@@ -58,49 +59,53 @@ class HomePage extends Component {
     let str1 = words[3];
     let a = str + ',' + str1;
     return a;
-  }
+  };
+
+  handleVisibleChange = () => {
+    const { visible } = this.state;
+    this.setState({
+      visible: !visible,
+    });
+  };
 
   render() {
     const { events, hlEvent } = this.props;
 
-
-
-
     const HIGHT = {
-      textAlign: 'center', color: '333333', 'fontWeight': '700', fontSize: '36px',
+      textAlign: 'center',
+      color: '333333',
+      fontWeight: '700',
+      fontSize: '36px',
       fontFamily: `Oswald`,
 
       marginBottom: '15px',
-      textTransform: 'capitalize'
-
-
-    }
-
-
+      textTransform: 'capitalize',
+    };
 
     const orgnizations = {
       name: 'DIANA L. CACERES',
-      src: 'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591865822/images_qukx6e.jpg',
+      src:
+        'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591865822/images_qukx6e.jpg',
       description: 'Developer',
     };
     const responsive = {
       superLargeDesktop: {
         // the naming can be any, depends on you.
         breakpoint: { max: 4000, min: 3000 },
-        items: 5
+        items: 5,
       },
       desktop: {
         breakpoint: { max: 3000, min: 1024 },
-        items: 4
+        items: 4,
       },
       tablet: {
         breakpoint: { max: 1024, min: 464 },
-        items: 1
+        items: 1,
       },
       mobile: {
         breakpoint: { max: 464, min: 0 },
-        items: 1
-      }
+        items: 1,
+      },
     };
 
     const temp = [1, 2, 3, 4, 5];
@@ -114,90 +119,67 @@ class HomePage extends Component {
         </div>
         <Banner />
 
-
-
-
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
-          < div className="slide-container p-4 ml-5 mt-5 " >
-
-            <Carousel responsive={responsive}
+          <div className="slide-container p-4 ml-5 mt-5 ">
+            <Carousel
+              responsive={responsive}
               swipeable={false}
               draggable={false}
               // showDots={true}
 
               ssr={true} // means to render carousel on server-side.
               infinite={true}
-              autoPlay={this.props.deviceType !== "mobile" ? true : false}
+              autoPlay={this.props.deviceType !== 'mobile' ? true : false}
               autoPlaySpeed={1000}
               keyBoardControl={true}
-
               transitionDuration={2000}
               containerClass="carousel-container"
-              removeArrowOnDeviceType={["tablet", "mobile"]}
+              removeArrowOnDeviceType={['tablet', 'mobile']}
               deviceType={this.props.deviceType}
               dotListClass="custom-dot-list-style"
               itemClass="carousel-item-padding-40-px"
             >
-
-              {
-
-                hlEvent.map((item, index) =>
-
-                  < div className="  shadow ml-2" key={index} >
-                    <div className=" event-list">
-                      {item.bannerUrl && (
-                        <img
-                          className="img "
-                          alt="example"
-                          src={item.bannerUrl}
-                        />
-                      )}
-                      <div className="title">
-                        <h5 className="title-name" > {item.name}</h5>
-                        <div className="title-time " >
-                          <p
-
-                          >
-                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                          </p>
-                          {item.session.length === 1 ? ''
-                            :
-                            <p
-                            >
-                              + {item.session.length - 1}more events
-                              </p>
-                          }
-                        </div>
+              {hlEvent.map((item, index) => (
+                <div className="  shadow ml-2" key={index}>
+                  <div className=" event-list">
+                    {item.bannerUrl && (
+                      <img
+                        className="img "
+                        alt="example"
+                        src={item.bannerUrl}
+                      />
+                    )}
+                    <div className="title">
+                      <h5 className="title-name"> {item.name}</h5>
+                      <div className="title-time ">
+                        <p>
+                          {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                        </p>
+                        {item.session.length === 1 ? (
+                          ''
+                        ) : (
+                            <p>+ {item.session.length - 1}more events</p>
+                          )}
                       </div>
                     </div>
-
-
-
-
                   </div>
-
-
-
-
-
-
-
-                )}
-
+                </div>
+              ))}
             </Carousel>
           </div>
-        </div >
+        </div>
 
 
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
-            <h1 style={HIGHT} className="mt-5 mb-5">Upcomming Events</h1>
+            <h1 style={HIGHT} className="mt-5 mb-5">
+              Upcomming Events
+            </h1>
             <div className="row p-5 ">
-              {events.map((item, index) =>
-                <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
-
-                  < Link to="" >
+              {events.map((item, index) => (
+                <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
+                  <Link to="">
                     <Card
                       className="event-cart "
                       cover={
@@ -218,7 +200,10 @@ class HomePage extends Component {
                                     )}
                                 </div>
                               ) : (
-                                  <Button className="ml-1 mt-1 ticket">
+                                  <Button
+                                    className="ml-1 mt-1 ticket"
+                                    key={e.id}
+                                  >
                                     Free
                                   </Button>
                                 )
@@ -236,62 +221,84 @@ class HomePage extends Component {
                     >
                       <div className="row">
                         <div className="col">
-                          <p style={{
-                            textAlign: "center", background: '#ff4d4f',
-                            color: '#fff',
-                            fontWeight: 'bold',
-                            padding: '3px 10px 2px 10px',
-                            marginRight: '13px',
-                          }}>{item.eventCategories.name}</p>
+                          <p
+                            style={{
+                              textAlign: 'center',
+                              background: '#ff4d4f',
+                              color: '#fff',
+                              fontWeight: 'bold',
+                              padding: '3px 10px 2px 10px',
+                              marginRight: '13px',
+                            }}
+                          >
+                            {item.eventCategories.name}
+                          </p>
                         </div>
                         <div className="d-flex col ">
                           <p
                             className="ml-2"
-                            style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
+                            style={{
+                              fontWeight: 'bold',
+                              textTransform: 'uppercase',
+                            }}
                           >
                             {moment(item.session[0].day).format('DD/MM/YYYY ')}
                           </p>
-
-
                         </div>
-
                       </div>
                       <div className="d-flex ">
                         <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                        <div >    {item.session.length === 1 ? ''
-
-                          :
-                          <p
-                            className="ml-2"
-                            style={{ fontWeight: 'bold' }}
-                          >
-
-                            + {item.session.length - 1}more events
-</p>
-                        }</div>
+                        <div>
+                          {' '}
+                          {item.session.length === 1 ? (
+                            ''
+                          ) : (
+                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                + {item.session.length - 1}more events
+                              </p>
+                            )}
+                        </div>
                       </div>
-                      <div  >
-                        {item.ticket ?
+                      <div>
+                        {item.ticket ? (
                           <div className="d-flex ">
-                            {item.ticket.discount ?
-                              <div className="d-flex " >
-                                <p style={{ textDecoration: "line-through", fontWeight: "bold" }} className="ml-1 ">{item.ticket.price}</p>
-                                <p className="ml-3" style={{ fontWeight: 'bold' }}> {this.sumDiscount(item.ticket.price, item.ticket.discount)}</p>
+                            {item.ticket.discount ? (
+                              <div className="d-flex ">
+                                <p
+                                  style={{
+                                    textDecoration: 'line-through',
+                                    fontWeight: 'bold',
+                                  }}
+                                  className="ml-1 "
+                                >
+                                  {item.ticket.price}
+                                </p>
+                                <p
+                                  className="ml-3"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {' '}
+                                  {this.sumDiscount(
+                                    item.ticket.price,
+                                    item.ticket.discount
+                                  )}
+                                </p>
                               </div>
-                              : <p className=" mt-1 " style={{ fontWeight: 'bold' }}>{item.ticket.price} VNĐ</p>
-                            }
+                            ) : (
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
+                                </p>
+                              )}
                           </div>
-                          :
-                          <p
-                            style={{ fontWeight: 'bold' }}
-                            className="ml-1  "
-                          >
-                            0 VNĐ
+                        ) : (
+                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                              0 VNĐ
                             </p>
-                        }
+                          )}
                       </div>
-
-
 
                       <div className="d-flex ">
                         <EnvironmentOutlined className="mt-1" />
@@ -301,25 +308,20 @@ class HomePage extends Component {
                           </p>
                         </div>
                       </div>
-
-
                     </Card>
                   </Link>
                 </div>
-
-
-
-
-
-              )}
+              ))}
             </div>
-
-
           </div>
         </div>
 
-        <div style={{ background: 'rgb(255, 52, 37)', width: '100%', height: '3px', margin: '5%' }}>
-        </div>
+        <hr
+          style={{
+            fontSize: '30px',
+            background: `linear-gradient(to right, #0d0d8b, #44aea9)`,
+          }}
+        />
 
         <div className="orgnization">
           <h1>Organizers </h1>
@@ -329,8 +331,9 @@ class HomePage extends Component {
             ))}
           </div>
         </div>
-
-        <div className="explore">
+        <Chat />
+        <hr />
+        <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">
             <Button size="large" type="primary">
               About Us
