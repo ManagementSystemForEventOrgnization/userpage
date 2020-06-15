@@ -521,9 +521,6 @@ export const eventActions = {
   savePage,
   updatePage,
   getPreviousPage,
-  storeHeaderStyle,
-
-  changePages,
   getListEvent,
   getHomeData,
 

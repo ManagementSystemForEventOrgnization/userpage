@@ -62,13 +62,13 @@ class CommentEvent extends Component {
 
       newComment = newComment
         ? [
-            ...newComment,
             {
               author: data.userId.fullName,
               avatar: data.userId.avatar,
               content: <p>{data.content}</p>,
               datetime: moment(data.createAt).format('LLLL'),
             },
+            ...newComment,
           ]
         : [
             {
@@ -99,13 +99,13 @@ class CommentEvent extends Component {
 
     newComment = newComment
       ? [
-          ...newComment,
           {
             author: localStorage.getItem('username'),
             avatar,
             content: <p>{value}</p>,
             datetime: moment().format('LLLL'),
           },
+          ...newComment,
         ]
       : [
           {
