@@ -7,16 +7,16 @@ import {
   Select,
   DatePicker,
   Card,
-  Pagination,
+
   Skeleton,
-  Tooltip,
+
   Button,
 } from 'antd';
 import { Link } from 'react-router-dom';
 import {
-  FieldTimeOutlined,
+
   EnvironmentOutlined,
-  UserOutlined,
+
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
@@ -34,60 +34,90 @@ class HistoryProfile extends React.Component {
     super(props);
 
     this.state = {
-      categoryEventId: ' ',
-      startDate: '',
-      endDate: ' ',
-      txtSearch: '  ',
-      pageNumber: 1,
+
       numberRecord: 10,
       categories: this.props.categories,
       arrEvent: this.props.arrEvent,
+
     };
   }
   componentDidMount = () => {
-    const { get_History, getCreateHistory, match, getCategories, categories } = this.props;
+    const { get_History, getCreateHistory, match, getCategories } = this.props;
 
-    getCategories();
+
 
     if (match.location.pathname === '/registered-event') {
+      getCategories();
       get_History(
       );
+
     } else {
+      getCategories();
       getCreateHistory();
     }
   };
   handleChange = (categoryEventId) => {
-    this.setState({
-      categoryEventId,
-    });
-    setTimeout(this.handleFilter(), 3000)
-    console.log(categoryEventId)
-    console.log("a", this.state);
-    // this.handleFilter();
+    const { get_History, getCreateHistory, match } = this.props;
+    let dataSent = {};
+
+    dataSent.categoryEventId = categoryEventId;
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
   };
 
   onChangeDates = (dates) => {
-    this.setState({
-      startDate: dates[0]._d,
-      endDate: dates[1]._d,
-    });
-    this.handleFilter();
+    const { get_History, getCreateHistory, match } = this.props;
+    // this.setState({
+    //   startDate: dates[0]._d,
+    //   endDate: dates[1]._d,
+    // });
+    let dataSent = {};
+    dataSent.startDate = dates[0]._d;
+    dataSent.endDate = dates[1]._d;
+
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
+
   };
 
-  onChangeSearch = () => {
-    this.handleFilter();
-  };
-  handleChangeSearch = (e) => {
+
+  onChangeSearch = (value) => {
+    const { get_History, getCreateHistory, match } = this.props;
     this.setState({
-      txtSearch: e.target.value,
+      txtSearch: value,
     });
+    let dataSent = {};
+    dataSent.txtSearch = value;
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
   };
 
   onChange = (pageNumber) => {
     this.setState({
       pageNumber,
     });
-    this.handleFilter();
+
   };
   loadEvent = () => {
 
@@ -99,44 +129,11 @@ class HistoryProfile extends React.Component {
     })
 
 
-    setTimeout(this.handleFilter(), 3000)
+
 
   }
 
-  // }
-  handleFilter = () => {
-    const { get_History, getCreateHistory, match } = this.props;
-    const {
-      categoryEventId,
-      startDate,
-      endDate,
-      txtSearch,
-      pageNumber,
-      numberRecord,
-    } = this.state;
-    // console.log(numberRecord)
-    console.log("b", this.state);
-    console.log('before filter', numberRecord);
-    if (match.location.pathname === '/registered-event') {
-      get_History(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
-      );
-    } else {
-      getCreateHistory(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
-      );
-    }
-  };
+
 
   sumDiscount = (ticket, discount) => {
     let newDiscount = 1 - discount;
@@ -179,10 +176,10 @@ class HistoryProfile extends React.Component {
           </div>
           <div className="col ">
             <Search
-              value={this.state.txtSearch}
+              // value={this.state.txtSearch}
               placeholder="input search text"
-              onChange={this.handleChangeSearch}
-              onSearch={this.onChangeSearch}
+              // onChange={this.handleChangeSearch}
+              onSearch={(value) => this.onChangeSearch(value)}
             />
           </div>
         </div>
@@ -315,39 +312,21 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   get_History: (
-    categoryEventId,
-    startDate,
-    endDate,
-    txtSearch,
-    pageNumber,
-    numberRecord
+    dataSent
   ) =>
     dispatch(
       userActions.get_History(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
+        dataSent
       )
     ),
   getCreateHistory: (
-    categoryEventId,
-    startDate,
-    endDate,
-    txtSearch,
-    pageNumber,
-    numberRecord
+    dataSent
+
   ) =>
     dispatch(
       userActions.getCreateHistory(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
+        dataSent
+
       )
     ),
   getCategories: () => dispatch(eventActions.getCategories())

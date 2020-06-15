@@ -320,6 +320,7 @@ const getListEvent = (type) => {
   if (type === 'HEIGHT_LIGHT') {
     sentData.type = type;
     sentData.numberRecord = numberRecord;
+
   }
   else {
     sentData.categoryEventId = type;
@@ -332,8 +333,8 @@ const getListEvent = (type) => {
     )
       .then((res) => {
         if (res.status === 200) {
-          console.log('hightlightEvent:', res.data.result);
-          dispatch(success(res.data.result));
+
+          dispatch(success(res.data.result.event));
         } else {
           dispatch(failure());
         }
@@ -471,7 +472,7 @@ export const eventActions = {
   updatePage,
   getPreviousPage,
   storeHeaderStyle,
-  changeCurrentPage,
+
   changePages,
   getListEvent,
   getHomeData,

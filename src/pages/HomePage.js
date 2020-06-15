@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { Zoom } from 'react-slideshow-image';
 
 import moment from 'moment';
-import { FieldTimeOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined } from '@ant-design/icons';
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
@@ -117,6 +116,7 @@ class HomePage extends Component {
 
 
 
+
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
           < div className="slide-container p-4 ml-5 mt-5 " >
@@ -189,7 +189,7 @@ class HomePage extends Component {
           </div>
         </div >
 
-        <hr />
+
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">Upcomming Events</h1>
@@ -318,7 +318,8 @@ class HomePage extends Component {
           </div>
         </div>
 
-        <hr style={{ fontSize: '30px', background: `linear-gradient(to right, #0d0d8b, #44aea9)` }} />
+        <div style={{ background: 'rgb(255, 52, 37)', width: '100%', height: '3px', margin: '5%' }}>
+        </div>
 
         <div className="orgnization">
           <h1>Organizers </h1>

@@ -295,31 +295,11 @@ const onUpdateBankInfor = (bankInfor) => {
 };
 
 const get_History = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
+  dataSent
 ) => {
   return (dispatch) => {
     dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
-    }
-    console.log(startDate, endDate);
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-    }
-    console.log(startDate, endDate);
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
+
 
     API.get(`/api/user/get_history_take_part_in`, {
       params: dataSent,
@@ -343,38 +323,12 @@ const get_History = (
 };
 
 const getCreateHistory = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
+  dataSent
+
 ) => {
   return (dispatch) => {
     dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
 
-    }
-    console.log(startDate, endDate);
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-      dataSent.numberRecord = numberRecord
-    }
-    console.log(startDate, endDate);
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (pageNumber) {
-      dataSent.pageNumber = pageNumber;
-    }
-    console.log("numberRecord", numberRecord);
-    console.log("mo", dataSent);
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })

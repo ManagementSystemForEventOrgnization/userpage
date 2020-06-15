@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment'
 import {
 
-    FieldTimeOutlined, EnvironmentOutlined
+    EnvironmentOutlined
 } from '@ant-design/icons';
 import NavBar from 'components/NavBar';
 class CategoryDetailPage extends React.Component {

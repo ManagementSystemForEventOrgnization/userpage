@@ -33,7 +33,7 @@ class Header extends React.Component {
     return (
       <div className="head ">
         <nav className="nav header ">
-          <Link to="" className="nav-link active web-name mr-5">
+          <Link to="" classNPame="nav-link active web-name mr-5">
             EVENT IN YOUR HAND
           </Link>
           <div className="nav-link ml-auto user-nav">
