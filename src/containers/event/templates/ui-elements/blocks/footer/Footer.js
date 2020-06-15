@@ -19,12 +19,6 @@ class footer1 extends Component {
           ...FooterState(this.props),
         };
   }
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
 
   collapseModal = () => {
     const { collapse } = this.state;

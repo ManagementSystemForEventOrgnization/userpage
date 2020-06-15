@@ -12,7 +12,6 @@ const { TextArea } = Input;
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
-    // header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
     renderItem={(props) => <Comment {...props} />}
   />
@@ -140,6 +139,8 @@ class CommentEvent extends Component {
   };
 
   ableToLoadMore = (count) => {
+    if (count === 0) return false;
+
     if (count === 5) return true;
     return count % 5 === 0;
   };

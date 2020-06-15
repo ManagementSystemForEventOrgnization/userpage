@@ -219,7 +219,7 @@ const prepareForCreateEvent = (
       name: nameEvent,
       typeOfEvent,
       category,
-      urlWeb: webAddress,
+      urlWeb: `${process.env.REACT_APP_DOMAIN_EVENT}${webAddress}`,
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
@@ -472,7 +472,6 @@ const saveComment = (eventId, content) => {
     dispatch(request());
     API.post('/api/comment/save', {
       eventId,
-
       content,
     })
       .then((res) => {

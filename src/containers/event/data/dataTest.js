@@ -41,6 +41,7 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
 import Document from '../templates/ui-elements/blocks/documents/Document';
+import Sharing from '../templates/ui-elements/atoms/Sharing';
 
 export default [
   {
@@ -341,27 +342,7 @@ export default [
       };
     }),
   },
-  // {
-  //   name: 'Social',
-  //   value: [
-  //     {
-  //       child: 'Icon Social',
-  //       type: 'icon',
-  //       style: {},
-  //       options: ({ key, editable, style, id }) => (
-  //         <IconSocial key={key} editable={editable} style={style} id={id} />
-  //       ),
-  //     },
-  //   ].map(({ child, options, style, type }) => {
-  //     return {
-  //       id: uuid(),
-  //       child,
-  //       style,
-  //       options,
-  //       type,
-  //     };
-  //   }),
-  // },
+
   {
     name: 'Gallery',
     value: [
@@ -464,6 +445,28 @@ export default [
         style: {},
         options: ({ editable, style, id }) => (
           <Document key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+
+  {
+    name: 'Share to social media',
+    value: [
+      {
+        child: 'Icons',
+        type: 'socialMediaIcon',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Sharing key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options, type }) => {
