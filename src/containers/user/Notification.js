@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { List, Avatar, Spin } from 'antd';
-// import { CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { List, Avatar, Spin, Tooltip } from 'antd';
+import { CheckCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 // import reqwest from 'reqwest';
 
 import InfiniteScroll from 'react-infinite-scroller';
@@ -13,7 +13,6 @@ import { notificationTypeConstants } from 'constants/index';
 const timeStyle = {
   fontSize: '10px',
 };
-const titleStyle = {};
 
 class Notification extends Component {
   constructor(props) {
@@ -54,13 +53,29 @@ class Notification extends Component {
     // Get info of event => redirect to event page
   };
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.props.notifications.length !== prevState.data.length) {
+      this.setState({
+        data: [...this.props.notifications],
+        loading: false,
+      });
+    }
+  };
+
   getNameSender = (title, username) => {
     const start = title.indexOf('{');
     const end = title.indexOf('}');
     return title.replace(title.slice(start, end + 1), username);
   };
 
+  handleMaskAsRead = (id) => {};
+
   renderNotification = (item) => {
+    const {
+      setDeleteNotification,
+      setReadNotification,
+      notifications,
+    } = this.props;
     switch (item.type) {
       case 'CREDIT_REFUND_FAILED':
         item.url = notificationTypeConstants.CREDIT_REFUND_FAILED;
@@ -90,26 +105,43 @@ class Notification extends Component {
         item.url = notificationTypeConstants.JOINED_EVENT;
     }
 
-    switch (item.linkTo.key) {
-    }
-
     return (
-      <List.Item
-        key={item._id}
-        onClick={() => this.handleClick(item._id, item.type)}
-        type="button"
-      >
-        <List.Item.Meta avatar={<Avatar src={item.url} />} />
-        {item.isRead ? (
-          <div style={titleStyle}>{item.title}</div>
-        ) : (
-          <h6 style={titleStyle}>
-            {this.getNameSender(item.title, item.users_sender.fullName)}
-          </h6>
-        )}
-        <p style={timeStyle} className="ml-3">
-          {moment(item.createdAt).startOf('day').fromNow()}
-        </p>
+      <List.Item key={item._id} type="button">
+        <div>
+          <div className="d-flex">
+            <List.Item.Meta avatar={<Avatar src={item.url} />} />
+            {item.isRead ? (
+              <div>
+                {this.getNameSender(item.title, item.users_sender.fullName)}
+              </div>
+            ) : (
+              <h6>
+                {this.getNameSender(item.title, item.users_sender.fullName)}
+              </h6>
+            )}
+          </div>
+
+          <div className="d-flex">
+            <p style={timeStyle} className="ml-3">
+              {moment(item.createdAt).startOf('day').fromNow()}
+            </p>
+            <div className="ml-auto">
+              {!item.isRead && (
+                <Tooltip title="Mask as read" className="mr-2">
+                  <CheckCircleTwoTone
+                    onClick={() => setReadNotification(item._id, notifications)}
+                  />
+                </Tooltip>
+              )}
+
+              <Tooltip title="Delete">
+                <DeleteOutlined
+                  onClick={() => setDeleteNotification(item._id, notifications)}
+                />
+              </Tooltip>
+            </div>
+          </div>
+        </div>
       </List.Item>
     );
   };
@@ -117,30 +149,26 @@ class Notification extends Component {
   render() {
     const { data, loading, hasMore } = this.state;
     return (
-      <InfiniteScroll
-        initialLoad={false}
-        pageStart={0}
-        loadMore={this.loadMoreNotification}
-        hasMore={!loading && hasMore}
-        useWindow={false}
-        style={{
-          height: '360px',
-          fontSize: '13px',
-          overflowY: 'scroll',
-          width: '320px',
-        }}
-      >
-        <List
-          dataSource={data}
-          renderItem={(item) => this.renderNotification(item)}
+      <div className="demo-infinite-container">
+        <InfiniteScroll
+          initialLoad={false}
+          pageStart={0}
+          loadMore={this.loadMoreNotification}
+          hasMore={!loading && hasMore}
+          useWindow={false}
         >
-          {loading && hasMore && (
-            <div className="demo-loading-container">
-              <Spin />
-            </div>
-          )}
-        </List>
-      </InfiniteScroll>
+          <List
+            dataSource={data}
+            renderItem={(item) => this.renderNotification(item)}
+          >
+            {loading && hasMore && (
+              <div className="demo-loading-container">
+                <Spin />
+              </div>
+            )}
+          </List>
+        </InfiniteScroll>
+      </div>
     );
   }
 }
@@ -152,6 +180,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListNotification: (pageNumber, numberRecord) =>
     dispatch(userActions.getListNotification(pageNumber, numberRecord)),
+  setReadNotification: (id, notifications) =>
+    dispatch(userActions.setReadNotification(id, notifications)),
+  setDeleteNotification: (id, notifications) =>
+    dispatch(userActions.setDeleteNotification(id, notifications)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

@@ -12,11 +12,12 @@ class Header extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      open: false,
     };
   }
 
   handleVisibleChange = (visible) => {
-    this.setState({ visible });
+    this.setState({ visible, open: true });
   };
 
   componentDidMount = () => {
@@ -30,6 +31,7 @@ class Header extends React.Component {
   render() {
     const isLogined = localStorage.getItem('isLogined');
     const { numUnreadNotification } = this.props;
+    const { visible, open } = this.state;
 
     return (
       <div className="head ">
@@ -45,12 +47,16 @@ class Header extends React.Component {
                   style={{ width: 1000 }}
                   content={<Notification type="button" />}
                   trigger="click"
-                  visible={this.state.visible}
+                  visible={visible}
                   onVisibleChange={this.handleVisibleChange}
                 >
-                  {numUnreadNotification > 0 ? (
+                  {numUnreadNotification > 0 && !open ? (
                     <Badge
-                      count={numUnreadNotification}
+                      count={
+                        numUnreadNotification > 99
+                          ? '99+'
+                          : numUnreadNotification
+                      }
                       className="mt-2"
                       type="button"
                     >
@@ -58,10 +64,6 @@ class Header extends React.Component {
                     </Badge>
                   ) : (
                     <div type="button">
-                      {/* <span className="mr-2 font-weight-normal ">
-                        Notifications
-                      </span> */}
-
                       <BellOutlined style={{ fontSize: 20 }} />
                     </div>
                   )}
