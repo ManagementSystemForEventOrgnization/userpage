@@ -341,6 +341,32 @@ const addPaymentCard = (cardToken) => {
   }
 };
 
+
+const getListCardPayment = () => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/get_listcard`)
+      .then((res) => {
+        dispatch(success(res.data.result.listCard));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_LISTCARD_REQUEST };
+  }
+  function success(listCard) {
+    return { type: userConstants.GET_LISTCARD_SUCCESS, listCard };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_LISTCARD_FAILURE, error };
+  }
+};
+
+
+
 const get_History = (
   categoryEventId,
   startDate,
@@ -513,4 +539,5 @@ export const userActions = {
   getChatHistory,
   onChangePassword,
   addPaymentCard,
+  getListCardPayment
 };

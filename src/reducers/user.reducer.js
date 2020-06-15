@@ -272,6 +272,28 @@ const user = (state = initialState, action) => {
         errMessage: action.error,
       };
 
+
+    case userConstants.GET_LISTCARD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case userConstants.GET_LISTCARD_SUCCESS:
+      return {
+        ...state,
+        listCard: action.listCard || {},
+        pending: false,
+      };
+
+    case userConstants.GET_LISTCARD_FAILURE:
+      return {
+        ...state,
+        listCard: null,
+        pending: false,
+      };
+
+
     case userConstants.GET_HISTORY_REQUEST:
       return {
         ...state,

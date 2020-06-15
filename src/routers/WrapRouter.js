@@ -21,8 +21,9 @@ import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
 // import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
 import BankCard from '../containers/user/BankAccount/BankCard';
-
+import CreditCard from '../containers/user/BankAccount/CreditCard'
 import history from '../utils/history';
+
 
 class WrapRouter extends React.Component {
   constructor(props) {
@@ -36,6 +37,11 @@ class WrapRouter extends React.Component {
         path: '/',
         exact: true,
         main: () => <HomePage />,
+      },
+      {
+        path: '/Credit-card',
+        exact: true,
+        main: () => <CreditCard />,
       },
       {
         path: '/about-us',
