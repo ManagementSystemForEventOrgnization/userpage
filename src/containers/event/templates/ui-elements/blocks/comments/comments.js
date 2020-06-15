@@ -56,44 +56,40 @@ class CommentEvent extends Component {
   };
 
   componentDidMount = () => {
-    const { editable, id } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    } else {
-      this.socket.on(`cmt-${id}`, (data) => {
-        let { newComment } = this.state;
+    const { id } = this.props;
+    this.socket.on(`cmt-${id}`, (data) => {
+      let { newComment } = this.state;
 
-        newComment = newComment
-          ? [
-              ...newComment,
-              {
-                author: data.userId.fullName,
-                avatar: data.userId.avatar,
-                content: <p>{data.content}</p>,
-                datetime: moment(data.createAt).format('LLLL'),
-              },
-            ]
-          : [
-              {
-                author: data.userId.fullName,
-                avatar: data.userId.avatar,
-                content: <p>{data.content}</p>,
-                datetime: moment(data.createAt).format('LLLL'),
-              },
-            ];
+      newComment = newComment
+        ? [
+            ...newComment,
+            {
+              author: data.userId.fullName,
+              avatar: data.userId.avatar,
+              content: <p>{data.content}</p>,
+              datetime: moment(data.createAt).format('LLLL'),
+            },
+          ]
+        : [
+            {
+              author: data.userId.fullName,
+              avatar: data.userId.avatar,
+              content: <p>{data.content}</p>,
+              datetime: moment(data.createAt).format('LLLL'),
+            },
+          ];
 
-        setTimeout(
-          this.setState({
-            newComment,
-          }),
-          2000
-        );
-      });
-    }
+      setTimeout(
+        this.setState({
+          newComment,
+        }),
+        2000
+      );
+    });
   };
 
   handleSubmit = () => {
-    let { value, eventId } = this.state;
+    let { value, eventId, newComment } = this.state;
     const { saveComment, id } = this.props;
     if (!value) {
       return;
@@ -101,9 +97,28 @@ class CommentEvent extends Component {
 
     saveComment(eventId || id, value);
 
+    newComment = newComment
+      ? [
+          ...newComment,
+          {
+            author: localStorage.getItem('username'),
+            avatar,
+            content: <p>{value}</p>,
+            datetime: moment().format('LLLL'),
+          },
+        ]
+      : [
+          {
+            author: localStorage.getItem('username'),
+            avatar,
+            content: <p>{value}</p>,
+            datetime: moment().format('LLLL'),
+          },
+        ];
     setTimeout(() => {
       this.setState({
         value: '',
+        newComment,
       });
     }, 1000);
   };

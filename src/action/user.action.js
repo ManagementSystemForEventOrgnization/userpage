@@ -294,29 +294,10 @@ const onUpdateBankInfor = (bankInfor) => {
 };
 
 const get_History = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
+  dataSent
 ) => {
   return (dispatch) => {
     dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
 
     API.get(`/api/user/get_history_take_part_in`, {
       params: dataSent,
@@ -339,33 +320,11 @@ const get_History = (
 };
 
 const getCreateHistory = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
+  dataSent
+
 ) => {
   return (dispatch) => {
     dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-      dataSent.numberRecord = numberRecord;
-    }
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (pageNumber) {
-      dataSent.pageNumber = pageNumber;
-    }
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
     })
@@ -417,7 +376,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {

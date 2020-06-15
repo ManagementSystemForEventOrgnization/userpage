@@ -21,6 +21,7 @@ import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
 
 import history from '../utils/history';
+import ManageEventPage from '../pages/ManageEventPage';
 
 class WrapRouter extends React.Component {
   constructor(props) {
@@ -69,6 +70,11 @@ class WrapRouter extends React.Component {
         path: '/my-events',
         exact: true,
         main: () => <MyEventsPage />,
+      },
+      {
+        path: '/manage/:id',
+        exact: true,
+        main: () => <ManageEventPage />,
       },
       {
         path: '/registered-event',

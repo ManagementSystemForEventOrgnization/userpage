@@ -142,8 +142,8 @@ class HomePage extends Component {
                         {item.session.length === 1 ? (
                           ''
                         ) : (
-                          <p>+ {item.session.length - 1}more events</p>
-                        )}
+                            <p>+ {item.session.length - 1}more events</p>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -153,7 +153,7 @@ class HomePage extends Component {
           </div>
         </div>
 
-        <hr />
+
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">
@@ -169,20 +169,20 @@ class HomePage extends Component {
                         <div>
                           {item.session
                             ? item.session.map((e, i) =>
-                                item.ticket ? (
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ? (
-                                      <Button className="ml-1 mt-1 ticket">
-                                        {' '}
-                                        {this.percentDiscount(
-                                          item.ticket.discount
-                                        )}
-                                      </Button>
-                                    ) : (
+                              item.ticket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ? (
+                                    <Button className="ml-1 mt-1 ticket">
+                                      {' '}
+                                      {this.percentDiscount(
+                                        item.ticket.discount
+                                      )}
+                                    </Button>
+                                  ) : (
                                       ''
                                     )}
-                                  </div>
-                                ) : (
+                                </div>
+                              ) : (
                                   <Button
                                     className="ml-1 mt-1 ticket"
                                     key={e.id}
@@ -190,7 +190,7 @@ class HomePage extends Component {
                                     Free
                                   </Button>
                                 )
-                              )
+                            )
                             : ' '}
                           {item.bannerUrl && (
                             <img
@@ -236,10 +236,10 @@ class HomePage extends Component {
                           {item.session.length === 1 ? (
                             ''
                           ) : (
-                            <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                              + {item.session.length - 1}more events
-                            </p>
-                          )}
+                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                + {item.session.length - 1}more events
+                              </p>
+                            )}
                         </div>
                       </div>
                       <div>
@@ -268,19 +268,19 @@ class HomePage extends Component {
                                 </p>
                               </div>
                             ) : (
-                              <p
-                                className=" mt-1 "
-                                style={{ fontWeight: 'bold' }}
-                              >
-                                {item.ticket.price} VNĐ
-                              </p>
-                            )}
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
+                                </p>
+                              )}
                           </div>
                         ) : (
-                          <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                            0 VNĐ
-                          </p>
-                        )}
+                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                              0 VNĐ
+                            </p>
+                          )}
                       </div>
 
                       <div className="d-flex ">
