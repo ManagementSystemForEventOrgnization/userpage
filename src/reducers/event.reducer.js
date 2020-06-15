@@ -326,7 +326,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         submitting: false,
-        // comments: [action.comment, ...state.comments],
+        comments: [...action.comment, ...state.comments],
       };
     default:
       return state;

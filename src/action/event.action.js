@@ -430,7 +430,7 @@ const getEventInfo = (urlWeb) => {
           );
           resolve('true');
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -456,7 +456,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
