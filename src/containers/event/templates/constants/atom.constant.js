@@ -235,7 +235,12 @@ const tailLayout = {
   },
 };
 
+const iconStyle = {
+  fontSize: '20px',
+};
+
 export {
+  iconStyle,
   orientation,
   IconFont,
   iconName,

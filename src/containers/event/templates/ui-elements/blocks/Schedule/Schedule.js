@@ -20,19 +20,25 @@ class Schedule1 extends Component {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, visible: false }
       : {
           ...ScheduleState(this.props, 1),
           apply: false,
+          visible: false,
         };
   }
 
-  //show modal
-  showModal = () => {
-    const { visible } = this.state;
+  openModal = () => {
     this.setState({
-      visible: !visible,
+      visible: true,
     });
+  };
+
+  closeModal = () => {
+    this.setState({
+      visible: false,
+    });
+    this.handleStoreBlock();
   };
 
   onClickAddSchedule = (id) => {
@@ -54,7 +60,6 @@ class Schedule1 extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   removeOption = (schedule) => {
@@ -231,60 +236,62 @@ class Schedule1 extends Component {
         <TextsBlock
           content={scheduleName}
           child={true}
+          editable={editable}
           newStyle={{ fontWeight: 'bold' }}
         />
-        <div style={divStyle}>
-          {content.map((ss) => (
-            <div className="row child-block" style={divStyle} key={ss.id}>
-              <div className="col-3 col-md-3">
-                <div style={calendar} className="mb-2 p-1">
-                  <p style={monthStyle} className="p-1">
-                    {moment(ss.time).format('MMM')}
-                  </p>
-                  <p>{moment(ss.time).format('D')}</p>
-                  <p>{moment(ss.time).format('dddd')}</p>
+        <div className="d-flex">
+          <div style={divStyle}>
+            {content.map((ss) => (
+              <div className="row child-block" style={divStyle} key={ss.id}>
+                <div className="col-3 col-md-3">
+                  <div style={calendar} className="mb-2 p-1">
+                    <p style={monthStyle} className="p-1">
+                      {moment(ss.time).format('MMM')}
+                    </p>
+                    <p>{moment(ss.time).format('D')}</p>
+                    <p>{moment(ss.time).format('dddd')}</p>
+                  </div>
+                </div>
+
+                <div className="col-6 col-md-6">
+                  <div style={titleStyle}>{ss.name}</div>
+
+                  <div className="mt-4">{ss.location}</div>
+                </div>
+                <div className="col-3 col-md-3">
+                  <div>{`Limit number : ${ss.limitNumber}`}</div>
+
+                  <Button
+                    icon={<CalendarOutlined />}
+                    type="primary"
+                    className="mt-2"
+                    loading={ss.pending}
+                    onClick={() => this.handleClickButton(ss.id)}
+                  >
+                    {this.isApplied(ss.id)
+                      ? 'Cancel'
+                      : isSellTicket
+                      ? 'Buy Ticket'
+                      : 'Register free'}
+                  </Button>
                 </div>
               </div>
-
-              <div className="col-6 col-md-6">
-                <div style={titleStyle}>{ss.name}</div>
-
-                <div className="mt-4">{ss.location}</div>
-              </div>
-              <div className="col-3 col-md-3">
-                <div>{`Limit number : ${ss.limitNumber}`}</div>
-
-                <Button
-                  icon={<CalendarOutlined />}
-                  type="primary"
-                  className="mt-2"
-                  loading={ss.pending}
-                  onClick={() => this.handleClickButton(ss.id)}
-                >
-                  {this.isApplied(ss.id)
-                    ? 'Cancel'
-                    : isSellTicket
-                    ? 'Buy Ticket'
-                    : 'Register free'}
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {editable && (
+            <IconsHandle
+              collapseModal={this.openModal}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          )}
         </div>
-
-        {editable && (
-          <IconsHandle
-            collapseModal={this.showModal}
-            handleDuplicate={this.handleDuplicate}
-            handleDelete={this.handleDelete}
-          />
-        )}
 
         <Modal
           title="Edit Schedule"
           visible={visible}
-          onOk={this.showModal}
-          onCancel={this.showModal}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}
           width={700}
           className={
             leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
