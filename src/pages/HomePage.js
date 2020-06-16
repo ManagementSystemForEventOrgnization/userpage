@@ -4,6 +4,7 @@ import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { EnvironmentOutlined } from '@ant-design/icons';
+
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
@@ -82,6 +83,7 @@ class HomePage extends Component {
 
       marginBottom: '15px',
       textTransform: 'capitalize',
+      textShadow: '0 0 3px #161821',
     };
 
     const orgnizations = {
@@ -124,7 +126,7 @@ class HomePage extends Component {
               itemClass="carousel-item-padding-40-px"
             >
               {hlEvent.map((item, index) => (
-                <div className="  shadow ml-2" key={index}>
+                <div className="  shadow ml-2 highlight-item" key={index}>
                   <div className=" event-list">
                     {item.bannerUrl && (
                       <img
@@ -142,8 +144,8 @@ class HomePage extends Component {
                         {item.session.length === 1 ? (
                           ''
                         ) : (
-                            <p>+ {item.session.length - 1}more events</p>
-                          )}
+                          <p>+ {item.session.length - 1}more events</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -153,7 +155,6 @@ class HomePage extends Component {
           </div>
         </div>
 
-
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">
@@ -161,7 +162,10 @@ class HomePage extends Component {
             </h1>
             <div className="row p-5 ">
               {events.map((item, index) => (
-                <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
+                <div
+                  className="col-xl-4 col-lg-4 col-md-6 mt-4 "
+                  key={item._id}
+                >
                   <Link to="">
                     <Card
                       className="event-cart "
@@ -169,20 +173,19 @@ class HomePage extends Component {
                         <div>
                           {item.session
                             ? item.session.map((e, i) =>
-                              item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <Button className="ml-1 mt-1 ticket">
-                                      {' '}
-                                      {this.percentDiscount(
-                                        item.ticket.discount
-                                      )}
-                                    </Button>
-                                  ) : (
+                                item.ticket ? (
+                                  <div className="d-flex ">
+                                    {item.ticket.discount ? (
+                                      <Button className="ml-1 mt-1 ticket">
+                                        {this.percentDiscount(
+                                          item.ticket.discount
+                                        )}
+                                      </Button>
+                                    ) : (
                                       ''
                                     )}
-                                </div>
-                              ) : (
+                                  </div>
+                                ) : (
                                   <Button
                                     className="ml-1 mt-1 ticket"
                                     key={e.id}
@@ -190,7 +193,7 @@ class HomePage extends Component {
                                     Free
                                   </Button>
                                 )
-                            )
+                              )
                             : ' '}
                           {item.bannerUrl && (
                             <img
@@ -236,10 +239,10 @@ class HomePage extends Component {
                           {item.session.length === 1 ? (
                             ''
                           ) : (
-                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                                + {item.session.length - 1}more events
-                              </p>
-                            )}
+                            <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                              + {item.session.length - 1}more events
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div>
@@ -268,19 +271,19 @@ class HomePage extends Component {
                                 </p>
                               </div>
                             ) : (
-                                <p
-                                  className=" mt-1 "
-                                  style={{ fontWeight: 'bold' }}
-                                >
-                                  {item.ticket.price} VNĐ
-                                </p>
-                              )}
+                              <p
+                                className=" mt-1 "
+                                style={{ fontWeight: 'bold' }}
+                              >
+                                {item.ticket.price} VNĐ
+                              </p>
+                            )}
                           </div>
                         ) : (
-                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                              0 VNĐ
-                            </p>
-                          )}
+                          <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                            0 VNĐ
+                          </p>
+                        )}
                       </div>
 
                       <div className="d-flex ">
@@ -307,7 +310,7 @@ class HomePage extends Component {
         />
 
         <div className="orgnization">
-          <h1>Organizers </h1>
+          <h1 style={HIGHT}>Organizers </h1>
           <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
             {temp.map((item) => (
               <Orgnization key={item} orgnization={orgnizations} />
@@ -315,6 +318,7 @@ class HomePage extends Component {
           </div>
         </div>
         <Chat />
+
         <hr />
         <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">
