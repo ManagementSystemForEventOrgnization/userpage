@@ -130,7 +130,6 @@ class TextsBlock extends React.Component {
       padding,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       textAlign,
@@ -149,7 +148,6 @@ class TextsBlock extends React.Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -224,13 +222,9 @@ class TextsBlock extends React.Component {
             {!editUrl && (
               <div>
                 <EditText
-                  fonts={fonts}
                   fontSize={fontSize}
                   lineText={lineText}
                   letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
                   handleChangeFontSize={(value) =>
                     this.onChangeValue(value, 'fontSize')
                   }

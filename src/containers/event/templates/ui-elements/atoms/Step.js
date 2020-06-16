@@ -149,7 +149,6 @@ class StepBlock extends Component {
       padding,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       color,
@@ -172,7 +171,6 @@ class StepBlock extends Component {
       alignContent: 'center',
       background: background,
       fontSize: `${fontSize}px`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -257,7 +255,6 @@ class StepBlock extends Component {
               </TabPane>
               <TabPane tab="Design" key="2">
                 <EditText
-                  fonts={fonts}
                   fontSize={fontSize}
                   lineText={lineText}
                   letterSpacing={letterSpacing}
@@ -265,9 +262,6 @@ class StepBlock extends Component {
                   margin={margin}
                   color={color}
                   background={background}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
                   handleChangeFontSize={(value) =>
                     this.onChangeValue(value, 'fontSize')
                   }

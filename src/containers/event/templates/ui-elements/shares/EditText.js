@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FontPicker from 'font-picker-react';
 
 import { Row, Col, Slider, InputNumber, Select } from 'antd';
 
 const { Option } = Select;
 
 class EditText extends Component {
-  onChangeFonts = (value) => {
-    const { handleChangeFonts } = this.props;
-    if (!handleChangeFonts) return;
-    handleChangeFonts(value);
-  };
   onChangeFontSize = (value) => {
     const { handleChangeFontSize } = this.props;
     if (!handleChangeFontSize) return;
@@ -42,7 +36,6 @@ class EditText extends Component {
 
   render() {
     const {
-      fonts,
       fontSize,
       lineText,
       letterSpacing,
@@ -51,20 +44,6 @@ class EditText extends Component {
     } = this.props;
     return (
       <div className="pl-2">
-        {fonts && (
-          <div className="mt-2 d-flex">
-            <h6 className="mr-5">Fonts</h6>
-
-            <FontPicker
-              className="ml-5"
-              style={{ width: '100%' }}
-              apiKey="AIzaSyB8e2BPKdZDsrXUC4sPv9gG6IzMpwf9GtY"
-              activeFontFamily={fonts}
-              onChange={(nextFont) => this.onChangeFonts(nextFont.family)}
-            />
-          </div>
-        )}
-
         {fontSize && (
           <div className="mt-5">
             <Row>
@@ -185,7 +164,6 @@ class EditText extends Component {
 }
 
 EditText.propTypes = {
-  fonts: PropTypes.string,
   lineText: PropTypes.number,
   letterSpacing: PropTypes.number,
 
