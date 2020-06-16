@@ -14,6 +14,8 @@ import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
 import Banner3 from '../templates/ui-elements/blocks/banner/Banner3';
+import Banner1 from '../templates/ui-elements/blocks/banner/Banner1';
+
 
 import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/EventDescription1';
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
@@ -80,6 +82,9 @@ export const blockList = {
   ),
   banner3: ({ id, editable, style }) => (
     <Banner3 id={id} key={id} editable={editable} style={style} />
+  ),
+  banner1: ({ id, editable, style }) => (
+    <Banner1 id={id} key={id} editable={editable} style={style} />
   ),
 
   eventDescription1: ({ id, editable, style }) => (

@@ -20,9 +20,9 @@ class GeneralBanner extends Component {
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }
         : {
-            ...BannerState(this.props),
-            applySession: [],
-          };
+          ...BannerState(this.props),
+          applySession: [],
+        };
   }
 
   openModal = () => this.setState({ visible: true });
@@ -113,7 +113,7 @@ class GeneralBanner extends Component {
       backgroundImage: url ? `url(${url})` : 'white',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-
+      objectFit: 'cover',
       width: '100%',
     };
 
@@ -125,6 +125,7 @@ class GeneralBanner extends Component {
       height: '100%',
       opacity: opacity,
       backgroundColor: bgColor,
+
     };
 
     return (

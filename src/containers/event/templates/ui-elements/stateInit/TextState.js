@@ -11,15 +11,15 @@ const TextState = (props) => ({
       ? props.newStyle.fontSize
       : 20
     : 20,
-  fonts: 'Times New Roman',
-  lineText: 80,
+  fonts: props.newStyle ? props.newStyle.fontFamily ? props.newStyle.fontFamily : "Arial" : "Arial",
+  lineText: 118,
   letterSpacing: 0,
   textAlign: props.newStyle
     ? props.newStyle.textAlign
       ? props.newStyle.textAlign
       : 'left'
     : 'left',
-  transform: ' ',
+  transform: props.newStyle ? props.newStyle ? props.newStyle.transform : '' : '',
   color: props.newStyle
     ? props.newStyle.color
       ? props.newStyle.color

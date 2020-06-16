@@ -17,8 +17,8 @@ class ImageBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-          ...ImageState(this.props),
-        };
+        ...ImageState(this.props),
+      };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -114,6 +114,7 @@ class ImageBlock extends React.Component {
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
       borderRadius: borderRadius,
+      objectFit: 'cover',
 
       maxWidth: '100%',
       maxHeight: '100%',

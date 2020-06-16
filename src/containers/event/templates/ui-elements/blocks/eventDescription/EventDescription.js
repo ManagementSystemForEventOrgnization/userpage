@@ -17,8 +17,8 @@ class EventDescription extends Component {
       style && Object.keys(style).length > 0
         ? { ...style, collapse: false }
         : {
-            ...EventDescriptionState(props),
-          };
+          ...EventDescriptionState(props),
+        };
   }
 
   collapseModal = () => {
@@ -109,6 +109,7 @@ class EventDescription extends Component {
 
       position: 'relative',
       backgroundImage: url ? `url(${url})` : 'white',
+      objectFit: 'cover',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       width: '100%',

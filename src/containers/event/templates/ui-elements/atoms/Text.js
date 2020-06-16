@@ -19,9 +19,9 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-          ...TextState(this.props),
-          focus: false,
-        };
+        ...TextState(this.props),
+        focus: false,
+      };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -134,7 +134,7 @@ class TextsBlock extends React.Component {
       lineText,
       letterSpacing,
       textAlign,
-      tranform,
+      transform,
       color,
       fontWeight,
       focus,
@@ -153,7 +153,7 @@ class TextsBlock extends React.Component {
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
-      textTransform: tranform,
+      textTransform: transform,
       width: '100%',
       alignContent: 'center',
     };
@@ -184,10 +184,10 @@ class TextsBlock extends React.Component {
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-          <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-            {content}
-          </div>
-        )}
+            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
+              {content}
+            </div>
+          )}
         {child && editable && (
           <EditFilled
             className="edit-text"
@@ -244,7 +244,7 @@ class TextsBlock extends React.Component {
                     this.onChangeValue(value, 'textAlign')
                   }
                   handleChangeTextTranform={(value) =>
-                    this.onChangeValue(value, 'tranform')
+                    this.onChangeValue(value, 'transform')
                   }
                 />
 

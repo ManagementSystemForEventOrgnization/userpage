@@ -5,7 +5,7 @@ import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
 const initialBlocks = [
-  dataTest[1].value[1], //banner
+  ...dataTest[1].value, //banner
   ...dataTest[0].value,
   dataTest[2].value[0], // event description
   dataTest[13].value[0], //list of link documents
