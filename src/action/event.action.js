@@ -41,6 +41,7 @@ const getEventDetail = (eventId, index) => {
           const { rows, header, event } = res.data.result;
           localStorage.setItem('currentIndex', index);
           localStorage.setItem('currentId', res.data.result.eventId);
+          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
           dispatch(success(rows, header[0], index, event));
           resolve();
         })
@@ -219,7 +220,7 @@ const prepareForCreateEvent = (
       name: nameEvent,
       typeOfEvent,
       category,
-      urlWeb: `${process.env.REACT_APP_DOMAIN_EVENT}${webAddress}`,
+      urlWeb: webAddress,
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
@@ -428,9 +429,12 @@ const getEventInfo = (urlWeb) => {
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
+          localStorage.setItem('currentId', res.data.result.event.eventId);
+          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
+
           resolve('true');
         })
-        .catch((err) => {});
+        .catch((err) => { });
     });
   };
 
@@ -456,7 +460,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function request(comments) {
