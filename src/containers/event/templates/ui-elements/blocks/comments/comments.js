@@ -12,7 +12,6 @@ const { TextArea } = Input;
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
-    // header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
     renderItem={(props) => <Comment {...props} />}
   />
@@ -57,44 +56,40 @@ class CommentEvent extends Component {
   };
 
   componentDidMount = () => {
-    const { editable, id } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    } else {
-      this.socket.on(`cmt-${id}`, (data) => {
-        let { newComment } = this.state;
+    const { id } = this.props;
+    this.socket.on(`cmt-${id}`, (data) => {
+      let { newComment } = this.state;
 
-        newComment = newComment
-          ? [
-              ...newComment,
-              {
-                author: data.userId.fullName,
-                avatar: data.userId.avatar,
-                content: <p>{data.content}</p>,
-                datetime: moment(data.createAt).format('LLLL'),
-              },
-            ]
-          : [
-              {
-                author: data.userId.fullName,
-                avatar: data.userId.avatar,
-                content: <p>{data.content}</p>,
-                datetime: moment(data.createAt).format('LLLL'),
-              },
-            ];
+      newComment = newComment
+        ? [
+            {
+              author: data.userId.fullName,
+              avatar: data.userId.avatar,
+              content: <p>{data.content}</p>,
+              datetime: moment(data.createAt).format('LLLL'),
+            },
+            ...newComment,
+          ]
+        : [
+            {
+              author: data.userId.fullName,
+              avatar: data.userId.avatar,
+              content: <p>{data.content}</p>,
+              datetime: moment(data.createAt).format('LLLL'),
+            },
+          ];
 
-        setTimeout(
-          this.setState({
-            newComment,
-          }),
-          2000
-        );
-      });
-    }
+      setTimeout(
+        this.setState({
+          newComment,
+        }),
+        2000
+      );
+    });
   };
 
   handleSubmit = () => {
-    let { value, eventId } = this.state;
+    let { value, eventId, newComment } = this.state;
     const { saveComment, id } = this.props;
     if (!value) {
       return;
@@ -102,9 +97,28 @@ class CommentEvent extends Component {
 
     saveComment(eventId || id, value);
 
+    newComment = newComment
+      ? [
+          {
+            author: localStorage.getItem('username'),
+            avatar,
+            content: <p>{value}</p>,
+            datetime: moment().format('LLLL'),
+          },
+          ...newComment,
+        ]
+      : [
+          {
+            author: localStorage.getItem('username'),
+            avatar,
+            content: <p>{value}</p>,
+            datetime: moment().format('LLLL'),
+          },
+        ];
     setTimeout(() => {
       this.setState({
         value: '',
+        newComment,
       });
     }, 1000);
   };
@@ -115,23 +129,6 @@ class CommentEvent extends Component {
     });
   };
 
-  handleStoreBlock = () => {
-    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
-    const currentStyle = this.state;
-
-    let item = blocks.find((ele) => ele.id === id);
-
-    if (item) {
-      const index = blocks.indexOf(item);
-      item.style = currentStyle;
-      storeBlocksWhenCreateEvent([
-        ...blocks.slice(0, index),
-        item,
-        ...blocks.slice(index + 1, blocks.length),
-      ]);
-    }
-  };
-
   deleteBlock = () => {
     const { id, deleteBlock } = this.props;
     if (deleteBlock) {
@@ -140,6 +137,8 @@ class CommentEvent extends Component {
   };
 
   ableToLoadMore = (count) => {
+    if (count === 0) return false;
+
     if (count === 5) return true;
     return count % 5 === 0;
   };
@@ -206,8 +205,11 @@ class CommentEvent extends Component {
           )}
 
           <hr />
-          {newComment && <CommentList comments={newComment} />}
-          <CommentList comments={commentList} className="mt-5" />
+          {newComment.length > 0 && <CommentList comments={newComment} />}
+          {commentList.length > 0 && (
+            <CommentList comments={commentList} className="mt-5" />
+          )}
+
           <hr />
           {this.ableToLoadMore(commentList.length) && (
             <p onClick={this.handleLoadMore} style={loadMore} type="button">

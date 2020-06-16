@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tabs, Table, Tag, Space, Collapse } from 'antd';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 
 import What from '../event/EventInfor/WhatTabPane';
 import Which from '../event/EventInfor/WhichTabPane';
@@ -11,7 +11,6 @@ import Item from 'antd/lib/list/Item';
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
-
 class ManageEvent extends React.Component {
     constructor(props) {
         // get category
@@ -27,7 +26,6 @@ class ManageEvent extends React.Component {
             banner: '/bg-2.jpg',
         };
     }
-
 
     onChange = (type, value) => {
         if (type === 'isSellTicket') {

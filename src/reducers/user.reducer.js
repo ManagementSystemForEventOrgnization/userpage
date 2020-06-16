@@ -249,7 +249,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
-        notifications: action.notifications,
+        notifications: [...state.notifications, ...action.notifications],
         errMessage: null,
       };
 
@@ -283,6 +283,18 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         numUnreadNotification: action.numUnreadNotification,
+      };
+
+    case userConstants.SET_READ_NOTIFICATION:
+      return {
+        ...state,
+        notifications: action.notifications,
+      };
+
+    case userConstants.DELETE_NOTIFICATION:
+      return {
+        ...state,
+        notifications: action.notifications,
       };
 
     case userConstants.GET_CHAT_HISTORY:

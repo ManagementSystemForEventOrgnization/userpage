@@ -31,15 +31,9 @@ class ButtonBlock extends React.Component {
       ? { ...style }
       : {
           ...ButtonState(props),
+          isDesign: false,
         };
   }
-
-  //   componentDidMount = () => {
-  //     const { editable, child } = this.props;
-  //     if (editable && !child) {
-  //       this.handleStoreBlock();
-  //     }
-  //   };
 
   handleApplyEvent = () => {
     const { handleApplyEvent, editable } = this.props;
@@ -51,21 +45,12 @@ class ButtonBlock extends React.Component {
     }
   };
 
-  onCollapseModal = () => {
-    const { isDesign } = this.state;
-    this.setState({
-      isDesign: !isDesign,
-    });
-  };
-  // common function
-
   onChangeValue(newValue, valueParam) {
     const { changeContent } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
     setTimeout(() => {
-      this.handleStoreBlock();
       if (changeContent) {
         changeContent({
           value: this.state.content,
@@ -76,14 +61,10 @@ class ButtonBlock extends React.Component {
   }
 
   handleEditorChange = (e) => {
-    const { changeContent, child } = this.props;
+    const { changeContent } = this.props;
 
     this.setState({ content: e.target.value });
     setTimeout(() => {
-      if (!child) {
-        this.handleStoreBlock();
-      }
-
       if (changeContent) {
         changeContent({
           value: this.state.content,
@@ -123,9 +104,10 @@ class ButtonBlock extends React.Component {
     }
   };
 
-  collapseModal = () => {
-    const { isDesign } = this.state;
-    this.setState({ isDesign: !isDesign });
+  openModal = () => this.setState({ isDesign: true });
+  closeModal = () => {
+    this.setState({ isDesign: false });
+    this.handleStoreBlock();
   };
 
   render() {
@@ -199,7 +181,7 @@ class ButtonBlock extends React.Component {
             className="ml-3"
             style={styleButton}
             value={isButton}
-            onClick={editable ? this.collapseModal : this.handleApplyEvent}
+            onClick={editable ? this.openModal : this.handleApplyEvent}
           >
             {content}
           </Button>
@@ -207,7 +189,7 @@ class ButtonBlock extends React.Component {
           {editable && !child && (
             <div className="ml-auto">
               <IconsHandle
-                collapseModal={this.onCollapseModal}
+                collapseModal={this.openModal}
                 handleDuplicate={this.handleDuplicate}
                 handleDelete={this.handleDelete}
               />
@@ -215,182 +197,18 @@ class ButtonBlock extends React.Component {
           )}
         </div>
 
-        {/* {editable && (
-          <ReactModal
-            initWidth={700}
-            initHeight={500}
-            className={'custom-modal'}
-            onRequestClose={this.onCollapseModal}
-            isOpen={isDesign}
-          >
-            <h3 className="header-modal">My Modal</h3>
-            <Tabs defaultActiveKey="1" className="body">
-              <TabPane tab="Edit text" key="1">
-                <h6>Nội dung </h6>
-
-                <Input
-                  style={{ borderRadius: 50 }}
-                  value={content}
-                  onChange={this.handleEditorChange}
-                ></Input>
-
-                <h6 className="mt-3">Đường dẫn </h6>
-                <div className="d-flex flex-row mt-2">
-                  <Input
-                    style={{ borderRadius: 50 }}
-                    placeholder="Thêm đường link"
-                    onChange={this.OnChangeLink}
-                  ></Input>
-                </div>
-              </TabPane>
-
-              <TabPane tab="Design" key="2">
-                <EditText
-                  fonts={fonts}
-                  fontSize={fontSize}
-                  lineText={lineText}
-                  letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
-                  handleChangeFontSize={(value) =>
-                    this.onChangeValue(value, 'fontSize')
-                  }
-                  handleChangeLetterSpacing={(value) =>
-                    this.onChangeValue(value, 'letterSpacing')
-                  }
-                  handleChangeLineHeight={(value) =>
-                    this.onChangeValue(value, 'lineText')
-                  }
-                  handleChangeTextAlign={(value) =>
-                    this.onChangeValue(value, 'textAlign')
-                  }
-                  handleChangeTextTranform={(value) =>
-                    this.onChangeValue(value, 'tranform')
-                  }
-                />
-
-                <div className="mt-5 pl-2">
-                  <PaddingAndMargin
-                    padding={padding}
-                    margin={margin}
-                    handleChangeMargin={(value) =>
-                      this.onChangeValue(value, 'margin')
-                    }
-                    handleChangePadding={(value) =>
-                      this.onChangeValue(value, 'padding')
-                    }
-                  />
-                </div>
-
-                <div className="d-flex mt-5 pl-2">
-                  <ChangeColorModal
-                    title="Change Text Color"
-                    color={color}
-                    handleChangeColor={(value) =>
-                      this.onChangeValue(value, 'color')
-                    }
-                  />
-                  <ChangeColorModal
-                    title="Change background"
-                    color={background}
-                    handleChangeColor={(value) =>
-                      this.onChangeValue(value, 'background')
-                    }
-                  />
-                </div>
-
-                <div className="mt-5 ">
-                  <h6>Border </h6>
-
-                  <div className="d-flex">
-                    <Select
-                      style={{ width: '150px', height: '40px' }}
-                      onChange={(value) =>
-                        this.onChangeValue(value, 'borderStyle')
-                      }
-                      defaultValue="solid"
-                    >
-                      {borderStyles.map((item, index) => (
-                        <Option value={item} key={index}>
-                          {item}
-                        </Option>
-                      ))}
-                    </Select>
-
-                    <InputNumber
-                      min={0}
-                      max={15}
-                      value={borderWidthButton}
-                      style={{
-                        margin: '0 16px',
-                        height: '35px',
-                        borderRadius: '15px',
-                      }}
-                      onChange={(value) =>
-                        this.onChangeValue(value, 'borderWidthButton')
-                      }
-                    />
-
-                    <ChangeColorModal
-                      title="Color : "
-                      color={borderColorButton}
-                      handleChangeColor={(value) =>
-                        this.onChangeValue(value, 'borderColorButton')
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <h6> border Radius</h6>
-                  <Row>
-                    <Col span={12}>
-                      <Slider
-                        min={0}
-                        max={100}
-                        onChange={(value) =>
-                          this.onChangeValue(value, 'borderRadius')
-                        }
-                        value={borderRadius}
-                      />
-                    </Col>
-                    <Col span={2}>
-                      <InputNumber
-                        min={0}
-                        max={100}
-                        style={{ margin: '0 16px', borderRadius: '15px' }}
-                        value={borderRadius}
-                        onChange={(value) =>
-                          this.onChangeValue(value, 'borderRadius')
-                        }
-                      />
-                    </Col>
-                  </Row>
-                </div>
-              </TabPane>
-            </Tabs>
-            <button onClick={() => this.onChangeValue(false, 'isDesign')}>
-              Close modal
-            </button>
-          </ReactModal>
-        )} */}
-
         {editable && (
           <Modal
             title="Button design"
             visible={isDesign}
-            onCancel={this.onCollapseModal}
+            onCancel={this.closeModal}
             className={
               leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
             }
             style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
             width={500}
             footer={[
-              <Button
-                key="ok"
-                onClick={() => this.onChangeValue(false, 'isDesign')}
-                type="primary"
-              >
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}

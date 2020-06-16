@@ -48,13 +48,6 @@ class Photo extends Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
-
   addPhoto = () => {
     let { list } = this.state;
     list.push({ ...list[list.length - 1], id: uuid() });

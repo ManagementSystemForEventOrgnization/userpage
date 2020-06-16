@@ -33,17 +33,10 @@ class CardBlock extends React.Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
-
   addCard = () => {
     let { list } = this.state;
     list.push({ ...list[list.length - 1], id: uuid() });
-    this.setState({});
+    this.setState({ list });
     setTimeout(this.handleStoreBlock(), 3000);
   };
 

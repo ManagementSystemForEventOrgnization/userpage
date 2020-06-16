@@ -344,6 +344,7 @@ const getCreateHistory = (
     return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
   }
 };
+
 const getListNotification = (pageNumber, numberRecord) => {
   return (dispatch) => {
     API.get('api/getListNotification', {
@@ -386,6 +387,61 @@ const getNumUnreadNotification = () => {
   }
 };
 
+const setReadNotification = (notificationId, notifications) => {
+  return (dispatch) => {
+    API.post('/api/setReadNotification', { notificationId }).then((res) => {
+      const index = notifications.findIndex(
+        (item) => item._id === notificationId
+      );
+      console.log(notifications);
+      const newNoties = [
+        ...notifications.slice(0, index),
+        {
+          ...notifications[index],
+          isRead: true,
+        },
+        ...notifications.slice(index + 1, notifications.length),
+      ];
+      console.log(newNoties);
+      dispatch(success(newNoties));
+    });
+  };
+
+  function success(notifications) {
+    return {
+      type: userConstants.SET_READ_NOTIFICATION,
+      notifications,
+    };
+  }
+};
+
+const setDeleteNotification = (notificationId, notifications) => {
+  return (dispatch) => {
+    API.post('/api/setDeleteNotification', {
+      notificationId,
+    }).then((res) => {
+      const index = notifications.findIndex(
+        (item) => item._id === notificationId
+      );
+      if (index !== -1) {
+        const newNoties = [
+          ...notifications.slice(0, index),
+          ...notifications.slice(index + 1, notifications.length),
+        ];
+
+        dispatch(success(newNoties));
+      }
+    });
+  };
+
+  function success(notifications) {
+    return {
+      type: userConstants.DELETE_NOTIFICATION,
+      notifications,
+    };
+  }
+};
+
 const getChatHistory = (sender) => {
   return (dispatch) => {
     API.get('api/chat/get_list', {
@@ -422,4 +478,6 @@ export const userActions = {
   getCreateHistory,
   getNumUnreadNotification,
   getChatHistory,
+  setReadNotification,
+  setDeleteNotification,
 };

@@ -219,7 +219,7 @@ const prepareForCreateEvent = (
       name: nameEvent,
       typeOfEvent,
       category,
-      urlWeb: webAddress,
+      urlWeb: `${process.env.REACT_APP_DOMAIN_EVENT}${webAddress}`,
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
@@ -430,7 +430,7 @@ const getEventInfo = (urlWeb) => {
           );
           resolve('true');
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -456,7 +456,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
@@ -472,7 +472,6 @@ const saveComment = (eventId, content) => {
     dispatch(request());
     API.post('/api/comment/save', {
       eventId,
-
       content,
     })
       .then((res) => {
@@ -544,9 +543,6 @@ export const eventActions = {
   savePage,
   updatePage,
   getPreviousPage,
-  storeHeaderStyle,
-
-  changePages,
   getListEvent,
   getHomeData,
 

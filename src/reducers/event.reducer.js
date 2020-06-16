@@ -6,9 +6,9 @@ import { eventConstants } from 'constants/index';
 const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[1], //banner
-  //...dataTest[0].value,
+  ...dataTest[0].value,
   dataTest[2].value[0], // event description
-  dataTest[13].value[0], //list of link
+  dataTest[13].value[0], //list of link documents
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   ...dataTest[5].value, //map
@@ -18,6 +18,7 @@ const initialBlocks = [
   ...dataTest[9].value, //gallery
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
+  dataTest[14].value[0], //sharing
   dataTest[11].value[0], //footer
 ];
 
@@ -193,6 +194,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_INFO:
       return {
         ...state,
+
         nameEvent: action.eventInfo.name,
         isSellTicket: action.eventInfo.isSellTicket,
         session: action.eventInfo.session,
@@ -337,7 +339,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         submitting: false,
-        // comments: [action.comment, ...state.comments],
+        comments: [...action.comment, ...state.comments],
       };
     default:
       return state;

@@ -26,20 +26,13 @@ class Video2 extends React.Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
-
   // common function
   onChangeValue = (newValue, valueParam) => {
     this.setState({
       [valueParam]: newValue,
     });
   };
+
   onImageDrop = (event) => {
     this.setState({
       txtInput: event.target.value,
@@ -63,19 +56,20 @@ class Video2 extends React.Component {
     }
   };
 
-  collapseModal = () => {
+  closeModal = () => {
     const { visible, uploadedFileCloudinaryUrl } = this.state;
     this.setState({
       visible: !visible,
       txtInput: uploadedFileCloudinaryUrl,
     });
+
+    this.handleStoreBlock();
   };
 
   onChangeStyle = (type, value) => {
     this.setState({
       [type]: value,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -157,7 +151,7 @@ class Video2 extends React.Component {
         )}
         {editable && (
           <IconsHandle
-            collapseModal={this.collapseModal}
+            collapseModal={() => this.onChangeValue(true, 'visible')}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
           />
@@ -166,8 +160,8 @@ class Video2 extends React.Component {
           <Modal
             title="Edit Video"
             visible={this.state.visible}
-            onOk={this.collapseModal}
-            onCancel={this.collapseModal}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
             width="500px"
             className={
               leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'

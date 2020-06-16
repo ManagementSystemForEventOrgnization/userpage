@@ -32,20 +32,20 @@ class Header extends Component {
   }
 
   componentDidMount = () => {
-    const { editable, storeStyleHeader } = this.props;
-    const currentStyle = this.state;
+    const { editable } = this.props;
+    // const currentStyle = this.state;
     if (editable) {
-      storeStyleHeader(currentStyle);
+      // storeStyleHeader(currentStyle);
       this.currentItem();
     }
   };
 
   onChangeValue(newValue, valueParam) {
-    const { storeStyleHeader } = this.props;
+    //const { storeStyleHeader } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(storeStyleHeader(this.state), 3000);
+    // setTimeout(storeStyleHeader(this.state), 3000);
   }
 
   checkActive = (child) => {
@@ -54,13 +54,12 @@ class Header extends Component {
     return result === -1 ? true : false;
   };
 
-  collapsedModal = () => {
-    const { isCollapsed } = this.state;
-    this.setState({
-      isCollapsed: !isCollapsed,
-    });
+  openModal = () => this.setState({ isCollapsed: true });
+  closeModal = () => {
+    const { storeStyleHeader } = this.props;
+    this.setState({ isCollapsed: false });
+    storeStyleHeader(this.state);
   };
-
   handleClickMenuItem = (item) => {
     const { changeCurrentPage } = this.props;
     changeCurrentPage(item.id);
@@ -238,7 +237,7 @@ class Header extends Component {
           <div className="ml-auto icons-handle">
             <EditTwoTone
               style={iconStyle}
-              onClick={this.collapsedModal}
+              onClick={this.openModal}
               className="mt-4"
             />
           </div>
@@ -249,8 +248,8 @@ class Header extends Component {
             title="Header"
             visible={isCollapsed}
             width={600}
-            onOk={this.collapsedModal}
-            onCancel={this.collapsedModal}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
           >
             <Tabs defaultActiveKey="1">
               <TabPane tab="Text" key="1">

@@ -15,17 +15,14 @@ class DividersBlock extends React.Component {
       ? { ...style }
       : {
           ...DividerState(orientation),
+          orientationList: orientation,
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    this.setState({
-      orientationList: orientation,
-    });
-    if (editable) {
-      this.handleStoreBlock();
-    }
+  openModal = () => this.setState({ isDesign: true });
+  closeModal = () => {
+    this.setState({ isDesign: false });
+    this.handleStoreBlock();
   };
 
   // common function
@@ -33,8 +30,8 @@ class DividersBlock extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
+
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;
@@ -57,10 +54,7 @@ class DividersBlock extends React.Component {
 
     return (
       <div className=" child-block">
-        <div
-          className="mt-2"
-          onClick={() => this.onChangeValue(true, 'isDesign')}
-        >
+        <div className="mt-2" onClick={this.openModal}>
           <Divider orientation={styleFormat}>Text </Divider>
         </div>
 
@@ -68,8 +62,8 @@ class DividersBlock extends React.Component {
           <Modal
             title="TimePicker design"
             visible={this.state.isDesign}
-            onOk={this.handleOk}
-            onCancel={() => this.onChangeValue(false, 'isDesign')}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
             width={900}
             footer={[]}
           >

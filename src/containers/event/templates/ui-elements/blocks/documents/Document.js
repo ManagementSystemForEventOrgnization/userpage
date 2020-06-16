@@ -34,6 +34,17 @@ class Document extends Component {
     };
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (
+      this.props.session &&
+      prevState.session.length !== this.props.session.length
+    ) {
+      this.setState({
+        session: this.props.session,
+      });
+    }
+  };
+
   collapseModal = () => {
     const { visible } = this.state;
     this.setState({
@@ -56,6 +67,7 @@ class Document extends Component {
   render() {
     const { session } = this.state;
     const numSS = session.length;
+    // console.log('SS: ', session);
 
     return (
       <div className="child-block">
@@ -68,8 +80,6 @@ class Document extends Component {
                 </Divider>
                 <List
                   size="large"
-                  // header={<div>Header</div>}
-                  // footer={<div>Footer</div>}
                   bordered
                   dataSource={ss.document}
                   renderItem={(item) => (

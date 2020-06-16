@@ -21,13 +21,6 @@ class ImageBlock extends React.Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable, child } = this.props;
-    if (editable && !child) {
-      this.handleStoreBlock();
-    }
-  };
-  // common function
   onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
@@ -42,21 +35,18 @@ class ImageBlock extends React.Component {
     if (handleOnChangeUrlTextBlock) {
       handleOnChangeUrlTextBlock(this.state.uploadedFileCloudinaryUrl);
     }
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
-  collapseModal = () => {
-    const { visible } = this.state;
-    this.setState({
-      visible: !visible,
-    });
+  openModal = () => this.setState({ visible: true });
+  closeModal = () => {
+    this.setState({ visible: false });
+    this.handleStoreBlock();
   };
 
   onChangeStyle = (type, value) => {
     this.setState({
       [type]: value,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -141,7 +131,7 @@ class ImageBlock extends React.Component {
           {editable && !child && (
             <div className="ml-auto">
               <IconsHandle
-                collapseModal={this.collapseModal}
+                collapseModal={this.openModal}
                 handleDuplicate={this.handleDuplicate}
                 handleDelete={this.handleDelete}
               />
@@ -153,8 +143,8 @@ class ImageBlock extends React.Component {
           <Modal
             title="Edit Image"
             visible={this.state.visible}
-            onOk={this.collapseModal}
-            onCancel={this.collapseModal}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
             width="500px"
             className={
               leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'

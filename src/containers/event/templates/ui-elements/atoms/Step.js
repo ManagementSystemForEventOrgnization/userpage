@@ -11,6 +11,7 @@ import { StepState } from '../stateInit/StepState';
 import { Step, TabPane, Option } from '../../constants/atom.constant';
 import { eventActions } from 'action/event.action';
 import IconsHandle from '../shares/IconsHandle';
+
 class StepBlock extends Component {
   constructor(props) {
     super(props);
@@ -21,19 +22,12 @@ class StepBlock extends Component {
           ...StepState(this.props),
         };
   }
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
 
   // common function
   onChangeValue(newValue, valueParam) {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   removeOption = (item) => {
@@ -41,8 +35,6 @@ class StepBlock extends Component {
     this.setState({
       steps,
     });
-
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   OnClickOption = (e) => {
@@ -64,7 +56,6 @@ class StepBlock extends Component {
     this.setState({
       steps,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleOnChangeTextBlock = (id, value) => {
@@ -85,7 +76,6 @@ class StepBlock extends Component {
         txtdescription: '',
       });
     }
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleOnChangeDesTextBlock = (id, value) => {
@@ -106,8 +96,6 @@ class StepBlock extends Component {
         txtdescription: '',
       });
     }
-
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -126,11 +114,17 @@ class StepBlock extends Component {
     }
   };
 
-  collapseModal = () => {
-    const { visible } = this.state;
+  openModal = () => {
     this.setState({
-      visible: !visible,
+      visible: true,
     });
+  };
+
+  closeModal = () => {
+    this.setState({
+      visible: false,
+    });
+    this.handleStoreBlock();
   };
 
   handleDuplicate = () => {
@@ -203,7 +197,7 @@ class StepBlock extends Component {
 
         {editable && (
           <IconsHandle
-            collapseModal={this.collapseModal}
+            collapseModal={this.openModal}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
           />
@@ -212,8 +206,8 @@ class StepBlock extends Component {
           <Modal
             title="Step Modal"
             visible={visible}
-            onOk={() => this.onChangeValue(false, 'visible')}
-            onCancel={() => this.onChangeValue(false, 'visible')}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
           >
             <Tabs defaultActiveKey="1">
               <TabPane tab="Text" key="1">
