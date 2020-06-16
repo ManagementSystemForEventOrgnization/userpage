@@ -20,11 +20,10 @@ class Schedule1 extends Component {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style, visible: false }
+      ? { ...style }
       : {
           ...ScheduleState(this.props, 1),
           apply: false,
-          visible: false,
         };
   }
 

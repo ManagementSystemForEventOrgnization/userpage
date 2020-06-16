@@ -21,15 +21,9 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    const { editable } = this.props;
-
     this.setState({
       ...this.calculateTimeLeft(),
     });
-
-    if (editable) {
-      this.handleStoreBlock();
-    }
 
     this.myInterval = setInterval(() => {
       this.setState((prevState) => ({
@@ -84,8 +78,12 @@ class Timer extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
+
+  closeModal = () => {
+    this.setState({ visible: false });
+    this.handleStoreBlock();
+  };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
@@ -178,16 +176,12 @@ class Timer extends React.Component {
           <Modal
             title="Text"
             visible={this.state.visible}
-            onCancel={() => this.onChangeValue(false, 'visible')}
+            onCancel={this.closeModal}
             width={500}
             className="float-right mr-3 mt-3"
             style={{ top: 40 }}
             footer={[
-              <Button
-                key="ok"
-                onClick={() => this.onChangeValue(false, 'visible')}
-                type="primary"
-              >
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}

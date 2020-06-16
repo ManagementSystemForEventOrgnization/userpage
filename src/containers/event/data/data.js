@@ -30,7 +30,7 @@ import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 import Footer1 from '../templates/ui-elements/blocks/footer/footer1';
 import Footer2 from '../templates/ui-elements/blocks/footer/footer2';
 
-import IconSocial from '../templates/ui-elements/blocks/Social/social';
+//import IconSocial from '../templates/ui-elements/blocks/Social/social';
 
 import Video1 from '../templates/ui-elements/blocks/video/video1';
 
@@ -62,15 +62,6 @@ export const blockList = {
   divider: ({ editable, style, id }) => (
     <DividerBlock key={id} editable={editable} style={style} id={id} />
   ),
-  // header: ({ editable, style, id, match }) => (
-  //   <HeaderBlock
-  //     key={id}
-  //     editable={editable}
-  //     style={style}
-  //     id={id}
-  //     match={match}
-  //   />
-  // ),
 
   header: ({ editable, style, id, match, pages, currentPage }) => (
     <Header
@@ -159,9 +150,9 @@ export const blockList = {
   footer2: ({ editable, style, id }) => (
     <Footer2 key={id} editable={editable} style={style} id={id} />
   ),
-  icon: ({ editable, style, id }) => (
-    <IconSocial key={id} editable={editable} style={style} id={id} />
-  ),
+  // icon: ({ editable, style, id }) => (
+  //   <IconSocial key={id} editable={editable} style={style} id={id} />
+  // ),
   comment: ({ editable, style, id }) => (
     <Comment key={id} editable={editable} style={style} id={id} />
   ),

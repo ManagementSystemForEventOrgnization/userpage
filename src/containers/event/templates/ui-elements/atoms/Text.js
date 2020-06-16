@@ -24,14 +24,6 @@ class TextsBlock extends React.Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable, child } = this.props;
-    if (editable && !child) {
-      this.handleStoreBlock();
-    }
-  };
-  // common function
-
   onChangeValue(newValue, valueParam) {
     const { changeContent, handleChangeContent, handleChangeItem } = this.props;
     this.setState({
@@ -48,7 +40,7 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
-      } else this.handleStoreBlock();
+      }
     }, 3000);
   }
 
@@ -119,11 +111,14 @@ class TextsBlock extends React.Component {
     });
   };
 
-  collapseModal = () => {
-    const { visible } = this.state;
+  openModal = () => {
+    this.setState({ visible: true });
+  };
+  closeModal = () => {
     this.setState({
-      visible: !visible,
+      visible: false,
     });
+    this.handleStoreBlock();
   };
 
   render() {
@@ -197,14 +192,14 @@ class TextsBlock extends React.Component {
           <EditFilled
             className="edit-text"
             style={editIconStyle}
-            onClick={this.collapseModal}
+            onClick={this.openModal}
           />
         )}
 
         {editable && !child && (
           <div className="ml-auto">
             <IconsHandle
-              collapseModal={() => this.onChangeValue(!visible, 'visible')}
+              collapseModal={this.openModal}
               handleDuplicate={this.handleDuplicate}
               handleDelete={this.handleDelete}
             />
@@ -214,18 +209,14 @@ class TextsBlock extends React.Component {
           <Modal
             title="Text"
             visible={visible}
-            onCancel={() => this.onChangeValue(!visible, 'visible')}
+            onCancel={this.closeModal}
             width={500}
             className={
               leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
             }
             //  style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
             footer={[
-              <Button
-                key="ok"
-                onClick={() => this.onChangeValue(!visible, 'visible')}
-                type="primary"
-              >
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}

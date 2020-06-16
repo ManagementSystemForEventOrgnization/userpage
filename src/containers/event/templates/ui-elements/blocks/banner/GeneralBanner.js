@@ -25,11 +25,10 @@ class GeneralBanner extends Component {
           };
   }
 
-  collapseModal = () => {
-    const { visible } = this.state;
-    this.setState({
-      visible: !visible,
-    });
+  openModal = () => this.setState({ visible: true });
+  closeModal = () => {
+    this.setState({ visible: false });
+    this.handleStoreBlock();
   };
 
   handleDuplicate = () => {
@@ -50,7 +49,6 @@ class GeneralBanner extends Component {
     this.setState({
       [type]: value,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -176,7 +174,7 @@ class GeneralBanner extends Component {
 
         {editable && (
           <IconsHandle
-            collapseModal={this.collapseModal}
+            collapseModal={this.openModal}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
           />
@@ -186,12 +184,12 @@ class GeneralBanner extends Component {
           <Modal
             title="Edit Block"
             visible={visible}
-            onCancel={this.collapseModal}
+            onCancel={this.closeModal}
             width={500}
             className=" mt-3 float-left ml-5"
             style={{ top: 40, left: 200 }}
             footer={[
-              <Button key="ok" onClick={this.collapseModal} type="primary">
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}

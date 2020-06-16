@@ -129,23 +129,6 @@ class CommentEvent extends Component {
     });
   };
 
-  handleStoreBlock = () => {
-    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
-    const currentStyle = this.state;
-
-    let item = blocks.find((ele) => ele.id === id);
-
-    if (item) {
-      const index = blocks.indexOf(item);
-      item.style = currentStyle;
-      storeBlocksWhenCreateEvent([
-        ...blocks.slice(0, index),
-        item,
-        ...blocks.slice(index + 1, blocks.length),
-      ]);
-    }
-  };
-
   deleteBlock = () => {
     const { id, deleteBlock } = this.props;
     if (deleteBlock) {
@@ -222,8 +205,11 @@ class CommentEvent extends Component {
           )}
 
           <hr />
-          {newComment && <CommentList comments={newComment} />}
-          <CommentList comments={commentList} className="mt-5" />
+          {newComment.length > 0 && <CommentList comments={newComment} />}
+          {commentList.length > 0 && (
+            <CommentList comments={commentList} className="mt-5" />
+          )}
+
           <hr />
           {this.ableToLoadMore(commentList.length) && (
             <p onClick={this.handleLoadMore} style={loadMore} type="button">
