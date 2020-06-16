@@ -219,7 +219,7 @@ class Schedule1 extends Component {
       width: '83px',
       height: '90px',
       textAlign: 'center',
-      fontSize: '13px',
+      fontSize: '15px',
       fontWeight: 'bold',
     };
 
@@ -246,7 +246,9 @@ class Schedule1 extends Component {
                       {moment(ss.time).format('MMM')}
                     </p>
                     <p>{moment(ss.time).format('D')}</p>
-                    <p>{moment(ss.time).format('dddd')}</p>
+                    <p style={{ fontSize: '13px' }}>
+                      {moment(ss.time).format('dddd')}
+                    </p>
                   </div>
                 </div>
 

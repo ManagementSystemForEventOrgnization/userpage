@@ -17,8 +17,8 @@ class ImageBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...ImageState(this.props),
-      };
+          ...ImageState(this.props),
+        };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -121,24 +121,22 @@ class ImageBlock extends React.Component {
     };
 
     return (
-      <div className="image-block child-block">
-        <div className="d-flex">
-          <img
-            style={imageStyle}
-            alt="img"
-            src={uploadedFileCloudinaryUrl}
-            onClick={this.handlleClick}
-          />
-          {editable && !child && (
-            <div className="ml-auto">
-              <IconsHandle
-                collapseModal={this.openModal}
-                handleDuplicate={this.handleDuplicate}
-                handleDelete={this.handleDelete}
-              />
-            </div>
-          )}
-        </div>
+      <div className="image-block child-block d-flex">
+        <img
+          style={imageStyle}
+          alt="img"
+          src={uploadedFileCloudinaryUrl}
+          onClick={this.handlleClick}
+        />
+        {editable && !child && (
+          <div className="ml-auto">
+            <IconsHandle
+              collapseModal={this.openModal}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          </div>
+        )}
 
         {editable && (
           <Modal

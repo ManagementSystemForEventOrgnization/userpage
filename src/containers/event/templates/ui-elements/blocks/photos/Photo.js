@@ -12,7 +12,7 @@ import ImageBlock from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
 import { responsive } from '../../../constants/atom.constant';
 
-const high = 42;
+const high = 52;
 const iconStyle = {
   fontSize: '20px',
 };

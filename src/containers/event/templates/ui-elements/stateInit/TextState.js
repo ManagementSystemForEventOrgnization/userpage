@@ -12,14 +12,18 @@ const TextState = (props) => ({
       : 20
     : 20,
   fonts: 'Arial',
-  lineText: 80,
+  lineText: 127,
   letterSpacing: 0,
   textAlign: props.newStyle
     ? props.newStyle.textAlign
       ? props.newStyle.textAlign
       : 'left'
     : 'left',
-  transform: props.newStyle ? props.newStyle.transform ? props.newStyle.transform : '' : '',
+  transform: props.newStyle
+    ? props.newStyle.transform
+      ? props.newStyle.transform
+      : ''
+    : '',
   color: props.newStyle
     ? props.newStyle.color
       ? props.newStyle.color

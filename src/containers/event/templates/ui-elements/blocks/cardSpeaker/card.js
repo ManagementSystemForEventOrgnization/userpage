@@ -88,11 +88,13 @@ class CardBlock extends React.Component {
     return (
       <div
         key={item.id}
-        className={type === 1 ? 'col-md-3 col-sm-3 mt-2 mb-2' : 'mr-2'}
+        className={
+          type === 1 ? 'col-md-3 col-sm-3 mt-5 mb-2 p-2' : 'mr-4 mt-5 mb-2 p-2'
+        }
       >
         <Card
           hoverable
-          style={{ height: 300 }}
+          style={{ height: 'auto' }}
           cover={
             <Image
               url={item.url}
