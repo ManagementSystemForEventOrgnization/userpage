@@ -4,11 +4,13 @@ export default class Countdown extends Component {
   render() {
     const { editable } = this.props;
     return (
-      <Timer
-        startCount={this.props.startCount}
-        editable={editable}
-        {...this.props}
-      />
+      <div>
+        <Timer
+          startCount={this.props.startCount}
+          editable={editable}
+          {...this.props}
+        />
+      </div>
     );
   }
 }
