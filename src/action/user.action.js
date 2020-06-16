@@ -347,7 +347,8 @@ const getListCardPayment = () => {
     dispatch(request());
     API.get(`/api/get_listcard`)
       .then((res) => {
-        dispatch(success(res.data.result.listCard));
+        console.log(res.data);
+        dispatch(success(res.data.result));
       })
       .catch((error) => {
         handleCatch(dispatch, failure, error);
@@ -365,7 +366,52 @@ const getListCardPayment = () => {
   }
 };
 
+const postCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/set_card_default`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
 
+  function request() {
+    return { type: userConstants.POST_CARDDEFAULT_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.POST_CARDDEFAULT_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.POST_CARDDEFAULT_FAILURE, error };
+  }
+};
+
+
+const delCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/del_card`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.DEL_CARDDEFAULT_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.DEL_CARDDEFAULT_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.DEL_CARDDEFAULT_FAILURE, error };
+  }
+};
 
 const get_History = (
   categoryEventId,
@@ -539,5 +585,7 @@ export const userActions = {
   getChatHistory,
   onChangePassword,
   addPaymentCard,
-  getListCardPayment
+  getListCardPayment,
+  delCardDefault,
+  postCardDefault
 };

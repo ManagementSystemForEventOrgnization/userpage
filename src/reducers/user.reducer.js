@@ -170,7 +170,6 @@ const user = (state = initialState, action) => {
 
     //------------------------------
     case userConstants.ADD_PAYMENT_CARD_REQUEST: {
-      console.log(action)
       return {
         ...state,
         pending: true,
@@ -185,6 +184,49 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.ADD_PAYMENT_CARD_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        pending: false,
+      };
+
+    case userConstants.POST_CARDDEFAULT_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+      };
+    }
+
+    case userConstants.POST_CARDDEFAULT_SUCCESS:
+      return {
+        ...state,
+        CardSuccess: action.success,
+        pending: false,
+      };
+
+    case userConstants.POST_CARDDEFAULT_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        pending: false,
+      };
+
+
+    case userConstants.DEL_CARDDEFAULT_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+      };
+    }
+
+    case userConstants.DEL_CARDDEFAULT_SUCCESS:
+      return {
+        ...state,
+        CardSuccess: action.success,
+        pending: false,
+      };
+
+    case userConstants.DEL_CARDDEFAULT_FAILURE:
       return {
         ...state,
         errMessage: action.error,

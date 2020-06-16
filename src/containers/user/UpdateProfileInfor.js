@@ -133,7 +133,7 @@ class ProfileInfor extends Component {
   errorHandle() {
     if (this.props.errMessage)
       return (
-        <div className="alert alert-danger" role="alert" enable>
+        <div className="alert alert-danger" role="alert">
           {this.props.errMessage}
         </div>
       );
@@ -225,8 +225,8 @@ class ProfileInfor extends Component {
             {this.state.phone || userInfor.phone === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Phone Number</div>
-            )}
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
           </Form.Item>
 
           <div className="row pl-2 pr-2 mb-2">
@@ -325,8 +325,8 @@ class ProfileInfor extends Component {
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Phone Number</div>
-            )}
+                <div className="text-danger">Invalid Phone Number</div>
+              )}
           </Form.Item>
 
           <Form.Item>
@@ -342,8 +342,8 @@ class ProfileInfor extends Component {
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
             ) : (
-              <div className="text-danger">Invalid Email</div>
-            )}
+                <div className="text-danger">Invalid Email</div>
+              )}
           </Form.Item>
 
           <Form.Item>
@@ -371,7 +371,7 @@ class ProfileInfor extends Component {
                     !(this.state.phone || userInfor.phone === '') ||
                     !(this.state.orgPhone || userInfor.orgPhone === '') ||
                     JSON.stringify(this.state.userInfor) ===
-                      JSON.stringify(fistValueUserInfor) ||
+                    JSON.stringify(fistValueUserInfor) ||
                     (this.state.isSaved && !this.props.pending)
                   }
                   onClick={(value) => this.onSave(value)}
