@@ -140,7 +140,7 @@ class Timer extends React.Component {
         };
 
     return (
-      <div className="container" key={this.props.key}>
+      <div className="container child-block" key={this.props.key}>
         <div key={key} style={divStyle} className="d-flex ">
           <div className="row border border-primary  flex-fill mr-1">
             <div className="col">
@@ -162,13 +162,11 @@ class Timer extends React.Component {
           </div>
 
           {editable && (
-            <div className="ml-auto ">
-              <IconsHandle
-                collapseModal={() => this.onChangeValue(true, 'visible')}
-                handleDuplicate={this.handleDuplicate}
-                handleDelete={this.handleDelete}
-              />
-            </div>
+            <IconsHandle
+              collapseModal={() => this.onChangeValue(true, 'visible')}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
           )}
         </div>
 

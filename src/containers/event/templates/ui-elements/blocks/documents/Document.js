@@ -1,102 +1,220 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Button, Divider, List, Drawer, Form, Input } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Divider, List, Drawer, Input, Tag, Modal } from 'antd';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { eventActions } from 'action/event.action';
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 },
-  },
-};
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
+import { eventActions } from 'action/event.action';
+import IconsHandle from '../../shares/IconsHandle';
+import PaddingAndMargin from '../../shares/PaddingAndMargin';
 
 class Document extends Component {
   constructor(props) {
     super(props);
-    const { session } = this.props;
-    this.state = {
-      session,
-      visible: false,
-      document: [],
-    };
+    const { session, style } = this.props;
+    this.state = style
+      ? { ...style, visible: false }
+      : {
+          session: session.map((ss) => ({ ...ss, open: false })),
+          visible: false,
+          document: [],
+          currentSS: {},
+          title: '',
+          url: '',
+          collapse: false,
+          padding: [1, 1, 1, 1],
+          margin: [1, 1, 1, 1],
+        };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (
-      this.props.session &&
-      prevState.session.length !== this.props.session.length
-    ) {
-      this.setState({
-        session: this.props.session,
-      });
-    }
-  };
-
-  collapseModal = () => {
-    const { visible } = this.state;
+  openModal = (id) => {
+    const { visible, session } = this.state;
+    const item = session.find((ss) => ss.id === id);
     this.setState({
       visible: !visible,
+      currentSS: { ...item },
+    });
+  };
+  cancelModal = () => this.setState({ visible: false });
+  closeModal = () => {
+    this.setState({ visible: false, currentSS: {} });
+    this.handleStoreBlock();
+  };
+
+  handleClickListItem = (url) => {
+    window.open(url, '_blank');
+  };
+
+  handleClickSS = (id) => {
+    let { session } = this.state;
+    const index = session.findIndex((ss) => ss.id === id);
+    session[index].open = !session[index].open;
+    this.setState({ session });
+  };
+
+  handleAddLink = () => {
+    const { url, title } = this.state;
+    let { currentSS } = this.state;
+    const newItem = {
+      title,
+      url,
+      id: uuid(),
+    };
+    currentSS.documents.push(newItem);
+    this.setState({
+      currentSS,
+      title: '',
+      url: '',
     });
   };
 
-  addDocument = () => {
-    const { document, session } = this.state;
-    const newSS = {
-      id: uuid(),
-      document,
-      day: `Session ${session.length + 1}`,
-    };
+  handleChangeInput = (type, value) => {
+    this.setState({
+      [type]: value,
+    });
+  };
 
-    session.push(newSS);
-    this.setState({ session, visible: false, document: [] });
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
+    }
+  };
+
+  openModalEdit = () => {
+    this.setState({
+      collapse: true,
+    });
+  };
+
+  closeModalEdit = () => {
+    this.setState({ collapse: false });
+    this.handleStoreBlock();
+  };
+
+  handleChangeMargin = (margin) => this.setState({ margin });
+  handleChangePadding = (padding) => this.setState({ padding });
+
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
   };
 
   render() {
-    const { session } = this.state;
-    const numSS = session.length;
-    // console.log('SS: ', session);
+    const {
+      session,
+      currentSS,
+      title,
+      url,
+      padding,
+      margin,
+      collapse,
+    } = this.state;
+    const { editable } = this.props;
+
+    const style = {
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+    };
 
     return (
-      <div className="child-block">
-        {numSS !== 0 ? (
-          <div>
-            {session.map((ss) => (
-              <div key={ss.id}>
-                <Divider orientation="left">
-                  {moment(ss.day).format('LLL')}
+      <div className="child-block d-flex " style={style}>
+        <div className="mb-2 pl-2 pt-2" style={{ width: '80%' }}>
+          {session.map((ss) => (
+            <div key={ss.id}>
+              <div
+                className="d-flex "
+                onClick={() => this.handleClickSS(ss.id)}
+              >
+                <Divider
+                  orientation="left"
+                  style={{
+                    width: '80%',
+                  }}
+                >
+                  Documents of session {moment(ss.day).format('LLL')}
                 </Divider>
-                <List
-                  size="large"
-                  bordered
-                  dataSource={ss.document}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <a href={`${item.title}`}>{item.url}</a>
-                    </List.Item>
-                  )}
-                />
+                {ss.open ? (
+                  <UpOutlined
+                    className="ml-auto"
+                    style={{ fontSize: '25px' }}
+                  />
+                ) : (
+                  <DownOutlined
+                    className="ml-auto"
+                    style={{ fontSize: '25px' }}
+                  />
+                )}
               </div>
-            ))}
-          </div>
-        ) : (
-          <p>No link to visit</p>
+              {ss.open && (
+                <div className="p-5">
+                  <List
+                    size="small"
+                    bordered
+                    dataSource={ss.documents}
+                    className="pl-5 list-document"
+                    renderItem={(item) => (
+                      <List.Item
+                        key={item.id}
+                        className="link-document"
+                        onClick={() => this.handleClickListItem(item.url)}
+                      >
+                        <Tag
+                          color="processing"
+                          className="d-flex custom-tag p-2 pl-4"
+                        >
+                          <h6>{item.title}</h6>
+                        </Tag>
+                      </List.Item>
+                    )}
+                  />
+                  {editable && (
+                    <div className="d-flex justify-content-end mt-2 mb-3 ">
+                      <Button
+                        onClick={() => this.openModal(ss.id)}
+                        type="primary"
+                      >
+                        Add
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {editable && (
+          <IconsHandle
+            collapseModal={this.openModalEdit}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
         )}
-
-        <Button onClick={this.collapseModal}>Add </Button>
-
         <Drawer
           title="Create a new account"
           width={720}
@@ -109,75 +227,83 @@ class Document extends Component {
                 textAlign: 'right',
               }}
             >
-              <Button onClick={this.collapseModal} style={{ marginRight: 8 }}>
+              <Button onClick={this.cancelModal} style={{ marginRight: 8 }}>
                 Cancel
               </Button>
-              <Button onClick={this.addDocument} type="primary">
+              <Button onClick={this.closeModal} type="primary">
                 Done
               </Button>
             </div>
           }
         >
-          <Form layout="vertical" name="dynamic_form_item" hideRequiredMark>
-            <Form.List name="names">
-              {(fields, { add, remove }) => {
-                return (
-                  <div>
-                    {fields.map((field, index) => (
-                      <Form.Item
-                        {...(index === 0
-                          ? formItemLayout
-                          : formItemLayoutWithOutLabel)}
-                        label={index === 0 ? 'Passengers' : ''}
-                        required={false}
-                        key={field.key}
-                      >
-                        <Form.Item
-                          {...field}
-                          validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message:
-                                "Please input passenger's name or delete this field.",
-                            },
-                          ]}
-                          noStyle
-                        >
-                          <Input
-                            placeholder="passenger name"
-                            style={{ width: '60%' }}
-                          />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
-                      </Form.Item>
-                    ))}
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                        style={{ width: '60%' }}
-                      >
-                        <PlusOutlined /> Add field
-                      </Button>
-                    </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Form>
+          <div>
+            <List
+              size="small"
+              bordered
+              dataSource={currentSS.documents}
+              className="pl-5 list-document"
+              renderItem={(item) => (
+                <List.Item
+                  key={item.id}
+                  className="link-document"
+                  onClick={() => this.handleClickListItem(item.url)}
+                >
+                  <Tag
+                    color="processing"
+                    className="d-flex custom-tag p-2 pl-4"
+                  >
+                    <h6>{item.title}</h6>
+                  </Tag>
+                </List.Item>
+              )}
+            />
+            <div className="d-flex   p-5 ">
+              <Input
+                placeholder="Enter title of document"
+                className="mr-2"
+                value={title}
+                onChange={(e) =>
+                  this.handleChangeInput('title', e.target.value)
+                }
+              />
+              <Input
+                placeholder="Enter url to document"
+                className="mr-2"
+                value={url}
+                onChange={(e) => this.handleChangeInput('url', e.target.value)}
+              />
+              <Button
+                type="dashed"
+                className="mr-2"
+                disabled={!title.trim() && !url}
+                onClick={this.handleAddLink}
+              >
+                Add
+              </Button>
+            </div>
+          </div>
         </Drawer>
+
+        <Modal
+          title="Edit Block"
+          visible={collapse}
+          onCancel={this.closeModalEdit}
+          width={500}
+          className=" mt-3 float-left ml-5"
+          style={{ top: 40, left: 200 }}
+          footer={[
+            <Button key="ok" onClick={this.closeModalEdit} type="primary">
+              OK
+            </Button>,
+          ]}
+        >
+          <PaddingAndMargin
+            padding={padding}
+            margin={margin}
+            handleChangePadding={this.handleChangePadding}
+            handleChangeMargin={this.handleChangeMargin}
+          />
+        </Modal>
       </div>
     );
   }
@@ -185,6 +311,7 @@ class Document extends Component {
 
 const mapStateToProps = (state) => ({
   session: state.event.session,
+  blocks: state.event.blocks,
 });
 
 const mapDispatchToProps = (dispatch) => ({

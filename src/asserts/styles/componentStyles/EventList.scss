@@ -19,7 +19,7 @@
       color: rgb(255, 255, 255);
       z-index: 19;
       font-size: 28px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: 'Times New Roman', Times, serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -34,7 +34,7 @@
       text-align: center !important;
       z-index: 19;
       font-size: 18px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: 'Times New Roman', Times, serif;
 
       visibility: inherit;
       opacity: 1;
@@ -46,7 +46,9 @@
 
   &:hover {
     opacity: 0.9;
-    transform: scale(1.1);
+    transform: scale(1.03);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+
     cursor: pointer;
     .title {
       display: block;
