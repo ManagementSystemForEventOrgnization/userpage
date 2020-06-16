@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Tabs, Table, Tag, Space } from 'antd';
+import { Button, Tabs, Table, Tag, Space, Collapse } from 'antd';
 import { connect } from 'react-redux';
 
 
@@ -7,19 +7,11 @@ import What from '../event/EventInfor/WhatTabPane';
 import Which from '../event/EventInfor/WhichTabPane';
 import When from '../event/EventInfor/WhenTabPane';
 import { eventActions } from 'action/event.action';
+import Item from 'antd/lib/list/Item';
 const { TabPane } = Tabs;
+const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
-const data = [
-    {
-        key: '1',
-        FullName: 'John',
-        Email: 'hongmo0909@gmail.com',
-        time: 32,
 
-        session: ['nice', 'developer'],
-    },
-
-];
 class ManageEvent extends React.Component {
     constructor(props) {
         // get category
@@ -48,14 +40,17 @@ class ManageEvent extends React.Component {
     };
 
     componentDidMount = () => {
-        const { getCategories, categories } = this.props;
+        const { getCategories, categories, getUserJoinEvent } = this.props;
         if (categories.length === 0) {
             getCategories();
         }
+        let dataSent = {};
+        dataSent.eventId = "5ed378fdbb0a102b7ce00903";
+        getUserJoinEvent(dataSent);
     };
 
     render() {
-        const { categories } = this.props;
+        const { categories, userJoinEvent } = this.props;
         const {
             nameEvent,
             isSellTicket,
@@ -65,7 +60,17 @@ class ManageEvent extends React.Component {
 
             banner,
         } = this.state;
+        // const data =userJoinEvent ||[
+        //     {
+        //         key: '1',
+        //         FullName: 'John',
+        //         Email: 'hongmo0909@gmail.com',
+        //         time: 32,
 
+        //         session: ['nice', 'developer'],
+        //     },
+
+        // ];
 
         const HIGHT = {
             color: '333333', 'fontWeight': '700', fontSize: '36px',
@@ -140,41 +145,64 @@ class ManageEvent extends React.Component {
                             />
                         </TabPane>
                         <TabPane tab="Participant" key="2">
-                            <Table dataSource={data}>
-                                <ColumnGroup title="FullName " dataIndex="FullName" key="F  ullName">
+
+                            < Table dataSource={userJoinEvent}>
+                                <ColumnGroup title="FullName " dataIndex="fullName" key="FullName">
 
                                 </ColumnGroup>
-                                <ColumnGroup title="Email " dataIndex="Email" key="Email">
+                                <ColumnGroup title="Email " dataIndex="email" key="Email">
 
                                 </ColumnGroup>
-                                <Column title="apply time" dataIndex="time" key="time" />
-
+                                <Column title="apply time" dataIndex="createdAt" key="time" />
                                 <Column
                                     title="session"
                                     dataIndex="session"
                                     key="session"
-                                    render={tags => (
-                                        <>
-                                            {tags.map(tag => (
-                                                <Tag color="blue" key={tag}>
-                                                    {tag}
-                                                </Tag>
-                                            ))}
-                                        </>
+                                    render={session => (
+                                        <div className="d-flex">
+                                            <p>{session.length}</p>
+                                            <Collapse className="ml-2" >
+                                                <Panel >
+
+                                                    <div>
+
+                                                    </div>
+                                                    {session.map(item => (
+                                                        <div>
+                                                            <div className="row">
+                                                                <div className="col">
+                                                                    <p>{item.name}</p>
+                                                                </div>
+                                                                <div className="col">
+                                                                    <p>{item.day}</p>
+                                                                </div>
+
+                                                                <div className="col">
+                                                                    <a>approve  </a>
+
+                                                                </div>
+                                                                <div className="col">
+                                                                    <a>approve  </a>
+
+                                                                </div>
+                                                                <div className="col">
+                                                                    <a>approve  </a>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </Panel>
+                                            </Collapse>
+                                        </div>
                                     )}
                                 />
-                                <Column
-                                    title="Action"
-                                    key="action"
-                                    render={(text, record) => (
-                                        <Space size="middle">
-                                            <a>approve  </a>
-                                            <a>reject</a>
-                                            < a>report</a>
-                                        </Space>
-                                    )}
-                                />
+
+
                             </Table>,
+
+
                   </TabPane>
 
                     </Tabs>
@@ -186,11 +214,13 @@ class ManageEvent extends React.Component {
     categories: state.event.categories,
     pending: state.event.pending,
     errMessage: state.event.errMessage,
+    userJoinEvent: state.event.userJoinEvent,
 });
 const mapDispatchToProps = (dispatch) => ({
 
 
     getCategories: () => dispatch(eventActions.getCategories()),
+    getUserJoinEvent: (dataSent) => dispatch(eventActions.getUserJoinEvent(dataSent))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageEvent);

@@ -48,6 +48,7 @@ const initialState = {
   system: [],
   headerStyle: {},
   comments: [],
+  userJoinEvent: [],
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -227,6 +228,16 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         hlEvent: [],
+      };
+    case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
+      return {
+        ...state,
+        userJoinEvent: action.userJoinEvent || [],
+      };
+    case eventConstants.GET_USER_JOIN_EVENT_FAILURE:
+      return {
+        ...state,
+        userJoinEvent: [],
       };
     case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
       return {

@@ -502,7 +502,29 @@ const saveComment = (eventId, content) => {
     };
   }
 };
+const getUserJoinEvent = (dataSent) => {
+  return (dispatch) => {
+    API.get(`/api/get_user_join_event`, {
+      params: dataSent,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
 
+  function success(userJoinEvent) {
+    return {
+      type: eventConstants.GET_USER_JOIN_EVENT_SUCCESS,
+      userJoinEvent,
+    };
+  }
+  function failure() {
+    return {
+      type: eventConstants.GET_USER_JOIN_EVENT_FAILURE,
+    };
+  }
+};
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -511,7 +533,7 @@ export const eventActions = {
   storeHeaderStyle,
   changeCurrentPage,
   changePages,
-
+  getUserJoinEvent,
   prepareForCreateEvent,
   getEventDetail,
   getListEventUpComing,
