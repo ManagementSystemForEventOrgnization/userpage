@@ -175,7 +175,6 @@ class Schedule1 extends Component {
       padding,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       textAlign,
@@ -201,7 +200,6 @@ class Schedule1 extends Component {
       alignContent: 'center',
       background: background,
       fontSize: `${fontSize}px`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -298,11 +296,9 @@ class Schedule1 extends Component {
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
         >
           <EditText
-            fonts={fonts}
             fontSize={fontSize}
             lineText={lineText}
             letterSpacing={letterSpacing}
-            handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
             handleChangeFontSize={(value) =>
               this.onChangeValue(value, 'fontSize')
             }

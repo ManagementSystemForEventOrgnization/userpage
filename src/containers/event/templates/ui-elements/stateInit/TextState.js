@@ -11,7 +11,7 @@ const TextState = (props) => ({
       ? props.newStyle.fontSize
       : 20
     : 20,
-  fonts: 'Times New Roman',
+  fonts: 'Arial',
   lineText: 80,
   letterSpacing: 0,
   textAlign: props.newStyle

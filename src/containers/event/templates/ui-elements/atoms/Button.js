@@ -121,7 +121,6 @@ class ButtonBlock extends React.Component {
       isButton,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       textAlign,
@@ -156,7 +155,6 @@ class ButtonBlock extends React.Component {
 
       alignContent: 'center',
       fontSize: `${fontSize}px`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -235,13 +233,9 @@ class ButtonBlock extends React.Component {
 
               <TabPane tab="Design" key="2">
                 <EditText
-                  fonts={fonts}
                   fontSize={fontSize}
                   lineText={lineText}
                   letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
                   handleChangeFontSize={(value) =>
                     this.onChangeValue(value, 'fontSize')
                   }

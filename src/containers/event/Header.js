@@ -41,11 +41,9 @@ class Header extends Component {
   };
 
   onChangeValue(newValue, valueParam) {
-    //const { storeStyleHeader } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
-    // setTimeout(storeStyleHeader(this.state), 3000);
   }
 
   checkActive = (child) => {
@@ -140,7 +138,6 @@ class Header extends Component {
 
     const {
       isCollapsed,
-      fonts,
       fontSize,
       lineText,
       letterSpacing,
@@ -174,7 +171,6 @@ class Header extends Component {
       alignContent: 'center',
       background: background,
       fontSize: `${fontSize}px`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -297,13 +293,9 @@ class Header extends Component {
 
               <TabPane tab="Style" key="2">
                 <EditText
-                  fonts={fonts}
                   fontSize={fontSize}
                   lineText={lineText}
                   letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
                   handleChangeFontSize={(value) =>
                     this.onChangeValue(value, 'fontSize')
                   }
