@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Button } from 'antd';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import {
   SettingTwoTone,
@@ -15,6 +15,9 @@ import When from './WhenTabPane';
 import { eventActions } from 'action/event.action';
 
 const { TabPane } = Tabs;
+const MAX_TAP_PANE = 3;
+const MIN_TAP_PANE = 1;
+
 class EventInfor extends Component {
   constructor(props) {
     // get category
@@ -28,6 +31,9 @@ class EventInfor extends Component {
       webAddress: '',
       isFirstLoad: true,
       banner: '/bg-2.jpg',
+
+      activeKey: '1',
+      customMessage: '',
     };
   }
 
@@ -35,6 +41,7 @@ class EventInfor extends Component {
     this.setState({
       [type]: value,
       isFirstLoad: true,
+      customMessage: '',
     });
   };
 
@@ -43,32 +50,6 @@ class EventInfor extends Component {
     if (categories.length === 0) {
       getCategories();
     }
-  };
-
-  handleNext = () => {
-    const {
-      nameEvent,
-      typeOfEvent,
-      category,
-      session,
-      isSellTicket,
-      webAddress,
-      banner,
-    } = this.state;
-    const { prepareForCreateEvent } = this.props;
-
-    prepareForCreateEvent(
-      nameEvent,
-      typeOfEvent,
-      category,
-      session,
-      isSellTicket,
-      webAddress,
-      banner
-    );
-    this.setState({
-      isFirstLoad: false,
-    });
   };
 
   isSessionValid = () => {
@@ -98,24 +79,77 @@ class EventInfor extends Component {
     return isValid;
   };
 
+  handleClickNextButton = () => {
+    const {
+      activeKey,
+      nameEvent,
+      category,
+      webAddress,
+      typeOfEvent,
+      session,
+      isSellTicket,
+      banner,
+    } = this.state;
+    let currentKey = +activeKey;
+    console.log(currentKey);
+    if (currentKey === MAX_TAP_PANE) {
+      const next =
+        nameEvent &&
+        category &&
+        webAddress &&
+        typeOfEvent &&
+        this.isSessionValid();
+      if (!next) {
+        this.setState({
+          customMessage: 'Fill out all required infomation, please.',
+        });
+      } else {
+        const { prepareForCreateEvent } = this.props;
+
+        prepareForCreateEvent(
+          nameEvent,
+          typeOfEvent,
+          category,
+          session,
+          isSellTicket,
+          webAddress,
+          banner
+        );
+        this.setState({
+          isFirstLoad: false,
+        });
+      }
+    } else {
+      currentKey++;
+      this.setState({
+        activeKey: `${currentKey}`,
+      });
+    }
+  };
+
+  handleClickBackButton = () => {
+    const { activeKey } = this.state;
+    let currentKey = +activeKey;
+    if (currentKey === MIN_TAP_PANE) return;
+
+    currentKey--;
+    this.setState({
+      activeKey: `${currentKey}`,
+    });
+  };
+
   render() {
     const { pending, errMessage, categories } = this.props;
     const {
       nameEvent,
       isSellTicket,
       webAddress,
-      category,
       typeOfEvent,
       isFirstLoad,
       banner,
+      activeKey,
+      customMessage,
     } = this.state;
-
-    const next =
-      nameEvent &&
-      category &&
-      webAddress &&
-      typeOfEvent &&
-      this.isSessionValid();
 
     const errorStyle = {
       backgroundColor: '#e8b3b3',
@@ -125,14 +159,19 @@ class EventInfor extends Component {
       margin: '10px 100px',
       padding: '1px 20px',
     };
+    const buttonCustom = {
+      width: '160px',
+      fontSize: '20px',
+      height: '45px',
+    };
 
     return (
-      <div>
-        {errMessage && !isFirstLoad && (
-          <div style={errorStyle}>{errMessage}</div>
+      <div className="pb-5">
+        {(customMessage || (errMessage && !isFirstLoad)) && (
+          <div style={errorStyle}>{errMessage || customMessage}</div>
         )}
 
-        <Tabs defaultActiveKey="1">
+        <Tabs activeKey={activeKey}>
           <TabPane
             tab={
               <span className="p-5">
@@ -141,6 +180,9 @@ class EventInfor extends Component {
               </span>
             }
             key="1"
+            onTabClick={() => {
+              this.setState({ activeKey: '1' });
+            }}
           >
             <What
               nameEvent={nameEvent}
@@ -157,7 +199,10 @@ class EventInfor extends Component {
                 When
               </span>
             }
-            key="3"
+            key="2"
+            onTabClick={() => {
+              this.setState({ activeKey: '2' });
+            }}
           >
             <When onChange={this.onChange} />
           </TabPane>
@@ -169,7 +214,10 @@ class EventInfor extends Component {
                 Which
               </span>
             }
-            key="2"
+            key="3"
+            onTabClick={() => {
+              this.setState({ activeKey: '3' });
+            }}
           >
             <Which
               isSellTicket={isSellTicket}
@@ -179,24 +227,27 @@ class EventInfor extends Component {
             />
           </TabPane>
         </Tabs>
+
         <hr className="shadow border-bottom" />
 
-        <div className="d-flex float-right">
-          <Link to="/">
-            <Button size="large" type="primary">
-              Back to home
-            </Button>
-          </Link>
-
+        <div className="d-flex justify-content-center ">
           <Button
             size="large"
             type="primary"
-            className="ml-3"
-            disabled={!next}
-            loading={pending}
-            onClick={this.handleNext}
+            className="mr-2"
+            style={buttonCustom}
+            onClick={this.handleClickBackButton}
           >
-            Finish
+            Previous
+          </Button>
+          <Button
+            size="large"
+            type="primary"
+            style={buttonCustom}
+            loading={pending}
+            onClick={this.handleClickNextButton}
+          >
+            Next
           </Button>
         </div>
       </div>

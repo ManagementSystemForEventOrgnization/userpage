@@ -87,7 +87,7 @@ class EventDetail extends React.Component {
     const { blocks, pending } = this.props;
 
     return (
-      <div>
+      <div className="pl-5 pr-5 shadow rounded ">
         {pending ? (
           <Skeleton active paragraph={{ rows: 20 }} className="p-5" />
         ) : (

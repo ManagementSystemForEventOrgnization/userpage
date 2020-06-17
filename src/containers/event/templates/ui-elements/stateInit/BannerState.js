@@ -4,7 +4,7 @@ const BannerState = (props) => ({
   margin: [1, 1, 1, 1],
   padding: [10, 5, 5, 10],
 
-  opacity: 0.7,
+  opacity: 0.6,
   bgColor: '#ECE7DF',
   plainOptions: props.session,
   content: {
@@ -16,7 +16,7 @@ const BannerState = (props) => ({
         textAlign: 'center',
         fontFamily: 'Anton',
         transform: 'capitalize',
-        lineText: 80
+        lineText: 80,
       },
     },
     description: {

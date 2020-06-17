@@ -51,110 +51,109 @@ class LoginPage extends React.Component {
     const urlIMG =
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
-
     return (
-      <div className="login">
-        <div className=" row">
-          <Link to="/" className="col ">
+      <div className=" row login-page">
+        <div className="col-sm-6 col-md-6">
+          <Link to="/">
             <img alt="logo" src={urlIMG} />
           </Link>
+        </div>
 
-          <div className="col " >
-            <p className="website-name ">Event in your hand</p>
+        <div className=" col-sm-6 col-md-6">
+          <p className="website-name">Event in your hand</p>
 
-            {active === false ? (
-              <CheckCode />
-            ) : (
-                <Form className="mt-2">
-                  <Form.Item>
-                    {!isFirstLoad && message && (
-                      <div className="error-message mt-2 mb-2">{message}</div>
+          {active === false ? (
+            <CheckCode />
+          ) : (
+            <Form className="mt-2">
+              <Form.Item>
+                {!isFirstLoad && message && (
+                  <div className="error-message mt-2 mb-2">{message}</div>
+                )}
+              </Form.Item>
+
+              <Form.Item
+                name="Email"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  className="inputStyle"
+                  prefix={<UserOutlined className="site-form-item-icon" />}
+                  value={email}
+                  name="email"
+                  onChange={this.onChange}
+                  onFocus={this.onFocus}
+                  placeholder="Email"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input.Password
+                  className="inputStyle"
+                  value={password}
+                  onChange={this.onChange}
+                  onFocus={this.onFocus}
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+              </Form.Item>
+
+              <div className="ant-row">
+                <div className="ant-col ant-col-12 pl-5">
+                  <Form.Item shouldUpdate>
+                    {() => (
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ml-5 mt-4"
+                        loading={pending}
+                        disabled={!activeEmail}
+                        onClick={this.handleLogin}
+                      >
+                        Login
+                      </Button>
                     )}
                   </Form.Item>
+                </div>
+                <div className="ant-col ant-col-12  ">
+                  <Link to="/forgotpassword" style={{ float: 'right' }}>
+                    Forgot password?
+                  </Link>
+                </div>
+              </div>
 
-                  <Form.Item
-                    name="Email"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="inputStyle"
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      value={email}
-                      name="email"
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Email"
-                    />
-                  </Form.Item>
+              <p style={{ textAlign: 'center' }}>OR</p>
 
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input.Password
-                      className="inputStyle"
-                      value={password}
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      prefix={<LockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                    />
-                  </Form.Item>
-
-                  <div className="ant-row">
-                    <div className="ant-col ant-col-12 pl-5">
-                      <Form.Item shouldUpdate>
-                        {() => (
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="ml-5 mt-4"
-                            loading={pending}
-                            disabled={!activeEmail}
-                            onClick={this.handleLogin}
-                          >
-                            Login
-                          </Button>
-                        )}
-                      </Form.Item>
-                    </div>
-                    <div className="ant-col ant-col-12  ">
-                      <Link to="/forgotpassword" style={{ float: 'right' }}>
-                        Forgot password?
-                    </Link>
-                    </div>
-                  </div>
-
-                  <p style={{ textAlign: 'center' }}>OR</p>
-
-                  <GoogleLogin
-                    clientId={clientID}
-                    buttonText="Login with Google"
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                    icon={true}
-                    className="button-login-google"
-                  />
-                  <p className="mt-2" style={{ textAlign: 'center' }}>
-                    You don't have any account ?{' '}
-                    <span>
-                      <Link to="/signup">Register Now</Link>
-                    </span>{' '}
-                  </p>
-                </Form>
-              )}
-          </div>
+              <GoogleLogin
+                clientId={clientID}
+                buttonText="Login with Google"
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                cookiePolicy={'single_host_origin'}
+                icon={true}
+                className="button-login-google"
+              />
+              <p className="mt-2" style={{ textAlign: 'center' }}>
+                You don't have any account ?{' '}
+                <span>
+                  <Link to="/signup">Register Now</Link>
+                </span>{' '}
+              </p>
+            </Form>
+          )}
         </div>
       </div>
     );
