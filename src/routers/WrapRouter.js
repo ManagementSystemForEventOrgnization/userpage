@@ -34,7 +34,7 @@ class WrapRouter extends React.Component {
       {
         path: '/',
         exact: true,
-        main: () => <HomePage />,
+        main: (match) => <HomePage match={match} />,
       },
       {
         path: '/about-us',

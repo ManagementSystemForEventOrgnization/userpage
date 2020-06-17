@@ -32,7 +32,7 @@ class CommentEvent extends Component {
 
     const { style, id } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, newComment: [] }
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
