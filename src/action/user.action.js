@@ -15,7 +15,9 @@ const login = (email, password) => {
       .then((res) => {
         dispatch(success(res.data.result));
         if (res.data.result.isActive) {
-          history.push('/');
+          if (history.action === 'PUSH') {
+            history.goBack();
+          } else history.push('/');
         }
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -39,7 +41,9 @@ const loginWithGoogle = (profile) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
@@ -172,9 +176,14 @@ const checkCode = (token) => {
     })
       .then((res) => {
         dispatch(success());
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
+
+        // history.push('/');
       })
       .catch((error) => {
+        console.log(error);
         handleCatch(dispatch, failure, error);
       });
   };
@@ -293,9 +302,7 @@ const onUpdateBankInfor = (bankInfor) => {
   }
 };
 
-const get_History = (
-  dataSent
-) => {
+const get_History = (dataSent) => {
   return (dispatch) => {
     dispatch(request());
 
@@ -319,10 +326,7 @@ const get_History = (
   }
 };
 
-const getCreateHistory = (
-  dataSent
-
-) => {
+const getCreateHistory = (dataSent) => {
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/user/historyCreate`, {
@@ -376,7 +380,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function success(numUnreadNotification) {
@@ -387,57 +391,32 @@ const getNumUnreadNotification = () => {
   }
 };
 
-const setReadNotification = (notificationId, notifications) => {
+const setReadNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setReadNotification', { notificationId }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      console.log(notifications);
-      const newNoties = [
-        ...notifications.slice(0, index),
-        {
-          ...notifications[index],
-          isRead: true,
-        },
-        ...notifications.slice(index + 1, notifications.length),
-      ];
-      console.log(newNoties);
-      dispatch(success(newNoties));
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.SET_READ_NOTIFICATION,
-      notifications,
     };
   }
 };
 
-const setDeleteNotification = (notificationId, notifications) => {
+const setDeleteNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setDeleteNotification', {
       notificationId,
     }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      if (index !== -1) {
-        const newNoties = [
-          ...notifications.slice(0, index),
-          ...notifications.slice(index + 1, notifications.length),
-        ];
-
-        dispatch(success(newNoties));
-      }
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.DELETE_NOTIFICATION,
-      notifications,
     };
   }
 };
