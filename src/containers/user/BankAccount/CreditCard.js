@@ -74,9 +74,9 @@ class CreditCard extends Component {
             ListInfor.map((card, key) =>
                 <div key={key}>
                     {card.brand === "MasterCard" && MasterCard(card)}
+                    {/* {card.brand === "MasterCard" && MasterCard(card)}
                     {card.brand === "MasterCard" && MasterCard(card)}
-                    {card.brand === "MasterCard" && MasterCard(card)}
-                    {card.brand === "MasterCard" && MasterCard(card)}
+                    {card.brand === "MasterCard" && MasterCard(card)} */}
 
                     {card.brand === "VisaCard" && VisaCard(card)}
                     <Modal
@@ -102,8 +102,8 @@ class CreditCard extends Component {
         console.log(JSON.stringify(this.props.ListCard))
         return (
             <div className="credit-card ">
-                {ListCard(this.props.listCard)}
-                {JSON.stringify(this.props.ListCard) === undefined && <BankCard />}
+                {this.props.ListCard === null || this.props.ListCard === undefined ? <BankCard /> : ListCard(this.props.listCard)}
+                {/* {JSON.stringify(this.props.ListCard) === undefined && } */}
             </div>
         )
     }
