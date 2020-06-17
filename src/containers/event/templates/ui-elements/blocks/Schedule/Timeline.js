@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Timeline } from 'antd';
-import { DeleteTwoTone } from '@ant-design/icons';
+import { DeleteTwoTone, ClockCircleOutlined } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
-import { iconStyle } from '../../../constants/atom.constant';
+import { iconStyle, titleBlockStyle } from '../../../constants/atom.constant';
 
 class TimelineBlock extends Component {
   constructor(props) {
@@ -57,17 +57,25 @@ class TimelineBlock extends Component {
     const { session } = this.state;
 
     return (
-      <div className="">
+      <div className="p-5 ">
+        <h2 style={titleBlockStyle}>Timeline</h2>
+
         {session &&
           session.map((ss) => (
             <div key={ss.id} className="d-flex">
-              <div className="child-block mt-2 mb-2">
+              <div className="child-block mt-3 mb-5 p-5 shadow-sm ">
                 <h6>
                   Session {ss.name} : {moment(ss.day).format('LLLL')}
                 </h6>
 
                 {ss.detail.length !== 0 ? (
-                  <Timeline mode="left" key={ss.id}>
+                  <Timeline mode="left" key={ss.id} className="mt-5">
+                    <Timeline.Item
+                      dot={<ClockCircleOutlined style={{ fontSize: '20px' }} />}
+                      color="red"
+                    >
+                      Start
+                    </Timeline.Item>
                     {ss.detail.map((item) => (
                       <Timeline.Item
                         label={`From ${item.from} to ${item.to}`}
@@ -76,6 +84,11 @@ class TimelineBlock extends Component {
                         {item.description}
                       </Timeline.Item>
                     ))}
+                    <Timeline.Item
+                      dot={<ClockCircleOutlined style={{ fontSize: '20px' }} />}
+                      color="red"
+                      label="Finish"
+                    ></Timeline.Item>
                   </Timeline>
                 ) : (
                   <p>This session doesn't have Timeline</p>

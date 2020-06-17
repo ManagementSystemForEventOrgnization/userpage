@@ -3,7 +3,6 @@ import React from 'react';
 import ButtonBlock from '../templates/ui-elements/atoms/Button';
 import TextBlock from '../templates/ui-elements/atoms/Text';
 import ImageBlock from '../templates/ui-elements/atoms/Image';
-import StepBlock from '../templates/ui-elements/atoms/Step';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
@@ -15,7 +14,6 @@ import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
 import Banner3 from '../templates/ui-elements/blocks/banner/Banner3';
 import Banner1 from '../templates/ui-elements/blocks/banner/Banner1';
-
 
 import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/EventDescription1';
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
@@ -103,9 +101,6 @@ export const blockList = {
     <Card2 key={id} editable={editable} style={style} id={id} />
   ),
 
-  step: ({ editable, style, id }) => (
-    <StepBlock key={id} editable={editable} style={style} id={id} />
-  ),
   schedule2: ({ editable, style, id }) => (
     <Schedule key={id} editable={editable} style={style} id={id} />
   ),

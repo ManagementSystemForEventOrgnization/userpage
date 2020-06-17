@@ -256,7 +256,17 @@ const iconStyle = {
   fontSize: '20px',
 };
 
+const titleBlockStyle = {
+  textShadow: 'rgb(22, 24, 33) 0px 0px 3px',
+  background: '#f1efef',
+  borderRadius: '3px',
+  margin: '1%',
+  padding: '2%',
+  lineHeight: '127%',
+};
+
 export {
+  titleBlockStyle,
   formItemLayout,
   formItemLayoutWithOutLabel,
   iconStyle,

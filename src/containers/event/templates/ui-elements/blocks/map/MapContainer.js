@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import IconsHandle from '../../shares/IconsHandle';
 import { eventActions } from 'action/event.action';
-
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -60,6 +59,7 @@ export class MapContainer extends Component {
 
     return (
       <div className="child-block pl-1 mt-1 mb-1" style={style}>
+        {/* <h5 style={titleBlockStyle}>Map</h5> */}
         <Map
           google={this.props.google}
           containerStyle={containerStyle}

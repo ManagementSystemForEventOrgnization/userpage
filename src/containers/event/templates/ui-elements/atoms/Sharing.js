@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { Select, Modal, Button, Input, InputNumber, Form } from 'antd';
 import { connect } from 'react-redux';
 
-import { listIcon, nameIcon, layout } from '../../constants/atom.constant';
+import {
+  listIcon,
+  nameIcon,
+  layout,
+  titleBlockStyle,
+} from '../../constants/atom.constant';
 import IconsHandle from '../shares/IconsHandle';
 import { eventActions } from 'action/event.action';
 
@@ -19,7 +24,7 @@ class Sharing extends Component {
           collapse: false,
           url: 'http://github.com',
           title: 'Github',
-          size: 32,
+          size: 45,
         };
   }
 
@@ -85,8 +90,9 @@ class Sharing extends Component {
     const { editable } = this.props;
     return (
       <div className="child-block">
+        <h5 style={titleBlockStyle}>Share to social media</h5>
         <hr />
-        <div className="d-flex flex-wrap p-5">
+        <div className="d-flex flex-wrap pl-3 pr-3 ">
           {icons.map((item, index) => (
             <div className="mr-2 ml-2" key={index}>
               {listIcon[item](url, title, size)}{' '}
