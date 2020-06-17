@@ -391,57 +391,32 @@ const getNumUnreadNotification = () => {
   }
 };
 
-const setReadNotification = (notificationId, notifications) => {
+const setReadNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setReadNotification', { notificationId }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      console.log(notifications);
-      const newNoties = [
-        ...notifications.slice(0, index),
-        {
-          ...notifications[index],
-          isRead: true,
-        },
-        ...notifications.slice(index + 1, notifications.length),
-      ];
-      console.log(newNoties);
-      dispatch(success(newNoties));
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.SET_READ_NOTIFICATION,
-      notifications,
     };
   }
 };
 
-const setDeleteNotification = (notificationId, notifications) => {
+const setDeleteNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setDeleteNotification', {
       notificationId,
     }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      if (index !== -1) {
-        const newNoties = [
-          ...notifications.slice(0, index),
-          ...notifications.slice(index + 1, notifications.length),
-        ];
-
-        dispatch(success(newNoties));
-      }
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.DELETE_NOTIFICATION,
-      notifications,
     };
   }
 };

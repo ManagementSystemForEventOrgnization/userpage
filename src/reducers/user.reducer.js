@@ -288,13 +288,11 @@ const user = (state = initialState, action) => {
     case userConstants.SET_READ_NOTIFICATION:
       return {
         ...state,
-        notifications: action.notifications,
       };
 
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
-        notifications: action.notifications,
       };
 
     case userConstants.GET_CHAT_HISTORY:
