@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { userActions } from '../../../action/user.action';
-// import { Link } from 'react-router-dom';
 import BankCard from './BankCard';
 import { Modal } from 'antd';
+import Header from '../../share/_layout/Header'
+import Footer from '../../share/_layout/Footer'
 
 // const deleteCard = (cardId) => (
 //     alert("delete")
@@ -55,7 +56,7 @@ class CreditCard extends Component {
 
         )
 
-        const VisaCard = (cardInfor) => (
+        const VisaCard = (cardInfor = {}) => (
             <div onClick={() => this.setState({ visible: true })} className="visa_card">
 
                 <div className="panel">
@@ -90,8 +91,8 @@ class CreditCard extends Component {
                         {this.props.errMessage && <div className="alert alert-danger" role="alert" >
                             {this.props.errMessage}
                         </div>}
-                        <button onClick={() => this.props.delCardDefault(card.id)}>delete</button>
-                        <button onClick={() => this.props.postCardDefault(card.id)}>Pay by the card</button>
+                        <button type="button" class="btn btn-danger" onClick={() => this.props.delCardDefault(card.id)}>delete</button>
+                        <button type="button" class="btn btn-success" onClick={() => this.props.postCardDefault(card.id)}>Pay by the card</button>
                     </Modal>
                 </div >
             )
@@ -101,9 +102,18 @@ class CreditCard extends Component {
         console.log(this.props)
         console.log(JSON.stringify(this.props.ListCard))
         return (
-            <div className="credit-card ">
-                {this.props.ListCard === null || this.props.ListCard === undefined ? <BankCard /> : ListCard(this.props.listCard)}
-                {/* {JSON.stringify(this.props.ListCard) === undefined && } */}
+            <div>
+                <Header />
+                <div className="credit-card mb-5 pb-5">
+                    {this.props.ListCard === null || this.props.ListCard === undefined ? <BankCard /> : ListCard(this.props.listCard)}
+
+                    {/* {MasterCard({})}
+                    {MasterCard({})}
+                    {MasterCard({})}
+                    {VisaCard({})} */}
+                    {/* {JSON.stringify(this.props.ListCard) === undefined && } */}
+                </div>
+                <Footer />
             </div>
         )
     }
