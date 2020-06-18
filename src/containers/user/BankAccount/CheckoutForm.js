@@ -108,7 +108,8 @@ class CheckoutForm extends React.Component {
         console.log(this.state.token);
         const { addPaymentCard } = this.props.props;
         addPaymentCard(this.state.token)
-        console.log(this.props.props)
+
+        // console.log(this.props.props)
       }
 
       this.setState({
@@ -120,15 +121,16 @@ class CheckoutForm extends React.Component {
       <div>
         {
           (token && this.props.props.success) ?
-            (<div className="Result bank-account">
-              <div className="ResultTitle" role="alert">
-                Saving successfully
-        </div>
-              <div className="ResultMessage">
-                Thank for saving your card. It will be faster for you to access
-                payment
-        </div>
-            </div>) : (
+            //     (<div className="Result bank-account">
+            //       <div className="ResultTitle" role="alert">
+            //         Saving successfully
+            // </div>
+            //       <div className="ResultMessage">
+            //         Thank for saving your card. It will be faster for you to access
+            //         payment
+            // </div>
+            //     </div>) && 
+            (window.location.reload()) : (
               <div className="Result bank-account">
                 <div className="ResultTitle" role="alert">
                   {this.props.props.errMessage}

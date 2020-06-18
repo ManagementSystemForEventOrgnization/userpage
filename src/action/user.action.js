@@ -347,7 +347,7 @@ const getListCardPayment = () => {
     dispatch(request());
     API.get(`/api/get_listcard`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(success(res.data.result));
       })
       .catch((error) => {

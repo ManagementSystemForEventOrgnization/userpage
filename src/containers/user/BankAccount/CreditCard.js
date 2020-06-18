@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { userActions } from '../../../action/user.action';
 import BankCard from './BankCard';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import Header from '../../share/_layout/Header'
-import Footer from '../../share/_layout/Footer'
-
+import { PlusCircleOutlined } from '@ant-design/icons'
 // const deleteCard = (cardId) => (
 //     alert("delete")
 // )
@@ -14,11 +13,14 @@ import Footer from '../../share/_layout/Footer'
 //     alert("pay by the card")
 // )
 
+
+
 class CreditCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            visible: false
+            visible: false,
+            isOpenAddCard: false
         }
     }
 
@@ -26,10 +28,12 @@ class CreditCard extends Component {
         this.props.getListCardPayment();
     }
 
+
+
     render() {
 
         const MasterCard = (cardInfor = {}) => (
-            <div>
+            <div className="mb-5 col ml-5">
                 <div onClick={() => this.setState({ visible: true })} className=" card">
                     <figure className="card__figure">
                         <img src="https://conta.nubank.com.br/images/nu-white.png" className="card__figure--logo" />
@@ -47,7 +51,7 @@ class CreditCard extends Component {
                     </div>
                     <p className="card__name">GABRIEL FERREIRA</p><p>
                     </p><div className="card__flag">
-                        <div className="card__flag--globe" />
+                        <div className="card__flag--globe " />
                         <div className="card__flag--red" />
                         <div className="card__flag--yellow" />
                     </div>
@@ -57,7 +61,7 @@ class CreditCard extends Component {
         )
 
         const VisaCard = (cardInfor = {}) => (
-            <div onClick={() => this.setState({ visible: true })} className="visa_card">
+            <div onClick={() => this.setState({ visible: true })} className="visa_card col ml-5">
 
                 <div className="panel">
                     <div className="card card--front">
@@ -70,6 +74,21 @@ class CreditCard extends Component {
             </div>
         )
 
+        const AddCard = () => (
+            <div>
+                <Button type="primary" onClick={() => this.setState({ isOpenAddCard: true })}>
+                    <PlusCircleOutlined /> Add more card
+                       </Button>
+                <Modal
+                    title="Add Card"
+                    visible={this.state.isOpenAddCard}
+                    onOk={() => this.setState({ isOpenAddCard: false })}
+                    onCancel={() => this.setState({ isOpenAddCard: false })}
+                >
+                    <BankCard />
+                </Modal>
+            </div>
+        )
 
         const ListCard = (ListInfor = []) => (
             ListInfor.map((card, key) =>
@@ -79,7 +98,7 @@ class CreditCard extends Component {
                     {card.brand === "MasterCard" && MasterCard(card)}
                     {card.brand === "MasterCard" && MasterCard(card)} */}
 
-                    {card.brand === "VisaCard" && VisaCard(card)}
+                    {card.brand === "Visa" && VisaCard(card)}
                     <Modal
                         title="Accept to pay"
                         visible={this.state.visible}
@@ -91,29 +110,30 @@ class CreditCard extends Component {
                         {this.props.errMessage && <div className="alert alert-danger" role="alert" >
                             {this.props.errMessage}
                         </div>}
-                        <button type="button" class="btn btn-danger" onClick={() => this.props.delCardDefault(card.id)}>delete</button>
-                        <button type="button" class="btn btn-success" onClick={() => this.props.postCardDefault(card.id)}>Pay by the card</button>
+                        <div className="d-flex justify-content-around">
+                            <button type="button" className="btn btn-danger" onClick={() => { this.props.delCardDefault(card.id); window.location.reload(); }}>delete this card</button>
+                            <button type="button" className="btn btn-success" onClick={() => this.props.postCardDefault(card.id)}>Pay by this card</button>
+                        </div>
                     </Modal>
                 </div >
             )
         )
 
 
-        console.log(this.props)
-        console.log(JSON.stringify(this.props.ListCard))
+
+
         return (
             <div>
                 <Header />
-                <div className="credit-card mb-5 pb-5">
-                    {this.props.ListCard === null || this.props.ListCard === undefined ? <BankCard /> : ListCard(this.props.listCard)}
+                <div className="container credit-card mb-5 pb-5 ml-5 pl-5">
+                    <div className="row ml-5 pl-5">
+                        {JSON.stringify(this.props.listCard) == JSON.stringify([]) ? <BankCard /> : ListCard(this.props.listCard)}
+                    </div>
+                    <div className="addCard">
+                        {JSON.stringify(this.props.listCard) != JSON.stringify([]) && <AddCard />}
+                    </div>
 
-                    {/* {MasterCard({})}
-                    {MasterCard({})}
-                    {MasterCard({})}
-                    {VisaCard({})} */}
-                    {/* {JSON.stringify(this.props.ListCard) === undefined && } */}
                 </div>
-                <Footer />
             </div>
         )
     }
@@ -124,7 +144,8 @@ const mapStateToProps = (state) => {
         listCard: state.user.listCard,
         errMessage: state.user.errMessage,
         success: state.user.success,
-        CardSuccess: state.user.CardSuccess
+        CardSuccess: state.user.CardSuccess,
+        getListCardSucces: state.user.getListCardSucces
     };
 };
 
