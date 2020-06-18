@@ -12,7 +12,7 @@ import {
 import What from './WhatTabPane';
 import Which from './WhichTabPane';
 import When from './WhenTabPane';
-import { eventActions } from 'action/event.action';
+import { eventActions } from '../../../action/event.action';
 
 const { TabPane } = Tabs;
 const MAX_TAP_PANE = 3;

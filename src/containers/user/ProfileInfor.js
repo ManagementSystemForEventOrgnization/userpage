@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import { Modal, Button } from 'antd';
+import ChangePassword from './ChangePassword'
 class UpdateProfileInfor extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +27,7 @@ class UpdateProfileInfor extends Component {
       visible: false,
       percentOfPersonalInfor: 0,
       percenOfOrgInfor: 0,
+      isShowModel: false
     };
 
     this.updatePercentInfor = this.updatePercentInfor.bind(this);
@@ -119,12 +122,15 @@ class UpdateProfileInfor extends Component {
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
                 {userInfor.phone}
               </p>
+              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}> change password</Button>
               <hr />
               <p className="w3-large">
-                <b>
-                  <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
-                  Profile
-                </b>
+                <Link to="my-events/profile">
+                  <b>
+                    <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
+                    Profile <small className="float-right">click here to edit</small>
+                  </b>
+                </Link>
               </p>
               <p>Personal Information (%)</p>
               <div className="w3-light-grey w3-round-xlarge w3-small">
@@ -148,12 +154,15 @@ class UpdateProfileInfor extends Component {
               </div>
               <br />
               <p className="w3-large w3-text-theme">
-                <b>
-                  <i className="fa fa-globe fa-fw w3-margin-right w3-text-teal" />
-                  Bank Account
-                </b>
+                <Link to="my-events/bankaccount">
+                  <b>
+                    <i className="fa fa-globe fa-fw w3-margin-right w3-text-teal" />
+                    Bank Account <small className="float-right">click here to edit</small>
+                  </b>
+                </Link>
               </p>
-              <p>Visa</p>
+
+              {/* <p>Visa</p>
               <div className="w3-light-grey w3-round-xlarge">
                 <div
                   className="w3-round-xlarge w3-teal"
@@ -167,12 +176,22 @@ class UpdateProfileInfor extends Component {
                   style={{ height: '24px', width: '55%' }}
                 />
               </div>
-              <br />
+              <br /> */}
             </div>
           </div>
           <br />
           {/* End Left Column */}
         </div>
+
+        <Modal
+          title="Change your password"
+          visible={this.state.isShowModel}
+          onOk={() => this.setState({ isShowModel: false })}
+          onCancel={() => this.setState({ isShowModel: false })}
+        >
+          <ChangePassword />
+        </Modal>
+
       </div>
     );
   }

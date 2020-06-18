@@ -53,6 +53,12 @@ class DropContainer extends React.Component {
     return update ? blockList[item.type](param) : item.options(param);
   };
 
+  handleChangeTextArea = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
+  };
+
   render() {
     const { match, editable, blocks, storeBlocksWhenCreateEvent } = this.props;
 

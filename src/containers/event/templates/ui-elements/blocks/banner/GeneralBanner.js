@@ -82,8 +82,6 @@ class GeneralBanner extends Component {
     let { content } = this.state;
     content[type] = value;
     this.setState(content);
-
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   render() {
@@ -243,7 +241,7 @@ const mapStateToProps = (state) => ({
   userInfo: state.user.userInfo,
   banner: state.event.banner,
   nameEvent: state.event.nameEvent,
-  eventId: state.event.id,
+  id: state.event.id,
   session: state.event.session,
 });
 

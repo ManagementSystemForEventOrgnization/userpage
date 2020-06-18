@@ -1,35 +1,35 @@
 .head {
-  // margin-bottom: 10%;
-  height: 52px;
-  margin-bottom: -4px;
+   // margin-bottom: 10%;
+   height: 52px;
+   margin-bottom: -4px;
 
-  .header {
-    background-image: $background-image-color;
-    height: 52px;
+   .header {
+      background-image: $background-image-color;
+      height: 52px;
 
-    .search {
-      width: 300px;
-    }
-
-    .user-nav {
-      z-index: 1050;
-
-      .login {
-        font-weight: bold;
-        color: $white;
+      .search {
+         width: 300px;
       }
-      .register {
-        @extend .login;
-        button {
-          margin-top: -4px;
-        }
-      }
-    }
 
-    .web-name {
-      font-weight: bold;
-      color: $white;
-      font-size: 20px;
-    }
-  }
+      .user-nav {
+         z-index: 1050;
+
+         .login {
+            font-weight: bold;
+            color: $white;
+         }
+         .register {
+            @extend .login;
+            button {
+               margin-top: -4px;
+            }
+         }
+      }
+
+      .web-name {
+         font-weight: bold;
+         color: $white;
+         font-size: 20px;
+      }
+   }
 }
