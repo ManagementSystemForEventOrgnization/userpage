@@ -1,80 +1,110 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
+import { Divider } from 'antd';
 
 import IconsHandle from '../../shares/IconsHandle';
 import { eventActions } from 'action/event.action';
 
-export class MapContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedPlace: {
-        name: '',
-      },
-    };
-  }
-
-  handleDuplicate = () => {
-    const { id, duplicateBlock } = this.props;
+const MapWithImage = (props) => {
+  const handleDuplicate = () => {
+    const { id, duplicateBlock } = props;
     if (duplicateBlock) {
       duplicateBlock(id);
     }
   };
-
-  handleDelete = () => {
-    const { id, deleteBlock } = this.props;
+  const handleDelete = () => {
+    const { id, deleteBlock } = props;
     if (deleteBlock) {
       deleteBlock(id);
     }
   };
+  const collapseModal = () => {};
 
-  renderMarkers = () => {
-    const { session } = this.props;
-    let markers = session.map((ss) => (
-      <Marker
-        key={ss.id}
-        title={ss.name}
-        position={{ lat: ss.address.map.lat, lng: ss.address.map.lng }}
-      />
-    ));
-    return markers;
+  const isDetailImageValid = () => {
+    const { session } = props;
+    const result = session.every((ss) => ss.address.detailImage);
+    return result;
+  };
+  const { editable, session, type } = props;
+
+  const divStyle = {
+    display: 'inlineBock',
   };
 
-  render() {
-    const style = {
-      width: '100%',
-      height: '80vh',
-    };
+  const mapStyle = {
+    position: 'relative',
+    width: '90%',
+    height: '100%',
+    paddingTop: ' 50%',
+    marginTop: ' 2%',
+    marginLeft: ' 2%',
+  };
 
-    const { editable } = this.props;
-
-    return (
-      <div className="child-block pl-2 pl-2 mt-1 mb-1" style={style}>
-        <Map
-          google={this.props.google}
-          style={{ width: '80%', height: '80%', position: 'relative' }}
-          className={'map'}
-          zoom={14}
-        >
-          {this.renderMarkers()}
-        </Map>
-
-        {editable && (
-          <IconsHandle
-            collapseModal={this.collapseModal}
-            handleDuplicate={this.handleDuplicate}
-            handleDelete={this.handleDelete}
+  return (
+    <div className="child-block " style={divStyle}>
+      <Map
+        google={props.google}
+        containerStyle={mapStyle}
+        initialCenter={{
+          lat: +session[0].address.map.lat,
+          lng: +session[0].address.map.lng,
+        }}
+        zoom={12}
+      >
+        {session.map((ss, index) => (
+          <Marker
+            key={ss.id}
+            id={index + 1}
+            title={ss.name}
+            position={{
+              lat: +ss.address.map.lat,
+              lng: +ss.address.map.lng,
+            }}
           />
-        )}
-      </div>
-    );
-  }
-}
+        ))}
+      </Map>
+      {type && (
+        <div>
+          <hr className="mt-2" />
+          <div className="d-flex mt-5 pl-5 flex-wrap">
+            <div>
+              {isDetailImageValid() ? (
+                session.map(
+                  (ss) =>
+                    ss.address.detailImage && (
+                      <div className="p-2">
+                        <Divider orientation="left">
+                          {' '}
+                          {ss.address.location} :{' '}
+                        </Divider>
 
-const MapBlock = GoogleApiWrapper({
+                        <img src={ss.address.detailImage} alt="detail" />
+                      </div>
+                    )
+                )
+              ) : (
+                <Divider plain>Don't have any image provided </Divider>
+              )}
+            </div>
+
+            {editable && (
+              <IconsHandle
+                collapseModal={collapseModal}
+                handleDuplicate={handleDuplicate}
+                handleDelete={handleDelete}
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const MapContainer = GoogleApiWrapper({
   apiKey: process.env.REACT_APP_DIRECTION_KEY,
-})(MapContainer);
+})(MapWithImage);
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
@@ -88,4 +118,4 @@ const mapDispatchToProps = (dispatch) => ({
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
