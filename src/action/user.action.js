@@ -406,7 +406,7 @@ const delCardDefault = (cardId) => {
       cardId,
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, cardId));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
   };
@@ -414,8 +414,8 @@ const delCardDefault = (cardId) => {
   function request() {
     return { type: userConstants.DEL_CARDDEFAULT_REQUEST };
   }
-  function success(success) {
-    return { type: userConstants.DEL_CARDDEFAULT_SUCCESS, success };
+  function success(success, cardId) {
+    return { type: userConstants.DEL_CARDDEFAULT_SUCCESS, success, cardId };
   }
   function failure(error) {
     return { type: userConstants.DEL_CARDDEFAULT_FAILURE, error };

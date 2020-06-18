@@ -12,6 +12,7 @@ const initialState = {
   notifications: [],
   numUnreadNotification: 0,
   chatHistory: [],
+  listCard: []
 };
 
 const user = (state = initialState, action) => {
@@ -194,6 +195,8 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         pending: true,
+        CardSuccess: null,
+        errMessage: null
       };
     }
 
@@ -201,6 +204,7 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         CardSuccess: action.success,
+        errMessage: null,
         pending: false,
       };
 
@@ -208,6 +212,7 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         errMessage: action.error,
+        CardSuccess: null,
         pending: false,
       };
 
@@ -220,11 +225,15 @@ const user = (state = initialState, action) => {
     }
 
     case userConstants.DEL_CARDDEFAULT_SUCCESS:
-      return {
-        ...state,
-        CardSuccess: action.success,
-        pending: false,
-      };
+      {
+        console.log(action)
+        return {
+          ...state,
+          CardSuccess: action.success,
+          pending: false,
+          listCard: [...state.listCard.filter(card => card.id !== action.cardId)]
+        };
+      }
 
     case userConstants.DEL_CARDDEFAULT_FAILURE:
       return {
@@ -324,14 +333,14 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LISTCARD_SUCCESS:
       return {
         ...state,
-        listCard: action.listCard || {},
+        listCard: action.listCard || [],
         pending: false,
       };
 
     case userConstants.GET_LISTCARD_FAILURE:
       return {
         ...state,
-        listCard: null,
+        listCard: [],
         pending: false,
       };
 
