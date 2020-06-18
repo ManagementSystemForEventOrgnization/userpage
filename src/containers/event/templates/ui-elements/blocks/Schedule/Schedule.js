@@ -19,6 +19,7 @@ class Schedule1 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
+    console.log(this.props.session);
     this.state = style
       ? { ...style }
       : {

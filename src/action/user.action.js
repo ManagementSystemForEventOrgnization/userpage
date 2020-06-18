@@ -302,7 +302,129 @@ const onUpdateBankInfor = (bankInfor) => {
   }
 };
 
-const get_History = (dataSent) => {
+const onChangePassword = (passwords) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/updatePassword`, {
+      ...passwords,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.CHANGEPASSWORD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.CHANGEPASSWORD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.CHECK_CODE_FAILURE, error };
+  }
+};
+
+const addPaymentCard = (cardToken) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/add_card`, {
+      cardToken,
+    })
+      .then((res) => {
+        console.log('cr' + cardToken);
+
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.ADD_PAYMENT_CARD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.ADD_PAYMENT_CARD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.ADD_PAYMENT_CARD_FAILURE, error };
+  }
+};
+
+
+const getListCardPayment = () => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/get_listcard`)
+      .then((res) => {
+        // console.log(res.data);
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_LISTCARD_REQUEST };
+  }
+  function success(listCard) {
+    return { type: userConstants.GET_LISTCARD_SUCCESS, listCard };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_LISTCARD_FAILURE, error };
+  }
+};
+
+const postCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/set_card_default`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.POST_CARDDEFAULT_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.POST_CARDDEFAULT_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.POST_CARDDEFAULT_FAILURE, error };
+  }
+};
+
+
+const delCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/del_card`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.DEL_CARDDEFAULT_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.DEL_CARDDEFAULT_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.DEL_CARDDEFAULT_FAILURE, error };
+  }
+};
+
+const get_History = (
+  dataSent
+) => {
   return (dispatch) => {
     dispatch(request());
 
@@ -380,7 +502,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {
@@ -457,6 +579,11 @@ export const userActions = {
   getCreateHistory,
   getNumUnreadNotification,
   getChatHistory,
+  onChangePassword,
+  addPaymentCard,
+  getListCardPayment,
+  delCardDefault,
+  postCardDefault,
   setReadNotification,
   setDeleteNotification,
 };
