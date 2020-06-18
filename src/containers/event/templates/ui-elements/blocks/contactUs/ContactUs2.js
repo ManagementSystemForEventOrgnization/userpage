@@ -19,13 +19,6 @@ class ContactUs2 extends Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
-
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;

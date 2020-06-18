@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
-import { Popover, Skeleton } from 'antd';
+import { Popover } from 'antd';
 import { QuestionCircleTwoTone } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -251,6 +251,8 @@ class CreateEvent extends React.Component {
       marginRight: '10px',
       marginTop: '5px',
     };
+    const src =
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592392417/LoadingGif/Animation_that_matters_adding_value_to_your_interface_aektko.gif';
 
     return (
       <div className=" create-event">
@@ -258,7 +260,9 @@ class CreateEvent extends React.Component {
           <Header />
         </div>
         {loading ? (
-          <Skeleton />
+          <div className="loading-gif d-flex justify-content-center">
+            <img src={src} alt="loading" />
+          </div>
         ) : (
           <div>
             <div className="d-flex flex-row-reverse">

@@ -22,6 +22,7 @@ import ConfirmPage from '../pages/ConfirmPage';
 // import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
 import CreditCard from '../containers/user/BankAccount/CreditCard'
 import history from '../utils/history';
+import ManageEventPage from '../pages/ManageEventPage';
 
 
 class WrapRouter extends React.Component {
@@ -35,7 +36,7 @@ class WrapRouter extends React.Component {
       {
         path: '/',
         exact: true,
-        main: () => <HomePage />,
+        main: (match) => <HomePage match={match} />,
       },
       {
         path: '/about-us',
@@ -82,6 +83,11 @@ class WrapRouter extends React.Component {
       //   exact: false,
       //   main: () => <BankAccount />,
       // },
+      {
+        path: '/manage/:id',
+        exact: true,
+        main: () => <ManageEventPage />,
+      },
       {
         path: '/registered-event',
         exact: true,

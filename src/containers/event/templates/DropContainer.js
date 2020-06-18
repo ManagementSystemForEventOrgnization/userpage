@@ -64,7 +64,7 @@ class DropContainer extends React.Component {
 
     const update = true;
     return (
-      <div className="drop-container">
+      <div className="drop-container pl-5 pr-5">
         <ReactSortable
           id="drop-container"
           sort={true}

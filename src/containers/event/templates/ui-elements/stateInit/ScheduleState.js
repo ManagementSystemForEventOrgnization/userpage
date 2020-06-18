@@ -10,7 +10,6 @@ const ScheduleState = (props, first) => ({
       ? props.newStyle.fontSize
       : 20
     : 20,
-  lineText: 80,
 
   letterSpacing: 0,
   textAlign: props.newStyle

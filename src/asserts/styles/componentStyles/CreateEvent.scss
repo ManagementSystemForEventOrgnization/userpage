@@ -19,6 +19,9 @@
 
     transition: right $base-duration ease;
     .icons-handle {
+      //display: none;
+      // display: none;
+
       padding: 2px;
       margin-top: 12px;
       height: 106px;
@@ -31,7 +34,7 @@
       }
       .anticon {
         &:hover {
-          transform: scale(1.2);
+          transform: scale(1.1);
         }
       }
     }
@@ -40,8 +43,12 @@
       width: 100%;
       &:hover {
         border: dotted 1px rgb(138, 134, 134);
-        opacity: 0.9;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        // opacity: 0.9;
         cursor: pointer;
+        .icons-handle {
+          display: block;
+        }
       }
 
       .edit-text {

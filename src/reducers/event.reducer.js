@@ -7,18 +7,20 @@ const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[1], //banner
   //...dataTest[0].value,
-  dataTest[2].value[0], // event description
-  dataTest[13].value[0], //list of link
+  ...dataTest[2].value, // event description
+  ...dataTest[13].value, //list of link documents
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   ...dataTest[5].value, //map
-  ...dataTest[6].value, // countdown
+  // ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
-  ...dataTest[8].value, // sponsors
-  ...dataTest[9].value, //gallery
+  // ...dataTest[8].value, // sponsors
+  // ...dataTest[9].value, //gallery
+  dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
-  dataTest[11].value[0], //footer
+
+  dataTest[11].value[1], //footer
 ];
 
 const initialState = {
@@ -48,6 +50,7 @@ const initialState = {
   system: [],
   headerStyle: {},
   comments: [],
+  userJoinEvent: [],
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -194,6 +197,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_INFO:
       return {
         ...state,
+
         nameEvent: action.eventInfo.name,
         isSellTicket: action.eventInfo.isSellTicket,
         session: action.eventInfo.session,
@@ -229,6 +233,16 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         hlEvent: [],
+      };
+    case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
+      return {
+        ...state,
+        userJoinEvent: action.userJoinEvent || [],
+      };
+    case eventConstants.GET_USER_JOIN_EVENT_FAILURE:
+      return {
+        ...state,
+        userJoinEvent: [],
       };
     case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
       return {
@@ -330,7 +344,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         submitting: false,
-        // comments: [action.comment, ...state.comments],
+        comments: [...action.comment, ...state.comments],
       };
     default:
       return state;

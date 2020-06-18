@@ -50,12 +50,6 @@ class Sponsor1Block extends Component {
         };
   }
 
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
   addPhoto = () => {
     const { sponsor } = this.state;
     this.setState({

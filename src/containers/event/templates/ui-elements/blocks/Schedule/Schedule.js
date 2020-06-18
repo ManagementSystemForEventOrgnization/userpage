@@ -7,13 +7,13 @@ import moment from 'moment';
 
 import EditText from '../../shares/EditText';
 import IconsHandle from '../../shares/IconsHandle';
-import TextsBlock from '../../atoms/Text';
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventAction } from 'action/applyEvent';
+import { titleBlockStyle } from '../../../constants/atom.constant';
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -28,21 +28,17 @@ class Schedule1 extends Component {
         };
   }
 
-  componentDidMount = () => {
-    // const { editable } = this.props;
-    // if (editable) {
-    //   this.handleStoreBlock();
-    // }
-    // console.log(this.props.session);
-    // console.log(this.state.content);
+  openModal = () => {
+    this.setState({
+      visible: true,
+    });
   };
 
-  //show modal
-  showModal = () => {
-    const { visible } = this.state;
+  closeModal = () => {
     this.setState({
-      visible: !visible,
+      visible: false,
     });
+    this.handleStoreBlock();
   };
 
   onClickAddSchedule = (id) => {
@@ -64,7 +60,6 @@ class Schedule1 extends Component {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
 
   removeOption = (schedule) => {
@@ -128,7 +123,6 @@ class Schedule1 extends Component {
   isApplied = (idSession) => {
     const { content } = this.state;
     const index = content.findIndex((item) => item.id === idSession);
-    console.log(content[index].status);
     return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
   };
 
@@ -154,13 +148,13 @@ class Schedule1 extends Component {
   };
 
   handleClickButton = (ssId) => {
-    const { handleApply, handleCancel, id } = this.props;
+    const { handleApply, handleCancel, eventId } = this.props;
     const temp = [];
     temp.push(ssId);
 
     if (this.isApplied(ssId)) {
       this.changeLoadingSS(ssId);
-      handleCancel(id, temp)
+      handleCancel(eventId, temp)
         .then((res) => {
           this.changeStatusSS(ssId, 0);
         })
@@ -169,7 +163,7 @@ class Schedule1 extends Component {
         });
     } else {
       this.changeLoadingSS(ssId);
-      handleApply(id, temp)
+      handleApply(eventId, temp)
         .then((res) => this.changeStatusSS(ssId, 1))
         .catch((err) => this.changeLoadingSS(ssId));
     }
@@ -182,14 +176,12 @@ class Schedule1 extends Component {
       padding,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       textAlign,
       transform,
       color,
       fontWeight,
-      scheduleName,
       content,
       visible,
     } = this.state;
@@ -208,7 +200,6 @@ class Schedule1 extends Component {
       alignContent: 'center',
       background: background,
       fontSize: `${fontSize}px`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
@@ -224,78 +215,87 @@ class Schedule1 extends Component {
     };
 
     const calendar = {
-      border: 'brown solid 1px',
+      border: '#f7bdbd solid 1px',
       width: '83px',
       height: '90px',
       textAlign: 'center',
-      fontSize: '13px',
+      fontSize: '15px',
       fontWeight: 'bold',
+      borderRadius: '3px',
     };
 
     const monthStyle = {
       background: 'red',
       fontWeight: 'bolder',
+      borderRadius: '3px',
     };
 
     return (
-      <div className="child-block " key={key}>
-        <TextsBlock
-          content={scheduleName}
-          child={true}
-          newStyle={{ fontWeight: 'bold' }}
-        />
-        <div style={divStyle}>
-          {content.map((ss) => (
-            <div className="row child-block" style={divStyle} key={ss.id}>
-              <div className="col-3 col-md-3">
-                <div style={calendar} className="mb-2 p-1">
-                  <p style={monthStyle} className="p-1">
-                    {moment(ss.time).format('MMM')}
+      <div className="p-5" key={key}>
+        <h2 style={titleBlockStyle}>Sessions</h2>
+        <div className="d-flex">
+          <div style={divStyle}>
+            {content.map((ss) => (
+              <div
+                className="row child-block p-3 shadow-sm mt-2 mb-3"
+                style={divStyle}
+                key={ss.id}
+              >
+                <div className="col-3 col-md-3">
+                  <div style={calendar} className="mb-2 p-1">
+                    <p style={monthStyle} className="p-1">
+                      {moment(ss.time).format('MMM')}
+                    </p>
+                    <p>{moment(ss.time).format('D')}</p>
+                    <p style={{ fontSize: '13px' }}>
+                      {moment(ss.time).format('dddd')}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="col-6 col-md-6">
+                  <div style={titleStyle}>{ss.name}</div>
+
+                  <p className="mt-4" style={{ fontSize: '14px' }}>
+                    {ss.location}
                   </p>
-                  <p>{moment(ss.time).format('D')}</p>
-                  <p>{moment(ss.time).format('dddd')}</p>
+                </div>
+                <div className="col-3 col-md-3">
+                  <p
+                    style={{ fontSize: '14px' }}
+                  >{`Limit number : ${ss.limitNumber}`}</p>
+
+                  <Button
+                    icon={<CalendarOutlined />}
+                    type="primary"
+                    className="mt-2"
+                    loading={ss.pending}
+                    onClick={() => this.handleClickButton(ss.id)}
+                  >
+                    {this.isApplied(ss.id)
+                      ? 'Cancel'
+                      : isSellTicket
+                      ? 'Buy Ticket'
+                      : 'Register free'}
+                  </Button>
                 </div>
               </div>
-
-              <div className="col-6 col-md-6">
-                <div style={titleStyle}>{ss.name}</div>
-
-                <div className="mt-4">{ss.location}</div>
-              </div>
-              <div className="col-3 col-md-3">
-                <div>{`Limit number : ${ss.limitNumber}`}</div>
-
-                <Button
-                  icon={<CalendarOutlined />}
-                  type="primary"
-                  className="mt-2"
-                  loading={ss.pending}
-                  onClick={() => this.handleClickButton(ss.id)}
-                >
-                  {this.isApplied(ss.id)
-                    ? 'Cancel'
-                    : isSellTicket
-                    ? 'Buy Ticket'
-                    : 'Register free'}
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {editable && (
+            <IconsHandle
+              collapseModal={this.openModal}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
+          )}
         </div>
-
-        {editable && (
-          <IconsHandle
-            collapseModal={this.showModal}
-            handleDuplicate={this.handleDuplicate}
-            handleDelete={this.handleDelete}
-          />
-        )}
 
         <Modal
           title="Edit Schedule"
           visible={visible}
-          onOk={this.showModal}
-          onCancel={this.showModal}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}
           width={700}
           className={
             leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
@@ -303,11 +303,9 @@ class Schedule1 extends Component {
           style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
         >
           <EditText
-            fonts={fonts}
             fontSize={fontSize}
             lineText={lineText}
             letterSpacing={letterSpacing}
-            handleChangeFonts={(value) => this.onChangeValue(value, 'fonts')}
             handleChangeFontSize={(value) =>
               this.onChangeValue(value, 'fontSize')
             }
@@ -360,7 +358,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   isSellTicket: state.event.isSellTicket,
   session: state.event.session,
-  id: state.event.id,
+  eventId: state.event.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({

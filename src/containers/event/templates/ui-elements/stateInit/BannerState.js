@@ -4,16 +4,19 @@ const BannerState = (props) => ({
   margin: [1, 1, 1, 1],
   padding: [10, 5, 5, 10],
 
-  opacity: 0.3,
-  bgColor: 'black',
+  opacity: 0.6,
+  bgColor: '#ECE7DF',
   plainOptions: props.session,
   content: {
     title: {
       value: props.nameEvent || 'Wellcome !!! Edit title here !',
       style: {
         fontWeight: 'bolder',
-        fontSize: 50,
+        fontSize: 54,
         textAlign: 'center',
+        fontFamily: 'Anton',
+        transform: 'capitalize',
+        lineText: 80,
       },
     },
     description: {

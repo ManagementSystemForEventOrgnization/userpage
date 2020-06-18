@@ -19,18 +19,10 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-          ...TextState(this.props),
-          focus: false,
-        };
+        ...TextState(this.props),
+        focus: false,
+      };
   }
-
-  componentDidMount = () => {
-    const { editable, child } = this.props;
-    if (editable && !child) {
-      this.handleStoreBlock();
-    }
-  };
-  // common function
 
   onChangeValue(newValue, valueParam) {
     const { changeContent, handleChangeContent, handleChangeItem } = this.props;
@@ -48,7 +40,7 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
-      } else this.handleStoreBlock();
+      }
     }, 3000);
   }
 
@@ -119,11 +111,14 @@ class TextsBlock extends React.Component {
     });
   };
 
-  collapseModal = () => {
-    const { visible } = this.state;
+  openModal = () => {
+    this.setState({ visible: true });
+  };
+  closeModal = () => {
     this.setState({
-      visible: !visible,
+      visible: false,
     });
+    this.handleStoreBlock();
   };
 
   render() {
@@ -135,11 +130,10 @@ class TextsBlock extends React.Component {
       padding,
       background,
       fontSize,
-      fonts,
       lineText,
       letterSpacing,
       textAlign,
-      tranform,
+      transform,
       color,
       fontWeight,
       focus,
@@ -154,11 +148,10 @@ class TextsBlock extends React.Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      fontFamily: fonts,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,
       textAlign: textAlign,
-      textTransform: tranform,
+      textTransform: transform,
       width: '100%',
       alignContent: 'center',
     };
@@ -189,22 +182,22 @@ class TextsBlock extends React.Component {
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-          <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-            {content}
-          </div>
-        )}
+            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
+              {content}
+            </div>
+          )}
         {child && editable && (
           <EditFilled
             className="edit-text"
             style={editIconStyle}
-            onClick={this.collapseModal}
+            onClick={this.openModal}
           />
         )}
 
         {editable && !child && (
           <div className="ml-auto">
             <IconsHandle
-              collapseModal={() => this.onChangeValue(!visible, 'visible')}
+              collapseModal={this.openModal}
               handleDuplicate={this.handleDuplicate}
               handleDelete={this.handleDelete}
             />
@@ -214,18 +207,14 @@ class TextsBlock extends React.Component {
           <Modal
             title="Text"
             visible={visible}
-            onCancel={() => this.onChangeValue(!visible, 'visible')}
+            onCancel={this.closeModal}
             width={500}
             className={
               leftModal ? ' mt-3 float-left ml-5' : 'float-right mr-3 mt-3'
             }
             //  style={leftModal ? { top: 40, left: 200 } : { top: 40 }}
             footer={[
-              <Button
-                key="ok"
-                onClick={() => this.onChangeValue(!visible, 'visible')}
-                type="primary"
-              >
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}
@@ -233,13 +222,9 @@ class TextsBlock extends React.Component {
             {!editUrl && (
               <div>
                 <EditText
-                  fonts={fonts}
                   fontSize={fontSize}
                   lineText={lineText}
                   letterSpacing={letterSpacing}
-                  handleChangeFonts={(value) =>
-                    this.onChangeValue(value, 'fonts')
-                  }
                   handleChangeFontSize={(value) =>
                     this.onChangeValue(value, 'fontSize')
                   }
@@ -253,7 +238,7 @@ class TextsBlock extends React.Component {
                     this.onChangeValue(value, 'textAlign')
                   }
                   handleChangeTextTranform={(value) =>
-                    this.onChangeValue(value, 'tranform')
+                    this.onChangeValue(value, 'transform')
                   }
                 />
 

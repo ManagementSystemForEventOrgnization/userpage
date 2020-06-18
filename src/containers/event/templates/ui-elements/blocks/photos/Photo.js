@@ -12,7 +12,7 @@ import ImageBlock from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
 import { responsive } from '../../../constants/atom.constant';
 
-const high = 42;
+const high = 52;
 const iconStyle = {
   fontSize: '20px',
 };
@@ -47,13 +47,6 @@ class Photo extends Component {
           ],
         };
   }
-
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
 
   addPhoto = () => {
     let { list } = this.state;

@@ -4,6 +4,7 @@ import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { EnvironmentOutlined } from '@ant-design/icons';
+
 import Header from '../containers/share/_layout/Header';
 import Footer from '../containers/share/_layout/Footer';
 import Banner from '../components/Banner';
@@ -16,11 +17,10 @@ import 'react-multi-carousel/lib/styles.css';
 import Chat from 'containers/chat/ChatWidget';
 
 import { eventActions } from '../action/event.action';
-
+import { responsive } from 'containers/event/templates/constants/atom.constant';
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       numberRecord: 12,
       pageNumber: 1,
@@ -40,19 +40,17 @@ class HomePage extends Component {
 
   sumDiscount = (ticket, discount) => {
     let newDiscount = 1 - discount;
-
     let sum = newDiscount * ticket;
     let money = `${sum} VNĐ `;
-
     return money;
   };
+
   percentDiscount = (discount) => {
     let newDiscount = discount * 100;
-
     let percent = `-${newDiscount}%`;
-
     return percent;
   };
+
   splitAddress = (add) => {
     const words = add.split(', ');
     let str = words[2];
@@ -80,6 +78,7 @@ class HomePage extends Component {
 
       marginBottom: '15px',
       textTransform: 'capitalize',
+      textShadow: '0 0 3px #161821',
     };
 
     const orgnizations = {
@@ -88,25 +87,6 @@ class HomePage extends Component {
         'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591865822/images_qukx6e.jpg',
       description: 'Developer',
     };
-    const responsive = {
-      superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
-      },
-      desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 4,
-      },
-      tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 1,
-      },
-      mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-      },
-    };
 
     const temp = [1, 2, 3, 4, 5];
 
@@ -114,7 +94,6 @@ class HomePage extends Component {
       <div className="homepage">
         <div className="fixed-top">
           <Header />
-
           <NavBar />
         </div>
         <Banner />
@@ -141,7 +120,7 @@ class HomePage extends Component {
               itemClass="carousel-item-padding-40-px"
             >
               {hlEvent.map((item, index) => (
-                <div className="  shadow ml-2" key={index}>
+                <div className="  shadow ml-2 highlight-item" key={index}>
                   <div className=" event-list">
                     {item.bannerUrl && (
                       <img
@@ -170,14 +149,17 @@ class HomePage extends Component {
           </div>
         </div>
 
-        <div className="list-event mt-5">
+        <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">
               Upcomming Events
             </h1>
             <div className="row p-5 ">
               {events.map((item, index) => (
-                <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
+                <div
+                  className="col-xl-4 col-lg-4 col-md-6 mt-4 "
+                  key={item._id}
+                >
                   <Link to="">
                     <Card
                       className="event-cart "
@@ -189,7 +171,6 @@ class HomePage extends Component {
                                   <div className="d-flex ">
                                     {item.ticket.discount ? (
                                       <Button className="ml-1 mt-1 ticket">
-                                        {' '}
                                         {this.percentDiscount(
                                           item.ticket.discount
                                         )}
@@ -323,7 +304,7 @@ class HomePage extends Component {
         />
 
         <div className="orgnization">
-          <h1>Organizers </h1>
+          <h1 style={HIGHT}>Organizers </h1>
           <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
             {temp.map((item) => (
               <Orgnization key={item} orgnization={orgnizations} />
@@ -331,6 +312,7 @@ class HomePage extends Component {
           </div>
         </div>
         <Chat />
+
         <hr />
         <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">

@@ -21,15 +21,9 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    const { editable } = this.props;
-
     this.setState({
       ...this.calculateTimeLeft(),
     });
-
-    if (editable) {
-      this.handleStoreBlock();
-    }
 
     this.myInterval = setInterval(() => {
       this.setState((prevState) => ({
@@ -84,8 +78,12 @@ class Timer extends React.Component {
     this.setState({
       [valueParam]: newValue,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   }
+
+  closeModal = () => {
+    this.setState({ visible: false });
+    this.handleStoreBlock();
+  };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
@@ -142,7 +140,7 @@ class Timer extends React.Component {
         };
 
     return (
-      <div className="container" key={this.props.key}>
+      <div className="container child-block" key={this.props.key}>
         <div key={key} style={divStyle} className="d-flex ">
           <div className="row border border-primary  flex-fill mr-1">
             <div className="col">
@@ -164,13 +162,11 @@ class Timer extends React.Component {
           </div>
 
           {editable && (
-            <div className="ml-auto ">
-              <IconsHandle
-                collapseModal={() => this.onChangeValue(true, 'visible')}
-                handleDuplicate={this.handleDuplicate}
-                handleDelete={this.handleDelete}
-              />
-            </div>
+            <IconsHandle
+              collapseModal={() => this.onChangeValue(true, 'visible')}
+              handleDuplicate={this.handleDuplicate}
+              handleDelete={this.handleDelete}
+            />
           )}
         </div>
 
@@ -178,16 +174,12 @@ class Timer extends React.Component {
           <Modal
             title="Text"
             visible={this.state.visible}
-            onCancel={() => this.onChangeValue(false, 'visible')}
+            onCancel={this.closeModal}
             width={500}
             className="float-right mr-3 mt-3"
             style={{ top: 40 }}
             footer={[
-              <Button
-                key="ok"
-                onClick={() => this.onChangeValue(false, 'visible')}
-                type="primary"
-              >
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}

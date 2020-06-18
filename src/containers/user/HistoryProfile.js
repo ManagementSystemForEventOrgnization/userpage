@@ -1,10 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
-import { Input, Select, DatePicker, Card, Skeleton, Button } from 'antd';
+import moment from 'moment'
+import {
+  Input,
+  Select,
+  DatePicker,
+  Card,
+
+  Skeleton,
+
+  Button,
+} from 'antd';
 import { Link } from 'react-router-dom';
-import { EnvironmentOutlined } from '@ant-design/icons';
+import {
+
+  EnvironmentOutlined,
+
+} from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
 const { Search } = Input;
@@ -21,99 +34,103 @@ class HistoryProfile extends React.Component {
     super(props);
 
     this.state = {
-      categoryEventId: ' ',
-      startDate: '',
-      endDate: ' ',
-      txtSearch: '  ',
-      pageNumber: 1,
+
       numberRecord: 10,
       categories: this.props.categories,
       arrEvent: this.props.arrEvent,
+
     };
   }
   componentDidMount = () => {
     const { get_History, getCreateHistory, match, getCategories } = this.props;
 
-    getCategories();
 
     if (match.location.pathname === '/registered-event') {
-      get_History();
+      getCategories();
+      get_History(
+      );
+
     } else {
+      getCategories();
       getCreateHistory();
     }
   };
   handleChange = (categoryEventId) => {
-    this.setState({
-      categoryEventId,
-    });
-    setTimeout(this.handleFilter(), 3000);
+    const { get_History, getCreateHistory, match } = this.props;
+    let dataSent = {};
+
+    dataSent.categoryEventId = categoryEventId;
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
   };
 
   onChangeDates = (dates) => {
-    this.setState({
-      startDate: dates[0]._d,
-      endDate: dates[1]._d,
-    });
-    this.handleFilter();
+    const { get_History, getCreateHistory, match } = this.props;
+    // this.setState({
+    //   startDate: dates[0]._d,
+    //   endDate: dates[1]._d,
+    // });
+    let dataSent = {};
+    dataSent.startDate = dates[0]._d;
+    dataSent.endDate = dates[1]._d;
+
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
+
   };
 
-  onChangeSearch = () => {
-    this.handleFilter();
-  };
 
-  handleChangeSearch = (e) => {
+  onChangeSearch = (value) => {
+    const { get_History, getCreateHistory, match } = this.props;
     this.setState({
-      txtSearch: e.target.value,
+      txtSearch: value,
     });
+    let dataSent = {};
+    dataSent.txtSearch = value;
+    if (match.location.pathname === '/registered-event') {
+      get_History(
+        dataSent
+      );
+    } else {
+      getCreateHistory(
+        dataSent
+      );
+    }
   };
 
   onChange = (pageNumber) => {
     this.setState({
       pageNumber,
     });
-    this.handleFilter();
+
   };
   loadEvent = () => {
     const { pageNumber } = this.state;
     let number = +pageNumber + 1;
     this.setState({
       pageNumber: number,
-    });
+    })
+
+
+
 
     setTimeout(this.handleFilter(), 3000);
   };
 
-  // }
-  handleFilter = () => {
-    const { get_History, getCreateHistory, match } = this.props;
-    const {
-      categoryEventId,
-      startDate,
-      endDate,
-      txtSearch,
-      pageNumber,
-      numberRecord,
-    } = this.state;
-    if (match.location.pathname === '/registered-event') {
-      get_History(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
-      );
-    } else {
-      getCreateHistory(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
-      );
-    }
-  };
 
   render() {
     const { categories } = this.state;
@@ -139,119 +156,119 @@ class HistoryProfile extends React.Component {
           </div>
           <div className="col ">
             <Search
-              value={this.state.txtSearch}
+              // value={this.state.txtSearch}
               placeholder="input search text"
-              onChange={this.handleChangeSearch}
-              onSearch={this.onChangeSearch}
+              // onChange={this.handleChangeSearch}
+              onSearch={(value) => this.onChangeSearch(value)}
             />
           </div>
         </div>
         {pending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-          <div className="row p-5 ">
-            {arrEvent.map((item) => (
-              <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
-                <Link to="">
-                  <Card
-                    className="event-cart "
-                    cover={
-                      <div>
-                        <Button className="ml-1 mt-1 ticket">
-                          {item.status}
-                        </Button>
+            <div className="row p-5 ">
+              {arrEvent.map((item) => (
+                <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
+                  <Link to="">
+                    <Card
+                      className="event-cart "
+                      cover={
+                        <div>
+                          <Button className="ml-1 mt-1 ticket">
+                            {item.status}
+                          </Button>
 
-                        {item.bannerUrl && (
-                          <img
-                            className="img "
-                            alt="example"
-                            src={item.bannerUrl}
-                          />
-                        )}
-                      </div>
-                    }
-                  >
-                    <div className="row">
-                      <div className="d-flex col ">
-                        <p
-                          className="ml-2"
-                          style={{
-                            fontWeight: 'bold',
-                            textTransform: 'uppercase',
-                          }}
-                        >
-                          {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex ">
-                      <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                      <div>
-                        {' '}
-                        {item.session.length === 1 ? (
-                          ''
-                        ) : (
-                          <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                            + {item.session.length - 1}more events
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      {item.ticket ? (
-                        <div className="d-flex ">
-                          {item.ticket.discount ? (
-                            <div className="d-flex ">
-                              <p
-                                style={{
-                                  textDecoration: 'line-through',
-                                  fontWeight: 'bold',
-                                }}
-                                className="ml-1 "
-                              >
-                                {item.ticket.price}
-                              </p>
-                              <p
-                                className="ml-3"
-                                style={{ fontWeight: 'bold' }}
-                              >
-                                {' '}
-                                {this.sumDiscount(
-                                  item.ticket.price,
-                                  item.ticket.discount
-                                )}
-                              </p>
-                            </div>
-                          ) : (
-                            <p
-                              className=" mt-1 "
-                              style={{ fontWeight: 'bold' }}
-                            >
-                              {item.ticket.price} VNĐ
-                            </p>
+                          {item.bannerUrl && (
+                            <img
+                              className="img "
+                              alt="example"
+                              src={item.bannerUrl}
+                            />
                           )}
                         </div>
-                      ) : (
-                        <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                          0 VNĐ
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="d-flex ">
-                      <EnvironmentOutlined className="mt-1" />
-                      <div className="d-flex ">
-                        <p className="ml-2 address ">
-                          {item.session[0].address.location}
-                        </p>
+                      }
+                    >
+                      <div className="row">
+                        <div className="d-flex col ">
+                          <p
+                            className="ml-2"
+                            style={{
+                              fontWeight: 'bold',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                </Link>
-              </div>
-            ))}
-          </div>
-        )}
+                      <div className="d-flex ">
+                        <h5 className="ml-2 line-clamp "> {item.name}</h5>
+                        <div>
+                          {' '}
+                          {item.session.length === 1 ? (
+                            ''
+                          ) : (
+                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                + {item.session.length - 1}more events
+                              </p>
+                            )}
+                        </div>
+                      </div>
+                      <div>
+                        {item.ticket ? (
+                          <div className="d-flex ">
+                            {item.ticket.discount ? (
+                              <div className="d-flex ">
+                                <p
+                                  style={{
+                                    textDecoration: 'line-through',
+                                    fontWeight: 'bold',
+                                  }}
+                                  className="ml-1 "
+                                >
+                                  {item.ticket.price}
+                                </p>
+                                <p
+                                  className="ml-3"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {' '}
+                                  {this.sumDiscount(
+                                    item.ticket.price,
+                                    item.ticket.discount
+                                  )}
+                                </p>
+                              </div>
+                            ) : (
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
+                                </p>
+                              )}
+                          </div>
+                        ) : (
+                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                              0 VNĐ
+                            </p>
+                          )}
+                      </div>
+
+                      <div className="d-flex ">
+                        <EnvironmentOutlined className="mt-1" />
+                        <div className="d-flex ">
+                          <p className="ml-2 address ">
+                            {item.session[0].address.location}
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
       </div>
     );
   }
@@ -266,39 +283,21 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   get_History: (
-    categoryEventId,
-    startDate,
-    endDate,
-    txtSearch,
-    pageNumber,
-    numberRecord
+    dataSent
   ) =>
     dispatch(
       userActions.get_History(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
+        dataSent
       )
     ),
   getCreateHistory: (
-    categoryEventId,
-    startDate,
-    endDate,
-    txtSearch,
-    pageNumber,
-    numberRecord
+    dataSent
+
   ) =>
     dispatch(
       userActions.getCreateHistory(
-        categoryEventId,
-        startDate,
-        endDate,
-        txtSearch,
-        pageNumber,
-        numberRecord
+        dataSent
+
       )
     ),
   getCategories: () => dispatch(eventActions.getCategories()),

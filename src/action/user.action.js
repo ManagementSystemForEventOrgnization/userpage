@@ -15,7 +15,9 @@ const login = (email, password) => {
       .then((res) => {
         dispatch(success(res.data.result));
         if (res.data.result.isActive) {
-          history.push('/');
+          if (history.action === 'PUSH') {
+            history.goBack();
+          } else history.push('/');
         }
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -39,7 +41,9 @@ const loginWithGoogle = (profile) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
@@ -172,9 +176,14 @@ const checkCode = (token) => {
     })
       .then((res) => {
         dispatch(success());
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
+
+        // history.push('/');
       })
       .catch((error) => {
+        console.log(error);
         handleCatch(dispatch, failure, error);
       });
   };
@@ -414,79 +423,12 @@ const delCardDefault = (cardId) => {
 };
 
 const get_History = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
+  dataSent
 ) => {
   return (dispatch) => {
     dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
 
-    API.get(`/api/user/history`, {
-      params: dataSent,
-    })
-      .then((res) => {
-        dispatch(success(res.data.result));
-      })
-      .catch((error) => handleCatch(dispatch, failure, error));
-  };
-  function request() {
-    return { type: userActions.GET_HISTORY_REQUEST };
-  }
-
-  function success(arrEvent) {
-    return { type: userActions.GET_HISTORY_SUCCESS, arrEvent };
-  }
-  function failure(error) {
-    return { type: userConstants.GET_HISTORY_FAILURE, error };
-  }
-};
-
-const getCreateHistory = (
-  categoryEventId,
-  startDate,
-  endDate,
-  txtSearch,
-  pageNumber,
-  numberRecord
-) => {
-  return (dispatch) => {
-    dispatch(request());
-    let dataSent = {};
-    if (categoryEventId !== ' ') {
-      dataSent.categoryEventId = categoryEventId;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (startDate !== '' && endDate !== ' ') {
-      dataSent.startDate = startDate;
-      dataSent.endDate = endDate;
-      dataSent.pageNumber = pageNumber;
-      dataSent.numberRecord = numberRecord;
-    }
-    if (txtSearch !== ' ') {
-      dataSent.txtSearch = txtSearch;
-      dataSent.pageNumber = pageNumber;
-    }
-    if (pageNumber) {
-      dataSent.pageNumber = pageNumber;
-    }
-    API.get(`/api/user/historyCreate`, {
+    API.get(`/api/user/get_history_take_part_in`, {
       params: dataSent,
     })
       .then((res) => {
@@ -505,6 +447,30 @@ const getCreateHistory = (
     return { type: userConstants.GET_HISTORY_FAILURE, error };
   }
 };
+
+const getCreateHistory = (dataSent) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/user/historyCreate`, {
+      params: dataSent,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+  function request() {
+    return { type: userConstants.GET_HISTORY_CREATE_REQUEST };
+  }
+
+  function success(arrEvent) {
+    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
+  }
+};
+
 const getListNotification = (pageNumber, numberRecord) => {
   return (dispatch) => {
     API.get('api/getListNotification', {
@@ -543,6 +509,36 @@ const getNumUnreadNotification = () => {
     return {
       type: userConstants.GET_UNREADNOTIFICATION,
       numUnreadNotification,
+    };
+  }
+};
+
+const setReadNotification = (notificationId) => {
+  return (dispatch) => {
+    API.post('/api/setReadNotification', { notificationId }).then((res) => {
+      dispatch(success());
+    });
+  };
+
+  function success() {
+    return {
+      type: userConstants.SET_READ_NOTIFICATION,
+    };
+  }
+};
+
+const setDeleteNotification = (notificationId) => {
+  return (dispatch) => {
+    API.post('/api/setDeleteNotification', {
+      notificationId,
+    }).then((res) => {
+      dispatch(success());
+    });
+  };
+
+  function success() {
+    return {
+      type: userConstants.DELETE_NOTIFICATION,
     };
   }
 };
@@ -587,5 +583,7 @@ export const userActions = {
   addPaymentCard,
   getListCardPayment,
   delCardDefault,
-  postCardDefault
+  postCardDefault,
+  setReadNotification,
+  setDeleteNotification,
 };

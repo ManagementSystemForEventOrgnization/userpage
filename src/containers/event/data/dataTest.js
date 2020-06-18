@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 import ButtonBlock from '../templates/ui-elements/atoms/Button';
 import TextBlock from '../templates/ui-elements/atoms/Text';
 import ImageBlock from '../templates/ui-elements/atoms/Image';
-import StepBlock from '../templates/ui-elements/atoms/Step';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
@@ -16,6 +15,7 @@ import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
 import Banner3 from '../templates/ui-elements/blocks/banner/Banner3';
+import Banner1 from '../templates/ui-elements/blocks/banner/Banner1';
 
 import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/EventDescription1';
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
@@ -41,6 +41,7 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
 import Document from '../templates/ui-elements/blocks/documents/Document';
+import Sharing from '../templates/ui-elements/atoms/Sharing';
 
 export default [
   {
@@ -93,7 +94,15 @@ export default [
     name: 'Banner',
     value: [
       {
-        child: 'Banner 1',
+        child: 'Banner-Only Image',
+        type: 'banner1',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <Banner1 id={id} key={id} editable={editable} style={style} />
+        ),
+      },
+      {
+        child: 'Banner-With Title',
         type: 'banner2',
         style: {},
         options: ({ id, editable, style }) => (
@@ -101,7 +110,7 @@ export default [
         ),
       },
       {
-        child: 'Banner2',
+        child: 'Banner- With Title And Button',
         type: 'banner3',
         style: {},
         options: ({ id, editable, style }) => (
@@ -204,16 +213,8 @@ export default [
   },
 
   {
-    name: 'Schedule/Program/Step',
+    name: 'Schedule/Program',
     value: [
-      {
-        child: 'Step',
-        style: {},
-        type: 'step',
-        options: ({ editable, style, id }) => (
-          <StepBlock key={id} editable={editable} style={style} id={id} />
-        ),
-      },
       {
         child: 'Timeline',
         style: {},
@@ -341,27 +342,7 @@ export default [
       };
     }),
   },
-  // {
-  //   name: 'Social',
-  //   value: [
-  //     {
-  //       child: 'Icon Social',
-  //       type: 'icon',
-  //       style: {},
-  //       options: ({ key, editable, style, id }) => (
-  //         <IconSocial key={key} editable={editable} style={style} id={id} />
-  //       ),
-  //     },
-  //   ].map(({ child, options, style, type }) => {
-  //     return {
-  //       id: uuid(),
-  //       child,
-  //       style,
-  //       options,
-  //       type,
-  //     };
-  //   }),
-  // },
+
   {
     name: 'Gallery',
     value: [
@@ -464,6 +445,28 @@ export default [
         style: {},
         options: ({ editable, style, id }) => (
           <Document key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+
+  {
+    name: 'Share to social media',
+    value: [
+      {
+        child: 'Icons',
+        type: 'socialMediaIcon',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Sharing key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options, type }) => {

@@ -7,23 +7,8 @@ import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import { eventActions } from 'action/event.action';
 
-import { exampleText } from '../../../constants/atom.constant';
-// import { Input } from 'antd';
-// const { TextArea } = Input;
+import { EventDescriptionState } from '../../stateInit/EventDescriptionState';
 
-const defaultTitle = {
-  value: 'Title',
-  style: {
-    fontWeight: 'bolder',
-    fontSize: '40',
-  },
-};
-const defaultDescription = {
-  value: exampleText,
-  style: {
-    fontSize: '20',
-  },
-};
 class EventDescription extends Component {
   constructor(props) {
     super(props);
@@ -32,39 +17,21 @@ class EventDescription extends Component {
       style && Object.keys(style).length > 0
         ? { ...style, collapse: false }
         : {
-            collapse: false,
-            margin: [1, 1, 1, 1],
-            padding: [7, 1, 1, 7],
-            url: '',
-            bgColor: 'white',
-            opacity: 0.3,
-            content: {
-              col1: {
-                title: defaultTitle,
-                description: defaultDescription,
-              },
-              col2: {
-                title: defaultTitle,
-                description: defaultDescription,
-                subTitle: defaultTitle,
-                subDescription: defaultDescription,
-              },
-            },
-          };
+          ...EventDescriptionState(props),
+        };
   }
-
-  componentDidMount = () => {
-    const { editable } = this.props;
-    if (editable) {
-      this.handleStoreBlock();
-    }
-  };
 
   collapseModal = () => {
     const { collapse } = this.state;
     this.setState({
       collapse: !collapse,
     });
+  };
+
+  openModal = () => this.setState({ collapse: true });
+  closeModal = () => {
+    this.setState({ collapse: false });
+    this.handleStoreBlock();
   };
 
   handleDuplicate = () => {
@@ -85,7 +52,6 @@ class EventDescription extends Component {
     this.setState({
       [type]: value,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   handleStoreBlock = () => {
@@ -143,6 +109,7 @@ class EventDescription extends Component {
 
       position: 'relative',
       backgroundImage: url ? `url(${url})` : 'white',
+      objectFit: 'cover',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       width: '100%',
@@ -235,7 +202,7 @@ class EventDescription extends Component {
 
         {editable && (
           <IconsHandle
-            collapseModal={this.collapseModal}
+            collapseModal={this.openModal}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
           />
@@ -244,12 +211,12 @@ class EventDescription extends Component {
           <Modal
             title="Edit Block"
             visible={collapse}
-            onCancel={this.collapseModal}
+            onCancel={this.closeModal}
             width={500}
             className=" mt-3 float-left ml-5"
             style={{ top: 40, left: 200 }}
             footer={[
-              <Button key="ok" onClick={this.collapseModal} type="primary">
+              <Button key="ok" onClick={this.closeModal} type="primary">
                 OK
               </Button>,
             ]}
