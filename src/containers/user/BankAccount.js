@@ -53,7 +53,7 @@ class BankAccount extends Component {
   errorHandle() {
     if (this.props.errMessage)
       return (
-        <div className="alert alert-danger" role="alert" enable>
+        <div className="alert  alert-danger" role="alert" enable>
           {this.props.errMessage}
         </div>
       );
@@ -107,9 +107,9 @@ class BankAccount extends Component {
     };
 
     return (
-      <div className="bank-account mb-5 mt-5 p-5 border rounded bg-secondary">
-        <h4>Thông tin tài khoản của bạn</h4>
+      <div className="shadow p-3 mb-5 bg-white rounded  mb-5 mt-5 p-5 border rounded bg-secondary">
         {this.errorHandle()}
+        <h4 className="w3-text-teal">Thông tin tài khoản của bạn</h4>
         <Form className="mr-5 mt-5" {...layout} onFinish={onFinish}>
           <Form.Item label="Chủ tài khoản">
             <Input
@@ -148,7 +148,7 @@ class BankAccount extends Component {
               disabled={
                 (this.state.isSaved && !this.props.pending) ||
                 JSON.stringify(this.state.bankInfor) ===
-                  JSON.stringify(fistValuebankInfor) ||
+                JSON.stringify(fistValuebankInfor) ||
                 this.state.isEmpty
               }
               loading={pending}

@@ -52,7 +52,7 @@ class ChangePassword extends Component {
     };
 
     return (
-      <div>
+      <div className=" p-3 bg-white rounded">
         {' '}
         {this.errorHandle()}
         <Form
@@ -76,7 +76,7 @@ class ChangePassword extends Component {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Please input your new password!',
               },
             ]}
             hasFeedback

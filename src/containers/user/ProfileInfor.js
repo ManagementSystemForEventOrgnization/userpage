@@ -89,11 +89,10 @@ class UpdateProfileInfor extends Component {
 
   render() {
     const { userInfor } = this.state;
-    // console.log(userInfor);
 
     return (
       <div>
-        <div className="">
+        <div>
           <div className="w3-white w3-text-grey w3-card-4">
             <div className="w3-display-container">
               <img
@@ -122,13 +121,13 @@ class UpdateProfileInfor extends Component {
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
                 {userInfor.phone}
               </p>
-              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}> change password</Button>
+              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}><u><i class="fa fa-key ml-2" aria-hidden="true"></i> change password</u> </Button>
               <hr />
               <p className="w3-large">
-                <Link to="my-events/profile">
+                <Link to="#">
                   <b>
                     <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
-                    Profile <small className="float-right">click here to edit</small>
+                    Profile <small className="float-right" id="1" onClick={(e) => this.props.moveTab(e.target.id)}><u>click here to edit</u> <i class="fa fa-pencil" aria-hidden="true"></i></small>
                   </b>
                 </Link>
               </p>
@@ -154,38 +153,22 @@ class UpdateProfileInfor extends Component {
               </div>
               <hr />
               <p className="w3-large w3-text-theme">
-                <Link to="my-events/bankaccount">
+                <Link to="#">
                   <b>
                     <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
-                    Bank Account <small className="float-right">click here to edit</small>
+                    Bank Account <small className="float-right" id="2" onClick={(e) => this.props.moveTab(e.target.id)}><u>click here to edit</u> <i class="fa fa-pencil" aria-hidden="true"></i></small>
                   </b>
                 </Link>
               </p>
               <hr />
               <p className="w3-large w3-text-theme">
-                <Link to="my-events/bankaccount">
+                <Link to="#">
                   <b>
                     <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
-                    History Payment <small className="float-right"></small>
+                    History Payment <small className="float-right" id="3" onClick={(e) => this.props.moveTab(e.target.id)}><u>detail</u> <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small>
                   </b>
                 </Link>
               </p>
-
-              {/* <p>Visa</p>
-              <div className="w3-light-grey w3-round-xlarge">
-                <div
-                  className="w3-round-xlarge w3-teal"
-                  style={{ height: '24px', width: '100%' }}
-                />
-              </div>
-              <p>Local Credit</p>
-              <div className="w3-light-grey w3-round-xlarge">
-                <div
-                  className="w3-round-xlarge w3-teal"
-                  style={{ height: '24px', width: '55%' }}
-                />
-              </div>
-              <br /> */}
             </div>
           </div>
           <br />
@@ -201,7 +184,7 @@ class UpdateProfileInfor extends Component {
           <ChangePassword />
         </Modal>
 
-      </div>
+      </div >
     );
   }
 }
