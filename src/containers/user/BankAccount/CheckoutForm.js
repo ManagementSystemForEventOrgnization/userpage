@@ -37,7 +37,7 @@ const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
     className={`SubmitButton ${
       error ? 'SubmitButton--error' : ''
-      } bank-account`}
+    } bank-account`}
     type="submit"
     disabled={processing || disabled}
   >
@@ -107,7 +107,7 @@ class CheckoutForm extends React.Component {
         });
         console.log(this.state.token);
         const { addPaymentCard } = this.props.props;
-        addPaymentCard(this.state.token)
+        addPaymentCard(this.state.token);
 
         // console.log(this.props.props)
       }
@@ -119,26 +119,28 @@ class CheckoutForm extends React.Component {
 
     return (
       <div>
-        {
-          (token && this.props.props.success) ?
-            //     (<div className="Result bank-account">
-            //       <div className="ResultTitle" role="alert">
-            //         Saving successfully
-            // </div>
-            //       <div className="ResultMessage">
-            //         Thank for saving your card. It will be faster for you to access
-            //         payment
-            // </div>
-            //     </div>) && 
-            (window.location.reload()) : (
-              <div className="Result bank-account">
-                <div className="ResultTitle" role="alert">
-                  {this.props.props.errMessage}
-                </div>
-              </div>)
-        }
+        {token && this.props.props.success ? (
+          //     (<div className="Result bank-account">
+          //       <div className="ResultTitle" role="alert">
+          //         Saving successfully
+          // </div>
+          //       <div className="ResultMessage">
+          //         Thank for saving your card. It will be faster for you to access
+          //         payment
+          // </div>
+          //     </div>) &&
+          window.location.reload()
+        ) : (
+          <div className="Result bank-account">
+            <div className="ResultTitle" role="alert">
+              {this.props.props.errMessage}
+            </div>
+          </div>
+        )}
         <form className="Form bank-account" onSubmit={handleSubmit}>
-          <h2 className="d-flex justify-content-center text-primary mb-5">Input Your Card Infor</h2>
+          <h2 className="d-flex justify-content-center text-primary mb-5">
+            Input Your Card Infor
+          </h2>
           <fieldset className="FormGroup">
             <CardField
               onChange={(e) => {
@@ -150,35 +152,35 @@ class CheckoutForm extends React.Component {
             />
           </fieldset>
           {error && <ErrorMessage>{error.message}</ErrorMessage>}
-          <SubmitButton processing={processing} error={error} disabled={!stripe}>
+          <SubmitButton
+            processing={processing}
+            error={error}
+            disabled={!stripe}
+          >
             Save card
-        </SubmitButton>
+          </SubmitButton>
         </form>
       </div>
-    )
+    );
   }
 }
 
-
-
-
 class InjectedCheckoutForm extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <ElementsConsumer>
         {({ stripe, elements }) => (
-          <CheckoutForm stripe={stripe} elements={elements} props={this.props} />
+          <CheckoutForm
+            stripe={stripe}
+            elements={elements}
+            props={this.props}
+          />
         )}
       </ElementsConsumer>
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -189,8 +191,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addPaymentCard: (token) =>
-    dispatch(userActions.addPaymentCard(token)),
+  addPaymentCard: (token) => dispatch(userActions.addPaymentCard(token)),
 });
 
 export default connect(
