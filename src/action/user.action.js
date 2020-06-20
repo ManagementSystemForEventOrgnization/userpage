@@ -425,8 +425,7 @@ const delCardDefault = (cardId) => {
 
 
 
-const getHistoryPayment = (numberRecord = 15) => {
-  // const numberRecord = 15
+const getHistoryPayment = (numberRecord = 16) => {
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/payment_history/`, {
@@ -435,7 +434,6 @@ const getHistoryPayment = (numberRecord = 15) => {
       }
     })
       .then((res) => {
-        // console.log(res.data);
         dispatch(success(res.data.result));
       })
       .catch((error) => {

@@ -147,6 +147,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimelineBlock);
