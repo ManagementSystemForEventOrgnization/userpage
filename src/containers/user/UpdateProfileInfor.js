@@ -169,7 +169,7 @@ class ProfileInfor extends Component {
       birthday.getUTCFullYear()
     ).toString();
     return (
-      <div className="ProfileInfor p-3 border">
+      <div className="ProfileInfor shadow p-3 mb-5 bg-white rounded p-3 border">
         {this.errorHandle()}
         {/* start form */}
         <div className="col">
@@ -184,7 +184,7 @@ class ProfileInfor extends Component {
         </div>
         <Form initialValues={{ remember: true }}>
           {/* personal infor */}
-          <h2>Personal Information</h2>
+          <h4 className="w3-text-teal">Personal Information</h4>
           <Form.Item>
             <Input
               prefix={
@@ -283,7 +283,7 @@ class ProfileInfor extends Component {
           <hr />
 
           {/* organization */}
-          <h2>Organization Information</h2>
+          <h4 className="w3-text-teal">Organization Information</h4>
 
           <div className="row p-2">
             <Form.Item className="col m-2">

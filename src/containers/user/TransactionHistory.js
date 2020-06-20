@@ -1,134 +1,34 @@
 
 import React, { Component } from 'react'
-import { Pagination } from 'antd';
 import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-const columns = [
-    {
-        title: 'Event Name',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Amount',
-        dataIndex: 'amount',
-        // sorter: {
-        //     compare: (a, b) => a.chinese - b.chinese,
-        //     multiple: 3,
-        // },
-    },
-    {
-        title: 'Date',
-        dataIndex: 'createdAt',
-        // sorter: {
-        //     compare: (a, b) => a.math - b.math,
-        //     multiple: 2,
-        // },
-    },
-    {
-        title: 'Payment Type',
-        dataIndex: 'payType',
-        // sorter: {
-        //     compare: (a, b) => a.english - b.english,
-        //     multiple: 1,
-        // },
-    }, {
-        title: 'Status',
-        dataIndex: 'status'
-    }
-];
+import { Spin } from 'antd';
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        chinese: 98,
-        math: 60,
-        english: 70,
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        chinese: 98,
-        math: 66,
-        english: 89,
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        chinese: 98,
-        math: 90,
-        english: 70,
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        chinese: 88,
-        math: 99,
-        english: 89,
-    },
-];
-
+let rows = 16;
 class TransactionHistory extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            isGetData: false,
-            historyPayment: {
-                _id: "",
-                name: "",
-                amount: "",
-                createdAt: "",
-                payType: "",
-                session: [],
-                status: ""
-            }
-        }
+
     }
     componentDidMount() {
         this.props.getHistoryPayment()
     }
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     console.log(nextProps.historyPayment);
-    //     if (!nextProps.historyPayment === undefined
-    //         // !(prevState.isGetData ||
-    //         //     nextProps.historyPayment === null)// &&
-    //         //   nextProps.userInfor !== prevState.userInfor
-    //     ) {
-    //         //   fistValueUserInfor = nextProps.userInfor;
-    //         return {
-    //             historyPayment: {
-    //                 name: nextProps.historyPayment.eventId.name,
-    //                 session: nextProps.historyPayment.eventId.session,
-    //                 status: nextProps.historyPayment.eventId.status,
-    //             },
-    //             isGetData: true,
-    //         };
-    //     } else return null;
-    // }
+    onLoadMore() {
+        rows += 16
+        this.props.getHistoryPayment(rows)
+    }
 
     render() {
-        // const onChange = (pageNumber) => {
-        //     console.log('pageNumber', pageNumber);
-        // }
-
-        // const Table = (columns = [], dataSource = [], onChange) => (
-        //     <Table columns={columns} dataSource={{
-        //         dataSource,
-        //         key: dataSource._id
-        //     }} onChange={onChange} />
-        // )
-
-        console.log(this.props);
         return (
             <div className="shadow p-3 mb-5 bg-white rounded mt-5">
-                <h2 className="mb-3">Your history payment</h2>
-                {/* <Table rowKey="_id" columns={columns} dataSource={
-                    this.state.historyPayment
-                    // name: this.state.historyPayment.eventId.name
-                } onChange={onChange} />
-                {Table(columns, this.props.historyPayment, onChange)} */}
+                {this.props.paymentHistoryerr && <div className="Result bank-account">
+                    <div className="ResultTitle" role="alert">
+                        {this.props.paymentHistoryerr}
+                    </div>
+                </div>}
+                <h4 className="mb-3  w3-text-teal">Your history payment</h4>
                 <table className="table table-striped">
                     <thead>
                         <tr>
@@ -141,24 +41,6 @@ class TransactionHistory extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr> */}
                         {
                             this.props.historyPayment.map((item, key) => (
                                 <tr key={key}>
@@ -174,7 +56,19 @@ class TransactionHistory extends Component {
                         }
                     </tbody>
                 </table>
-                {/* <Pagination defaultCurrent={1} total={50} onChange={onChange} /> */}
+                {this.props.pending && (
+                    <Spin
+                        tip="Loading..."
+                        size="large"
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                        }}
+                    >
+                        {' '}
+                    </Spin>
+                )}
+                <a className="fa-fw w3-margin-right w3-text-teal" onClick={() => this.onLoadMore()}>Load more <i className="fa fa-arrow-down" aria-hidden="true"></i></a>
             </div>
         )
     }
@@ -184,7 +78,7 @@ class TransactionHistory extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        //   pending: state.user.pending,
+        pending: state.user.pending,
         //   userInfor: state.user.userInfo,
         //   errMessage: state.user.errMessage,
         historyPayment: state.user.historyPayment
@@ -192,7 +86,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    getHistoryPayment: () => dispatch(userActions.getHistoryPayment()),
+    getHistoryPayment: (recordNumber) => dispatch(userActions.getHistoryPayment(recordNumber)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionHistory);
