@@ -37,9 +37,9 @@ class ProfilePage extends Component {
             <ProfileInfor moveTab={moveTab} />
           </div>
           <div className=" col-9">
-            {this.state.tab == 1 && <UpdateProfileInfor />}
-            {this.state.tab == 2 && <BankAccount />}
-            {this.state.tab == 3 && <TransactionHistory />}
+            {this.state.tab === 1 && <UpdateProfileInfor />}
+            {this.state.tab === 2 && <BankAccount />}
+            {this.state.tab === 3 && <TransactionHistory />}
           </div>
         </div>
       </div>

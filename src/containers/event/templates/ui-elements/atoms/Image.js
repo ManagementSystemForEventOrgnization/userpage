@@ -125,6 +125,7 @@ class ImageBlock extends React.Component {
         <img
           style={imageStyle}
           alt="img"
+          className="border border-light"
           src={uploadedFileCloudinaryUrl}
           onClick={this.handlleClick}
         />

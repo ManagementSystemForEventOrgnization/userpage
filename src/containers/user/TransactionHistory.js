@@ -6,9 +6,6 @@ import { Spin } from 'antd';
 
 let rows = 16;
 class TransactionHistory extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.getHistoryPayment();
   }
@@ -76,6 +73,7 @@ class TransactionHistory extends Component {
           </Spin>
         )}
         <a
+          href="/"
           className="fa-fw w3-margin-right w3-text-teal"
           onClick={() => this.onLoadMore()}
         >

@@ -43,7 +43,7 @@ const MapWithImage = (props) => {
 
   return (
     <div
-      className={type ? 'child-block p-2 ' : 'child-block d-flex'}
+      className={type ? 'child-block p-2 mb-5 ' : 'child-block d-flex mb-5'}
       style={divStyle}
     >
       <Map
