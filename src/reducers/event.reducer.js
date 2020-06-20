@@ -36,6 +36,10 @@ const initialState = {
   errMessage: '',
   pending: false,
   id: '',
+  ticket: {
+    price: 0,
+    discount: 0,
+  },
   events: [],
   hlEvent: [],
 
@@ -171,7 +175,6 @@ const event = (state = initialState, action) => {
         pending: true,
       };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
-      console.log(action.event);
       return {
         ...state,
         pending: false,
@@ -183,6 +186,7 @@ const event = (state = initialState, action) => {
         id: action.event._id,
         banner: action.event.bannerUrl,
         nameEvent: action.event.name,
+        ticket: action.event.ticket,
 
         // update event infor
       };

@@ -12,7 +12,7 @@ const applyEvent = (eventId, sessionIds) => {
           // dispatch(success(res.data.result));
           resolve('true');
         })
-        .catch((err) => reject('false'));
+        .catch((err) => reject(err));
     });
   };
   // function request() {

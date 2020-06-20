@@ -11,7 +11,6 @@ const stripePromise = loadStripe('pk_test_pahNUQKG2WVBshWCDSeY5opJ00IFrwZjO3');
 
 class BankCard extends Component {
   render() {
-    console.log(this.props.getBankAccount);
     return (
       <div className="container mt-5 p-5 AppWrapper">
         <Elements stripe={stripePromise}>

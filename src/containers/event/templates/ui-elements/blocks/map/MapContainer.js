@@ -84,7 +84,7 @@ const MapWithImage = (props) => {
                 session.map(
                   (ss) =>
                     ss.address.detailImage && (
-                      <div className="p-2">
+                      <div className="p-2" key={ss.id}>
                         <Divider orientation="left">
                           {ss.address.location}
                         </Divider>
