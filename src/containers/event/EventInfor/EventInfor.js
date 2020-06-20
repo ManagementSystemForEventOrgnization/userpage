@@ -11,7 +11,7 @@ import { eventActions } from '../../../action/event.action';
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
-const MAX_TAP_PANE = 3;
+const MAX_TAP_PANE = 2;
 const MIN_TAP_PANE = 1;
 const bannerUrl =
   'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
@@ -29,6 +29,10 @@ class EventInfor extends Component {
       webAddress: '',
       isFirstLoad: true,
       banner: bannerUrl,
+      ticket: {
+        price: 0,
+        discount: 0,
+      },
 
       activeKey: '1',
       customMessage: '',
@@ -87,9 +91,10 @@ class EventInfor extends Component {
       session,
       isSellTicket,
       banner,
+      ticket,
     } = this.state;
     let currentKey = +activeKey;
-    console.log(currentKey);
+
     if (currentKey === MAX_TAP_PANE) {
       const next =
         nameEvent &&
@@ -111,7 +116,8 @@ class EventInfor extends Component {
           session,
           isSellTicket,
           webAddress,
-          banner
+          banner,
+          ticket
         );
         this.setState({
           isFirstLoad: false,
@@ -141,6 +147,7 @@ class EventInfor extends Component {
     const {
       nameEvent,
       isSellTicket,
+      ticket,
       webAddress,
       typeOfEvent,
       isFirstLoad,
@@ -194,6 +201,7 @@ class EventInfor extends Component {
               <Panel header="More information" key="2">
                 <Which
                   isSellTicket={isSellTicket}
+                  ticket={ticket}
                   onChange={this.onChange}
                   typeOfEvent={typeOfEvent}
                   banner={banner}
@@ -259,7 +267,8 @@ const mapDispatchToProps = (dispatch) => ({
     session,
     isSellTicket,
     webAddress,
-    banner
+    banner,
+    ticket
   ) =>
     dispatch(
       eventActions.prepareForCreateEvent(
@@ -269,7 +278,8 @@ const mapDispatchToProps = (dispatch) => ({
         session,
         isSellTicket,
         webAddress,
-        banner
+        banner,
+        ticket
       )
     ),
 

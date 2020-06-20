@@ -212,10 +212,12 @@ const prepareForCreateEvent = (
   session,
   isSellTicket,
   webAddress,
-  bannerUrl
+  bannerUrl,
+  ticket
 ) => {
   return (dispatch) => {
     dispatch(request());
+    const domain = process.env.REACT_APP_BASE_URL;
     API.post('api/save/event', {
       name: nameEvent,
       typeOfEvent,
@@ -224,10 +226,12 @@ const prepareForCreateEvent = (
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
+      ticket,
+      domain,
     })
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
-        console.log(res.data.result);
+        console.log('TEST PREPARE : ', res.data.result);
         localStorage.setItem('currentId', _id);
         localStorage.setItem('webAddress', urlWeb);
         dispatch(
@@ -436,7 +440,7 @@ const getEventInfo = (urlWeb) => {
 
           resolve('true');
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -462,7 +466,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {

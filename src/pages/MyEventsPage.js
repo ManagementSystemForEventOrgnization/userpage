@@ -5,12 +5,12 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 // import BankAccount from 'containers/user/BankAccount';
 import Header from 'containers/share/_layout/Header';
 
-import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
+//import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 // import BankAccount from 'containers/user/BankAccount/BankAccount';
 // import BankAccount from 'containers/user/BankAccount';
 // import { Route, Router } from 'react-router-dom';
 import { userActions } from 'action/user.action';
-import TransactionHistory from "containers/user/TransactionHistory";
+import TransactionHistory from 'containers/user/TransactionHistory';
 
 class ProfilePage extends Component {
   componentDidMount = () => {
