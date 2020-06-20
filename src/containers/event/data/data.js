@@ -38,6 +38,8 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Header from 'containers/event/Header';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import MapWithImage from '../templates/ui-elements/blocks/map/MapWithImage';
+
 import Document from '../templates/ui-elements/blocks/documents/Document';
 import Sharing from '../templates/ui-elements/atoms/Sharing';
 
@@ -109,6 +111,9 @@ export const blockList = {
   ),
   map1: ({ editable, style, id }) => (
     <Map key={id} editable={editable} style={style} id={id} />
+  ),
+  map2: ({ editable, style, id }) => (
+    <MapWithImage key={id} editable={editable} style={style} id={id} />
   ),
   countdown: ({ editable, style, id }) => (
     <CountDownBlock

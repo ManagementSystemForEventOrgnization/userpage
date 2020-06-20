@@ -40,6 +40,7 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import MapWithImage from '../templates/ui-elements/blocks/map/MapWithImage';
 import Document from '../templates/ui-elements/blocks/documents/Document';
 import Sharing from '../templates/ui-elements/atoms/Sharing';
 
@@ -246,11 +247,19 @@ export default [
     name: 'Map/Location/Adress',
     value: [
       {
-        child: 'Map1',
+        child: 'Map',
         type: 'map1',
         style: {},
         options: ({ editable, style, id }) => (
           <Map key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Map With Image',
+        type: 'map2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <MapWithImage key={id} editable={editable} style={style} id={id} />
         ),
       },
     ].map(({ style, child, options, type }) => {

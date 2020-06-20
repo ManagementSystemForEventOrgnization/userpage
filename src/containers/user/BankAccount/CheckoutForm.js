@@ -106,7 +106,7 @@ class CheckoutForm extends React.Component {
           token: result.token.id,
         });
         const { addPaymentCard } = this.props.props;
-        addPaymentCard(this.state.token)
+        addPaymentCard(this.state.token);
 
         // console.log(this.props.props)
       }
@@ -131,7 +131,7 @@ class CheckoutForm extends React.Component {
                 Thank for saving your card. It will be faster for you to access
                 payment
             </div>
-            </div>)  : (
+            </div>) : (
               <div className="Result bank-account">
                 <div className="ResultTitle" role="alert">
                   {this.props.props.errMessage}
@@ -139,7 +139,9 @@ class CheckoutForm extends React.Component {
               </div>)
         }
         <form className="Form bank-account" onSubmit={handleSubmit}>
-          <h2 className="d-flex justify-content-center text-primary mb-5">Input Your Card Infor</h2>
+          <h2 className="d-flex justify-content-center text-primary mb-5">
+            Input Your Card Infor
+          </h2>
           <fieldset className="FormGroup">
             <CardField
               onChange={(e) => {
@@ -157,32 +159,28 @@ class CheckoutForm extends React.Component {
           </div>}
           <SubmitButton processing={processing} error={error} disabled={!stripe}>
             Save card
-        </SubmitButton>
+          </SubmitButton>
         </form>
       </div>
-    )
+    );
   }
 }
 
-
-
-
 class InjectedCheckoutForm extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <ElementsConsumer>
         {({ stripe, elements }) => (
-          <CheckoutForm stripe={stripe} elements={elements} props={this.props} />
+          <CheckoutForm
+            stripe={stripe}
+            elements={elements}
+            props={this.props}
+          />
         )}
       </ElementsConsumer>
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -193,8 +191,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addPaymentCard: (token) =>
-    dispatch(userActions.addPaymentCard(token)),
+  addPaymentCard: (token) => dispatch(userActions.addPaymentCard(token)),
 });
 
 export default connect(

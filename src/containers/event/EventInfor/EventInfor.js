@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Tabs, Button } from 'antd';
+import { Tabs, Button, Collapse } from 'antd';
 // import { Link } from 'react-router-dom';
-
-import {
-  SettingTwoTone,
-  HourglassTwoTone,
-  InfoCircleTwoTone,
-} from '@ant-design/icons';
+import { SettingTwoTone, HourglassTwoTone } from '@ant-design/icons';
 
 import What from './WhatTabPane';
 import Which from './WhichTabPane';
 import When from './WhenTabPane';
 import { eventActions } from '../../../action/event.action';
 
+const { Panel } = Collapse;
 const { TabPane } = Tabs;
 const MAX_TAP_PANE = 3;
 const MIN_TAP_PANE = 1;
+const bannerUrl =
+  'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
 
 class EventInfor extends Component {
   constructor(props) {
@@ -30,7 +28,7 @@ class EventInfor extends Component {
       isSellTicket: 'No',
       webAddress: '',
       isFirstLoad: true,
-      banner: '/bg-2.jpg',
+      banner: bannerUrl,
 
       activeKey: '1',
       customMessage: '',
@@ -184,12 +182,24 @@ class EventInfor extends Component {
               this.setState({ activeKey: '1' });
             }}
           >
-            <What
-              nameEvent={nameEvent}
-              webAddress={webAddress}
-              categories={categories}
-              onChange={this.onChange}
-            />
+            <Collapse defaultActiveKey="1">
+              <Panel header="Basic information" key="1">
+                <What
+                  nameEvent={nameEvent}
+                  webAddress={webAddress}
+                  categories={categories}
+                  onChange={this.onChange}
+                />
+              </Panel>
+              <Panel header="More information" key="2">
+                <Which
+                  isSellTicket={isSellTicket}
+                  onChange={this.onChange}
+                  typeOfEvent={typeOfEvent}
+                  banner={banner}
+                />
+              </Panel>
+            </Collapse>
           </TabPane>
 
           <TabPane
@@ -205,26 +215,6 @@ class EventInfor extends Component {
             }}
           >
             <When onChange={this.onChange} />
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span className="p-5">
-                <InfoCircleTwoTone />
-                Which
-              </span>
-            }
-            key="3"
-            onTabClick={() => {
-              this.setState({ activeKey: '3' });
-            }}
-          >
-            <Which
-              isSellTicket={isSellTicket}
-              onChange={this.onChange}
-              typeOfEvent={typeOfEvent}
-              banner={banner}
-            />
           </TabPane>
         </Tabs>
 
