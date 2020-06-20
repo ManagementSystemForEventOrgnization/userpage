@@ -13,7 +13,7 @@ import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
-import { applyEventAction } from 'action/applyEvent';
+import { applyEventActions } from 'action/applyEvent';
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -22,9 +22,9 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-          ...ScheduleState(this.props, 1),
-          apply: false,
-        };
+        ...ScheduleState(this.props, 1),
+        apply: false,
+      };
   }
 
   openModal = () => {
@@ -270,8 +270,8 @@ class Schedule1 extends Component {
                     {this.isApplied(ss.id)
                       ? 'Cancel'
                       : isSellTicket
-                      ? 'Buy Ticket'
-                      : 'Register free'}
+                        ? 'Buy Ticket'
+                        : 'Register free'}
                   </Button>
                 </div>
               </div>
@@ -363,9 +363,9 @@ const mapDispatchToProps = (dispatch) => ({
   duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 
   handleApply: (eventId, sessionIds) =>
-    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
   handleCancel: (eventId, sessionIds) =>
-    dispatch(applyEventAction.cancelEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.cancelEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule1);

@@ -37,6 +37,11 @@ const initialState = {
   id: '',
   events: [],
   hlEvent: [],
+  errCancel: "",
+  deleteEvent: [],
+  cancelEvent: [],
+  pendCancel: false,
+
 
   pages: [
     {
@@ -50,6 +55,7 @@ const initialState = {
   headerStyle: {},
   comments: [],
   userJoinEvent: [],
+
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -192,6 +198,7 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_INFO:
+      console.log(action.eventInfo)
       return {
         ...state,
 
@@ -200,6 +207,7 @@ const event = (state = initialState, action) => {
         session: action.eventInfo.session,
         banner: action.eventInfo.bannerUrl,
         ticket: action.eventInfo.ticket,
+
         countComment: action.countComment,
       };
 
@@ -340,6 +348,43 @@ const event = (state = initialState, action) => {
         ...state,
         submitting: false,
         comments: [...action.comment, ...state.comments],
+      };
+
+    case eventConstants.DELETE_EVENT_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case eventConstants.DELETE_EVENT_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+      };
+    case eventConstants.DELETE_EVENT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        deleteEvent: action.deleteEvent
+
+      };
+    case eventConstants.CANCEL_EVENT_REQUEST:
+      return {
+        ...state,
+        pendCancel: true,
+      };
+    case eventConstants.CANCEL_EVENT_FAILURE:
+      return {
+        ...state,
+        pendCancel: false,
+        errCancel: action.error,
+      };
+    case eventConstants.CANCEL_EVENT_SUCCESS:
+      return {
+        ...state,
+        pendCancel: false,
+        cancelEvent: action.cancelEvent
+
       };
     default:
       return state;

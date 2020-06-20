@@ -10,7 +10,7 @@ import ApplyEventModal from '../../shares/ApplyEventModal';
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 import { BannerState } from '../../stateInit/BannerState';
-import { applyEventAction } from 'action/applyEvent';
+import { applyEventActions } from 'action/applyEvent';
 
 class GeneralBanner extends Component {
   constructor(props) {
@@ -255,7 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 
   applyEvent: (eventId, sessionIds) =>
-    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralBanner);

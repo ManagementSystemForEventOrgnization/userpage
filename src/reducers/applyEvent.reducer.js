@@ -10,6 +10,7 @@ const initialState = {
     //     ]
     // }
   ],
+
 };
 
 const applyEvent = (state = initialState, action) => {
@@ -31,7 +32,10 @@ const applyEvent = (state = initialState, action) => {
         pending: false,
         applyEvent: state.applyEvent.push(action),
       };
+
   }
+
+
 };
 
 export default applyEvent;

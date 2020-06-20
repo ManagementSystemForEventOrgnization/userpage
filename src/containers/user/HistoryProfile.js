@@ -42,74 +42,50 @@ class HistoryProfile extends React.Component {
     };
   }
   componentDidMount = () => {
-    const { get_History, getCreateHistory, match, getCategories } = this.props;
+    const { get_History, getCategories } = this.props;
 
+    getCategories();
+    get_History();
 
-    if (match.location.pathname === '/registered-event') {
-      getCategories();
-      get_History(
-      );
-
-    } else {
-      getCategories();
-      getCreateHistory();
-    }
-  };
+  }
   handleChange = (categoryEventId) => {
-    const { get_History, getCreateHistory, match } = this.props;
+    const { get_History } = this.props;
     let dataSent = {};
 
     dataSent.categoryEventId = categoryEventId;
-    if (match.location.pathname === '/registered-event') {
-      get_History(
-        dataSent
-      );
-    } else {
-      getCreateHistory(
-        dataSent
-      );
-    }
+
+    get_History(
+      dataSent
+    );
+
   };
 
   onChangeDates = (dates) => {
-    const { get_History, getCreateHistory, match } = this.props;
-    // this.setState({
-    //   startDate: dates[0]._d,
-    //   endDate: dates[1]._d,
-    // });
+    const { get_History, } = this.props;
+
     let dataSent = {};
     dataSent.startDate = dates[0]._d;
     dataSent.endDate = dates[1]._d;
 
-    if (match.location.pathname === '/registered-event') {
-      get_History(
-        dataSent
-      );
-    } else {
-      getCreateHistory(
-        dataSent
-      );
-    }
-
+    get_History(
+      dataSent
+    );
   };
 
 
   onChangeSearch = (value) => {
-    const { get_History, getCreateHistory, match } = this.props;
+    const { get_History } = this.props;
     this.setState({
       txtSearch: value,
     });
     let dataSent = {};
     dataSent.txtSearch = value;
-    if (match.location.pathname === '/registered-event') {
-      get_History(
-        dataSent
-      );
-    } else {
-      getCreateHistory(
-        dataSent
-      );
-    }
+
+    get_History(
+      dataSent
+    )
+
+
   };
 
   onChange = (pageNumber) => {
@@ -306,16 +282,7 @@ const mapDispatchToProps = (dispatch) => ({
         dataSent
       )
     ),
-  getCreateHistory: (
-    dataSent
 
-  ) =>
-    dispatch(
-      userActions.getCreateHistory(
-        dataSent
-
-      )
-    ),
   getCategories: () => dispatch(eventActions.getCategories()),
 });
 
