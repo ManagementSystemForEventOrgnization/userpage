@@ -167,10 +167,10 @@ class CardBlock extends React.Component {
             keyBoardControl={true}
             transitionDuration={2000}
             customTransition="all .5"
-            containerClass="carousel-container"
+            containerClass="carousel-container  "
             removeArrowOnDeviceType={['tablet', 'mobile']}
             deviceType={'desktop'}
-            itemClass="item-image"
+            itemClass="item-image mr-2 "
           >
             {list.map((item) => this.renderImage(item))}
           </Carousel>

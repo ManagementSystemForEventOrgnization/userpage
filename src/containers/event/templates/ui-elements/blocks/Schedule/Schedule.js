@@ -231,7 +231,7 @@ class Schedule1 extends Component {
     };
 
     return (
-      <div className="p-5" key={key}>
+      <div className="p-5 child-block" key={key}>
         <h2 style={titleBlockStyle}>Sessions</h2>
         <div className="d-flex">
           <div style={divStyle}>
