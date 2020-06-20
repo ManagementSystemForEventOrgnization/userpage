@@ -10,6 +10,7 @@ import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 // import BankAccount from 'containers/user/BankAccount';
 // import { Route, Router } from 'react-router-dom';
 import { userActions } from 'action/user.action';
+import TransactionHistory from "containers/user/TransactionHistory";
 
 class ProfilePage extends Component {
   componentDidMount = () => {
@@ -29,7 +30,8 @@ class ProfilePage extends Component {
           </div>
           <div className=" col-9">
             {/* <BankAccount /> */}
-            <UpdateProfileInfor />
+            {/* <UpdateProfileInfor /> */}
+            <TransactionHistory />
           </div>
         </div>
       </div>

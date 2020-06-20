@@ -422,6 +422,41 @@ const delCardDefault = (cardId) => {
   }
 };
 
+
+
+
+const getHistoryPayment = (numberRecord = 15) => {
+  // const numberRecord = 15
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/payment_history/`, {
+      params: {
+        numberRecord,
+      }
+    })
+      .then((res) => {
+        // console.log(res.data);
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_HISTORYPAYMENT_REQUEST };
+  }
+  function success(historyPayment) {
+    return { type: userConstants.GET_HISTORYPAYMENT_SUCCESS, historyPayment };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORYPAYMENT_FAILURE, error };
+  }
+};
+
+
+
+
 const get_History = (
   dataSent
 ) => {
@@ -583,6 +618,7 @@ export const userActions = {
   addPaymentCard,
   getListCardPayment,
   delCardDefault,
+  getHistoryPayment,
   postCardDefault,
   setReadNotification,
   setDeleteNotification,

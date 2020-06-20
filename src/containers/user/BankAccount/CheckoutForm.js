@@ -105,7 +105,6 @@ class CheckoutForm extends React.Component {
           error: null,
           token: result.token.id,
         });
-        console.log(this.state.token);
         const { addPaymentCard } = this.props.props;
         addPaymentCard(this.state.token)
 
@@ -117,20 +116,22 @@ class CheckoutForm extends React.Component {
       });
     };
 
+    console.log(this.props);
+
+
     return (
       <div>
         {
           (token && this.props.props.success) ?
-            //     (<div className="Result bank-account">
-            //       <div className="ResultTitle" role="alert">
-            //         Saving successfully
-            // </div>
-            //       <div className="ResultMessage">
-            //         Thank for saving your card. It will be faster for you to access
-            //         payment
-            // </div>
-            //     </div>) && 
-            (window.location.reload()) : (
+            (<div className="Result bank-account">
+              <div className="ResultTitle" role="alert">
+                Saving successfully
+            </div>
+              <div className="ResultMessage">
+                Thank for saving your card. It will be faster for you to access
+                payment
+            </div>
+            </div>)  : (
               <div className="Result bank-account">
                 <div className="ResultTitle" role="alert">
                   {this.props.props.errMessage}
@@ -149,7 +150,11 @@ class CheckoutForm extends React.Component {
               }}
             />
           </fieldset>
-          {error && <ErrorMessage>{error.message}</ErrorMessage>}
+          {error && <div className="Result bank-account">
+            <div className="ResultTitle" role="alert">
+              {error.message}
+            </div>
+          </div>}
           <SubmitButton processing={processing} error={error} disabled={!stripe}>
             Save card
         </SubmitButton>
@@ -168,7 +173,6 @@ class InjectedCheckoutForm extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <ElementsConsumer>
         {({ stripe, elements }) => (

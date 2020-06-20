@@ -152,12 +152,21 @@ class UpdateProfileInfor extends Component {
                   </div>
                 </div>
               </div>
-              <br />
+              <hr />
               <p className="w3-large w3-text-theme">
                 <Link to="my-events/bankaccount">
                   <b>
-                    <i className="fa fa-globe fa-fw w3-margin-right w3-text-teal" />
+                    <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
                     Bank Account <small className="float-right">click here to edit</small>
+                  </b>
+                </Link>
+              </p>
+              <hr />
+              <p className="w3-large w3-text-theme">
+                <Link to="my-events/bankaccount">
+                  <b>
+                    <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
+                    History Payment <small className="float-right"></small>
                   </b>
                 </Link>
               </p>
