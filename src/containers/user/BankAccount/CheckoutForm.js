@@ -119,9 +119,9 @@ class CheckoutForm extends React.Component {
               </div>)
         }
         <form className="Form bank-account" onSubmit={handleSubmit}>
-          <h2 className="d-flex justify-content-center text-primary mb-5">
+          <h4 className="d-flex justify-content-center text-primary mb-5">
             Input Your Card Infor
-          </h2>
+          </h4>
           <fieldset className="FormGroup">
             <CardField
               onChange={(e) => {

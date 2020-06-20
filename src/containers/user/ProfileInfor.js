@@ -121,13 +121,13 @@ class UpdateProfileInfor extends Component {
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
                 {userInfor.phone}
               </p>
-              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}><u><i class="fa fa-key ml-2" aria-hidden="true"></i> change password</u> </Button>
+              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}><u><i className="fa fa-key ml-2" aria-hidden="true"></i> change password</u> </Button>
               <hr />
               <p className="w3-large">
                 <Link to="#">
                   <b>
                     <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
-                    Profile <small className="float-right" id="1" onClick={(e) => this.props.moveTab(e.target.id)}><u>click here to edit</u> <i class="fa fa-pencil" aria-hidden="true"></i></small>
+                    Profile <u> <small className="float-right" id="1" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit <i className="fa fa-pencil" aria-hidden="true"></i></small></u>
                   </b>
                 </Link>
               </p>
@@ -156,7 +156,7 @@ class UpdateProfileInfor extends Component {
                 <Link to="#">
                   <b>
                     <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
-                    Bank Account <small className="float-right" id="2" onClick={(e) => this.props.moveTab(e.target.id)}><u>click here to edit</u> <i class="fa fa-pencil" aria-hidden="true"></i></small>
+                    Bank Account <u> <small className="float-right" id="2" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit<i className="fa fa-pencil" aria-hidden="true"></i></small></u>
                   </b>
                 </Link>
               </p>
@@ -165,7 +165,7 @@ class UpdateProfileInfor extends Component {
                 <Link to="#">
                   <b>
                     <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
-                    History Payment <small className="float-right" id="3" onClick={(e) => this.props.moveTab(e.target.id)}><u>detail</u> <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small>
+                    History Payment <u> <small className="float-right" id="3" onClick={(e) => this.props.moveTab(e.target.id)}>detail <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small></u>
                   </b>
                 </Link>
               </p>
