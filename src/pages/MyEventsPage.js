@@ -7,7 +7,7 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import QRCode from 'containers/user/QRCode'
+import QRCode from 'containers/user/QRCode';
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -29,10 +29,10 @@ class ProfilePage extends Component {
       this.setState({
         tab: tabNumber,
       });
-
     };
 
-    const { tab } = this.state
+    const { tab } = this.state;
+    console.log(tab);
     return (
       <div>
         <div className="fixed-top">
@@ -43,7 +43,7 @@ class ProfilePage extends Component {
             <ProfileInfor moveTab={moveTab} />
           </div>
           <div className=" col-sm-9">
-          {this.props.pending && (
+            {this.props.pending && (
               <Spin
                 tip="Loading..."
                 size="large"

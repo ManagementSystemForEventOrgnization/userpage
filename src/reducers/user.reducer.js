@@ -13,7 +13,7 @@ const initialState = {
   numUnreadNotification: 0,
   chatHistory: [],
   listCard: [{}],
-  historyPayment: []
+  historyPayment: [],
 };
 
 const user = (state = initialState, action) => {
@@ -175,17 +175,20 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         pending: true,
+        errMessage: '',
       };
     }
 
-    case userConstants.ADD_PAYMENT_CARD_SUCCESS:
+    case userConstants.ADD_PAYMENT_CARD_SUCCESS: {
       return {
         ...state,
         success: action.success,
         // listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
         listCard: [...state.listCard, action.success],
         pending: false,
+        errMessage: '',
       };
+    }
 
     case userConstants.ADD_PAYMENT_CARD_FAILURE:
       return {
@@ -199,7 +202,7 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         CardSuccess: null,
-        errMessage: null
+        errMessage: '',
       };
     }
 
@@ -207,7 +210,7 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         CardSuccess: action.success,
-        errMessage: null,
+        errMessage: '',
         pending: false,
       };
 
@@ -219,11 +222,11 @@ const user = (state = initialState, action) => {
         pending: false,
       };
 
-
     case userConstants.DEL_CARDDEFAULT_REQUEST: {
       return {
         ...state,
         pending: true,
+        errMessage: '',
       };
     }
 
@@ -231,8 +234,11 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         CardSuccess: action.success,
-        listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
+        listCard: [
+          ...state.listCard.filter((card) => card.id !== action.cardId),
+        ],
         pending: false,
+        errMessage: '',
       };
 
     case userConstants.DEL_CARDDEFAULT_FAILURE:
@@ -242,13 +248,13 @@ const user = (state = initialState, action) => {
         pending: false,
       };
 
-
     case userConstants.GET_HISTORYPAYMENT_REQUEST: {
       return {
         ...state,
         pending: true,
         // historyPayment: null,
-        paymentHistoryerr: null
+        paymentHistoryerr: null,
+        errMessage: '',
       };
     }
 
@@ -258,6 +264,7 @@ const user = (state = initialState, action) => {
         historyPayment: action.historyPayment,
         paymentHistoryerr: null,
         pending: false,
+        errMessage: '',
       };
 
     case userConstants.GET_HISTORYPAYMENT_FAILURE:
@@ -267,7 +274,7 @@ const user = (state = initialState, action) => {
         pending: false,
       };
 
-    //----------------------------- 
+    //-----------------------------
 
     case userConstants.UPDATE_USER_PROFILE_REQUEST:
       return {
@@ -349,7 +356,6 @@ const user = (state = initialState, action) => {
         errMessage: action.error,
       };
 
-
     case userConstants.GET_LISTCARD_REQUEST:
       return {
         ...state,
@@ -369,7 +375,6 @@ const user = (state = initialState, action) => {
         listCard: [],
         pending: false,
       };
-
 
     case userConstants.GET_HISTORY_REQUEST:
       return {

@@ -14,6 +14,7 @@ class ApplyEventModal extends Component {
       session: this.props.session,
       openDrawer: false,
       openChildDrawer: false,
+      currSsId: '',
     };
   }
 
@@ -91,6 +92,7 @@ class ApplyEventModal extends Component {
       if (ticket.price !== 0) {
         this.setState({
           openDrawer: true,
+          currSsId: ssId,
         });
       } else {
         this.changeLoadingSS(ssId);
@@ -107,8 +109,8 @@ class ApplyEventModal extends Component {
   };
 
   render() {
-    const { session, openDrawer } = this.state;
-    const { ticket } = this.props;
+    const { session, openDrawer, currSsId } = this.state;
+    const { ticket, id } = this.props;
     return (
       <div>
         {session.map((ss) => (
@@ -136,7 +138,12 @@ class ApplyEventModal extends Component {
           <h6>Let's complete some last steps.</h6>
           <p>You have to pay {ticket.price} VND</p>
           <hr />
-          <CreditCard />
+          <CreditCard
+            currSsId={currSsId}
+            eventId={id}
+            handleFinishPayment={this.handleCloseDrawer}
+            changeStatus={() => this.changeStatusSS(currSsId, 1)}
+          />
         </Drawer>
       </div>
     );
