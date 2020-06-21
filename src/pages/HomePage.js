@@ -21,7 +21,6 @@ import { responsive } from 'containers/event/templates/constants/atom.constant';
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       numberRecord: 12,
       pageNumber: 1,
@@ -41,18 +40,14 @@ class HomePage extends Component {
 
   sumDiscount = (ticket, discount) => {
     let newDiscount = 1 - discount;
-
     let sum = newDiscount * ticket;
     let money = `${sum} VNĐ `;
-
     return money;
   };
 
   percentDiscount = (discount) => {
     let newDiscount = discount * 100;
-
     let percent = `-${newDiscount}%`;
-
     return percent;
   };
 
@@ -99,7 +94,6 @@ class HomePage extends Component {
       <div className="homepage">
         <div className="fixed-top">
           <Header />
-
           <NavBar />
         </div>
         <Banner />

@@ -158,7 +158,7 @@ class Video2 extends React.Component {
         )}
         {editable && (
           <Modal
-            title="Edit Video"
+            title="Edit Video Style"
             visible={this.state.visible}
             onOk={this.closeModal}
             onCancel={this.closeModal}

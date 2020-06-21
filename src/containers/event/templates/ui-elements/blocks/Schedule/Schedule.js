@@ -7,13 +7,13 @@ import moment from 'moment';
 
 import EditText from '../../shares/EditText';
 import IconsHandle from '../../shares/IconsHandle';
-import TextsBlock from '../../atoms/Text';
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
+import { titleBlockStyle } from '../../../constants/atom.constant';
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -181,7 +181,6 @@ class Schedule1 extends Component {
       transform,
       color,
       fontWeight,
-      scheduleName,
       content,
       visible,
     } = this.state;
@@ -215,31 +214,32 @@ class Schedule1 extends Component {
     };
 
     const calendar = {
-      border: 'brown solid 1px',
+      border: '#f7bdbd solid 1px',
       width: '83px',
       height: '90px',
       textAlign: 'center',
       fontSize: '15px',
       fontWeight: 'bold',
+      borderRadius: '3px',
     };
 
     const monthStyle = {
       background: 'red',
       fontWeight: 'bolder',
+      borderRadius: '3px',
     };
 
     return (
-      <div className="child-block " key={key}>
-        <TextsBlock
-          content={scheduleName}
-          child={true}
-          editable={editable}
-          newStyle={{ fontWeight: 'bold' }}
-        />
+      <div className="p-5 child-block" key={key}>
+        <h2 style={titleBlockStyle}>Sessions</h2>
         <div className="d-flex">
           <div style={divStyle}>
             {content.map((ss) => (
-              <div className="row child-block" style={divStyle} key={ss.id}>
+              <div
+                className="row child-block p-3 shadow-sm mt-2 mb-3"
+                style={divStyle}
+                key={ss.id}
+              >
                 <div className="col-3 col-md-3">
                   <div style={calendar} className="mb-2 p-1">
                     <p style={monthStyle} className="p-1">
@@ -255,10 +255,14 @@ class Schedule1 extends Component {
                 <div className="col-6 col-md-6">
                   <div style={titleStyle}>{ss.name}</div>
 
-                  <div className="mt-4">{ss.location}</div>
+                  <p className="mt-4" style={{ fontSize: '14px' }}>
+                    {ss.location}
+                  </p>
                 </div>
                 <div className="col-3 col-md-3">
-                  <div>{`Limit number : ${ss.limitNumber}`}</div>
+                  <p
+                    style={{ fontSize: '14px' }}
+                  >{`Limit number : ${ss.limitNumber}`}</p>
 
                   <Button
                     icon={<CalendarOutlined />}

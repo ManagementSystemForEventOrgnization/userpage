@@ -5,21 +5,22 @@ import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
 const initialBlocks = [
-  ...dataTest[1].value, //banner
-  ...dataTest[0].value,
-  dataTest[2].value[0], // event description
-  dataTest[13].value[0], //list of link documents
+  dataTest[1].value[2], //banner
+  // ...dataTest[0].value,
+  ...dataTest[2].value, // event description
+  ...dataTest[13].value, //list of link documents
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
-  ...dataTest[5].value, //map
+  dataTest[5].value[1], //map
   ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
   ...dataTest[8].value, // sponsors
   ...dataTest[9].value, //gallery
+  dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
-  dataTest[14].value[0], //sharing
-  dataTest[11].value[0], //footer
+
+  dataTest[11].value[1], // footer,
 ];
 
 const initialState = {
@@ -35,6 +36,10 @@ const initialState = {
   errMessage: '',
   pending: false,
   id: '',
+  ticket: {
+    price: 0,
+    discount: 0,
+  },
   events: [],
   hlEvent: [],
   errCancel: "",
@@ -81,6 +86,7 @@ const getIndexPage = (pages, currentPage) => {
       }
     }
   }
+
   return count;
 };
 
@@ -187,6 +193,7 @@ const event = (state = initialState, action) => {
         id: action.event._id,
         banner: action.event.bannerUrl,
         nameEvent: action.event.name,
+        ticket: action.event.ticket,
 
         // update event infor
       };
@@ -277,7 +284,7 @@ const event = (state = initialState, action) => {
         pages: action.pages,
         currentPage: action.currentPage,
         blocks:
-          nextId > state.system.length
+          nextId >= state.system.length
             ? [...initialBlocks]
             : state.system[nextId],
       };

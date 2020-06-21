@@ -3,7 +3,6 @@ import React from 'react';
 import ButtonBlock from '../templates/ui-elements/atoms/Button';
 import TextBlock from '../templates/ui-elements/atoms/Text';
 import ImageBlock from '../templates/ui-elements/atoms/Image';
-import StepBlock from '../templates/ui-elements/atoms/Step';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
@@ -15,7 +14,6 @@ import ContactUs2 from '../templates/ui-elements/blocks/contactUs/ContactUs2';
 import Banner2 from '../templates/ui-elements/blocks/banner/Banner2';
 import Banner3 from '../templates/ui-elements/blocks/banner/Banner3';
 import Banner1 from '../templates/ui-elements/blocks/banner/Banner1';
-
 
 import EventDescription1 from '../templates/ui-elements/blocks/eventDescription/EventDescription1';
 import EventDescription2 from '../templates/ui-elements/blocks/eventDescription/EventDescription2';
@@ -40,6 +38,8 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Header from 'containers/event/Header';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import MapWithImage from '../templates/ui-elements/blocks/map/MapWithImage';
+
 import Document from '../templates/ui-elements/blocks/documents/Document';
 import Sharing from '../templates/ui-elements/atoms/Sharing';
 
@@ -103,9 +103,6 @@ export const blockList = {
     <Card2 key={id} editable={editable} style={style} id={id} />
   ),
 
-  step: ({ editable, style, id }) => (
-    <StepBlock key={id} editable={editable} style={style} id={id} />
-  ),
   schedule2: ({ editable, style, id }) => (
     <Schedule key={id} editable={editable} style={style} id={id} />
   ),
@@ -114,6 +111,9 @@ export const blockList = {
   ),
   map1: ({ editable, style, id }) => (
     <Map key={id} editable={editable} style={style} id={id} />
+  ),
+  map2: ({ editable, style, id }) => (
+    <MapWithImage key={id} editable={editable} style={style} id={id} />
   ),
   countdown: ({ editable, style, id }) => (
     <CountDownBlock

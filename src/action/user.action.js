@@ -15,7 +15,9 @@ const login = (email, password) => {
       .then((res) => {
         dispatch(success(res.data.result));
         if (res.data.result.isActive) {
-          history.push('/');
+          if (history.action === 'PUSH') {
+            history.goBack();
+          } else history.push('/');
         }
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -39,7 +41,9 @@ const loginWithGoogle = (profile) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
       })
       .catch((err) => handleCatch(dispatch, failure, err));
   };
@@ -172,9 +176,14 @@ const checkCode = (token) => {
     })
       .then((res) => {
         dispatch(success());
-        history.push('/');
+        if (history.action === 'PUSH') {
+          history.goBack();
+        } else history.push('/');
+
+        // history.push('/');
       })
       .catch((error) => {
+        console.log(error);
         handleCatch(dispatch, failure, error);
       });
   };
@@ -293,6 +302,159 @@ const onUpdateBankInfor = (bankInfor) => {
   }
 };
 
+const onChangePassword = (passwords) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/updatePassword`, {
+      ...passwords,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.CHANGEPASSWORD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.CHANGEPASSWORD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.CHECK_CODE_FAILURE, error };
+  }
+};
+
+const addPaymentCard = (cardToken) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/add_card`, {
+      cardToken,
+    })
+      .then((res) => {
+        console.log('cr' + cardToken);
+
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.ADD_PAYMENT_CARD_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.ADD_PAYMENT_CARD_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.ADD_PAYMENT_CARD_FAILURE, error };
+  }
+};
+
+
+const getListCardPayment = () => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/get_listcard`)
+      .then((res) => {
+        // console.log(res.data);
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_LISTCARD_REQUEST };
+  }
+  function success(listCard) {
+    return { type: userConstants.GET_LISTCARD_SUCCESS, listCard };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_LISTCARD_FAILURE, error };
+  }
+};
+
+const postCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/set_card_default`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.POST_CARDDEFAULT_REQUEST };
+  }
+  function success(success) {
+    return { type: userConstants.POST_CARDDEFAULT_SUCCESS, success };
+  }
+  function failure(error) {
+    return { type: userConstants.POST_CARDDEFAULT_FAILURE, error };
+  }
+};
+
+
+const delCardDefault = (cardId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/del_card`, {
+      cardId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result, cardId));
+      })
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+
+  function request() {
+    return { type: userConstants.DEL_CARDDEFAULT_REQUEST };
+  }
+  function success(success, cardId) {
+    return { type: userConstants.DEL_CARDDEFAULT_SUCCESS, success, cardId };
+  }
+  function failure(error) {
+    return { type: userConstants.DEL_CARDDEFAULT_FAILURE, error };
+  }
+};
+
+
+
+
+const getHistoryPayment = (numberRecord = 16) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/payment_history/`, {
+      params: {
+        numberRecord,
+      }
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+      })
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_HISTORYPAYMENT_REQUEST };
+  }
+  function success(historyPayment) {
+    return { type: userConstants.GET_HISTORYPAYMENT_SUCCESS, historyPayment };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_HISTORYPAYMENT_FAILURE, error };
+  }
+};
+
+
+
+
 const get_History = (
   dataSent
 ) => {
@@ -319,10 +481,7 @@ const get_History = (
   }
 };
 
-const getCreateHistory = (
-  dataSent
-
-) => {
+const getCreateHistory = (dataSent) => {
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/user/historyCreate`, {
@@ -389,57 +548,32 @@ const getNumUnreadNotification = () => {
   }
 };
 
-const setReadNotification = (notificationId, notifications) => {
+const setReadNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setReadNotification', { notificationId }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      console.log(notifications);
-      const newNoties = [
-        ...notifications.slice(0, index),
-        {
-          ...notifications[index],
-          isRead: true,
-        },
-        ...notifications.slice(index + 1, notifications.length),
-      ];
-      console.log(newNoties);
-      dispatch(success(newNoties));
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.SET_READ_NOTIFICATION,
-      notifications,
     };
   }
 };
 
-const setDeleteNotification = (notificationId, notifications) => {
+const setDeleteNotification = (notificationId) => {
   return (dispatch) => {
     API.post('/api/setDeleteNotification', {
       notificationId,
     }).then((res) => {
-      const index = notifications.findIndex(
-        (item) => item._id === notificationId
-      );
-      if (index !== -1) {
-        const newNoties = [
-          ...notifications.slice(0, index),
-          ...notifications.slice(index + 1, notifications.length),
-        ];
-
-        dispatch(success(newNoties));
-      }
+      dispatch(success());
     });
   };
 
-  function success(notifications) {
+  function success() {
     return {
       type: userConstants.DELETE_NOTIFICATION,
-      notifications,
     };
   }
 };
@@ -480,6 +614,12 @@ export const userActions = {
   getCreateHistory,
   getNumUnreadNotification,
   getChatHistory,
+  onChangePassword,
+  addPaymentCard,
+  getListCardPayment,
+  delCardDefault,
+  getHistoryPayment,
+  postCardDefault,
   setReadNotification,
   setDeleteNotification,
 };

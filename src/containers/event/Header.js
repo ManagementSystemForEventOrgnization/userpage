@@ -33,9 +33,7 @@ class Header extends Component {
 
   componentDidMount = () => {
     const { editable } = this.props;
-    // const currentStyle = this.state;
     if (editable) {
-      // storeStyleHeader(currentStyle);
       this.currentItem();
     }
   };
@@ -58,6 +56,7 @@ class Header extends Component {
     this.setState({ isCollapsed: false });
     storeStyleHeader(this.state);
   };
+
   handleClickMenuItem = (item) => {
     const { changeCurrentPage } = this.props;
     changeCurrentPage(item.id);

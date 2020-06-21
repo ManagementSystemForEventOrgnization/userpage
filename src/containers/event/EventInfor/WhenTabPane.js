@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { v4 as uuid } from 'uuid';
+import moment from 'moment';
 
 import DayPicker, { DateUtils } from 'react-day-picker';
-import { TimePicker, Input, Button, Form, InputNumber } from 'antd';
+import { TimePicker, Input, Button, Form, InputNumber, Collapse } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 
 import AutoCompletePlace from '../../share/AutoCompletePlace';
-import moment from 'moment';
+import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const { RangePicker } = TimePicker;
+const { Panel } = Collapse;
 const layout = {
   labelCol: {
     span: 6,
@@ -19,6 +21,8 @@ const layout = {
 };
 
 class TabPane extends Component {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -69,21 +73,8 @@ class TabPane extends Component {
         limitNumber: 100,
         joinNumber: 0,
         name: '',
-        documents: [
-          {
-            id: uuid(),
-            title: '',
-            url: '',
-          },
-        ],
-        detail: [
-          {
-            id: uuid(),
-            from: '',
-            to: '',
-            description: '',
-          },
-        ],
+        documents: [],
+        detail: [],
       });
     }
 
@@ -255,150 +246,189 @@ class TabPane extends Component {
                   {moment(ss.day).format('DD/MM/YYYY').toString()}
                 </h6>
 
-                <Form.Item
-                  label="Name"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input
-                    value={ss.name}
-                    onChange={(e) =>
-                      this.handleChangeName(ss.id, e.target.value)
-                    }
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="Max quantity"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    min={1}
-                    value={ss.limitNumber}
-                    onChange={(value) =>
-                      this.handleChangeQuantity(ss.id, value)
-                    }
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  name="address"
-                  label="Address"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <AutoCompletePlace
-                    address={ss.address}
-                    handleAddressChange={(value) =>
-                      this.handleChangeAddressValue(ss.id, 'location', value)
-                    }
-                    handleMapChange={(value) =>
-                      this.handleChangeAddressValue(ss.id, 'map', value)
-                    }
-                  />
-                </Form.Item>
-                <hr />
-                <Form.Item label="Link to document">
-                  {ss.documents.map((doc) => (
-                    <div className="d-flex mt-1" key={doc.id}>
+                <Collapse defaultActiveKey="1">
+                  <Panel header="Information for this session " key="1">
+                    <Form.Item
+                      label="Name"
+                      name={`Name ${index}`}
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
                       <Input
-                        placeholder="Enter title for documents"
-                        name={`title${doc.id}`}
-                        onChange={(event) =>
-                          this.handleChangeDoc(
+                        value={ss.name}
+                        onChange={(e) =>
+                          this.handleChangeName(ss.id, e.target.value)
+                        }
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Max quantity"
+                      name={`Max-quantity ${index}`}
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <InputNumber
+                        min={1}
+                        value={ss.limitNumber}
+                        onChange={(value) =>
+                          this.handleChangeQuantity(ss.id, value)
+                        }
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="address"
+                      label="Address"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <AutoCompletePlace
+                        address={ss.address}
+                        handleAddressChange={(value) =>
+                          this.handleChangeAddressValue(
                             ss.id,
-                            doc.id,
-                            'title',
-                            event.target.value
+                            'location',
+                            value
+                          )
+                        }
+                        handleMapChange={(value) =>
+                          this.handleChangeAddressValue(ss.id, 'map', value)
+                        }
+                      />
+                    </Form.Item>
+                  </Panel>
+
+                  <Panel header="Timeline" key="2">
+                    <Form.Item>
+                      {ss.detail.map((item) => (
+                        <div
+                          className="mt-2  d-flex juxtify-content-around"
+                          style={{ width: '530px' }}
+                          key={item.id}
+                        >
+                          <RangePicker
+                            onChange={(time, timeString) =>
+                              this.handleChangeTime(ss.id, item.id, timeString)
+                            }
+                            className="mr-2"
+                            style={{ width: '350px' }}
+                          />
+
+                          <Input
+                            placeholder="description"
+                            name={`desc${item.id}`}
+                            className="mr-2"
+                            onChange={(event) =>
+                              this.handleChangeDescription(
+                                ss.id,
+                                item.id,
+                                event.target.value
+                              )
+                            }
+                          />
+                          <DeleteOutlined
+                            onClick={() =>
+                              this.handleDeleteTime(ss.id, item.id)
+                            }
+                            style={{ fontSize: '20px', color: 'red' }}
+                          />
+                        </div>
+                      ))}
+                    </Form.Item>
+
+                    <Button
+                      className="mt-1"
+                      onClick={() => this.handleAddTime(ss.id)}
+                      icon={
+                        <PlusCircleTwoTone
+                          style={{ fontSize: '20px', color: '#eb2f96' }}
+                          className="mr-2"
+                        />
+                      }
+                    >
+                      Add time
+                    </Button>
+                  </Panel>
+                  <Panel header="Documents" key="3">
+                    <Form.Item>
+                      {ss.documents.map((doc) => (
+                        <div
+                          className="d-flex mt-1"
+                          key={doc.id}
+                          style={{ width: '530px' }}
+                        >
+                          <Input
+                            placeholder="Enter title for documents"
+                            name={`title${doc.id}`}
+                            onChange={(event) =>
+                              this.handleChangeDoc(
+                                ss.id,
+                                doc.id,
+                                'title',
+                                event.target.value
+                              )
+                            }
+                          />
+                          <Input
+                            placeholder="Enter link to your document"
+                            className="ml-2 mr-2"
+                            name={`url${doc.id}`}
+                            onChange={(event) =>
+                              this.handleChangeDoc(
+                                ss.id,
+                                doc.id,
+                                'url',
+                                event.target.value
+                              )
+                            }
+                          />
+                          <DeleteOutlined
+                            onClick={() => this.handleDeleteDocs(ss.id, doc.id)}
+                            style={{ fontSize: '20px', color: 'red' }}
+                          />
+                        </div>
+                      ))}
+                    </Form.Item>
+
+                    <Button
+                      className="mt-1"
+                      onClick={() => this.handleAddDocs(ss.id)}
+                      icon={
+                        <PlusCircleTwoTone
+                          style={{ fontSize: '20px', color: '#eb2f96' }}
+                          className="mr-2"
+                        />
+                      }
+                    >
+                      Add link
+                    </Button>
+                  </Panel>
+
+                  <Panel header="Image detail for this location" key="4">
+                    <Form.Item>
+                      <UploadImage
+                        url={ss.address.detailImage || ''}
+                        handleImageDrop={(value) =>
+                          this.handleChangeAddressValue(
+                            ss.id,
+                            'detailImage',
+                            value
                           )
                         }
                       />
-                      <Input
-                        placeholder="Enter link to your document"
-                        className="ml-2 mr-2"
-                        name={`url${doc.id}`}
-                        onChange={(event) =>
-                          this.handleChangeDoc(
-                            ss.id,
-                            doc.id,
-                            'url',
-                            event.target.value
-                          )
-                        }
-                      />
-                      <DeleteOutlined
-                        onClick={() => this.handleDeleteDocs(ss.id, doc.id)}
-                        style={{ fontSize: '20px', color: 'red' }}
-                      />
-                    </div>
-                  ))}
-                </Form.Item>
-
-                <Button
-                  className="mt-1"
-                  onClick={() => this.handleAddDocs(ss.id)}
-                  icon={
-                    <PlusCircleTwoTone
-                      style={{ fontSize: '20px', color: '#eb2f96' }}
-                      className="mr-2"
-                    />
-                  }
-                >
-                  Add link
-                </Button>
-                <hr />
-                <Form.Item label="Timeline">
-                  {ss.detail.map((item) => (
-                    <div className="mt-1  d-flex" key={item.id}>
-                      <RangePicker
-                        className="mr-2"
-                        onChange={(time, timeString) =>
-                          this.handleChangeTime(ss.id, item.id, timeString)
-                        }
-                      />
-
-                      <Input
-                        placeholder="description"
-                        name={`desc${item.id}`}
-                        className="mr-2"
-                        onChange={(event) =>
-                          this.handleChangeDescription(
-                            ss.id,
-                            item.id,
-                            event.target.value
-                          )
-                        }
-                      />
-                      <DeleteOutlined
-                        onClick={() => this.handleDeleteTime(ss.id, item.id)}
-                        style={{ fontSize: '20px', color: 'red' }}
-                      />
-                    </div>
-                  ))}
-                </Form.Item>
-
-                <Button
-                  className="mt-1"
-                  onClick={() => this.handleAddTime(ss.id)}
-                  icon={
-                    <PlusCircleTwoTone
-                      style={{ fontSize: '20px', color: '#eb2f96' }}
-                      className="mr-2"
-                    />
-                  }
-                >
-                  Add time
-                </Button>
+                    </Form.Item>
+                  </Panel>
+                </Collapse>
                 <hr />
               </div>
             ))}

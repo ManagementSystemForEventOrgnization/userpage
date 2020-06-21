@@ -30,16 +30,16 @@ class CommentEvent extends Component {
     super(props);
     this.socket = io('http://localhost:4000');
 
-    const { style, id } = this.props;
+    const { style, eventId } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, newComment: [] }
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
           list: [1, 2, 3, 4],
           value: '',
           content: '',
-          eventId: id || localStorage.getItem('currentId'),
+          eventId: eventId || localStorage.getItem('currentId'),
           newComment: [],
         };
   }
@@ -56,8 +56,8 @@ class CommentEvent extends Component {
   };
 
   componentDidMount = () => {
-    const { id } = this.props;
-    this.socket.on(`cmt-${id}`, (data) => {
+    const { eventId } = this.state;
+    this.socket.on(`cmt-${eventId || this.props.eventId}`, (data) => {
       let { newComment } = this.state;
 
       newComment = newComment
@@ -90,12 +90,12 @@ class CommentEvent extends Component {
 
   handleSubmit = () => {
     let { value, eventId, newComment } = this.state;
-    const { saveComment, id } = this.props;
+    const { saveComment } = this.props;
     if (!value) {
       return;
     }
 
-    saveComment(eventId || id, value);
+    saveComment(eventId, value);
 
     newComment = newComment
       ? [
@@ -132,6 +132,7 @@ class CommentEvent extends Component {
   deleteBlock = () => {
     const { id, deleteBlock } = this.props;
     if (deleteBlock) {
+      console.log('delete : ', id);
       deleteBlock(id);
     }
   };
@@ -144,10 +145,10 @@ class CommentEvent extends Component {
   };
 
   handleLoadMore = () => {
-    const { comments, getComment, id } = this.props;
+    const { comments, getComment } = this.props;
     const { eventId } = this.state;
     const page = Math.round(comments.length / 5);
-    getComment(eventId || id, page + 1);
+    getComment(eventId || this.props.eventId, page + 1);
   };
 
   render() {
@@ -237,7 +238,7 @@ const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
   userInfo: state.user.userInfo,
   comments: state.event.comments,
-  id: state.event.id,
+  eventId: state.event.id,
   submitting: state.event.submitting,
   countComment: state.event.countComment,
 });

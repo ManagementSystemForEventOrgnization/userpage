@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import { Modal, Button } from 'antd';
+import ChangePassword from './ChangePassword'
 class UpdateProfileInfor extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +27,7 @@ class UpdateProfileInfor extends Component {
       visible: false,
       percentOfPersonalInfor: 0,
       percenOfOrgInfor: 0,
+      isShowModel: false
     };
 
     this.updatePercentInfor = this.updatePercentInfor.bind(this);
@@ -86,11 +89,10 @@ class UpdateProfileInfor extends Component {
 
   render() {
     const { userInfor } = this.state;
-    // console.log(userInfor);
 
     return (
       <div>
-        <div className="">
+        <div>
           <div className="w3-white w3-text-grey w3-card-4">
             <div className="w3-display-container">
               <img
@@ -119,12 +121,15 @@ class UpdateProfileInfor extends Component {
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
                 {userInfor.phone}
               </p>
+              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}><u><i className="fa fa-key ml-2" aria-hidden="true"></i> change password</u> </Button>
               <hr />
               <p className="w3-large">
-                <b>
-                  <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
-                  Profile
-                </b>
+                <Link to="#">
+                  <b>
+                    <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
+                    Profile <u> <small className="float-right" id="1" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit <i className="fa fa-pencil" aria-hidden="true"></i></small></u>
+                  </b>
+                </Link>
               </p>
               <p>Personal Information (%)</p>
               <div className="w3-light-grey w3-round-xlarge w3-small">
@@ -146,34 +151,40 @@ class UpdateProfileInfor extends Component {
                   </div>
                 </div>
               </div>
-              <br />
+              <hr />
               <p className="w3-large w3-text-theme">
-                <b>
-                  <i className="fa fa-globe fa-fw w3-margin-right w3-text-teal" />
-                  Bank Account
-                </b>
+                <Link to="#">
+                  <b>
+                    <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
+                    Bank Account <u> <small className="float-right" id="2" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit<i className="fa fa-pencil" aria-hidden="true"></i></small></u>
+                  </b>
+                </Link>
               </p>
-              <p>Visa</p>
-              <div className="w3-light-grey w3-round-xlarge">
-                <div
-                  className="w3-round-xlarge w3-teal"
-                  style={{ height: '24px', width: '100%' }}
-                />
-              </div>
-              <p>Local Credit</p>
-              <div className="w3-light-grey w3-round-xlarge">
-                <div
-                  className="w3-round-xlarge w3-teal"
-                  style={{ height: '24px', width: '55%' }}
-                />
-              </div>
-              <br />
+              <hr />
+              <p className="w3-large w3-text-theme">
+                <Link to="#">
+                  <b>
+                    <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
+                    History Payment <u> <small className="float-right" id="3" onClick={(e) => this.props.moveTab(e.target.id)}>detail <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small></u>
+                  </b>
+                </Link>
+              </p>
             </div>
           </div>
           <br />
           {/* End Left Column */}
         </div>
-      </div>
+
+        <Modal
+          title="Change your password"
+          visible={this.state.isShowModel}
+          onOk={() => this.setState({ isShowModel: false })}
+          onCancel={() => this.setState({ isShowModel: false })}
+        >
+          <ChangePassword />
+        </Modal>
+
+      </div >
     );
   }
 }

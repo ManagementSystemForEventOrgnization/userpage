@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 import ButtonBlock from '../templates/ui-elements/atoms/Button';
 import TextBlock from '../templates/ui-elements/atoms/Text';
 import ImageBlock from '../templates/ui-elements/atoms/Image';
-import StepBlock from '../templates/ui-elements/atoms/Step';
 import DividerBlock from '../templates/ui-elements/atoms/Divider';
 
 import CountDownBlock from '../templates/ui-elements/blocks/countdown/Countdown';
@@ -41,451 +40,452 @@ import Video2 from '../templates/ui-elements/blocks/video/video2';
 
 import Comment from '../templates/ui-elements/blocks/comments/comments';
 import Map from '../templates/ui-elements/blocks/map/MapContainer';
+import MapWithImage from '../templates/ui-elements/blocks/map/MapWithImage';
 import Document from '../templates/ui-elements/blocks/documents/Document';
 import Sharing from '../templates/ui-elements/atoms/Sharing';
 
 export default [
-    {
-        name: 'Simple Block',
-        value: [
-            {
-                child: 'Button',
-                type: 'button',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <ButtonBlock key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Text',
-                type: 'text',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <TextBlock key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Image',
-                style: {},
-                type: 'image',
-                options: ({ editable, style, id }) => (
-                    <ImageBlock key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Divider',
-                style: {},
-                type: 'divider',
-                options: ({ editable, style, id }) => (
-                    <DividerBlock key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Simple Block',
+    value: [
+      {
+        child: 'Button',
+        type: 'button',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <ButtonBlock key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Text',
+        type: 'text',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <TextBlock key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Image',
+        style: {},
+        type: 'image',
+        options: ({ editable, style, id }) => (
+          <ImageBlock key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Divider',
+        style: {},
+        type: 'divider',
+        options: ({ editable, style, id }) => (
+          <DividerBlock key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Banner',
-        value: [
-            {
-                child: 'Banner-Only Image',
-                type: 'banner1',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <Banner1 id={id} key={id} editable={editable} style={style} />
-                ),
-            },
-            {
-                child: 'Banner-With Title',
-                type: 'banner2',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <Banner2 id={id} key={id} editable={editable} style={style} />
-                ),
-            },
-            {
-                child: 'Banner- With Title And Button',
-                type: 'banner3',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <Banner3 id={id} key={id} editable={editable} style={style} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Banner',
+    value: [
+      {
+        child: 'Banner-Only Image',
+        type: 'banner1',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <Banner1 id={id} key={id} editable={editable} style={style} />
+        ),
+      },
+      {
+        child: 'Banner-With Title',
+        type: 'banner2',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <Banner2 id={id} key={id} editable={editable} style={style} />
+        ),
+      },
+      {
+        child: 'Banner- With Title And Button',
+        type: 'banner3',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <Banner3 id={id} key={id} editable={editable} style={style} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Event Description',
-        value: [
-            {
-                child: 'Event Description1',
-                type: 'eventDescription1',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <EventDescription1
-                        key={id}
-                        id={id}
-                        editable={editable}
-                        style={style}
-                    />
-                ),
-            },
+  {
+    name: 'Event Description',
+    value: [
+      {
+        child: 'Event Description1',
+        type: 'eventDescription1',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <EventDescription1
+            key={id}
+            id={id}
+            editable={editable}
+            style={style}
+          />
+        ),
+      },
 
-            {
-                type: 'eventDescription2',
-                child: 'Event Description2',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <EventDescription2
-                        key={id}
-                        id={id}
-                        editable={editable}
-                        style={style}
-                    />
-                ),
-            },
-            {
-                child: 'Event Description3',
-                type: 'eventDescription3',
-                style: {},
-                options: ({ id, editable, style }) => (
-                    <EventDescription3
-                        key={id}
-                        id={id}
-                        editable={editable}
-                        style={style}
-                    />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+      {
+        type: 'eventDescription2',
+        child: 'Event Description2',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <EventDescription2
+            key={id}
+            id={id}
+            editable={editable}
+            style={style}
+          />
+        ),
+      },
+      {
+        child: 'Event Description3',
+        type: 'eventDescription3',
+        style: {},
+        options: ({ id, editable, style }) => (
+          <EventDescription3
+            key={id}
+            id={id}
+            editable={editable}
+            style={style}
+          />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Speaker/Performer/Team',
-        value: [
-            {
-                child: 'Speakers Gallery',
-                type: 'speakers1',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Card1 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Speakers Carousel',
-                type: 'speakers2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Card2 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Speaker/Performer/Team',
+    value: [
+      {
+        child: 'Speakers Gallery',
+        type: 'speakers1',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Card1 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Speakers Carousel',
+        type: 'speakers2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Card2 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Schedule/Program/Step',
-        value: [
-            {
-                child: 'Step',
-                style: {},
-                type: 'step',
-                options: ({ editable, style, id }) => (
-                    <StepBlock key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Timeline',
-                style: {},
-                type: 'timeline',
-                options: ({ editable, style, id }) => (
-                    <Timeline key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Schedule2',
-                type: 'schedule2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Schedule key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Schedule/Program',
+    value: [
+      {
+        child: 'Timeline',
+        style: {},
+        type: 'timeline',
+        options: ({ editable, style, id }) => (
+          <Timeline key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Schedule2',
+        type: 'schedule2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Schedule key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Map/Location/Adress',
-        value: [
-            {
-                child: 'Map1',
-                type: 'map1',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Map key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Map/Location/Adress',
+    value: [
+      {
+        child: 'Map',
+        type: 'map1',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Map key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Map With Image',
+        type: 'map2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <MapWithImage key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Coundown',
+  {
+    name: 'Coundown',
 
-        value: [
-            {
-                child: 'Coundown',
-                style: {},
-                type: 'countdown',
-                options: ({ editable, style, id }) => (
-                    <CountDownBlock
-                        key={id}
-                        editable={editable}
-                        startCount="2021-01-01 12:00:00"
-                        style={style}
-                        id={id}
-                    />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
-    {
-        name: 'Video',
-        value: [
-            {
-                child: 'Video1',
-                type: 'video1',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Video1 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Video2',
-                type: 'video2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Video2 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
-    {
-        name: 'Sponsors/Partners',
-        value: [
-            {
-                child: 'Sponsors1',
-                type: 'sponsor1',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Sponsor1Block key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+    value: [
+      {
+        child: 'Coundown',
+        style: {},
+        type: 'countdown',
+        options: ({ editable, style, id }) => (
+          <CountDownBlock
+            key={id}
+            editable={editable}
+            startCount="2021-01-01 12:00:00"
+            style={style}
+            id={id}
+          />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+  {
+    name: 'Video',
+    value: [
+      {
+        child: 'Video1',
+        type: 'video1',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Video1 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Video2',
+        type: 'video2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Video2 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+  {
+    name: 'Sponsors/Partners',
+    value: [
+      {
+        child: 'Sponsors1',
+        type: 'sponsor1',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Sponsor1Block key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Gallery',
-        value: [
-            {
-                child: 'Gallery',
-                type: 'photo2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Photo key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
-    {
-        name: 'Contact Us',
-        value: [
-            {
-                child: 'Contact Us 1',
-                type: 'contactUs2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <ContactUs2 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ child, options, style, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
-    {
-        name: 'Footer',
-        value: [
-            {
-                child: 'Footer1',
-                type: 'footer1',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Footer1 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-            {
-                child: 'Footer2',
-                type: 'footer2',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Footer2 key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
-    {
-        name: 'Comment',
-        value: [
-            {
-                child: 'Comment',
-                type: 'comment',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Comment key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Gallery',
+    value: [
+      {
+        child: 'Gallery',
+        type: 'photo2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Photo key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+  {
+    name: 'Contact Us',
+    value: [
+      {
+        child: 'Contact Us 1',
+        type: 'contactUs2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <ContactUs2 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ child, options, style, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+  {
+    name: 'Footer',
+    value: [
+      {
+        child: 'Footer1',
+        type: 'footer1',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Footer1 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+      {
+        child: 'Footer2',
+        type: 'footer2',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Footer2 key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
+  {
+    name: 'Comment',
+    value: [
+      {
+        child: 'Comment',
+        type: 'comment',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Comment key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Link document',
-        value: [
-            {
-                child: 'List Of Link',
-                type: 'listOfLink',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Document key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Link document',
+    value: [
+      {
+        child: 'List Of Link',
+        type: 'listOfLink',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Document key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 
-    {
-        name: 'Share to social media',
-        value: [
-            {
-                child: 'Icons',
-                type: 'socialMediaIcon',
-                style: {},
-                options: ({ editable, style, id }) => (
-                    <Sharing key={id} editable={editable} style={style} id={id} />
-                ),
-            },
-        ].map(({ style, child, options, type }) => {
-            return {
-                id: uuid(),
-                child,
-                style,
-                options,
-                type,
-            };
-        }),
-    },
+  {
+    name: 'Share to social media',
+    value: [
+      {
+        child: 'Icons',
+        type: 'socialMediaIcon',
+        style: {},
+        options: ({ editable, style, id }) => (
+          <Sharing key={id} editable={editable} style={style} id={id} />
+        ),
+      },
+    ].map(({ style, child, options, type }) => {
+      return {
+        id: uuid(),
+        child,
+        style,
+        options,
+        type,
+      };
+    }),
+  },
 ];

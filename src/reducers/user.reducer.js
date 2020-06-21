@@ -12,6 +12,8 @@ const initialState = {
   notifications: [],
   numUnreadNotification: 0,
   chatHistory: [],
+  listCard: [{}],
+  historyPayment: []
 };
 
 const user = (state = initialState, action) => {
@@ -100,7 +102,7 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
-      localStorage.setItem('userId', state.userInfor._id);
+      localStorage.setItem('userId', state.userInfo._id);
 
       return {
         ...state,
@@ -168,6 +170,108 @@ const user = (state = initialState, action) => {
         pending: false,
       };
 
+    //------------------------------
+    case userConstants.ADD_PAYMENT_CARD_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+      };
+    }
+
+    case userConstants.ADD_PAYMENT_CARD_SUCCESS:
+      {
+        console.log([...state.listCard, action.success])
+        return {
+          ...state,
+          success: action.success,
+          // listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
+          listCard: [...state.listCard, action.success],
+          pending: false,
+        };
+      }
+
+    case userConstants.ADD_PAYMENT_CARD_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        pending: false,
+      };
+
+    case userConstants.POST_CARDDEFAULT_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+        CardSuccess: null,
+        errMessage: null
+      };
+    }
+
+    case userConstants.POST_CARDDEFAULT_SUCCESS:
+      return {
+        ...state,
+        CardSuccess: action.success,
+        errMessage: null,
+        pending: false,
+      };
+
+    case userConstants.POST_CARDDEFAULT_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        CardSuccess: null,
+        pending: false,
+      };
+
+
+    case userConstants.DEL_CARDDEFAULT_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+      };
+    }
+
+    case userConstants.DEL_CARDDEFAULT_SUCCESS:
+      return {
+        ...state,
+        CardSuccess: action.success,
+        listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
+        pending: false,
+      };
+
+    case userConstants.DEL_CARDDEFAULT_FAILURE:
+      return {
+        ...state,
+        errMessage: action.error,
+        pending: false,
+      };
+
+
+    case userConstants.GET_HISTORYPAYMENT_REQUEST: {
+      return {
+        ...state,
+        pending: true,
+        // historyPayment: null,
+        paymentHistoryerr: null
+      };
+    }
+
+    case userConstants.GET_HISTORYPAYMENT_SUCCESS:
+      return {
+        ...state,
+        historyPayment: action.historyPayment,
+        paymentHistoryerr: null,
+        pending: false,
+      };
+
+    case userConstants.GET_HISTORYPAYMENT_FAILURE:
+      return {
+        ...state,
+        paymentHistoryerr: action.error,
+        pending: false,
+      };
+
+    //----------------------------- 
+
     case userConstants.UPDATE_USER_PROFILE_REQUEST:
       return {
         ...state,
@@ -213,6 +317,27 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: null,
       };
+
+    case userConstants.CHANGEPASSWORD_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        errMessage: null,
+      };
+
+    case userConstants.CHANGEPASSWORD_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+      };
+
+    case userConstants.CHANGEPASSWORD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        errMessage: null,
+      };
     case userConstants.FORGOTPASSWORD_SUCCESS:
       return {
         ...state,
@@ -226,6 +351,29 @@ const user = (state = initialState, action) => {
         pending: false,
         errMessage: action.error,
       };
+
+
+    case userConstants.GET_LISTCARD_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case userConstants.GET_LISTCARD_SUCCESS:
+      return {
+        ...state,
+        listCard: action.listCard || [],
+        pending: false,
+      };
+
+    case userConstants.GET_LISTCARD_FAILURE:
+      return {
+        ...state,
+        listCard: [],
+        pending: false,
+      };
+
+
     case userConstants.GET_HISTORY_REQUEST:
       return {
         ...state,
@@ -288,13 +436,11 @@ const user = (state = initialState, action) => {
     case userConstants.SET_READ_NOTIFICATION:
       return {
         ...state,
-        notifications: action.notifications,
       };
 
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
-        notifications: action.notifications,
       };
 
     case userConstants.GET_CHAT_HISTORY:

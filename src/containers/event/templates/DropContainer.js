@@ -53,12 +53,18 @@ class DropContainer extends React.Component {
     return update ? blockList[item.type](param) : item.options(param);
   };
 
+  handleChangeTextArea = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
+  };
+
   render() {
     const { match, editable, blocks, storeBlocksWhenCreateEvent } = this.props;
 
     const update = true;
     return (
-      <div className="drop-container">
+      <div className="drop-container pl-5 pr-5">
         <ReactSortable
           id="drop-container"
           sort={true}
@@ -69,7 +75,7 @@ class DropContainer extends React.Component {
           }}
           // animation={300}
           delayOnTouchStart={true}
-          delay={200}
+          delay={300}
           list={blocks}
           setList={storeBlocksWhenCreateEvent}
         >

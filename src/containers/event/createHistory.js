@@ -59,7 +59,8 @@ class CreateHistory extends React.Component {
             isSecondLoad:true,
             sessionEvent:[],    
             idEventCancel:'',
-            isShowCancel: false
+            isShowCancel: false,
+            isRadio: true,
 
           
 
@@ -210,9 +211,15 @@ class CreateHistory extends React.Component {
      
         let dataSent = {};
         if(value==='ALL' ){
+            this.setState({
+                isRadio:true
+            })
             getCreateHistory();
         }
         else{
+            this.setState({
+                isRadio:false
+            })
                 dataSent.status = value;
                 getCreateHistory(
                     dataSent
@@ -272,7 +279,9 @@ class CreateHistory extends React.Component {
       
         
        if(statusEvent==='All' ){
-              getCreateHistory();
+           let data={};
+           data.typeOfEvent=e.target.value;
+              getCreateHistory(data);
        }
        else{
          
@@ -366,10 +375,10 @@ class CreateHistory extends React.Component {
 
         return (
             <div className="history">
-                <div style={{height:'50px',
-                 width:'100%',opacity:'1',color:"black",
-                 textAlign:'center' , fontSize:'30px',
-                 fontWeight:'700'}}>Manage Event</div>
+                <div style={{height:'40px',
+                 width:'100%',opacity:'1',color:"white",
+                 textAlign:'center' , fontSize:'25px',background:'rgb(12, 105, 126)',
+                 fontWeight:'700'}}>Manage Created Event</div>
                 <Row className="mt-5">
                     <Col span={18} push={6}>
 
@@ -388,6 +397,7 @@ class CreateHistory extends React.Component {
                                     />
                                 </div>
                             </div>
+                            {this.state.isRadio ?' ':
                             <div className="mt-5" style={{color:'white'}}>
                             <Radio.Group name="radiogroup"  style={{color:'white'}}
                             defaultValue="Public" onChange={this.onChaneValue}>
@@ -396,6 +406,7 @@ class CreateHistory extends React.Component {
                         
                           </Radio.Group>
                           </div>
+    }
                             {pending ? (
 
                                 <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
@@ -530,7 +541,7 @@ class CreateHistory extends React.Component {
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             mode="inline"
-                            style={{ color: 'white', fontWeight: 'bolder', fontSize:'30px',background:'rgb(246, 72, 75)' }}
+                            style={{ borderRadius:'8px', color:'white', fontWeight: 'bolder', fontSize:'30px',background:'rgb(12, 105, 126)' }}
                             ><Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
                                ALL
                     </Menu.Item>

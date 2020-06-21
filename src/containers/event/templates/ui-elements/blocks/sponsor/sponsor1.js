@@ -10,6 +10,7 @@ import {
 import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
+// import { titleBlockStyle } from '../../../constants/atom.constant';
 
 const high = 20;
 const title = 'Sponsor';
@@ -26,25 +27,35 @@ class Sponsor1Block extends Component {
       : {
           sponsor: [
             {
-              url: 'bg-1.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658071/sponsor/hnkh_drqzna.png',
               id: uuid(),
             },
             {
-              url: 'bg-2.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/hcmus_dvegyf.jpg',
               id: uuid(),
             },
             {
-              url: 'bg-3.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png',
               id: uuid(),
             },
 
             {
-              url: 'star.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/fit_baduky.png',
               id: uuid(),
             },
             {
               id: uuid(),
-              url: 'star1.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/dhqg_bq799b.png',
+            },
+            {
+              id: uuid(),
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/apcs_xvnpbo.jpg',
             },
           ],
         };
@@ -96,6 +107,11 @@ class Sponsor1Block extends Component {
     };
     const { sponsor } = this.state;
     const { editable } = this.props;
+    const listSponsorStyle = {
+      background: '#eaeaea6b',
+      padding: '2%',
+      marginBottom: '2%',
+    };
 
     return (
       <div className="d-flex child-block" style={style}>
@@ -106,21 +122,24 @@ class Sponsor1Block extends Component {
             editable={editable}
             newStyle={{
               fontWeight: 'normal',
-              fontSize: 60,
+              fontSize: 50,
             }}
           />
 
           <hr></hr>
 
           <div className=" d-flex">
-            <div className="row d-flex justify-content-around">
+            <div
+              className="row d-flex justify-content-around mr-3"
+              style={listSponsorStyle}
+            >
               {sponsor.map((item) => (
-                <div className="col-sm-2 mt-2" key={item.id}>
+                <div className="col-sm-2 mt-2  " key={item.id}>
                   <ImageBlock
                     url={item.url}
                     editable={editable}
                     height={high}
-                    borderRadius={true}
+                    // borderRadius={true}
                     child={true}
                   />
                 </div>

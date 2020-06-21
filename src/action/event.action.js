@@ -212,10 +212,12 @@ const prepareForCreateEvent = (
   session,
   isSellTicket,
   webAddress,
-  bannerUrl
+  bannerUrl,
+  ticket
 ) => {
   return (dispatch) => {
     dispatch(request());
+    const domain = process.env.REACT_APP_BASE_URL;
     API.post('api/save/event', {
       name: nameEvent,
       typeOfEvent,
@@ -224,10 +226,14 @@ const prepareForCreateEvent = (
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
+      ticket,
+      domain,
     })
       .then((res) => {
-        const { _id } = res.data.result;
+        const { _id, urlWeb } = res.data.result;
+        console.log('TEST PREPARE : ', res.data.result);
         localStorage.setItem('currentId', _id);
+        localStorage.setItem('webAddress', urlWeb);
         dispatch(
           success(
             _id,
@@ -316,7 +322,7 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = (type) => {
+const getListEvent = (categoryEventId, type) => {
   //api/getListEvent
   let sentData = {};
   if (type === 'HEIGHT_LIGHT') {
@@ -381,7 +387,7 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
-  const eventId = id || localStorage.getItem('currentId');
+  const eventId = id || localStorage.getItem('webAddress');
 
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -626,7 +632,6 @@ export const eventActions = {
   duplicateBlock,
   deleteBlock,
   storeHeaderStyle,
-  changeCurrentPage,
   changePages,
   getUserJoinEvent,
   prepareForCreateEvent,
@@ -645,5 +650,7 @@ export const eventActions = {
   getComment,
   saveComment,
   deleteEvent,
-  cancelEvent
+  cancelEvent,
+
+  changeCurrentPage,
 };

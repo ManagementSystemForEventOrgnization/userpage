@@ -108,22 +108,6 @@ class HistoryProfile extends React.Component {
   };
 
 
-  sumDiscount = (ticket, discount) => {
-    let newDiscount = 1 - discount;
-
-    let sum = newDiscount * ticket;
-    let money = `${sum} VNĐ `;
-
-    return money;
-  };
-  percentDiscount = (discount) => {
-    let newDiscount = discount * 100;
-
-    let percent = `-${newDiscount}%`;
-
-    return percent;
-  };
-
   render() {
     const { categories } = this.state;
     const { pending, arrEvent } = this.props;

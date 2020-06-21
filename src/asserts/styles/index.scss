@@ -42,4 +42,11 @@
 @import "componentStyles/BankAccount.scss";
 @import "componentStyles/Social.scss";
 @import "componentStyles/Video.scss";
+@import "componentStyles/CreditCard.scss";
 @import "componentStyles/ManageEvent.scss";
+
+body{
+    @import url("https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap");
+    // background-color: aqua !important;
+    font-family: 'Slabo 27px', serif !important;
+}

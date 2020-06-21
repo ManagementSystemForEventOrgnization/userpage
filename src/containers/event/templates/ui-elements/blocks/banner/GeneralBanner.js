@@ -20,9 +20,9 @@ class GeneralBanner extends Component {
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }
         : {
-          ...BannerState(this.props),
-          applySession: [],
-        };
+            ...BannerState(this.props),
+            applySession: [],
+          };
   }
 
   openModal = () => this.setState({ visible: true });
@@ -82,8 +82,6 @@ class GeneralBanner extends Component {
     let { content } = this.state;
     content[type] = value;
     this.setState(content);
-
-    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   render() {
@@ -125,7 +123,6 @@ class GeneralBanner extends Component {
       height: '100%',
       opacity: opacity,
       backgroundColor: bgColor,
-
     };
 
     return (
@@ -243,7 +240,7 @@ const mapStateToProps = (state) => ({
   userInfo: state.user.userInfo,
   banner: state.event.banner,
   nameEvent: state.event.nameEvent,
-  eventId: state.event.id,
+  id: state.event.id,
   session: state.event.session,
 });
 

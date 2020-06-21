@@ -68,14 +68,41 @@ class Notification extends Component {
     return title.replace(title.slice(start, end + 1), username);
   };
 
-  handleMaskAsRead = (id) => {};
+  handleDeleleNotification = (notificationId) => {
+    const { data } = this.state;
+    const { setDeleteNotification } = this.props;
+    const index = data.findIndex((item) => item._id === notificationId);
+    if (index !== -1) {
+      const newNoties = [
+        ...data.slice(0, index),
+        ...data.slice(index + 1, data.length),
+      ];
+      this.setState({ data: newNoties });
+      setDeleteNotification(notificationId);
+    }
+  };
+
+  handleMarkAsRead = (notificationId) => {
+    const { data } = this.state;
+    const { setReadNotification } = this.props;
+    const index = data.findIndex((item) => item._id === notificationId);
+    if (index !== -1) {
+      const newNoties = [
+        ...data.slice(0, index),
+        {
+          ...data[index],
+          isRead: true,
+        },
+        ...data.slice(index + 1, data.length),
+      ];
+      this.setState({
+        data: newNoties,
+      });
+      setReadNotification(notificationId);
+    }
+  };
 
   renderNotification = (item) => {
-    const {
-      setDeleteNotification,
-      setReadNotification,
-      notifications,
-    } = this.props;
     switch (item.type) {
       case 'CREDIT_REFUND_FAILED':
         item.url = notificationTypeConstants.CREDIT_REFUND_FAILED;
@@ -129,14 +156,14 @@ class Notification extends Component {
               {!item.isRead && (
                 <Tooltip title="Mask as read" className="mr-2">
                   <CheckCircleTwoTone
-                    onClick={() => setReadNotification(item._id, notifications)}
+                    onClick={() => this.handleMarkAsRead(item._id)}
                   />
                 </Tooltip>
               )}
 
               <Tooltip title="Delete">
                 <DeleteOutlined
-                  onClick={() => setDeleteNotification(item._id, notifications)}
+                  onClick={() => this.handleDeleleNotification(item._id)}
                 />
               </Tooltip>
             </div>
@@ -180,10 +207,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListNotification: (pageNumber, numberRecord) =>
     dispatch(userActions.getListNotification(pageNumber, numberRecord)),
-  setReadNotification: (id, notifications) =>
-    dispatch(userActions.setReadNotification(id, notifications)),
-  setDeleteNotification: (id, notifications) =>
-    dispatch(userActions.setDeleteNotification(id, notifications)),
+  setReadNotification: (id) => dispatch(userActions.setReadNotification(id)),
+  setDeleteNotification: (id) =>
+    dispatch(userActions.setDeleteNotification(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

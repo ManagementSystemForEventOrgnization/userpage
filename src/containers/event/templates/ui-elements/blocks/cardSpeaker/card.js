@@ -17,7 +17,7 @@ import { responsive } from '../../../constants/atom.constant';
 import SpeakerState from '../../stateInit/SpeakerState';
 const { Meta } = Card;
 
-const height = 30;
+const height = 50;
 const iconStyle = {
   fontSize: '20px',
 };
@@ -81,9 +81,27 @@ class CardBlock extends React.Component {
     this.handleStoreBlock();
   };
 
+  renderImage = (item) => {
+    const { editable } = this.props;
+
+    return (
+      <div key={item.id}>
+        <Image
+          url={item.url}
+          editable={editable}
+          child={true}
+          height={'50vh'}
+          handleChangeItem={(value) => {
+            this.handleChangeItem(item.id, 'url', value);
+          }}
+        />
+      </div>
+    );
+  };
+
   renderList = (item) => {
     const { editable, type } = this.props;
-    const { title, url, description } = this.state;
+    const { title } = this.state;
 
     return (
       <div
@@ -99,9 +117,8 @@ class CardBlock extends React.Component {
             <Image
               url={item.url}
               editable={editable}
-              height={height}
               child={true}
-              newStyle={url}
+              height={height}
               handleChangeItem={(value) => {
                 this.handleChangeItem(item.id, 'url', value);
               }}
@@ -114,20 +131,9 @@ class CardBlock extends React.Component {
                 content={item.title}
                 child={true}
                 editable={editable}
-                newStyle={{ ...title, fontWeight: 'bold' }}
+                newStyle={{ ...title }}
                 handleChangeItem={(value) => {
                   this.handleChangeItem(item.id, 'title', value);
-                }}
-              />
-            }
-            description={
-              <Text
-                content={item.description}
-                child={true}
-                editable={editable}
-                newStyle={description}
-                handleChangeItem={(value) => {
-                  this.handleChangeItem(item.id, 'description', value);
                 }}
               />
             }
@@ -142,7 +148,8 @@ class CardBlock extends React.Component {
     const { editable, type } = this.props;
     return (
       // need to map style
-      <div className="d-flex  mt-3 mb-3">
+
+      <div className="d-flex  mt-3 mb-3 p-2">
         {type === 1 ? (
           <div className="row d-flex justify-content-around child-block">
             {list.map((item) => this.renderList(item))}
@@ -158,15 +165,14 @@ class CardBlock extends React.Component {
             autoPlay={true}
             autoPlaySpeed={1000}
             keyBoardControl={true}
+            transitionDuration={2000}
             customTransition="all .5"
-            transitionDuration={500}
-            containerClass="carousel-container"
+            containerClass="carousel-container  "
             removeArrowOnDeviceType={['tablet', 'mobile']}
             deviceType={'desktop'}
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-40-px"
+            itemClass="item-image mr-2 "
           >
-            {list.map((item) => this.renderList(item))}
+            {list.map((item) => this.renderImage(item))}
           </Carousel>
         )}
 

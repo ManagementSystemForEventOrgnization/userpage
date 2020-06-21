@@ -1,49 +1,122 @@
-import React from 'react';
-import { Button, Menu } from 'antd';
-import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { Form, Input, Select, Button } from 'antd';
 
-class AboutUs extends React.Component {
+const { Option } = Select;
+
+const categories = [
+  {
+    _id: 1,
+    isDelete: false,
+    name: 'abc',
+  },
+  {
+    _id: 2,
+    isDelete: false,
+    name: 'abc',
+  },
+  {
+    _id: 3,
+    isDelete: false,
+    name: 'abc',
+  },
+];
+const layout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 14,
+  },
+};
+
+class TabPane extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
+      nameEvent: '',
+      webAddress: '',
+      category: '',
     };
   }
-  collapse = () => {
-    const { visible } = this.state;
-    this.setState({
-      visible: !visible,
-    });
+
+  handleFinish = (values) => {
+    console.log(values);
+  };
+
+  handleFinishFail = (values) => {
+    console.log(values);
   };
 
   render() {
-    const { visible } = this.state;
-    const showStyle = {
-      //   height: '100px',
-      //   width: '200px',
-    };
-    const hideStyle = {
-      display: 'none',
-    };
     return (
-      <div>
-        <Button onClick={this.collapse}>Click me</Button>
-        <Menu
-          style={visible ? showStyle : hideStyle}
-          mode="vertical-right"
-          className="more-menu"
+      <Form
+        {...layout}
+        name="control-ref"
+        className="pt-5"
+        onFinish={this.handleFinish}
+        onFinishFailed={this.handleFinishFail}
+      >
+        <Form.Item
+          name="name"
+          label="Name of event "
+          rules={[
+            {
+              required: true,
+            },
+          ]}
         >
-          <Menu.Item key="1" icon={<CheckOutlined />} className="more-item">
-            Mark as read
-          </Menu.Item>
-          <Menu.Item key="2" icon={<DeleteOutlined />} className="more-item">
-            Delete
-          </Menu.Item>
-        </Menu>
-      </div>
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="webAddress"
+          label="Web Address"
+          rules={[
+            {
+              required: true,
+            },
+            {
+              validator: this.checkWebAddress,
+            },
+          ]}
+        >
+          <Input addonBefore={process.env.REACT_APP_DOMAIN_EVENT} />
+        </Form.Item>
+
+        <Form.Item
+          name="category"
+          label="Category"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            placeholder="Choose category of event"
+            name="category"
+            onChange={this.handleChangeCategory}
+            allowClear
+          >
+            {categories.map(
+              (item) =>
+                !item.isDelete && (
+                  <Option key={item._id} value={item._id}>
+                    {item.name}
+                  </Option>
+                )
+            )}
+          </Select>
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
     );
   }
 }
 
-export default connect(null, null)(AboutUs);
+export default TabPane;
