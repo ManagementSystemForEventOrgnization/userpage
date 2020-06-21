@@ -169,6 +169,15 @@ class UpdateProfileInfor extends Component {
                   </b>
                 </Link>
               </p>
+              <hr />
+              <p className="w3-large w3-text-theme">
+                <Link to="#">
+                  <b>
+                    <i className="fa fa-qrcode fa-fw w3-margin-right w3-text-teal" />
+                    QRCode <u> <small className="float-right" id="4" onClick={(e) => this.props.moveTab(e.target.id)}>detail <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small></u>
+                  </b>
+                </Link>
+              </p>
             </div>
           </div>
           <br />

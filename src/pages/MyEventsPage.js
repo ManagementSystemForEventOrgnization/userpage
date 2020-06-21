@@ -7,8 +7,7 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import ColumnGroup from 'antd/lib/table/ColumnGroup';
-
+import QRCode from 'containers/user/QRCode'
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -17,18 +16,23 @@ class ProfilePage extends Component {
     };
   }
   componentDidMount = () => {
-    const { getCurrentUser } = this.props;
-    getCurrentUser();
+    if (this.state.tab === 1) {
+      console.log("componentDidMount");
+      const { getCurrentUser } = this.props;
+      getCurrentUser();
+    }
   };
 
   render() {
     const moveTab = (tabNumber) => {
-      console.log(tabNumber)
       this.setState({
         tab: tabNumber,
       });
+
     };
 
+    const { tab } = this.state
+    console.log(tab);
     return (
       <div>
         <div className="fixed-top">
@@ -39,9 +43,10 @@ class ProfilePage extends Component {
             <ProfileInfor moveTab={moveTab} />
           </div>
           <div className=" col-9">
-            {this.state.tab === 1 && <UpdateProfileInfor />}
-            {this.state.tab === 2 && <BankAccount />}
-            {this.state.tab === 3 && <TransactionHistory />}
+            {tab == 1 && <UpdateProfileInfor />}
+            {tab == 2 && <BankAccount />}
+            {tab == 3 && <TransactionHistory />}
+            {tab == 4 && <QRCode />}
           </div>
         </div>
       </div>
