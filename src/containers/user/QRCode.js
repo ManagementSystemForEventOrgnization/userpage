@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class QRCode extends Component {
 
     componentDidMount() {
-        console.log(this.props);
         if (this.props.userInfo)
             new QRious({
                 element: document.getElementById("qr-div"),

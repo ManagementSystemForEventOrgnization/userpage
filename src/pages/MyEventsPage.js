@@ -39,10 +39,10 @@ class ProfilePage extends Component {
           <Header />
         </div>
         <div className="ProfileInfor mt-5 p-3 row">
-          <div className=" col-3">
+          <div className=" col-sm-3">
             <ProfileInfor moveTab={moveTab} />
           </div>
-          <div className=" col-9">
+          <div className=" col-sm-9">
             {tab == 1 && <UpdateProfileInfor />}
             {tab == 2 && <BankAccount />}
             {tab == 3 && <TransactionHistory />}
