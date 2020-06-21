@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import moment from 'moment'
 import {
     Input,
-    Select,
+   
     DatePicker,
     Card,
-    message,
     Skeleton,
-    Collapse,
+
     Button,
     Menu,
     Row, Col,
@@ -25,19 +24,18 @@ import {
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
-import ColumnGroup from 'antd/lib/table/ColumnGroup';
+
 const { Search } = Input;
-const { Option } = Select;
-const { Panel } = Collapse;
-const { confirm } = Modal;
-const { SubMenu } = Menu;
+
+
+
 
 //  { "email":"ptmaimai106@gmail.com",
 //    "password":"123456"
 
 //  }
 
-const { RangePicker } = DatePicker;
+
 class CreateHistory extends React.Component {
     constructor(props) {
         super(props);
@@ -68,7 +66,7 @@ class CreateHistory extends React.Component {
         };
     }
     componentDidMount = () => {
-        const { getCreateHistory, getCategories, match } = this.props;
+        const { getCreateHistory, getCategories } = this.props;
 
         
         getCreateHistory();
@@ -132,7 +130,7 @@ class CreateHistory extends React.Component {
     }
 
     onChangeSearch = (value) => {
-        const { getCreateHistory, match } = this.props;
+        const { getCreateHistory } = this.props;
         this.setState({
             txtSearch: value,
         });
@@ -380,12 +378,12 @@ class CreateHistory extends React.Component {
                  textAlign:'center' , fontSize:'25px',background:'rgb(12, 105, 126)',
                  fontWeight:'700'}}>Manage Created Event</div>
                 <Row className="mt-5">
-                    <Col span={18} push={6}>
+                    <Col span={18} push={6} >
 
-                        <div>
-                            <div className="row">
+                        <div style={{background:'rgb(12, 105, 126)'}}  >
+                            <div className="row"   >
                                 
-                                <div className="col ">
+                                <div className="col p-5">
                                     <Search
                                         enterButton
                                         size="large"
@@ -398,11 +396,11 @@ class CreateHistory extends React.Component {
                                 </div>
                             </div>
                             {this.state.isRadio ?' ':
-                            <div className="mt-5" style={{color:'white'}}>
+                            <div className="mt-3 ml-5" style={{color:'white'}}>
                             <Radio.Group name="radiogroup"  style={{color:'white'}}
                             defaultValue="Public" onChange={this.onChaneValue}>
-                            <Radio  style={{color:'black' , fontWeight:400, fontSize:'18px'}} value="Private">Private</Radio>
-                            <Radio  style={{color:'black' ,fontWeight:400, fontSize:'18px'}} value='Public'>Public</Radio>
+                            <Radio  style={{color:'white' , fontWeight:400, fontSize:'18px'}} value="Private">Private</Radio>
+                            <Radio  style={{color:'white' ,fontWeight:400, fontSize:'18px'}} value='Public'>Public</Radio>
                         
                           </Radio.Group>
                           </div>
@@ -419,7 +417,7 @@ class CreateHistory extends React.Component {
                                                 className="event-cart "
                                                 cover={
                                                     <div>
-                                                        <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft">
+                                                        <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft"  >
                                                             <Button className="ml-1 mt-1 ticket">
                                                                 Action
                                                                 </Button>
@@ -529,7 +527,7 @@ class CreateHistory extends React.Component {
                                   
                              )}
                              { this.ableToLoadMore(arrEvent.length)&&
-                          <Button style={{marginLeft:'45%', marginRight:'45%'}} loading={pending} type='danger' shape="round" onClick={this.onLoadMore}>Load More</Button>
+                          <Button style={{marginLeft:'45%', marginRight:'45%',marginBottom:'10%'}} loading={pending} type='danger' shape="round" onClick={this.onLoadMore}>Load More</Button>
                              }
                         </div>
 
@@ -538,8 +536,8 @@ class CreateHistory extends React.Component {
 
                     <Col span={4} pull={18}>
                         <Menu
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
+                           
+                           
                             mode="inline"
                             style={{ borderRadius:'8px', color:'white', fontWeight: 'bolder', fontSize:'30px',background:'rgb(12, 105, 126)' }}
                             ><Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
@@ -604,8 +602,8 @@ class CreateHistory extends React.Component {
                     }
                   <p style={{fontWeight:600, fontSize:'18px'}}>Are you sure cancel a session  this event?</p>
                    {
-                       sessionEvent.map((item,index)=>
-                           <div key={index} className="row">
+                       sessionEvent.map((item)=>
+                           <div key={item._id} className="row">
                              
                                <div className="col">  <p>{item.name}</p></div>
                                <div className="col"> <p>{moment(item.day||new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
