@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button, Drawer, message } from 'antd';
+import {
+  PlusCircleOutlined,
+  CreditCardFilled,
+  DeleteFilled,
+} from '@ant-design/icons';
+
+import { applyEventAction } from 'action/applyEvent';
 import { userActions } from '../../../action/user.action';
 import BankCard from './BankCard';
-import { Modal, Button, Drawer } from 'antd';
-// import Header from '../../share/_layout/Header';
-import { PlusCircleOutlined } from '@ant-design/icons';
 
 class CreditCard extends Component {
   constructor(props) {
@@ -20,45 +25,137 @@ class CreditCard extends Component {
     this.props.getListCardPayment();
   }
 
-  render() {
-    const MasterCard = (cardInfor = {}) => (
-      <div className="mb-5 col ml-5">
-        <div
-          onClick={() => this.setState({ visible: true, isShowNotice: false })}
-          className=" card"
-        >
-          <figure className="card__figure">
-            <img
-              src="https://conta.nubank.com.br/images/nu-white.png"
-              className="card__figure--logo"
-              alt="card-figure"
-            />
-          </figure>
-          <div className="card__reader">
-            <div className="card__reader--risk card__reader--risk-one" />
-            <div className="card__reader--risk card__reader--risk-two" />
-            <div className="card__reader--risk card__reader--risk-three" />
-            <div className="card__reader--risk card__reader--risk-four" />
-          </div>
-          <p className="card__number">**** **** **** {cardInfor.last4}</p>
-          <div className="card__dates">
-            {/* <span className="card__dates--first">09/16</span> */}
-            <span className="card__dates--second">
-              {cardInfor.exp_month}/{cardInfor.exp_year}
-            </span>
-          </div>
-          <p className="card__name">GABRIEL FERREIRA</p>
-          <p></p>
-          <div className="card__flag">
-            <div className="card__flag--globe " />
-            <div className="card__flag--red" />
-            <div className="card__flag--yellow" />
-          </div>
+  handleDeleteCard = (cardId) => {
+    const key = 'updatable';
+    message.loading({ content: 'Deleting...', key });
+
+    this.props.delCardDefault(cardId, (err) => {
+      if (err) {
+        if (err.response) {
+          const { data } = err.response;
+          message.error(data.error.message);
+          setTimeout(() => {
+            message.error({ content: data.error.message, key, duration: 5 });
+          }, 1000);
+        } else message.error('Cannot delete this card');
+      } else {
+        setTimeout(() => {
+          message.success({
+            content: 'Delete this card successfully !',
+            key,
+            duration: 4,
+          });
+        }, 1000);
+      }
+    });
+  };
+
+  handlePay = (cardId) => {
+    const {
+      currSsId,
+      handleApply,
+      eventId,
+      handleFinishPayment,
+      changeStatus,
+    } = this.props;
+    const key = 'setdefault';
+    message.loading({ content: 'Checking...', key });
+
+    this.props.postCardDefault(cardId, (err) => {
+      if (!err) {
+        // set card default
+        message.success({
+          content: 'Set card default  success !!!',
+          key,
+          duration: 2,
+        });
+
+        if (currSsId) {
+          const temp = [];
+          temp.push(currSsId);
+
+          // apply event
+          handleApply(eventId, temp)
+            .then((res) => {
+              message.success('Payment success !!!');
+              setTimeout(() => {
+                changeStatus();
+                handleFinishPayment();
+              }, 1000);
+            })
+            .catch((err) => {
+              if (err.response) {
+                const { data } = err.response;
+                message.error(
+                  data.error ? data.error.message : 'Payment failure !!!'
+                );
+              } else {
+                message.error('Payment failure !!!');
+              }
+            });
+        } else {
+          message.error('Cannot handle payment !!!');
+        }
+      } else {
+        message.error('set default failure !!!');
+      }
+    });
+  };
+
+  MasterCard = (cardInfor = {}) => (
+    <div className="p-1">
+      <div
+        onClick={() => this.setState({ visible: true, isShowNotice: false })}
+        className=" card"
+      >
+        <figure className="card__figure">
+          <img
+            src="https://conta.nubank.com.br/images/nu-white.png"
+            className="card__figure--logo"
+            alt="card-figure"
+          />
+        </figure>
+        <div className="card__reader">
+          <div className="card__reader--risk card__reader--risk-one" />
+          <div className="card__reader--risk card__reader--risk-two" />
+          <div className="card__reader--risk card__reader--risk-three" />
+          <div className="card__reader--risk card__reader--risk-four" />
+        </div>
+        <p className="card__number">**** **** **** {cardInfor.last4}</p>
+        <div className="card__dates">
+          {/* <span className="card__dates--first">09/16</span> */}
+          <span className="card__dates--second">
+            {cardInfor.exp_month}/{cardInfor.exp_year}
+          </span>
+        </div>
+        <p className="card__name">GABRIEL FERREIRA</p>
+        <p></p>
+        <div className="card__flag">
+          <div className="card__flag--globe " />
+          <div className="card__flag--red" />
+          <div className="card__flag--yellow" />
         </div>
       </div>
-    );
 
-    const VisaCard = (cardInfor = {}) => (
+      <div className="d-flex justify-content-center mt-5">
+        <p
+          className="mr-5"
+          type="button"
+          onClick={() => this.handlePay(cardInfor.id)}
+        >
+          <CreditCardFilled className="mr-1" style={{ color: 'green' }} />
+          Pay by this card
+        </p>
+        <p onClick={() => this.handleDeleteCard(cardInfor.id)} type="button">
+          <DeleteFilled className="mr-1" style={{ color: 'red' }} />
+          Delete this card
+        </p>
+      </div>
+    </div>
+  );
+
+  VisaCard = (cardInfor = {}) => (
+    <div className="p-1">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
         className="visa_card col ml-5"
@@ -78,91 +175,67 @@ class CreditCard extends Component {
           </div>
         </div>
       </div>
-    );
 
-    const AddCard = () => (
-      <div>
-        <Button
-          type="primary"
-          onClick={() => this.setState({ isOpenAddCard: true })}
+      <div className="d-flex justify-content-center mt-5">
+        <p
+          className="mr-5"
+          type="button"
+          onClick={() => this.handlePay(cardInfor.id)}
         >
-          <PlusCircleOutlined /> Add more card
-        </Button>
-        <Drawer
-          title="Add Card"
-          width={600}
-          closable={false}
-          visible={this.state.isOpenAddCard}
-          onClose={() => this.setState({ isOpenAddCard: false })}
-        >
-          <BankCard />
-        </Drawer>
+          <CreditCardFilled className="mr-1" style={{ color: 'green' }} />
+          Pay by this card
+        </p>
+        <p onClick={() => this.handleDeleteCard(cardInfor.id)} type="button">
+          <DeleteFilled className="mr-1" style={{ color: 'red' }} />
+          Delete this card
+        </p>
       </div>
-    );
+    </div>
+  );
 
-    const ListCard = (ListInfor = []) =>
-      ListInfor.map((card, key) => (
-        <div key={key}>
-          {card.brand === 'MasterCard' && MasterCard(card)}
-          {card.brand === 'Visa' && VisaCard(card)}
-          <Modal
-            title="Accept to pay"
-            visible={this.state.visible}
-            onOk={() => this.setState({ visible: false })}
-            onCancel={() => this.setState({ visible: false })}
-          >
-            {this.props.CardSuccess && this.state.isShowNotice && (
-              <div className="alert alert-success" role="alert">
-                Save changes sucessfully
-              </div>
-            )}
-            {this.props.errMessage && this.state.isShowNotice && (
-              <div className="alert alert-danger" role="alert">
-                {this.props.errMessage}
-              </div>
-            )}
-            <div className="d-flex justify-content-around">
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => {
-                  this.props.delCardDefault(card.id);
-                  this.setState({ isShowNotice: true });
-                }}
-              >
-                delete this card
-              </button>
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={() => {
-                  this.props.postCardDefault(card.id);
-                  this.setState({ isShowNotice: true });
-                }}
-              >
-                Pay by this card
-              </button>
-            </div>
-          </Modal>
-        </div>
-      ));
+  AddCard = () => (
+    <div>
+      <Button
+        type="primary"
+        onClick={() => this.setState({ isOpenAddCard: true })}
+      >
+        <PlusCircleOutlined /> Add more card
+      </Button>
+      <Drawer
+        title="Add Card"
+        width={600}
+        closable={false}
+        visible={this.state.isOpenAddCard}
+        onClose={() => this.setState({ isOpenAddCard: false })}
+      >
+        <BankCard />
+      </Drawer>
+    </div>
+  );
 
+  ListCard = (ListInfor = []) => {
+    return ListInfor.map((card, key) => (
+      <div key={key}>
+        {card.brand === 'MasterCard' && this.MasterCard(card)}
+        {card.brand === 'Visa' && this.VisaCard(card)}
+      </div>
+    ));
+  };
+
+  render() {
     return (
-      <div>
-        {/* <Header /> */}
-        <div className="container credit-card">
-          <div className="row ml-5 pl-5">
-            {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
-            this.props.listCard === undefined ? (
-              <BankCard />
-            ) : (
-              ListCard(this.props.listCard)
-            )}
-          </div>
-          <div className="addCard d-flex justify-content-center mb-5 ">
-            {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&
-              AddCard()}
-          </div>
+      <div className="container credit-card">
+        <div className="row ml-5 pl-5">
+          {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
+          this.props.listCard === undefined ? (
+            <BankCard />
+          ) : (
+            this.ListCard(this.props.listCard)
+          )}
+        </div>
+        <div className="addCard d-flex justify-content-center mb-5 ">
+          {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&
+            this.AddCard()}
         </div>
       </div>
     );
@@ -181,8 +254,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getListCardPayment: () => dispatch(userActions.getListCardPayment()),
-  postCardDefault: (cardId) => dispatch(userActions.postCardDefault(cardId)),
-  delCardDefault: (cardId) => dispatch(userActions.delCardDefault(cardId)),
+  postCardDefault: (cardId, callBack) =>
+    dispatch(userActions.postCardDefault(cardId, callBack)),
+  delCardDefault: (cardId, callBack) =>
+    dispatch(userActions.delCardDefault(cardId, callBack)),
+  handleApply: (eventId, sessionIds) =>
+    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreditCard);
