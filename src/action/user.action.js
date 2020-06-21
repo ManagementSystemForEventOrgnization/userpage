@@ -489,7 +489,9 @@ const getCreateHistory = (dataSent) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-      })
+      }).then(
+        
+      )
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {

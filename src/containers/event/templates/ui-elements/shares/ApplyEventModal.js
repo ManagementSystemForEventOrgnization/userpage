@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
+import { Button, message, Drawer } from 'antd';
 import moment from 'moment';
-import { applyEventAction } from 'action/applyEvent';
+import { applyEventActions } from 'action/applyEvent';
+import CreditCard from 'containers/user/BankAccount/CreditCard';
 
 class ApplyEventModal extends Component {
   constructor(props) {
@@ -11,6 +12,8 @@ class ApplyEventModal extends Component {
       checkedList: [],
       plainOptions: this.props.plainOptions,
       session: this.props.session,
+      openDrawer: false,
+      openChildDrawer: false,
     };
   }
 
@@ -18,6 +21,27 @@ class ApplyEventModal extends Component {
     const { session } = this.state;
     const index = session.findIndex((item) => item.id === idSession);
     return session[index].status && session[index].status === 'JOINED' ? 1 : 0;
+  };
+
+  warning = (msg) => {
+    message.warning(msg || 'OPPs! Something is wrong');
+  };
+
+  success = (isApplied) => {
+    message.success(`${isApplied ? 'Apply' : 'Cancel'} session successfully`);
+  };
+
+  handleSuccess = (type, ssId) => {
+    this.success(type);
+    this.changeStatusSS(ssId, type);
+  };
+
+  handleFailure = (ssId, err) => {
+    if (err.response) {
+      const { data } = err.response;
+      this.warning(data.error.message);
+    } else this.warning();
+    this.changeLoadingSS(ssId);
   };
 
   changeLoadingSS = (idSession) => {
@@ -41,6 +65,12 @@ class ApplyEventModal extends Component {
     }
   };
 
+  handleCloseDrawer = () => {
+    this.setState({
+      openDrawer: false,
+    });
+  };
+
   handleClick = (ssId) => {
     const { handleApply, handleCancel, id } = this.props;
     const temp = [];
@@ -48,23 +78,37 @@ class ApplyEventModal extends Component {
 
     if (this.isApplied(ssId)) {
       this.changeLoadingSS(ssId);
+
       handleCancel(id, temp)
         .then((res) => {
-          this.changeStatusSS(ssId, 0);
+          this.handleSuccess(0, ssId);
         })
         .catch((err) => {
-          this.changeLoadingSS(ssId);
+          this.handleFailure(ssId, err);
         });
     } else {
-      this.changeLoadingSS(ssId);
-      handleApply(id, temp)
-        .then((res) => this.changeStatusSS(ssId, 1))
-        .catch((err) => this.changeLoadingSS(ssId));
+      const { ticket } = this.props;
+      if (ticket.price !== 0) {
+        this.setState({
+          openDrawer: true,
+        });
+      } else {
+        this.changeLoadingSS(ssId);
+
+        handleApply(id, temp)
+          .then((res) => {
+            this.handleSuccess(1, ssId);
+          })
+          .catch((err) => {
+            this.handleFailure(ssId, err);
+          });
+      }
     }
   };
 
   render() {
-    const { session } = this.state;
+    const { session, openDrawer } = this.state;
+    const { ticket } = this.props;
     return (
       <div>
         {session.map((ss) => (
@@ -81,6 +125,19 @@ class ApplyEventModal extends Component {
             </Button>
           </div>
         ))}
+
+        <Drawer
+          title="Payment transaction"
+          width={780}
+          closable={false}
+          onClose={this.handleCloseDrawer}
+          visible={openDrawer}
+        >
+          <h6>Let's complete some last steps.</h6>
+          <p>You have to pay {ticket.price} VND</p>
+          <hr />
+          <CreditCard />
+        </Drawer>
       </div>
     );
   }
@@ -89,13 +146,14 @@ class ApplyEventModal extends Component {
 const mapStateToProps = (state) => ({
   session: state.event.session,
   id: state.event.id,
+  ticket: state.event.ticket,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleApply: (eventId, sessionIds) =>
-    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
   handleCancel: (eventId, sessionIds) =>
-    dispatch(applyEventAction.cancelEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.cancelEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplyEventModal);

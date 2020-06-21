@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../../../action/user.action';
 import BankCard from './BankCard';
-import { Modal, Button } from 'antd';
-import Header from '../../share/_layout/Header';
+import { Modal, Button, Drawer } from 'antd';
+// import Header from '../../share/_layout/Header';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 class CreditCard extends Component {
@@ -88,14 +88,15 @@ class CreditCard extends Component {
         >
           <PlusCircleOutlined /> Add more card
         </Button>
-        <Modal
+        <Drawer
           title="Add Card"
+          width={600}
+          closable={false}
           visible={this.state.isOpenAddCard}
-          onOk={() => this.setState({ isOpenAddCard: false })}
-          onCancel={() => this.setState({ isOpenAddCard: false })}
+          onClose={() => this.setState({ isOpenAddCard: false })}
         >
           <BankCard />
-        </Modal>
+        </Drawer>
       </div>
     );
 
@@ -148,8 +149,8 @@ class CreditCard extends Component {
 
     return (
       <div>
-        <Header />
-        <div className="container credit-card mb-5 pb-5 ml-5 pl-5">
+        {/* <Header /> */}
+        <div className="container credit-card">
           <div className="row ml-5 pl-5">
             {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
             this.props.listCard === undefined ? (
@@ -158,7 +159,7 @@ class CreditCard extends Component {
               ListCard(this.props.listCard)
             )}
           </div>
-          <div className="addCard">
+          <div className="addCard d-flex justify-content-center mb-5 ">
             {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&
               AddCard()}
           </div>

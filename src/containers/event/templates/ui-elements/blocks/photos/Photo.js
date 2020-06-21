@@ -6,13 +6,11 @@ import {
   DeleteTwoTone,
 } from '@ant-design/icons';
 import { v4 as uuid } from 'uuid';
-import Carousel from 'react-multi-carousel';
 
 import ImageBlock from '../../atoms/Image';
 import { eventActions } from 'action/event.action';
-import { responsive } from '../../../constants/atom.constant';
 
-const high = 52;
+const height = 42;
 const iconStyle = {
   fontSize: '20px',
 };
@@ -29,20 +27,26 @@ class Photo extends Component {
           padding: [1, 1, 1, 1],
           list: [
             {
-              url: 'bg-1.jpg',
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658071/sponsor/hnkh_drqzna.png',
+              id: uuid(),
+            },
+
+            {
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png',
+              id: uuid(),
+            },
+
+            {
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/fit_baduky.png',
               id: uuid(),
             },
             {
-              url: 'bg-2.jpg',
               id: uuid(),
-            },
-            {
-              url: 'bg-3.jpg',
-              id: uuid(),
-            },
-            {
-              url: 'star.jpg',
-              id: uuid(),
+              url:
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/dhqg_bq799b.png',
             },
           ],
         };
@@ -88,6 +92,24 @@ class Photo extends Component {
     }
   };
 
+  renderList = (item) => {
+    const { editable } = this.props;
+
+    return (
+      <div key={item.id} className="col-md-6 col-sm-6 mt-1 mb-2 p-1">
+        <ImageBlock
+          url={item.url}
+          editable={editable}
+          child={true}
+          height={height}
+          handleChangeItem={(value) => {
+            this.handleChangeItem(item.id, 'url', value);
+          }}
+        />
+      </div>
+    );
+  };
+
   render() {
     const { margin, padding, list } = this.state;
     const { editable } = this.props;
@@ -101,39 +123,14 @@ class Photo extends Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
+      background: '#eaeaea6b',
     };
 
     return (
-      <div className="d-flex child-block" style={style}>
-        <Carousel
-          responsive={responsive}
-          swipeable={false}
-          draggable={false}
-          showDots={true}
-          ssr={true} // means to render carousel on server-side.
-          infinite={true}
-          autoPlay={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-          deviceType={'desktop'}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          {list.map((item) => (
-            <ImageBlock
-              key={item.id}
-              url={item.url}
-              height={high}
-              leftModal={true}
-              child={true}
-              editable={editable}
-            />
-          ))}
-        </Carousel>
+      <div className="d-flex child-block p-5" style={style}>
+        <div className="row d-flex justify-content-around ">
+          {list.map((item) => this.renderList(item))}
+        </div>
 
         {editable && (
           <div className="icons-handle ml-auto">

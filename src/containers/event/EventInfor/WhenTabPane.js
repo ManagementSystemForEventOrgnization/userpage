@@ -7,7 +7,7 @@ import { TimePicker, Input, Button, Form, InputNumber, Collapse } from 'antd';
 import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 
 import AutoCompletePlace from '../../share/AutoCompletePlace';
-// import UploadImage from '../templates/ui-elements/shares/UploadImage';
+import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const { RangePicker } = TimePicker;
 const { Panel } = Collapse;
@@ -237,7 +237,7 @@ class TabPane extends Component {
         </div>
 
         {count !== 0 && (
-          <Form className="col-6 col-md-6" {...layout} ref={this.formRef}>
+          <Form className="col-6 col-md-6" {...layout}>
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
             {session.map((ss, index) => (
               <div className="mt-2" key={ss.id}>
@@ -250,7 +250,7 @@ class TabPane extends Component {
                   <Panel header="Information for this session " key="1">
                     <Form.Item
                       label="Name"
-                      name="Name"
+                      name={`Name ${index}`}
                       rules={[
                         {
                           required: true,
@@ -267,7 +267,7 @@ class TabPane extends Component {
 
                     <Form.Item
                       label="Max quantity"
-                      name="Max-quantity"
+                      name={`Max-quantity ${index}`}
                       rules={[
                         {
                           required: true,
@@ -414,14 +414,10 @@ class TabPane extends Component {
                     </Button>
                   </Panel>
 
-                  {/* <Panel header="Image detail for this location" key="4">
-                    {ss.address.detalImage && (
-                      <img src={ss.address.detalImage} alt="detail-location" />
-                    )}
-
+                  <Panel header="Image detail for this location" key="4">
                     <Form.Item>
                       <UploadImage
-                        url={ss.address.detalImage || ''}
+                        url={ss.address.detailImage || ''}
                         handleImageDrop={(value) =>
                           this.handleChangeAddressValue(
                             ss.id,
@@ -431,8 +427,7 @@ class TabPane extends Component {
                         }
                       />
                     </Form.Item>
-            
-                  </Panel> */}
+                  </Panel>
                 </Collapse>
                 <hr />
               </div>

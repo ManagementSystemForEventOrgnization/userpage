@@ -12,10 +12,10 @@ const initialBlocks = [
   ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   dataTest[5].value[1], //map
-  // ...dataTest[6].value, // countdown
+  ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
-  // ...dataTest[8].value, // sponsors
-  // ...dataTest[9].value, //gallery
+  ...dataTest[8].value, // sponsors
+  ...dataTest[9].value, //gallery
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
@@ -36,8 +36,18 @@ const initialState = {
   errMessage: '',
   pending: false,
   id: '',
+  ticket: {
+    price: 0,
+    discount: 0,
+  },
   events: [],
   hlEvent: [],
+  errCancel: "",
+  deleteEvent: [],
+  cancelEvent: [],
+  pendCancel: false,
+  cancelSession: false,
+
 
   pages: [
     {
@@ -51,6 +61,7 @@ const initialState = {
   headerStyle: {},
   comments: [],
   userJoinEvent: [],
+
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -171,7 +182,6 @@ const event = (state = initialState, action) => {
         pending: true,
       };
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
-      console.log(action.event);
       return {
         ...state,
         pending: false,
@@ -183,6 +193,7 @@ const event = (state = initialState, action) => {
         id: action.event._id,
         banner: action.event.bannerUrl,
         nameEvent: action.event.name,
+        ticket: action.event.ticket,
 
         // update event infor
       };
@@ -195,6 +206,7 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_INFO:
+      console.log(action.eventInfo)
       return {
         ...state,
 
@@ -203,6 +215,7 @@ const event = (state = initialState, action) => {
         session: action.eventInfo.session,
         banner: action.eventInfo.bannerUrl,
         ticket: action.eventInfo.ticket,
+
         countComment: action.countComment,
       };
 
@@ -343,6 +356,44 @@ const event = (state = initialState, action) => {
         ...state,
         submitting: false,
         comments: [...action.comment, ...state.comments],
+      };
+
+    case eventConstants.DELETE_EVENT_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case eventConstants.DELETE_EVENT_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+      };
+    case eventConstants.DELETE_EVENT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        deleteEvent: action.deleteEvent
+
+      };
+    case eventConstants.CANCEL_EVENT_REQUEST:
+      return {
+        ...state,
+        pendCancel: true,
+      };
+    case eventConstants.CANCEL_EVENT_FAILURE:
+      return {
+        ...state,
+        pendCancel: false,
+        errCancel: action.error,
+      };
+    case eventConstants.CANCEL_EVENT_SUCCESS:
+      return {
+        ...state,
+        pendCancel: false,
+        cancelEvent: action.cancelEvent,
+        cancelSession: true
+
       };
     default:
       return state;

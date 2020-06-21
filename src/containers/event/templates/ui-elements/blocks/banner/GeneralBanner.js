@@ -10,7 +10,7 @@ import ApplyEventModal from '../../shares/ApplyEventModal';
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
 import { BannerState } from '../../stateInit/BannerState';
-import { applyEventAction } from 'action/applyEvent';
+import { applyEventActions } from 'action/applyEvent';
 
 class GeneralBanner extends Component {
   constructor(props) {
@@ -20,9 +20,9 @@ class GeneralBanner extends Component {
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }
         : {
-          ...BannerState(this.props),
-          applySession: [],
-        };
+            ...BannerState(this.props),
+            applySession: [],
+          };
   }
 
   openModal = () => this.setState({ visible: true });
@@ -123,7 +123,6 @@ class GeneralBanner extends Component {
       height: '100%',
       opacity: opacity,
       backgroundColor: bgColor,
-
     };
 
     return (
@@ -253,7 +252,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
 
   applyEvent: (eventId, sessionIds) =>
-    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralBanner);

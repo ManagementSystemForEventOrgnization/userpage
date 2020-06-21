@@ -12,7 +12,7 @@ const applyEvent = (eventId, sessionIds) => {
           // dispatch(success(res.data.result));
           resolve('true');
         })
-        .catch((err) => reject('false'));
+        .catch((err) => reject(err));
     });
   };
   // function request() {
@@ -48,8 +48,60 @@ const cancelEvent = (eventId, sessionIds) => {
     });
   };
 };
+const verifyEventMember = (joinUserId, eventId, sessionId) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      API.post('/api/verifyEventMember', {
+        eventId,
+        sessionId,
+        joinUserId
+      })
+        .then((res) => {
+          resolve('true');
+          console.log(res.data.result);
+        })
+        .catch((err) => reject(err));
+    });
+  };
+};
 
-export const applyEventAction = {
+const rejectEventMember = (joinUserId, eventId, sessionId) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      API.post('/api/rejectEventMenber', {
+        eventId,
+        sessionId,
+        joinUserId
+      })
+        .then((res) => {
+          resolve('true');
+          console.log(res.data.result);
+        })
+        .catch((err) => reject(err));
+    });
+  };
+};
+
+const reportUser = (userId, cause, eventId) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      API.post('/api/user/reported', {
+        userId, cause, eventId
+      })
+        .then((res) => {
+          resolve('true');
+          console.log(res.data.result);
+        })
+        .catch((err) => reject(err));
+    });
+  };
+};
+
+export const applyEventActions = {
   applyEvent,
   cancelEvent,
+  verifyEventMember,
+  rejectEventMember,
+  reportUser
+
 };

@@ -42,7 +42,10 @@ const MapWithImage = (props) => {
   };
 
   return (
-    <div className="child-block " style={divStyle}>
+    <div
+      className={type ? 'child-block p-2 mb-5 ' : 'child-block d-flex mb-5'}
+      style={divStyle}
+    >
       <Map
         google={props.google}
         containerStyle={mapStyle}
@@ -64,6 +67,14 @@ const MapWithImage = (props) => {
           />
         ))}
       </Map>
+
+      {editable && !type && (
+        <IconsHandle
+          collapseModal={collapseModal}
+          handleDuplicate={handleDuplicate}
+          handleDelete={handleDelete}
+        />
+      )}
       {type && (
         <div>
           <hr className="mt-2" />
@@ -73,13 +84,13 @@ const MapWithImage = (props) => {
                 session.map(
                   (ss) =>
                     ss.address.detailImage && (
-                      <div className="p-2">
+                      <div className="p-2" key={ss.id}>
                         <Divider orientation="left">
-                          {' '}
-                          {ss.address.location} :{' '}
+                          {ss.address.location}
                         </Divider>
 
                         <img src={ss.address.detailImage} alt="detail" />
+                        <hr className="mb-2" />
                       </div>
                     )
                 )

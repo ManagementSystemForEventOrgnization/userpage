@@ -12,20 +12,19 @@ import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
-import { applyEventAction } from 'action/applyEvent';
+import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
 
 class Schedule1 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    console.log(this.props.session);
     this.state = style
       ? { ...style }
       : {
-          ...ScheduleState(this.props, 1),
-          apply: false,
-        };
+        ...ScheduleState(this.props, 1),
+        apply: false,
+      };
   }
 
   openModal = () => {
@@ -231,7 +230,7 @@ class Schedule1 extends Component {
     };
 
     return (
-      <div className="p-5" key={key}>
+      <div className="p-5 child-block" key={key}>
         <h2 style={titleBlockStyle}>Sessions</h2>
         <div className="d-flex">
           <div style={divStyle}>
@@ -275,8 +274,8 @@ class Schedule1 extends Component {
                     {this.isApplied(ss.id)
                       ? 'Cancel'
                       : isSellTicket
-                      ? 'Buy Ticket'
-                      : 'Register free'}
+                        ? 'Buy Ticket'
+                        : 'Register free'}
                   </Button>
                 </div>
               </div>
@@ -368,9 +367,9 @@ const mapDispatchToProps = (dispatch) => ({
   duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 
   handleApply: (eventId, sessionIds) =>
-    dispatch(applyEventAction.applyEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
   handleCancel: (eventId, sessionIds) =>
-    dispatch(applyEventAction.cancelEvent(eventId, sessionIds)),
+    dispatch(applyEventActions.cancelEvent(eventId, sessionIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule1);

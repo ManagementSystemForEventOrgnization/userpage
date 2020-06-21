@@ -1,6 +1,7 @@
 .footer {
-  background-color: $brown;
+  background-image: $background-image-color;
   color: $item-color;
+  opacity: 1;
   b {
     @include large-text;
   }

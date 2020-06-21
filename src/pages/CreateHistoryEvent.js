@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import Footer from '../containers/share/_layout/Footer'
 import Header from '../containers/share/_layout/Header';
-import HistoryProfile from '../containers/user/HistoryProfile';
+import CreateHistory from '../containers/event/createHistory';
 
-export default class UserEventPage extends Component {
+export default class CreateHistoryEventPage extends Component {
     render() {
         return (
             <div>
                 <div className="fixed-top">
                     <Header />
                 </div>
-                <HistoryProfile></HistoryProfile>
+                <CreateHistory ></CreateHistory>
                 <Footer />
-            </div>
+            </div >
         )
     }
 }

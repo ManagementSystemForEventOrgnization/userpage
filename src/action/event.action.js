@@ -212,10 +212,12 @@ const prepareForCreateEvent = (
   session,
   isSellTicket,
   webAddress,
-  bannerUrl
+  bannerUrl,
+  ticket
 ) => {
   return (dispatch) => {
     dispatch(request());
+    const domain = process.env.REACT_APP_BASE_URL;
     API.post('api/save/event', {
       name: nameEvent,
       typeOfEvent,
@@ -224,10 +226,12 @@ const prepareForCreateEvent = (
       session,
       isSellTicket: isSellTicket === 'Yes' ? true : false,
       bannerUrl,
+      ticket,
+      domain,
     })
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
-        console.log(res.data.result);
+        console.log('TEST PREPARE : ', res.data.result);
         localStorage.setItem('currentId', _id);
         localStorage.setItem('webAddress', urlWeb);
         dispatch(
@@ -428,13 +432,14 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
+
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
 
-          resolve('true');
+          resolve(res.data.result.event);
         })
         .catch((err) => { });
     });
@@ -507,16 +512,22 @@ const saveComment = (eventId, content) => {
     };
   }
 };
-const getUserJoinEvent = (dataSent) => {
+const getUserJoinEvent = (dataSent, callback) => {
   return (dispatch) => {
     API.get(`/api/get_user_join_event`, {
       params: dataSent,
     })
       .then((res) => {
         dispatch(success(res.data.result));
+        callback(res.data.result)
       })
-      .catch((error) => handleCatch(dispatch, failure, error));
+      .catch((error) => {
+
+        handleCatch(dispatch, failure, error)
+
+      });
   };
+
 
   function success(userJoinEvent) {
     return {
@@ -529,6 +540,91 @@ const getUserJoinEvent = (dataSent) => {
       type: eventConstants.GET_USER_JOIN_EVENT_FAILURE,
     };
   }
+};
+const deleteEvent = (eventId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/delete/event`, {
+      eventId
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+
+      })
+      .catch((error) => {
+
+        const { data } = error.response;
+        if (data.error) {
+          return dispatch(
+            failure(data.error.message) || "OOPs! something wrong"
+          );
+        }
+        return dispatch(failure(error) || "OOPs! something wrong");
+
+
+      });
+  };
+  function request() {
+    return {
+      type: eventConstants.DELETE_EVENT_REQUEST,
+    };
+  }
+  function success(deleteEvent) {
+    return {
+      type: eventConstants.DELETE_EVENT_SUCCESS,
+      deleteEvent,
+    };
+  }
+  function failure(error) {
+    return {
+      type: eventConstants.DELETE_EVENT_FAILURE,
+      error
+    };
+  }
+
+};
+
+const cancelEvent = (eventId, sessionIds) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/cancelEvent`, {
+      eventId, sessionIds
+    })
+      .then((res) => {
+        dispatch(success(res.data.result));
+
+      })
+      .catch((error) => {
+
+        const { data } = error.response;
+        if (data.error) {
+          return dispatch(
+            failure(data.error.message) || "OOPs! something wrong"
+          );
+        }
+        return dispatch(failure(error) || "OOPs! something wrong");
+
+
+      });
+  };
+  function request() {
+    return {
+      type: eventConstants.CANCEL_EVENT_REQUEST,
+    };
+  }
+  function success(cancelEvent) {
+    return {
+      type: eventConstants.CANCEL_EVENT_SUCCESS,
+      cancelEvent,
+    };
+  }
+  function failure(error) {
+    return {
+      type: eventConstants.CANCEL_EVENT_FAILURE,
+      error
+    };
+  }
+
 };
 export const eventActions = {
   storeBlocksWhenCreateEvent,
@@ -553,6 +649,8 @@ export const eventActions = {
 
   getComment,
   saveComment,
+  deleteEvent,
+  cancelEvent,
 
   changeCurrentPage,
 };

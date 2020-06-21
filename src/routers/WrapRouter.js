@@ -23,7 +23,7 @@ import ConfirmPage from '../pages/ConfirmPage';
 import CreditCard from '../containers/user/BankAccount/CreditCard';
 import history from '../utils/history';
 import ManageEventPage from '../pages/ManageEventPage';
-
+import CreateHistoryEventPage from '../pages/CreateHistoryEvent'
 class WrapRouter extends React.Component {
   constructor(props) {
     super(props);
@@ -85,7 +85,7 @@ class WrapRouter extends React.Component {
       {
         path: '/manage/:id',
         exact: true,
-        main: () => <ManageEventPage />,
+        main: (match) => <ManageEventPage match={match} />,
       },
       {
         path: '/registered-event',
@@ -100,7 +100,7 @@ class WrapRouter extends React.Component {
       {
         path: '/created-event',
         exact: true,
-        main: (match) => <UserEventPage match={match} />,
+        main: (match) => <CreateHistoryEventPage match={match} />,
       },
       {
         path: '/create',

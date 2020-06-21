@@ -10,7 +10,7 @@ export default class ManageEventPage extends Component {
                 <div className="fixed-top">
                     <Header />
                 </div>
-                <ManageEvent></ManageEvent>
+                <ManageEvent match={this.props.match}></ManageEvent>
 
             </div>
         )

@@ -37,7 +37,7 @@ const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
     className={`SubmitButton ${
       error ? 'SubmitButton--error' : ''
-      } bank-account`}
+    } bank-account`}
     type="submit"
     disabled={processing || disabled}
   >
@@ -91,7 +91,6 @@ class CheckoutForm extends React.Component {
         });
         const { addPaymentCard } = this.props.props;
         addPaymentCard(this.state.token);
-
       }
 
       this.setState({
@@ -101,23 +100,23 @@ class CheckoutForm extends React.Component {
 
     return (
       <div>
-        {
-          (token && this.props.props.success) ?
-            (<div className="Result bank-account">
-              <div className="ResultTitle" role="alert">
-                Saving successfully
+        {token && this.props.props.success ? (
+          <div className="Result bank-account">
+            <div className="ResultTitle" role="alert">
+              Saving successfully
             </div>
-              <div className="ResultMessage">
-                Thank for saving your card. It will be faster for you to access
-                payment
+            <div className="ResultMessage">
+              Thank for saving your card. It will be faster for you to access
+              payment
             </div>
-            </div>) : (
-              <div className="Result bank-account">
-                <div className="ResultTitle" role="alert">
-                  {this.props.props.errMessage}
-                </div>
-              </div>)
-        }
+          </div>
+        ) : (
+          <div className="Result bank-account">
+            <div className="ResultTitle" role="alert">
+              {this.props.props.errMessage}
+            </div>
+          </div>
+        )}
         <form className="Form bank-account" onSubmit={handleSubmit}>
           <h4 className="d-flex justify-content-center text-primary mb-5">
             Input Your Card Infor
@@ -132,12 +131,18 @@ class CheckoutForm extends React.Component {
               }}
             />
           </fieldset>
-          {error && <div className="Result bank-account">
-            <div className="ResultTitle" role="alert">
-              {error.message}
+          {error && (
+            <div className="Result bank-account">
+              <div className="ResultTitle" role="alert">
+                {error.message}
+              </div>
             </div>
-          </div>}
-          <SubmitButton processing={processing} error={error} disabled={!stripe}>
+          )}
+          <SubmitButton
+            processing={processing}
+            error={error}
+            disabled={!stripe}
+          >
             Save card
           </SubmitButton>
         </form>
