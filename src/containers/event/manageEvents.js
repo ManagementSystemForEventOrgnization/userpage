@@ -1,8 +1,16 @@
 import React from 'react';
-import { Button, Tabs, Table, Collapse, Popconfirm, Input } from 'antd';
+import { Button, Tabs, Table, Collapse, Popconfirm, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
+
+import moment from 'moment'
+import {
+  FileDoneOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  CheckOutlined
+
+} from '@ant-design/icons';
 import What from '../event/EventInfor/WhatTabPane';
 import Which from '../event/EventInfor/WhichTabPane';
 import When from '../event/EventInfor/WhenTabPane';
@@ -16,7 +24,8 @@ class ManageEvent extends React.Component {
     // get category
     super(props);
     let urlWeb = localStorage.getItem('webAddress');
-    console.log('1', props)
+
+
     this.state = {
       nameEvent: props.nameEvent,
       typeOfEvent: 'Public',
@@ -28,22 +37,63 @@ class ManageEvent extends React.Component {
       banner: props.banner,
       joinUser: [],
       txtCause: ' ',
+      visible: false,
+      joinEvent: [],
+      background: '',
+      backReject: '',
+      backDelete: ''
     };
   }
 
   onChange = (type, value) => {
     if (type === 'isSellTicket') {
-      console.log(value);
+
     }
     this.setState({
       [type]: value,
       isFirstLoad: true,
     });
   };
+  showModalSession = (join) => {
+
+
+
+    let event = join.session.findIndex(ss => ss.isConfirm === true)
+    if (event !== -1) {
+      this.setState({ background: 'green' })
+    }
+    let event1 = join.session.findIndex(ss => ss.isReject === true)
+
+
+    if (event1 !== -1) {
+      this.setState({ backReject: 'red' })
+
+
+    }
+    this.setState({
+      visible: true,
+      joinEvent: join,
+    });
+  };
+  handleOk = e => {
+
+
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+
+    this.setState({
+      visible: false,
+    });
+  };
 
   componentDidMount = () => {
     const { getCategories, categories, getUserJoinEvent, match, getEventInfo } = this.props;
-    console.log('test', match);
+
+
     if (categories.length === 0) {
       getCategories();
     }
@@ -61,7 +111,8 @@ class ManageEvent extends React.Component {
     })
     let urlWeb = localStorage.getItem('webAddress');
     getEventInfo(urlWeb).then(res => {
-      console.log('promise: ', res)
+
+
       this.setState({
         nameEvent: res.name,
         typeOfEvent: res.typeOfEvent,
@@ -82,11 +133,18 @@ class ManageEvent extends React.Component {
     const { verifyEventMember, match } = this.props;
     let id = match.match.params.id;
     verifyEventMember(joinUserId, id, sessionIds);
+    this.setState({
+      background: 'green'
+    })
+
   }
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
     rejectEventMember(joinUserId, id, sessionIds);
+    this.setState({
+      backReject: 'red'
+    })
   }
   confirm = (userId) => {
     // reportUser: (userId, cause, eventId)
@@ -95,6 +153,9 @@ class ManageEvent extends React.Component {
     const { reportUser, match } = this.props;
     let id = match.match.params.id;
     reportUser(userId, txtCause, id);
+    this.setState({
+      backDelete: true
+    })
 
   }
   onChangeCause = (e) => {
@@ -110,11 +171,13 @@ class ManageEvent extends React.Component {
     const { categories, userJoinEvent } = this.props;
     const {
       nameEvent,
-      isSellTicket,
+
       webAddress,
-      typeOfEvent,
-      banner, joinUser, txtCause
+
+      banner, txtCause, joinEvent, background
     } = this.state;
+
+
 
 
     const HIGHT = {
@@ -131,7 +194,7 @@ class ManageEvent extends React.Component {
     const src =
       'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
 
-    console.log('TCL : ', userJoinEvent)
+
     return (
       <div className="manageEvent  ">
         <div className="card-container">
@@ -140,10 +203,10 @@ class ManageEvent extends React.Component {
               <div className="col">
                 <img className="image" src={banner} alt="logo" />
               </div>
-              <div className="col" style={{ padding: '8%' }}>
-                <h1>{nameEvent}</h1>
+              <div className="col" style={{ padding: '8%', color: "white" }}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>{nameEvent}</h1>
                 {/* <Link to="">https://hanlinh010198.wixsite.com/mysite</Link> */}
-                {/* <Button className="ticket">PENDING</Button> */}
+                {/* <Button className="ticket">{}</Button> */}
               </div>
             </div>
           </div>
@@ -218,15 +281,17 @@ class ManageEvent extends React.Component {
                 </h2>
               </div>
 
-              <Which
+              {/* <Which
                 isSellTicket={isSellTicket}
                 onChange={this.onChange}
                 typeOfEvent={typeOfEvent}
                 banner={banner}
-              />
+              /> */}
             </TabPane>
             <TabPane tab="Participant" key="2">
-              <Table dataSource={userJoinEvent}>
+              <Table dataSource={userJoinEvent}
+                pagination={10}
+              >
                 <ColumnGroup
                   title="FullName "
                   dataIndex="fullName"
@@ -237,68 +302,124 @@ class ManageEvent extends React.Component {
                   dataIndex="email"
                   key="Email"
                 ></ColumnGroup>
-                <Column title="apply time" dataIndex="createdAt" key="time" />
+                <ColumnGroup
+                  title="Phone "
+                  dataIndex="phone"
+                  key="phone"
+                ></ColumnGroup>
                 <Column
                   title="session"
                   dataIndex="session"
+
                   key="session"
                   render={(session) => (
+
                     <div className="d-flex">
-                      <p>{session.length}</p>
-                      <Collapse className="ml-2">
-                        <Panel>
-                          {userJoinEvent.map((join, index) =>
-                            <div key={index}>
+                      <h4>{session.length}</h4>
+                      {userJoinEvent.map((join) =>
+                        join.session === session ?
+                          <Button key={join._id} className="ml-3" type='danger' onClick={() => this.showModalSession(join)}
+                            shape='circle'> <FileDoneOutlined style={{ fontSize: '17px' }} /></Button>
+                          : ' '
 
-                              {join.session.map((item) => (
-                                <div>
-                                  <div className="row">
-                                    <div className="col">
-                                      <p>{item.name}</p>
-                                    </div>
-                                    <div className="col">
-                                      <p>{item.day}</p>
-                                    </div>
+                      )}
+                    </div>
 
-                                    <div className="col">
-                                      <button onClick={() => this.onApproveMember(join._id, item.id)}>approve </button>
-                                    </div>
-                                    <div className="col">
-                                      <button onClick={() => this.onRejectEventMember(join._id, item.id)}>reject </button>
-                                    </div>
-                                    <div className="col">
-                                      <Popconfirm
-                                        placement="topRight"
-                                        title={
-                                          <div>
-                                            <p>Are you sure to report this user?</p>
-                                            <Input value={txtCause} onChange={this.onChangeCause} ></Input>
-                                          </div>
-                                        }
-                                        onConfirm={() => this.confirm(join._id)}
-                                        okText="Yes"
-                                        cancelText="No"
-                                      >
-                                        <Button>report</Button>
-                                      </Popconfirm>
+                  )}></Column>
 
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </Panel>
-                      </Collapse>
+                <ColumnGroup
+                  title="Report"
+                  dataIndex="_id"
+                  key="_id" render={(_id) => (
+                    <div className='col'>
+                      <Popconfirm
+                        placement="topRight"
+                        title={
+                          <div>
+                            <p>Are you sure to report this user?</p>
+                            <Input value={txtCause} onChange={this.onChangeCause} ></Input>
+                          </div>
+                        }
+                        onConfirm={() => this.confirm(_id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type='danger' disabled={this.state.backDelete} shape="circle"><DeleteOutlined style={{ fontSize: '15px' }} /></Button>
+                      </Popconfirm>
+
                     </div>
                   )}
-                />
+                ></ColumnGroup>
+
+
               </Table>
               ,
             </TabPane>
           </Tabs>
+          <Modal
+            title="User take part in  session this event"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            width={700}
+          >
+
+            <div >
+              <div className='d-flex'>
+                <p>Name :</p>
+                <h6 className="ml-3">{joinEvent.fullName}</h6>
+              </div>
+
+              <Table dataSource={joinEvent.session}>
+                <ColumnGroup title="Name" dataIndex="name" key="name">
+                </ColumnGroup>
+                <ColumnGroup title="Day session"
+                  dataIndex="day" key="day"
+                  render={(day) => (
+                    moment(day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')
+                  )}
+                >
+                </ColumnGroup>
+                <ColumnGroup title="Time Apply"
+                  dataIndex="createdAt" key="createdAt"
+                  render={(createdAt) => (
+                    moment(createdAt || new Date().toLocaleDateString()).format('DD/MM/YYYY ')
+                  )}
+                >
+                </ColumnGroup>
+                <ColumnGroup title="address" dataIndex="address"
+                  key="address"
+                  render={(address) => (
+                    <p>{address.location}</p>
+                  )}
+                >
+                </ColumnGroup>
+                <Column
+                  title="Action"
+                  dataIndex='id'
+                  key="action"
+                  render={(id) => (
+                    <div className='row'>
+                      <div className='col'>
+                        <Button style={{ background }} onClick={() => this.onApproveMember(joinEvent._id, id)}
+                          shape="circle"><CheckOutlined style={{ fontSize: '15px' }} />  </Button>
+                      </div>
+                      <div className='col'>
+                        <Button style={{ background: this.state.backReject }} onClick={() => this.onRejectEventMember(joinEvent._id, id)}
+                          shape="circle"><CloseOutlined style={{ fontSize: '15px' }} /></Button>
+                      </div>
+
+
+
+                    </div>
+                  )}
+                />
+              </Table>
+            </div>
+
+          </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }

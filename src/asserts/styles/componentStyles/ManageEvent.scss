@@ -6,7 +6,7 @@
     }
     .site-card-border-less-wrapper {
         padding: 30px;
-        background-color: #3899ec;
+        background: rgb(12, 105, 126);
         height: 250px;
         min-height: 54px;
         box-sizing: border-box;
@@ -15,6 +15,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0px 20px;
+        border-radius: 15px;
     }
     .image {
         height: 240px;

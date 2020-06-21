@@ -5,7 +5,7 @@ import moment from 'moment'
 import {
     Input,
    
-    DatePicker,
+
     Card,
     Skeleton,
 
@@ -380,7 +380,7 @@ class CreateHistory extends React.Component {
                 <Row className="mt-5">
                     <Col span={18} push={6} >
 
-                        <div style={{background:'rgb(12, 105, 126)'}}  >
+                        <div   >
                             <div className="row"   >
                                 
                                 <div className="col p-5">
@@ -399,8 +399,8 @@ class CreateHistory extends React.Component {
                             <div className="mt-3 ml-5" style={{color:'white'}}>
                             <Radio.Group name="radiogroup"  style={{color:'white'}}
                             defaultValue="Public" onChange={this.onChaneValue}>
-                            <Radio  style={{color:'white' , fontWeight:400, fontSize:'18px'}} value="Private">Private</Radio>
-                            <Radio  style={{color:'white' ,fontWeight:400, fontSize:'18px'}} value='Public'>Public</Radio>
+                            <Radio  style={{color:'black' , fontWeight:400, fontSize:'18px'}} value="Private">Private</Radio>
+                            <Radio  style={{color:'black' ,fontWeight:400, fontSize:'18px'}} value='Public'>Public</Radio>
                         
                           </Radio.Group>
                           </div>
@@ -556,7 +556,7 @@ class CreateHistory extends React.Component {
                                 Edited
                        </Menu.Item>
                       
-                            <Menu.Item key="4" onClick={() => this.onChangeStatus('CANCEL')}>
+                            <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
                                Cancel
                        </Menu.Item>
                         </Menu>
