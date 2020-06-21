@@ -60,7 +60,7 @@ class TransactionHistory extends Component {
             ))}
           </tbody>
         </table>
-        {this.props.pending && (
+        {this.props.pending && rows!=16 && (
           <Spin
             tip="Loading..."
             size="large"
