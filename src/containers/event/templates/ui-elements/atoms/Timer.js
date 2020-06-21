@@ -16,29 +16,40 @@ class Timer extends React.Component {
     this.state = style
       ? { ...style }
       : {
-          ...TimerState(this.props),
-        };
+        ...TimerState(this.props),
+      };
   }
 
   componentDidMount() {
+
+    let startCount = ""
+    const currentDay = new Date();
+    this.props.session.forEach(infor => {
+      if (new Date(infor.day) > currentDay) {
+        startCount = infor.day
+        return
+      }
+    });
+
+    if (startCount === "")
+      return
     this.setState({
-      ...this.calculateTimeLeft(),
+      ...this.calculateTimeLeft(startCount),
     });
 
     this.myInterval = setInterval(() => {
       this.setState((prevState) => ({
         prevState,
-        ...this.calculateTimeLeft(),
+        ...this.calculateTimeLeft(startCount),
       }));
-    }, 1000);
+    }, 999);
   }
 
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
 
-  calculateTimeLeft = () => {
-    const { startCount } = this.props;
+  calculateTimeLeft = (startCount) => {
 
     const difference = +new Date(startCount) - +new Date();
     let timeLeft = {};
@@ -128,16 +139,16 @@ class Timer extends React.Component {
     const divStyle = style
       ? style
       : {
-          position: positionButton,
-          top: topButton,
-          marginLeft: leftButton,
-          marginRight: rightButton,
-          marginTop: topButton,
-          marginBottom: bottomButton,
-          alignContent: 'center',
-          backgroundColor,
-          width: '100%',
-        };
+        position: positionButton,
+        top: topButton,
+        marginLeft: leftButton,
+        marginRight: rightButton,
+        marginTop: topButton,
+        marginBottom: bottomButton,
+        alignContent: 'center',
+        backgroundColor,
+        width: '100%',
+      };
 
     return (
       <div className="container child-block" key={this.props.key}>
@@ -288,6 +299,7 @@ class Timer extends React.Component {
 
 const mapStateToProps = (state) => ({
   // map state of store to props
+  session: state.event.session,
   blocks: state.event.blocks,
 });
 

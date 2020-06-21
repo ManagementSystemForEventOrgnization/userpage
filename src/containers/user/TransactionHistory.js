@@ -43,9 +43,10 @@ class TransactionHistory extends Component {
                     <tbody>
                         {
                             this.props.historyPayment.map((item, key) => (
-                                <tr key={key}>
+                                item.eventId && <tr key={key}>
+
                                     <th scope="row">{key + 1}</th>
-                                    <td>{item.eventId.bannerUrl ? (<Link to={item.eventId.bannerUrl}>{item.eventId.name}</Link>) : item.eventId.name}</td>
+                                    <td>{item.eventId ? (<Link to={item.eventId}>{item.eventId.name}</Link>) : item.eventId.name}</td>
                                     <td>{item.amount}</td>
                                     <td>{new Date(item.createdAt).getMonth()} - {new Date(item.createdAt).getDate()} - {new Date(item.createdAt).getFullYear()} </td>
                                     <td>{item.payType}</td>

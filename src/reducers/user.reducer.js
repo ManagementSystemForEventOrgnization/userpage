@@ -179,16 +179,13 @@ const user = (state = initialState, action) => {
     }
 
     case userConstants.ADD_PAYMENT_CARD_SUCCESS:
-      {
-        console.log([...state.listCard, action.success])
-        return {
-          ...state,
-          success: action.success,
-          // listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
-          listCard: [...state.listCard, action.success],
-          pending: false,
-        };
-      }
+      return {
+        ...state,
+        success: action.success,
+        // listCard: [...state.listCard.filter(card => card.id !== action.cardId)],
+        listCard: [...state.listCard, action.success],
+        pending: false,
+      };
 
     case userConstants.ADD_PAYMENT_CARD_FAILURE:
       return {
