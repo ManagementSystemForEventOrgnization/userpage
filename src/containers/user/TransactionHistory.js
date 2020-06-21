@@ -42,8 +42,8 @@ class TransactionHistory extends Component {
               <tr key={key}>
                 <th scope="row">{key + 1}</th>
                 <td>
-                  {item.eventId.bannerUrl ? (
-                    <Link to={item.eventId.bannerUrl}>{item.eventId.name}</Link>
+                  {item.eventId ? (
+                    <Link to={"/event/" + item.urlWeb} target="_blank">{item.eventId.name}</Link>
                   ) : (
                       item.eventId.name
                     )}
@@ -60,7 +60,7 @@ class TransactionHistory extends Component {
             ))}
           </tbody>
         </table>
-        {this.props.pending && rows!=16 && (
+        {this.props.pending && rows <= 16 && (
           <Spin
             tip="Loading..."
             size="large"
