@@ -7,7 +7,6 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import ColumnGroup from 'antd/lib/table/ColumnGroup';
 import QRCode from 'containers/user/QRCode'
 class ProfilePage extends Component {
   constructor(props) {
