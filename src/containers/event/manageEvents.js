@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tabs, Table, Collapse, Popconfirm, Input } from 'antd';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import What from '../event/EventInfor/WhatTabPane';
 import Which from '../event/EventInfor/WhichTabPane';
@@ -16,7 +16,7 @@ class ManageEvent extends React.Component {
     // get category
     super(props);
     let urlWeb = localStorage.getItem('webAddress');
-    console.log('1', props)
+    console.log('1', props);
     this.state = {
       nameEvent: props.nameEvent,
       typeOfEvent: 'Public',
@@ -42,7 +42,13 @@ class ManageEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getCategories, categories, getUserJoinEvent, match, getEventInfo } = this.props;
+    const {
+      getCategories,
+      categories,
+      getUserJoinEvent,
+      match,
+      getEventInfo,
+    } = this.props;
     console.log('test', match);
     if (categories.length === 0) {
       getCategories();
@@ -52,16 +58,16 @@ class ManageEvent extends React.Component {
     dataSent.eventId = id;
     getUserJoinEvent(dataSent, (data) => {
       this.setState({
-        joinUser: data.map(item => ({
+        joinUser: data.map((item) => ({
           userId: item._id,
-          sessions: item.session.map(ss => ({ sessionId: ss.id })),
-          eventId: id
-        }))
-      })
-    })
+          sessions: item.session.map((ss) => ({ sessionId: ss.id })),
+          eventId: id,
+        })),
+      });
+    });
     let urlWeb = localStorage.getItem('webAddress');
-    getEventInfo(urlWeb).then(res => {
-      console.log('promise: ', res)
+    getEventInfo(urlWeb).then((res) => {
+      console.log('promise: ', res);
       this.setState({
         nameEvent: res.name,
         typeOfEvent: res.typeOfEvent,
@@ -71,23 +77,20 @@ class ManageEvent extends React.Component {
         webAddress: res.urlWeb,
         isFirstLoad: true,
         banner: res.bannerUrl,
-      })
-    })
-
-
+      });
+    });
   };
-
 
   onApproveMember = (joinUserId, sessionIds) => {
     const { verifyEventMember, match } = this.props;
     let id = match.match.params.id;
     verifyEventMember(joinUserId, id, sessionIds);
-  }
+  };
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
     rejectEventMember(joinUserId, id, sessionIds);
-  }
+  };
   confirm = (userId) => {
     // reportUser: (userId, cause, eventId)
 
@@ -95,16 +98,12 @@ class ManageEvent extends React.Component {
     const { reportUser, match } = this.props;
     let id = match.match.params.id;
     reportUser(userId, txtCause, id);
-
-  }
+  };
   onChangeCause = (e) => {
     this.setState({
       txtCause: e.target.value,
-
-    })
-  }
-
-
+    });
+  };
 
   render() {
     const { categories, userJoinEvent } = this.props;
@@ -113,9 +112,9 @@ class ManageEvent extends React.Component {
       isSellTicket,
       webAddress,
       typeOfEvent,
-      banner, joinUser, txtCause
+      banner,
+      txtCause,
     } = this.state;
-
 
     const HIGHT = {
       color: '333333',
@@ -127,11 +126,11 @@ class ManageEvent extends React.Component {
       textTransform: 'capitalize',
       marginLeft: '20px',
     };
-    const text = 'Are you sure to delete this task?';
-    const src =
-      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
+    //const text = 'Are you sure to delete this task?';
+    // const src =
+    //   'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
 
-    console.log('TCL : ', userJoinEvent)
+    console.log('TCL : ', userJoinEvent);
     return (
       <div className="manageEvent  ">
         <div className="card-container">
@@ -247,9 +246,8 @@ class ManageEvent extends React.Component {
                       <p>{session.length}</p>
                       <Collapse className="ml-2">
                         <Panel>
-                          {userJoinEvent.map((join, index) =>
+                          {userJoinEvent.map((join, index) => (
                             <div key={index}>
-
                               {join.session.map((item) => (
                                 <div>
                                   <div className="row">
@@ -261,18 +259,41 @@ class ManageEvent extends React.Component {
                                     </div>
 
                                     <div className="col">
-                                      <button onClick={() => this.onApproveMember(join._id, item.id)}>approve </button>
+                                      <button
+                                        onClick={() =>
+                                          this.onApproveMember(
+                                            join._id,
+                                            item.id
+                                          )
+                                        }
+                                      >
+                                        approve{' '}
+                                      </button>
                                     </div>
                                     <div className="col">
-                                      <button onClick={() => this.onRejectEventMember(join._id, item.id)}>reject </button>
+                                      <button
+                                        onClick={() =>
+                                          this.onRejectEventMember(
+                                            join._id,
+                                            item.id
+                                          )
+                                        }
+                                      >
+                                        reject{' '}
+                                      </button>
                                     </div>
                                     <div className="col">
                                       <Popconfirm
                                         placement="topRight"
                                         title={
                                           <div>
-                                            <p>Are you sure to report this user?</p>
-                                            <Input value={txtCause} onChange={this.onChangeCause} ></Input>
+                                            <p>
+                                              Are you sure to report this user?
+                                            </p>
+                                            <Input
+                                              value={txtCause}
+                                              onChange={this.onChangeCause}
+                                            ></Input>
                                           </div>
                                         }
                                         onConfirm={() => this.confirm(join._id)}
@@ -281,13 +302,12 @@ class ManageEvent extends React.Component {
                                       >
                                         <Button>report</Button>
                                       </Popconfirm>
-
                                     </div>
                                   </div>
                                 </div>
                               ))}
                             </div>
-                          )}
+                          ))}
                         </Panel>
                       </Collapse>
                     </div>
@@ -311,7 +331,7 @@ const mapStateToProps = (state) => ({
   nameEvent: state.event.nameEvent,
   isSellTicket: state.event.isSellTicket,
   ticket: state.event.ticket,
-  session: state.event.session
+  session: state.event.session,
 
   // isSellTicket: action.eventInfo.isSellTicket,
   // session: action.eventInfo.session,
@@ -325,10 +345,16 @@ const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
   getEventInfo: (urlWeb) => dispatch(eventActions.getEventInfo(urlWeb)),
-  verifyEventMember: (joinUserId, eventId, sessionIds) => dispatch(applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)),
-  rejectEventMember: (joinUserId, eventId, sessionIds) => dispatch(applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)),
-  reportUser: (userId, cause, eventId) => dispatch(applyEventActions.reportUser(userId, cause, eventId)),
-
+  verifyEventMember: (joinUserId, eventId, sessionIds) =>
+    dispatch(
+      applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)
+    ),
+  rejectEventMember: (joinUserId, eventId, sessionIds) =>
+    dispatch(
+      applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)
+    ),
+  reportUser: (userId, cause, eventId) =>
+    dispatch(applyEventActions.reportUser(userId, cause, eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageEvent);

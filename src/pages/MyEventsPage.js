@@ -7,7 +7,7 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import QRCode from 'containers/user/QRCode'
+import QRCode from 'containers/user/QRCode';
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ class ProfilePage extends Component {
   }
   componentDidMount = () => {
     if (this.state.tab === 1) {
-      console.log("componentDidMount");
+      console.log('componentDidMount');
       const { getCurrentUser } = this.props;
       getCurrentUser();
     }
@@ -28,10 +28,9 @@ class ProfilePage extends Component {
       this.setState({
         tab: tabNumber,
       });
-
     };
 
-    const { tab } = this.state
+    const { tab } = this.state;
     console.log(tab);
     return (
       <div>
@@ -43,10 +42,10 @@ class ProfilePage extends Component {
             <ProfileInfor moveTab={moveTab} />
           </div>
           <div className=" col-sm-9">
-            {tab == 1 && <UpdateProfileInfor />}
-            {tab == 2 && <BankAccount />}
-            {tab == 3 && <TransactionHistory />}
-            {tab == 4 && <QRCode />}
+            {tab === 1 && <UpdateProfileInfor />}
+            {tab === 2 && <BankAccount />}
+            {tab === 3 && <TransactionHistory />}
+            {tab === 4 && <QRCode />}
           </div>
         </div>
       </div>
