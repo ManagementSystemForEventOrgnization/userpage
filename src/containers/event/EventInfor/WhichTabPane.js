@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Radio, Collapse, InputNumber } from 'antd';
+import { Form, Radio, Collapse, InputNumber, Input } from 'antd';
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const layout = {
@@ -13,9 +13,18 @@ const layout = {
 
 const typeOfEvents = ['Public', 'Private'];
 const plainOptions = ['Yes', 'No'];
+const uploadingMethods = ['Upload from  device', 'Input from link'];
+
 const { Panel } = Collapse;
 
 class TabPane extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uploadingMethod: uploadingMethods[0],
+    };
+  }
+
   handleChange = (e) => {
     const { name, value } = e.target;
     const { onChange } = this.props;
@@ -24,7 +33,7 @@ class TabPane extends Component {
 
   onImageDrop = (url) => {
     const { onChange } = this.props;
-    onChange('banner', url);
+    setTimeout(onChange('banner', url), 3000);
   };
 
   handleChangeTicket = (type, value) => {
@@ -33,12 +42,23 @@ class TabPane extends Component {
     newTicket[type] = value;
     setTimeout(onChange('ticket', newTicket), 3000);
   };
+
+  handleChangeUploadingMethod = (e) => {
+    this.setState({
+      uploadingMethod: e.target.value,
+    });
+  };
   render() {
     const { isSellTicket, typeOfEvent, banner, ticket } = this.props;
+    const { uploadingMethod } = this.state;
 
     return (
       <div className="p-5">
-        <Form {...layout} name="control-ref">
+        <Form
+          {...layout}
+          name="control-ref"
+          initialValues={{ bannerUrl: banner }}
+        >
           <Form.Item
             label="Type of event "
             rules={[
@@ -55,8 +75,42 @@ class TabPane extends Component {
             />
           </Form.Item>
 
-          <Form.Item label="Banner ">
-            <UploadImage url={banner} handleImageDrop={this.onImageDrop} />
+          <Form.Item label="Banner">
+            <Radio.Group
+              options={uploadingMethods}
+              name="uploadingMethod"
+              onChange={this.handleChangeUploadingMethod}
+              value={uploadingMethod}
+            />
+            <Collapse
+              //   defaultActiveKey="1"
+              className="mt-4"
+              style={{ width: '800px' }}
+            >
+              <Panel header="Banner/Poster Infor" key="1">
+                {uploadingMethod === uploadingMethods[0] ? (
+                  <UploadImage
+                    url={banner}
+                    handleImageDrop={this.onImageDrop}
+                  />
+                ) : (
+                  <Form.Item
+                    name="bannerUrl"
+                    label="Banner Url"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input
+                      value={banner}
+                      onChange={(e) => this.onImageDrop(e.target.value)}
+                    />
+                  </Form.Item>
+                )}
+              </Panel>
+            </Collapse>
           </Form.Item>
 
           <Form.Item
