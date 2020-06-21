@@ -578,11 +578,11 @@ const deleteEvent = (eventId) => {
 
 };
 
-const canCelEvent = (dataSent) => {
+const cancelEvent = (eventId, sessionIds) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/cancelEvent`, {
-      dataSent
+      eventId, sessionIds
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -645,4 +645,5 @@ export const eventActions = {
   getComment,
   saveComment,
   deleteEvent,
+  cancelEvent
 };

@@ -21,17 +21,11 @@ import { Link } from 'react-router-dom';
 import {
 
     EnvironmentOutlined,
-    AppstoreOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    PieChartOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
-    ExclamationCircleOutlined
+    DeleteOutlined 
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
+import ColumnGroup from 'antd/lib/table/ColumnGroup';
 const { Search } = Input;
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -62,6 +56,10 @@ class CreateHistory extends React.Component {
             pageNumber:0,
             hasMore: true,
             isfirstLoad:true,
+            isSecondLoad:true,
+            sessionEvent:[],    
+            idEventCancel:'',
+            isShowCancel: false
 
           
 
@@ -71,7 +69,7 @@ class CreateHistory extends React.Component {
     componentDidMount = () => {
         const { getCreateHistory, getCategories, match } = this.props;
 
-        console.log('te1', match);
+        
         getCreateHistory();
         getCategories();
          
@@ -125,7 +123,8 @@ class CreateHistory extends React.Component {
       dataSent.pageNumber=index;
        getCreateHistory(dataSent);
    let  Event=[...listEvent, ...arrEvent]
-     console.log('tes1110',Event);
+  
+   
      this.setState({listEvent:Event});
      
 
@@ -157,12 +156,35 @@ class CreateHistory extends React.Component {
         this.setState({
             pageNumber: number,
         })
+    
+      
 
 
 
 
         setTimeout(this.handleFilter(), 3000);
     };
+    isCancelEvent=()=>{
+        this.setState({
+            isShowCancel:false
+        })
+    }
+
+    showCancelEvent=(idEvent, session)=>{
+    
+        
+
+        this.setState({
+
+            idEventCancel:idEvent,
+            sessionEvent:session.map(item => ({
+                ...item,
+                isCancel: item.isCancel 
+            })),
+            isShowCancel:true
+        })
+
+    }
 
 
     sumDiscount = (ticket, discount) => {
@@ -220,7 +242,8 @@ class CreateHistory extends React.Component {
         deleteEvent(eventId);
 
         let receiver = arrEvent.filter((e) => e._id !== eventId && (s => s.status === 'DELETE'));
-        console.log("aha", receiver);
+     
+        
        
             this.setState({
               isfirstLoad: false,
@@ -246,8 +269,8 @@ class CreateHistory extends React.Component {
         this.setState({
             typeofEvent:e.target.value
         })
-        console.log('1',statusEvent);
-        console.log('2',e.target.value)
+      
+        
        if(statusEvent==='All' ){
               getCreateHistory();
        }
@@ -260,6 +283,29 @@ class CreateHistory extends React.Component {
            getCreateHistory(dataSent);
           
        }
+    }
+    cancelSessionEvent=(idSession)=>{
+        const {idEventCancel}=this.state;
+        let {sessionEvent} = this.state;
+        const{cancelEvent}=this.props;
+
+
+        cancelEvent(idEventCancel,idSession);
+        let currIndex = sessionEvent.findIndex(ss=> ss.id === idSession);
+   
+        
+        if(currIndex!== -1){
+            sessionEvent[currIndex].isCancel = true;
+            this.setState({sessionEvent})
+    
+        }
+       
+
+        
+      
+        
+    
+
     }
 
     renderMenu = item => {
@@ -283,7 +329,7 @@ class CreateHistory extends React.Component {
                     Manage event
                     </Link>
             </Menu.Item>
-            <Menu.Item onClick={()=>this.isShowDelete(item._id)}>
+            <Menu.Item onClick={()=>this.showCancelEvent(item._id,item.session)}>
                 
                 Cancel event
         
@@ -294,11 +340,26 @@ class CreateHistory extends React.Component {
 
         return menu;
     }
+    showCancelConfirm=()=>{
+        const {idEventCancel}=this.state;
+        const {cancelEvent,arrEvent,}=this.props;
+        let dataSent={}
+        //  dataSent.eventId=idEventCancel;
+        cancelEvent(idEventCancel);
+        let receiver = arrEvent.filter((e) => e._id !== idEventCancel && (s => s.status === 'CANCEL'));
+     
+        
+       
+            this.setState({
+                isSecondLoad: false,
+              listEvent:receiver
+            })
+    }
 
     render() {
 
-        const { categories ,} = this.state;
-        const { pending,arrEvent,pend,errMessage} = this.props;
+        const {  sessionEvent} = this.state;
+        const { pending,arrEvent,pend,errMessage,err,pendCancel} = this.props;
         let { listEvent } = this.state;
         listEvent = listEvent.length > 0 ? listEvent : [...arrEvent];
     
@@ -314,24 +375,7 @@ class CreateHistory extends React.Component {
 
                         <div>
                             <div className="row">
-                                {/* <div className="col ">
-                                    <RangePicker
-                                        format="YYYY-MM-DD "
-                                        onChange={this.onChangeDates}
-                                        onOk={this.onOk}
-                                        style={{height:'45px'}}
-                                    />
-                                </div> */}
-                                {/* <div className="col ">
-                                    <Select style={{ width: '100%',height:'45px' }} onChange={this.handleChange}
-                                    >
-                                        {categories.map((item) => (
-                                            <Option key={item._id} value={item._id}>
-                                                {item.name}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </div> */}
+                                
                                 <div className="col ">
                                     <Search
                                         enterButton
@@ -512,7 +556,7 @@ class CreateHistory extends React.Component {
                     </Col>
                 </Row>,
                 <Modal
-                    title='Are you sure delete this task?'
+                    title='Are you sure delete this event?'
                     visible={this.state.visible}
                     okText="yes"
                     okType='danger'
@@ -531,6 +575,43 @@ class CreateHistory extends React.Component {
                   
 
                 </Modal>
+                <Modal
+                    title='Are you sure cancel all session  this event?'
+                    visible={this.state.isShowCancel}
+                    okText="yes"
+                    okType='danger'
+                    cancelText='No'
+                    onOk={this.showCancelConfirm}
+                    onCancel={this.isCancelEvent}
+                    confirmLoading={pendCancel}
+
+                >
+                     {
+                    !this.state.isSecondLoad&& err&&
+                    <h6 style={{color:'red'}}>{err}</h6>
+                    
+                    }
+                  <p style={{fontWeight:600, fontSize:'18px'}}>Are you sure cancel a session  this event?</p>
+                   {
+                       sessionEvent.map((item,index)=>
+                           <div key={index} className="row">
+                             
+                               <div className="col">  <p>{item.name}</p></div>
+                               <div className="col"> <p>{moment(item.day||new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
+                               <div className="col"><Button type="danger" shape='circle'
+                               disabled={item.isCancel}
+                                onClick={()=>this.cancelSessionEvent(item.id)} ><DeleteOutlined /></Button></div>
+                           
+                            
+                           </div>
+                    )
+                   }
+
+                 
+                
+                  
+
+                </Modal>
             </div >
         );
     }
@@ -543,6 +624,9 @@ const mapStateToProps = (state) => ({
     pending: state.user.pending,
     pend:state.event.pending,
     errMessage: state.event.errMessage,
+    err: state.event.errCancel,
+    pendCancel:state.event.pendCancel,
+    cancelSession:state.event.cancelSession
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -566,7 +650,7 @@ const mapDispatchToProps = (dispatch) => ({
         ),
     getCategories: () => dispatch(eventActions.getCategories()),
     deleteEvent:(eventId)=>dispatch(eventActions.deleteEvent(eventId)),
-    cancelEvent:(dataSent)=>dispatch(eventActions.cancelEvent(dataSent))
+    cancelEvent:(eventId, sessionIds)=>dispatch(eventActions.cancelEvent(eventId, sessionIds))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateHistory);

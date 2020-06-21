@@ -41,6 +41,7 @@ const initialState = {
   deleteEvent: [],
   cancelEvent: [],
   pendCancel: false,
+  cancelSession: false,
 
 
   pages: [
@@ -383,7 +384,8 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pendCancel: false,
-        cancelEvent: action.cancelEvent
+        cancelEvent: action.cancelEvent,
+        cancelSession: true
 
       };
     default:
