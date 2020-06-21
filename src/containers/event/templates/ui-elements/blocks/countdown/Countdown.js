@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { connect } from 'react-redux';
 import Timer from '../../atoms/Timer';
 export default class Countdown extends Component {
   render() {
@@ -6,11 +7,13 @@ export default class Countdown extends Component {
     return (
       <div>
         <Timer
-          startCount={this.props.startCount}
           editable={editable}
           {...this.props}
         />
       </div>
     );
   }
+
 }
+
+

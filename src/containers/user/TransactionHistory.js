@@ -45,8 +45,8 @@ class TransactionHistory extends Component {
                   {item.eventId.bannerUrl ? (
                     <Link to={item.eventId.bannerUrl}>{item.eventId.name}</Link>
                   ) : (
-                    item.eventId.name
-                  )}
+                      item.eventId.name
+                    )}
                 </td>
                 <td>{item.amount}</td>
                 <td>
