@@ -398,11 +398,15 @@ const saveEvent = (id, blocks, header, isPreview) => {
           localStorage.removeItem('currentIndex');
           if (!isPreview) {
             history.push(`/event/${eventId}`);
-            reject('err');
+            //reject('err');
+          } else {
+            resolve('Save Successfully');
           }
-          resolve('true');
         })
-        .catch((err) => handleCatch(dispatch, failure, err));
+        .catch((err) => {
+          handleCatch(dispatch, failure, err);
+          reject(err);
+        });
     });
   };
   function request() {

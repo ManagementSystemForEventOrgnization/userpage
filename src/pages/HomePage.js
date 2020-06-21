@@ -120,30 +120,32 @@ class HomePage extends Component {
               itemClass="carousel-item-padding-40-px"
             >
               {hlEvent.map((item, index) => (
-                <div className="  shadow ml-2 highlight-item" key={index}>
-                  <div className=" event-list">
-                    {item.bannerUrl && (
-                      <img
-                        className="img "
-                        alt="example"
-                        src={item.bannerUrl}
-                      />
-                    )}
-                    <div className="title">
-                      <h5 className="title-name"> {item.name}</h5>
-                      <div className="title-time ">
-                        <p>
-                          {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                        </p>
-                        {item.session.length === 1 ? (
-                          ''
-                        ) : (
-                          <p>+ {item.session.length - 1}more events</p>
-                        )}
+                <Link to={"/event/" + item.urlWeb} target="_blank">
+                  <div className="  shadow ml-2 highlight-item" key={index}>
+                    <div className=" event-list">
+                      {item.bannerUrl && (
+                        <img
+                          className="img "
+                          alt="example"
+                          src={item.bannerUrl}
+                        />
+                      )}
+                      <div className="title">
+                        <h5 className="title-name"> {item.name}</h5>
+                        <div className="title-time ">
+                          <p>
+                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                          </p>
+                          {item.session.length === 1 ? (
+                            ''
+                          ) : (
+                              <p>+ {item.session.length - 1}more events</p>
+                            )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </Carousel>
           </div>
@@ -160,26 +162,26 @@ class HomePage extends Component {
                   className="col-xl-4 col-lg-4 col-md-6 mt-4 "
                   key={item._id}
                 >
-                  <Link to="">
+                  <Link to={"/event/" + item.urlWeb} target="_blank">
                     <Card
                       className="event-cart "
                       cover={
                         <div>
                           {item.session
                             ? item.session.map((e, i) =>
-                                item.ticket ? (
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ? (
-                                      <Button className="ml-1 mt-1 ticket">
-                                        {this.percentDiscount(
-                                          item.ticket.discount
-                                        )}
-                                      </Button>
-                                    ) : (
+                              item.ticket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ? (
+                                    <Button className="ml-1 mt-1 ticket">
+                                      {this.percentDiscount(
+                                        item.ticket.discount
+                                      )}
+                                    </Button>
+                                  ) : (
                                       ''
                                     )}
-                                  </div>
-                                ) : (
+                                </div>
+                              ) : (
                                   <Button
                                     className="ml-1 mt-1 ticket"
                                     key={e.id}
@@ -187,7 +189,7 @@ class HomePage extends Component {
                                     Free
                                   </Button>
                                 )
-                              )
+                            )
                             : ' '}
                           {item.bannerUrl && (
                             <img
@@ -233,10 +235,10 @@ class HomePage extends Component {
                           {item.session.length === 1 ? (
                             ''
                           ) : (
-                            <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                              + {item.session.length - 1}more events
+                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                + {item.session.length - 1}more events
                             </p>
-                          )}
+                            )}
                         </div>
                       </div>
                       <div>
@@ -265,19 +267,19 @@ class HomePage extends Component {
                                 </p>
                               </div>
                             ) : (
-                              <p
-                                className=" mt-1 "
-                                style={{ fontWeight: 'bold' }}
-                              >
-                                {item.ticket.price} VNĐ
+                                <p
+                                  className=" mt-1 "
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  {item.ticket.price} VNĐ
                               </p>
-                            )}
+                              )}
                           </div>
                         ) : (
-                          <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                            0 VNĐ
+                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                              0 VNĐ
                           </p>
-                        )}
+                          )}
                       </div>
 
                       <div className="d-flex ">

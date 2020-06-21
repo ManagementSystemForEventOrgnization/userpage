@@ -332,8 +332,6 @@ const addPaymentCard = (cardToken) => {
       cardToken,
     })
       .then((res) => {
-        console.log('cr' + cardToken);
-
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -349,7 +347,6 @@ const addPaymentCard = (cardToken) => {
     return { type: userConstants.ADD_PAYMENT_CARD_FAILURE, error };
   }
 };
-
 
 const getListCardPayment = () => {
   return (dispatch) => {
@@ -375,7 +372,7 @@ const getListCardPayment = () => {
   }
 };
 
-const postCardDefault = (cardId) => {
+const postCardDefault = (cardId, callBack) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/set_card_default`, {
@@ -383,8 +380,12 @@ const postCardDefault = (cardId) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
+        callBack();
       })
-      .catch((error) => handleCatch(dispatch, failure, error));
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+        callBack(error);
+      });
   };
 
   function request() {
@@ -398,8 +399,7 @@ const postCardDefault = (cardId) => {
   }
 };
 
-
-const delCardDefault = (cardId) => {
+const delCardDefault = (cardId, callBack) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/del_card`, {
@@ -407,8 +407,12 @@ const delCardDefault = (cardId) => {
     })
       .then((res) => {
         dispatch(success(res.data.result, cardId));
+        callBack();
       })
-      .catch((error) => handleCatch(dispatch, failure, error));
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+        callBack(error);
+      });
   };
 
   function request() {
@@ -422,16 +426,13 @@ const delCardDefault = (cardId) => {
   }
 };
 
-
-
-
 const getHistoryPayment = (numberRecord = 16) => {
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/payment_history/`, {
       params: {
         numberRecord,
-      }
+      },
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -452,12 +453,7 @@ const getHistoryPayment = (numberRecord = 16) => {
   }
 };
 
-
-
-
-const get_History = (
-  dataSent
-) => {
+const get_History = (dataSent) => {
   return (dispatch) => {
     dispatch(request());
 
@@ -537,7 +533,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function success(numUnreadNotification) {

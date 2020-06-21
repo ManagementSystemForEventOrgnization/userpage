@@ -102,13 +102,13 @@ class ManageEvent extends React.Component {
     dataSent.eventId = id;
     getUserJoinEvent(dataSent, (data) => {
       this.setState({
-        joinUser: data.map(item => ({
+        joinUser: data.map((item) => ({
           userId: item._id,
-          sessions: item.session.map(ss => ({ sessionId: ss.id })),
-          eventId: id
-        }))
-      })
-    })
+          sessions: item.session.map((ss) => ({ sessionId: ss.id })),
+          eventId: id,
+        })),
+      });
+    });
     let urlWeb = localStorage.getItem('webAddress');
     getEventInfo(urlWeb).then(res => {
 
@@ -122,12 +122,9 @@ class ManageEvent extends React.Component {
         webAddress: res.urlWeb,
         isFirstLoad: true,
         banner: res.bannerUrl,
-      })
-    })
-
-
+      });
+    });
   };
-
 
   onApproveMember = (joinUserId, sessionIds) => {
     const { verifyEventMember, match } = this.props;
@@ -161,11 +158,8 @@ class ManageEvent extends React.Component {
   onChangeCause = (e) => {
     this.setState({
       txtCause: e.target.value,
-
-    })
-  }
-
-
+    });
+  };
 
   render() {
     const { categories, userJoinEvent } = this.props;
@@ -190,10 +184,9 @@ class ManageEvent extends React.Component {
       textTransform: 'capitalize',
       marginLeft: '20px',
     };
-    const text = 'Are you sure to delete this task?';
-    const src =
-      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
-
+    //const text = 'Are you sure to delete this task?';
+    // const src =
+    //   'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
 
     return (
       <div className="manageEvent  ">
@@ -432,7 +425,7 @@ const mapStateToProps = (state) => ({
   nameEvent: state.event.nameEvent,
   isSellTicket: state.event.isSellTicket,
   ticket: state.event.ticket,
-  session: state.event.session
+  session: state.event.session,
 
   // isSellTicket: action.eventInfo.isSellTicket,
   // session: action.eventInfo.session,
@@ -446,10 +439,16 @@ const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
   getEventInfo: (urlWeb) => dispatch(eventActions.getEventInfo(urlWeb)),
-  verifyEventMember: (joinUserId, eventId, sessionIds) => dispatch(applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)),
-  rejectEventMember: (joinUserId, eventId, sessionIds) => dispatch(applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)),
-  reportUser: (userId, cause, eventId) => dispatch(applyEventActions.reportUser(userId, cause, eventId)),
-
+  verifyEventMember: (joinUserId, eventId, sessionIds) =>
+    dispatch(
+      applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)
+    ),
+  rejectEventMember: (joinUserId, eventId, sessionIds) =>
+    dispatch(
+      applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)
+    ),
+  reportUser: (userId, cause, eventId) =>
+    dispatch(applyEventActions.reportUser(userId, cause, eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageEvent);

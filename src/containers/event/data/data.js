@@ -119,7 +119,6 @@ export const blockList = {
     <CountDownBlock
       key={id}
       editable={editable}
-      startCount="2021-01-01 12:00:00"
       style={style}
       id={id}
     />

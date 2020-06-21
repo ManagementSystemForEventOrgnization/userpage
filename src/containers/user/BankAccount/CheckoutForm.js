@@ -113,7 +113,7 @@ class CheckoutForm extends React.Component {
         ) : (
           <div className="Result bank-account">
             <div className="ResultTitle" role="alert">
-              {this.props.props.errMessage}
+              {this.props.errMessage}
             </div>
           </div>
         )}
