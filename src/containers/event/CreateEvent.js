@@ -2,8 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
-import { Popover } from 'antd';
-import { QuestionCircleTwoTone } from '@ant-design/icons';
+import { Popover, message } from 'antd';
+import {
+  QuestionCircleTwoTone,
+  CheckCircleFilled,
+  CloseCircleFilled,
+} from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
@@ -73,6 +77,7 @@ class CreateEvent extends React.Component {
     const eventId = localStorage.getItem('webAddress');
 
     this.getCurrentIndex();
+
     if (!webAddress) {
       getEventInfo(eventId)
         .then((data) => {
@@ -141,7 +146,37 @@ class CreateEvent extends React.Component {
     window.scrollTo(0, 0);
   };
 
-  handleSaveEvent = (isPreview) => {
+  error = (msg) => {
+    message.error({
+      content: (
+        <p style={{ marginTop: '25%' }}>
+          <CloseCircleFilled className="mr-3" style={{ color: 'red' }} />
+          OPPs! Something is wrong !
+        </p>
+      ),
+    });
+  };
+  success = (msg) => {
+    message.success({
+      content: (
+        <p
+          style={{
+            marginTop: '25%',
+          }}
+        >
+          <CheckCircleFilled
+            className="mr-3"
+            style={{
+              color: 'green',
+            }}
+          />
+          Save Success
+        </p>
+      ),
+    });
+  };
+
+  handleSaveEvent = (isPreview, redirect) => {
     const {
       blocks,
       system,
@@ -166,12 +201,18 @@ class CreateEvent extends React.Component {
       isPreview
     )
       .then((data) => {
-        window.open(
-          `/event/${webAddress || localStorage.getItem('webAddress')}`,
-          '_blank'
-        );
+        if (redirect) {
+          window.open(
+            `/event/${webAddress || localStorage.getItem('webAddress')}`,
+            '_blank'
+          );
+        } else {
+          this.success();
+        }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        this.error();
+      });
   };
 
   getPreviousId = () => {
@@ -272,13 +313,13 @@ class CreateEvent extends React.Component {
                 onClick={() => this.handleSaveEvent(false)}
                 disabled={pending}
               >
-                Finish
+                Request Publish
               </Button>
 
               <Button
                 className="mr-2 ml-2"
                 variant="success"
-                // onClick={() => this.handleSaveEvent(false)}
+                onClick={() => this.handleSaveEvent(true)}
                 disabled={pending}
               >
                 Save Draft
@@ -286,7 +327,7 @@ class CreateEvent extends React.Component {
 
               <Button
                 variant="success"
-                onClick={() => this.handleSaveEvent(true)}
+                onClick={() => this.handleSaveEvent(true, true)}
               >
                 Preview
               </Button>
