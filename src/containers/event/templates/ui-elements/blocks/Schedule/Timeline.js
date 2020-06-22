@@ -79,7 +79,7 @@ class TimelineBlock extends Component {
           {session &&
             session.map((ss) => (
               <div key={ss.id} className="d-flex">
-                <div className="child-block mt-3 mb-5 p-5 shadow-sm ">
+                <div className="child-block mt-3 mb-5 p-5 shadow-sm flex-fill ">
                   <h6>
                     Session {ss.name} : {moment(ss.day).format('LLLL')}
                   </h6>

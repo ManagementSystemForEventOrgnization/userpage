@@ -1,30 +1,27 @@
 import React from 'react';
-import { Button, Tabs, Table, Collapse, Popconfirm, Input, Modal } from 'antd';
+import { Button, Tabs, Table, Popconfirm, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
 
-
-import moment from 'moment'
+import moment from 'moment';
 import {
   FileDoneOutlined,
   CloseOutlined,
   DeleteOutlined,
-  CheckOutlined
-
+  CheckOutlined,
 } from '@ant-design/icons';
 import What from '../event/EventInfor/WhatTabPane';
-import Which from '../event/EventInfor/WhichTabPane';
+//import Which from '../event/EventInfor/WhichTabPane';
 import When from '../event/EventInfor/WhenTabPane';
 import { eventActions } from 'action/event.action';
 import { applyEventActions } from 'action/applyEvent';
 const { TabPane } = Tabs;
-const { Panel } = Collapse;
+//const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
 class ManageEvent extends React.Component {
   constructor(props) {
     // get category
     super(props);
     let urlWeb = localStorage.getItem('webAddress');
-
 
     this.state = {
       nameEvent: props.nameEvent,
@@ -41,13 +38,12 @@ class ManageEvent extends React.Component {
       joinEvent: [],
       background: '',
       backReject: '',
-      backDelete: ''
+      backDelete: '',
     };
   }
 
   onChange = (type, value) => {
     if (type === 'isSellTicket') {
-
     }
     this.setState({
       [type]: value,
@@ -55,44 +51,40 @@ class ManageEvent extends React.Component {
     });
   };
   showModalSession = (join) => {
-
-
-
-    let event = join.session.findIndex(ss => ss.isConfirm === true)
+    let event = join.session.findIndex((ss) => ss.isConfirm === true);
     if (event !== -1) {
-      this.setState({ background: 'green' })
+      this.setState({ background: 'green' });
     }
-    let event1 = join.session.findIndex(ss => ss.isReject === true)
-
+    let event1 = join.session.findIndex((ss) => ss.isReject === true);
 
     if (event1 !== -1) {
-      this.setState({ backReject: 'red' })
-
-
+      this.setState({ backReject: 'red' });
     }
     this.setState({
       visible: true,
       joinEvent: join,
     });
   };
-  handleOk = e => {
-
-
+  handleOk = (e) => {
     this.setState({
       visible: false,
     });
   };
 
-  handleCancel = e => {
-
+  handleCancel = (e) => {
     this.setState({
       visible: false,
     });
   };
 
   componentDidMount = () => {
-    const { getCategories, categories, getUserJoinEvent, match, getEventInfo } = this.props;
-
+    const {
+      getCategories,
+      categories,
+      getUserJoinEvent,
+      match,
+      getEventInfo,
+    } = this.props;
 
     if (categories.length === 0) {
       getCategories();
@@ -110,9 +102,7 @@ class ManageEvent extends React.Component {
       });
     });
     let urlWeb = localStorage.getItem('webAddress');
-    getEventInfo(urlWeb).then(res => {
-
-
+    getEventInfo(urlWeb).then((res) => {
       this.setState({
         nameEvent: res.name,
         typeOfEvent: res.typeOfEvent,
@@ -131,18 +121,17 @@ class ManageEvent extends React.Component {
     let id = match.match.params.id;
     verifyEventMember(joinUserId, id, sessionIds);
     this.setState({
-      background: 'green'
-    })
-
-  }
+      background: 'green',
+    });
+  };
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
     rejectEventMember(joinUserId, id, sessionIds);
     this.setState({
-      backReject: 'red'
-    })
-  }
+      backReject: 'red',
+    });
+  };
   confirm = (userId) => {
     // reportUser: (userId, cause, eventId)
 
@@ -151,10 +140,9 @@ class ManageEvent extends React.Component {
     let id = match.match.params.id;
     reportUser(userId, txtCause, id);
     this.setState({
-      backDelete: true
-    })
-
-  }
+      backDelete: true,
+    });
+  };
   onChangeCause = (e) => {
     this.setState({
       txtCause: e.target.value,
@@ -168,11 +156,11 @@ class ManageEvent extends React.Component {
 
       webAddress,
 
-      banner, txtCause, joinEvent, background
+      banner,
+      txtCause,
+      joinEvent,
+      background,
     } = this.state;
-
-
-
 
     const HIGHT = {
       color: '333333',
@@ -196,8 +184,10 @@ class ManageEvent extends React.Component {
               <div className="col">
                 <img className="image" src={banner} alt="logo" />
               </div>
-              <div className="col" style={{ padding: '8%', color: "white" }}>
-                <h1 style={{ color: "white", textAlign: 'center' }}>{nameEvent}</h1>
+              <div className="col" style={{ padding: '8%', color: 'white' }}>
+                <h1 style={{ color: 'white', textAlign: 'center' }}>
+                  {nameEvent}
+                </h1>
                 {/* <Link to="">https://hanlinh010198.wixsite.com/mysite</Link> */}
                 {/* <Button className="ticket">{}</Button> */}
               </div>
@@ -282,9 +272,7 @@ class ManageEvent extends React.Component {
               /> */}
             </TabPane>
             <TabPane tab="Participant" key="2">
-              <Table dataSource={userJoinEvent}
-                pagination={10}
-              >
+              <Table dataSource={userJoinEvent} pagination={10}>
                 <ColumnGroup
                   title="FullName "
                   dataIndex="fullName"
@@ -303,48 +291,62 @@ class ManageEvent extends React.Component {
                 <Column
                   title="session"
                   dataIndex="session"
-
                   key="session"
                   render={(session) => (
-
                     <div className="d-flex">
                       <h4>{session.length}</h4>
                       {userJoinEvent.map((join) =>
-                        join.session === session ?
-                          <Button key={join._id} className="ml-3" type='danger' onClick={() => this.showModalSession(join)}
-                            shape='circle'> <FileDoneOutlined style={{ fontSize: '17px' }} /></Button>
-                          : ' '
-
+                        join.session === session ? (
+                          <Button
+                            key={join._id}
+                            className="ml-3"
+                            type="danger"
+                            onClick={() => this.showModalSession(join)}
+                            shape="circle"
+                          >
+                            {' '}
+                            <FileDoneOutlined style={{ fontSize: '17px' }} />
+                          </Button>
+                        ) : (
+                          ' '
+                        )
                       )}
                     </div>
-
-                  )}></Column>
+                  )}
+                ></Column>
 
                 <ColumnGroup
                   title="Report"
                   dataIndex="_id"
-                  key="_id" render={(_id) => (
-                    <div className='col'>
+                  key="_id"
+                  render={(_id) => (
+                    <div className="col">
                       <Popconfirm
                         placement="topRight"
                         title={
                           <div>
                             <p>Are you sure to report this user?</p>
-                            <Input value={txtCause} onChange={this.onChangeCause} ></Input>
+                            <Input
+                              value={txtCause}
+                              onChange={this.onChangeCause}
+                            ></Input>
                           </div>
                         }
                         onConfirm={() => this.confirm(_id)}
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button type='danger' disabled={this.state.backDelete} shape="circle"><DeleteOutlined style={{ fontSize: '15px' }} /></Button>
+                        <Button
+                          type="danger"
+                          disabled={this.state.backDelete}
+                          shape="circle"
+                        >
+                          <DeleteOutlined style={{ fontSize: '15px' }} />
+                        </Button>
                       </Popconfirm>
-
                     </div>
                   )}
                 ></ColumnGroup>
-
-
               </Table>
               ,
             </TabPane>
@@ -356,63 +358,80 @@ class ManageEvent extends React.Component {
             onCancel={this.handleCancel}
             width={700}
           >
-
-            <div >
-              <div className='d-flex'>
+            <div>
+              <div className="d-flex">
                 <p>Name :</p>
                 <h6 className="ml-3">{joinEvent.fullName}</h6>
               </div>
 
               <Table dataSource={joinEvent.session}>
-                <ColumnGroup title="Name" dataIndex="name" key="name">
-                </ColumnGroup>
-                <ColumnGroup title="Day session"
-                  dataIndex="day" key="day"
-                  render={(day) => (
-                    moment(day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')
-                  )}
-                >
-                </ColumnGroup>
-                <ColumnGroup title="Time Apply"
-                  dataIndex="createdAt" key="createdAt"
-                  render={(createdAt) => (
-                    moment(createdAt || new Date().toLocaleDateString()).format('DD/MM/YYYY ')
-                  )}
-                >
-                </ColumnGroup>
-                <ColumnGroup title="address" dataIndex="address"
+                <ColumnGroup
+                  title="Name"
+                  dataIndex="name"
+                  key="name"
+                ></ColumnGroup>
+                <ColumnGroup
+                  title="Day session"
+                  dataIndex="day"
+                  key="day"
+                  render={(day) =>
+                    moment(day || new Date().toLocaleDateString()).format(
+                      'DD/MM/YYYY '
+                    )
+                  }
+                ></ColumnGroup>
+                <ColumnGroup
+                  title="Time Apply"
+                  dataIndex="createdAt"
+                  key="createdAt"
+                  render={(createdAt) =>
+                    moment(createdAt || new Date().toLocaleDateString()).format(
+                      'DD/MM/YYYY '
+                    )
+                  }
+                ></ColumnGroup>
+                <ColumnGroup
+                  title="address"
+                  dataIndex="address"
                   key="address"
-                  render={(address) => (
-                    <p>{address.location}</p>
-                  )}
-                >
-                </ColumnGroup>
+                  render={(address) => <p>{address.location}</p>}
+                ></ColumnGroup>
                 <Column
                   title="Action"
-                  dataIndex='id'
+                  dataIndex="id"
                   key="action"
                   render={(id) => (
-                    <div className='row'>
-                      <div className='col'>
-                        <Button style={{ background }} onClick={() => this.onApproveMember(joinEvent._id, id)}
-                          shape="circle"><CheckOutlined style={{ fontSize: '15px' }} />  </Button>
+                    <div className="row">
+                      <div className="col">
+                        <Button
+                          style={{ background }}
+                          onClick={() =>
+                            this.onApproveMember(joinEvent._id, id)
+                          }
+                          shape="circle"
+                        >
+                          <CheckOutlined style={{ fontSize: '15px' }} />{' '}
+                        </Button>
                       </div>
-                      <div className='col'>
-                        <Button style={{ background: this.state.backReject }} onClick={() => this.onRejectEventMember(joinEvent._id, id)}
-                          shape="circle"><CloseOutlined style={{ fontSize: '15px' }} /></Button>
+                      <div className="col">
+                        <Button
+                          style={{ background: this.state.backReject }}
+                          onClick={() =>
+                            this.onRejectEventMember(joinEvent._id, id)
+                          }
+                          shape="circle"
+                        >
+                          <CloseOutlined style={{ fontSize: '15px' }} />
+                        </Button>
                       </div>
-
-
-
                     </div>
                   )}
                 />
               </Table>
             </div>
-
           </Modal>
         </div>
-      </div >
+      </div>
     );
   }
 }

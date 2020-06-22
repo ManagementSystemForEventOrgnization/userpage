@@ -111,7 +111,6 @@ class ApplyEventModal extends Component {
   render() {
     const { session, openDrawer, currSsId } = this.state;
     const { ticket, id } = this.props;
-    console.log(session);
     return (
       <div>
         {session.map((ss) => (
@@ -137,7 +136,20 @@ class ApplyEventModal extends Component {
           visible={openDrawer}
         >
           <h6>Let's complete some last steps.</h6>
-          <p>You have to pay {ticket.price} VND</p>
+          <p>
+            You have to pay{' '}
+            <b
+              style={{
+                fontSize: '17px',
+                color: 'blue',
+                fontWeight: 'bolder',
+                textShadow: '0 0 3px #fb2020',
+              }}
+            >
+              {ticket.price - ticket.price * ticket.discount}
+            </b>{' '}
+            VND
+          </p>
           <hr />
           <CreditCard
             currSsId={currSsId}

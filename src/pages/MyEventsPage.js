@@ -16,12 +16,10 @@ class ProfilePage extends Component {
     };
   }
   componentDidMount = () => {
-
     if (this.state.tab === 1) {
       const { getCurrentUser } = this.props;
       getCurrentUser();
     }
-
   };
 
   render() {
@@ -55,17 +53,16 @@ class ProfilePage extends Component {
                 {' '}
               </Spin>
             )}
-            {tab == 1 && <UpdateProfileInfor />}
-            {tab == 2 && <BankAccount />}
-            {tab == 3 && <TransactionHistory />}
-            {tab == 4 && <QRCode />}
+            {tab === 1 && <UpdateProfileInfor />}
+            {tab === 2 && <BankAccount />}
+            {tab === 3 && <TransactionHistory />}
+            {tab === 4 && <QRCode />}
           </div>
         </div>
       </div>
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {

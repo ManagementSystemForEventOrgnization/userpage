@@ -293,7 +293,7 @@ class CreateEvent extends React.Component {
       marginTop: '5px',
     };
     const src =
-      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592392417/LoadingGif/Animation_that_matters_adding_value_to_your_interface_aektko.gif';
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592767111/LoadingGif/butlerm_darri3.gif';
 
     return (
       <div className=" create-event">
@@ -302,7 +302,7 @@ class CreateEvent extends React.Component {
         </div>
         {loading ? (
           <div className="loading-gif d-flex justify-content-center">
-            <img src={src} alt="loading" />
+            <img src={src} alt="loading" style={{ width: '60%' }} />
           </div>
         ) : (
           <div>

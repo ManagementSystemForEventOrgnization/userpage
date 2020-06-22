@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Modal, Button } from 'antd';
+import { Modal, Button, message, Drawer } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
@@ -14,6 +14,7 @@ import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
+import CreditCard from 'containers/user/BankAccount/CreditCard';
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -22,9 +23,10 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-        ...ScheduleState(this.props, 1),
-        apply: false,
-      };
+          ...ScheduleState(this.props, 1),
+          apply: false,
+          openDrawer: false,
+        };
   }
 
   openModal = () => {
@@ -125,6 +127,14 @@ class Schedule1 extends Component {
     return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
   };
 
+  warning = (msg) => {
+    message.warning(msg || 'OPPs! Something is wrong');
+  };
+
+  success = (isApplied) => {
+    message.success(`${isApplied ? 'Apply' : 'Cancel'} session successfully`);
+  };
+
   changeLoadingSS = (idSession) => {
     let { content } = this.state;
     let index = content.findIndex((ss) => ss.id === idSession);
@@ -146,6 +156,19 @@ class Schedule1 extends Component {
     }
   };
 
+  handleSuccess = (type, ssId) => {
+    this.success(type);
+    this.changeStatusSS(ssId, type);
+  };
+
+  handleFailure = (ssId, err) => {
+    if (err.response) {
+      const { data } = err.response;
+      this.warning(data.error.message);
+    } else this.warning();
+    this.changeLoadingSS(ssId);
+  };
+
   handleClickButton = (ssId) => {
     const { handleApply, handleCancel, eventId } = this.props;
     const temp = [];
@@ -153,19 +176,39 @@ class Schedule1 extends Component {
 
     if (this.isApplied(ssId)) {
       this.changeLoadingSS(ssId);
+
       handleCancel(eventId, temp)
         .then((res) => {
-          this.changeStatusSS(ssId, 0);
+          this.handleSuccess(0, ssId);
         })
         .catch((err) => {
-          this.changeLoadingSS(ssId);
+          this.handleFailure(ssId, err);
         });
     } else {
-      this.changeLoadingSS(ssId);
-      handleApply(eventId, temp)
-        .then((res) => this.changeStatusSS(ssId, 1))
-        .catch((err) => this.changeLoadingSS(ssId));
+      const { ticket } = this.props;
+      if (ticket.price !== 0) {
+        this.setState({
+          openDrawer: true,
+          currSsId: ssId,
+        });
+      } else {
+        this.changeLoadingSS(ssId);
+
+        handleApply(eventId, temp)
+          .then((res) => {
+            this.handleSuccess(1, ssId);
+          })
+          .catch((err) => {
+            this.handleFailure(ssId, err);
+          });
+      }
     }
+  };
+
+  handleCloseDrawer = () => {
+    this.setState({
+      openDrawer: false,
+    });
   };
 
   render() {
@@ -183,8 +226,12 @@ class Schedule1 extends Component {
       fontWeight,
       content,
       visible,
+      openDrawer,
+      currSsId,
     } = this.state;
-    const { key, editable, leftModal, isSellTicket } = this.props;
+
+    const { key, editable, leftModal, ticket, eventId } = this.props;
+
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -233,7 +280,7 @@ class Schedule1 extends Component {
       <div className="p-5 child-block" key={key}>
         <h2 style={titleBlockStyle}>Sessions</h2>
         <div className="d-flex">
-          <div style={divStyle}>
+          <div style={divStyle} className="flex-fill">
             {content.map((ss) => (
               <div
                 className="row child-block p-3 shadow-sm mt-2 mb-3"
@@ -272,10 +319,10 @@ class Schedule1 extends Component {
                     onClick={() => this.handleClickButton(ss.id)}
                   >
                     {this.isApplied(ss.id)
-                      ? 'Cancel'
-                      : isSellTicket
-                        ? 'Buy Ticket'
-                        : 'Register free'}
+                      ? 'Cancel this session'
+                      : ticket.price !== 0
+                      ? 'Buy Ticket'
+                      : 'Register free'}
                   </Button>
                 </div>
               </div>
@@ -289,6 +336,37 @@ class Schedule1 extends Component {
             />
           )}
         </div>
+
+        <Drawer
+          title="Payment transaction"
+          width={780}
+          closable={false}
+          onClose={this.handleCloseDrawer}
+          visible={openDrawer}
+        >
+          <h6>Let's complete some last steps.</h6>
+          <p>
+            You have to pay{' '}
+            <b
+              style={{
+                fontSize: '17px',
+                color: 'blue',
+                fontWeight: 'bolder',
+                textShadow: '0 0 3px #fb2020',
+              }}
+            >
+              {ticket.price - ticket.price * ticket.discount}
+            </b>{' '}
+            VND
+          </p>
+          <hr />
+          <CreditCard
+            currSsId={currSsId}
+            eventId={eventId}
+            handleFinishPayment={this.handleCloseDrawer}
+            changeStatus={() => this.changeStatusSS(currSsId, 1)}
+          />
+        </Drawer>
 
         <Modal
           title="Edit Schedule"
@@ -358,6 +436,7 @@ const mapStateToProps = (state) => ({
   isSellTicket: state.event.isSellTicket,
   session: state.event.session,
   eventId: state.event.id,
+  ticket: state.event.ticket,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -66,9 +66,203 @@ class HomePage extends Component {
     });
   };
 
-  render() {
-    const { events, hlEvent } = this.props;
+  renderHighLightEvent = () => {
+    const { hlEvent } = this.props;
+    return hlEvent.length > 0 ? (
+      <div className="slide-container p-4 ml-5 mt-5 ">
+        <Carousel
+          responsive={responsive}
+          swipeable={false}
+          draggable={false}
+          // showDots={true}
 
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={this.props.deviceType !== 'mobile' ? true : false}
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          transitionDuration={2000}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+          deviceType={this.props.deviceType}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          {hlEvent.map((item, index) => (
+            <Link to={'/event/' + item.urlWeb} target="_blank">
+              <div className="  shadow ml-2 highlight-item" key={index}>
+                <div className=" event-list">
+                  {item.bannerUrl && (
+                    <img className="img " alt="example" src={item.bannerUrl} />
+                  )}
+                  <div className="title">
+                    <h5 className="title-name"> {item.name}</h5>
+                    <div className="title-time ">
+                      <p>{moment(item.session[0].day).format('DD/MM/YYYY ')}</p>
+                      {item.session.length === 1 ? (
+                        ''
+                      ) : (
+                        <p>+ {item.session.length - 1}more events</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </Carousel>
+      </div>
+    ) : (
+      <div style={{ textAlign: 'center' }}>
+        <p>No highlight event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
+  };
+
+  renderUpcomingEvent = () => {
+    const { events } = this.props;
+    return events.length > 0 ? (
+      <div className="row p-5 ">
+        {events.map((item, index) => (
+          <div className="col-xl-4 col-lg-4 col-md-6 mt-4 " key={item._id}>
+            <Link to={'/event/' + item.urlWeb} target="_blank">
+              <Card
+                className="event-cart "
+                cover={
+                  <div>
+                    {item.session
+                      ? item.session.map((e, i) =>
+                          item.ticket ? (
+                            <div className="d-flex ">
+                              {item.ticket.discount ? (
+                                <Button className="ml-1 mt-1 ticket">
+                                  {this.percentDiscount(item.ticket.discount)}
+                                </Button>
+                              ) : (
+                                ''
+                              )}
+                            </div>
+                          ) : (
+                            <Button className="ml-1 mt-1 ticket" key={e.id}>
+                              Free
+                            </Button>
+                          )
+                        )
+                      : ' '}
+                    {item.bannerUrl && (
+                      <img
+                        className="img "
+                        alt="example"
+                        src={item.bannerUrl}
+                      />
+                    )}
+                  </div>
+                }
+              >
+                <div className="row">
+                  <div className="col">
+                    <p
+                      style={{
+                        textAlign: 'center',
+                        background: '#ff4d4f',
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        padding: '3px 10px 2px 10px',
+                        marginRight: '13px',
+                      }}
+                    >
+                      {item.eventCategories.name}
+                    </p>
+                  </div>
+                  <div className="d-flex col ">
+                    <p
+                      className="ml-2"
+                      style={{
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {moment(item.session[0].day).format('DD/MM/YYYY ')}
+                    </p>
+                  </div>
+                </div>
+                <div className="d-flex ">
+                  <h5 className="ml-2 line-clamp "> {item.name}</h5>
+                  <div>
+                    {' '}
+                    {item.session.length === 1 ? (
+                      ''
+                    ) : (
+                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                        + {item.session.length - 1}more events
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {item.ticket ? (
+                    <div className="d-flex ">
+                      {item.ticket.discount ? (
+                        <div className="d-flex ">
+                          <p
+                            style={{
+                              textDecoration: 'line-through',
+                              fontWeight: 'bold',
+                            }}
+                            className="ml-1 "
+                          >
+                            {item.ticket.price}
+                          </p>
+                          <p className="ml-3" style={{ fontWeight: 'bold' }}>
+                            {' '}
+                            {this.sumDiscount(
+                              item.ticket.price,
+                              item.ticket.discount
+                            )}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                          {item.ticket.price} VNĐ
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                      0 VNĐ
+                    </p>
+                  )}
+                </div>
+
+                <div className="d-flex ">
+                  <EnvironmentOutlined className="mt-1" />
+                  <div className="d-flex ">
+                    <p className="ml-2 address ">
+                      {item.session[0].address.location}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div style={{ textAlign: 'center' }}>
+        <p>No upcoming event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+          alt="no-upcoming"
+        />
+      </div>
+    );
+  };
+
+  render() {
     const HIGHT = {
       textAlign: 'center',
       color: '333333',
@@ -90,6 +284,7 @@ class HomePage extends Component {
 
     const temp = [1, 2, 3, 4, 5];
 
+    const { hightLightFinishLoading, upcomingFinishLoading } = this.props;
     return (
       <div className="homepage">
         <div className="fixed-top">
@@ -100,55 +295,17 @@ class HomePage extends Component {
 
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
-          <div className="slide-container p-4 ml-5 mt-5 ">
-            <Carousel
-              responsive={responsive}
-              swipeable={false}
-              draggable={false}
-              // showDots={true}
 
-              ssr={true} // means to render carousel on server-side.
-              infinite={true}
-              autoPlay={this.props.deviceType !== 'mobile' ? true : false}
-              autoPlaySpeed={1000}
-              keyBoardControl={true}
-              transitionDuration={2000}
-              containerClass="carousel-container"
-              removeArrowOnDeviceType={['tablet', 'mobile']}
-              deviceType={this.props.deviceType}
-              dotListClass="custom-dot-list-style"
-              itemClass="carousel-item-padding-40-px"
-            >
-              {hlEvent.map((item, index) => (
-                <Link to={"/event/" + item.urlWeb} target="_blank">
-                  <div className="  shadow ml-2 highlight-item" key={index}>
-                    <div className=" event-list">
-                      {item.bannerUrl && (
-                        <img
-                          className="img "
-                          alt="example"
-                          src={item.bannerUrl}
-                        />
-                      )}
-                      <div className="title">
-                        <h5 className="title-name"> {item.name}</h5>
-                        <div className="title-time ">
-                          <p>
-                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                          </p>
-                          {item.session.length === 1 ? (
-                            ''
-                          ) : (
-                              <p>+ {item.session.length - 1}more events</p>
-                            )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </Carousel>
-          </div>
+          {!hightLightFinishLoading ? (
+            <div style={{ textAlign: 'center' }}>
+              <img
+                src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+                alt="no-high-light"
+              />
+            </div>
+          ) : (
+            this.renderHighLightEvent()
+          )}
         </div>
 
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
@@ -156,146 +313,18 @@ class HomePage extends Component {
             <h1 style={HIGHT} className="mt-5 mb-5">
               Upcomming Events
             </h1>
-            <div className="row p-5 ">
-              {events.map((item, index) => (
-                <div
-                  className="col-xl-4 col-lg-4 col-md-6 mt-4 "
-                  key={item._id}
-                >
-                  <Link to={"/event/" + item.urlWeb} target="_blank">
-                    <Card
-                      className="event-cart "
-                      cover={
-                        <div>
-                          {item.session
-                            ? item.session.map((e, i) =>
-                              item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <Button className="ml-1 mt-1 ticket">
-                                      {this.percentDiscount(
-                                        item.ticket.discount
-                                      )}
-                                    </Button>
-                                  ) : (
-                                      ''
-                                    )}
-                                </div>
-                              ) : (
-                                  <Button
-                                    className="ml-1 mt-1 ticket"
-                                    key={e.id}
-                                  >
-                                    Free
-                                  </Button>
-                                )
-                            )
-                            : ' '}
-                          {item.bannerUrl && (
-                            <img
-                              className="img "
-                              alt="example"
-                              src={item.bannerUrl}
-                            />
-                          )}
-                        </div>
-                      }
-                    >
-                      <div className="row">
-                        <div className="col">
-                          <p
-                            style={{
-                              textAlign: 'center',
-                              background: '#ff4d4f',
-                              color: '#fff',
-                              fontWeight: 'bold',
-                              padding: '3px 10px 2px 10px',
-                              marginRight: '13px',
-                            }}
-                          >
-                            {item.eventCategories.name}
-                          </p>
-                        </div>
-                        <div className="d-flex col ">
-                          <p
-                            className="ml-2"
-                            style={{
-                              fontWeight: 'bold',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {moment(item.session[0].day).format('DD/MM/YYYY ')}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="d-flex ">
-                        <h5 className="ml-2 line-clamp "> {item.name}</h5>
-                        <div>
-                          {' '}
-                          {item.session.length === 1 ? (
-                            ''
-                          ) : (
-                              <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                                + {item.session.length - 1}more events
-                            </p>
-                            )}
-                        </div>
-                      </div>
-                      <div>
-                        {item.ticket ? (
-                          <div className="d-flex ">
-                            {item.ticket.discount ? (
-                              <div className="d-flex ">
-                                <p
-                                  style={{
-                                    textDecoration: 'line-through',
-                                    fontWeight: 'bold',
-                                  }}
-                                  className="ml-1 "
-                                >
-                                  {item.ticket.price}
-                                </p>
-                                <p
-                                  className="ml-3"
-                                  style={{ fontWeight: 'bold' }}
-                                >
-                                  {' '}
-                                  {this.sumDiscount(
-                                    item.ticket.price,
-                                    item.ticket.discount
-                                  )}
-                                </p>
-                              </div>
-                            ) : (
-                                <p
-                                  className=" mt-1 "
-                                  style={{ fontWeight: 'bold' }}
-                                >
-                                  {item.ticket.price} VNĐ
-                              </p>
-                              )}
-                          </div>
-                        ) : (
-                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                              0 VNĐ
-                          </p>
-                          )}
-                      </div>
-
-                      <div className="d-flex ">
-                        <EnvironmentOutlined className="mt-1" />
-                        <div className="d-flex ">
-                          <p className="ml-2 address ">
-                            {item.session[0].address.location}
-                          </p>
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
-                </div>
-              ))}
-            </div>
           </div>
+
+          {!upcomingFinishLoading ? (
+            <div style={{ textAlign: 'center' }}>
+              <img
+                src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+                alt="no-upcoming"
+              />
+            </div>
+          ) : (
+            this.renderUpcomingEvent()
+          )}
         </div>
 
         <hr
@@ -333,6 +362,8 @@ const mapStateToProps = (state) => {
   return {
     events: state.event.events,
     hlEvent: state.event.hlEvent,
+    upcomingFinishLoading: state.event.upcomingFinishLoading,
+    hightLightFinishLoading: state.event.hightLightFinishLoading,
   };
 };
 
