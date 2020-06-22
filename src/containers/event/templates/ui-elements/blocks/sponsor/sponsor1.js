@@ -58,6 +58,7 @@ class Sponsor1Block extends Component {
                 'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/apcs_xvnpbo.jpg',
             },
           ],
+          nameBlock: 'Sponsor',
         };
   }
 
@@ -100,6 +101,24 @@ class Sponsor1Block extends Component {
     }
   };
 
+  handleChangeUrlUpload = (itemId, type, value) => {
+    let { sponsor } = this.state;
+    const index = sponsor.findIndex((item) => item.id === itemId);
+    if (index !== -1) {
+      sponsor[index][type] = value;
+    }
+    this.setState({ sponsor });
+    this.handleStoreBlock();
+  };
+
+  handleChangeSponsor = (value) => {
+    this.setState({
+      nameBlock: value,
+    });
+
+    setTimeout(this.handleStoreBlock(), 2000);
+  };
+
   render() {
     const style = {
       margin: '10px',
@@ -124,6 +143,7 @@ class Sponsor1Block extends Component {
               fontWeight: 'normal',
               fontSize: 50,
             }}
+            handleChangeSponsor={this.handleChangeSponsor}
           />
 
           <hr></hr>
@@ -141,6 +161,9 @@ class Sponsor1Block extends Component {
                     height={high}
                     // borderRadius={true}
                     child={true}
+                    handleChangeItemSponsor={(value) => {
+                      this.handleChangeUrlUpload(item.id, 'url', value);
+                    }}
                   />
                 </div>
               ))}

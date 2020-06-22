@@ -81,7 +81,9 @@ class GeneralBanner extends Component {
   handleChangeContent = (type, value) => {
     let { content } = this.state;
     content[type] = value;
+
     this.setState(content);
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   render() {

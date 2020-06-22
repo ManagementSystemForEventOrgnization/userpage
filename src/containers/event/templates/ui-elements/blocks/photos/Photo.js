@@ -92,6 +92,16 @@ class Photo extends Component {
     }
   };
 
+  handleChangeUrlUpload = (itemId, type, value) => {
+    let { list } = this.state;
+    const index = list.findIndex((item) => item.id === itemId);
+    if (index !== -1) {
+      list[index][type] = value;
+    }
+    this.setState({ list });
+    this.handleStoreBlock();
+  };
+
   renderList = (item) => {
     const { editable } = this.props;
 
@@ -102,8 +112,8 @@ class Photo extends Component {
           editable={editable}
           child={true}
           height={height}
-          handleChangeItem={(value) => {
-            this.handleChangeItem(item.id, 'url', value);
+          handleChangeItemGallery={(value) => {
+            this.handleChangeUrlUpload(item.id, 'url', value);
           }}
         />
       </div>

@@ -19,9 +19,9 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...TextState(this.props),
-        focus: false,
-      };
+          ...TextState(this.props),
+          focus: false,
+        };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -50,6 +50,7 @@ class TextsBlock extends React.Component {
       changeContent,
       handleChangeContent,
       handleChangeItem,
+      handleChangeSponsor,
     } = this.props;
 
     this.setState({
@@ -62,6 +63,10 @@ class TextsBlock extends React.Component {
         style: this.state,
       };
 
+      if (handleChangeSponsor) {
+        handleChangeSponsor(content);
+      }
+
       if (handleOnChangeTextBlock) {
         handleOnChangeTextBlock(content);
       } else if (changeContent) {
@@ -70,7 +75,7 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
-      }
+      } else this.handleStoreBlock();
     }, 3000);
   };
 
@@ -182,10 +187,10 @@ class TextsBlock extends React.Component {
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-              {content}
-            </div>
-          )}
+          <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
+            {content}
+          </div>
+        )}
         {child && editable && (
           <EditFilled
             className="edit-text"
