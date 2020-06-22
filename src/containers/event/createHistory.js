@@ -5,7 +5,7 @@ import moment from 'moment'
 import {
     Input,
 
-
+    Tabs,
     Card,
     Skeleton,
     message,
@@ -29,7 +29,7 @@ import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
 
 const { Search } = Input;
-
+const { TabPane } = Tabs;
 
 
 
@@ -350,9 +350,6 @@ class CreateHistory extends React.Component {
 
                 <Menu.Item onClick={() => this.handleURL(item.urlWeb)} >
                     <Link to={`/manage/${item._id}`} className='d-flex'>
-
-
-
                         <SettingOutlined />
                         <p style={{ fontWeight: 'bolder' }} className='ml-3'>Manage event</p>
 
@@ -436,7 +433,7 @@ class CreateHistory extends React.Component {
                                     <div className="row p-5 ">
                                         {listEvent.map((item) => (
                                             <div className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5" key={item._id}>
-                                                <Link to={`/event/${item.urlWeb}`}>
+                                                <Link >
                                                     <Card
                                                         className="event-cart "
                                                         cover={
@@ -609,42 +606,56 @@ class CreateHistory extends React.Component {
 
                 </Modal>
                 <Modal
-                    title='Are you sure cancel all session  this event?'
+                    title='Cancel Event'
                     visible={this.state.isShowCancel}
-                    okText="yes"
-                    okType='danger'
-                    cancelText='No'
-                    onOk={this.showCancelConfirm}
+
+
+
+                    onOk={this.isCancelEvent}
                     onCancel={this.isCancelEvent}
-                    confirmLoading={pendCancel}
+
+
 
                 >
+                    <Tabs>
+                        <TabPane tab="Cancel all event" key="1">
+                            <div className='d-flex'>
+                                <p style={{ fontWeight: 600, fontSize: '18px' }}>Are you sure cancel all session  this event?</p>
+
+                                <Button loading={pendCancel} shape='circle' className='ml-2' type='dashed'
+
+                                    onClick={this.showCancelConfirm}><DeleteOutlined /></Button>
+                            </div>
+                        </TabPane>
+                        <TabPane tab="Cancel  Session" key="2">
+                            <p style={{ fontWeight: 600, fontSize: '18px' }}>Are you sure cancel a session  this event?</p>
+                            {
+                                sessionEvent.map((item) =>
+                                    <div key={item._id} className="row">
+
+                                        <div className="col">  <p>{item.name}</p></div>
+                                        <div className="col"> <p>{moment(item.day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
+                                        <div className="col"><Button shape='circle'
+                                            disabled={item.isCancel}
+                                            onClick={() => this.cancelSessionEvent(item.id)} ><DeleteOutlined /></Button></div>
+
+
+                                    </div>
+                                )
+                            }
+
+
+
+                        </TabPane>
+                    </Tabs>
                     {
                         !this.state.isSecondLoad && err &&
-                        <h6 style={{ color: 'red' }}>{err}</h6>
-
-                    }
-                    <p style={{ fontWeight: 600, fontSize: '18px' }}>Are you sure cancel a session  this event?</p>
-                    {
-                        sessionEvent.map((item) =>
-                            <div key={item._id} className="row">
-
-                                <div className="col">  <p>{item.name}</p></div>
-                                <div className="col"> <p>{moment(item.day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
-                                <div className="col"><Button type="danger" shape='circle'
-                                    disabled={item.isCancel}
-                                    onClick={() => this.cancelSessionEvent(item.id)} ><DeleteOutlined /></Button></div>
-
-
-                            </div>
-                        )
+                        message.error(err)
                     }
 
 
 
-
-
-                </Modal>
+                </Modal >
             </div >
         );
     }
