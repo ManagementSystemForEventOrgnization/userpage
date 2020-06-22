@@ -58,7 +58,6 @@ class CheckoutForm extends React.Component {
 
   render() {
     const { stripe, elements } = this.props;
-
     const { error, cardComplete, processing, token } = { ...this.state };
 
     const handleSubmit = async (event) => {

@@ -436,7 +436,6 @@ const getEventInfo = (urlWeb) => {
         },
       })
         .then((res) => {
-
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
@@ -523,15 +522,12 @@ const getUserJoinEvent = (dataSent, callback) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        callback(res.data.result)
+        callback(res.data.result);
       })
       .catch((error) => {
-
-        handleCatch(dispatch, failure, error)
-
+        handleCatch(dispatch, failure, error);
       });
   };
-
 
   function success(userJoinEvent) {
     return {
@@ -545,27 +541,26 @@ const getUserJoinEvent = (dataSent, callback) => {
     };
   }
 };
-const deleteEvent = (eventId) => {
+const deleteEvent = (eventId, cb) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/delete/event`, {
-      eventId
+      eventId,
     })
       .then((res) => {
         dispatch(success(res.data.result));
-
+        cb()
       })
       .catch((error) => {
-
         const { data } = error.response;
+
+        cb(data);
         if (data.error) {
           return dispatch(
-            failure(data.error.message) || "OOPs! something wrong"
+            failure(data.error.message) || 'OOPs! something wrong'
           );
         }
-        return dispatch(failure(error) || "OOPs! something wrong");
-
-
+        return dispatch(failure(error) || 'OOPs! something wrong');
       });
   };
   function request() {
@@ -582,33 +577,29 @@ const deleteEvent = (eventId) => {
   function failure(error) {
     return {
       type: eventConstants.DELETE_EVENT_FAILURE,
-      error
+      error,
     };
   }
-
 };
 
 const cancelEvent = (eventId, sessionIds) => {
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/cancelEvent`, {
-      eventId, sessionIds
+      eventId,
+      sessionIds,
     })
       .then((res) => {
         dispatch(success(res.data.result));
-
       })
       .catch((error) => {
-
         const { data } = error.response;
         if (data.error) {
           return dispatch(
-            failure(data.error.message) || "OOPs! something wrong"
+            failure(data.error.message) || 'OOPs! something wrong'
           );
         }
-        return dispatch(failure(error) || "OOPs! something wrong");
-
-
+        return dispatch(failure(error) || 'OOPs! something wrong');
       });
   };
   function request() {
@@ -625,10 +616,9 @@ const cancelEvent = (eventId, sessionIds) => {
   function failure(error) {
     return {
       type: eventConstants.CANCEL_EVENT_FAILURE,
-      error
+      error,
     };
   }
-
 };
 export const eventActions = {
   storeBlocksWhenCreateEvent,

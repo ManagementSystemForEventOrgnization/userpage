@@ -5,7 +5,7 @@ import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
 const initialBlocks = [
-  dataTest[1].value[2], //banner
+  dataTest[1].value[0], //banner
   // ...dataTest[0].value,
   ...dataTest[2].value, // event description
   ...dataTest[13].value, //list of link documents
@@ -42,12 +42,12 @@ const initialState = {
   },
   events: [],
   hlEvent: [],
-  errCancel: "",
+  errCancel: '',
   deleteEvent: [],
   cancelEvent: [],
   pendCancel: false,
   cancelSession: false,
-
+  successDe: false,
 
   pages: [
     {
@@ -62,6 +62,8 @@ const initialState = {
   comments: [],
   userJoinEvent: [],
 
+  hightLightFinishLoading: false,
+  upcomingFinishLoading: false,
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -206,7 +208,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_INFO:
-      console.log(action.eventInfo)
       return {
         ...state,
 
@@ -241,11 +242,13 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         hlEvent: action.hlEvent || [],
+        hightLightFinishLoading: true,
       };
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {
         ...state,
         hlEvent: [],
+        hightLightFinishLoading: true,
       };
     case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
       return {
@@ -261,11 +264,13 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         events: action.events,
+        upcomingFinishLoading: true,
       };
     case eventConstants.GET_LIST_EVENT_COMING_UP_FAILURE:
       return {
         ...state,
         events: [],
+        upcomingFinishLoading: true,
       };
 
     case eventConstants.GET_HOME_DATA_SUSSESS:
@@ -362,24 +367,27 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: true,
+
       };
     case eventConstants.DELETE_EVENT_FAILURE:
       return {
         ...state,
         pending: false,
         errMessage: action.error,
+
       };
     case eventConstants.DELETE_EVENT_SUCCESS:
       return {
         ...state,
         pending: false,
-        deleteEvent: action.deleteEvent
-
+        deleteEvent: action.deleteEvent,
+        successDe: true,
       };
     case eventConstants.CANCEL_EVENT_REQUEST:
       return {
         ...state,
         pendCancel: true,
+
       };
     case eventConstants.CANCEL_EVENT_FAILURE:
       return {
@@ -392,8 +400,7 @@ const event = (state = initialState, action) => {
         ...state,
         pendCancel: false,
         cancelEvent: action.cancelEvent,
-        cancelSession: true
-
+        cancelSession: true,
       };
     default:
       return state;

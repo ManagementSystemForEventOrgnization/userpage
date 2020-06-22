@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import moment from 'moment'
+import moment from 'moment';
 import {
     Input,
 
@@ -14,7 +14,8 @@ import {
     Row, Col,
     Dropdown,
     Modal,
-    Radio
+    Radio,
+    notification
 } from 'antd';
 import { Link } from 'react-router-dom';
 import {
@@ -23,7 +24,8 @@ import {
     DeleteOutlined,
     EditOutlined,
     SettingOutlined,
-    CloseOutlined
+    CloseOutlined,
+    CheckCircleFilled
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
@@ -37,7 +39,6 @@ const { TabPane } = Tabs;
 //    "password":"123456"
 
 //  }
-
 
 class CreateHistory extends React.Component {
     constructor(props) {
@@ -62,6 +63,7 @@ class CreateHistory extends React.Component {
             idEventCancel: '',
             isShowCancel: false,
             isRadio: true,
+            isSuccess: true,
 
 
 
@@ -246,14 +248,50 @@ class CreateHistory extends React.Component {
     showDeleteConfirm = () => {
         const { deleteEvent, arrEvent } = this.props;
         const { eventId } = this.state;
-        this.setState({
 
-            confirmLoading: true,
+        deleteEvent(eventId, (res) => {
+            console.log('1', res);
+            if (!res) {
+                message.success({
+                    content: (
+                        <p
+                            style={{
+                                marginTop: '25%',
+                                zIndex: 100000
+                            }}
+                        >
+                            <CheckCircleFilled
+                                className="mr-3"
+                                style={{
+                                    color: 'green',
+                                }}
+                            />
+                            Delete Success
+                        </p>
+                    )
+
+                })
+            } else {
+                message.error({
+                    content: (
+                        <p
+                            style={{
+                                marginTop: '25%',
+                                zIndex: 100000
+                            }}
+                        >
+
+
+                            {res.error.message}
+                        </p>
+                    )
+                })
+            }
+
+
         });
-        deleteEvent(eventId);
 
         let receiver = arrEvent.filter((e) => e._id !== eventId && (s => s.status === 'DELETE'));
-
 
         setTimeout(
 
@@ -261,9 +299,9 @@ class CreateHistory extends React.Component {
                 isfirstLoad: false,
                 listEvent: receiver,
                 visible: false,
-                confirmLoading: false
 
-            }), 3000)
+
+            }), 3000);
 
 
     }
@@ -275,9 +313,14 @@ class CreateHistory extends React.Component {
 
         })
     }
-    isCancel = () => {
-        this.setState({ visible: false })
+
+    showModal = () => {
+        this.setState({
+            visible: false
+        })
     }
+
+
     onChaneValue = (e) => {
         const { getCreateHistory } = this.props;
         const { statusEvent } = this.state;
@@ -374,18 +417,18 @@ class CreateHistory extends React.Component {
         cancelEvent(idEventCancel);
         let receiver = arrEvent.filter((e) => e._id !== idEventCancel && (s => s.status === 'CANCEL'));
 
-
-
         this.setState({
             isSecondLoad: false,
-            listEvent: receiver
+            listEvent: receiver,
+            isSuccess: false
         })
     }
 
     render() {
 
-        const { sessionEvent } = this.state;
-        const { pending, arrEvent, pend, errMessage, err, pendCancel } = this.props;
+        const { sessionEvent, isSuccess } = this.state;
+        const { pending, arrEvent, pend, errMessage,
+            err, pendCancel, cancelSession } = this.props;
         let { listEvent } = this.state;
         listEvent = listEvent.length > 0 ? listEvent : [...arrEvent];
 
@@ -415,6 +458,7 @@ class CreateHistory extends React.Component {
 
                                     />
                                 </div>
+
                             </div>
                             {this.state.isRadio ? ' ' :
                                 <div className="mt-3 ml-5" style={{ color: 'white' }}>
@@ -555,7 +599,7 @@ class CreateHistory extends React.Component {
                     </Col>
 
 
-                    <Col span={4} pull={18}>
+                    <Col className="fixed-left" span={4} pull={18}>
                         <Menu
 
 
@@ -592,24 +636,15 @@ class CreateHistory extends React.Component {
                     okType='danger'
                     cancelText='No'
                     onOk={this.showDeleteConfirm}
-                    onCancel={this.isCancel}
+                    onCancel={this.showModal}
                     confirmLoading={this.state.confirmLoading}
                 >
-                    {
-                        !this.state.isfirstLoad && errMessage &&
-                        //    {errMessage}</h6>
-                        message.error(errMessage)
-                    }
-
-
-
 
                 </Modal>
+
                 <Modal
                     title='Cancel Event'
                     visible={this.state.isShowCancel}
-
-
 
                     onOk={this.isCancelEvent}
                     onCancel={this.isCancelEvent}
@@ -617,6 +652,15 @@ class CreateHistory extends React.Component {
 
 
                 >
+                    {
+                        !this.state.isSecondLoad && err &&
+                        <h6 style={{ color: 'red' }}>{err}</h6>
+                    }
+                    {
+                        cancelSession && !isSuccess &&
+                        <h6 style={{ color: 'green' }}>Cancel success !!</h6>
+                    }
+
                     <Tabs>
                         <TabPane tab="Cancel all event" key="1">
                             <div className='d-flex'>
@@ -648,10 +692,6 @@ class CreateHistory extends React.Component {
 
                         </TabPane>
                     </Tabs>
-                    {
-                        !this.state.isSecondLoad && err &&
-                        message.error(err)
-                    }
 
 
 
@@ -670,7 +710,8 @@ const mapStateToProps = (state) => ({
     errMessage: state.event.errMessage,
     err: state.event.errCancel,
     pendCancel: state.event.pendCancel,
-    cancelSession: state.event.cancelSession
+    cancelSession: state.event.cancelSession,
+    successDe: state.event.successDe,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -686,7 +727,7 @@ const mapDispatchToProps = (dispatch) => ({
             )
         ),
     getCategories: () => dispatch(eventActions.getCategories()),
-    deleteEvent: (eventId) => dispatch(eventActions.deleteEvent(eventId)),
+    deleteEvent: (eventId, cb) => dispatch(eventActions.deleteEvent(eventId, cb)),
     cancelEvent: (eventId, sessionIds) => dispatch(eventActions.cancelEvent(eventId, sessionIds))
 });
 
