@@ -250,7 +250,7 @@ class CreateHistory extends React.Component {
         const { eventId } = this.state;
 
         deleteEvent(eventId, (res) => {
-            console.log('1', res);
+
             if (!res) {
                 message.success({
                     content: (
@@ -477,88 +477,89 @@ class CreateHistory extends React.Component {
                                     <div className="row p-5 ">
                                         {listEvent.map((item) => (
                                             <div className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5" key={item._id}>
-                                                <Link >
-                                                    <Card
-                                                        className="event-cart "
-                                                        cover={
-                                                            <div>
-                                                                <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft"  >
-                                                                    <Button className="ml-1 mt-1 ticket">
-                                                                        Action
+
+                                                <Card
+                                                    className="event-cart "
+                                                    cover={
+                                                        <div>
+                                                            <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft"  >
+                                                                <Button className="ml-1 mt-1 ticket">
+                                                                    Action
                                                                 </Button>
-                                                                </Dropdown>
+                                                            </Dropdown>
 
 
-                                                                {item.bannerUrl && (
-                                                                    <img
-                                                                        className="img-baner"
-                                                                        alt="example"
-                                                                        src={item.bannerUrl}
-                                                                    />
-                                                                )}
-                                                            </div>
-                                                        }
-                                                    >
-                                                        <div className="row">
-                                                            <div className="d-flex col ">
-                                                                <p
-                                                                    className="ml-2"
-                                                                    style={{
-                                                                        fontWeight: 'bold',
-                                                                        textTransform: 'uppercase',
-                                                                    }}
-                                                                >
-                                                                    {moment(item.session && item.session[0] && item.session[0].day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}
-                                                                </p>
-                                                            </div>
-                                                            <div className="d-flex col ">
-                                                                <div>
-                                                                    {item.ticket ? (
-                                                                        <div className="d-flex ">
-                                                                            {item.ticket.discount ? (
-                                                                                <div className="d-flex ">
-                                                                                    <p
-                                                                                        style={{
-                                                                                            textDecoration: 'line-through',
-                                                                                            fontWeight: 'bold',
-                                                                                        }}
-                                                                                        className="ml-1 "
-                                                                                    >
-                                                                                        {item.ticket.price}
-                                                                                    </p>
-                                                                                    <p
-                                                                                        className="ml-3"
-                                                                                        style={{ fontWeight: 'bold' }}
-                                                                                    >
-                                                                                        {' '}
-                                                                                        {this.sumDiscount(
-                                                                                            item.ticket.price,
-                                                                                            item.ticket.discount
-                                                                                        )}
-                                                                                    </p>
-                                                                                    <div className="col">
-                                                                                        <h4>{item.status}</h4>
-                                                                                    </div>
+                                                            {item.bannerUrl && (
+                                                                <img
+                                                                    className="img-baner"
+                                                                    alt="example"
+                                                                    src={item.bannerUrl}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    }
+                                                >
+                                                    <div className="row">
+                                                        <div className="d-flex col ">
+                                                            <p
+                                                                className="ml-2"
+                                                                style={{
+                                                                    fontWeight: 'bold',
+                                                                    textTransform: 'uppercase',
+                                                                }}
+                                                            >
+                                                                {moment(item.session && item.session[0] && item.session[0].day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}
+                                                            </p>
+                                                        </div>
+                                                        <div className="d-flex col ">
+                                                            <div>
+                                                                {item.ticket ? (
+                                                                    <div className="d-flex ">
+                                                                        {item.ticket.discount ? (
+                                                                            <div className="d-flex ">
+                                                                                <p
+                                                                                    style={{
+                                                                                        textDecoration: 'line-through',
+                                                                                        fontWeight: 'bold',
+                                                                                    }}
+                                                                                    className="ml-1 "
+                                                                                >
+                                                                                    {item.ticket.price}
+                                                                                </p>
+                                                                                <p
+                                                                                    className="ml-3"
+                                                                                    style={{ fontWeight: 'bold' }}
+                                                                                >
+                                                                                    {' '}
+                                                                                    {this.sumDiscount(
+                                                                                        item.ticket.price,
+                                                                                        item.ticket.discount
+                                                                                    )}
+                                                                                </p>
+                                                                                <div className="col">
+                                                                                    <h4>{item.status}</h4>
                                                                                 </div>
-                                                                            ) : (
-                                                                                    <p
-                                                                                        className=" mt-1 "
-                                                                                        style={{ fontWeight: 'bold' }}
-                                                                                    >
-                                                                                        {item.ticket.price} VNĐ
-                                                                                    </p>
-                                                                                )}
-                                                                        </div>
-                                                                    ) : (
-                                                                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                                                                                0 VNĐ
-                                                                            </p>
-                                                                        )}
-                                                                </div>
-
+                                                                            </div>
+                                                                        ) : (
+                                                                                <p
+                                                                                    className=" mt-1 "
+                                                                                    style={{ fontWeight: 'bold' }}
+                                                                                >
+                                                                                    {item.ticket.price} VNĐ
+                                                                                </p>
+                                                                            )}
+                                                                    </div>
+                                                                ) : (
+                                                                        <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                                                                            0 VNĐ
+                                                                        </p>
+                                                                    )}
                                                             </div>
 
                                                         </div>
+
+                                                    </div>
+                                                    <Link to={`/event/${item.urlWeb}`}>
                                                         <div className="d-flex ">
                                                             <h5 className="ml-2 line-clamp " style={{
                                                                 fontWeight: 'bold',
@@ -575,17 +576,17 @@ class CreateHistory extends React.Component {
                                                                     )}
                                                             </div>
                                                         </div>
-
+                                                    </Link>
+                                                    <div className="d-flex ">
+                                                        <EnvironmentOutlined className="mt-1" />
                                                         <div className="d-flex ">
-                                                            <EnvironmentOutlined className="mt-1" />
-                                                            <div className="d-flex ">
-                                                                <p className="ml-2 address ">
-                                                                    {item.session && item.session[0] && item.session[0].address.location}
-                                                                </p>
-                                                            </div>
+                                                            <p className="ml-2 address ">
+                                                                {item.session && item.session[0] && item.session[0].address.location}
+                                                            </p>
                                                         </div>
-                                                    </Card>
-                                                </Link>
+                                                    </div>
+                                                </Card>
+
                                             </div>
                                         ))}
                                     </div>
