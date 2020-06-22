@@ -4,23 +4,26 @@ import { connect } from 'react-redux';
 import moment from 'moment'
 import {
     Input,
-   
+
 
     Card,
     Skeleton,
-
+    message,
     Button,
     Menu,
     Row, Col,
     Dropdown,
     Modal,
-    Radio 
+    Radio
 } from 'antd';
 import { Link } from 'react-router-dom';
 import {
 
     EnvironmentOutlined,
-    DeleteOutlined 
+    DeleteOutlined,
+    EditOutlined,
+    SettingOutlined,
+    CloseOutlined
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
@@ -44,23 +47,23 @@ class CreateHistory extends React.Component {
 
             numberRecord: 10,
             categories: this.props.categories,
-            listEvent:[...this.props.arrEvent],
+            listEvent: [...this.props.arrEvent],
 
             collapsed: false,
             confirmLoading: false,
-            eventId:'',
-            typeofEvent:"",
-            statusEvent:'All',
-            pageNumber:0,
+            eventId: '',
+            typeofEvent: "",
+            statusEvent: 'All',
+            pageNumber: 0,
             hasMore: true,
-            isfirstLoad:true,
-            isSecondLoad:true,
-            sessionEvent:[],    
-            idEventCancel:'',
+            isfirstLoad: true,
+            isSecondLoad: true,
+            sessionEvent: [],
+            idEventCancel: '',
             isShowCancel: false,
             isRadio: true,
 
-          
+
 
 
         };
@@ -68,10 +71,10 @@ class CreateHistory extends React.Component {
     componentDidMount = () => {
         const { getCreateHistory, getCategories } = this.props;
 
-        
+
         getCreateHistory();
         getCategories();
-         
+
 
     };
     handleChange = (categoryEventId) => {
@@ -85,7 +88,10 @@ class CreateHistory extends React.Component {
         );
 
     };
-
+    // error = () => {
+    //     const{errMessage}=this.props;
+    //     message.error(errMessage);
+    //   }
     toggleCollapsed = () => {
         this.setState({
             collapsed: !this.state.collapsed,
@@ -109,23 +115,23 @@ class CreateHistory extends React.Component {
     };
     ableToLoadMore = (count) => {
         if (count === 0) return false;
-    
+
         if (count === 10) return true;
         return count % 10 === 0;
-      };
-    onLoadMore=()=>{
-        const { getCreateHistory,arrEvent } = this.props;
-        const{listEvent}=this.state;
+    };
+    onLoadMore = () => {
+        const { getCreateHistory, arrEvent } = this.props;
+        const { listEvent } = this.state;
 
-          let index=Math.round(listEvent.length / 10) + 1
-      let dataSent={};
-      dataSent.pageNumber=index;
-       getCreateHistory(dataSent);
-   let  Event=[...listEvent, ...arrEvent]
-  
-   
-     this.setState({listEvent:Event});
-     
+        let index = Math.round(listEvent.length / 10) + 1
+        let dataSent = {};
+        dataSent.pageNumber = index;
+        getCreateHistory(dataSent);
+        let Event = [...listEvent, ...arrEvent]
+
+
+        this.setState({ listEvent: Event });
+
 
     }
 
@@ -155,32 +161,32 @@ class CreateHistory extends React.Component {
         this.setState({
             pageNumber: number,
         })
-    
-      
+
+
 
 
 
 
         setTimeout(this.handleFilter(), 3000);
     };
-    isCancelEvent=()=>{
+    isCancelEvent = () => {
         this.setState({
-            isShowCancel:false
+            isShowCancel: false
         })
     }
 
-    showCancelEvent=(idEvent, session)=>{
-    
-        
+    showCancelEvent = (idEvent, session) => {
+
+
 
         this.setState({
 
-            idEventCancel:idEvent,
-            sessionEvent:session.map(item => ({
+            idEventCancel: idEvent,
+            sessionEvent: session.map(item => ({
                 ...item,
-                isCancel: item.isCancel 
+                isCancel: item.isCancel
             })),
-            isShowCancel:true
+            isShowCancel: true
         })
 
     }
@@ -203,27 +209,27 @@ class CreateHistory extends React.Component {
     };
     onChangeStatus = (value) => {
         const { getCreateHistory } = this.props;
-       this.setState({
-        statusEvent:value
-       })
-     
+        this.setState({
+            statusEvent: value
+        })
+
         let dataSent = {};
-        if(value==='ALL' ){
+        if (value === 'ALL') {
             this.setState({
-                isRadio:true
+                isRadio: true
             })
             getCreateHistory();
         }
-        else{
+        else {
             this.setState({
-                isRadio:false
+                isRadio: false
             })
-                dataSent.status = value;
-                getCreateHistory(
-                    dataSent
-                );
-         
-      
+            dataSent.status = value;
+            getCreateHistory(
+                dataSent
+            );
+
+
         }
 
     }
@@ -238,27 +244,31 @@ class CreateHistory extends React.Component {
     }
 
     showDeleteConfirm = () => {
-        const { deleteEvent ,arrEvent } = this.props;
-        const { eventId} = this.state;
+        const { deleteEvent, arrEvent } = this.props;
+        const { eventId } = this.state;
         this.setState({
-           
+
             confirmLoading: true,
-          });
+        });
         deleteEvent(eventId);
 
         let receiver = arrEvent.filter((e) => e._id !== eventId && (s => s.status === 'DELETE'));
-     
-        
-       
+
+
+        setTimeout(
+
             this.setState({
-              isfirstLoad: false,
-              listEvent:receiver
-            })
-       
+                isfirstLoad: false,
+                listEvent: receiver,
+                visible: false,
+                confirmLoading: false
+
+            }), 3000)
+
 
     }
     isShowDelete = (eventId) => {
-    
+
         this.setState({
             visible: true,
             eventId: eventId
@@ -268,50 +278,50 @@ class CreateHistory extends React.Component {
     isCancel = () => {
         this.setState({ visible: false })
     }
-    onChaneValue=(e)=>{
-        const {getCreateHistory}=this.props;
-        const{statusEvent}=this.state;
+    onChaneValue = (e) => {
+        const { getCreateHistory } = this.props;
+        const { statusEvent } = this.state;
         this.setState({
-            typeofEvent:e.target.value
+            typeofEvent: e.target.value
         })
-      
-        
-       if(statusEvent==='All' ){
-           let data={};
-           data.typeOfEvent=e.target.value;
-              getCreateHistory(data);
-       }
-       else{
-         
-          
-           let dataSent={};
-           dataSent.status=statusEvent;
-           dataSent.typeOfEvent=e.target.value;
-           getCreateHistory(dataSent);
-          
-       }
-    }
-    cancelSessionEvent=(idSession)=>{
-        const {idEventCancel}=this.state;
-        let {sessionEvent} = this.state;
-        const{cancelEvent}=this.props;
 
 
-        cancelEvent(idEventCancel,idSession);
-        let currIndex = sessionEvent.findIndex(ss=> ss.id === idSession);
-   
-        
-        if(currIndex!== -1){
-            sessionEvent[currIndex].isCancel = true;
-            this.setState({sessionEvent})
-    
+        if (statusEvent === 'All') {
+            let data = {};
+            data.typeOfEvent = e.target.value;
+            getCreateHistory(data);
         }
-       
+        else {
 
-        
-      
-        
-    
+
+            let dataSent = {};
+            dataSent.status = statusEvent;
+            dataSent.typeOfEvent = e.target.value;
+            getCreateHistory(dataSent);
+
+        }
+    }
+    cancelSessionEvent = (idSession) => {
+        const { idEventCancel } = this.state;
+        let { sessionEvent } = this.state;
+        const { cancelEvent } = this.props;
+
+
+        cancelEvent(idEventCancel, idSession);
+        let currIndex = sessionEvent.findIndex(ss => ss.id === idSession);
+
+
+        if (currIndex !== -1) {
+            sessionEvent[currIndex].isCancel = true;
+            this.setState({ sessionEvent })
+
+        }
+
+
+
+
+
+
 
     }
 
@@ -319,70 +329,84 @@ class CreateHistory extends React.Component {
         const text = 'Are you sure to delete this task?';
         const menu = (
             <Menu key={`menu${item._id}`} >
-                
+
                 <Menu.Item onClick={() => this.handleEditSite(item.urlWeb, item._id)}>
-                    <Link to='/create'>Edit site</Link>
-                </Menu.Item>
 
-                <Menu.Item onClick={()=>this.isShowDelete(item._id)}>
-                
-                        Delete event
-                
-                     
-                </Menu.Item>
 
-            <Menu.Item onClick={() => this.handleURL(item.urlWeb)}>
-                <Link to={`/manage/${item._id}`}>
-                    Manage event
+                    <Link to='/create' className='d-flex'>
+                        <EditOutlined />
+                        <p style={{ fontWeight: 'bolder' }} className='ml-3'>Edit site</p>
                     </Link>
-            </Menu.Item>
-            <Menu.Item onClick={()=>this.showCancelEvent(item._id,item.session)}>
-                
-                Cancel event
-        
-             
-        </Menu.Item>
+
+
+                </Menu.Item>
+
+                <Menu.Item onClick={() => this.isShowDelete(item._id)} >
+                    <div className='d-flex'>
+                        <DeleteOutlined />
+                        <p style={{ fontWeight: 'bolder' }} className='ml-3'>Delete event</p>
+                    </div>
+                </Menu.Item>
+
+                <Menu.Item onClick={() => this.handleURL(item.urlWeb)} >
+                    <Link to={`/manage/${item._id}`} className='d-flex'>
+
+
+
+                        <SettingOutlined />
+                        <p style={{ fontWeight: 'bolder' }} className='ml-3'>Manage event</p>
+
+                    </Link>
+                </Menu.Item>
+                <Menu.Item onClick={() => this.showCancelEvent(item._id, item.session)} >
+                    <div className='d-flex'>
+                        <CloseOutlined />
+                        <p style={{ fontWeight: 'bolder' }} className='ml-3'> Cancel event</p>
+                    </div>
+                </Menu.Item>
             </Menu >
         );
 
         return menu;
     }
-    showCancelConfirm=()=>{
-        const {idEventCancel}=this.state;
-        const {cancelEvent,arrEvent,}=this.props;
-        let dataSent={}
+    showCancelConfirm = () => {
+        const { idEventCancel } = this.state;
+        const { cancelEvent, arrEvent, } = this.props;
+        let dataSent = {}
         //  dataSent.eventId=idEventCancel;
         cancelEvent(idEventCancel);
         let receiver = arrEvent.filter((e) => e._id !== idEventCancel && (s => s.status === 'CANCEL'));
-     
-        
-       
-            this.setState({
-                isSecondLoad: false,
-              listEvent:receiver
-            })
+
+
+
+        this.setState({
+            isSecondLoad: false,
+            listEvent: receiver
+        })
     }
 
     render() {
 
-        const {  sessionEvent} = this.state;
-        const { pending,arrEvent,pend,errMessage,err,pendCancel} = this.props;
+        const { sessionEvent } = this.state;
+        const { pending, arrEvent, pend, errMessage, err, pendCancel } = this.props;
         let { listEvent } = this.state;
         listEvent = listEvent.length > 0 ? listEvent : [...arrEvent];
-    
+
 
         return (
             <div className="history">
-                <div style={{height:'40px',
-                 width:'100%',opacity:'1',color:"white",
-                 textAlign:'center' , fontSize:'25px',background:'rgb(12, 105, 126)',
-                 fontWeight:'700'}}>Manage Created Event</div>
+                <div style={{
+                    height: '40px',
+                    width: '100%', opacity: '1', color: "white",
+                    textAlign: 'center', fontSize: '25px', background: 'rgb(12, 105, 126)',
+                    fontWeight: '700'
+                }}>Manage Created Event</div>
                 <Row className="mt-5">
                     <Col span={18} push={6} >
 
                         <div   >
                             <div className="row"   >
-                                
+
                                 <div className="col p-5">
                                     <Search
                                         enterButton
@@ -395,140 +419,140 @@ class CreateHistory extends React.Component {
                                     />
                                 </div>
                             </div>
-                            {this.state.isRadio ?' ':
-                            <div className="mt-3 ml-5" style={{color:'white'}}>
-                            <Radio.Group name="radiogroup"  style={{color:'white'}}
-                            defaultValue="Public" onChange={this.onChaneValue}>
-                            <Radio  style={{color:'black' , fontWeight:400, fontSize:'18px'}} value="Private">Private</Radio>
-                            <Radio  style={{color:'black' ,fontWeight:400, fontSize:'18px'}} value='Public'>Public</Radio>
-                        
-                          </Radio.Group>
-                          </div>
-    }
+                            {this.state.isRadio ? ' ' :
+                                <div className="mt-3 ml-5" style={{ color: 'white' }}>
+                                    <Radio.Group name="radiogroup" style={{ color: 'white' }}
+                                        defaultValue="Public" onChange={this.onChaneValue}>
+                                        <Radio style={{ color: 'black', fontWeight: 400, fontSize: '18px' }} value="Private">Private</Radio>
+                                        <Radio style={{ color: 'black', fontWeight: 400, fontSize: '18px' }} value='Public'>Public</Radio>
+
+                                    </Radio.Group>
+                                </div>
+                            }
                             {pending ? (
 
                                 <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
                             ) : (
                                     <div className="row p-5 ">
-                                    {listEvent.map((item) => (
-                                        <div className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5" key={item._id}>
-
-                                            <Card
-                                                className="event-cart "
-                                                cover={
-                                                    <div>
-                                                        <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft"  >
-                                                            <Button className="ml-1 mt-1 ticket">
-                                                                Action
+                                        {listEvent.map((item) => (
+                                            <div className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5" key={item._id}>
+                                                <Link to={`/event/${item.urlWeb}`}>
+                                                    <Card
+                                                        className="event-cart "
+                                                        cover={
+                                                            <div>
+                                                                <Dropdown overlay={this.renderMenu(item)} placement="bottomLeft"  >
+                                                                    <Button className="ml-1 mt-1 ticket">
+                                                                        Action
                                                                 </Button>
-                                                        </Dropdown>
+                                                                </Dropdown>
 
 
-                                                        {item.bannerUrl && (
-                                                            <img
-                                                                className="img-baner"
-                                                                alt="example"
-                                                                src={item.bannerUrl}
-                                                            />
-                                                        )}
-                                                    </div>
-                                                }
-                                            >
-                                                <div className="row">
-                                                    <div className="d-flex col ">
-                                                        <p
-                                                            className="ml-2"
-                                                            style={{
-                                                                fontWeight: 'bold',
-                                                                textTransform: 'uppercase',
-                                                            }}
-                                                        >
-                                                            {moment(item.session && item.session[0] && item.session[0].day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}
-                                                        </p>
-                                                    </div>
-                                                    <div className="d-flex col ">
-                                                        <div>
-                                                            {item.ticket ? (
-                                                                <div className="d-flex ">
-                                                                    {item.ticket.discount ? (
+                                                                {item.bannerUrl && (
+                                                                    <img
+                                                                        className="img-baner"
+                                                                        alt="example"
+                                                                        src={item.bannerUrl}
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        }
+                                                    >
+                                                        <div className="row">
+                                                            <div className="d-flex col ">
+                                                                <p
+                                                                    className="ml-2"
+                                                                    style={{
+                                                                        fontWeight: 'bold',
+                                                                        textTransform: 'uppercase',
+                                                                    }}
+                                                                >
+                                                                    {moment(item.session && item.session[0] && item.session[0].day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}
+                                                                </p>
+                                                            </div>
+                                                            <div className="d-flex col ">
+                                                                <div>
+                                                                    {item.ticket ? (
                                                                         <div className="d-flex ">
-                                                                            <p
-                                                                                style={{
-                                                                                    textDecoration: 'line-through',
-                                                                                    fontWeight: 'bold',
-                                                                                }}
-                                                                                className="ml-1 "
-                                                                            >
-                                                                                {item.ticket.price}
-                                                                            </p>
-                                                                            <p
-                                                                                className="ml-3"
-                                                                                style={{ fontWeight: 'bold' }}
-                                                                            >
-                                                                                {' '}
-                                                                                {this.sumDiscount(
-                                                                                    item.ticket.price,
-                                                                                    item.ticket.discount
+                                                                            {item.ticket.discount ? (
+                                                                                <div className="d-flex ">
+                                                                                    <p
+                                                                                        style={{
+                                                                                            textDecoration: 'line-through',
+                                                                                            fontWeight: 'bold',
+                                                                                        }}
+                                                                                        className="ml-1 "
+                                                                                    >
+                                                                                        {item.ticket.price}
+                                                                                    </p>
+                                                                                    <p
+                                                                                        className="ml-3"
+                                                                                        style={{ fontWeight: 'bold' }}
+                                                                                    >
+                                                                                        {' '}
+                                                                                        {this.sumDiscount(
+                                                                                            item.ticket.price,
+                                                                                            item.ticket.discount
+                                                                                        )}
+                                                                                    </p>
+                                                                                    <div className="col">
+                                                                                        <h4>{item.status}</h4>
+                                                                                    </div>
+                                                                                </div>
+                                                                            ) : (
+                                                                                    <p
+                                                                                        className=" mt-1 "
+                                                                                        style={{ fontWeight: 'bold' }}
+                                                                                    >
+                                                                                        {item.ticket.price} VNĐ
+                                                                                    </p>
                                                                                 )}
-                                                                            </p>
-                                                                            <div className="col">
-                                                                                <h4>{item.status}</h4>
-                                                                            </div>
                                                                         </div>
                                                                     ) : (
-                                                                            <p
-                                                                                className=" mt-1 "
-                                                                                style={{ fontWeight: 'bold' }}
-                                                                            >
-                                                                                {item.ticket.price} VNĐ
+                                                                            <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                                                                                0 VNĐ
                                                                             </p>
                                                                         )}
                                                                 </div>
-                                                            ) : (
-                                                                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                                                                        0 VNĐ
-                                                                    </p>
-                                                                )}
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="d-flex ">
+                                                            <h5 className="ml-2 line-clamp " style={{
+                                                                fontWeight: 'bold',
+                                                                textTransform: 'uppercase',
+                                                            }}> {item.name}</h5>
+                                                            <div>
+                                                                {' '}
+                                                                {(item.session && item.session.length || 1) === 1 ? (
+                                                                    ''
+                                                                ) : (
+                                                                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                                                                            + {item.session.length - 1}more events
+                                                                        </p>
+                                                                    )}
+                                                            </div>
                                                         </div>
 
-                                                    </div>
-
-                                                </div>
-                                                <div className="d-flex ">
-                                                    <h5 className="ml-2 line-clamp " style={{
-                                                        fontWeight: 'bold',
-                                                        textTransform: 'uppercase',
-                                                    }}> {item.name}</h5>
-                                                    <div>
-                                                        {' '}
-                                                        {(item.session && item.session.length || 1) === 1 ? (
-                                                            ''
-                                                        ) : (
-                                                                <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                                                                    + {item.session.length - 1}more events
+                                                        <div className="d-flex ">
+                                                            <EnvironmentOutlined className="mt-1" />
+                                                            <div className="d-flex ">
+                                                                <p className="ml-2 address ">
+                                                                    {item.session && item.session[0] && item.session[0].address.location}
                                                                 </p>
-                                                            )}
-                                                    </div>
-                                                </div>
-
-                                                <div className="d-flex ">
-                                                    <EnvironmentOutlined className="mt-1" />
-                                                    <div className="d-flex ">
-                                                        <p className="ml-2 address ">
-                                                            {item.session && item.session[0] && item.session[0].address.location}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </Card>
-
-                                        </div>
-                                    ))}
+                                                            </div>
+                                                        </div>
+                                                    </Card>
+                                                </Link>
+                                            </div>
+                                        ))}
                                     </div>
-                                  
-                             )}
-                             { this.ableToLoadMore(arrEvent.length)&&
-                          <Button style={{marginLeft:'45%', marginRight:'45%',marginBottom:'10%'}} loading={pending} type='danger' shape="round" onClick={this.onLoadMore}>Load More</Button>
-                             }
+
+                                )}
+                            {this.ableToLoadMore(arrEvent.length) &&
+                                <Button style={{ marginLeft: '45%', marginRight: '45%', marginBottom: '10%' }} loading={pending} type='danger' shape="round" onClick={this.onLoadMore}>Load More</Button>
+                            }
                         </div>
 
                     </Col>
@@ -536,14 +560,14 @@ class CreateHistory extends React.Component {
 
                     <Col span={4} pull={18}>
                         <Menu
-                           
-                           
+
+
                             mode="inline"
-                            style={{ borderRadius:'8px', color:'white', fontWeight: 'bolder', fontSize:'30px',background:'rgb(12, 105, 126)' }}
-                            ><Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
-                               ALL
+                            style={{ borderRadius: '8px', color: 'white', fontWeight: 'bolder', fontSize: '30px', background: 'rgb(12, 105, 126)' }}
+                        ><Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
+                                ALL
                     </Menu.Item>
-                        <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
+                            <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
                                 Draft
                         </Menu.Item>
                             <Menu.Item key="3" onClick={() => this.onChangeStatus('WAITING')} >
@@ -555,9 +579,9 @@ class CreateHistory extends React.Component {
                             <Menu.Item key="5" onClick={() => this.onChangeStatus('EDITED')}>
                                 Edited
                        </Menu.Item>
-                      
+
                             <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
-                               Cancel
+                                Cancel
                        </Menu.Item>
                         </Menu>
 
@@ -572,16 +596,16 @@ class CreateHistory extends React.Component {
                     cancelText='No'
                     onOk={this.showDeleteConfirm}
                     onCancel={this.isCancel}
-                    confirmLoading={pend}
+                    confirmLoading={this.state.confirmLoading}
                 >
                     {
-                    !this.state.isfirstLoad&& errMessage&&
-                    <h6 style={{color:'red'}}>{errMessage}</h6>
-                    
+                        !this.state.isfirstLoad && errMessage &&
+                        //    {errMessage}</h6>
+                        message.error(errMessage)
                     }
-                 
-                
-                  
+
+
+
 
                 </Modal>
                 <Modal
@@ -595,30 +619,30 @@ class CreateHistory extends React.Component {
                     confirmLoading={pendCancel}
 
                 >
-                     {
-                    !this.state.isSecondLoad&& err&&
-                    <h6 style={{color:'red'}}>{err}</h6>
-                    
-                    }
-                  <p style={{fontWeight:600, fontSize:'18px'}}>Are you sure cancel a session  this event?</p>
-                   {
-                       sessionEvent.map((item)=>
-                           <div key={item._id} className="row">
-                             
-                               <div className="col">  <p>{item.name}</p></div>
-                               <div className="col"> <p>{moment(item.day||new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
-                               <div className="col"><Button type="danger" shape='circle'
-                               disabled={item.isCancel}
-                                onClick={()=>this.cancelSessionEvent(item.id)} ><DeleteOutlined /></Button></div>
-                           
-                            
-                           </div>
-                    )
-                   }
+                    {
+                        !this.state.isSecondLoad && err &&
+                        <h6 style={{ color: 'red' }}>{err}</h6>
 
-                 
-                
-                  
+                    }
+                    <p style={{ fontWeight: 600, fontSize: '18px' }}>Are you sure cancel a session  this event?</p>
+                    {
+                        sessionEvent.map((item) =>
+                            <div key={item._id} className="row">
+
+                                <div className="col">  <p>{item.name}</p></div>
+                                <div className="col"> <p>{moment(item.day || new Date().toLocaleDateString()).format('DD/MM/YYYY ')}</p></div>
+                                <div className="col"><Button type="danger" shape='circle'
+                                    disabled={item.isCancel}
+                                    onClick={() => this.cancelSessionEvent(item.id)} ><DeleteOutlined /></Button></div>
+
+
+                            </div>
+                        )
+                    }
+
+
+
+
 
                 </Modal>
             </div >
@@ -631,22 +655,15 @@ const mapStateToProps = (state) => ({
     categories: state.event.categories,
     arrEvent: state.user.arrEvent,
     pending: state.user.pending,
-    pend:state.event.pending,
+    pend: state.event.pending,
     errMessage: state.event.errMessage,
     err: state.event.errCancel,
-    pendCancel:state.event.pendCancel,
-    cancelSession:state.event.cancelSession
+    pendCancel: state.event.pendCancel,
+    cancelSession: state.event.cancelSession
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    get_History: (
-        dataSent
-    ) =>
-        dispatch(
-            userActions.get_History(
-                dataSent
-            )
-        ),
+
     getCreateHistory: (
         dataSent
 
@@ -658,8 +675,8 @@ const mapDispatchToProps = (dispatch) => ({
             )
         ),
     getCategories: () => dispatch(eventActions.getCategories()),
-    deleteEvent:(eventId)=>dispatch(eventActions.deleteEvent(eventId)),
-    cancelEvent:(eventId, sessionIds)=>dispatch(eventActions.cancelEvent(eventId, sessionIds))
+    deleteEvent: (eventId) => dispatch(eventActions.deleteEvent(eventId)),
+    cancelEvent: (eventId, sessionIds) => dispatch(eventActions.cancelEvent(eventId, sessionIds))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateHistory);

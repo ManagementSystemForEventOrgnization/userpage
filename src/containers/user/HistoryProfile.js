@@ -37,7 +37,7 @@ class HistoryProfile extends React.Component {
 
       numberRecord: 10,
       categories: this.props.categories,
-      arrEvent: this.props.arrEvent,
+      listEvent: [...this.props.arrEvent],
 
     };
   }
@@ -107,24 +107,55 @@ class HistoryProfile extends React.Component {
     setTimeout(this.handleFilter(), 3000);
   };
 
+  sumDiscount = (ticket, discount) => {
+    let newDiscount = 1 - discount;
 
+    let sum = newDiscount * ticket;
+    let money = `${sum} VNĐ `;
+
+    return money;
+  };
+  ableToLoadMore = (count) => {
+    if (count === 0) return false;
+
+    if (count === 10) return true;
+    return count % 10 === 0;
+  };
+  onLoadMore = () => {
+    const { get_History, arrEvent } = this.props;
+    const { listEvent } = this.state;
+
+    let index = Math.round(listEvent.length / 10) + 1
+    let dataSent = {};
+    dataSent.pageNumber = index;
+    get_History(dataSent);
+    let Event = [...listEvent, ...arrEvent]
+
+
+    this.setState({ listEvent: Event });
+
+
+  }
   render() {
-    const { categories } = this.state;
-    const { pending, arrEvent } = this.props;
+
+    const { pending, arrEvent, categories } = this.props;
+    console.log('event', arrEvent);
+    let { listEvent } = this.state;
+    listEvent = listEvent.length > 0 ? listEvent : [...arrEvent];
     return (
       <div className="history">
         <div className="row">
           <div className="col ">
-            <RangePicker
+            <RangePicker style={{ width: '100%', height: '40px' }}
               format="YYYY-MM-DD "
               onChange={this.onChangeDates}
               onOk={this.onOk}
             />
           </div>
           <div className="col ">
-            <Select style={{ width: '100%' }} onChange={this.handleChange}>
+            <Select style={{ width: '100%', height: '40px' }} onChange={this.handleChange}>
               {categories.map((item) => (
-                <Option key={item._id} value={item._id}>
+                <Option style={{ width: '100%', height: '40px' }} key={item._id} value={item._id}>
                   {item.name}
                 </Option>
               ))}
@@ -132,7 +163,8 @@ class HistoryProfile extends React.Component {
           </div>
           <div className="col ">
             <Search
-              // value={this.state.txtSearch}
+              size="large"
+              enterButton
               placeholder="input search text"
               // onChange={this.handleChangeSearch}
               onSearch={(value) => this.onChangeSearch(value)}
@@ -143,16 +175,35 @@ class HistoryProfile extends React.Component {
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
             <div className="row p-5 ">
-              {arrEvent.map((item) => (
+              {listEvent.map((item) => (
                 <div className="col-xl-4 col-lg-4 col-md-6 mt-4">
-                  <Link to="">
+                  <Link to={"/event/" + item.urlWeb}>
                     <Card
                       className="event-cart "
                       cover={
                         <div>
-                          <Button className="ml-1 mt-1 ticket">
-                            {item.status}
-                          </Button>
+                          {
+                            item.ticket ? (
+                              <div className="d-flex ">
+                                {item.ticket.discount ? (
+                                  <Button className="ml-1 mt-1 ticket">
+                                    {this.percentDiscount(
+                                      item.ticket.discount
+                                    )}
+                                  </Button>
+                                ) : (
+                                    ''
+                                  )}
+                              </div>
+                            ) : (
+                                <Button
+                                  className="ml-1 mt-1 ticket"
+                                  key={item._id}
+                                >
+                                  Free
+                                </Button>
+                              )
+                          }
 
                           {item.bannerUrl && (
                             <img
@@ -243,6 +294,9 @@ class HistoryProfile extends React.Component {
                   </Link>
                 </div>
               ))}
+              {this.ableToLoadMore(arrEvent.length) &&
+                <Button style={{ marginLeft: '45%', marginRight: '45%', marginBottom: '10%' }} loading={pending} type='danger' shape="round" onClick={this.onLoadMore}>Load More</Button>
+              }
             </div>
           )}
       </div>

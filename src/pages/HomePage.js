@@ -68,6 +68,8 @@ class HomePage extends Component {
 
   render() {
     const { events, hlEvent } = this.props;
+    console.log('s', events);
+
 
     const HIGHT = {
       textAlign: 'center',
@@ -167,30 +169,30 @@ class HomePage extends Component {
                       className="event-cart "
                       cover={
                         <div>
-                          {item.session
-                            ? item.session.map((e, i) =>
-                              item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <Button className="ml-1 mt-1 ticket">
-                                      {this.percentDiscount(
-                                        item.ticket.discount
-                                      )}
-                                    </Button>
-                                  ) : (
-                                      ''
+                          {
+
+                            item.ticket.price > 0 ? (
+                              <div className="d-flex ">
+                                {item.ticket.discount ? (
+                                  <Button className="ml-  1 mt-1 ticket">
+                                    {this.percentDiscount(
+                                      item.ticket.discount
                                     )}
-                                </div>
-                              ) : (
-                                  <Button
-                                    className="ml-1 mt-1 ticket"
-                                    key={e.id}
-                                  >
-                                    Free
                                   </Button>
-                                )
-                            )
-                            : ' '}
+                                ) : (
+                                    '  '
+                                  )}
+                              </div>
+                            ) : (
+                                <Button
+                                  className="ml-1 mt-1 ticket"
+                                  key={item._id}
+                                >
+                                  Free
+                                </Button>
+                              )
+
+                          }
                           {item.bannerUrl && (
                             <img
                               className="img "
@@ -237,7 +239,7 @@ class HomePage extends Component {
                           ) : (
                               <p className="ml-2" style={{ fontWeight: 'bold' }}>
                                 + {item.session.length - 1}more events
-                            </p>
+                              </p>
                             )}
                         </div>
                       </div>
@@ -272,13 +274,13 @@ class HomePage extends Component {
                                   style={{ fontWeight: 'bold' }}
                                 >
                                   {item.ticket.price} VNĐ
-                              </p>
+                                </p>
                               )}
                           </div>
                         ) : (
                             <p style={{ fontWeight: 'bold' }} className="ml-1  ">
                               0 VNĐ
-                          </p>
+                            </p>
                           )}
                       </div>
 
