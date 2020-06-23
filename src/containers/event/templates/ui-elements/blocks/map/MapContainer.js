@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
-import { Divider } from 'antd';
+import { Divider, Modal, InputNumber } from 'antd';
 
 import IconsHandle from '../../shares/IconsHandle';
+import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import { eventActions } from 'action/event.action';
 
 const MapWithImage = (props) => {
+  const [mapContainerStyle, setMapStyle] = useState({
+    position: 'relative',
+    width: 90,
+    height: 100,
+    padding: [50, 0, 0, 0],
+    margin: [2, 2, 0, 0],
+    isCollapsed: false,
+  });
+
   const handleDuplicate = () => {
     const { id, duplicateBlock } = props;
     if (duplicateBlock) {
@@ -19,13 +29,44 @@ const MapWithImage = (props) => {
       deleteBlock(id);
     }
   };
-  const collapseModal = () => {};
+  const collapseModal = () => {
+    setMapStyle({
+      ...mapContainerStyle,
+      isCollapsed: !mapContainerStyle.isCollapsed,
+    });
+
+    handleStoreBlock();
+  };
 
   const isDetailImageValid = () => {
     const { session } = props;
     const result = session.every((ss) => ss.address.detailImage);
     return result;
   };
+
+  const onChangeStyle = (type, value) => {
+    setMapStyle({
+      ...mapContainerStyle,
+      [type]: value,
+    });
+  };
+
+  const handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
+    }
+  };
+
   const { editable, session, type } = props;
 
   const divStyle = {
@@ -33,12 +74,18 @@ const MapWithImage = (props) => {
   };
 
   const mapStyle = {
-    position: 'relative',
-    width: '90%',
-    height: '100%',
-    paddingTop: ' 50%',
-    marginTop: ' 2%',
-    marginLeft: ' 2%',
+    position: mapContainerStyle.position,
+    width: `${mapContainerStyle.width}%`,
+    height: `${mapContainerStyle.height}%`,
+    paddingTop: `${mapContainerStyle.padding[0]}%`,
+    paddingLeft: `${mapContainerStyle.padding[1]}%`,
+    paddingRight: `${mapContainerStyle.padding[2]}%`,
+    paddingBottom: `${mapContainerStyle.padding[3]}%`,
+
+    marginTop: `${mapContainerStyle.margin[0]}%`,
+    marginLeft: `${mapContainerStyle.margin[1]}%`,
+    marginRight: `${mapContainerStyle.margin[2]}%`,
+    marginBottom: `${mapContainerStyle.margin[3]}%`,
   };
 
   return (
@@ -67,6 +114,44 @@ const MapWithImage = (props) => {
           />
         ))}
       </Map>
+
+      <Modal
+        title="Edit Map Style"
+        visible={mapContainerStyle.isCollapsed}
+        onOk={collapseModal}
+        onCancel={collapseModal}
+        width="500px"
+      >
+        <div className="d-flex">
+          <p className="mr-5">Height : </p>
+          <InputNumber
+            value={mapContainerStyle.height}
+            name="height"
+            min={0}
+            max={100}
+            onChange={(value) => onChangeStyle('height', value)}
+          ></InputNumber>
+        </div>
+        <hr />
+        <div className="d-flex">
+          <p className="mr-5">Width : </p>
+          <InputNumber
+            value={mapContainerStyle.width}
+            name="width"
+            min={0}
+            max={100}
+            onChange={(value) => onChangeStyle('width', value)}
+          ></InputNumber>
+        </div>
+        <hr />
+
+        <PaddingAndMargin
+          margin={mapContainerStyle.margin}
+          padding={mapContainerStyle.padding}
+          handleChangePadding={(value) => onChangeStyle('padding', value)}
+          handleChangeMargin={(value) => onChangeStyle('margin', value)}
+        />
+      </Modal>
 
       {editable && !type && (
         <IconsHandle

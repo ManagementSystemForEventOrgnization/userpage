@@ -134,6 +134,7 @@ class ButtonBlock extends React.Component {
       display,
       touchAction,
       height,
+      alignContent,
     } = this.state;
 
     const divStyle = {
@@ -153,7 +154,7 @@ class ButtonBlock extends React.Component {
       color: color,
       background: background,
 
-      alignContent: 'center',
+      alignContent,
       fontSize: `${fontSize}px`,
       lineHeight: `${lineText}%`,
       letterSpacing: letterSpacing,

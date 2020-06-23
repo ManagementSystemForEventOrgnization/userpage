@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Button, Modal } from 'antd';
 import { FooterState } from '../../stateInit/FooterState';
 import TextsBlock from '../../atoms/Text';
-import ButtonsBlock from '../../atoms/Button';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import IconsSocial from '../Social/social';
@@ -123,9 +122,10 @@ class footer1 extends Component {
           <div className="row  " style={styleRow}>
             <div className="col-sm-4">
               <TextsBlock
-                content="© 2018 All rights reserved."
+                content="© 2020 All rights reserved."
                 child={true}
                 newStyle={titleStyle}
+                editable={editable}
               />
             </div>
             <div className="col-sm-4">
@@ -133,9 +133,10 @@ class footer1 extends Component {
                 content="Support 24/7"
                 child={true}
                 newStyle={titleStyle}
+                editable={editable}
               />
               <span className="mt-3">
-                <ButtonsBlock
+                <TextsBlock
                   content="+458 669 221"
                   newStyle={styleButton}
                   child={true}
@@ -149,6 +150,7 @@ class footer1 extends Component {
                 content="Follow Us"
                 child={true}
                 newStyle={titleStyle}
+                editable={editable}
               />
               <IconsSocial />
             </div>

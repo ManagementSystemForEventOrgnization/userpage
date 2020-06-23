@@ -190,7 +190,7 @@ class Video2 extends React.Component {
                       className="ml-3"
                       name="width"
                       min={0}
-                      max={1500}
+                      max={100}
                       onChange={(value) => this.onChangeStyle('width', value)}
                     ></InputNumber>
                   </div>

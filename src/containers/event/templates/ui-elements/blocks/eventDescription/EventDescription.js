@@ -17,8 +17,8 @@ class EventDescription extends Component {
       style && Object.keys(style).length > 0
         ? { ...style, collapse: false }
         : {
-          ...EventDescriptionState(props),
-        };
+            ...EventDescriptionState(props),
+          };
   }
 
   collapseModal = () => {
@@ -76,12 +76,7 @@ class EventDescription extends Component {
 
     content[column][type] = value;
     this.setState({ content });
-  };
-
-  handleChangeTextArea = (e) => {
-    this.setState({
-      inputText: e.target.value,
-    });
+    setTimeout(this.handleStoreBlock(), 3000);
   };
 
   render() {
@@ -115,6 +110,7 @@ class EventDescription extends Component {
       width: '100%',
       backgroundColor: url ? 'none' : bgColor,
     };
+
     const bg = {
       position: 'absolute',
       left: '0',

@@ -28,12 +28,26 @@ class ImageBlock extends React.Component {
   }
 
   onImageDrop = (url) => {
-    const { handleOnChangeUrlTextBlock } = this.props;
+    const {
+      handleOnChangeUrlTextBlock,
+      handleChangeItem,
+      handleChangeItemSponsor,
+      handleChangeItemGallery,
+    } = this.props;
     this.setState({
       uploadedFileCloudinaryUrl: url,
     });
     if (handleOnChangeUrlTextBlock) {
       handleOnChangeUrlTextBlock(this.state.uploadedFileCloudinaryUrl);
+    }
+    if (handleChangeItem) {
+      handleChangeItem(url);
+    }
+    if (handleChangeItemSponsor) {
+      handleChangeItemSponsor(url);
+    }
+    if (handleChangeItemGallery) {
+      handleChangeItemGallery(url);
     }
   };
 
@@ -90,6 +104,7 @@ class ImageBlock extends React.Component {
       });
     }
   };
+
   render() {
     const {
       uploadedFileCloudinaryUrl,

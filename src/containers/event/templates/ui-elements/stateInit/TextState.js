@@ -5,13 +5,18 @@ const TextState = (props) => ({
   content: props.content || exampleText,
   margin: [1, 1, 1, 1],
   padding: [2, 2, 2, 2],
-  background: 'none',
+  background: props.newStyle
+    ? props.newStyle.background
+      ? props.newStyle.background
+      : 'none'
+    : 'none',
   fontSize: props.newStyle
     ? props.newStyle.fontSize
       ? props.newStyle.fontSize
       : 20
     : 20,
-  fonts: 'Arial',
+  fonts: 'Slabo 27px',
+
   lineText: 127,
   letterSpacing: 0,
   textAlign: props.newStyle

@@ -19,16 +19,24 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...TextState(this.props),
-        focus: false,
-      };
+          ...TextState(this.props),
+          focus: false,
+        };
   }
 
   onChangeValue(newValue, valueParam) {
-    const { changeContent, handleChangeContent, handleChangeItem } = this.props;
+    const {
+      changeContent,
+      handleChangeContent,
+      handleChangeItem,
+      handleChangeSponsor,
+      handleChangeContact,
+      handleChangeFooter,
+    } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
+
     setTimeout(() => {
       const value = {
         value: this.state.content,
@@ -40,8 +48,14 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
+      } else if (handleChangeSponsor) {
+        handleChangeSponsor(value);
+      } else if (handleChangeContact) {
+        handleChangeContact(value);
+      } else if (handleChangeFooter) {
+        handleChangeFooter(value);
       }
-    }, 3000);
+    }, 2000);
   }
 
   handleEditorChange = (content) => {
@@ -50,6 +64,9 @@ class TextsBlock extends React.Component {
       changeContent,
       handleChangeContent,
       handleChangeItem,
+      handleChangeSponsor,
+      handleChangeContact,
+      handleChangeFooter,
     } = this.props;
 
     this.setState({
@@ -62,7 +79,11 @@ class TextsBlock extends React.Component {
         style: this.state,
       };
 
-      if (handleOnChangeTextBlock) {
+      if (handleChangeSponsor) {
+        handleChangeSponsor(value);
+      } else if (handleChangeContact) {
+        handleChangeContact(value);
+      } else if (handleOnChangeTextBlock) {
         handleOnChangeTextBlock(content);
       } else if (changeContent) {
         changeContent(value);
@@ -70,7 +91,9 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
-      }
+      } else if (handleChangeFooter) {
+        handleChangeFooter(value);
+      } else this.handleStoreBlock();
     }, 3000);
   };
 
@@ -157,7 +180,6 @@ class TextsBlock extends React.Component {
     };
 
     const inputStyle = {
-      backgroundColor: 'none',
       background: background,
       border: 'none',
       color: color,
@@ -182,10 +204,10 @@ class TextsBlock extends React.Component {
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-              {content}
-            </div>
-          )}
+          <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
+            {content}
+          </div>
+        )}
         {child && editable && (
           <EditFilled
             className="edit-text"
