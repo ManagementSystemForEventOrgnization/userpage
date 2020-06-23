@@ -329,7 +329,7 @@ const getListEvent = (categoryEventId, type) => {
     sentData.type = type;
     // sentData.numberRecord = numberRecord;
   } else {
-    sentData.categoryEventId = type;
+    sentData.categoryEventId = categoryEventId;
   }
   return (dispatch) => {
     API.get(`/api/get_list_event`, { params: sentData })
@@ -444,7 +444,7 @@ const getEventInfo = (urlWeb) => {
 
           resolve(res.data.result.event);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -470,7 +470,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
@@ -549,7 +549,7 @@ const deleteEvent = (eventId, cb) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        cb()
+        cb();
       })
       .catch((error) => {
         const { data } = error.response;

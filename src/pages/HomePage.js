@@ -29,13 +29,12 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing, getListEvent, getCategories } = this.props;
+    const { getListEventUpComing, getListEvent } = this.props;
     const { pageNumber, numberRecord } = this.state;
     let type = 'HEIGHT_LIGHT';
     // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(type);
-    getCategories();
   };
 
   sumDiscount = (ticket, discount) => {
@@ -102,8 +101,8 @@ class HomePage extends Component {
                       {item.session.length === 1 ? (
                         ''
                       ) : (
-                          <p>+ {item.session.length - 1}more events</p>
-                        )}
+                        <p>+ {item.session.length - 1}more events</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -113,14 +112,14 @@ class HomePage extends Component {
         </Carousel>
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No highlight event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-            alt="no-high-light"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No highlight event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
   };
 
   renderUpcomingEvent = () => {
@@ -134,23 +133,21 @@ class HomePage extends Component {
                 className="event-cart "
                 cover={
                   <div>
-
-                    {
-                      item.ticket ? (
-                        <div className="d-flex ">
-                          {item.ticket.discount ? (
-                            <Button className="ml-1 mt-1 ticket">
-                              {this.percentDiscount(item.ticket.discount)}
-                            </Button>
-                          ) : (
-                              ''
-                            )}
-                        </div>
-                      ) : (
-                          <Button className="ml-1 mt-1 ticket" key={item._id}>
-                            Free
+                    {item.ticket ? (
+                      <div className="d-flex ">
+                        {item.ticket.discount ? (
+                          <Button className="ml-1 mt-1 ticket">
+                            {this.percentDiscount(item.ticket.discount)}
                           </Button>
+                        ) : (
+                          ''
                         )}
+                      </div>
+                    ) : (
+                      <Button className="ml-1 mt-1 ticket" key={item._id}>
+                        Free
+                      </Button>
+                    )}
                     {item.bannerUrl && (
                       <img
                         className="img "
@@ -195,10 +192,10 @@ class HomePage extends Component {
                     {item.session.length === 1 ? (
                       ''
                     ) : (
-                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                          + {item.session.length - 1}more events
-                        </p>
-                      )}
+                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                        + {item.session.length - 1}more events
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -224,16 +221,16 @@ class HomePage extends Component {
                           </p>
                         </div>
                       ) : (
-                          <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
-                            {item.ticket.price} VNĐ
-                          </p>
-                        )}
+                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                          {item.ticket.price} VNĐ
+                        </p>
+                      )}
                     </div>
                   ) : (
-                      <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                        0 VNĐ
-                      </p>
-                    )}
+                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                      0 VNĐ
+                    </p>
+                  )}
                 </div>
 
                 <div className="d-flex ">
@@ -250,14 +247,14 @@ class HomePage extends Component {
         ))}
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No upcoming event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
-            alt="no-upcoming"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No upcoming event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+          alt="no-upcoming"
+        />
+      </div>
+    );
   };
 
   render() {
@@ -302,8 +299,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderHighLightEvent()
-            )}
+            this.renderHighLightEvent()
+          )}
         </div>
 
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
@@ -321,8 +318,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderUpcomingEvent()
-            )}
+            this.renderUpcomingEvent()
+          )}
         </div>
 
         <hr
@@ -368,10 +365,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getListEventUpComing: (pageNumber, numberRecord) =>
     dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
-  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
   getListEvent: (type) => dispatch(eventActions.getListEvent(type)),
-  getCategories: () => dispatch(eventActions.getCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

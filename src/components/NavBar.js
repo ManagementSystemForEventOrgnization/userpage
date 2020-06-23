@@ -3,10 +3,18 @@ import { connect } from 'react-redux';
 import { Menu, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 
+import { eventActions } from 'action/event.action';
+
 class NavBar extends React.Component {
   handleClickItem = (id) => {
     localStorage.setItem('currentCategory', id);
   };
+
+  componentDidMount = () => {
+    const { getCategories } = this.props;
+    getCategories();
+  };
+
   render() {
     const { categories } = this.props;
     return (
@@ -46,4 +54,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(NavBar);
+const mapDispatchToProps = (dispatch) => ({
+  getCategories: () => dispatch(eventActions.getCategories()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
