@@ -1,5 +1,13 @@
 import React from 'react';
-import { Button, Tabs, Table, Collapse, Popconfirm, Input, Modal, notification } from 'antd';
+import {
+  Button,
+  Tabs,
+  Table,
+  Popconfirm,
+  Input,
+  Modal,
+  notification,
+} from 'antd';
 import { connect } from 'react-redux';
 
 import moment from 'moment';
@@ -8,8 +16,6 @@ import {
   CloseOutlined,
   DeleteOutlined,
   CheckOutlined,
-  CloseSquareOutlined
-
 } from '@ant-design/icons';
 import What from '../event/EventInfor/WhatTabPane';
 //import Which from '../event/EventInfor/WhichTabPane';
@@ -54,14 +60,14 @@ class ManageEvent extends React.Component {
   };
   showModalSession = (join) => {
     console.log('j', join);
-    let event = join.session.findIndex(ss => ss.isConfirm === true)
+    let event = join.session.findIndex((ss) => ss.isConfirm === true);
     if (event !== -1) {
       this.setState({ background: 'green' });
     }
     let event1 = join.session.findIndex((ss) => ss.isReject === true);
 
     if (event1 !== -1) {
-      this.setState({ backReject: 'red' })
+      this.setState({ backReject: 'red' });
     }
     this.setState({
       visible: true,
@@ -122,59 +128,48 @@ class ManageEvent extends React.Component {
   onApproveMember = (joinUserId, sessionIds) => {
     const { verifyEventMember, match } = this.props;
     let id = match.match.params.id;
-    verifyEventMember(joinUserId, id, sessionIds).then(res => {
-      this.setState({
-        background: 'green'
-      })
-
-    }).catch(err => {
-
-      const { data } = err.response;
-      if (data.error) {
-        console.log('1', data.error.message);
-        notification.error({
-
-          message: data.error.message,
-          style: {
-            marginTop: '20%',
-
-          },
+    verifyEventMember(joinUserId, id, sessionIds)
+      .then((res) => {
+        this.setState({
+          background: 'green',
         });
-
-
-      }
-      // message.error(data.error || 'This is an error something wrong');
-
-
-    })
-
-  }
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        if (data.error) {
+          console.log('1', data.error.message);
+          notification.error({
+            message: data.error.message,
+            style: {
+              marginTop: '20%',
+            },
+          });
+        }
+        // message.error(data.error || 'This is an error something wrong');
+      });
+  };
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
-    rejectEventMember(joinUserId, id, sessionIds).then(res => {
-      this.setState({
-        backReject: 'red'
-      })
-    }).catch(err => {
-
-      const { data } = err.response;
-      if (data.error) {
-        console.log('1', data.error.message);
-        notification.error({
-
-          message: data.error.message,
-          style: {
-            marginTop: '20%',
-
-          },
+    rejectEventMember(joinUserId, id, sessionIds)
+      .then((res) => {
+        this.setState({
+          backReject: 'red',
         });
-      }
-    })
-
-
-
-  }
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        if (data.error) {
+          console.log('1', data.error.message);
+          notification.error({
+            message: data.error.message,
+            style: {
+              marginTop: '20%',
+            },
+          });
+        }
+      });
+  };
   confirm = (userId) => {
     // reportUser: (userId, cause, eventId)
 
@@ -339,11 +334,20 @@ class ManageEvent extends React.Component {
                     <div className="d-flex">
                       <h4>{session.length}</h4>
                       {userJoinEvent.map((join) =>
-                        join.session === session ?
-                          <Button key={join._id} className="ml-3" type='primary' onClick={() => this.showModalSession(join)}
-                            shape='circle'> <FileDoneOutlined style={{ fontSize: '17px' }} /></Button>
-                          : ' '
-
+                        join.session === session ? (
+                          <Button
+                            key={join._id}
+                            className="ml-3"
+                            type="primary"
+                            onClick={() => this.showModalSession(join)}
+                            shape="circle"
+                          >
+                            {' '}
+                            <FileDoneOutlined style={{ fontSize: '17px' }} />
+                          </Button>
+                        ) : (
+                          ' '
+                        )
                       )}
                     </div>
                   )}
