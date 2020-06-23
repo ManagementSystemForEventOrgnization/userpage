@@ -110,6 +110,7 @@ class EventDescription extends Component {
       width: '100%',
       backgroundColor: url ? 'none' : bgColor,
     };
+
     const bg = {
       position: 'absolute',
       left: '0',

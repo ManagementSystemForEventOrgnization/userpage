@@ -37,7 +37,7 @@ class footer2 extends Component {
     this.setState({
       [type]: value,
     });
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(this.handleStoreBlock(), 2000);
   };
 
   handleStoreBlock = () => {
@@ -73,7 +73,15 @@ class footer2 extends Component {
 
   render() {
     const { editable, leftModal } = this.props;
-    const { collapse, padding, url, bgColor, opacity, margin } = this.state;
+    const {
+      collapse,
+      padding,
+      url,
+      bgColor,
+      opacity,
+      margin,
+      normalText,
+    } = this.state;
     const style = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -102,11 +110,6 @@ class footer2 extends Component {
       backgroundColor: bgColor,
     };
 
-    const styleDiv = {
-      textAlign: 'center',
-      color: 'white',
-    };
-
     return (
       <div className="child-block d-flex  " style={{ height: 300 }}>
         <div className=" child-block" style={style}>
@@ -114,9 +117,13 @@ class footer2 extends Component {
 
           <div style={{ padding: '6%' }}>
             <TextsBlock
-              content="© 2018 All rights reserved."
+              content={normalText.value}
               child={true}
-              newStyle={styleDiv}
+              newStyle={normalText.style}
+              editable={editable}
+              handleChangeFooter={(value) =>
+                this.onChangeStyle('normalText', value)
+              }
             />
           </div>
         </div>

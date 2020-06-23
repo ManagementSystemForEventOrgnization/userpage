@@ -259,7 +259,7 @@ class TimelineBlock extends Component {
               }
             />
           </div>
-          \{' '}
+
           <div className="d-flex mt-5 pl-2">
             <ChangeColorModal
               title="Change Text Color"

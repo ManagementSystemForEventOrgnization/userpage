@@ -13,7 +13,6 @@ import { eventActions } from 'action/event.action';
 // import { titleBlockStyle } from '../../../constants/atom.constant';
 
 const high = 20;
-const title = 'Sponsor';
 const iconStyle = {
   fontSize: '20px',
 };
@@ -59,6 +58,10 @@ class Sponsor1Block extends Component {
             },
           ],
           nameBlock: 'Sponsor',
+          nameBlockStyle: {
+            fontWeight: 'normal',
+            fontSize: 50,
+          },
         };
   }
 
@@ -113,7 +116,8 @@ class Sponsor1Block extends Component {
 
   handleChangeSponsor = (value) => {
     this.setState({
-      nameBlock: value,
+      nameBlock: value.value,
+      nameBlockStyle: value.style,
     });
 
     setTimeout(this.handleStoreBlock(), 2000);
@@ -124,7 +128,7 @@ class Sponsor1Block extends Component {
       margin: '10px',
       padding: '10px',
     };
-    const { sponsor } = this.state;
+    const { sponsor, nameBlockStyle, nameBlock } = this.state;
     const { editable } = this.props;
     const listSponsorStyle = {
       background: '#eaeaea6b',
@@ -136,13 +140,10 @@ class Sponsor1Block extends Component {
       <div className="d-flex child-block" style={style}>
         <div style={style} className="container">
           <TextBlock
-            content={title}
+            content={nameBlock}
             child={true}
             editable={editable}
-            newStyle={{
-              fontWeight: 'normal',
-              fontSize: 50,
-            }}
+            newStyle={{ ...nameBlockStyle }}
             handleChangeSponsor={this.handleChangeSponsor}
           />
 

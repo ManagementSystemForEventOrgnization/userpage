@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
-import { Comment, Avatar, Form, Button, List, Input } from 'antd';
+import { Comment, Avatar, Form, Button, List, Input, Modal } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 
 import { eventActions } from 'action/event.action';
+import PaddingAndMargin from '../../shares/PaddingAndMargin';
+import ChangeColorModal from '../../shares/ChangeColorModal';
 
 const { TextArea } = Input;
 const CommentList = ({ comments }) => (
@@ -32,7 +34,7 @@ class CommentEvent extends Component {
 
     const { style, eventId } = this.props;
     this.state = style
-      ? { ...style, newComment: [] }
+      ? { ...style, newComment: [], isCollapsed: false }
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
@@ -41,6 +43,9 @@ class CommentEvent extends Component {
           content: '',
           eventId: eventId || localStorage.getItem('currentId'),
           newComment: [],
+          isCollapsed: false,
+          background: 'none',
+          color: 'black',
         };
   }
 
@@ -50,7 +55,7 @@ class CommentEvent extends Component {
         ? item.usersComment.fullName
         : localStorage.getItem('username'),
       avatar: item.usersComment.avatar,
-      content: <p>{item.content}</p>,
+      content: <p style={{ color: this.state.color }}>{item.content}</p>,
       datetime: moment(item.createAt).format('LLL'),
     }));
   };
@@ -65,7 +70,9 @@ class CommentEvent extends Component {
             {
               author: data.userId.fullName,
               avatar: data.userId.avatar,
-              content: <p>{data.content}</p>,
+              content: (
+                <p style={{ color: this.state.color }}>{data.content}</p>
+              ),
               datetime: moment(data.createAt).format('LLLL'),
             },
             ...newComment,
@@ -90,8 +97,18 @@ class CommentEvent extends Component {
 
   handleSubmit = () => {
     let { value, eventId, newComment } = this.state;
-    const { saveComment } = this.props;
+    const { saveComment, editable } = this.props;
     if (!value) {
+      return;
+    }
+    if (editable) {
+      newComment.push({
+        author: localStorage.getItem('username'),
+        avatar,
+        content: <p style={{ color: this.state.color }}>{value}</p>,
+        datetime: moment().format('LLLL'),
+      });
+      this.setState({ newComment });
       return;
     }
 
@@ -102,7 +119,7 @@ class CommentEvent extends Component {
           {
             author: localStorage.getItem('username'),
             avatar,
-            content: <p>{value}</p>,
+            content: <p style={{ color: this.state.color }}>{value}</p>,
             datetime: moment().format('LLLL'),
           },
           ...newComment,
@@ -111,7 +128,7 @@ class CommentEvent extends Component {
           {
             author: localStorage.getItem('username'),
             avatar,
-            content: <p>{value}</p>,
+            content: <p style={{ color: this.state.color }}>{value}</p>,
             datetime: moment().format('LLLL'),
           },
         ];
@@ -132,7 +149,6 @@ class CommentEvent extends Component {
   deleteBlock = () => {
     const { id, deleteBlock } = this.props;
     if (deleteBlock) {
-      console.log('delete : ', id);
       deleteBlock(id);
     }
   };
@@ -151,8 +167,45 @@ class CommentEvent extends Component {
     getComment(eventId || this.props.eventId, page + 1);
   };
 
+  collapseModal = () => {
+    const { isCollapsed } = this.state;
+    this.setState({ isCollapsed: !isCollapsed });
+
+    this.handleStoreBlock();
+  };
+
+  handleStoreBlock = () => {
+    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
+    const currentStyle = this.state;
+
+    let item = blocks.find((ele) => ele.id === id);
+    if (item) {
+      const index = blocks.indexOf(item);
+      item.style = currentStyle;
+      storeBlocksWhenCreateEvent([
+        ...blocks.slice(0, index),
+        item,
+        ...blocks.slice(index + 1, blocks.length),
+      ]);
+    }
+  };
+
+  onChangeValue = (value, type) => {
+    this.setState({
+      [type]: value,
+    });
+  };
+
   render() {
-    const { margin, padding, value, newComment } = this.state;
+    const {
+      margin,
+      padding,
+      value,
+      newComment,
+      isCollapsed,
+      color,
+      background,
+    } = this.state;
     const { editable, submitting, comments } = this.props;
     const commentList = this.configComment(comments);
     const style = {
@@ -164,11 +217,14 @@ class CommentEvent extends Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
+
+      color,
+      background,
     };
 
     const loadMore = {
       color: '#1890ff',
-      textdecoration: 'underline',
+      textDecoration: 'underline',
     };
 
     return (
@@ -221,7 +277,7 @@ class CommentEvent extends Component {
 
         {editable && (
           <div className="icons-handle ml-auto">
-            <EditTwoTone style={iconStyle} />
+            <EditTwoTone style={iconStyle} onClick={this.collapseModal} />
             <DeleteTwoTone
               style={iconStyle}
               className="mt-3"
@@ -229,6 +285,38 @@ class CommentEvent extends Component {
             />
           </div>
         )}
+
+        <Modal
+          title="Edit Contact Style"
+          visible={isCollapsed}
+          onOk={this.collapseModal}
+          onCancel={this.collapseModal}
+          width="500px"
+        >
+          <PaddingAndMargin
+            padding={padding}
+            margin={margin}
+            handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+            handleChangePadding={(value) =>
+              this.onChangeValue(value, 'padding')
+            }
+          />
+
+          <div className="d-flex mt-5 pl-2">
+            <ChangeColorModal
+              title="Change Text Color"
+              color={color}
+              handleChangeColor={(value) => this.onChangeValue(value, 'color')}
+            />
+            <ChangeColorModal
+              title="Change background"
+              color={background}
+              handleChangeColor={(value) =>
+                this.onChangeValue(value, 'background')
+              }
+            />
+          </div>
+        </Modal>
       </div>
     );
   }

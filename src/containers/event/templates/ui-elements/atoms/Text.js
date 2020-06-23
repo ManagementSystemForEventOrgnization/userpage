@@ -25,10 +25,18 @@ class TextsBlock extends React.Component {
   }
 
   onChangeValue(newValue, valueParam) {
-    const { changeContent, handleChangeContent, handleChangeItem } = this.props;
+    const {
+      changeContent,
+      handleChangeContent,
+      handleChangeItem,
+      handleChangeSponsor,
+      handleChangeContact,
+      handleChangeFooter,
+    } = this.props;
     this.setState({
       [valueParam]: newValue,
     });
+
     setTimeout(() => {
       const value = {
         value: this.state.content,
@@ -40,8 +48,14 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
+      } else if (handleChangeSponsor) {
+        handleChangeSponsor(value);
+      } else if (handleChangeContact) {
+        handleChangeContact(value);
+      } else if (handleChangeFooter) {
+        handleChangeFooter(value);
       }
-    }, 3000);
+    }, 2000);
   }
 
   handleEditorChange = (content) => {
@@ -51,6 +65,8 @@ class TextsBlock extends React.Component {
       handleChangeContent,
       handleChangeItem,
       handleChangeSponsor,
+      handleChangeContact,
+      handleChangeFooter,
     } = this.props;
 
     this.setState({
@@ -64,10 +80,10 @@ class TextsBlock extends React.Component {
       };
 
       if (handleChangeSponsor) {
-        handleChangeSponsor(content);
-      }
-
-      if (handleOnChangeTextBlock) {
+        handleChangeSponsor(value);
+      } else if (handleChangeContact) {
+        handleChangeContact(value);
+      } else if (handleOnChangeTextBlock) {
         handleOnChangeTextBlock(content);
       } else if (changeContent) {
         changeContent(value);
@@ -75,6 +91,8 @@ class TextsBlock extends React.Component {
         handleChangeContent(value);
       } else if (handleChangeItem) {
         handleChangeItem(value);
+      } else if (handleChangeFooter) {
+        handleChangeFooter(value);
       } else this.handleStoreBlock();
     }, 3000);
   };
@@ -162,7 +180,6 @@ class TextsBlock extends React.Component {
     };
 
     const inputStyle = {
-      backgroundColor: 'none',
       background: background,
       border: 'none',
       color: color,
