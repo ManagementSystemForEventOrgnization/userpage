@@ -20,7 +20,7 @@ import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
 // import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
-import CreditCard from '../containers/user/BankAccount/CreditCard';
+// import CreditCard from '../containers/user/BankAccount/CreditCard';
 import TransferType from '../containers/user/BankAccount/TransferType';
 import history from '../utils/history';
 import ManageEventPage from '../pages/ManageEventPage';
