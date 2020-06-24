@@ -37,7 +37,7 @@ const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
     className={`SubmitButton ${
       error ? 'SubmitButton--error' : ''
-    } bank-account`}
+      } bank-account`}
     type="submit"
     disabled={processing || disabled}
   >
@@ -79,6 +79,7 @@ class CheckoutForm extends React.Component {
 
       const result = await stripe.createToken(card);
 
+      console.log("token", result);
       if (result.error) {
         this.setState({
           error: result.error.message,
@@ -110,12 +111,12 @@ class CheckoutForm extends React.Component {
             </div>
           </div>
         ) : (
-          <div className="Result bank-account">
-            <div className="ResultTitle" role="alert">
-              {this.props.errMessage}
+            <div className="Result bank-account">
+              <div className="ResultTitle" role="alert">
+                {this.props.errMessage}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         <form className="Form bank-account" onSubmit={handleSubmit}>
           <h4 className="d-flex justify-content-center text-primary mb-5">
             Input Your Card Infor
