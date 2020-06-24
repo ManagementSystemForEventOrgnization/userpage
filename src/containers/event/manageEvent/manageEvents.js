@@ -27,13 +27,7 @@ const { Column, ColumnGroup } = Table;
 class ManageEvent extends React.Component {
   constructor(props) {
     super(props);
-    let urlWeb = localStorage.getItem('webAddress');
-
     this.state = {
-      nameEvent: props.nameEvent,
-      webAddress: urlWeb,
-      isFirstLoad: true,
-      banner: props.banner,
       joinUser: [],
       txtCause: ' ',
       visible: false,
@@ -73,7 +67,7 @@ class ManageEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getUserJoinEvent, match, getEventInfo } = this.props;
+    const { getUserJoinEvent, match } = this.props;
 
     let id = match.match.params.id;
     let dataSent = {};
@@ -85,14 +79,6 @@ class ManageEvent extends React.Component {
           sessions: item.session.map((ss) => ({ sessionId: ss.id })),
           eventId: id,
         })),
-      });
-    });
-    let urlWeb = localStorage.getItem('webAddress');
-    getEventInfo(urlWeb).then((res) => {
-      this.setState({
-        nameEvent: res.name,
-        isFirstLoad: true,
-        banner: res.bannerUrl,
       });
     });
   };
@@ -164,8 +150,10 @@ class ManageEvent extends React.Component {
     return (
       <>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="General Information" key="1"></TabPane>
-          <EditGeneral />
+          <TabPane tab="General Information" key="1">
+            <EditGeneral />
+          </TabPane>
+
           <TabPane tab="Participant" key="2">
             <Table dataSource={userJoinEvent} pagination={10}>
               <ColumnGroup
@@ -320,16 +308,12 @@ class ManageEvent extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  pending: state.event.pending,
-  errMessage: state.event.errMessage,
   userJoinEvent: state.event.userJoinEvent,
-  banner: state.event.banner,
-  nameEvent: state.event.nameEvent,
 });
+
 const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
-  getEventInfo: (urlWeb) => dispatch(eventActions.getEventInfo(urlWeb)),
   verifyEventMember: (joinUserId, eventId, sessionIds) =>
     dispatch(
       applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)

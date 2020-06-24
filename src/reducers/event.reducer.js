@@ -210,14 +210,14 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_INFO:
       return {
         ...state,
-
         nameEvent: action.eventInfo.name,
         isSellTicket: action.eventInfo.isSellTicket,
         session: action.eventInfo.session,
         banner: action.eventInfo.bannerUrl,
         ticket: action.eventInfo.ticket,
-
+        category: action.eventInfo.category,
         countComment: action.countComment,
+        webAddress: action.eventInfo.urlWeb,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:
@@ -367,14 +367,12 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: true,
-
       };
     case eventConstants.DELETE_EVENT_FAILURE:
       return {
         ...state,
         pending: false,
         errMessage: action.error,
-
       };
     case eventConstants.DELETE_EVENT_SUCCESS:
       return {
@@ -387,7 +385,6 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pendCancel: true,
-
       };
     case eventConstants.CANCEL_EVENT_FAILURE:
       return {

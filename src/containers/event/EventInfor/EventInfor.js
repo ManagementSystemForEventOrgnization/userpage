@@ -143,18 +143,8 @@ class EventInfor extends Component {
   };
 
   render() {
-    const { pending, errMessage, categories } = this.props;
-    const {
-      nameEvent,
-      isSellTicket,
-      ticket,
-      webAddress,
-      typeOfEvent,
-      isFirstLoad,
-      banner,
-      activeKey,
-      customMessage,
-    } = this.state;
+    const { pending, errMessage } = this.props;
+    const { isFirstLoad, activeKey, customMessage } = this.state;
 
     const errorStyle = {
       backgroundColor: '#e8b3b3',
@@ -191,21 +181,10 @@ class EventInfor extends Component {
           >
             <Collapse defaultActiveKey="1">
               <Panel header="Basic information" key="1">
-                <What
-                  nameEvent={nameEvent}
-                  webAddress={webAddress}
-                  categories={categories}
-                  onChange={this.onChange}
-                />
+                <What onChange={this.onChange} />
               </Panel>
               <Panel header="More information" key="2">
-                <Which
-                  isSellTicket={isSellTicket}
-                  ticket={ticket}
-                  onChange={this.onChange}
-                  typeOfEvent={typeOfEvent}
-                  banner={banner}
-                />
+                <Which onChange={this.onChange} />
               </Panel>
             </Collapse>
           </TabPane>

@@ -18,7 +18,7 @@ class Chat extends Component {
     };
     this.socket = io(process.env.REACT_APP_CHAT_SERVER);
   }
-
+  // thử cài lại chưa. trong tràn home chỗ nào call io vậy
   UNSAFE_componentWillMount = () => {
     const { getChatHistory } = this.props;
     const userId = localStorage.getItem('userId');

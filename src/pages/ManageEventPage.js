@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 
 import Header from '../containers/share/_layout/Header';
 import ManageEvent from '../containers/event/manageEvent/manageEvents';
+import { eventActions } from 'action/event.action';
 
 class ManageEventPage extends Component {
+  componentDidMount = () => {
+    this.props.getEventInfo(localStorage.getItem('webAddress'));
+    this.props.getCategories();
+  };
+
   render() {
     const { banner, nameEvent } = this.props;
     return (
@@ -40,4 +46,9 @@ const mapStateToProps = (state) => ({
   nameEvent: state.event.nameEvent,
 });
 
-export default connect(mapStateToProps, null)(ManageEventPage);
+const mapDispatchToProps = (dispatch) => ({
+  getEventInfo: (url) => dispatch(eventActions.getEventInfo(url)),
+  getCategories: () => dispatch(eventActions.getCategories()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageEventPage);

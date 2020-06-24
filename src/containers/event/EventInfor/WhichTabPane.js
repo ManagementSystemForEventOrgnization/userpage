@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Radio, Collapse, InputNumber, Input } from 'antd';
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
+import { connect } from 'socket.io-client';
 
 const layout = {
   labelCol: {
@@ -48,6 +49,7 @@ class TabPane extends Component {
       uploadingMethod: e.target.value,
     });
   };
+
   render() {
     const { isSellTicket, typeOfEvent, banner, ticket } = this.props;
     const { uploadingMethod } = this.state;
@@ -162,8 +164,8 @@ class TabPane extends Component {
                 </Panel>
               </Collapse>
             ) : (
-                <></>
-              )}
+              <></>
+            )}
           </Form.Item>
         </Form>
       </div>
@@ -171,4 +173,11 @@ class TabPane extends Component {
   }
 }
 
-export default TabPane;
+const mapStateToProps = (state) => ({
+  isSellTicket: state.event.isSellTicket,
+  typeOfEvent: state.event.typeOfEvent,
+  banner: state.event.banner,
+  ticket: state.event.ticket,
+});
+
+export default connect(mapStateToProps, null)(TabPane);
