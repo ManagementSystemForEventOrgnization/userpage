@@ -308,6 +308,7 @@ class ManageEvent extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
+  errMessage: state.event.errMessage,
   userJoinEvent: state.event.userJoinEvent,
 });
 

@@ -103,11 +103,4 @@ class TabPane extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  categories: state.event.categories,
-  nameEvent: state.event.nameEvent,
-  webAddress: state.event.webAddress,
-  category: state.event.category,
-});
-
-export default connect(mapStateToProps, null)(TabPane);
+export default connect(null, null)(TabPane);

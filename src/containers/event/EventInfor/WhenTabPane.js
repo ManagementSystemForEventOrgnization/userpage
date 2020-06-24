@@ -28,7 +28,7 @@ class TabPane extends Component {
     super(props);
     this.state = {
       selectedDays: [],
-      session: [],
+      session: props.session,
     };
   }
 
@@ -451,8 +451,4 @@ class TabPane extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  session: state.event.session,
-});
-
-export default connect(mapStateToProps, null)(TabPane);
+export default connect(null, null)(TabPane);

@@ -30,7 +30,6 @@ class ProfilePage extends Component {
     };
 
     const { tab } = this.state;
-    console.log(tab);
     return (
       <div>
         <div className="fixed-top">

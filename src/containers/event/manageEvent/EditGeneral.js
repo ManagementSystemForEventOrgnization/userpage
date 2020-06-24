@@ -16,6 +16,7 @@ class EditGeneral extends Component {
       category,
       session,
       isSellTicket,
+      webAddress,
       banner,
       ticket,
     } = props;
@@ -26,7 +27,7 @@ class EditGeneral extends Component {
       category,
       session,
       isSellTicket,
-      webAddress: localStorage.getItem('webAddress'),
+      webAddress,
       banner,
       ticket,
     };
@@ -71,6 +72,7 @@ const mapStateToProps = (state) => ({
   ticket: state.event.ticket,
   session: state.event.session,
   category: state.event.category,
+  webAddress: state.event.webAddress,
 });
 
 export default connect(mapStateToProps, null)(EditGeneral);
