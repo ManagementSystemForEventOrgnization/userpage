@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Header from '../containers/share/_layout/Header';
 import ManageEvent from '../containers/event/manageEvent/manageEvents';
+// import { eventActions } from 'action/event.action';
 
 class ManageEventPage extends Component {
   render() {
@@ -39,5 +40,9 @@ const mapStateToProps = (state) => ({
   banner: state.event.banner,
   nameEvent: state.event.nameEvent,
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   getEventInfo: (urlWeb) => dispatch(eventActions.getEventInfo(urlWeb)),
+// });
 
 export default connect(mapStateToProps, null)(ManageEventPage);
