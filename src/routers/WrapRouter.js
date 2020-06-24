@@ -21,6 +21,7 @@ import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
 // import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
 import CreditCard from '../containers/user/BankAccount/CreditCard';
+import TransferType from '../containers/user/BankAccount/TransferType';
 import history from '../utils/history';
 import ManageEventPage from '../pages/ManageEventPage';
 import CreateHistoryEventPage from '../pages/CreateHistoryEvent';
@@ -96,7 +97,7 @@ class WrapRouter extends React.Component {
       {
         path: '/transfer',
         exact: true,
-        main: () => <CreditCard />,
+        main: () => <TransferType />,
       },
       {
         path: '/created-event',
