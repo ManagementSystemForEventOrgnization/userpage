@@ -25,9 +25,9 @@ const iconStyle = {
 class CardBlock extends React.Component {
   constructor(props) {
     super(props);
-    const { state } = this.props;
-    this.state = state
-      ? { ...state }
+    const { style } = this.props;
+    this.state = style
+      ? { ...style }
       : {
           ...SpeakerState(props),
         };
@@ -70,6 +70,16 @@ class CardBlock extends React.Component {
     }
   };
 
+  handleChangeUrlUpload = (itemId, type, value) => {
+    let { list } = this.state;
+    const index = list.findIndex((item) => item.id === itemId);
+    if (index !== -1) {
+      list[index][type] = value;
+    }
+    this.setState({ list });
+    this.handleStoreBlock();
+  };
+
   handleChangeItem = (itemId, type, value) => {
     let { list } = this.state;
     const index = list.findIndex((item) => item.id === itemId);
@@ -92,7 +102,7 @@ class CardBlock extends React.Component {
           child={true}
           height={'50vh'}
           handleChangeItem={(value) => {
-            this.handleChangeItem(item.id, 'url', value);
+            this.handleChangeUrlUpload(item.id, 'url', value);
           }}
         />
       </div>
@@ -120,7 +130,7 @@ class CardBlock extends React.Component {
               child={true}
               height={height}
               handleChangeItem={(value) => {
-                this.handleChangeItem(item.id, 'url', value);
+                this.handleChangeUrlUpload(item.id, 'url', value);
               }}
             />
           }

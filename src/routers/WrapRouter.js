@@ -23,7 +23,8 @@ import ConfirmPage from '../pages/ConfirmPage';
 import CreditCard from '../containers/user/BankAccount/CreditCard';
 import history from '../utils/history';
 import ManageEventPage from '../pages/ManageEventPage';
-import CreateHistoryEventPage from '../pages/CreateHistoryEvent'
+import CreateHistoryEventPage from '../pages/CreateHistoryEvent';
+
 class WrapRouter extends React.Component {
   constructor(props) {
     super(props);

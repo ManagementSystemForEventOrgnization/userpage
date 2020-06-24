@@ -8,13 +8,14 @@ import moment from 'moment';
 import { eventActions } from 'action/event.action';
 import IconsHandle from '../../shares/IconsHandle';
 import PaddingAndMargin from '../../shares/PaddingAndMargin';
+import ChangeColorModal from '../../shares/ChangeColorModal';
 
 class Document extends Component {
   constructor(props) {
     super(props);
     const { session, style } = this.props;
     this.state = style
-      ? { ...style, visible: false }
+      ? { ...style, visible: false, collapse: false }
       : {
           session: session.map((ss) => ({ ...ss, open: false })),
           visible: false,
@@ -25,6 +26,7 @@ class Document extends Component {
           collapse: false,
           padding: [1, 1, 1, 1],
           margin: [1, 1, 1, 1],
+          background: 'none',
         };
   }
 
@@ -127,6 +129,7 @@ class Document extends Component {
       padding,
       margin,
       collapse,
+      background,
     } = this.state;
     const { editable } = this.props;
 
@@ -139,6 +142,7 @@ class Document extends Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
+      background,
     };
 
     return (
@@ -302,6 +306,15 @@ class Document extends Component {
             margin={margin}
             handleChangePadding={this.handleChangePadding}
             handleChangeMargin={this.handleChangeMargin}
+          />
+
+          <hr className="mt-2 mb-2" />
+          <ChangeColorModal
+            title="Change Background Color"
+            color={background}
+            handleChangeColor={(value) =>
+              this.handleChangeInput('background', value)
+            }
           />
         </Modal>
       </div>

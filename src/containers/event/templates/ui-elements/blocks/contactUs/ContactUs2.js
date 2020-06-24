@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Modal } from 'antd';
 import { MailTwoTone, PhoneTwoTone } from '@ant-design/icons';
 
 import Text from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
 import IconsHandle from '../../shares/IconsHandle';
+import PaddingAndMargin from '../../shares/PaddingAndMargin';
+import ChangeColorModal from '../../shares/ChangeColorModal';
 
 class ContactUs2 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, isCollapsed: false }
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
           textAlign: 'center',
+          email: {
+            value: '1612xxx@student.hcmus.edu.vn',
+            style: { textAlign: 'center' },
+          },
+          phone: {
+            value: '0203040506080',
+            style: { textAlign: 'center' },
+          },
+          isCollapsed: false,
+          color: '',
+          background: 'none',
         };
   }
 
@@ -24,7 +38,6 @@ class ContactUs2 extends Component {
     const currentStyle = this.state;
 
     let item = blocks.find((ele) => ele.id === id);
-
     if (item) {
       const index = blocks.indexOf(item);
       item.style = currentStyle;
@@ -50,15 +63,37 @@ class ContactUs2 extends Component {
     }
   };
 
+  collapseModal = () => {
+    const { isCollapsed } = this.state;
+    this.setState({
+      isCollapsed: !isCollapsed,
+    });
+  };
+
+  onChangeValue = (value, type) => {
+    this.setState({
+      [type]: value,
+    });
+
+    setTimeout(this.handleStoreBlock(), 2000);
+  };
+
   render() {
     const { editable } = this.props;
-    const { margin, padding, textAlign } = this.state;
+    const {
+      margin,
+      padding,
+      textAlign,
+      phone,
+      email,
+      isCollapsed,
+      color,
+      background,
+    } = this.state;
+
     const iconStyle = {
       fontSize: '40px',
-    };
-
-    const textStyle = {
-      textAlign: 'center',
+      color: `${color}`,
     };
 
     const blockStyle = {
@@ -70,7 +105,9 @@ class ContactUs2 extends Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      textAlign: textAlign,
+      textAlign,
+      color,
+      background,
     };
 
     return (
@@ -80,19 +117,25 @@ class ContactUs2 extends Component {
             <MailTwoTone style={iconStyle} />
             <Text
               child={true}
-              content="123@123.com.vn"
-              newStyle={textStyle}
+              content={email.value}
+              newStyle={email.style}
               editable={editable}
+              handleChangeContact={(value) =>
+                this.onChangeValue(value, 'email')
+              }
             />
           </div>
           <div className="col-6 col-sm-6">
             <PhoneTwoTone style={iconStyle} />
             <Text
               child={true}
-              content="0123456789"
-              newStyle={textStyle}
+              content={phone.value}
+              newStyle={phone.style}
               leftModal={true}
               editable={editable}
+              handleChangeContact={(value) =>
+                this.onChangeValue(value, 'phone')
+              }
             />
           </div>
         </div>
@@ -106,6 +149,38 @@ class ContactUs2 extends Component {
             />
           </div>
         )}
+
+        <Modal
+          title="Edit Contact Style"
+          visible={isCollapsed}
+          onOk={this.collapseModal}
+          onCancel={this.collapseModal}
+          width="500px"
+        >
+          <PaddingAndMargin
+            padding={padding}
+            margin={margin}
+            handleChangeMargin={(value) => this.onChangeValue(value, 'margin')}
+            handleChangePadding={(value) =>
+              this.onChangeValue(value, 'padding')
+            }
+          />
+
+          <div className="d-flex mt-5 pl-2">
+            <ChangeColorModal
+              title="Change Text Color"
+              color={color}
+              handleChangeColor={(value) => this.onChangeValue(value, 'color')}
+            />
+            <ChangeColorModal
+              title="Change background"
+              color={background}
+              handleChangeColor={(value) =>
+                this.onChangeValue(value, 'background')
+              }
+            />
+          </div>
+        </Modal>
       </div>
     );
   }

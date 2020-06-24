@@ -322,15 +322,8 @@ const deleteBlock = (id) => {
   }
 };
 
-const getListEvent = (categoryEventId, type) => {
-  //api/getListEvent
-  let sentData = {};
-  if (type === 'HEIGHT_LIGHT') {
-    sentData.type = type;
-    // sentData.numberRecord = numberRecord;
-  } else {
-    sentData.categoryEventId = type;
-  }
+const getListEvent = (sentData) => {
+
   return (dispatch) => {
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
@@ -549,7 +542,7 @@ const deleteEvent = (eventId, cb) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-        cb()
+        cb();
       })
       .catch((error) => {
         const { data } = error.response;

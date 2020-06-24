@@ -1,39 +1,58 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { StarFilled } from '@ant-design/icons';
+import history from '../utils/history';
+const { Search } = Input;
+
 class Banner extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  // to='/event-list/all-events'
+  handleChage = (value) => {
+    history.push(`/event-list/${value}`);
   }
 
   render() {
-    const { isLogined } = this.props;
+    const { isLogined, category } = this.props;
     return (
       <div className="banner">
-        <div className="title-name">EVENT IN YOUR HAND</div>
-        <div className=" title-h2">Be easier to create and organize event </div>
-        {isLogined ? (
-          <Link to="/prepare">
-            <Button
-
-
-              type="danger"
-              icon={<StarFilled />}
-              size="large"
-              onClick={this.showModal}
-            >
-              Create Event Now
-            </Button>
-          </Link>
+        {category ? (
+          <>
+            {/* <div className="title-name">{category}</div> */}
+            <Search
+              placeholder="input search text"
+              onSearch={(value) =>
+                this.handleChage(value)
+              }
+              enterButton
+              size='large'
+            />
+          </>
         ) : (
-            <Link to="/login">
-              <Button type="danger" icon={<StarFilled />} size="large">
-                Login To Expore Now
-            </Button>
-            </Link>
+            <>
+              <div className="title-name">EVENT IN YOUR HAND</div>
+              <div className=" title-h2">
+                Be easier to create and organize event{' '}
+              </div>
+              {isLogined ? (
+                <Link to="/prepare">
+                  <Button
+                    type="danger"
+                    icon={<StarFilled />}
+                    size="large"
+                    onClick={this.showModal}
+                  >
+                    Create Event Now
+                </Button>
+                </Link>
+              ) : (
+                  <Link to="/login">
+                    <Button type="danger" icon={<StarFilled />} size="large">
+                      Login To Expore Now
+                </Button>
+                  </Link>
+                )}
+            </>
           )}
       </div>
     );

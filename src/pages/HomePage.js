@@ -29,13 +29,14 @@ class HomePage extends Component {
   }
 
   componentDidMount = () => {
-    const { getListEventUpComing, getListEvent, getCategories } = this.props;
+    const { getListEventUpComing, getListEvent } = this.props;
     const { pageNumber, numberRecord } = this.state;
     let type = 'HEIGHT_LIGHT';
+    let sentData = {};
+    sentData.type = type
     // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
-    getListEvent(type);
-    getCategories();
+    getListEvent(sentData);
   };
 
   sumDiscount = (ticket, discount) => {
@@ -134,23 +135,21 @@ class HomePage extends Component {
                 className="event-cart "
                 cover={
                   <div>
-
-                    {
-                      item.ticket ? (
-                        <div className="d-flex ">
-                          {item.ticket.discount ? (
-                            <Button className="ml-1 mt-1 ticket">
-                              {this.percentDiscount(item.ticket.discount)}
-                            </Button>
-                          ) : (
-                              ''
-                            )}
-                        </div>
-                      ) : (
-                          <Button className="ml-1 mt-1 ticket" key={item._id}>
-                            Free
+                    {item.ticket ? (
+                      <div className="d-flex ">
+                        {item.ticket.discount ? (
+                          <Button className="ml-1 mt-1 ticket">
+                            {this.percentDiscount(item.ticket.discount)}
                           </Button>
-                        )}
+                        ) : (
+                            ''
+                          )}
+                      </div>
+                    ) : (
+                        <Button className="ml-1 mt-1 ticket" key={item._id}>
+                          Free
+                        </Button>
+                      )}
                     {item.bannerUrl && (
                       <img
                         className="img "
@@ -324,7 +323,15 @@ class HomePage extends Component {
               this.renderUpcomingEvent()
             )}
         </div>
-
+        <hr>
+        </hr>
+        <Link to='/event-list/all-events'>
+          <Button style={{
+            marginLeft: '40%', marginTop: '5%', marginBottom: '10%',
+            width: '20%', height: '50px', fontWeight: 'bolder', fontSize: '25px',
+            borderWidth: '3px', borderColor: 'var(--eds-ui-500,#a9a8b3)', borderRadius: '4px',
+          }}>See more</Button>
+        </Link>
         <hr
           style={{
             fontSize: '30px',
@@ -368,10 +375,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getListEventUpComing: (pageNumber, numberRecord) =>
     dispatch(eventActions.getListEventUpComing(pageNumber, numberRecord)),
-  // getListEvent: () => dispatch(eventActions.getListEvent()),
   getHomeData: () => dispatch(eventActions.getHomeData()),
-  getListEvent: (type) => dispatch(eventActions.getListEvent(type)),
-  getCategories: () => dispatch(eventActions.getCategories()),
+  getListEvent: (sentData) => dispatch(eventActions.getListEvent(sentData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

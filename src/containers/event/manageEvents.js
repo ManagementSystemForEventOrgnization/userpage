@@ -1,27 +1,33 @@
 import React from 'react';
-import { Button, Tabs, Table, Collapse, Popconfirm, Input, Modal, notification } from 'antd';
+import {
+  Button,
+  Tabs,
+  Table,
+  Popconfirm,
+  Input,
+  Modal,
+  notification,
+} from 'antd';
 import { connect } from 'react-redux';
-
 import moment from 'moment';
+
 import {
   FileDoneOutlined,
   CloseOutlined,
   DeleteOutlined,
   CheckOutlined,
-  CloseSquareOutlined
-
 } from '@ant-design/icons';
 import What from '../event/EventInfor/WhatTabPane';
-//import Which from '../event/EventInfor/WhichTabPane';
 import When from '../event/EventInfor/WhenTabPane';
+
 import { eventActions } from 'action/event.action';
 import { applyEventActions } from 'action/applyEvent';
+
 const { TabPane } = Tabs;
-//const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
+
 class ManageEvent extends React.Component {
   constructor(props) {
-    // get category
     super(props);
     let urlWeb = localStorage.getItem('webAddress');
 
@@ -52,9 +58,8 @@ class ManageEvent extends React.Component {
       isFirstLoad: true,
     });
   };
-  showModalSession = (join) => {
 
-    
+  showModalSession = (join) => {
     let event = join.session.findIndex(ss => ss.isConfirm === true)
     if (event !== -1) {
       this.setState({ background: 'green' });
@@ -62,13 +67,14 @@ class ManageEvent extends React.Component {
     let event1 = join.session.findIndex((ss) => ss.isReject === true);
 
     if (event1 !== -1) {
-      this.setState({ backReject: 'red' })
+      this.setState({ backReject: 'red' });
     }
     this.setState({
       visible: true,
       joinEvent: join,
     });
   };
+
   handleOk = (e) => {
     this.setState({
       visible: false,
@@ -123,64 +129,51 @@ class ManageEvent extends React.Component {
   onApproveMember = (joinUserId, sessionIds) => {
     const { verifyEventMember, match } = this.props;
     let id = match.match.params.id;
-    verifyEventMember(joinUserId, id, sessionIds).then(res => {
-      this.setState({
-        background: 'green'
-      })
-
-    }).catch(err => {
-
-      const { data } = err.response;
-      if (data.error) {
-    
-        
-        notification.error({
-
-          message: data.error.message,
-          style: {
-            marginTop: '20%',
-
-          },
+    verifyEventMember(joinUserId, id, sessionIds)
+      .then((res) => {
+        this.setState({
+          background: 'green',
         });
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        if (data.error) {
+          console.log('1', data.error.message);
+          notification.error({
+            message: data.error.message,
+            style: {
+              marginTop: '20%',
+            },
+          });
+        }
+        // message.error(data.error || 'This is an error something wrong');
+      });
+  };
 
-
-      }
-      // message.error(data.error || 'This is an error something wrong');
-
-
-    })
-
-  }
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
-    rejectEventMember(joinUserId, id, sessionIds).then(res => {
-      this.setState({
-        backReject: 'red'
-      })
-    }).catch(err => {
-
-      const { data } = err.response;
-      if (data.error) {
-      
-        
-        notification.error({
-
-          message: data.error.message,
-          style: {
-            marginTop: '20%',
-
-          },
+    rejectEventMember(joinUserId, id, sessionIds)
+      .then((res) => {
+        this.setState({
+          backReject: 'red',
         });
-      }
-    })
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        if (data.error) {
+          console.log('1', data.error.message);
+          notification.error({
+            message: data.error.message,
+            style: {
+              marginTop: '20%',
+            },
+          });
+        }
+      });
+  };
 
-
-
-  }
   confirm = (userId) => {
-    // reportUser: (userId, cause, eventId)
-
     const { txtCause } = this.state;
     const { reportUser, match } = this.props;
     let id = match.match.params.id;
@@ -189,6 +182,7 @@ class ManageEvent extends React.Component {
       backDelete: true,
     });
   };
+
   onChangeCause = (e) => {
     this.setState({
       txtCause: e.target.value,
@@ -199,9 +193,7 @@ class ManageEvent extends React.Component {
     const { categories, userJoinEvent } = this.props;
     const {
       nameEvent,
-
       webAddress,
-
       banner,
       txtCause,
       joinEvent,
@@ -213,14 +205,10 @@ class ManageEvent extends React.Component {
       fontWeight: '700',
       fontSize: '36px',
       fontFamily: `Oswald`,
-
       marginBottom: '15px',
       textTransform: 'capitalize',
       marginLeft: '20px',
     };
-    //const text = 'Are you sure to delete this task?';
-    // const src =
-    //   'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591667844/logoEvent_wvpplo.png';
 
     return (
       <div className="manageEvent  ">
@@ -234,8 +222,6 @@ class ManageEvent extends React.Component {
                 <h1 style={{ color: 'white', textAlign: 'center' }}>
                   {nameEvent}
                 </h1>
-                {/* <Link to="">https://hanlinh010198.wixsite.com/mysite</Link> */}
-                {/* <Button className="ticket">{}</Button> */}
               </div>
             </div>
           </div>
@@ -309,14 +295,8 @@ class ManageEvent extends React.Component {
                   Which
                 </h2>
               </div>
-
-              {/* <Which
-                isSellTicket={isSellTicket}
-                onChange={this.onChange}
-                typeOfEvent={typeOfEvent}
-                banner={banner}
-              /> */}
             </TabPane>
+
             <TabPane tab="Participant" key="2">
               <Table dataSource={userJoinEvent} pagination={10}>
                 <ColumnGroup
@@ -342,11 +322,20 @@ class ManageEvent extends React.Component {
                     <div className="d-flex">
                       <h4>{session.length}</h4>
                       {userJoinEvent.map((join) =>
-                        join.session === session ?
-                          <Button key={join._id} className="ml-3" type='primary' onClick={() => this.showModalSession(join)}
-                            shape='circle'> <FileDoneOutlined style={{ fontSize: '17px' }} /></Button>
-                          : ' '
-
+                        join.session === session ? (
+                          <Button
+                            key={join._id}
+                            className="ml-3"
+                            type="primary"
+                            onClick={() => this.showModalSession(join)}
+                            shape="circle"
+                          >
+                            {' '}
+                            <FileDoneOutlined style={{ fontSize: '17px' }} />
+                          </Button>
+                        ) : (
+                            ' '
+                          )
                       )}
                     </div>
                   )}
@@ -388,6 +377,7 @@ class ManageEvent extends React.Component {
               ,
             </TabPane>
           </Tabs>
+
           <Modal
             title="User take part in  session this event"
             visible={this.state.visible}

@@ -11,33 +11,37 @@ const ButtonState = (props) => ({
   margin: [1, 1, 1, 1],
   padding: [1, 1, 1, 1],
 
-  background: '#40a9ff',
+  background: props.newStyle
+    ? props.newStyle.background
+      ? props.newStyle.background
+      : '#40a9ff'
+    : '#40a9ff',
 
-  color: props.style
-    ? props.style.color
-      ? props.style.color
+  color: props.newStyle
+    ? props.newStyle.color
+      ? props.newStyle.color
       : '#fff'
     : '#fff',
 
-  fontSize: props.style
-    ? props.style.fontSize
-      ? props.style.fontSize
+  fontSize: props.newStyle
+    ? props.newStyle.fontSize
+      ? props.newStyle.fontSize
       : 20
     : 20,
   fonts: 'Times New Roman',
   lineText: 80,
 
   letterSpacing: 0,
-  textAlign: props.style
-    ? props.style.textAlign
-      ? props.style.textAlign
+  textAlign: props.newStyle
+    ? props.newStyle.textAlign
+      ? props.newStyle.textAlign
       : 'center'
     : 'center',
   tranform: ' ',
 
-  fontWeight: props.style
-    ? props.style.fontWeight
-      ? props.style.fontWeight
+  fontWeight: props.newStyle
+    ? props.newStyle.fontWeight
+      ? props.newStyle.fontWeight
       : 'normal'
     : 'normal',
   borderRadius: 2,
@@ -45,6 +49,17 @@ const ButtonState = (props) => ({
   whiteSpace: 'nowrap',
   touchAction: 'manipulation',
   height: '38px',
+  textDecoration: props.newStyle
+    ? props.newStyle.fontWeight
+      ? props.newStyle.fontWeight
+      : 'normal'
+    : 'normal',
+
+  alignContent: props.newStyle
+    ? props.newStyle.alignContent
+      ? props.newStyle.alignContent
+      : 'center'
+    : 'center',
 });
 
 export { ButtonState };

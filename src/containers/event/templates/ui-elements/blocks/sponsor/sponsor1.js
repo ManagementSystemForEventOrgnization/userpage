@@ -13,7 +13,6 @@ import { eventActions } from 'action/event.action';
 // import { titleBlockStyle } from '../../../constants/atom.constant';
 
 const high = 20;
-const title = 'Sponsor';
 const iconStyle = {
   fontSize: '20px',
 };
@@ -58,6 +57,11 @@ class Sponsor1Block extends Component {
                 'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/apcs_xvnpbo.jpg',
             },
           ],
+          nameBlock: 'Sponsor',
+          nameBlockStyle: {
+            fontWeight: 'normal',
+            fontSize: 50,
+          },
         };
   }
 
@@ -100,12 +104,31 @@ class Sponsor1Block extends Component {
     }
   };
 
+  handleChangeUrlUpload = (itemId, type, value) => {
+    let { sponsor } = this.state;
+    const index = sponsor.findIndex((item) => item.id === itemId);
+    if (index !== -1) {
+      sponsor[index][type] = value;
+    }
+    this.setState({ sponsor });
+    this.handleStoreBlock();
+  };
+
+  handleChangeSponsor = (value) => {
+    this.setState({
+      nameBlock: value.value,
+      nameBlockStyle: value.style,
+    });
+
+    setTimeout(this.handleStoreBlock(), 2000);
+  };
+
   render() {
     const style = {
       margin: '10px',
       padding: '10px',
     };
-    const { sponsor } = this.state;
+    const { sponsor, nameBlockStyle, nameBlock } = this.state;
     const { editable } = this.props;
     const listSponsorStyle = {
       background: '#eaeaea6b',
@@ -117,13 +140,11 @@ class Sponsor1Block extends Component {
       <div className="d-flex child-block" style={style}>
         <div style={style} className="container">
           <TextBlock
-            content={title}
+            content={nameBlock}
             child={true}
             editable={editable}
-            newStyle={{
-              fontWeight: 'normal',
-              fontSize: 50,
-            }}
+            newStyle={{ ...nameBlockStyle }}
+            handleChangeSponsor={this.handleChangeSponsor}
           />
 
           <hr></hr>
@@ -141,6 +162,9 @@ class Sponsor1Block extends Component {
                     height={high}
                     // borderRadius={true}
                     child={true}
+                    handleChangeItemSponsor={(value) => {
+                      this.handleChangeUrlUpload(item.id, 'url', value);
+                    }}
                   />
                 </div>
               ))}

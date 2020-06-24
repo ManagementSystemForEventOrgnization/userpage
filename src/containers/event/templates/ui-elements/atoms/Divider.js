@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Radio, Divider } from 'antd';
+import { Modal, Radio, Divider, Input } from 'antd';
 import { orientation } from '../../constants/atom.constant';
 import { DividerState } from '../stateInit/DividerState';
 
 import { eventActions } from 'action/event.action';
+import IconsHandle from '../shares/IconsHandle';
 
 class DividersBlock extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class DividersBlock extends React.Component {
       ? { ...style }
       : {
           ...DividerState(orientation),
-          orientationList: orientation,
+          content: 'Text',
         };
   }
 
@@ -25,8 +26,23 @@ class DividersBlock extends React.Component {
     this.handleStoreBlock();
   };
 
+  handleDuplicate = () => {
+    const { id, duplicateBlock } = this.props;
+    if (duplicateBlock) {
+      duplicateBlock(id);
+    }
+  };
+
+  handleDelete = () => {
+    const { id, deleteBlock } = this.props;
+    if (deleteBlock) {
+      deleteBlock(id);
+    }
+  };
+
   // common function
   onChangeValue(newValue, valueParam) {
+    console.log(newValue);
     this.setState({
       [valueParam]: newValue,
     });
@@ -49,14 +65,22 @@ class DividersBlock extends React.Component {
   };
 
   render() {
-    const { orientationList, styleFormat } = this.state;
+    const { orientationList, styleFormat, content } = this.state;
     const { editable } = this.props;
 
     return (
-      <div className=" child-block">
-        <div className="mt-2" onClick={this.openModal}>
-          <Divider orientation={styleFormat}>Text </Divider>
+      <div className=" child-block d-flex">
+        <div className="mt-2 flex-full">
+          <Divider orientation={styleFormat}>{content} </Divider>
         </div>
+
+        {editable && (
+          <IconsHandle
+            collapseModal={this.openModal}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
+        )}
 
         {editable && (
           <Modal
@@ -67,7 +91,15 @@ class DividersBlock extends React.Component {
             width={900}
             footer={[]}
           >
-            {/* list timepicker in modal */}
+            <div className="d-flex">
+              <p className="mr-2">Text of divider : </p>
+              <Input
+                value={content}
+                onChange={(e) => this.onChangeValue(e.target.value, 'content')}
+              />
+              <hr />
+            </div>
+
             <div>
               <Radio.Group
                 value={styleFormat}
@@ -75,9 +107,9 @@ class DividersBlock extends React.Component {
                   this.onChangeValue(e.target.value, 'styleFormat')
                 }
               >
-                {orientationList.map((orienformat) => (
-                  <Radio value={orienformat} key={orienformat}>
-                    <Divider orientation={orienformat}>{orienformat} </Divider>
+                {orientationList.map((item) => (
+                  <Radio value={item} key={item}>
+                    <Divider orientation={item}>{content} </Divider>
                   </Radio>
                 ))}
               </Radio.Group>
@@ -97,6 +129,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
+  deleteBlock: (id) => dispatch(eventActions.deleteBlock(id)),
+  duplicateBlock: (id) => dispatch(eventActions.duplicateBlock(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DividersBlock);
