@@ -63,22 +63,17 @@ class CreateHistory extends React.Component {
   }
   componentDidMount = () => {
     const { getCreateHistory, getCategories } = this.props;
-
     getCreateHistory();
     getCategories();
   };
+
   handleChange = (categoryEventId) => {
     const { getCreateHistory } = this.props;
     let dataSent = {};
-
     dataSent.categoryEventId = categoryEventId;
-
     getCreateHistory(dataSent);
   };
-  // error = () => {
-  //     const{errMessage}=this.props;
-  //     message.error(errMessage);
-  //   }
+
   toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -94,12 +89,14 @@ class CreateHistory extends React.Component {
 
     getCreateHistory(dataSent);
   };
+
   ableToLoadMore = (count) => {
     if (count === 0) return false;
 
     if (count === 10) return true;
     return count % 10 === 0;
   };
+
   onLoadMore = () => {
     const { getCreateHistory, arrEvent } = this.props;
     const { listEvent } = this.state;
@@ -129,6 +126,7 @@ class CreateHistory extends React.Component {
       pageNumber,
     });
   };
+
   loadEvent = () => {
     const { pageNumber } = this.state;
     let number = +pageNumber + 1;
@@ -138,6 +136,7 @@ class CreateHistory extends React.Component {
 
     setTimeout(this.handleFilter(), 3000);
   };
+
   isCancelEvent = () => {
     this.setState({
       isShowCancel: false,
@@ -163,13 +162,13 @@ class CreateHistory extends React.Component {
 
     return money;
   };
+
   percentDiscount = (discount) => {
     let newDiscount = discount * 100;
-
     let percent = `-${newDiscount}%`;
-
     return percent;
   };
+
   onChangeStatus = (value) => {
     const { getCreateHistory } = this.props;
     this.setState({
@@ -191,13 +190,13 @@ class CreateHistory extends React.Component {
     }
   };
 
-  handleDeleteEvent = (eventId) => {};
   handleEditSite = (url, eventId) => {
     localStorage.setItem('webAddress', url);
     localStorage.setItem('currentId', eventId);
   };
+
   handleURL = (url) => {
-    localStorage.setItem('webAddress', url);
+    localStorage.setItem('webAd dress', url);
   };
 
   showDeleteConfirm = () => {
@@ -253,6 +252,7 @@ class CreateHistory extends React.Component {
       3000
     );
   };
+
   isShowDelete = (eventId) => {
     this.setState({
       visible: true,
@@ -284,6 +284,7 @@ class CreateHistory extends React.Component {
       getCreateHistory(dataSent);
     }
   };
+
   cancelSessionEvent = (idSession) => {
     const { idEventCancel } = this.state;
     let { sessionEvent } = this.state;
@@ -341,6 +342,7 @@ class CreateHistory extends React.Component {
 
     return menu;
   };
+
   showCancelConfirm = () => {
     const { idEventCancel } = this.state;
     const { cancelEvent, arrEvent } = this.props;
@@ -387,9 +389,7 @@ class CreateHistory extends React.Component {
                   <Search
                     enterButton
                     size="large"
-                    // value={this.state.txtSearch}
                     placeholder="input search text"
-                    // onChange={this.handleChangeSearch}
                     onSearch={(value) => this.onChangeSearch(value)}
                   />
                 </div>
@@ -624,7 +624,7 @@ class CreateHistory extends React.Component {
             </Menu>
           </Col>
         </Row>
-        ,
+
         <Modal
           title="Are you sure delete this event?"
           visible={this.state.visible}

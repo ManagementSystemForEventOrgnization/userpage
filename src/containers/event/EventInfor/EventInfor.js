@@ -147,6 +147,12 @@ class EventInfor extends Component {
     });
   };
 
+  handleClickTab = (key, cb) => {
+    this.setState({
+      activeKey: key,
+    });
+  };
+
   render() {
     const { pending, errMessage, categories } = this.props;
     const {
@@ -184,7 +190,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage || customMessage}</div>
         )}
 
-        <Tabs activeKey={activeKey}>
+        <Tabs activeKey={activeKey} onTabClick={this.handleClickTab}>
           <TabPane
             tab={
               <span className="p-5">

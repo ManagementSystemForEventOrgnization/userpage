@@ -53,7 +53,10 @@ class TabPane extends Component {
       return;
     } else {
       let { selectedDays } = this.state;
-      selectedDays = session.map((ss) => ss.day);
+      selectedDays = session.map((ss) => {
+        const day = new Date(ss.day);
+        return day;
+      });
       this.setState({ selectedDays });
     }
   };

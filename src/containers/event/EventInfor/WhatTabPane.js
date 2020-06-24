@@ -33,7 +33,7 @@ class TabPane extends Component {
   };
 
   render() {
-    const { nameEvent, webAddress, categories, category } = this.props;
+    const { nameEvent, webAddress, categories } = this.props;
     return (
       <Form
         {...layout}
@@ -85,7 +85,6 @@ class TabPane extends Component {
           <Select
             placeholder="Choose category of event"
             onChange={this.handleChangeCategory}
-            defaultValue={category}
             allowClear
           >
             {categories.map(

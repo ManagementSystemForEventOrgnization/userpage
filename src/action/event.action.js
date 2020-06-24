@@ -439,8 +439,6 @@ const getEventInfo = (urlWeb) => {
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
-          console.log(res.data.result.event);
-
           resolve(res.data.result.event);
 
           localStorage.setItem('currentId', res.data.result.event.eventId);

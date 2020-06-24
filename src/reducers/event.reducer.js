@@ -9,13 +9,13 @@ const initialBlocks = [
   //...dataTest[0].value,
   dataTest[2].value[2], // event description
   ...dataTest[13].value, //list of link documents
-  ...dataTest[3].value, // speaker, card
+  dataTest[3].value[0], // speaker, card
   ...dataTest[4].value, // schedule
   dataTest[5].value[1], //map
   ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
   dataTest[8].value[0], // sponsors
-  ...dataTest[9].value, //gallery
+  dataTest[9].value[0], //gallery
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
@@ -43,6 +43,8 @@ const initialState = {
     price: 0,
     discount: 0,
   },
+  status: 'DRAFT',
+
   events: [],
   hlEvent: [],
   errCancel: '',
@@ -211,6 +213,7 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_INFO:
+      console.log(action.eventInfo);
       return {
         ...state,
         nameEvent: action.eventInfo.name,
@@ -223,6 +226,7 @@ const event = (state = initialState, action) => {
         typeOfEvent: action.eventInfo.typeOfEvent,
 
         countComment: action.countComment,
+        status: action.eventInfo.status,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:

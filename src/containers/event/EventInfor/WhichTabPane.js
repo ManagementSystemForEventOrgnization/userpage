@@ -22,7 +22,6 @@ class TabPane extends Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     const { onChange } = this.props;
-    console.log(name, value);
     onChange(name, value);
   };
 
@@ -39,15 +38,11 @@ class TabPane extends Component {
   };
 
   render() {
-    const { isSellTicket, typeOfEvent, banner, ticket } = this.props;
-
+    const { typeOfEvent, banner, ticket } = this.props;
+    const isSellTicket = this.props.isSellTicket ? 'Yes' : 'No';
     return (
       <div className="p-5">
-        <Form
-          {...layout}
-          name="control-ref"
-          initialValues={{ bannerUrl: banner }}
-        >
+        <Form {...layout} name="control-ref">
           <Form.Item
             label="Type of event "
             rules={[
@@ -58,7 +53,6 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={typeOfEvents}
-              name="typeOfEvent"
               onChange={this.handleChange}
               value={typeOfEvent}
             />
@@ -78,11 +72,10 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={plainOptions}
-              name="isSellTicket"
               onChange={this.handleChange}
               value={isSellTicket}
             />
-            {isSellTicket !== 'No' ? (
+            {isSellTicket === 'Yes' || isSellTicket === true ? (
               <Collapse
                 defaultActiveKey="1"
                 className="mt-4"

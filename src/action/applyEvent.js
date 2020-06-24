@@ -7,9 +7,11 @@ const applyEvent = (eventId, sessionIds) => {
       API.post('/api/joinEvent', {
         eventId,
         sessionIds,
+        payType: 'CREDIT_CARD',
       })
         .then((res) => {
           // dispatch(success(res.data.result));
+          console.log(res.data.result);
           resolve('true');
         })
         .catch((err) => reject(err));
