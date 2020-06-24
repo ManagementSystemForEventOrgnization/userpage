@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 
@@ -27,7 +28,7 @@ class TabPane extends Component {
     super(props);
     this.state = {
       selectedDays: [],
-      session: [],
+      session: props.session,
     };
   }
 
@@ -44,6 +45,17 @@ class TabPane extends Component {
       session: newSS,
     });
     onChange('session', newSS);
+  };
+
+  componentDidMount = () => {
+    const { session } = this.props;
+    if (session.length === 0) {
+      return;
+    } else {
+      let { selectedDays } = this.state;
+      selectedDays = session.map((ss) => ss.day);
+      this.setState({ selectedDays });
+    }
   };
 
   handleDayClick = (day, { selected }) => {
@@ -439,4 +451,4 @@ class TabPane extends Component {
   }
 }
 
-export default TabPane;
+export default connect(null, null)(TabPane);

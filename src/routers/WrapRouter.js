@@ -4,7 +4,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
-import AboutUs from '../pages/AboutUs';
+import AboutUs from '../pages/AboutUsPage';
 
 import CategoryDetailPage from '../pages/CategoryDetailPage';
 import EventDetailPage from '../pages/EventDetailPage';

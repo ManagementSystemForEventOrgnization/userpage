@@ -13,7 +13,7 @@ import { userActions } from '../../action/user.action';
 class UserNav extends Component {
   render() {
     const { logout } = this.props;
-    const username = localStorage.getItem('fullName');
+    const username = localStorage.getItem('username');
     const avatar = localStorage.getItem('avatar');
     return (
       <div className="user-nav ">
@@ -27,34 +27,34 @@ class UserNav extends Component {
 
         <nav className="nav">
           <ul>
-            <li className="userName mb-2">
+            <li className="userName pb-5 pt-0">
               <b>{username}</b>
             </li>
 
             <li>
               <Link to="/my-events" className="link">
                 <ProfileOutlined className="mr-2 icon" />
-                Trang cá nhân
+                Profile
               </Link>
             </li>
             <li>
               <Link className="link" to="/registered-event">
                 <MoneyCollectOutlined className="mr-2 icon" />
-                Sự kiện đã đăng ký
+                Registered Events
               </Link>
             </li>
 
             <li>
               <Link to="/created-event" className="link">
                 <CalendarOutlined className="mr-2 icon" />
-                Sự kiện đã tạo
+                Created Events
               </Link>
             </li>
 
             <li onClick={logout}>
               <div className="link">
                 <LogoutOutlined className="mr-2 icon" />
-                Đăng xuất
+                Logout
               </div>
             </li>
           </ul>

@@ -23,13 +23,16 @@ const initialBlocks = [
   dataTest[11].value[1], // footer,
 ];
 
+const bannerUrl =
+  'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
+
 const initialState = {
   nameEvent: '',
-  typeOfEvent: '',
+  typeOfEvent: 'Public',
   category: '',
-  banner: '',
+  banner: bannerUrl,
   session: [],
-  isSellTicket: 'Không',
+  isSellTicket: 'No',
   webAddress: '',
   blocks: [...initialBlocks],
   categories: [],
@@ -187,7 +190,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        blocks: action.page,
+        blocks: Object.keys(action.page).length === 0 ? [] : action.page,
         pages: action.header.pages,
         headerStyle: action.header.style,
         currentIndex: action.index,
@@ -210,12 +213,14 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_INFO:
       return {
         ...state,
-
         nameEvent: action.eventInfo.name,
         isSellTicket: action.eventInfo.isSellTicket,
         session: action.eventInfo.session,
         banner: action.eventInfo.bannerUrl,
         ticket: action.eventInfo.ticket,
+        category: action.eventInfo.category,
+        webAddress: action.eventInfo.urlWeb,
+        typeOfEvent: action.eventInfo.typeOfEvent,
 
         countComment: action.countComment,
       };
@@ -367,14 +372,12 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: true,
-
       };
     case eventConstants.DELETE_EVENT_FAILURE:
       return {
         ...state,
         pending: false,
         errMessage: action.error,
-
       };
     case eventConstants.DELETE_EVENT_SUCCESS:
       return {
@@ -387,7 +390,6 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pendCancel: true,
-
       };
     case eventConstants.CANCEL_EVENT_FAILURE:
       return {
