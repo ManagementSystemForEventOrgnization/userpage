@@ -53,7 +53,8 @@ class ManageEvent extends React.Component {
     });
   };
   showModalSession = (join) => {
-    console.log('j', join);
+
+    
     let event = join.session.findIndex(ss => ss.isConfirm === true)
     if (event !== -1) {
       this.setState({ background: 'green' });
@@ -131,7 +132,8 @@ class ManageEvent extends React.Component {
 
       const { data } = err.response;
       if (data.error) {
-        console.log('1', data.error.message);
+    
+        
         notification.error({
 
           message: data.error.message,
@@ -160,7 +162,8 @@ class ManageEvent extends React.Component {
 
       const { data } = err.response;
       if (data.error) {
-        console.log('1', data.error.message);
+      
+        
         notification.error({
 
           message: data.error.message,
