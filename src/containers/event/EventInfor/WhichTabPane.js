@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Radio, Collapse, InputNumber, Input } from 'antd';
+import { connect } from 'react-redux';
+import { Form, Radio, Collapse, InputNumber } from 'antd';
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const layout = {
@@ -13,18 +14,10 @@ const layout = {
 
 const typeOfEvents = ['Public', 'Private'];
 const plainOptions = ['Yes', 'No'];
-const uploadingMethods = ['Upload from  device', 'Input from link'];
 
 const { Panel } = Collapse;
 
 class TabPane extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      uploadingMethod: uploadingMethods[0],
-    };
-  }
-
   handleChange = (e) => {
     const { name, value } = e.target;
     const { onChange } = this.props;
@@ -43,14 +36,8 @@ class TabPane extends Component {
     setTimeout(onChange('ticket', newTicket), 3000);
   };
 
-  handleChangeUploadingMethod = (e) => {
-    this.setState({
-      uploadingMethod: e.target.value,
-    });
-  };
   render() {
     const { isSellTicket, typeOfEvent, banner, ticket } = this.props;
-    const { uploadingMethod } = this.state;
 
     return (
       <div className="p-5">
@@ -75,42 +62,8 @@ class TabPane extends Component {
             />
           </Form.Item>
 
-          <Form.Item label="Banner">
-            <Radio.Group
-              options={uploadingMethods}
-              name="uploadingMethod"
-              onChange={this.handleChangeUploadingMethod}
-              value={uploadingMethod}
-            />
-            <Collapse
-              //   defaultActiveKey="1"
-              className="mt-4"
-              style={{ width: '800px' }}
-            >
-              <Panel header="Banner/Poster Infor" key="1">
-                {uploadingMethod === uploadingMethods[0] ? (
-                  <UploadImage
-                    url={banner}
-                    handleImageDrop={this.onImageDrop}
-                  />
-                ) : (
-                  <Form.Item
-                    name="bannerUrl"
-                    label="Banner Url"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={banner}
-                      onChange={(e) => this.onImageDrop(e.target.value)}
-                    />
-                  </Form.Item>
-                )}
-              </Panel>
-            </Collapse>
+          <Form.Item label="Banner" className="p-3">
+            <UploadImage url={banner} handleImageDrop={this.onImageDrop} />
           </Form.Item>
 
           <Form.Item
@@ -162,8 +115,8 @@ class TabPane extends Component {
                 </Panel>
               </Collapse>
             ) : (
-                <></>
-              )}
+              <></>
+            )}
           </Form.Item>
         </Form>
       </div>
@@ -171,4 +124,11 @@ class TabPane extends Component {
   }
 }
 
-export default TabPane;
+const mapStateToProps = (state) => ({
+  typeOfEvent: state.event.typeOfEvent,
+  isSellTicket: state.event.isSellTicket,
+  banner: state.event.banner,
+  ticket: state.event.ticket,
+});
+
+export default connect(mapStateToProps, null)(TabPane);

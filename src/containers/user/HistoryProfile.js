@@ -135,6 +135,8 @@ class HistoryProfile extends React.Component {
               ))}
             </Select>
           </div>
+       
+       
           <div className="col ">
             <Search
               size="large"
@@ -145,6 +147,8 @@ class HistoryProfile extends React.Component {
             />
           </div>
         </div>
+        
+        
         {pending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
@@ -263,6 +267,7 @@ class HistoryProfile extends React.Component {
             ))}
             {this.ableToLoadMore(arrEvent.length) && (
               <Button
+              
                 style={{
                   marginLeft: '45%',
                   marginRight: '45%',

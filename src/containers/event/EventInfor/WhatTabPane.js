@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Select } from 'antd';
+import { connect } from 'react-redux';
 
 const { Option } = Select;
 
@@ -103,4 +104,10 @@ class TabPane extends Component {
   }
 }
 
-export default TabPane;
+const mapStateToProps = (state) => ({
+  nameEvent: state.event.nameEvent,
+  webAddress: state.event.webAddress,
+  categories: state.event.categories,
+});
+
+export default connect(mapStateToProps, null)(TabPane);

@@ -13,27 +13,32 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 const MAX_TAP_PANE = 2;
 const MIN_TAP_PANE = 1;
-const bannerUrl =
-  'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
 
 class EventInfor extends Component {
   constructor(props) {
     // get category
     super(props);
-    this.state = {
-      nameEvent: '',
-      typeOfEvent: 'Public',
-      category: '',
-      session: [],
-      isSellTicket: 'No',
-      webAddress: '',
-      isFirstLoad: true,
-      banner: bannerUrl,
-      ticket: {
-        price: 0,
-        discount: 0,
-      },
+    const {
+      nameEvent,
+      typeOfEvent,
+      category,
+      session,
+      isSellTicket,
+      webAddress,
+      banner,
+      ticket,
+    } = props;
 
+    this.state = {
+      nameEvent,
+      typeOfEvent,
+      category,
+      session,
+      isSellTicket,
+      webAddress,
+      isFirstLoad: true,
+      banner,
+      ticket,
       activeKey: '1',
       customMessage: '',
     };
@@ -143,18 +148,8 @@ class EventInfor extends Component {
   };
 
   render() {
-    const { pending, errMessage, categories } = this.props;
-    const {
-      nameEvent,
-      isSellTicket,
-      ticket,
-      webAddress,
-      typeOfEvent,
-      isFirstLoad,
-      banner,
-      activeKey,
-      customMessage,
-    } = this.state;
+    const { pending, errMessage } = this.props;
+    const { isFirstLoad, activeKey, customMessage } = this.state;
 
     const errorStyle = {
       backgroundColor: '#e8b3b3',
@@ -191,21 +186,10 @@ class EventInfor extends Component {
           >
             <Collapse defaultActiveKey="1">
               <Panel header="Basic information" key="1">
-                <What
-                  nameEvent={nameEvent}
-                  webAddress={webAddress}
-                  categories={categories}
-                  onChange={this.onChange}
-                />
+                <What onChange={this.onChange} />
               </Panel>
               <Panel header="More information" key="2">
-                <Which
-                  isSellTicket={isSellTicket}
-                  ticket={ticket}
-                  onChange={this.onChange}
-                  typeOfEvent={typeOfEvent}
-                  banner={banner}
-                />
+                <Which onChange={this.onChange} />
               </Panel>
             </Collapse>
           </TabPane>
@@ -257,6 +241,15 @@ const mapStateToProps = (state) => ({
   categories: state.event.categories,
   pending: state.event.pending,
   errMessage: state.event.errMessage,
+
+  nameEvent: state.event.nameEvent,
+  typeOfEvent: state.event.typeOfEvent,
+  category: state.event.category,
+  session: state.event.session,
+  isSellTicket: state.event.isSellTicket,
+  webAddress: state.event.webAddress,
+  banner: state.event.banner,
+  ticket: state.event.ticket,
 });
 
 const mapDispatchToProps = (dispatch) => ({

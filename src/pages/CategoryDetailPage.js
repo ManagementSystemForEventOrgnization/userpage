@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Input, Select, DatePicker } from 'antd';
+import { Button, Card, Select, DatePicker } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { EnvironmentOutlined } from '@ant-design/icons';
 
-import NavBar from 'components/NavBar';
 import Header from 'containers/share/_layout/Header';
 import Footer from 'containers/share/_layout/Footer';
 import Banner from 'components/Banner';
 import { eventActions } from 'action/event.action';
 const { Option } = Select;
-const { Search } = Input;
+
 const { RangePicker } = DatePicker;
 class CategoryDetailPage extends React.Component {
   constructor(props) {
@@ -51,6 +50,15 @@ class CategoryDetailPage extends React.Component {
     let percent = `-${newDiscount}%`;
     return percent;
   };
+  onChangeDates = (dates) => {
+    const { getListEvent } = this.props;
+
+    let dataSent = {};
+    dataSent.startDate = dates[0]._d;
+    dataSent.endDate = dates[1]._d;
+
+    getListEvent(dataSent);
+  };
   handleChange = (value) => {
     const { getListEvent } = this.props;
     let sentData = {};
@@ -59,8 +67,11 @@ class CategoryDetailPage extends React.Component {
   }
   handleChangeFee = (value) => {
     const { getListEvent } = this.props;
+
     let sentData = {};
-    sentData.fee = value;
+
+
+    sentData.fee = value === 'true';
     getListEvent(sentData);
   }
 
@@ -84,21 +95,22 @@ class CategoryDetailPage extends React.Component {
     return count % 10 === 0;
   };
   onLoadMore = () => {
-    const { getListEvent, hlEvent } = this.props;
+    const { getListEvent, } = this.props;
     const { listEvent } = this.state;
 
     let index = Math.round(listEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
-    getListEvent(dataSent);
-    let Event = [...listEvent, ...hlEvent];
 
-    this.setState({ listEvent: Event });
+    getListEvent(dataSent);
+
+    this.setState({ shoulUpdate: true });
   };
   renderEvents = () => {
     const { hlEvent } = this.props;
-    let { listEvent } = this.state;
-    listEvent = listEvent.length > 0 ? listEvent : [...hlEvent];
+    let { listEvent, shoulUpdate } = this.state;
+    listEvent = shoulUpdate ? [...listEvent, ...hlEvent] : [...hlEvent];
+
 
     return listEvent.length > 0 ? (
       <div className="row p-5 ">
@@ -263,14 +275,14 @@ class CategoryDetailPage extends React.Component {
         <div className="row p-5 mt-5" style={{ backgroundColor: '#f1f1f1' }}>
           <div className="col ">
             <RangePicker
-              style={{ width: '100%', height: '40px' }}
+              style={{ width: '100%', height: '30px' }}
               format="YYYY-MM-DD "
               onChange={this.onChangeDates}
               onOk={this.onOk}
             />
           </div>
           <div className="col ">
-            <Select
+            <Select defaultValue='ALL Category'
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChange}
             >
@@ -288,11 +300,11 @@ class CategoryDetailPage extends React.Component {
 
 
           <div className="col ">
-            <Select
+            <Select defaultValue='All Fares'
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChangeFee}
             >
-              <Option value="ALL">All Fares</Option>
+              <Option>All Fares</Option>
               <Option value="true">Cost</Option>
               <Option value="false">Free</Option>
             </Select>

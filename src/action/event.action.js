@@ -217,7 +217,7 @@ const prepareForCreateEvent = (
 ) => {
   return (dispatch) => {
     dispatch(request());
-    const domain = process.env.REACT_APP_BASE_URL;
+    const domain = process.env.REACT_APP_DOMAIN_EVENT;
     API.post('api/save/event', {
       name: nameEvent,
       typeOfEvent,
@@ -432,10 +432,12 @@ const getEventInfo = (urlWeb) => {
           dispatch(
             request(res.data.result.event, res.data.result.countComment)
           );
-          localStorage.setItem('currentId', res.data.result.event.eventId);
-          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
+          console.log(res.data.result.event);
 
           resolve(res.data.result.event);
+
+          localStorage.setItem('currentId', res.data.result.event.eventId);
+          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
         .catch((err) => { });
     });

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
-import history from '../utils/history';
+
 import { eventActions } from 'action/event.action';
 
 class NavBar extends React.Component {
