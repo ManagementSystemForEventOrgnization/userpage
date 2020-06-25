@@ -38,7 +38,7 @@
     "react-player": "^2.0.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.1",
     "react-share": "^4.2.0",
     "react-slideshow-image": "^1.4.0",
     "react-sortablejs": "^2.0.11",
