@@ -13,6 +13,19 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 const MAX_TAP_PANE = 2;
 const MIN_TAP_PANE = 1;
+const errorStyle = {
+  backgroundColor: '#e8b3b3',
+  color: '#7d0200',
+  borderRadius: '5px ',
+  lineHeight: '35px',
+  margin: '10px 100px',
+  padding: '1px 20px',
+};
+const buttonCustom = {
+  width: '160px',
+  fontSize: '20px',
+  height: '45px',
+};
 
 class EventInfor extends Component {
   constructor(props) {
@@ -169,20 +182,6 @@ class EventInfor extends Component {
       ticket,
       session,
     } = this.state;
-
-    const errorStyle = {
-      backgroundColor: '#e8b3b3',
-      color: '#7d0200',
-      borderRadius: '5px ',
-      lineHeight: '35px',
-      margin: '10px 100px',
-      padding: '1px 20px',
-    };
-    const buttonCustom = {
-      width: '160px',
-      fontSize: '20px',
-      height: '45px',
-    };
 
     return (
       <div className="pb-5">

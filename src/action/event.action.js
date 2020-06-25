@@ -288,6 +288,90 @@ const prepareForCreateEvent = (
   }
 };
 
+const updateEventInfo = (
+  eventId,
+  nameEvent,
+  typeOfEvent,
+  category,
+  session,
+  isSellTicket,
+  webAddress,
+  bannerUrl,
+  ticket,
+  cb
+) => {
+  return (dispatch) => {
+    dispatch(request());
+    const domain = process.env.REACT_APP_DOMAIN_EVENT;
+    API.post('/api/update/event', {
+      eventId,
+      name: nameEvent,
+      typeOfEvent,
+      category,
+      urlWeb: webAddress,
+      session,
+      isSellTicket: isSellTicket === 'Yes' ? true : false,
+      bannerUrl,
+      ticket,
+      domain,
+    })
+      .then((res) => {
+        const { _id } = res.data.result;
+
+        dispatch(
+          success(
+            _id,
+            nameEvent,
+            typeOfEvent,
+            category,
+            session,
+            isSellTicket,
+            webAddress,
+            bannerUrl
+          )
+        );
+        cb();
+      })
+      .catch((err) => handleCatch(dispatch, failure, err));
+  };
+
+  function request() {
+    return {
+      type: eventConstants.UPDATE_EVENT_INFOR,
+    };
+  }
+
+  function success(
+    id,
+    nameEvent,
+    typeOfEvent,
+    category,
+    session,
+    isSellTicket,
+    webAddress,
+    banner
+  ) {
+    return {
+      type: eventConstants.UPDATE_EVENT_INFOR_SUCCESS,
+      id,
+      nameEvent,
+      typeOfEvent,
+      category,
+      session,
+      isSellTicket,
+      webAddress,
+      banner,
+    };
+  }
+
+  function failure(err) {
+    return {
+      type: eventConstants.UPDATE_EVENT_INFOR_FAILURE,
+      err,
+    };
+  }
+};
+
 const storeBlocksWhenCreateEvent = (blocks) => {
   return (dispatch) => {
     dispatch(request(blocks));
@@ -647,4 +731,5 @@ export const eventActions = {
   cancelEvent,
 
   changeCurrentPage,
+  updateEventInfo,
 };

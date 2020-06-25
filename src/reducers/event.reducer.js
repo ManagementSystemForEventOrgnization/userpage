@@ -125,6 +125,34 @@ const event = (state = initialState, action) => {
         pending: false,
         errMessage: action.err,
       };
+
+    case eventConstants.UPDATE_EVENT_INFOR:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case eventConstants.UPDATE_EVENT_INFOR_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        id: action.id,
+        nameEvent: action.nameEvent,
+        webAddress: action.webAddress,
+        typeOfEvent: action.typeOfEvent,
+        banner: action.banner,
+        session: action.session,
+        category: action.category,
+        isSellTicket: action.isSellTicket,
+      };
+
+    case eventConstants.UPDATE_EVENT_INFOR_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.err,
+      };
+
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
         ...state,
@@ -213,7 +241,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_INFO:
-      console.log(action.eventInfo);
       return {
         ...state,
         nameEvent: action.eventInfo.name,
