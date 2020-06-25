@@ -172,7 +172,7 @@ class ButtonBlock extends React.Component {
     };
 
     return (
-      <div className="edittext  child-block" style={divStyle}>
+      <div className="button-block  child-block" style={divStyle}>
         <div className="d-flex justify-content-center">
           <div></div>
           <Button

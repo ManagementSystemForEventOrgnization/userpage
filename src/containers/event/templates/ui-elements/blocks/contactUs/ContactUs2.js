@@ -113,7 +113,7 @@ class ContactUs2 extends Component {
     return (
       <div className="child-block d-flex" style={blockStyle}>
         <div className="row flex-fill">
-          <div className="col-6 col-sm-6">
+          <div className="col-sm-6">
             <MailTwoTone style={iconStyle} />
             <Text
               child={true}
@@ -125,7 +125,7 @@ class ContactUs2 extends Component {
               }
             />
           </div>
-          <div className="col-6 col-sm-6">
+          <div className=" col-sm-6">
             <PhoneTwoTone style={iconStyle} />
             <Text
               child={true}
