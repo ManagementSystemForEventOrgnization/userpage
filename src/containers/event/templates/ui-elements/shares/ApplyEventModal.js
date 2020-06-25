@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Button, message, Drawer } from 'antd';
 import moment from 'moment';
 import { applyEventActions } from 'action/applyEvent';
-import CreditCard from 'containers/user/BankAccount/CreditCard';
-
+import TransferType from 'containers/user/BankAccount/TransferType';
 class ApplyEventModal extends Component {
   constructor(props) {
     super(props);
@@ -150,8 +149,9 @@ class ApplyEventModal extends Component {
             </b>{' '}
             VND
           </p>
-          <hr />
-          <CreditCard
+          <hr></hr>
+
+          <TransferType
             currSsId={currSsId}
             eventId={id}
             handleFinishPayment={this.handleCloseDrawer}

@@ -196,7 +196,7 @@ class CreateHistory extends React.Component {
   };
 
   handleURL = (url) => {
-    localStorage.setItem('webAd dress', url);
+    localStorage.setItem('webAddress', url);
   };
 
   showDeleteConfirm = () => {
@@ -230,7 +230,7 @@ class CreateHistory extends React.Component {
               style={{
                 marginTop: '25%',
                 zIndex: 100000,
-                color: 'red'
+                color: 'red',
               }}
             >
               {res.error.message}
@@ -398,36 +398,36 @@ class CreateHistory extends React.Component {
               {this.state.isRadio ? (
                 ' '
               ) : (
-                  <div className="mt-3 ml-5" style={{ color: 'white' }}>
-                    <Radio.Group
-                      name="radiogroup"
-                      style={{ color: 'white' }}
-                      defaultValue="Public"
-                      onChange={this.onChaneValue}
+                <div className="mt-3 ml-5" style={{ color: 'white' }}>
+                  <Radio.Group
+                    name="radiogroup"
+                    style={{ color: 'white' }}
+                    defaultValue="Public"
+                    onChange={this.onChaneValue}
+                  >
+                    <Radio
+                      style={{
+                        color: 'black',
+                        fontWeight: 400,
+                        fontSize: '18px',
+                      }}
+                      value="Private"
                     >
-                      <Radio
-                        style={{
-                          color: 'black',
-                          fontWeight: 400,
-                          fontSize: '18px',
-                        }}
-                        value="Private"
-                      >
-                        Private
+                      Private
                     </Radio>
-                      <Radio
-                        style={{
-                          color: 'black',
-                          fontWeight: 400,
-                          fontSize: '18px',
-                        }}
-                        value="Public"
-                      >
-                        Public
+                    <Radio
+                      style={{
+                        color: 'black',
+                        fontWeight: 400,
+                        fontSize: '18px',
+                      }}
+                      value="Public"
+                    >
+                      Public
                     </Radio>
-                    </Radio.Group>
-                  </div>
-                )}
+                  </Radio.Group>
+                </div>
+              )}
               {pending ? (
                 <Skeleton
                   className="mt-2"
@@ -436,144 +436,144 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                  <div className="row p-5 ">
-                    {listEvent.map((item) => (
-                      <div
-                        className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
-                        key={item._id}
-                      >
-                        <Card
-                          className="event-cart "
-                          cover={
-                            <div>
-                              <Dropdown
-                                overlay={this.renderMenu(item)}
-                                placement="bottomLeft"
-                              >
-                                <Button className="ml-1 mt-1 ticket">
-                                  Action
+                <div className="row p-5 ">
+                  {listEvent.map((item) => (
+                    <div
+                      className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
+                      key={item._id}
+                    >
+                      <Card
+                        className="event-cart "
+                        cover={
+                          <div>
+                            <Dropdown
+                              overlay={this.renderMenu(item)}
+                              placement="bottomLeft"
+                            >
+                              <Button className="ml-1 mt-1 ticket">
+                                Action
                               </Button>
-                              </Dropdown>
+                            </Dropdown>
 
-                              {item.bannerUrl && (
-                                <img
-                                  className="img-baner"
-                                  alt="example"
-                                  src={item.bannerUrl}
-                                />
-                              )}
-                            </div>
-                          }
-                        >
-                          <div className="row">
-                            <div className="d-flex col ">
-                              <p
-                                className="ml-2"
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {moment(
-                                  (item.session &&
-                                    item.session[0] &&
-                                    item.session[0].day) ||
-                                  new Date().toLocaleDateString()
-                                ).format('DD/MM/YYYY ')}
-                              </p>
-                            </div>
-                            <div className="d-flex col ">
-                              <div>
-                                {item.ticket ? (
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ? (
-                                      <div className="d-flex ">
-                                        <p
-                                          style={{
-                                            textDecoration: 'line-through',
-                                            fontWeight: 'bold',
-                                          }}
-                                          className="ml-1 "
-                                        >
-                                          {item.ticket.price}
-                                        </p>
-                                        <p
-                                          className="ml-3"
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {' '}
-                                          {this.sumDiscount(
-                                            item.ticket.price,
-                                            item.ticket.discount
-                                          )}
-                                        </p>
-                                        <div className="col">
-                                          <h4>{item.status}</h4>
-                                        </div>
-                                      </div>
-                                    ) : (
-                                        <p
-                                          className=" mt-1 "
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {item.ticket.price} VNĐ
-                                        </p>
-                                      )}
-                                  </div>
-                                ) : (
-                                    <p
-                                      style={{ fontWeight: 'bold' }}
-                                      className="ml-1  "
-                                    >
-                                      0 VNĐ
-                                    </p>
-                                  )}
-                              </div>
-                            </div>
+                            {item.bannerUrl && (
+                              <img
+                                className="img-baner"
+                                alt="example"
+                                src={item.bannerUrl}
+                              />
+                            )}
                           </div>
-                          <Link to={`/event/${item.urlWeb}`}>
-                            <div className="d-flex ">
-                              <h5
-                                className="ml-2 line-clamp "
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {' '}
-                                {item.name}
-                              </h5>
-                              <div>
-                                {' '}
-                                {((item.session && item.session.length) || 1) ===
-                                  1 ? (
-                                    ''
+                        }
+                      >
+                        <div className="row">
+                          <div className="d-flex col ">
+                            <p
+                              className="ml-2"
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {moment(
+                                (item.session &&
+                                  item.session[0] &&
+                                  item.session[0].day) ||
+                                  new Date().toLocaleDateString()
+                              ).format('DD/MM/YYYY ')}
+                            </p>
+                          </div>
+                          <div className="d-flex col ">
+                            <div>
+                              {item.ticket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ? (
+                                    <div className="d-flex ">
+                                      <p
+                                        style={{
+                                          textDecoration: 'line-through',
+                                          fontWeight: 'bold',
+                                        }}
+                                        className="ml-1 "
+                                      >
+                                        {item.ticket.price}
+                                      </p>
+                                      <p
+                                        className="ml-3"
+                                        style={{ fontWeight: 'bold' }}
+                                      >
+                                        {' '}
+                                        {this.sumDiscount(
+                                          item.ticket.price,
+                                          item.ticket.discount
+                                        )}
+                                      </p>
+                                      <div className="col">
+                                        <h4>{item.status}</h4>
+                                      </div>
+                                    </div>
                                   ) : (
                                     <p
-                                      className="ml-2"
+                                      className=" mt-1 "
                                       style={{ fontWeight: 'bold' }}
                                     >
-                                      + {item.session.length - 1}more events
+                                      {item.ticket.price} VNĐ
                                     </p>
                                   )}
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="d-flex ">
-                            <EnvironmentOutlined className="mt-1" />
-                            <div className="d-flex ">
-                              <p className="ml-2 address ">
-                                {item.session &&
-                                  item.session[0] &&
-                                  item.session[0].address.location}
-                              </p>
+                                </div>
+                              ) : (
+                                <p
+                                  style={{ fontWeight: 'bold' }}
+                                  className="ml-1  "
+                                >
+                                  0 VNĐ
+                                </p>
+                              )}
                             </div>
                           </div>
-                        </Card>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        </div>
+                        <Link to={`/event/${item.urlWeb}`}>
+                          <div className="d-flex ">
+                            <h5
+                              className="ml-2 line-clamp "
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {' '}
+                              {item.name}
+                            </h5>
+                            <div>
+                              {' '}
+                              {((item.session && item.session.length) || 1) ===
+                              1 ? (
+                                ''
+                              ) : (
+                                <p
+                                  className="ml-2"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  + {item.session.length - 1}more events
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                        <div className="d-flex ">
+                          <EnvironmentOutlined className="mt-1" />
+                          <div className="d-flex ">
+                            <p className="ml-2 address ">
+                              {item.session &&
+                                item.session[0] &&
+                                item.session[0].address.location}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              )}
               {this.ableToLoadMore(arrEvent.length) && (
                 <Button
                   style={{

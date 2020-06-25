@@ -20,14 +20,6 @@ class Header extends React.Component {
     this.setState({ visible, open: true });
   };
 
-  componentDidMount = () => {
-    if (localStorage.getItem('isLogined')) {
-      const { getNumUnreadNotification, getListNotification } = this.props;
-      getNumUnreadNotification();
-      getListNotification();
-    }
-  };
-
   render() {
     const isLogined = localStorage.getItem('isLogined');
     const { numUnreadNotification } = this.props;
@@ -97,11 +89,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
-  getNumUnreadNotification: () =>
-    dispatch(userActions.getNumUnreadNotification()),
-
-  getListNotification: (pageNumber, numberRecord) =>
-    dispatch(userActions.getListNotification(pageNumber, numberRecord)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

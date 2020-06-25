@@ -57,6 +57,7 @@ class CreditCard extends Component {
       eventId,
       handleFinishPayment,
       changeStatus,
+      changeStatusType,
     } = this.props;
     const key = 'setdefault';
     message.loading({ content: 'Checking...', key });
@@ -75,11 +76,12 @@ class CreditCard extends Component {
           temp.push(currSsId);
 
           // apply event
-          handleApply(eventId, temp)
+          handleApply(eventId, temp, 'CREDIT_CARD')
             .then((res) => {
               message.success('Payment success !!!');
               setTimeout(() => {
                 changeStatus();
+                changeStatusType();
                 handleFinishPayment();
               }, 1000);
             })
@@ -92,12 +94,15 @@ class CreditCard extends Component {
               } else {
                 message.error('Payment failure !!!');
               }
+              changeStatusType();
             });
         } else {
           message.error('Cannot handle payment !!!');
+          changeStatusType();
         }
       } else {
         message.error('set default failure !!!');
+        changeStatusType();
       }
     });
   };
@@ -258,8 +263,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(userActions.postCardDefault(cardId, callBack)),
   delCardDefault: (cardId, callBack) =>
     dispatch(userActions.delCardDefault(cardId, callBack)),
-  handleApply: (eventId, sessionIds) =>
-    dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
+  handleApply: (eventId, sessionIds, payType) =>
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds, payType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreditCard);

@@ -14,8 +14,7 @@ import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
-import CreditCard from 'containers/user/BankAccount/CreditCard';
-
+import TransferType from 'containers/user/BankAccount/TransferType';
 class Schedule1 extends Component {
   constructor(props) {
     super(props);
@@ -317,9 +316,9 @@ class Schedule1 extends Component {
                     className="mt-2"
                     loading={ss.pending}
                     onClick={
-                      !editable &&
-                      status === 'PUBLIC' &&
-                      (() => this.handleClickButton(ss.id))
+                      !editable && status === 'PUBLIC'
+                        ? () => this.handleClickButton(ss.id)
+                        : () => {}
                     }
                   >
                     {this.isApplied(ss.id)
@@ -364,7 +363,8 @@ class Schedule1 extends Component {
             VND
           </p>
           <hr />
-          <CreditCard
+
+          <TransferType
             currSsId={currSsId}
             eventId={eventId}
             handleFinishPayment={this.handleCloseDrawer}
