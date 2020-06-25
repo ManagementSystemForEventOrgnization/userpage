@@ -435,6 +435,7 @@ const getHistoryPayment = (numberRecord = 16) => {
       },
     })
       .then((res) => {
+        console.log(res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {
@@ -485,9 +486,8 @@ const getCreateHistory = (dataSent) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-      }).then(
-        
-      )
+      })
+      .then()
       .catch((error) => handleCatch(dispatch, failure, error));
   };
   function request() {

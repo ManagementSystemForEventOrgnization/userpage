@@ -6,6 +6,11 @@ import ManageEvent from '../containers/event/manageEvent/manageEvents';
 // import { eventActions } from 'action/event.action';
 
 class ManageEventPage extends Component {
+  // componentDidMount = () => {
+  //   this.props.getEventInfo(localStorage.getItem('webAddress'));
+  //   this.props.getCategories();
+  // };
+
   render() {
     const { banner, nameEvent } = this.props;
     return (

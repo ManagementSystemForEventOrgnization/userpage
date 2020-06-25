@@ -230,7 +230,7 @@ class Schedule1 extends Component {
       currSsId,
     } = this.state;
 
-    const { key, editable, leftModal, ticket, eventId } = this.props;
+    const { key, editable, leftModal, ticket, eventId, status } = this.props;
 
     const divStyle = {
       marginTop: `${margin[0]}%`,
@@ -316,7 +316,11 @@ class Schedule1 extends Component {
                     type="primary"
                     className="mt-2"
                     loading={ss.pending}
-                    onClick={() => this.handleClickButton(ss.id)}
+                    onClick={
+                      !editable &&
+                      status === 'PUBLIC' &&
+                      (() => this.handleClickButton(ss.id))
+                    }
                   >
                     {this.isApplied(ss.id)
                       ? 'Cancel this session'
@@ -438,6 +442,7 @@ const mapStateToProps = (state) => ({
   session: state.event.session,
   eventId: state.event.id,
   ticket: state.event.ticket,
+  status: state.event.status,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -254,7 +254,6 @@ class ProfileInfor extends Component {
                 defaultValue={moment(birthDate.toString(), 'DD/MM/YYYY')}
                 format={'DD/MM/YYYY'}
               />
-              {birthDate}
             </Form.Item>
           </div>
 

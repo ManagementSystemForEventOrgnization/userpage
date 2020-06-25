@@ -4,7 +4,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
-import AboutUs from '../pages/AboutUs';
+import AboutUs from '../pages/AboutUsPage';
 
 import CategoryDetailPage from '../pages/CategoryDetailPage';
 import EventDetailPage from '../pages/EventDetailPage';
@@ -20,7 +20,8 @@ import PreviewEvent from '../containers/event/PreviewEvent';
 import PrepareForCreateEvent from '../pages/PrepareForCreateEvent';
 import ConfirmPage from '../pages/ConfirmPage';
 // import UpdateProfileInfor from '../containers/user/UpdateProfileInfor';
-import CreditCard from '../containers/user/BankAccount/CreditCard';
+// import CreditCard from '../containers/user/BankAccount/CreditCard';
+import TransferType from '../containers/user/BankAccount/TransferType';
 import history from '../utils/history';
 import ManageEventPage from '../pages/ManageEventPage';
 import CreateHistoryEventPage from '../pages/CreateHistoryEvent';
@@ -96,7 +97,7 @@ class WrapRouter extends React.Component {
       {
         path: '/transfer',
         exact: true,
-        main: () => <CreditCard />,
+        main: () => <TransferType />,
       },
       {
         path: '/created-event',

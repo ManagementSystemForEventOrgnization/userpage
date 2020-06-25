@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Input, Select } from 'antd';
 import { connect } from 'react-redux';
+import { Form, Input, Select } from 'antd';
 
 const { Option } = Select;
 
@@ -14,8 +14,7 @@ const layout = {
 };
 
 class TabPane extends Component {
-  handleChange = (e) => {
-    const { value, name } = e.target;
+  handleChange = (value, name) => {
     const { onChange } = this.props;
     onChange(name, value);
   };
@@ -35,11 +34,15 @@ class TabPane extends Component {
 
   render() {
     const { nameEvent, webAddress, categories } = this.props;
-
     return (
-      <Form {...layout} name="control-ref" className="pt-5">
+      <Form
+        {...layout}
+        name="control-ref"
+        className="pt-5"
+        initialValues={{ nameEvent, webAddress }}
+      >
         <Form.Item
-          name="name"
+          name="nameEvent"
           label="Name of event "
           rules={[
             {
@@ -48,9 +51,7 @@ class TabPane extends Component {
           ]}
         >
           <Input
-            value={nameEvent}
-            name="nameEvent"
-            onChange={this.handleChange}
+            onChange={(e) => this.handleChange(e.target.value, 'nameEvent')}
           />
         </Form.Item>
 
@@ -68,9 +69,7 @@ class TabPane extends Component {
         >
           <Input
             addonBefore={process.env.REACT_APP_DOMAIN_EVENT}
-            value={webAddress}
-            name="webAddress"
-            onChange={this.handleChange}
+            onChange={(e) => this.handleChange(e.target.value, 'webAddress')}
           />
         </Form.Item>
 
@@ -85,7 +84,6 @@ class TabPane extends Component {
         >
           <Select
             placeholder="Choose category of event"
-            name="category"
             onChange={this.handleChangeCategory}
             allowClear
           >
@@ -104,10 +102,4 @@ class TabPane extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  nameEvent: state.event.nameEvent,
-  webAddress: state.event.webAddress,
-  categories: state.event.categories,
-});
-
-export default connect(mapStateToProps, null)(TabPane);
+export default connect(null, null)(TabPane);

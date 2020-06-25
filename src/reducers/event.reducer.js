@@ -9,13 +9,13 @@ const initialBlocks = [
   //...dataTest[0].value,
   dataTest[2].value[2], // event description
   ...dataTest[13].value, //list of link documents
-  ...dataTest[3].value, // speaker, card
+  dataTest[3].value[0], // speaker, card
   ...dataTest[4].value, // schedule
   dataTest[5].value[1], //map
   ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
   dataTest[8].value[0], // sponsors
-  ...dataTest[9].value, //gallery
+  dataTest[9].value[0], //gallery
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
@@ -43,6 +43,8 @@ const initialState = {
     price: 0,
     discount: 0,
   },
+  status: 'DRAFT',
+
   events: [],
   hlEvent: [],
   errCancel: '',
@@ -123,6 +125,34 @@ const event = (state = initialState, action) => {
         pending: false,
         errMessage: action.err,
       };
+
+    case eventConstants.UPDATE_EVENT_INFOR:
+      return {
+        ...state,
+        pending: true,
+      };
+
+    case eventConstants.UPDATE_EVENT_INFOR_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        id: action.id,
+        nameEvent: action.nameEvent,
+        webAddress: action.webAddress,
+        typeOfEvent: action.typeOfEvent,
+        banner: action.banner,
+        session: action.session,
+        category: action.category,
+        isSellTicket: action.isSellTicket,
+      };
+
+    case eventConstants.UPDATE_EVENT_INFOR_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.err,
+      };
+
     case eventConstants.STORE_BLOCKS_WHEN_CREATE_EVENT:
       return {
         ...state,
@@ -213,15 +243,17 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_INFO:
       return {
         ...state,
-
         nameEvent: action.eventInfo.name,
         isSellTicket: action.eventInfo.isSellTicket,
         session: action.eventInfo.session,
         banner: action.eventInfo.bannerUrl,
         ticket: action.eventInfo.ticket,
-        category: action.eventConstants.category,
-        webAddress: action.event.urlWeb,
+        category: action.eventInfo.category,
+        webAddress: action.eventInfo.urlWeb,
+        typeOfEvent: action.eventInfo.typeOfEvent,
+
         countComment: action.countComment,
+        status: action.eventInfo.status,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:

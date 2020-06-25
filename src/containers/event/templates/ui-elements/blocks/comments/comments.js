@@ -30,7 +30,7 @@ const avatar = localStorage.getItem('avatar');
 class CommentEvent extends Component {
   constructor(props) {
     super(props);
-    this.socket = io('http://localhost:4000');
+    this.socket = io(process.env.REACT_APP_CHAT_SERVER);
 
     const { style, eventId } = this.props;
     this.state = style

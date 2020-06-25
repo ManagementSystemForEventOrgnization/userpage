@@ -27,7 +27,6 @@ const { Column, ColumnGroup } = Table;
 class ManageEvent extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       joinUser: [],
       txtCause: ' ',
@@ -151,8 +150,10 @@ class ManageEvent extends React.Component {
     return (
       <>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="General Information" key="1"></TabPane>
-          <EditGeneral />
+          <TabPane tab="General Information" key="1">
+            <EditGeneral />
+          </TabPane>
+
           <TabPane tab="Participant" key="2">
             <Table dataSource={userJoinEvent} pagination={10}>
               <ColumnGroup
@@ -309,14 +310,11 @@ class ManageEvent extends React.Component {
 const mapStateToProps = (state) => ({
   errMessage: state.event.errMessage,
   userJoinEvent: state.event.userJoinEvent,
-  banner: state.event.banner,
-  nameEvent: state.event.nameEvent,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
-  getEventInfo: (urlWeb) => dispatch(eventActions.getEventInfo(urlWeb)),
   verifyEventMember: (joinUserId, eventId, sessionIds) =>
     dispatch(
       applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)

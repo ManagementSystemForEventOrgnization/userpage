@@ -97,7 +97,7 @@ class GeneralBanner extends Component {
       content,
     } = this.state;
 
-    const { type, editable } = this.props;
+    const { type, editable, status } = this.props;
 
     const style = {
       marginTop: `${margin[0]}%`,
@@ -164,9 +164,11 @@ class GeneralBanner extends Component {
               <Button
                 type="primary"
                 size="large"
-                onClick={!editable && this.collapseApplyModal}
+                onClick={
+                  !editable && status === 'PUBLIC' && this.collapseApplyModal
+                }
               >
-                Register Now
+                Apply Event Now
               </Button>
             </div>
           )}
@@ -244,6 +246,7 @@ const mapStateToProps = (state) => ({
   nameEvent: state.event.nameEvent,
   eventId: state.event.id,
   session: state.event.session,
+  status: state.event.status,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Radio, Collapse, InputNumber } from 'antd';
+
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
 
 const layout = {
@@ -37,15 +38,11 @@ class TabPane extends Component {
   };
 
   render() {
-    const { isSellTicket, typeOfEvent, banner, ticket } = this.props;
-
+    const { typeOfEvent, banner, ticket } = this.props;
+    const isSellTicket = this.props.isSellTicket ? 'Yes' : 'No';
     return (
       <div className="p-5">
-        <Form
-          {...layout}
-          name="control-ref"
-          initialValues={{ bannerUrl: banner }}
-        >
+        <Form {...layout} name="control-ref">
           <Form.Item
             label="Type of event "
             rules={[
@@ -56,7 +53,6 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={typeOfEvents}
-              name="typeOfEvent"
               onChange={this.handleChange}
               value={typeOfEvent}
             />
@@ -76,11 +72,10 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={plainOptions}
-              name="isSellTicket"
               onChange={this.handleChange}
               value={isSellTicket}
             />
-            {isSellTicket !== 'No' ? (
+            {isSellTicket === 'Yes' || isSellTicket === true ? (
               <Collapse
                 defaultActiveKey="1"
                 className="mt-4"
@@ -124,11 +119,11 @@ class TabPane extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  typeOfEvent: state.event.typeOfEvent,
-  isSellTicket: state.event.isSellTicket,
-  banner: state.event.banner,
-  ticket: state.event.ticket,
-});
+// const mapStateToProps = (state) => ({
+//   typeOfEvent: state.event.typeOfEvent,
+//   isSellTicket: state.event.isSellTicket,
+//   banner: state.event.banner,
+//   ticket: state.event.ticket,
+// });
 
-export default connect(mapStateToProps, null)(TabPane);
+export default connect(null, null)(TabPane);

@@ -13,6 +13,19 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 const MAX_TAP_PANE = 2;
 const MIN_TAP_PANE = 1;
+const errorStyle = {
+  backgroundColor: '#e8b3b3',
+  color: '#7d0200',
+  borderRadius: '5px ',
+  lineHeight: '35px',
+  margin: '10px 100px',
+  padding: '1px 20px',
+};
+const buttonCustom = {
+  width: '160px',
+  fontSize: '20px',
+  height: '45px',
+};
 
 class EventInfor extends Component {
   constructor(props) {
@@ -147,23 +160,28 @@ class EventInfor extends Component {
     });
   };
 
-  render() {
-    const { pending, errMessage } = this.props;
-    const { isFirstLoad, activeKey, customMessage } = this.state;
+  handleClickTab = (key, cb) => {
+    this.setState({
+      activeKey: key,
+    });
+  };
 
-    const errorStyle = {
-      backgroundColor: '#e8b3b3',
-      color: '#7d0200',
-      borderRadius: '5px ',
-      lineHeight: '35px',
-      margin: '10px 100px',
-      padding: '1px 20px',
-    };
-    const buttonCustom = {
-      width: '160px',
-      fontSize: '20px',
-      height: '45px',
-    };
+  render() {
+    const { pending, errMessage, categories } = this.props;
+    const {
+      isFirstLoad,
+      activeKey,
+      customMessage,
+      nameEvent,
+      webAddress,
+
+      category,
+      isSellTicket,
+      typeOfEvent,
+      banner,
+      ticket,
+      session,
+    } = this.state;
 
     return (
       <div className="pb-5">
@@ -171,7 +189,7 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage || customMessage}</div>
         )}
 
-        <Tabs activeKey={activeKey}>
+        <Tabs activeKey={activeKey} onTabClick={this.handleClickTab}>
           <TabPane
             tab={
               <span className="p-5">
@@ -186,10 +204,22 @@ class EventInfor extends Component {
           >
             <Collapse defaultActiveKey="1">
               <Panel header="Basic information" key="1">
-                <What onChange={this.onChange} />
+                <What
+                  onChange={this.onChange}
+                  nameEvent={nameEvent}
+                  category={category}
+                  webAddress={webAddress}
+                  categories={categories}
+                />
               </Panel>
               <Panel header="More information" key="2">
-                <Which onChange={this.onChange} />
+                <Which
+                  onChange={this.onChange}
+                  banner={banner}
+                  ticket={ticket}
+                  isSellTicket={isSellTicket}
+                  typeOfEvent={typeOfEvent}
+                />
               </Panel>
             </Collapse>
           </TabPane>
@@ -206,7 +236,7 @@ class EventInfor extends Component {
               this.setState({ activeKey: '2' });
             }}
           >
-            <When onChange={this.onChange} />
+            <When onChange={this.onChange} session={session} />
           </TabPane>
         </Tabs>
 
