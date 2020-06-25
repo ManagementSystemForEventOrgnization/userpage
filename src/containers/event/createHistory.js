@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import moment from 'moment';
+import { Link } from 'react-router-dom';
+
 import {
   Input,
   Tabs,
@@ -16,7 +18,7 @@ import {
   Modal,
   Radio,
 } from 'antd';
-import { Link } from 'react-router-dom';
+
 import {
   EnvironmentOutlined,
   DeleteOutlined,
@@ -30,11 +32,6 @@ import { eventActions } from 'action/event.action';
 
 const { Search } = Input;
 const { TabPane } = Tabs;
-
-//  { "email":"ptmaimai106@gmail.com",
-//    "password":"123456"
-
-//  }
 
 class CreateHistory extends React.Component {
   constructor(props) {
@@ -193,6 +190,9 @@ class CreateHistory extends React.Component {
   handleEditSite = (url, eventId) => {
     localStorage.setItem('webAddress', url);
     localStorage.setItem('currentId', eventId);
+    localStorage.setItem('editSite', url);
+
+    // history.push('/create');
   };
 
   handleURL = (url) => {
