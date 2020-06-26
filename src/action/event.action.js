@@ -27,7 +27,7 @@ const getHomeData = () => {
   }
 };
 
-const getEventDetail = (eventId, index) => {
+const getEventDetail = (eventId, index, editSite) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       dispatch(request());
@@ -35,10 +35,12 @@ const getEventDetail = (eventId, index) => {
         params: {
           eventId,
           index,
+          editSite,
         },
       })
         .then((res) => {
           const { rows, header, event } = res.data.result;
+          // console.log(res.data.result);
           localStorage.setItem('currentIndex', index);
           localStorage.setItem('currentId', res.data.result.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
@@ -407,7 +409,6 @@ const deleteBlock = (id) => {
 };
 
 const getListEvent = (sentData) => {
-
   return (dispatch) => {
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
@@ -521,7 +522,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -547,7 +548,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {

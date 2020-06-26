@@ -12,11 +12,11 @@ import {
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
 
-import DropContainer from './templates/DropContainer';
+import DropContainer from '../templates/DropContainer';
 import Header from 'containers/share/_layout/Header';
-import MenuBlockList from './MenuBlockList';
-import NavigationMenu from './NavigationMenu';
-import EditableHeader from './Header';
+import MenuBlockList from '../MenuBlockList';
+import NavigationMenu from '../NavigationMenu';
+import EditableHeader from '../Header';
 
 class CreateEvent extends React.Component {
   constructor(props) {
@@ -73,24 +73,24 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getEventInfo } = this.props;
+    const { getEventInfo, getEventDetail } = this.props;
     const urlWeb = localStorage.getItem('webAddress');
-    // const editSite = localStorage.getItem('editSite');
+    const editSite = localStorage.getItem('editSite');
 
     if (urlWeb) {
       getEventInfo(urlWeb)
-        .then((data) => {
-          //   if (editSite) {
-          //     getEventDetail(urlWeb, 0).then(() => {
-          //       this.setState({
-          //         loading: false,
-          //       });
-          //     });
-          //   } else {
-          //     this.setState({
-          //       loading: false,
-          //     });
-          //   }
+        .then(() => {
+          if (editSite) {
+            getEventDetail(urlWeb, 0, true).then(() => {
+              this.setState({
+                loading: false,
+              });
+            });
+          } else {
+            this.setState({
+              loading: false,
+            });
+          }
 
           this.setState({
             loading: false,
@@ -121,28 +121,12 @@ class CreateEvent extends React.Component {
   };
 
   onHandleNext = () => {
-    const {
-      pages,
-      handleChangeHeader,
-      blocks,
-      currentPage,
-      //   getEventDetail,
-    } = this.props;
+    const { pages, handleChangeHeader, blocks, currentPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
-    //let index = 0;
-    // const editSite = localStorage.getItem('editSite');
-    // const webAddress = localStorage.getItem('webAddress');
     this.setState({
       loading: true,
     });
-
-    // for (let i in pages) {
-    //   if (i === currentIndex){
-
-    //   }
-    //   index = index + pages[i].child.length === 0 ? 1 : pages[i].child.length;
-    // }
 
     if (currentIndex === pages.length - 1) {
       if (pages[currentIndex].child.length === 0) {
@@ -166,11 +150,6 @@ class CreateEvent extends React.Component {
           });
         } else {
           newPageId = pages[currentIndex].child[index + 1].id;
-          //   if (editSite) {
-          //     getEventDetail(webAddress, index).then(() =>
-          //       this.setState({ loading: false })
-          //     );
-          //   }
         }
       }
     } else {
@@ -178,10 +157,14 @@ class CreateEvent extends React.Component {
         newPageId = this.getNextId();
       } else newPageId = this.getNextIdChild();
     }
+
     handleChangeHeader(pages, newPageId, blocks);
 
-    this.setState({ loading: false });
     window.scrollTo(0, 0);
+
+    this.setState({
+      loading: false,
+    });
   };
 
   error = (msg) => {
@@ -194,6 +177,7 @@ class CreateEvent extends React.Component {
       ),
     });
   };
+
   success = (msg) => {
     message.success({
       content: (
@@ -247,6 +231,8 @@ class CreateEvent extends React.Component {
         } else {
           this.success();
         }
+
+        localStorage.removeItem('editSite');
       })
       .catch((err) => {
         this.error();
@@ -453,8 +439,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
 
   getEventInfo: (eventId) => dispatch(eventActions.getEventInfo(eventId)),
-  getEventDetail: (eventId, index) =>
-    dispatch(eventActions.getEventDetail(eventId, index)),
+  getEventDetail: (eventId, index, editSite) =>
+    dispatch(eventActions.getEventDetail(eventId, index, editSite)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

@@ -52,8 +52,8 @@ const MapWithImage = (props) => {
   };
 
   const handleStoreBlock = () => {
-    const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
-    const currentStyle = this.state;
+    const { blocks, storeBlocksWhenCreateEvent, id } = props;
+    const currentStyle = mapStyle;
 
     let item = blocks.find((ele) => ele.id === id);
     if (item) {

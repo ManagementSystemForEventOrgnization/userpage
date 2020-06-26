@@ -95,16 +95,17 @@ class CreateHistory extends React.Component {
   };
 
   onLoadMore = () => {
-    const { getCreateHistory, arrEvent } = this.props;
+    const { getCreateHistory } = this.props;
     const { listEvent } = this.state;
 
     let index = Math.round(listEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
     getCreateHistory(dataSent);
-    let Event = [...listEvent, ...arrEvent];
+    // let Event = [...listEvent, ...arrEvent];
 
-    this.setState({ listEvent: Event });
+    // this.setState({ listEvent: Event });
+    this.state({ isupate: true });
   };
 
   onChangeSearch = (value) => {
@@ -361,10 +362,10 @@ class CreateHistory extends React.Component {
   };
 
   render() {
-    const { sessionEvent, isSuccess } = this.state;
+    const { sessionEvent, isSuccess, isupate } = this.state;
     const { pending, arrEvent, err, pendCancel, cancelSession } = this.props;
     let { listEvent } = this.state;
-    listEvent = listEvent.length > 0 ? listEvent : [...arrEvent];
+    listEvent = isupate ? [...listEvent, arrEvent] : [...arrEvent];
 
     return (
       <div className="history">
