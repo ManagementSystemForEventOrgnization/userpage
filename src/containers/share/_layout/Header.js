@@ -97,6 +97,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(userActions.logout()),
+  getNumUnreadNotification: () => dispatch(userActions.getNumUnreadNotification())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
