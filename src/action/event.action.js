@@ -474,9 +474,10 @@ const saveEvent = (id, blocks, header, isPreview) => {
         .then((res) => {
           dispatch(success());
           localStorage.removeItem('currentIndex');
+          localStorage.removeItem('editSite');
+
           if (!isPreview) {
             history.push(`/event/${eventId}`);
-            //reject('err');
           } else {
             resolve('Save Successfully');
           }

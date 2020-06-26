@@ -97,9 +97,26 @@ const getIndexPage = (pages, currentPage) => {
   return count;
 };
 
-const getCurrentPage = (page) => {
-  if (page.child.length === 0) return page.id;
-  return page.child[0].id;
+const getCurrentPage = (pages, index) => {
+  const editSite = localStorage.getItem('editSite');
+
+  if (editSite || index === 0) {
+    if (pages[0].child.length === 0) return pages[0].id;
+    return pages[0].child[0].id;
+  } else {
+    let count = 0;
+    for (let i in pages) {
+      if (pages[i].child === 0) {
+        if (count === index) return pages[i].id;
+      } else {
+        for (let j in pages[i].child) {
+          if (count === index) return pages[i].child[j].id;
+          count++;
+        }
+      }
+      count++;
+    }
+  }
 };
 
 const event = (state = initialState, action) => {
@@ -224,6 +241,7 @@ const event = (state = initialState, action) => {
 
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
       const editSite = localStorage.getItem('editSite');
+
       return {
         ...state,
         pending: false,
@@ -238,9 +256,7 @@ const event = (state = initialState, action) => {
         ticket: action.event.ticket,
         status: action.event.status,
         system: editSite ? action.page : [],
-        currentPage: editSite
-          ? getCurrentPage(action.header.pages[0])
-          : state.currentPage,
+        currentPage: getCurrentPage(action.header.pages, action.index),
 
         // update event infor
       };
@@ -278,6 +294,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
+        currentPage: '',
       };
 
     case eventConstants.SAVE_EVENT_DETAIL_FAILURE:
@@ -330,7 +347,6 @@ const event = (state = initialState, action) => {
 
     case eventConstants.SAVE_PAGE: // pages, currentPage, blocks
       const nextId = getIndexPage(state.pages, action.currentPage);
-
       return {
         ...state,
         blocks:
@@ -338,21 +354,22 @@ const event = (state = initialState, action) => {
             ? [...initialBlocks]
             : state.system[nextId],
         system:
-          nextId >= state.system.length
+          nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId),
+                ...state.system.slice(0, nextId - 1),
                 action.blocks,
-                ...state.system.slice(nextId + 1, state.system.length),
+                ...state.system.slice(nextId, state.system.length),
               ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
-      console.log(action.currentPage);
-      console.log(state.pages);
-      console.log(getIndexPage(state.pages, action.currentPage));
+      //   console.log(action.currentPage);
+      //   console.log(state.pages);
+      //   console.log(getIndexPage(state.pages, action.currentPage));
+      //   console.log(state.system);
       return {
         ...state,
         currentPage: action.currentPage,

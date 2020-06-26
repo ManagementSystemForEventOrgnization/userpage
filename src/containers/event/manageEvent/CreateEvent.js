@@ -106,6 +106,7 @@ class CreateEvent extends React.Component {
     } else {
       this.setState({ loading: false });
     }
+    window.scrollTo(0, 0);
   };
 
   componentDidUpdate = (prevProps) => {
@@ -231,8 +232,6 @@ class CreateEvent extends React.Component {
         } else {
           this.success();
         }
-
-        localStorage.removeItem('editSite');
       })
       .catch((err) => {
         this.error();
@@ -268,11 +267,16 @@ class CreateEvent extends React.Component {
     const { currentIndex } = this.state;
     let newPageId = '';
 
+    // console.log(pages);
+    // console.log(currentIndex);
+
     if (pages[currentIndex].child.length === 0) {
       newPageId = this.getPreviousId();
     } else {
       newPageId = this.getPreviousChildId();
     }
+
+    // console.log(newPageId);
 
     handlePreviousPage(newPageId);
     window.scrollTo(0, 0);
