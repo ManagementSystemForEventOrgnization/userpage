@@ -26,9 +26,11 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-    const { getListNotification, getNumUnreadNotification } = this.props;
+
+    const { getListNotification } = this.props;
+    // console.log("getListNotification");
     getListNotification();
-    getNumUnreadNotification();
+    // getNumUnreadNotification();
   };
 
   loadMoreNotification = () => {
@@ -46,7 +48,8 @@ class Notification extends Component {
       return;
     }
 
-    getListNotification(Math.round(data.length / 10) + 1);
+    console.log(Math.round(data.length / 10))
+    getListNotification(Math.round(data.length / 10 + 1));
   };
 
   handleClick = (id, type) => {
@@ -139,14 +142,13 @@ class Notification extends Component {
           <div className="d-flex">
             <List.Item.Meta avatar={<Avatar src={item.url} />} />
             {item.isRead ? (
-              <div>
-                {this.getNameSender(item.title, item.users_sender.fullName)}
-              </div>
+              <div onClick={() => window.location.replace(item.linkTo.urlWeb)}>
+                {this.getNameSender(item.title, item.users_sender.fullName)}</div>
             ) : (
-              <h6>
-                {this.getNameSender(item.title, item.users_sender.fullName)}
-              </h6>
-            )}
+                <h6 onClick={() => window.location.replace(item.linkTo.urlWeb)}>
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </h6>
+              )}
           </div>
 
           <div className="d-flex">
@@ -178,6 +180,7 @@ class Notification extends Component {
     const { data, loading, hasMore } = this.state;
     return (
       <div className="demo-infinite-container">
+        {console.log("list", data)}
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}

@@ -107,11 +107,16 @@ class CreateHistory extends React.Component {
     // this.setState({ listEvent: Event });
     this.state({ isupate: true });
   };
+  onFocusCancel = () => {
+    this.setState({
+      isSuccess: true,
+    })
+  }
 
   onChangeSearch = (value) => {
     const { getCreateHistory } = this.props;
     this.setState({
-      txtSearch: value,
+      txtSearch: value
     });
     let dataSent = {};
     dataSent.txtSearch = value;
@@ -138,6 +143,7 @@ class CreateHistory extends React.Component {
   isCancelEvent = () => {
     this.setState({
       isShowCancel: false,
+      isSuccess: true
     });
   };
 
@@ -346,18 +352,28 @@ class CreateHistory extends React.Component {
   };
 
   showCancelConfirm = () => {
-    const { idEventCancel } = this.state;
+    const { idEventCancel, sessionEvent } = this.state;
     const { cancelEvent, arrEvent } = this.props;
 
     cancelEvent(idEventCancel);
     let receiver = arrEvent.filter(
       (e) => e._id !== idEventCancel && ((s) => s.status === 'CANCEL')
     );
+    console.log("33", sessionEvent)
+    //  let currIndex = sessionEvent.find((ss) => ss.isCancel === false);
+    // console.log('2', currIndex);
+
+    // if (currIndex !== -1) {
+    //   sessionEvent[currIndex].isCancel = true;
+    // }
 
     this.setState({
       isSecondLoad: false,
       listEvent: receiver,
       isSuccess: false,
+      // sessionEvent: sessionEvent
+
+
     });
   };
 
@@ -641,6 +657,7 @@ class CreateHistory extends React.Component {
           title="Cancel Event"
           visible={this.state.isShowCancel}
           onOk={this.isCancelEvent}
+
           onCancel={this.isCancelEvent}
         >
           {!this.state.isSecondLoad && err && (
@@ -651,9 +668,9 @@ class CreateHistory extends React.Component {
           )}
 
           <Tabs>
-            <TabPane tab="Cancel all event" key="1">
-              <div className="d-flex">
-                <p style={{ fontWeight: 600, fontSize: '18px' }}>
+            <TabPane tab="Cancel all event" key="1" >
+              <div className="d-flex" >
+                <p style={{ fontWeight: 600, fontSize: '18px' }} >
                   Are you sure cancel all session this event?
                 </p>
 
@@ -668,8 +685,8 @@ class CreateHistory extends React.Component {
                 </Button>
               </div>
             </TabPane>
-            <TabPane tab="Cancel  Session" key="2">
-              <p style={{ fontWeight: 600, fontSize: '18px' }}>
+            <TabPane tab="Cancel  Session" key="2"  >
+              <p style={{ fontWeight: 600, fontSize: '18px' }} >
                 Are you sure cancel a session this event?
               </p>
               {sessionEvent.map((item) => (
@@ -689,6 +706,7 @@ class CreateHistory extends React.Component {
                   <div className="col">
                     <Button
                       shape="circle"
+
                       disabled={item.isCancel}
                       onClick={() => this.cancelSessionEvent(item.id)}
                     >

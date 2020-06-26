@@ -14,6 +14,7 @@ const initialState = {
   chatHistory: [],
   listCard: [{}],
   historyPayment: [],
+  historyEvent: [],
 };
 
 const user = (state = initialState, action) => {
