@@ -54,8 +54,8 @@ class CategoryDetailPage extends React.Component {
     const { getListEvent } = this.props;
 
     let dataSent = {};
-    dataSent.startDate = dates[0]._d;
-    dataSent.endDate = dates[1]._d;
+    dataSent.startDate = moment(dates[0]._d).format('YYYY/MM/DD')
+    dataSent.endDate = moment(dates[1]._d).format('YYYY/MM/DD')
 
     getListEvent(dataSent);
   };
@@ -69,10 +69,14 @@ class CategoryDetailPage extends React.Component {
     const { getListEvent } = this.props;
 
     let sentData = {};
+    if (value === 'true') {
+      sentData.fee = value === 'true';
+      getListEvent(sentData);
+    } else {
+      getListEvent();
+    }
 
 
-    sentData.fee = value === 'true';
-    getListEvent(sentData);
   }
 
   componentDidUpdate = (prevProps) => {
@@ -304,9 +308,9 @@ class CategoryDetailPage extends React.Component {
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChangeFee}
             >
-              <Option>All Fares</Option>
+              {/* <Option>All Fares</Option> */}
               <Option value="true">Cost</Option>
-              <Option value="false">Free</Option>
+              <Option>Free</Option>
             </Select>
           </div>
         </div>

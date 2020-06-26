@@ -1,18 +1,20 @@
 import API from 'config/axious.config';
 
-const applyEvent = (eventId, sessionIds) => {
+const applyEvent = (eventId, sessionIds, payType) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       // dispatch(request());
       API.post('/api/joinEvent', {
         eventId,
         sessionIds,
-        payType: 'CREDIT_CARD',
+        payType,
       })
         .then((res) => {
-          // dispatch(success(res.data.result));
-          console.log(res.data.result);
-          resolve('true');
+          if (payType !== 'CREDIT_CARD') {
+            resolve(res.data.resultOrder);
+          } else {
+            resolve('true');
+          }
         })
         .catch((err) => reject(err));
     });

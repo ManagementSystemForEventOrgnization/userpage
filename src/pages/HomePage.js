@@ -12,12 +12,23 @@ import Orgnization from '../components/Orgnization';
 import NavBar from '../components/NavBar';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-/// import sessionCard from '../components/CardSession'
-
 import Chat from 'containers/chat/ChatWidget';
 
 import { eventActions } from '../action/event.action';
 import { responsive } from 'containers/event/templates/constants/atom.constant';
+
+const HIGHT = {
+  textAlign: 'center',
+  color: '333333',
+  fontWeight: '700',
+  fontSize: '36px',
+  fontFamily: `Oswald`,
+
+  marginBottom: '15px',
+  textTransform: 'capitalize',
+  textShadow: '0 0 3px #161821',
+};
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +44,7 @@ class HomePage extends Component {
     const { pageNumber, numberRecord } = this.state;
     let type = 'HEIGHT_LIGHT';
     let sentData = {};
-    sentData.type = type
+    sentData.type = type;
     // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(sentData);
@@ -103,8 +114,8 @@ class HomePage extends Component {
                       {item.session.length === 1 ? (
                         ''
                       ) : (
-                          <p>+ {item.session.length - 1}more events</p>
-                        )}
+                        <p>+ {item.session.length - 1}more events</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -114,14 +125,14 @@ class HomePage extends Component {
         </Carousel>
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No highlight event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-            alt="no-high-light"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No highlight event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
   };
 
   renderUpcomingEvent = () => {
@@ -142,14 +153,14 @@ class HomePage extends Component {
                             {this.percentDiscount(item.ticket.discount)}
                           </Button>
                         ) : (
-                            ''
-                          )}
+                          ''
+                        )}
                       </div>
                     ) : (
-                        <Button className="ml-1 mt-1 ticket" key={item._id}>
-                          Free
-                        </Button>
-                      )}
+                      <Button className="ml-1 mt-1 ticket" key={item._id}>
+                        Free
+                      </Button>
+                    )}
                     {item.bannerUrl && (
                       <img
                         className="img "
@@ -194,10 +205,10 @@ class HomePage extends Component {
                     {item.session.length === 1 ? (
                       ''
                     ) : (
-                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                          + {item.session.length - 1}more events
-                        </p>
-                      )}
+                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                        + {item.session.length - 1}more events
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -223,16 +234,16 @@ class HomePage extends Component {
                           </p>
                         </div>
                       ) : (
-                          <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
-                            {item.ticket.price} VNĐ
-                          </p>
-                        )}
+                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                          {item.ticket.price} VNĐ
+                        </p>
+                      )}
                     </div>
                   ) : (
-                      <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                        0 VNĐ
-                      </p>
-                    )}
+                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                      0 VNĐ
+                    </p>
+                  )}
                 </div>
 
                 <div className="d-flex ">
@@ -249,38 +260,17 @@ class HomePage extends Component {
         ))}
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No upcoming event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
-            alt="no-upcoming"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No upcoming event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+          alt="no-upcoming"
+        />
+      </div>
+    );
   };
 
   render() {
-    const HIGHT = {
-      textAlign: 'center',
-      color: '333333',
-      fontWeight: '700',
-      fontSize: '36px',
-      fontFamily: `Oswald`,
-
-      marginBottom: '15px',
-      textTransform: 'capitalize',
-      textShadow: '0 0 3px #161821',
-    };
-
-    const orgnizations = {
-      name: 'DIANA L. CACERES',
-      src:
-        'https://res.cloudinary.com/dwt4njhmt/image/upload/v1591865822/images_qukx6e.jpg',
-      description: 'Developer',
-    };
-
-    const temp = [1, 2, 3, 4, 5];
-
     const { hightLightFinishLoading, upcomingFinishLoading } = this.props;
     return (
       <div className="homepage">
@@ -301,8 +291,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderHighLightEvent()
-            )}
+            this.renderHighLightEvent()
+          )}
         </div>
 
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
@@ -320,17 +310,27 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderUpcomingEvent()
-            )}
+            this.renderUpcomingEvent()
+          )}
         </div>
-        <hr>
-        </hr>
-        <Link to='/event-list/all-events'>
-          <Button style={{
-            marginLeft: '40%', marginTop: '5%', marginBottom: '10%',
-            width: '20%', height: '50px', fontWeight: 'bolder', fontSize: '25px',
-            borderWidth: '3px', borderColor: 'var(--eds-ui-500,#a9a8b3)', borderRadius: '4px',
-          }}>See more</Button>
+        <hr></hr>
+        <Link to="/event-list/all-events">
+          <Button
+            style={{
+              marginLeft: '40%',
+              marginTop: '5%',
+              marginBottom: '10%',
+              width: '20%',
+              height: '50px',
+              fontWeight: 'bolder',
+              fontSize: '25px',
+              borderWidth: '3px',
+              borderColor: 'var(--eds-ui-500,#a9a8b3)',
+              borderRadius: '4px',
+            }}
+          >
+            View All Events
+          </Button>
         </Link>
         <hr
           style={{
@@ -341,11 +341,7 @@ class HomePage extends Component {
 
         <div className="orgnization">
           <h1 style={HIGHT}>Organizers </h1>
-          <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
-            {temp.map((item) => (
-              <Orgnization key={item} orgnization={orgnizations} />
-            ))}
-          </div>
+          <Orgnization />
         </div>
         <Chat />
 
