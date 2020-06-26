@@ -77,6 +77,8 @@ class CreateEvent extends React.Component {
     const urlWeb = localStorage.getItem('webAddress');
     const editSite = localStorage.getItem('editSite');
 
+    window.scrollTo(0, 0);
+
     if (urlWeb) {
       getEventInfo(urlWeb)
         .then(() => {
@@ -106,7 +108,6 @@ class CreateEvent extends React.Component {
     } else {
       this.setState({ loading: false });
     }
-    window.scrollTo(0, 0);
   };
 
   componentDidUpdate = (prevProps) => {
@@ -128,6 +129,7 @@ class CreateEvent extends React.Component {
     this.setState({
       loading: true,
     });
+    window.scrollTo(0, 0);
 
     if (currentIndex === pages.length - 1) {
       if (pages[currentIndex].child.length === 0) {
@@ -160,8 +162,6 @@ class CreateEvent extends React.Component {
     }
 
     handleChangeHeader(pages, newPageId, blocks);
-
-    window.scrollTo(0, 0);
 
     this.setState({
       loading: false,
@@ -269,6 +269,7 @@ class CreateEvent extends React.Component {
 
     // console.log(pages);
     // console.log(currentIndex);
+    window.scrollTo(0, 0);
 
     if (pages[currentIndex].child.length === 0) {
       newPageId = this.getPreviousId();
@@ -279,7 +280,6 @@ class CreateEvent extends React.Component {
     // console.log(newPageId);
 
     handlePreviousPage(newPageId);
-    window.scrollTo(0, 0);
   };
 
   isDisablePrevious = () => {

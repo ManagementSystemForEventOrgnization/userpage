@@ -16,7 +16,6 @@ class TransactionHistory extends Component {
   }
 
   render() {
-
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'VND',
@@ -51,25 +50,34 @@ class TransactionHistory extends Component {
                 <th scope="row">{key + 1}</th>
                 <td>
                   {item.eventId ? (
-                    <Link to={"/event/" + item.eventId.urlWeb} target="_blank">{item.eventId.name}</Link>
+                    <Link to={'/event/' + item.eventId.urlWeb} target="_blank">
+                      {item.eventId.name}
+                    </Link>
                   ) : (
-                      item.eventId.name
-                    )}
+                    item.eventId.name
+                  )}
                 </td>
                 <td>{item.sender.fullName}</td>
-                <td>{item.sessionRefunded[0] ? <b> {formatter.format(item.amount)}</b> : formatter.format(item.amount)}</td>
                 <td>
-                  {new Date(item.createdAt).toLocaleString()}
+                  {item.sessionRefunded[0] ? (
+                    <b> {formatter.format(item.amount)}</b>
+                  ) : (
+                    formatter.format(item.amount)
+                  )}
                 </td>
+                <td>{new Date(item.createdAt).toLocaleString()}</td>
                 <td>{item.payType}</td>
                 <td>{item.status}</td>
                 <td>
                   {item.sessionRefunded[0] && (
-                    <div>  refund : {new Date(item.updatedAt).toLocaleString()}</div>)}
+                    <div>
+                      {' '}
+                      refund : {new Date(item.updatedAt).toLocaleString()}
+                    </div>
+                  )}
                 </td>
               </tr>
-            )
-            )}
+            ))}
           </tbody>
         </table>
         {this.props.pending && rows <= 16 && (
@@ -84,12 +92,14 @@ class TransactionHistory extends Component {
             {' '}
           </Spin>
         )}
-        <a
+        <p
+          type="button"
           className="fa-fw w3-margin-right w3-text-teal"
+          style={{ width: '100px' }}
           onClick={() => this.onLoadMore()}
         >
           Load more <i className="fa fa-arrow-down" aria-hidden="true"></i>
-        </a>
+        </p>
       </div>
     );
   }
