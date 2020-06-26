@@ -1,6 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { applyEventActions } from 'action/applyEvent';
 import CreditCard from './CreditCard';
-export default class TransferType extends React.Component {
+
+class TransferType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -8,13 +12,39 @@ export default class TransferType extends React.Component {
     };
   }
 
+  onZaloPay = () => {
+    const {
+      eventId,
+      currSsId,
+      handleFinishPayment,
+      //   changeStatus,
+      handleApply,
+    } = this.props;
+    if (currSsId) {
+      const temp = [];
+      temp.push(currSsId);
+      handleFinishPayment();
+
+      handleApply(eventId, temp, 'ZALOPAY')
+        .then((res) => {
+          console.log(res);
+          window.open(res.orderurl, '_blank');
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   render() {
-    const onZaloPay = () => {
-      console.log('zalo pay');
-    };
+    const { currSsId, eventId, handleFinishPayment, changeStatus } = this.props;
 
     return this.state.creditCard ? (
-      <CreditCard />
+      <CreditCard
+        currSsId={currSsId}
+        eventId={eventId}
+        handleFinishPayment={handleFinishPayment}
+        changeStatus={changeStatus}
+        changeStatusType={() => this.setState({ creditCard: false })}
+      />
     ) : (
       <div className="transfer_type">
         <h3 className=" w3-text-teal text-center mt-5 mb-5">
@@ -24,16 +54,15 @@ export default class TransferType extends React.Component {
           </u>
         </h3>
         <div class="cards-list">
-          <div class="card 1" onClick={onZaloPay}>
+          <div class="card 1" onClick={this.onZaloPay}>
             <div class="card_image">
-              {' '}
               <img
                 src="http://agiletech.vn/wp-content/uploads/2019/06/agiletechvietnam-zalopay.png"
                 alt="zalo-pay"
-              />{' '}
+              />
             </div>
             <div class="card_title title-black">
-              <p>Yalo Pay</p>
+              <p>Zalo Pay</p>
             </div>
           </div>
 
@@ -56,3 +85,10 @@ export default class TransferType extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  handleApply: (eventId, sessionIds, payType) =>
+    dispatch(applyEventActions.applyEvent(eventId, sessionIds, payType)),
+});
+
+export default connect(null, mapDispatchToProps)(TransferType);

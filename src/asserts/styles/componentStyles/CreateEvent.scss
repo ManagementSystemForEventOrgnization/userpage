@@ -45,7 +45,8 @@
         border: dotted 1px rgb(138, 134, 134);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         // opacity: 0.9;
-        cursor: pointer;
+        // cursor: pointer;
+        cursor: grab;
         .icons-handle {
           display: block;
         }
@@ -61,6 +62,23 @@
             display: block;
           }
         }
+      }
+    }
+
+    .text-block {
+      &:hover {
+        cursor: text;
+      }
+    }
+
+    .image-block {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .button-block {
+      &:hover {
+        cursor: pointer;
       }
     }
   }

@@ -26,8 +26,9 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-    const { getListNotification } = this.props;
+    const { getListNotification, getNumUnreadNotification } = this.props;
     getListNotification();
+    getNumUnreadNotification();
   };
 
   loadMoreNotification = () => {
@@ -210,6 +211,9 @@ const mapDispatchToProps = (dispatch) => ({
   setReadNotification: (id) => dispatch(userActions.setReadNotification(id)),
   setDeleteNotification: (id) =>
     dispatch(userActions.setDeleteNotification(id)),
+
+  getNumUnreadNotification: () =>
+    dispatch(userActions.getNumUnreadNotification()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

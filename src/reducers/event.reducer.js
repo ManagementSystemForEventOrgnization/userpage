@@ -229,6 +229,7 @@ const event = (state = initialState, action) => {
         banner: action.event.bannerUrl,
         nameEvent: action.event.name,
         ticket: action.event.ticket,
+        status: action.event.status,
 
         // update event infor
       };
