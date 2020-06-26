@@ -165,7 +165,9 @@ class GeneralBanner extends Component {
                 type="primary"
                 size="large"
                 onClick={
-                  !editable && status === 'PUBLIC' && this.collapseApplyModal
+                  !editable && status === 'PUBLIC'
+                    ? this.collapseApplyModal
+                    : () => {}
                 }
               >
                 Apply Event Now

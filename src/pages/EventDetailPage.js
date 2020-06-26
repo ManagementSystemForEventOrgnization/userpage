@@ -5,9 +5,7 @@ export default class EventDetailPage extends Component {
   render() {
     return (
       <div>
-        <div className="fixed-top mb-5">
-          <Header />
-        </div>
+        <Header />
         <EventDetail {...this.props}></EventDetail>
       </div>
     );
