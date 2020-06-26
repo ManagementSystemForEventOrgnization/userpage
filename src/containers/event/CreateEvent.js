@@ -73,17 +73,30 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getEventInfo, webAddress } = this.props;
-    const eventId = localStorage.getItem('webAddress');
+    const { getEventInfo } = this.props;
+    const urlWeb = localStorage.getItem('webAddress');
+    // const editSite = localStorage.getItem('editSite');
 
-    this.getCurrentIndex();
-
-    if (!webAddress) {
-      getEventInfo(eventId)
+    if (urlWeb) {
+      getEventInfo(urlWeb)
         .then((data) => {
+          //   if (editSite) {
+          //     getEventDetail(urlWeb, 0).then(() => {
+          //       this.setState({
+          //         loading: false,
+          //       });
+          //     });
+          //   } else {
+          //     this.setState({
+          //       loading: false,
+          //     });
+          //   }
+
           this.setState({
             loading: false,
           });
+
+          // this.getCurrentIndex();
         })
         .catch((err) =>
           this.setState({
@@ -108,9 +121,28 @@ class CreateEvent extends React.Component {
   };
 
   onHandleNext = () => {
-    const { pages, handleChangeHeader, blocks, currentPage } = this.props;
+    const {
+      pages,
+      handleChangeHeader,
+      blocks,
+      currentPage,
+      //   getEventDetail,
+    } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
+    //let index = 0;
+    // const editSite = localStorage.getItem('editSite');
+    // const webAddress = localStorage.getItem('webAddress');
+    this.setState({
+      loading: true,
+    });
+
+    // for (let i in pages) {
+    //   if (i === currentIndex){
+
+    //   }
+    //   index = index + pages[i].child.length === 0 ? 1 : pages[i].child.length;
+    // }
 
     if (currentIndex === pages.length - 1) {
       if (pages[currentIndex].child.length === 0) {
@@ -134,6 +166,11 @@ class CreateEvent extends React.Component {
           });
         } else {
           newPageId = pages[currentIndex].child[index + 1].id;
+          //   if (editSite) {
+          //     getEventDetail(webAddress, index).then(() =>
+          //       this.setState({ loading: false })
+          //     );
+          //   }
         }
       }
     } else {
@@ -143,6 +180,7 @@ class CreateEvent extends React.Component {
     }
     handleChangeHeader(pages, newPageId, blocks);
 
+    this.setState({ loading: false });
     window.scrollTo(0, 0);
   };
 
@@ -415,6 +453,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
 
   getEventInfo: (eventId) => dispatch(eventActions.getEventInfo(eventId)),
+  getEventDetail: (eventId, index) =>
+    dispatch(eventActions.getEventDetail(eventId, index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

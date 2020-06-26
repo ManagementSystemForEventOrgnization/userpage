@@ -14,7 +14,29 @@ import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
-import CreditCard from 'containers/user/BankAccount/CreditCard';
+import TransferType from 'containers/user/BankAccount/TransferType';
+
+const titleStyle = {
+  fontWeight: 'bold',
+  fontSize: '20px',
+  color: 'blue',
+};
+
+const calendar = {
+  border: '#f7bdbd solid 1px',
+  width: '83px',
+  height: '90px',
+  textAlign: 'center',
+  fontSize: '15px',
+  fontWeight: 'bold',
+  borderRadius: '3px',
+};
+
+const monthStyle = {
+  background: 'red',
+  fontWeight: 'bolder',
+  borderRadius: '3px',
+};
 
 class Schedule1 extends Component {
   constructor(props) {
@@ -254,28 +276,6 @@ class Schedule1 extends Component {
       width: '100 %',
     };
 
-    const titleStyle = {
-      fontWeight: 'bold',
-      fontSize: '20px',
-      color: 'blue',
-    };
-
-    const calendar = {
-      border: '#f7bdbd solid 1px',
-      width: '83px',
-      height: '90px',
-      textAlign: 'center',
-      fontSize: '15px',
-      fontWeight: 'bold',
-      borderRadius: '3px',
-    };
-
-    const monthStyle = {
-      background: 'red',
-      fontWeight: 'bolder',
-      borderRadius: '3px',
-    };
-
     return (
       <div className="p-5 child-block" key={key}>
         <h2 style={titleBlockStyle}>Sessions</h2>
@@ -287,7 +287,7 @@ class Schedule1 extends Component {
                 style={divStyle}
                 key={ss.id}
               >
-                <div className="col-3 col-md-3">
+                <div className=" col-md-3">
                   <div style={calendar} className="mb-2 p-1">
                     <p style={monthStyle} className="p-1">
                       {moment(ss.time).format('MMM')}
@@ -299,14 +299,14 @@ class Schedule1 extends Component {
                   </div>
                 </div>
 
-                <div className="col-6 col-md-6">
+                <div className="col-md-6">
                   <div style={titleStyle}>{ss.name}</div>
 
                   <p className="mt-4" style={{ fontSize: '14px' }}>
                     {ss.location}
                   </p>
                 </div>
-                <div className="col-3 col-md-3">
+                <div className="col-md-3">
                   <p
                     style={{ fontSize: '14px' }}
                   >{`Limit number : ${ss.limitNumber}`}</p>
@@ -317,9 +317,9 @@ class Schedule1 extends Component {
                     className="mt-2"
                     loading={ss.pending}
                     onClick={
-                      !editable &&
-                      status === 'PUBLIC' &&
-                      (() => this.handleClickButton(ss.id))
+                      !editable && status === 'PUBLIC'
+                        ? () => this.handleClickButton(ss.id)
+                        : () => {}
                     }
                   >
                     {this.isApplied(ss.id)
@@ -364,7 +364,8 @@ class Schedule1 extends Component {
             VND
           </p>
           <hr />
-          <CreditCard
+
+          <TransferType
             currSsId={currSsId}
             eventId={eventId}
             handleFinishPayment={this.handleCloseDrawer}

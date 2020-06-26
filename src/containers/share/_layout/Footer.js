@@ -39,8 +39,8 @@ class Footer extends React.Component {
           </div>
 
           <div className="col">
-            <b>Hotline </b>
-            <div>Dễ dàng - Tiện lợi - Bảo mật cao</div>
+            <b>Email hỗ trợ </b>
+            <div> datn.qlsk@gmail.com</div>
           </div>
           <div className="col">
             <b>Hotline </b>
@@ -48,7 +48,7 @@ class Footer extends React.Component {
           </div>
           <div className="col">
             <b>Hotline hỗ trợ</b>
-            <div>Dễ dàng - Tiện lợi - Bảo mật cao</div>
+            <div>Trường Đại học Khoa học Tự Nhiên</div>
           </div>
         </div>
         <hr></hr>

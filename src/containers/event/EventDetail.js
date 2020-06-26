@@ -85,7 +85,6 @@ class EventDetail extends React.Component {
   render() {
     const { blocks, pending } = this.props;
 
-    console.log(blocks);
     const src =
       'https://res.cloudinary.com/eventinyourhand/image/upload/v1592392417/LoadingGif/Animation_that_matters_adding_value_to_your_interface_aektko.gif';
     return (
@@ -96,7 +95,7 @@ class EventDetail extends React.Component {
           </div>
         ) : (
           <div>
-            <div className="">{this.renderHeader()}</div>
+            <div className="mt-5">{this.renderHeader()}</div>
 
             {blocks.map((item) => this.renderBlocks(item))}
           </div>
