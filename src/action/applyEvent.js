@@ -36,6 +36,22 @@ const cancelEvent = (eventId, sessionIds) => {
   };
 };
 
+const handleRePay = (eventId, payType, sessionIds, cb) => {
+  return (dispatch) => {
+    API.post('/api/prepayEvent', {
+      eventId,
+      sessionIds,
+      payType,
+    })
+      .then((res) => {
+        cb(res.data, 1);
+      })
+      .catch((err) => {
+        cb(err, 0);
+      });
+  };
+};
+
 const verifyEventMember = (joinUserId, eventId, sessionId) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -90,6 +106,7 @@ const reportUser = (userId, cause, eventId) => {
 export const applyEventActions = {
   applyEvent,
   cancelEvent,
+  handleRePay,
   verifyEventMember,
   rejectEventMember,
   reportUser,

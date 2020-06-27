@@ -110,6 +110,10 @@ class CreateEvent extends React.Component {
     }
   };
 
+  componentWillUnmount = () => {
+    localStorage.removeItem('editSite');
+  };
+
   componentDidUpdate = (prevProps) => {
     if (prevProps.currentPage !== this.props.currentPage) {
       this.getCurrentIndex();

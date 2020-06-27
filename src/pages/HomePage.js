@@ -101,7 +101,7 @@ class HomePage extends Component {
           itemClass="carousel-item-padding-40-px"
         >
           {hlEvent.map((item, index) => (
-            <Link to={'/event/' + item.urlWeb} target="_blank">
+            <Link key={index} to={'/event/' + item.urlWeb} target="_blank">
               <div className="  shadow ml-2 highlight-item" key={index}>
                 <div className=" event-list">
                   {item.bannerUrl && (
@@ -168,7 +168,6 @@ class HomePage extends Component {
                         src={item.bannerUrl}
                       />
                     }
-
                   </div>
                 }
               >

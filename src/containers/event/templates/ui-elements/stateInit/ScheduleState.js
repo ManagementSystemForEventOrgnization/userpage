@@ -32,11 +32,7 @@ const ScheduleState = (props, first) => ({
   scheduleName: 'Sessions',
 
   content: props.session.map((item) => ({
-    id: item.id,
-    time: item.day,
-    limitNumber: item.limitNumber,
-    name: item.name,
-    location: item.address.location,
+    ...item,
     pending: false,
     status: item.status || 'error',
   })),
