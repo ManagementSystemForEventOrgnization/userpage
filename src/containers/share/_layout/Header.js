@@ -17,12 +17,12 @@ class Header extends React.Component {
   }
 
   handleVisibleChange = (visible) => {
-    this.setState({ visible, open: true });
+    this.setState({ visible, open: !this.state.open });
+    this.props.getNumUnreadNotification()
   };
 
-  
-  componentDidMount = () => {
 
+  componentDidMount = () => {
     this.props.getNumUnreadNotification()
 
   };
@@ -31,7 +31,6 @@ class Header extends React.Component {
     const isLogined = localStorage.getItem('isLogined');
     const { numUnreadNotification } = this.props;
     const { visible, open } = this.state;
-
     return (
       <div className="head ">
         <nav className="nav header ">
@@ -62,26 +61,26 @@ class Header extends React.Component {
                       <BellOutlined style={{ fontSize: 23 }} />
                     </Badge>
                   ) : (
-                    <div type="button">
-                      <BellOutlined style={{ fontSize: 20 }} />
-                    </div>
-                  )}
+                      <div type="button">
+                        <BellOutlined style={{ fontSize: 20 }} />
+                      </div>
+                    )}
                 </Popover>
 
                 <UserNav />
               </div>
             ) : (
-              <div className="d-flex">
-                <Link className="mr-4 login" to="/login">
-                  Login
+                <div className="d-flex">
+                  <Link className="mr-4 login" to="/login">
+                    Login
                 </Link>
-                <Link to="/signup" className=" mr-3 register">
-                  <Button size="large" type="danger">
-                    Register for free
+                  <Link to="/signup" className=" mr-3 register">
+                    <Button size="large" type="danger">
+                      Register for free
                   </Button>
-                </Link>
-              </div>
-            )}
+                  </Link>
+                </div>
+              )}
           </div>
         </nav>
       </div>

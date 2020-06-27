@@ -8,6 +8,7 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
+  notiPageNumber: 0,
   arrEvent: [],
   notifications: [],
   numUnreadNotification: 0,
@@ -406,7 +407,7 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         isLoadedMore: action.notifications.length === 10 ? true : false,
-        notifications: [...state.notifications, ...action.notifications],
+        notifications: action.notiPageNumber === 1 ? [...action.notifications] : [...state.notifications, ...action.notifications],
         errMessage: null,
       };
 

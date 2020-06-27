@@ -28,10 +28,12 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-
+    console.log("componentDidMount")
     const { getListNotification } = this.props;
     getListNotification();
-  };
+  }
+
+
 
   loadMoreNotification = () => {
     if (this.props.isLoadedMore) {
@@ -43,9 +45,15 @@ class Notification extends Component {
     }
   };
 
-  handleClick = (id, type) => {
-    // if(type === '')
-    // Get info of event => redirect to event page
+  handleLoadLatest = () => {
+    this.setState({
+      loading: true,
+    });
+    page = 1
+    this.props.getListNotification(page)
+    this.setState({
+      loading: false,
+    });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -182,6 +190,20 @@ class Notification extends Component {
           hasMore={!loading}
           useWindow={false}
         >
+          {/* <a className="float-right" onClick={() => this.handleLoadLatest}><i className="fa fa-arrow-up" aria-hidden="true"></i></a> */}
+          <p
+            type="button"
+            className="fa-fw w3-margin-right w3-text-teal"
+            style={{ width: '100px' }}
+            onClick={() => this.handleLoadLatest()}
+          >
+            Load more <i className="fa fa-arrow-up" aria-hidden="true"></i>
+          </p>
+          {loading && (
+            <div className="demo-loading-container">
+              <Spin />
+            </div>
+          )}
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
