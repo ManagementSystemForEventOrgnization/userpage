@@ -144,11 +144,11 @@ class Notification extends Component {
           <div className="d-flex">
             <List.Item.Meta avatar={<Avatar src={item.url} />} />
             {item.isRead ? (
-              <div onClick={() => window.location.replace(item.linkTo.urlWeb)}>
+              <div onClick={() => item.linkTo.urlWeb ? window.location.replace(item.linkTo.urlWeb) : window.location.replace("http://localhost:3000/my-events")} >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-                <h6 onClick={() => this.handleMarkAsRead(item._id) || window.location.replace(item.linkTo.urlWeb)} >
+                <h6 onClick={() => this.handleMarkAsRead(item._id) || item.linkTo.urlWeb ? window.location.replace(item.linkTo.urlWeb) : window.location.replace("http://localhost:3000/my-events")} >
                   {this.getNameSender(item.title, item.users_sender.fullName)}
                 </h6>
               )}
@@ -208,11 +208,11 @@ class Notification extends Component {
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
           >
-            {loading && (
+            {/* {loading && (
               <div className="demo-loading-container">
                 <Spin />
               </div>
-            )}
+            )} */}
           </List>
         </InfiniteScroll>
       </div>
