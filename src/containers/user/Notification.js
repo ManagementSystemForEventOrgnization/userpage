@@ -14,40 +14,34 @@ const timeStyle = {
   fontSize: '10px',
 };
 
+let page = 2;
+
 class Notification extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       data: props.notifications,
-      loading: false,
-      hasMore: true,
+      loading: true,
+      // hasMore: true,
     };
   }
 
   componentDidMount = () => {
-    const { getListNotification, getNumUnreadNotification } = this.props;
+
+    const { getListNotification } = this.props;
     getListNotification();
-    getNumUnreadNotification();
+
   };
 
   loadMoreNotification = () => {
-    let { data } = this.state;
-    const { getListNotification } = this.props;
-    this.setState({
-      loading: true,
-    });
-
-    if (data.length % 10 !== 0) {
+    if (this.props.isLoadedMore) {
       this.setState({
-        hasMore: false,
-        loading: false,
+        loading: true,
       });
-      return;
+      this.props.getListNotification(page);
+      page += 1;
     }
-
-    console.log(Math.round(data.length / 10));
-    getListNotification(Math.round(data.length / 10 + 1));
   };
 
   handleClick = (id, type) => {
@@ -71,6 +65,9 @@ class Notification extends Component {
   };
 
   handleDeleleNotification = (notificationId) => {
+    if (this.state.data.length == 5) {
+      this.loadMoreNotification();
+    }
     const { data } = this.state;
     const { setDeleteNotification } = this.props;
     const index = data.findIndex((item) => item._id === notificationId);
@@ -144,15 +141,15 @@ class Notification extends Component {
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-              <h6 onClick={() => window.location.replace(item.linkTo.urlWeb)}>
-                {this.getNameSender(item.title, item.users_sender.fullName)}
-              </h6>
-            )}
+                <h6 onClick={() => this.handleMarkAsRead(item._id) || window.location.replace(item.linkTo.urlWeb)} >
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </h6>
+              )}
           </div>
 
           <div className="d-flex">
             <p style={timeStyle} className="ml-3">
-              {moment(item.createdAt).startOf('day').fromNow()}
+              {new Date(item.createdAt).toLocaleString()}
             </p>
             <div className="ml-auto">
               {!item.isRead && (
@@ -176,22 +173,21 @@ class Notification extends Component {
   };
 
   render() {
-    const { data, loading, hasMore } = this.state;
+    const { data, loading } = this.state;
     return (
       <div className="demo-infinite-container">
-        {console.log('list', data)}
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
           loadMore={this.loadMoreNotification}
-          hasMore={!loading && hasMore}
+          hasMore={!loading}
           useWindow={false}
         >
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
           >
-            {loading && hasMore && (
+            {loading && (
               <div className="demo-loading-container">
                 <Spin />
               </div>
@@ -205,6 +201,7 @@ class Notification extends Component {
 
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
+  isLoadedMore: state.user.isLoadedMore
 });
 
 const mapDispatchToProps = (dispatch) => ({

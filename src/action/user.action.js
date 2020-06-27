@@ -533,7 +533,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {
@@ -563,13 +563,14 @@ const setDeleteNotification = (notificationId) => {
     API.post('/api/setDeleteNotification', {
       notificationId,
     }).then((res) => {
-      dispatch(success());
+      dispatch(success(notificationId));
     });
   };
 
-  function success() {
+  function success(notificationId) {
     return {
       type: userConstants.DELETE_NOTIFICATION,
+      delNotificationId: notificationId
     };
   }
 };
