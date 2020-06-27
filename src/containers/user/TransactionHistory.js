@@ -16,6 +16,11 @@ class TransactionHistory extends Component {
   }
 
   render() {
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'VND',
+    });
+
     return (
       <div className="shadow p-3 mb-5 bg-white rounded mt-5">
         {this.props.paymentHistoryerr && (
@@ -31,10 +36,12 @@ class TransactionHistory extends Component {
             <tr>
               <th scope="col">Stt</th>
               <th scope="col">Name</th>
+              <th scope="col">From</th>
               <th scope="col">Amount</th>
               <th scope="col">Date</th>
               <th scope="col">Payment Type</th>
               <th scope="col">Status</th>
+              <th scope="col">Note</th>
             </tr>
           </thead>
           <tbody>
@@ -43,19 +50,32 @@ class TransactionHistory extends Component {
                 <th scope="row">{key + 1}</th>
                 <td>
                   {item.eventId ? (
-                    <Link to={"/event/" + item.urlWeb} target="_blank">{item.eventId.name}</Link>
+                    <Link to={'/event/' + item.eventId.urlWeb} target="_blank">
+                      {item.eventId.name}
+                    </Link>
                   ) : (
-                      item.eventId.name
-                    )}
+                    item.eventId.name
+                  )}
                 </td>
-                <td>{item.amount}</td>
+                <td>{item.sender.fullName}</td>
                 <td>
-                  {new Date(item.createdAt).getMonth()} -{' '}
-                  {new Date(item.createdAt).getDate()} -{' '}
-                  {new Date(item.createdAt).getFullYear()}{' '}
+                  {item.sessionRefunded[0] ? (
+                    <b> {formatter.format(item.amount)}</b>
+                  ) : (
+                    formatter.format(item.amount)
+                  )}
                 </td>
+                <td>{new Date(item.createdAt).toLocaleString()}</td>
                 <td>{item.payType}</td>
                 <td>{item.status}</td>
+                <td>
+                  {item.sessionRefunded[0] && (
+                    <div>
+                      {' '}
+                      refund : {new Date(item.updatedAt).toLocaleString()}
+                    </div>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -72,13 +92,14 @@ class TransactionHistory extends Component {
             {' '}
           </Spin>
         )}
-        <a
-          href="/"
+        <p
+          type="button"
           className="fa-fw w3-margin-right w3-text-teal"
+          style={{ width: '100px' }}
           onClick={() => this.onLoadMore()}
         >
           Load more <i className="fa fa-arrow-down" aria-hidden="true"></i>
-        </a>
+        </p>
       </div>
     );
   }

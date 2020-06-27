@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CreateEvent from '../containers/event/CreateEvent';
+import CreateEvent from '../containers/event/manageEvent/CreateEvent';
 
 export default class UserEventPage extends Component {
   render() {

@@ -125,6 +125,11 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('avatar');
       localStorage.removeItem('userId');
       localStorage.removeItem('currentSocket');
+      localStorage.removeItem('currentIndex');
+
+      localStorage.removeItem('currentId');
+      localStorage.removeItem('webAddress');
+
       return {
         ...state,
         userInfo: null,
