@@ -90,7 +90,7 @@ class EventDetail extends React.Component {
     return (
       <div className="pl-5 pr-5  event-detail">
         {pending ? (
-          <div className="loading-gif d-flex justify-content-center">
+          <div className="loading-gif d-flex justify-content-center pt-2">
             <img src={src} alt="loading" />
           </div>
         ) : (

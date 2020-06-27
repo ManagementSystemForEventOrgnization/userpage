@@ -16,12 +16,11 @@ const initialState = {
   listCard: [{}],
   historyPayment: [],
   historyEvent: [],
-  pending: false,
   deleteEvent: [],
   successDe: false,
   eventDelete: null,
   penDelet: false,
-  errDelete: " "
+  errDelete: ' ',
 };
 
 const user = (state = initialState, action) => {
@@ -413,7 +412,10 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         isLoadedMore: action.notifications.length === 10 ? true : false,
-        notifications: action.notiPageNumber === 1 ? [...action.notifications] : [...state.notifications, ...action.notifications],
+        notifications:
+          action.notiPageNumber === 1
+            ? [...action.notifications]
+            : [...state.notifications, ...action.notifications],
         errMessage: null,
       };
 
@@ -429,7 +431,6 @@ const user = (state = initialState, action) => {
         errMessage: null,
       };
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
-
       return {
         ...state,
         arrEvent: action.arrEvent,
@@ -458,7 +459,11 @@ const user = (state = initialState, action) => {
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
-        notifications: [...state.notifications.filter(item => item._id !== action.delNotificationId)]
+        notifications: [
+          ...state.notifications.filter(
+            (item) => item._id !== action.delNotificationId
+          ),
+        ],
       };
 
     case userConstants.GET_CHAT_HISTORY:
@@ -478,13 +483,12 @@ const user = (state = initialState, action) => {
         errDelete: action.error,
       };
     case userConstants.DELETE_EVENT_SUCCESS:
-
       return {
         ...state,
         penDelet: false,
         deleteEvent: action.deEvent,
         successDe: true,
-        arrEvent: [...state.arrEvent.filter(e => e._id !== action.eventId)]
+        arrEvent: [...state.arrEvent.filter((e) => e._id !== action.eventId)],
       };
 
     default:

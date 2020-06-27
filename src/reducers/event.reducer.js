@@ -40,7 +40,7 @@ const initialState = {
   pending: false,
   id: '',
   ticket: {
-    price: 0,
+    price: 15000,
     discount: 0,
   },
   status: 'DRAFT',
@@ -307,7 +307,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_LIST_EVENT_REQUEST:
       return {
         ...state,
-        hightLightFinishLoading: true
+        hightLightFinishLoading: true,
       };
     case eventConstants.GET_LIST_EVENT_SUCCESS:
       return {
@@ -363,10 +363,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-              ...state.system.slice(0, nextId - 1),
-              action.blocks,
-              ...state.system.slice(nextId, state.system.length),
-            ],
+                ...state.system.slice(0, nextId - 1),
+                action.blocks,
+                ...state.system.slice(nextId, state.system.length),
+              ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
@@ -444,7 +444,6 @@ const event = (state = initialState, action) => {
         comments: [...action.comment, ...state.comments],
       };
 
-    
     case eventConstants.CANCEL_EVENT_REQUEST:
       return {
         ...state,

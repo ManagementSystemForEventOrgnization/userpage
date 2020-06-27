@@ -46,10 +46,10 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-        ...ScheduleState(this.props, 1),
-        apply: false,
-        openDrawer: false,
-      };
+          ...ScheduleState(this.props, 1),
+          apply: false,
+          openDrawer: false,
+        };
   }
 
   openModal = () => {
@@ -310,7 +310,7 @@ class Schedule1 extends Component {
       openDrawer,
       currSsId,
       canceled,
-      scheduleName
+      scheduleName,
     } = this.state;
 
     const { key, editable, leftModal, ticket, eventId, status } = this.props;
@@ -365,85 +365,62 @@ class Schedule1 extends Component {
                 </div>
 
                 <div className="col-md-6">
-                  <TextBlock content={ss.name}
+                  <TextBlock
+                    content={ss.name}
                     editable={editable}
                     child={true}
                     newStyle={titleStyle}
                     handleChangeSchedule={(value) =>
                       this.handleChangeContent('name', ss.id, value)
                     }
-
                   />
 
                   <p className="mt-4" style={{ fontSize: '14px' }}>
-                    <TextBlock content={ss.location}
+                    <TextBlock
+                      content={ss.address.location}
                       editable={editable}
                       child={true}
                       handleChangeSchedule={(value) =>
-                        this.handleChangeContent('location', ss.id, value)}
-
+                        this.handleChangeContent('location', ss.id, value)
+                      }
                     />
-
-
-
                   </p>
                 </div>
 
                 <div className="col-md-3">
-
                   {ss.paymentId ? (
                     ss.paymentId.status === 'WAITING' ||
-                      ss.paymentId.status === 'FAILED' ? (
-                        canceled ? (
-                          <Button
-                            onClick={() => this.handleClick(ss.id)}
-                            loading={ss.pending}
-                            disabled={ss.isCancel}
-                            type="primary"
-                          >
-                            Register
-                          </Button>
-                        ) : (
-                            <div className="d-flex">
-                              <Button
-                                onClick={() => this.handleRePay(ss.id)}
-                                type="primary"
-                                className="mr-2"
-                                disabled={ss.isCancel}
-                              >
-                                RePay
-                          </Button>
-
-                              <Button
-                                onClick={() => this.handleCancelSS(ss.id)}
-                                disabled={ss.isCancel}
-                                type="danger"
-                              >
-                                Cancel
-                          </Button>
-                            </div>
-                          )
-                      ) : (
+                    ss.paymentId.status === 'FAILED' ? (
+                      canceled ? (
                         <Button
-                          icon={<CalendarOutlined />}
-                          type="primary"
-                          className="mt-2"
+                          onClick={() => this.handleClick(ss.id)}
                           loading={ss.pending}
                           disabled={ss.isCancel}
-                          onClick={
-                            !editable && status === 'PUBLIC'
-                              ? () => this.handleClickButton(ss.id)
-                              : () => { }
-                          }
+                          type="primary"
                         >
-                          {this.isApplied(ss.id)
-                            ? 'Cancel this session'
-                            : ticket.isSellTicket
-                              ? 'Buy Ticket'
-                              : 'Register free'}
+                          Register
                         </Button>
+                      ) : (
+                        <div className="d-flex">
+                          <Button
+                            onClick={() => this.handleRePay(ss.id)}
+                            type="primary"
+                            className="mr-2"
+                            disabled={ss.isCancel}
+                          >
+                            RePay
+                          </Button>
+
+                          <Button
+                            onClick={() => this.handleCancelSS(ss.id)}
+                            disabled={ss.isCancel}
+                            type="danger"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
                       )
-                  ) : (
+                    ) : (
                       <Button
                         icon={<CalendarOutlined />}
                         type="primary"
@@ -453,16 +430,36 @@ class Schedule1 extends Component {
                         onClick={
                           !editable && status === 'PUBLIC'
                             ? () => this.handleClickButton(ss.id)
-                            : () => { }
+                            : () => {}
                         }
                       >
                         {this.isApplied(ss.id)
                           ? 'Cancel this session'
-                          : ticket.price !== 0
-                            ? 'Buy Ticket'
-                            : 'Register free'}
+                          : ticket.isSellTicket
+                          ? 'Buy Ticket'
+                          : 'Register free'}
                       </Button>
-                    )}
+                    )
+                  ) : (
+                    <Button
+                      icon={<CalendarOutlined />}
+                      type="primary"
+                      className="mt-2"
+                      loading={ss.pending}
+                      disabled={ss.isCancel}
+                      onClick={
+                        !editable && status === 'PUBLIC'
+                          ? () => this.handleClickButton(ss.id)
+                          : () => {}
+                      }
+                    >
+                      {this.isApplied(ss.id)
+                        ? 'Cancel this session'
+                        : ticket.price !== 0
+                        ? 'Buy Ticket'
+                        : 'Register free'}
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}

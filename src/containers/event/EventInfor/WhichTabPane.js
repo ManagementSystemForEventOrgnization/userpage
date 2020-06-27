@@ -38,8 +38,7 @@ class TabPane extends Component {
   };
 
   render() {
-    const { typeOfEvent, banner, ticket } = this.props;
-    const isSellTicket = this.props.isSellTicket ? 'Yes' : 'No';
+    const { typeOfEvent, banner, ticket, isSellTicket } = this.props;
     return (
       <div className="p-5">
         <Form {...layout} name="control-ref">

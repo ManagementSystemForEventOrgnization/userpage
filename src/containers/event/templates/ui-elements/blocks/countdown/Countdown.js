@@ -4,16 +4,6 @@ import Timer from '../../atoms/Timer';
 export default class Countdown extends Component {
   render() {
     const { editable } = this.props;
-    return (
-      <div>
-        <Timer
-          editable={editable}
-          {...this.props}
-        />
-      </div>
-    );
+    return <Timer editable={editable} {...this.props} />;
   }
-
 }
-
-
