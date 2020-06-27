@@ -56,6 +56,8 @@ class CreateHistory extends React.Component {
       isShowCancel: false,
       isRadio: true,
       isSuccess: true,
+      list: [],
+      isDeleteMess: true,
     };
   }
   componentDidMount = () => {
@@ -95,17 +97,16 @@ class CreateHistory extends React.Component {
   };
 
   onLoadMore = () => {
-    const { getCreateHistory } = this.props;
+    const { getCreateHistory, arrEvent } = this.props;
     const { listEvent } = this.state;
 
     let index = Math.round(listEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
     getCreateHistory(dataSent);
-    // let Event = [...listEvent, ...arrEvent];
+    //  let Event = [...listEvent, ...arrEvent];
 
-    // this.setState({ listEvent: Event });
-    this.state({ isupate: true });
+    this.setState({ isupdate: true, listEvent: [...arrEvent] });
   };
   onFocusCancel = () => {
     this.setState({
@@ -122,6 +123,7 @@ class CreateHistory extends React.Component {
     dataSent.txtSearch = value;
 
     getCreateHistory(dataSent);
+    this.setState({ isupdate: false });
   };
 
   onChange = (pageNumber) => {
@@ -207,58 +209,14 @@ class CreateHistory extends React.Component {
   };
 
   showDeleteConfirm = () => {
-    const { deleteEvent, arrEvent } = this.props;
-    const { eventId } = this.state;
-
-    deleteEvent(eventId, (res) => {
-      if (!res) {
-        let receiver = arrEvent.filter(
-          (e) => e._id !== eventId
-        );
-
-        setTimeout(
-          this.setState({
-            isfirstLoad: false,
-            listEvent: receiver,
-            visible: false,
-          }),
-          3000
-        );
-        message.success({
-          content: (
-            <p
-              style={{
-                marginTop: '25%',
-                zIndex: 100000,
-              }}
-            >
-              <CheckCircleFilled
-                className="mr-3"
-                style={{
-                  color: 'green',
-                }}
-              />
-              Delete Success
-            </p>
-          ),
-        });
-      } else {
-        message.error({
-          content: (
-            <p
-              style={{
-                marginTop: '25%',
-                zIndex: 100000,
-                color: 'red',
-              }}
-            >
-              {res.error.message}
-            </p>
-          ),
-        });
-      }
-    });
-
+    const { deleteEvent } = this.props;
+    const { eventId, } = this.state;
+    // this.setState({ confirmLoading: true })
+    deleteEvent(eventId)
+    this.setState({
+      isDeleteMess: false,
+      isupdate: false
+    })
 
   };
 
@@ -272,6 +230,7 @@ class CreateHistory extends React.Component {
   showModal = () => {
     this.setState({
       visible: false,
+      isDeleteMess: true
     });
   };
 
@@ -292,6 +251,7 @@ class CreateHistory extends React.Component {
       dataSent.typeOfEvent = e.target.value;
       getCreateHistory(dataSent);
     }
+    this.setState({ isupdate: false });
   };
 
   cancelSessionEvent = (idSession) => {
@@ -304,8 +264,8 @@ class CreateHistory extends React.Component {
 
     if (currIndex !== -1) {
       sessionEvent[currIndex].isCancel = true;
-      this.setState({ sessionEvent });
     }
+    this.setState({ sessionEvent });
   };
 
   renderMenu = (item) => {
@@ -353,37 +313,26 @@ class CreateHistory extends React.Component {
   };
 
   showCancelConfirm = () => {
-    const { idEventCancel, sessionEvent } = this.state;
-    const { cancelEvent, arrEvent } = this.props;
+    const { idEventCancel, sessionEvent, isDeleteMess } = this.state;
+    const { cancelEvent, arrEvent, successDe, errDelete } = this.props;
 
     cancelEvent(idEventCancel);
-    let receiver = arrEvent.filter(
-      (e) => e._id !== idEventCancel && ((s) => s.status === 'CANCEL')
-    );
-    console.log("33", sessionEvent)
-    //  let currIndex = sessionEvent.find((ss) => ss.isCancel === false);
-    // console.log('2', currIndex);
-
-    // if (currIndex !== -1) {
-    //   sessionEvent[currIndex].isCancel = true;
-    // }
 
     this.setState({
       isSecondLoad: false,
-      listEvent: receiver,
       isSuccess: false,
-      // sessionEvent: sessionEvent
-
-
+      isupdate: false
     });
   };
 
   render() {
-    const { sessionEvent, isSuccess, isupate } = this.state;
-    const { pending, arrEvent, err, pendCancel, cancelSession } = this.props;
+    const { sessionEvent, isSuccess, isupdate, isDeleteMess } = this.state;
+    const { pending, arrEvent, err, pendCancel, cancelSession, errDelete, penDelet } = this.props;
+    // console.log('arrEvent', arrEvent);
     let { listEvent } = this.state;
-    listEvent = isupate ? [...listEvent, arrEvent] : [...arrEvent];
+    listEvent = isupdate ? [...listEvent, ...arrEvent] : [...arrEvent]
 
+    console.log("arrEvent", this.props.arrEvent)
     return (
       <div className="history">
         <div
@@ -650,10 +599,17 @@ class CreateHistory extends React.Component {
           okText="yes"
           okType="danger"
           cancelText="No"
+
           onOk={this.showDeleteConfirm}
           onCancel={this.showModal}
-          confirmLoading={this.state.confirmLoading}
-        ></Modal>
+          // footer={null}
+          confirmLoading={penDelet}
+        >
+          {
+            !isDeleteMess && errDelete &&
+            <h5 color={{ color: 'red' }}>{errDelete}</h5>
+          }
+        </Modal>
         <Modal
           title="Cancel Event"
           visible={this.state.isShowCancel}
@@ -734,14 +690,17 @@ const mapStateToProps = (state) => ({
   err: state.event.errCancel,
   pendCancel: state.event.pendCancel,
   cancelSession: state.event.cancelSession,
-  successDe: state.event.successDe,
+  successDe: state.user.successDe,
+  errDelete: state.user.errDelete,
+  penDelet: state.user.penDelet
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCreateHistory: (dataSent) =>
     dispatch(userActions.getCreateHistory(dataSent)),
   getCategories: () => dispatch(eventActions.getCategories()),
-  deleteEvent: (eventId, cb) => dispatch(eventActions.deleteEvent(eventId, cb)),
+  deleteEvent: (eventId) => dispatch(userActions.deleteEvent(eventId)),
   cancelEvent: (eventId, sessionIds) =>
     dispatch(eventActions.cancelEvent(eventId, sessionIds)),
 });

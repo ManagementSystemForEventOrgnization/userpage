@@ -15,6 +15,12 @@ const initialState = {
   listCard: [{}],
   historyPayment: [],
   historyEvent: [],
+  pending: false,
+  deleteEvent: [],
+  successDe: false,
+  eventDelete: null,
+  penDelet: false,
+  errDelete: " "
 };
 
 const user = (state = initialState, action) => {
@@ -421,6 +427,7 @@ const user = (state = initialState, action) => {
         errMessage: null,
       };
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
+
       return {
         ...state,
         arrEvent: action.arrEvent,
@@ -455,6 +462,26 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         chatHistory: action.chatHistory,
+      };
+    case userConstants.DELETE_EVENT_REQUEST:
+      return {
+        ...state,
+        penDelet: true,
+      };
+    case userConstants.DELETE_EVENT_FAILURE:
+      return {
+        ...state,
+        penDelet: false,
+        errDelete: action.error,
+      };
+    case userConstants.DELETE_EVENT_SUCCESS:
+
+      return {
+        ...state,
+        penDelet: false,
+        deleteEvent: action.deEvent,
+        successDe: true,
+        arrEvent: [...state.arrEvent.filter(e => e._id !== action.eventId)]
       };
 
     default:

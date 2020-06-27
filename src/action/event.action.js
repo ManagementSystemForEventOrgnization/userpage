@@ -410,6 +410,7 @@ const deleteBlock = (id) => {
 
 const getListEvent = (sentData) => {
   return (dispatch) => {
+    dispatch(request());
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
@@ -422,7 +423,11 @@ const getListEvent = (sentData) => {
         dispatch(failure());
       });
   };
-
+  function request() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_REQUEST,
+    };
+  }
   function success(hlEvent) {
     return {
       type: eventConstants.GET_LIST_EVENT_SUCCESS,
@@ -523,7 +528,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     });
   };
 
@@ -549,7 +554,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function request(comments) {
@@ -620,46 +625,7 @@ const getUserJoinEvent = (dataSent, callback) => {
     };
   }
 };
-const deleteEvent = (eventId, cb) => {
-  return (dispatch) => {
-    dispatch(request());
-    API.post(`/api/delete/event`, {
-      eventId,
-    })
-      .then((res) => {
-        dispatch(success(res.data.result));
-        cb();
-      })
-      .catch((error) => {
-        const { data } = error.response;
 
-        cb(data);
-        if (data.error) {
-          return dispatch(
-            failure(data.error.message) || 'OOPs! something wrong'
-          );
-        }
-        return dispatch(failure(error) || 'OOPs! something wrong');
-      });
-  };
-  function request() {
-    return {
-      type: eventConstants.DELETE_EVENT_REQUEST,
-    };
-  }
-  function success(deleteEvent) {
-    return {
-      type: eventConstants.DELETE_EVENT_SUCCESS,
-      deleteEvent,
-    };
-  }
-  function failure(error) {
-    return {
-      type: eventConstants.DELETE_EVENT_FAILURE,
-      error,
-    };
-  }
-};
 
 const cancelEvent = (eventId, sessionIds) => {
   return (dispatch) => {
@@ -722,7 +688,7 @@ export const eventActions = {
 
   getComment,
   saveComment,
-  deleteEvent,
+
   cancelEvent,
 
   changeCurrentPage,

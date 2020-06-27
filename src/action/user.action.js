@@ -533,7 +533,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {
@@ -592,6 +592,49 @@ const getChatHistory = (sender) => {
     };
   }
 };
+const deleteEvent = (eventId) => {
+  console.log('eggga', eventId);
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/delete/event`, {
+      eventId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result, eventId));
+
+      })
+      .catch((error) => {
+        const { data } = error.response;
+
+        if (data.error) {
+          return dispatch(
+            failure(data.error.message) || 'OOPs! something wrong'
+          );
+        }
+        return dispatch(failure(error) || 'OOPs! something wrong');
+      });
+  };
+  function request() {
+    return {
+      type: userConstants.DELETE_EVENT_REQUEST,
+    };
+  }
+  function success(deEvent, eventId) {
+    console.log('123', eventId);
+    return {
+      type: userConstants.DELETE_EVENT_SUCCESS,
+      deEvent,
+      eventId,
+
+    };
+  }
+  function failure(error) {
+    return {
+      type: userConstants.DELETE_EVENT_FAILURE,
+      error,
+    };
+  }
+};
 
 export const userActions = {
   login,
@@ -618,4 +661,5 @@ export const userActions = {
   postCardDefault,
   setReadNotification,
   setDeleteNotification,
+  deleteEvent,
 };

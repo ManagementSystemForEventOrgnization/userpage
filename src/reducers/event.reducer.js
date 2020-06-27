@@ -53,6 +53,7 @@ const initialState = {
   pendCancel: false,
   cancelSession: false,
   successDe: false,
+  penListEvent: false,
 
   pages: [
     {
@@ -302,18 +303,22 @@ const event = (state = initialState, action) => {
         ...state,
         pending: false,
       };
-
+    case eventConstants.GET_LIST_EVENT_REQUEST:
+      return {
+        ...state,
+        hightLightFinishLoading: true
+      };
     case eventConstants.GET_LIST_EVENT_SUCCESS:
       return {
         ...state,
         hlEvent: action.hlEvent || [],
-        hightLightFinishLoading: true,
+        hightLightFinishLoading: false,
       };
     case eventConstants.GET_LIST_EVENT_FAILURE:
       return {
         ...state,
         hlEvent: [],
-        hightLightFinishLoading: true,
+        hightLightFinishLoading: false,
       };
     case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
       return {
@@ -357,10 +362,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId - 1),
-                action.blocks,
-                ...state.system.slice(nextId, state.system.length),
-              ],
+              ...state.system.slice(0, nextId - 1),
+              action.blocks,
+              ...state.system.slice(nextId, state.system.length),
+            ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
@@ -438,24 +443,7 @@ const event = (state = initialState, action) => {
         comments: [...action.comment, ...state.comments],
       };
 
-    case eventConstants.DELETE_EVENT_REQUEST:
-      return {
-        ...state,
-        pending: true,
-      };
-    case eventConstants.DELETE_EVENT_FAILURE:
-      return {
-        ...state,
-        pending: false,
-        errMessage: action.error,
-      };
-    case eventConstants.DELETE_EVENT_SUCCESS:
-      return {
-        ...state,
-        pending: false,
-        deleteEvent: action.deleteEvent,
-        successDe: true,
-      };
+    
     case eventConstants.CANCEL_EVENT_REQUEST:
       return {
         ...state,

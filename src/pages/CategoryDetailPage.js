@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Select, DatePicker } from 'antd';
+import { Button, Card, Select, DatePicker, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { EnvironmentOutlined } from '@ant-design/icons';
@@ -266,7 +266,7 @@ class CategoryDetailPage extends React.Component {
   };
 
   render() {
-    const { match, categories } = this.props;
+    const { match, categories, hlpending } = this.props;
 
     return (
       <div className="category-detail homepage">
@@ -315,11 +315,12 @@ class CategoryDetailPage extends React.Component {
           </div>
         </div>
 
-
-        <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
-          {this.renderEvents()}
-        </div>
-
+        {hlpending ? <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />  
+          :
+          <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
+            {this.renderEvents()}
+          </div>
+        }
         <Footer />
       </div>
     );
@@ -330,6 +331,7 @@ const mapStateToProps = (state) => ({
   // map state of store to props
   hlEvent: state.event.hlEvent,
   categories: state.event.categories,
+  hlpending: state.event.hightLightFinishLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({
