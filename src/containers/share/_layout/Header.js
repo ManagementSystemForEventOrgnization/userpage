@@ -20,6 +20,13 @@ class Header extends React.Component {
     this.setState({ visible, open: true });
   };
 
+  
+  componentDidMount = () => {
+
+    this.props.getNumUnreadNotification()
+
+  };
+
   render() {
     const isLogined = localStorage.getItem('isLogined');
     const { numUnreadNotification } = this.props;
