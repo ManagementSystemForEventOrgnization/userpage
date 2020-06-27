@@ -72,7 +72,7 @@ class EditGeneral extends Component {
           typeOfEvent: res.typeOfEvent,
           category: res.category,
           session: res.session,
-          isSellTicket: res.isSellTicket,
+          isSellTicket: res.isSellTicket ? 'Yes' : 'No',
           webAddress: res.urlWeb,
           banner: res.bannerUrl,
           ticket: res.ticket,

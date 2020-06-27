@@ -335,6 +335,7 @@ class Schedule1 extends Component {
       fontWeight: fontWeight,
       width: '100 %',
     };
+    console.log(content);
 
     return (
       <div className="p-5 child-block" key={key}>

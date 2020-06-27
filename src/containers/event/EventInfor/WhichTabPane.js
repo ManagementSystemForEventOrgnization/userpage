@@ -19,8 +19,7 @@ const plainOptions = ['Yes', 'No'];
 const { Panel } = Collapse;
 
 class TabPane extends Component {
-  handleChange = (e) => {
-    const { name, value } = e.target;
+  handleChange = (name, value) => {
     const { onChange } = this.props;
     onChange(name, value);
   };
@@ -52,7 +51,7 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={typeOfEvents}
-              onChange={this.handleChange}
+              onChange={(e) => this.handleChange('typeOfEvent', e.target.value)}
               value={typeOfEvent}
             />
           </Form.Item>
@@ -71,7 +70,9 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={plainOptions}
-              onChange={this.handleChange}
+              onChange={(e) =>
+                this.handleChange('isSellTicket', e.target.value)
+              }
               value={isSellTicket}
             />
             {isSellTicket === 'Yes' || isSellTicket === true ? (
