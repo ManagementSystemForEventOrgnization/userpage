@@ -4,6 +4,7 @@ import { Button, message, Drawer } from 'antd';
 import moment from 'moment';
 import { applyEventActions } from 'action/applyEvent';
 import TransferType from 'containers/user/BankAccount/TransferType';
+
 class ApplyEventModal extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +15,7 @@ class ApplyEventModal extends Component {
       openDrawer: false,
       openChildDrawer: false,
       currSsId: '',
+      canceled: false,
     };
   }
 
@@ -107,9 +109,50 @@ class ApplyEventModal extends Component {
     }
   };
 
+  handleCancelSS = (ssId) => {
+    const { id, handleCancel } = this.props;
+    let temp = [];
+    temp.push(ssId);
+
+    handleCancel(id, temp)
+      .then((res) => {
+        console.log('here');
+        this.setState({
+          canceled: true,
+        });
+        message.success('Cancel success');
+      })
+      .catch((err) => {
+        this.handleFailure(ssId, err);
+      });
+  };
+
+  handleRePay = (ssId) => {
+    const { session } = this.state;
+    const { id, handleRePay } = this.props;
+    const index = session.findIndex((ss) => ss.id === ssId);
+    if (index !== -1) {
+      console.log(session[index]);
+      let temp = [];
+      temp.push(ssId);
+      handleRePay(id, session[index].paymentId.payType, temp, (err, type) => {
+        if (type === 1) {
+          message.success('RePay success');
+          this.changeStatusSS(ssId, 1);
+        } else {
+          if (err.response) {
+            const { data } = err.response;
+            message.error(data.error.message);
+          } else message.error('RePay fail !');
+        }
+      });
+    }
+  };
+
   render() {
-    const { session, openDrawer, currSsId } = this.state;
+    const { session, openDrawer, currSsId, canceled } = this.state;
     const { ticket, id } = this.props;
+    console.log(canceled);
     return (
       <div>
         {session.map((ss) => (
@@ -117,13 +160,59 @@ class ApplyEventModal extends Component {
             <p>
               {moment(ss.day).format('LLL')} - {ss.name}
             </p>
-            <Button
-              onClick={() => this.handleClick(ss.id)}
-              loading={ss.pending}
-              type={this.isApplied(ss.id) ? 'danger' : 'primary'}
-            >
-              {this.isApplied(ss.id) ? 'Cancel' : 'Register'}
-            </Button>
+            {ss.paymentId ? (
+              ss.paymentId.status === 'WAITING' ||
+              ss.paymentId.status === 'FAILED' ? (
+                canceled ? (
+                  <Button
+                    onClick={() => this.handleClick(ss.id)}
+                    loading={ss.pending}
+                    disabled={ss.isCancel}
+                    type="primary"
+                  >
+                    Register
+                  </Button>
+                ) : (
+                  <div className="d-flex">
+                    <Button
+                      onClick={() => this.handleRePay(ss.id)}
+                      type="primary"
+                      className="mr-2"
+                      disabled={ss.isCancel}
+                    >
+                      RePay
+                    </Button>
+
+                    <Button
+                      onClick={() => this.handleCancelSS(ss.id)}
+                      loading={ss.pending}
+                      disabled={ss.isCancel}
+                      type="danger"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )
+              ) : (
+                <Button
+                  onClick={() => this.handleClick(ss.id)}
+                  loading={ss.pending}
+                  disabled={ss.isCancel}
+                  type={this.isApplied(ss.id) ? 'danger' : 'primary'}
+                >
+                  {this.isApplied(ss.id) ? 'Cancel' : 'Register'}
+                </Button>
+              )
+            ) : (
+              <Button
+                onClick={() => this.handleClick(ss.id)}
+                loading={ss.pending}
+                disabled={ss.isCancel}
+                type={this.isApplied(ss.id) ? 'danger' : 'primary'}
+              >
+                {this.isApplied(ss.id) ? 'Cancel' : 'Register'}
+              </Button>
+            )}
           </div>
         ))}
 
@@ -174,6 +263,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
   handleCancel: (eventId, sessionIds) =>
     dispatch(applyEventActions.cancelEvent(eventId, sessionIds)),
+
+  handleRePay: (eventId, payType, sessionIds, cb) =>
+    dispatch(applyEventActions.handleRePay(eventId, payType, sessionIds, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplyEventModal);

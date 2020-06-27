@@ -16,6 +16,11 @@ class Header extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    const { getNumUnreadNotification } = this.props;
+    getNumUnreadNotification();
+  };
+
   handleVisibleChange = (visible) => {
     this.setState({ visible, open: true });
   };

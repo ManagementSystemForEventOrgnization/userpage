@@ -86,7 +86,7 @@ class TabPane extends Component {
                     <p className="mr-5">Price : </p>
                     <InputNumber
                       defaultValue={ticket.price}
-                      min={0}
+                      min={15000}
                       formatter={(value) => `${value}VND`}
                       parser={(value) => value.replace('VND', '')}
                       onChange={(value) =>

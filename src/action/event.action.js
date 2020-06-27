@@ -40,11 +40,12 @@ const getEventDetail = (eventId, index, editSite) => {
       })
         .then((res) => {
           const { rows, header, event } = res.data.result;
-          // console.log(res.data.result);
           localStorage.setItem('currentIndex', index);
           localStorage.setItem('currentId', res.data.result.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
-          dispatch(success(rows, header[0], index, event));
+
+          let blocks = !rows.length ? [] : rows;
+          dispatch(success(blocks, header[0], index, event));
           resolve();
         })
         .catch((err) => {
