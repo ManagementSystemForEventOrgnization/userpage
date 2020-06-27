@@ -400,6 +400,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
+        isLoadedMore: action.notifications.length === 10 ? true : false,
         notifications: [...state.notifications, ...action.notifications],
         errMessage: null,
       };
@@ -444,6 +445,7 @@ const user = (state = initialState, action) => {
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
+        notifications: [...state.notifications.filter(item => item._id !== action.delNotificationId)]
       };
 
     case userConstants.GET_CHAT_HISTORY:
