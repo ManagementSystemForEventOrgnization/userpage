@@ -114,8 +114,8 @@ class HomePage extends Component {
                       {item.session.length === 1 ? (
                         ''
                       ) : (
-                        <p>+ {item.session.length - 1}more events</p>
-                      )}
+                          <p>+ {item.session.length - 1}more events</p>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -125,20 +125,20 @@ class HomePage extends Component {
         </Carousel>
       </div>
     ) : (
-      <div style={{ textAlign: 'center' }}>
-        <p>No highlight event at this time</p>
-        <img
-          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-          alt="no-high-light"
-        />
-      </div>
-    );
+        <div style={{ textAlign: 'center' }}>
+          <p>No highlight event at this time</p>
+          <img
+            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+            alt="no-high-light"
+          />
+        </div>
+      );
   };
 
   renderUpcomingEvent = () => {
     const { events } = this.props;
     return events.length > 0 ? (
-      <div className="row p-5 ">
+      <div className="row p-5  ">
         {events.map((item, index) => (
           <div className="col-xl-4 col-lg-4 col-md-6 mt-4 " key={item._id}>
             <Link to={'/event/' + item.urlWeb} target="_blank">
@@ -153,21 +153,22 @@ class HomePage extends Component {
                             {this.percentDiscount(item.ticket.discount)}
                           </Button>
                         ) : (
-                          ''
-                        )}
+                            ''
+                          )}
                       </div>
                     ) : (
-                      <Button className="ml-1 mt-1 ticket" key={item._id}>
-                        Free
-                      </Button>
-                    )}
-                    {item.bannerUrl && (
+                        <Button className="ml-1 mt-1 ticket" key={item._id}>
+                          Free
+                        </Button>
+                      )}
+                    {item.bannerUrl &&
                       <img
                         className="img "
                         alt="example"
                         src={item.bannerUrl}
                       />
-                    )}
+                    }
+
                   </div>
                 }
               >
@@ -205,10 +206,10 @@ class HomePage extends Component {
                     {item.session.length === 1 ? (
                       ''
                     ) : (
-                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                        + {item.session.length - 1}more events
-                      </p>
-                    )}
+                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                          + {item.session.length - 1}more events
+                        </p>
+                      )}
                   </div>
                 </div>
                 <div>
@@ -234,16 +235,16 @@ class HomePage extends Component {
                           </p>
                         </div>
                       ) : (
-                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
-                          {item.ticket.price} VNĐ
-                        </p>
-                      )}
+                          <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                            {item.ticket.price} VNĐ
+                          </p>
+                        )}
                     </div>
                   ) : (
-                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                      0 VNĐ
-                    </p>
-                  )}
+                      <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                        0 VNĐ
+                      </p>
+                    )}
                 </div>
 
                 <div className="d-flex ">
@@ -260,14 +261,14 @@ class HomePage extends Component {
         ))}
       </div>
     ) : (
-      <div style={{ textAlign: 'center' }}>
-        <p>No upcoming event at this time</p>
-        <img
-          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
-          alt="no-upcoming"
-        />
-      </div>
-    );
+        <div style={{ textAlign: 'center' }}>
+          <p>No upcoming event at this time</p>
+          <img
+            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+            alt="no-upcoming"
+          />
+        </div>
+      );
   };
 
   render() {
@@ -291,8 +292,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-            this.renderHighLightEvent()
-          )}
+              this.renderHighLightEvent()
+            )}
         </div>
 
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
@@ -310,8 +311,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-            this.renderUpcomingEvent()
-          )}
+              this.renderUpcomingEvent()
+            )}
         </div>
         <hr></hr>
         <Link to="/event-list/all-events">

@@ -14,6 +14,7 @@ import { eventActions } from 'action/event.action';
 import { ScheduleState } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
+import TextBlock from '../../atoms/Text';
 import TransferType from 'containers/user/BankAccount/TransferType';
 
 const titleStyle = {
@@ -45,10 +46,10 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style }
       : {
-          ...ScheduleState(this.props, 1),
-          apply: false,
-          openDrawer: false,
-        };
+        ...ScheduleState(this.props, 1),
+        apply: false,
+        openDrawer: false,
+      };
   }
 
   openModal = () => {
@@ -84,6 +85,25 @@ class Schedule1 extends Component {
       [valueParam]: newValue,
     });
   }
+  handleChangeContent = (type, idTem, value) => {
+    const { content } = this.state;
+    let item = content.find((ele) => ele.id === idTem);
+    const index = content.indexOf(item);
+    item[`${type}`] = value;
+
+    if (index === -1) return;
+    else {
+      this.setState({
+        content: [
+          ...content.slice(0, index),
+          item,
+          ...content.slice(index + 1, content.length),
+        ],
+      });
+    }
+
+    setTimeout(this.handleStoreBlock(), 2000);
+  };
 
   removeOption = (schedule) => {
     const scheduleText = this.state.scheduleText.filter(
@@ -250,10 +270,10 @@ class Schedule1 extends Component {
       visible,
       openDrawer,
       currSsId,
+      scheduleName
     } = this.state;
 
     const { key, editable, leftModal, ticket, eventId, status } = this.props;
-
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -278,7 +298,12 @@ class Schedule1 extends Component {
 
     return (
       <div className="p-5 child-block" key={key}>
-        <h2 style={titleBlockStyle}>Sessions</h2>
+        <TextBlock
+          content={scheduleName}
+          editable={editable}
+          child={true}
+          newStyle={titleBlockStyle}
+        />
         <div className="d-flex">
           <div style={divStyle} className="flex-fill">
             {content.map((ss) => (
@@ -300,17 +325,39 @@ class Schedule1 extends Component {
                 </div>
 
                 <div className="col-md-6">
-                  <div style={titleStyle}>{ss.name}</div>
+                  <TextBlock content={ss.name}
+                    editable={editable}
+                    child={true}
+                    newStyle={titleStyle}
+                    handleChangeSchedule={(value) =>
+                      this.handleChangeContent('name', ss.id, value)
+                    }
+
+                  />
 
                   <p className="mt-4" style={{ fontSize: '14px' }}>
-                    {ss.location}
+                    <TextBlock content={ss.location}
+                      editable={editable}
+                      child={true}
+                      handleChangeSchedule={(value) =>
+                        this.handleChangeContent('location', ss.id, value)}
+
+                    />
+
+
+
                   </p>
                 </div>
                 <div className="col-md-3">
-                  <p
-                    style={{ fontSize: '14px' }}
-                  >{`Limit number : ${ss.limitNumber}`}</p>
 
+                  <TextBlock content={`Limit number : ${ss.limitNumber}`} editable={editable}
+                    child={true}
+                    child={true}
+                    handleChangeSchedule={(value) =>
+                      this.handleChangeContent('limitNumber', ss.id, value)}
+
+
+                  />
                   <Button
                     icon={<CalendarOutlined />}
                     type="primary"
@@ -319,14 +366,14 @@ class Schedule1 extends Component {
                     onClick={
                       !editable && status === 'PUBLIC'
                         ? () => this.handleClickButton(ss.id)
-                        : () => {}
+                        : () => { }
                     }
                   >
                     {this.isApplied(ss.id)
                       ? 'Cancel this session'
                       : ticket.price !== 0
-                      ? 'Buy Ticket'
-                      : 'Register free'}
+                        ? 'Buy Ticket'
+                        : 'Register free'}
                   </Button>
                 </div>
               </div>
