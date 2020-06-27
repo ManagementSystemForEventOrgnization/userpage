@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 class NavigationMenu extends Component {
   getBreadCrumb = () => {
     const { pages, currentPage } = this.props;
+
     let data = [];
     for (let index in pages) {
       if (pages[index].child.length === 0 && pages[index].id === currentPage) {
@@ -23,6 +24,7 @@ class NavigationMenu extends Component {
 
     return data;
   };
+
   render() {
     const data = this.getBreadCrumb();
     return (

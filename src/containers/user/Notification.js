@@ -65,7 +65,7 @@ class Notification extends Component {
   };
 
   handleDeleleNotification = (notificationId) => {
-    if (this.state.data.length === 5) {
+    if (this.state.data.length == 5) {
       this.loadMoreNotification();
     }
     const { data } = this.state;
@@ -138,7 +138,8 @@ class Notification extends Component {
             <List.Item.Meta avatar={<Avatar src={item.url} />} />
             {item.isRead ? (
               <div onClick={() => window.location.replace(item.linkTo.urlWeb)}>
-                {this.getNameSender(item.title, item.users_sender.fullName)}</div>
+                {this.getNameSender(item.title, item.users_sender.fullName)}
+              </div>
             ) : (
                 <h6 onClick={() => this.handleMarkAsRead(item._id) || window.location.replace(item.linkTo.urlWeb)} >
                   {this.getNameSender(item.title, item.users_sender.fullName)}
@@ -175,7 +176,6 @@ class Notification extends Component {
     const { data, loading } = this.state;
     return (
       <div className="demo-infinite-container">
-
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}

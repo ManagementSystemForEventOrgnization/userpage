@@ -51,6 +51,7 @@ class Header extends Component {
   };
 
   openModal = () => this.setState({ isCollapsed: true });
+
   closeModal = () => {
     const { storeStyleHeader } = this.props;
     this.setState({ isCollapsed: false });
@@ -131,7 +132,7 @@ class Header extends Component {
   };
 
   render() {
-    const { pages, currentPage, editable } = this.props;
+    const { pages, currentPage, editable, pending } = this.props;
     const { currentItem } = this.state;
     const id = this.props.webAddress || localStorage.getItem('webAddress');
 
@@ -180,53 +181,55 @@ class Header extends Component {
 
     return (
       <div className="d-flex">
-        <Menu
-          mode="horizontal"
-          style={divStyle}
-          selectedKeys={currentPage}
-          className="flex-fill"
-        >
-          {pages.map((item) =>
-            item.child.length === 0 ? (
-              <Menu.Item
-                key={item.id}
-                disabled={editable && item.id !== currentPage}
-              >
-                {editable ? (
-                  item.title
-                ) : (
-                  <Link
-                    to={`/event/${id}/${item.title}`}
-                    onClick={() => this.handleClickMenuItem(item)}
-                  >
-                    {item.title}
-                  </Link>
-                )}
-              </Menu.Item>
-            ) : (
-              <SubMenu
-                key={item.id}
-                title={<span>{item.title}</span>}
-                disabled={editable && this.checkActive(item.child)}
-              >
-                {item.child.map((child) => (
-                  <Menu.Item key={child.id}>
-                    {editable ? (
-                      child.title
-                    ) : (
-                      <Link
-                        to={`/event/${id}/${child.title}`}
-                        onClick={() => this.handleClickMenuItem(child)}
-                      >
-                        {child.title}
-                      </Link>
-                    )}
-                  </Menu.Item>
-                ))}
-              </SubMenu>
-            )
-          )}
-        </Menu>
+        {!pending && (
+          <Menu
+            mode="horizontal"
+            style={divStyle}
+            selectedKeys={currentPage}
+            className="flex-fill"
+          >
+            {pages.map((item) =>
+              item.child.length === 0 ? (
+                <Menu.Item
+                  key={item.id}
+                  disabled={editable && item.id !== currentPage}
+                >
+                  {editable ? (
+                    item.title
+                  ) : (
+                    <Link
+                      to={`/event/${id}/${item.title}`}
+                      onClick={() => this.handleClickMenuItem(item)}
+                    >
+                      {item.title}
+                    </Link>
+                  )}
+                </Menu.Item>
+              ) : (
+                <SubMenu
+                  key={item.id}
+                  title={<span>{item.title}</span>}
+                  disabled={editable && this.checkActive(item.child)}
+                >
+                  {item.child.map((child) => (
+                    <Menu.Item key={child.id}>
+                      {editable ? (
+                        child.title
+                      ) : (
+                        <Link
+                          to={`/event/${id}/${child.title}`}
+                          onClick={() => this.handleClickMenuItem(child)}
+                        >
+                          {child.title}
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </SubMenu>
+              )
+            )}
+          </Menu>
+        )}
 
         {editable && (
           <div className="ml-auto icons-handle">
@@ -353,6 +356,7 @@ const mapStateToProps = (state) => ({
   pages: state.event.pages,
   currentPage: state.event.currentPage,
   webAddress: state.event.webAddress,
+  pending: state.event.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({
