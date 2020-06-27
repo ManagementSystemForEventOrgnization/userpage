@@ -8,6 +8,7 @@ const initialState = {
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
+  notiPageNumber: 0,
   arrEvent: [],
   notifications: [],
   numUnreadNotification: 0,
@@ -405,7 +406,8 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
-        notifications: [...state.notifications, ...action.notifications],
+        isLoadedMore: action.notifications.length === 10 ? true : false,
+        notifications: action.notiPageNumber === 1 ? [...action.notifications] : [...state.notifications, ...action.notifications],
         errMessage: null,
       };
 
@@ -449,6 +451,7 @@ const user = (state = initialState, action) => {
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
+        notifications: [...state.notifications.filter(item => item._id !== action.delNotificationId)]
       };
 
     case userConstants.GET_CHAT_HISTORY:

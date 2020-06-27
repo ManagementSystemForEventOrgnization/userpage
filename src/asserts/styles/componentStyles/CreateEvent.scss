@@ -10,7 +10,6 @@
 .create-event {
   padding-top: 5%;
   $base-duration: 500ms;
-
   .drop-area {
     border: dashed 1px rgb(228, 149, 149);
     padding-top: 1%;
@@ -41,16 +40,21 @@
 
     .child-block {
       width: 100%;
+      background-color: white;
+      display: flex;
+
       &:hover {
-        border: dotted 1px rgb(138, 134, 134);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-        // opacity: 0.9;
-        // cursor: pointer;
         cursor: grab;
         .icons-handle {
           display: block;
         }
+        transform: scale(0.97, 0.97);
+        border-radius: 3%;
+        transition: 0.3s;
+        border: none;
       }
+      transition: 0.3s;
 
       .edit-text {
         display: none;
@@ -71,7 +75,13 @@
       }
     }
 
+    img{
+      max-width: 1000px;
+      height: auto;
+    }
+
     .image-block {
+      
       &:hover {
         cursor: pointer;
       }

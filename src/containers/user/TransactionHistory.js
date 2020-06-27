@@ -54,16 +54,16 @@ class TransactionHistory extends Component {
                       {item.eventId.name}
                     </Link>
                   ) : (
-                    item.eventId.name
-                  )}
+                      item.eventId.name
+                    )}
                 </td>
                 <td>{item.sender.fullName}</td>
                 <td>
                   {item.sessionRefunded[0] ? (
                     <b> {formatter.format(item.amount)}</b>
                   ) : (
-                    formatter.format(item.amount)
-                  )}
+                      formatter.format(item.amount)
+                    )}
                 </td>
                 <td>{new Date(item.createdAt).toLocaleString()}</td>
                 <td>{item.payType}</td>
@@ -80,7 +80,7 @@ class TransactionHistory extends Component {
             ))}
           </tbody>
         </table>
-        {this.props.pending && rows <= 16 && (
+        {this.props.pending && rows > 16 && (
           <Spin
             tip="Loading..."
             size="large"

@@ -4,7 +4,6 @@ import { CheckCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 // import reqwest from 'reqwest';
 
 import InfiniteScroll from 'react-infinite-scroller';
-import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { userActions } from 'action/user.action';
@@ -14,14 +13,16 @@ const timeStyle = {
   fontSize: '10px',
 };
 
+let page = 2;
+
 class Notification extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       data: props.notifications,
-      loading: false,
-      hasMore: true,
+      loading: true,
+      // hasMore: true,
     };
   }
 
@@ -31,27 +32,24 @@ class Notification extends Component {
   };
 
   loadMoreNotification = () => {
-    let { data } = this.state;
-    const { getListNotification } = this.props;
+    if (this.props.isLoadedMore) {
+      this.setState({
+        loading: true,
+      });
+      this.props.getListNotification(page);
+      page += 1;
+    }
+  };
+
+  handleLoadLatest = () => {
     this.setState({
       loading: true,
     });
-
-    if (data.length % 10 !== 0) {
-      this.setState({
-        hasMore: false,
-        loading: false,
-      });
-      return;
-    }
-
-    console.log(Math.round(data.length / 10));
-    getListNotification(Math.round(data.length / 10 + 1));
-  };
-
-  handleClick = (id, type) => {
-    // if(type === '')
-    // Get info of event => redirect to event page
+    page = 1;
+    this.props.getListNotification(page);
+    this.setState({
+      loading: false,
+    });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -70,6 +68,9 @@ class Notification extends Component {
   };
 
   handleDeleleNotification = (notificationId) => {
+    if (this.state.data.length === 5) {
+      this.loadMoreNotification();
+    }
     const { data } = this.state;
     const { setDeleteNotification } = this.props;
     const index = data.findIndex((item) => item._id === notificationId);
@@ -139,11 +140,23 @@ class Notification extends Component {
           <div className="d-flex">
             <List.Item.Meta avatar={<Avatar src={item.url} />} />
             {item.isRead ? (
-              <div onClick={() => window.location.replace(item.linkTo.urlWeb)}>
+              <div
+                onClick={() =>
+                  item.linkTo.urlWeb
+                    ? window.location.replace(item.linkTo.urlWeb)
+                    : window.location.replace('http://localhost:3000/my-events')
+                }
+              >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-              <h6 onClick={() => window.location.replace(item.linkTo.urlWeb)}>
+              <h6
+                onClick={() =>
+                  this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                    ? window.location.replace(item.linkTo.urlWeb)
+                    : window.location.replace('http://localhost:3000/my-events')
+                }
+              >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </h6>
             )}
@@ -151,7 +164,7 @@ class Notification extends Component {
 
           <div className="d-flex">
             <p style={timeStyle} className="ml-3">
-              {moment(item.createdAt).startOf('day').fromNow()}
+              {new Date(item.createdAt).toLocaleString()}
             </p>
             <div className="ml-auto">
               {!item.isRead && (
@@ -175,26 +188,39 @@ class Notification extends Component {
   };
 
   render() {
-    const { data, loading, hasMore } = this.state;
+    const { data, loading } = this.state;
     return (
       <div className="demo-infinite-container">
-        {console.log('list', data)}
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
           loadMore={this.loadMoreNotification}
-          hasMore={!loading && hasMore}
+          hasMore={!loading}
           useWindow={false}
         >
+          {/* <a className="float-right" onClick={() => this.handleLoadLatest}><i className="fa fa-arrow-up" aria-hidden="true"></i></a> */}
+          <p
+            type="button"
+            className="fa-fw w3-margin-right w3-text-teal"
+            style={{ width: '100px' }}
+            onClick={() => this.handleLoadLatest()}
+          >
+            Load more <i className="fa fa-arrow-up" aria-hidden="true"></i>
+          </p>
+          {loading && (
+            <div className="demo-loading-container">
+              <Spin />
+            </div>
+          )}
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
           >
-            {loading && hasMore && (
+            {/* {loading && (
               <div className="demo-loading-container">
                 <Spin />
               </div>
-            )}
+            )} */}
           </List>
         </InfiniteScroll>
       </div>
@@ -204,6 +230,7 @@ class Notification extends Component {
 
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
+  isLoadedMore: state.user.isLoadedMore,
 });
 
 const mapDispatchToProps = (dispatch) => ({

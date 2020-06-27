@@ -435,7 +435,6 @@ const getHistoryPayment = (numberRecord = 16) => {
       },
     })
       .then((res) => {
-        console.log(res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => {
@@ -504,22 +503,23 @@ const getCreateHistory = (dataSent) => {
 
 const getListNotification = (pageNumber, numberRecord) => {
   return (dispatch) => {
-    API.get('api/getListNotification', {
+    API.get('/api/getListNotification', {
       params: {
         pageNumber,
         numberRecord,
       },
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, pageNumber));
       })
       .catch((error) => {
         handleCatch(dispatch, failure, error);
       });
   };
 
-  function success(notifications) {
-    return { type: userConstants.GET_LIST_NOTIFICATION_SUCCESS, notifications };
+  function success(notifications, pageNumber) {
+    return { type: userConstants.GET_LIST_NOTIFICATION_SUCCESS, notifications, notiPageNumber: pageNumber };
+
   }
   function failure(error) {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
@@ -533,7 +533,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function success(numUnreadNotification) {
@@ -563,13 +563,14 @@ const setDeleteNotification = (notificationId) => {
     API.post('/api/setDeleteNotification', {
       notificationId,
     }).then((res) => {
-      dispatch(success());
+      dispatch(success(notificationId));
     });
   };
 
-  function success() {
+  function success(notificationId) {
     return {
       type: userConstants.DELETE_NOTIFICATION,
+      delNotificationId: notificationId
     };
   }
 };
