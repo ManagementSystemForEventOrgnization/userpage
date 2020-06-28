@@ -192,7 +192,8 @@ class Header extends Component {
               item.child.length === 0 ? (
                 <Menu.Item
                   key={item.id}
-                  disabled={editable && item.id !== currentPage}
+                  onClick={() => this.handleClickMenuItem(item)}
+                  //   disabled={editable && item.id !== currentPage}
                 >
                   {editable ? (
                     item.title
@@ -209,10 +210,13 @@ class Header extends Component {
                 <SubMenu
                   key={item.id}
                   title={<span>{item.title}</span>}
-                  disabled={editable && this.checkActive(item.child)}
+                  //   disabled={editable && this.checkActive(item.child)}
                 >
                   {item.child.map((child) => (
-                    <Menu.Item key={child.id}>
+                    <Menu.Item
+                      key={child.id}
+                      onClick={() => this.handleClickMenuItem(child)}
+                    >
                       {editable ? (
                         child.title
                       ) : (

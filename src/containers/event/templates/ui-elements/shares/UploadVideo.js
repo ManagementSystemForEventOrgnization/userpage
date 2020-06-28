@@ -61,7 +61,10 @@ class UploadVideo extends Component {
         <div className="mt-2 ">
           {NotUpload ? (
             <div style={{ textAlign: 'center', width: '100%' }}>
-              <img src="/not-found.jpg" alt="not-found" />
+              <img
+                src="https://res.cloudinary.com/eventinyourhand/image/upload/v1593323532/publics/not-found_ytto2w.jpg"
+                alt="not-found"
+              />
             </div>
           ) : (
             <div>

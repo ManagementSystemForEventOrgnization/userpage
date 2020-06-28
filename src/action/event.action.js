@@ -221,7 +221,7 @@ const prepareForCreateEvent = (
   return (dispatch) => {
     dispatch(request());
     const domain = process.env.REACT_APP_DOMAIN_EVENT;
-    API.post('api/save/event', {
+    API.post('/api/save/event', {
       name: nameEvent,
       typeOfEvent,
       category,
@@ -529,7 +529,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -555,7 +555,7 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
@@ -626,7 +626,6 @@ const getUserJoinEvent = (dataSent, callback) => {
     };
   }
 };
-
 
 const cancelEvent = (eventId, sessionIds) => {
   return (dispatch) => {

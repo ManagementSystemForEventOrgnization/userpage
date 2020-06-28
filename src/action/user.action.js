@@ -518,8 +518,11 @@ const getListNotification = (pageNumber, numberRecord) => {
   };
 
   function success(notifications, pageNumber) {
-    return { type: userConstants.GET_LIST_NOTIFICATION_SUCCESS, notifications, notiPageNumber: pageNumber };
-
+    return {
+      type: userConstants.GET_LIST_NOTIFICATION_SUCCESS,
+      notifications,
+      notiPageNumber: pageNumber,
+    };
   }
   function failure(error) {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
@@ -533,7 +536,7 @@ const getNumUnreadNotification = () => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function success(numUnreadNotification) {
@@ -570,14 +573,14 @@ const setDeleteNotification = (notificationId) => {
   function success(notificationId) {
     return {
       type: userConstants.DELETE_NOTIFICATION,
-      delNotificationId: notificationId
+      delNotificationId: notificationId,
     };
   }
 };
 
 const getChatHistory = (sender) => {
   return (dispatch) => {
-    API.get('api/chat/get_list', {
+    API.get('/api/chat/get_list', {
       params: {
         sender,
       },
@@ -602,7 +605,6 @@ const deleteEvent = (eventId) => {
     })
       .then((res) => {
         dispatch(success(res.data.result, eventId));
-
       })
       .catch((error) => {
         const { data } = error.response;
@@ -626,7 +628,6 @@ const deleteEvent = (eventId) => {
       type: userConstants.DELETE_EVENT_SUCCESS,
       deEvent,
       eventId,
-
     };
   }
   function failure(error) {

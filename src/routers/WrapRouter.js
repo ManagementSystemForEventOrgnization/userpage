@@ -33,7 +33,7 @@ class WrapRouter extends React.Component {
   render() {
     const routes = [
       {
-        path: '/',
+        path: `/`,
         exact: true,
         main: (match) => <HomePage match={match} />,
       },
@@ -130,7 +130,7 @@ class WrapRouter extends React.Component {
       {
         path: '',
         exact: true,
-        main: () => <NotFoundPage />,
+        main: () => <HomePage />,
       },
     ];
 

@@ -5,7 +5,7 @@ import { Button } from 'antd';
 export default class NotFoundPage extends Component {
   render() {
     const style = {
-      background: `url(/not-found.jpg)`,
+      background: `url(https://res.cloudinary.com/eventinyourhand/image/upload/v1593323532/publics/not-found_ytto2w.jpg)`,
       backgroundSize: 'cover',
       width: '100%',
       height: '100vh',

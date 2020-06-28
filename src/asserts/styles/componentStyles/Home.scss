@@ -11,7 +11,6 @@
   }
 
   .list-event {
-    // background: url('/bg-1.jpg') center fixed;
     height: 100%;
 
     .orgnization {
@@ -19,7 +18,8 @@
     }
 
     .explore {
-      background: url("/bg-3.jpg") center fixed;
+      background: url('https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg')
+        center fixed;
       height: 200px;
       text-align: center;
       padding: 50px;
@@ -50,7 +50,7 @@
       color: #ff4d4f;
       z-index: 19;
       font-size: 20px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: 'Times New Roman', Times, serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -77,7 +77,7 @@
       font-weight: 500;
       position: absolute;
       top: 2px;
-      left: "10%";
+      left: '10%';
       right: 10px;
       border-radius: 10px 10px 10px 30px;
       color: white;
@@ -93,8 +93,9 @@
     }
 
     .explore {
-      background: url("/bg-3.jpg") center fixed;
-    height: 200px;
+      background: url('https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg')
+        center fixed;
+      height: 200px;
       text-align: center;
       padding: 50px;
     }
@@ -130,7 +131,7 @@
       // color: rgb(255, 255, 255);
       z-index: 7;
       font-size: 30px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: 'Times New Roman', Times, serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -168,7 +169,7 @@
       // font-size: 20px;
       position: absolute;
       top: 5px;
-      left: "10%";
+      left: '10%';
       right: 1px;
       border-radius: 10px 10px 10px 30px;
       color: white;
