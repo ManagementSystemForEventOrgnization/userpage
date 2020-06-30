@@ -22,7 +22,7 @@ const HIGHT = {
   color: '333333',
   fontWeight: '700',
   fontSize: '36px',
-  fontFamily: `Oswald`,
+  fontFamily: `Montserrat`,
 
   marginBottom: '15px',
   textTransform: 'capitalize',

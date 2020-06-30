@@ -1,4 +1,4 @@
-import API from 'config/axious.config';
+import API from './axious.config';
 
 const applyEvent = (eventId, sessionIds, payType) => {
   return (dispatch) => {

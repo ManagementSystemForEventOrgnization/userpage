@@ -8,6 +8,7 @@ const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@
 const login = (email, password) => {
   return (dispatch) => {
     dispatch(request());
+    console.log(email, password);
     API.post(`/api/login`, {
       email,
       password,
@@ -20,7 +21,9 @@ const login = (email, password) => {
           } else history.push('/');
         }
       })
-      .catch((error) => handleCatch(dispatch, failure, error));
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
   };
 
   function request() {

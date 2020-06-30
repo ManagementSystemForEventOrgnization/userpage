@@ -1,6 +1,6 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
-const proxyName = 'https://event-orgnization.herokuapp.com/';
+const proxyName = 'http://localhost:5000';
 
 module.exports = function (app) {
   app.use(proxy('/api/joinEvent', { target: proxyName, changeOrigin: true }));

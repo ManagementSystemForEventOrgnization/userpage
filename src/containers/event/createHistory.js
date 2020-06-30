@@ -59,9 +59,11 @@ class CreateHistory extends React.Component {
     };
   }
   componentDidMount = () => {
-    const { getCreateHistory, getCategories } = this.props;
+    const { getCreateHistory, getCategories, categories } = this.props;
     getCreateHistory();
-    getCategories();
+    if (categories.length === 0) {
+      getCategories();
+    }
   };
 
   handleChange = (categoryEventId) => {

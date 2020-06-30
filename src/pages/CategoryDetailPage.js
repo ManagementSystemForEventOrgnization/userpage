@@ -8,6 +8,8 @@ import { EnvironmentOutlined } from '@ant-design/icons';
 import Header from 'containers/share/_layout/Header';
 import Footer from 'containers/share/_layout/Footer';
 import Banner from 'components/Banner';
+import NavBar from 'components/NavBar';
+
 import { eventActions } from 'action/event.action';
 const { Option } = Select;
 
@@ -18,22 +20,28 @@ class CategoryDetailPage extends React.Component {
     const { match } = props.match;
     this.state = {
       categoryName: match.params.id,
-      listEvent: [...this.props.hlEvent]
+      listEvent: [...this.props.hlEvent],
     };
   }
 
   componentDidMount = () => {
-    const { getListEvent, match, getCategories } = this.props;
-    getCategories();
-    console.log(match)
-    let path = match.match.params.id
+    const { getListEvent, match, getCategories, categories } = this.props;
+    const path = match.match.params.id;
+
+    if (categories.length === 0) {
+      getCategories();
+    }
+
     if (path === 'all-events') {
       getListEvent();
-    }
-    else {
+    } else {
       const categoryEventId = localStorage.getItem('currentCategory');
-      let sentData = {};
-      sentData.categoryEventId = categoryEventId;
+      const sentData = {
+        categoryEventId,
+      };
+      this.setState({
+        categoryEventId,
+      });
       getListEvent(sentData);
     }
   };
@@ -50,71 +58,95 @@ class CategoryDetailPage extends React.Component {
     let percent = `-${newDiscount}%`;
     return percent;
   };
+
   onChangeDates = (dates) => {
     const { getListEvent } = this.props;
+    const { categoryEventId, txtSearch, fee } = this.state;
 
-    let dataSent = {};
-    dataSent.startDate = moment(dates[0]._d).format('YYYY/MM/DD')
-    dataSent.endDate = moment(dates[1]._d).format('YYYY/MM/DD')
+    const dataSent = {
+      startDate: dates ? moment(dates[0]._d).format('YYYY/MM/DD') : '',
+      endDate: dates ? moment(dates[1]._d).format('YYYY/MM/DD') : '',
+      categoryEventId,
+      txtSearch,
+      fee,
+    };
+
+    this.setState({
+      startDate: dates ? moment(dates[0]._d).format('YYYY/MM/DD') : '',
+      endDate: dates ? moment(dates[1]._d).format('YYYY/MM/DD') : '',
+    });
 
     getListEvent(dataSent);
   };
-  handleChange = (value) => {
-    const { getListEvent } = this.props;
-    let sentData = {};
-    sentData.categoryEventId = value;
-    getListEvent(sentData);
-  }
+
   handleChangeFee = (value) => {
     const { getListEvent } = this.props;
+    const { categoryEventId, txtSearch, startDate, endDate } = this.state;
 
-    let sentData = {};
-    if (value === 'true') {
-      sentData.fee = value === 'true';
-      getListEvent(sentData);
-    } else {
-      getListEvent();
-    }
+    const sentData = {
+      categoryEventId,
+      txtSearch,
+      startDate,
+      endDate,
+      fee: value === 'true',
+    };
+    getListEvent(sentData);
+  };
 
+  handleSearch = (value) => {
+    const { startDate, endDate, fee, categoryEventId } = this.state;
+    const { getListEvent } = this.props;
 
-  }
+    this.setState({
+      txtSearch: value,
+    });
+
+    const dataSent = {
+      startDate,
+      endDate,
+      fee,
+      categoryEventId,
+      txtSearch: value,
+    };
+    getListEvent(dataSent);
+  };
 
   componentDidUpdate = (prevProps) => {
-    const { getListEvent, match, } = this.props;
-
+    const { getListEvent, match } = this.props;
     if (prevProps.match.match.params.id !== match.match.params.id) {
-      // const categoryEventId = localStorage.getItem('currentCategory'); //currentCategory
-      // console.log(categoryEventId);
-      let txtSearch = match.match.params.id
-      console.log('1', txtSearch);
-      let sentData = {};
-      sentData.txtSearch = txtSearch;
-      getListEvent(sentData);
+      const categoryEventId = localStorage.getItem('currentCategory');
+      getListEvent({ categoryEventId });
+      this.setState({
+        categoryEventId,
+        txtSearch: '',
+        startDate: '',
+        endDate: '',
+      });
     }
   };
+
   ableToLoadMore = (count) => {
     if (count === 0) return false;
 
     if (count === 10) return true;
     return count % 10 === 0;
   };
+
   onLoadMore = () => {
-    const { getListEvent, } = this.props;
+    const { getListEvent } = this.props;
     const { listEvent } = this.state;
 
     let index = Math.round(listEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
-
     getListEvent(dataSent);
-
     this.setState({ shoulUpdate: true });
   };
+
   renderEvents = () => {
     const { hlEvent } = this.props;
     let { listEvent, shoulUpdate } = this.state;
     listEvent = shoulUpdate ? [...listEvent, ...hlEvent] : [...hlEvent];
-
 
     return listEvent.length > 0 ? (
       <div className="row p-5 ">
@@ -132,14 +164,14 @@ class CategoryDetailPage extends React.Component {
                             {this.percentDiscount(item.ticket.discount)}
                           </Button>
                         ) : (
-                            ''
-                          )}
+                          ''
+                        )}
                       </div>
                     ) : (
-                        <Button className="ml-1 mt-1 ticket" key={item._id}>
-                          Free
-                        </Button>
-                      )}
+                      <Button className="ml-1 mt-1 ticket" key={item._id}>
+                        Free
+                      </Button>
+                    )}
                     {item.bannerUrl && (
                       <img
                         className="img "
@@ -184,10 +216,10 @@ class CategoryDetailPage extends React.Component {
                     {item.session.length === 1 ? (
                       ''
                     ) : (
-                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                          + {item.session.length - 1}more events
-                        </p>
-                      )}
+                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                        + {item.session.length - 1}more events
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -213,16 +245,16 @@ class CategoryDetailPage extends React.Component {
                           </p>
                         </div>
                       ) : (
-                          <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
-                            {item.ticket.price} VNĐ
-                          </p>
-                        )}
+                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                          {item.ticket.price} VNĐ
+                        </p>
+                      )}
                     </div>
                   ) : (
-                      <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                        0 VNĐ
-                      </p>
-                    )}
+                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                      0 VNĐ
+                    </p>
+                  )}
                 </div>
 
                 <div className="d-flex ">
@@ -254,29 +286,35 @@ class CategoryDetailPage extends React.Component {
         )}
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
-          <hr />
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-            alt="no-high-light"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
+        <hr />
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
   };
 
   render() {
-    const { match, categories, hlpending } = this.props;
+    const { match, hlpending } = this.props;
 
     return (
-      <div className="category-detail homepage">
+      <div
+        className="category-detail homepage"
+        style={{ backgroundColor: '#f1f1f1' }}
+      >
         <div className="fixed-top">
           <Header />
-          {/* <NavBar /> */}
+          <NavBar />
         </div>
-        <Banner category={match.match.params.id.toUpperCase()} />
+        <Banner
+          category={match.match.params.id.toUpperCase()}
+          handleSearch={this.handleSearch}
+        />
 
-        <div className="row p-5 mt-5" style={{ backgroundColor: '#f1f1f1' }}>
+        <div className="row p-5 mt-5">
           <div className="col ">
             <RangePicker
               style={{ width: '100%', height: '30px' }}
@@ -285,26 +323,10 @@ class CategoryDetailPage extends React.Component {
               onOk={this.onOk}
             />
           </div>
-          <div className="col ">
-            <Select defaultValue='ALL Category'
-              style={{ width: '100%', height: '40px' }}
-              onChange={this.handleChange}
-            >
-              {categories.map((item) => (
-                <Option
-                  style={{ width: '100%', height: '40px' }}
-                  key={item._id}
-                  value={item._id}
-                >
-                  {item.name}
-                </Option>
-              ))}
-            </Select>
-          </div>
-
 
           <div className="col ">
-            <Select defaultValue='All Fares'
+            <Select
+              defaultValue="All Fares"
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChangeFee}
             >
@@ -315,12 +337,13 @@ class CategoryDetailPage extends React.Component {
           </div>
         </div>
 
-        {hlpending ? <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />  
-          :
+        {hlpending ? (
+          <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
+        ) : (
           <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
             {this.renderEvents()}
           </div>
-        }
+        )}
         <Footer />
       </div>
     );
@@ -331,7 +354,7 @@ const mapStateToProps = (state) => ({
   // map state of store to props
   hlEvent: state.event.hlEvent,
   categories: state.event.categories,
-  hlpending: state.event.hightLightFinishLoading
+  hlpending: state.event.hightLightFinishLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
