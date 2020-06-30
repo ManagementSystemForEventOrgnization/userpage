@@ -7,7 +7,7 @@ const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[0], //banner
   //...dataTest[0].value,
-  dataTest[2].value[2], // event description
+  dataTest[2].value[0], // event description
   ...dataTest[13].value, //list of link documents
   dataTest[3].value[0], // speaker, card
   ...dataTest[4].value, // schedule

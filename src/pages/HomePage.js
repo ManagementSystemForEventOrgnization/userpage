@@ -24,7 +24,7 @@ const HIGHT = {
   fontSize: '36px',
   fontFamily: `Montserrat`,
 
-  marginBottom: '15px',
+  marginBottom: '20px',
   textTransform: 'capitalize',
   textShadow: '0 0 3px #161821',
 };
@@ -94,7 +94,12 @@ class HomePage extends Component {
     let { hlEvent } = this.props;
     hlEvent = hlEvent || [];
     return hlEvent.length > 0 ? (
-      <div className="slide-container p-4 ml-5 mt-5 ">
+      <div
+        className="slide-container p-4 ml-5 mt-5 "
+        style={{
+          backgroundColor: ' #f1f1f1',
+        }}
+      >
         <Carousel
           responsive={responsive}
           swipeable={false}
@@ -152,7 +157,12 @@ class HomePage extends Component {
     let { events } = this.props;
     events = events || [];
     return events.length > 0 ? (
-      <div className="row p-5  ">
+      <div
+        className="row p-5  "
+        style={{
+          backgroundColor: ' #f1f1f1',
+        }}
+      >
         {events.map((item, index) => (
           <div className="col-xl-4 col-lg-4 col-md-6 mt-4 " key={item._id}>
             <Link to={'/event/' + item.urlWeb} target="_blank">
@@ -296,8 +306,11 @@ class HomePage extends Component {
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
 
-          {!hightLightFinishLoading ? (
-            <div style={{ textAlign: 'center' }}>
+          {hightLightFinishLoading ? (
+            <div
+              style={{ textAlign: 'center', backgroundColor: ' #f1f1f1' }}
+              className="pt-5 pb-5"
+            >
               <img
                 src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
                 alt="no-high-light"
@@ -315,7 +328,10 @@ class HomePage extends Component {
           </div>
 
           {!upcomingFinishLoading ? (
-            <div style={{ textAlign: 'center' }}>
+            <div
+              style={{ textAlign: 'center', backgroundColor: ' #f1f1f1' }}
+              className="pt-5 pb-5"
+            >
               <img
                 src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
                 alt="no-upcoming"

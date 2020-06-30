@@ -35,6 +35,7 @@ class Header extends React.Component {
     const isLogined = localStorage.getItem('isLogined');
     const { numUnreadNotification } = this.props;
     const { visible, open } = this.state;
+
     return (
       <div className="head ">
         <nav className="nav header ">

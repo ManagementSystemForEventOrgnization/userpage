@@ -31,6 +31,24 @@ import { eventActions } from 'action/event.action';
 const { Search } = Input;
 const { TabPane } = Tabs;
 
+const titleStyle = {
+  height: '300px',
+  width: '100%',
+  color: 'white',
+  fontSize: '40px',
+  fontWeight: '700',
+  backgroundImage:
+    'url(https://static.ticketbox.vn/site/global/content-v2/img/home-search-bg-01.jpg)',
+};
+
+const menuStyle = {
+  borderRadius: '8px',
+  color: 'white',
+  fontWeight: 'bold',
+  fontSize: '18px',
+  background: 'linear-gradient(to right, rgb(20, 81, 220), rgb(144, 202, 199))',
+};
+
 class CreateHistory extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +76,7 @@ class CreateHistory extends React.Component {
       isDeleteMess: true,
     };
   }
+
   componentDidMount = () => {
     const { getCreateHistory, getCategories, categories } = this.props;
     getCreateHistory();
@@ -108,6 +127,7 @@ class CreateHistory extends React.Component {
 
     this.setState({ isupdate: true, listEvent: [...arrEvent] });
   };
+
   onFocusCancel = () => {
     this.setState({
       isSuccess: true,
@@ -167,12 +187,6 @@ class CreateHistory extends React.Component {
     let money = `${sum} VNĐ `;
 
     return money;
-  };
-
-  percentDiscount = (discount) => {
-    let newDiscount = discount * 100;
-    let percent = `-${newDiscount}%`;
-    return percent;
   };
 
   onChangeStatus = (value) => {
@@ -273,7 +287,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.handleEditSite(item.urlWeb, item._id)}>
           <Link to="/create" className="d-flex">
             <EditOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Edit site
             </p>
           </Link>
@@ -282,7 +296,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.isShowDelete(item._id)}>
           <div className="d-flex">
             <DeleteOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Delete event
             </p>
           </div>
@@ -291,7 +305,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.handleURL(item.urlWeb)}>
           <Link to={`/manage/${item._id}`} className="d-flex">
             <SettingOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Manage event
             </p>
           </Link>
@@ -299,7 +313,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.showCancelEvent(item._id, item.session)}>
           <div className="d-flex">
             <CloseOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               {' '}
               Cancel event
             </p>
@@ -343,24 +357,16 @@ class CreateHistory extends React.Component {
     return (
       <div className="history">
         <div
-          style={{
-            height: '40px',
-            width: '100%',
-            opacity: '1',
-            color: 'white',
-            textAlign: 'center',
-            fontSize: '25px',
-            background: 'rgb(12, 105, 126)',
-            fontWeight: '700',
-          }}
+          style={titleStyle}
+          className="d-flex align-items-center justify-content-center"
         >
           Manage Created Event
         </div>
-        <Row className="mt-5">
+        <Row className="mt-2 pl-3 pr-5">
           <Col span={18} push={6}>
             <div>
               <div className="row">
-                <div className="col p-5">
+                <div className="col p-2     ">
                   <Search
                     enterButton
                     size="large"
@@ -410,7 +416,7 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                <div className="row p-5 ">
+                <div className="row p-2 ">
                   {listEvent.map((item) => (
                     <div
                       className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
@@ -566,17 +572,8 @@ class CreateHistory extends React.Component {
             </div>
           </Col>
 
-          <Col className="fixed-left" span={4} pull={18}>
-            <Menu
-              mode="inline"
-              style={{
-                borderRadius: '8px',
-                color: 'white',
-                fontWeight: 'bolder',
-                fontSize: '30px',
-                background: 'rgb(12, 105, 126)',
-              }}
-            >
+          <Col span={4} pull={18}>
+            <Menu mode="inline" style={menuStyle}>
               <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
                 ALL
               </Menu.Item>
