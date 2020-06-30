@@ -18,16 +18,14 @@ class Chat extends Component {
     };
     this.socket = io(process.env.REACT_APP_CHAT_SERVER);
   }
-  // thử cài lại chưa. trong tràn home chỗ nào call io vậy
-  UNSAFE_componentWillMount = () => {
+
+  componentDidMount() {
     const { getChatHistory } = this.props;
     const userId = localStorage.getItem('userId');
     if (userId) {
       getChatHistory(userId);
     }
-  };
 
-  componentDidMount() {
     addResponseMessage('Wellcome to our system !!! Can we help you ?');
 
     let currentSocket = localStorage.getItem('currentSocket');
@@ -54,19 +52,10 @@ class Chat extends Component {
       fullName: localStorage.getItem('username') || `guest ${currentSocket.id}`,
     });
 
-    // get old chatcontent whenever reload(in expiry time)
-
-    //listen to  login-failure event
     this.socket.on('login-failure', (data) => {
       localStorage.removeItem('currentSocket');
       // should create new socket
     });
-
-    // *** don't need to socket.on this event
-    // this.socket.on('server-send-message', (data) => {
-    //   console.log('server-send-message : ', data);
-    //   addResponseMessage(data.nd.content);
-    // });
 
     //listen to admin-reply event
     this.socket.on('admin-reply', (data) => {
@@ -90,14 +79,18 @@ class Chat extends Component {
         : addUserMessage(item.content)
     );
 
-  render() {
+  componentDidUpdate = (prevProps) => {
     const { chatHistory } = this.props;
-    this.renderChatHistory(chatHistory);
+    if (prevProps.chatHistory.length === 0 && chatHistory.length > 0) {
+      this.renderChatHistory(chatHistory);
+    }
+  };
+
+  render() {
     return (
       <div className="App">
         <Widget
           handleNewUserMessage={this.handleNewUserMessage}
-          //   profileAvatar={logo}
           title="Event in your hand"
           subtitle="Contact with admin"
         />

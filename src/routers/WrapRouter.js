@@ -130,7 +130,7 @@ class WrapRouter extends React.Component {
       {
         path: '',
         exact: true,
-        main: () => <HomePage />,
+        main: () => <NotFoundPage />,
       },
     ];
 

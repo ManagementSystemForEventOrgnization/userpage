@@ -29,6 +29,19 @@ const HIGHT = {
   textShadow: '0 0 3px #161821',
 };
 
+const seeAllButton = {
+  marginLeft: '40%',
+  marginTop: '5%',
+  marginBottom: '10%',
+  width: '20%',
+  height: '50px',
+  fontWeight: 'bolder',
+  fontSize: '25px',
+  borderWidth: '3px',
+  borderColor: 'var(--eds-ui-500,#a9a8b3)',
+  borderRadius: '4px',
+};
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +58,6 @@ class HomePage extends Component {
     let type = 'HEIGHT_LIGHT';
     let sentData = {};
     sentData.type = type;
-    // getHomeData();
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(sentData);
   };
@@ -79,7 +91,8 @@ class HomePage extends Component {
   };
 
   renderHighLightEvent = () => {
-    const { hlEvent } = this.props;
+    let { hlEvent } = this.props;
+    hlEvent = hlEvent || [];
     return hlEvent.length > 0 ? (
       <div className="slide-container p-4 ml-5 mt-5 ">
         <Carousel
@@ -114,8 +127,8 @@ class HomePage extends Component {
                       {item.session.length === 1 ? (
                         ''
                       ) : (
-                          <p>+ {item.session.length - 1}more events</p>
-                        )}
+                        <p>+ {item.session.length - 1}more events</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -125,18 +138,19 @@ class HomePage extends Component {
         </Carousel>
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No highlight event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-            alt="no-high-light"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No highlight event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
   };
 
   renderUpcomingEvent = () => {
-    const { events } = this.props;
+    let { events } = this.props;
+    events = events || [];
     return events.length > 0 ? (
       <div className="row p-5  ">
         {events.map((item, index) => (
@@ -153,21 +167,21 @@ class HomePage extends Component {
                             {this.percentDiscount(item.ticket.discount)}
                           </Button>
                         ) : (
-                            ''
-                          )}
+                          ''
+                        )}
                       </div>
                     ) : (
-                        <Button className="ml-1 mt-1 ticket" key={item._id}>
-                          Free
-                        </Button>
-                      )}
-                    {item.bannerUrl &&
+                      <Button className="ml-1 mt-1 ticket" key={item._id}>
+                        Free
+                      </Button>
+                    )}
+                    {item.bannerUrl && (
                       <img
                         className="img "
                         alt="example"
                         src={item.bannerUrl}
                       />
-                    }
+                    )}
                   </div>
                 }
               >
@@ -205,10 +219,10 @@ class HomePage extends Component {
                     {item.session.length === 1 ? (
                       ''
                     ) : (
-                        <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                          + {item.session.length - 1}more events
-                        </p>
-                      )}
+                      <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                        + {item.session.length - 1}more events
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -234,16 +248,16 @@ class HomePage extends Component {
                           </p>
                         </div>
                       ) : (
-                          <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
-                            {item.ticket.price} VNĐ
-                          </p>
-                        )}
+                        <p className=" mt-1 " style={{ fontWeight: 'bold' }}>
+                          {item.ticket.price} VNĐ
+                        </p>
+                      )}
                     </div>
                   ) : (
-                      <p style={{ fontWeight: 'bold' }} className="ml-1  ">
-                        0 VNĐ
-                      </p>
-                    )}
+                    <p style={{ fontWeight: 'bold' }} className="ml-1  ">
+                      0 VNĐ
+                    </p>
+                  )}
                 </div>
 
                 <div className="d-flex ">
@@ -260,14 +274,14 @@ class HomePage extends Component {
         ))}
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>No upcoming event at this time</p>
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
-            alt="no-upcoming"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <p>No upcoming event at this time</p>
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+          alt="no-upcoming"
+        />
+      </div>
+    );
   };
 
   render() {
@@ -279,7 +293,6 @@ class HomePage extends Component {
           <NavBar />
         </div>
         <Banner />
-
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
 
@@ -291,10 +304,9 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderHighLightEvent()
-            )}
+            this.renderHighLightEvent()
+          )}
         </div>
-
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
             <h1 style={HIGHT} className="mt-5 mb-5">
@@ -310,27 +322,12 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-              this.renderUpcomingEvent()
-            )}
+            this.renderUpcomingEvent()
+          )}
         </div>
-        <hr></hr>
+        <hr></hr>' '{' '}
         <Link to="/event-list/all-events">
-          <Button
-            style={{
-              marginLeft: '40%',
-              marginTop: '5%',
-              marginBottom: '10%',
-              width: '20%',
-              height: '50px',
-              fontWeight: 'bolder',
-              fontSize: '25px',
-              borderWidth: '3px',
-              borderColor: 'var(--eds-ui-500,#a9a8b3)',
-              borderRadius: '4px',
-            }}
-          >
-            View All Events
-          </Button>
+          <Button style={seeAllButton}>View All Events</Button>
         </Link>
         <hr
           style={{
@@ -338,13 +335,11 @@ class HomePage extends Component {
             background: `linear-gradient(to right, #0d0d8b, #44aea9)`,
           }}
         />
-
         <div className="orgnization">
           <h1 style={HIGHT}>Organizers </h1>
           <Orgnization />
         </div>
         <Chat />
-
         <hr />
         <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">
@@ -353,7 +348,6 @@ class HomePage extends Component {
             </Button>
           </Link>
         </div>
-
         <Footer />
       </div>
     );
