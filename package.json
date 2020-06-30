@@ -6,7 +6,7 @@
   "engines": {
     "npm": "6.x",
     "node": "12.x",
-    "yarn": "6.x"
+    "yarn": "1.x"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^1.1.2",
