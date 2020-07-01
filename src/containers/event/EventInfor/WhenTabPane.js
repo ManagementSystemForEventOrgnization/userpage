@@ -242,6 +242,7 @@ class TabPane extends Component {
     };
 
     console.log(session);
+
     return (
       <div className="row container justify-content-md-center">
         <div className={count === 0 ? 'col-md-auto ' : 'col-6 col-md-6 pl-5'}>
@@ -332,14 +333,18 @@ class TabPane extends Component {
                     </Panel>
 
                     <Panel header="Timeline" key="2">
-                      <Form.Item>
-                        {ss.detail.map((item) => (
-                          <div
-                            className="mt-2  d-flex juxtify-content-around"
-                            style={{ width: '530px' }}
-                            key={item.id}
-                          >
+                      {ss.detail.map((item) => (
+                        <div className="mt-2  d-flex" key={item.id}>
+                          <Form.Item>
                             <RangePicker
+                              defaultValue={
+                                item
+                                  ? [
+                                      moment(item.from, 'HH:mm:ss'),
+                                      moment(item.to, 'HH:mm:ss'),
+                                    ]
+                                  : []
+                              }
                               onChange={(time, timeString) =>
                                 this.handleChangeTime(
                                   ss.id,
@@ -350,10 +355,12 @@ class TabPane extends Component {
                               className="mr-2"
                               style={{ width: '350px' }}
                             />
-
+                          </Form.Item>
+                          <Form.Item>
                             <Input
                               placeholder="description"
                               name={`desc${item.id}`}
+                              defaultValue={item.description}
                               className="mr-2"
                               onChange={(event) =>
                                 this.handleChangeDescription(
@@ -363,15 +370,17 @@ class TabPane extends Component {
                                 )
                               }
                             />
+                          </Form.Item>
+                          <Form.Item>
                             <DeleteOutlined
                               onClick={() =>
                                 this.handleDeleteTime(ss.id, item.id)
                               }
                               style={{ fontSize: '20px', color: 'red' }}
                             />
-                          </div>
-                        ))}
-                      </Form.Item>
+                          </Form.Item>
+                        </div>
+                      ))}
 
                       <Button
                         className="mt-1"
@@ -388,6 +397,62 @@ class TabPane extends Component {
                     </Panel>
 
                     <Panel header="Documents" key="3">
+                      {ss.documents.map((doc) => (
+                        <div className="d-flex mt-1" key={doc.id}>
+                          <Form.Item
+                            name="Title documents"
+                            rules={[
+                              {
+                                required: true,
+                              },
+                            ]}
+                          >
+                            <Input
+                              placeholder="Enter title for documents"
+                              defaultValue={doc.title}
+                              onChange={(event) =>
+                                this.handleChangeDoc(
+                                  ss.id,
+                                  doc.id,
+                                  'title',
+                                  event.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            className="ml-1 mr-2"
+                            name="Url documents"
+                            rules={[
+                              {
+                                required: true,
+                              },
+                            ]}
+                          >
+                            <Input
+                              placeholder="Enter link to your document"
+                              defaultValue={doc.url}
+                              onChange={(event) =>
+                                this.handleChangeDoc(
+                                  ss.id,
+                                  doc.id,
+                                  'url',
+                                  event.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+                          <Form.Item>
+                            <DeleteOutlined
+                              onClick={() =>
+                                this.handleDeleteDocs(ss.id, doc.id)
+                              }
+                              style={{ fontSize: '20px', color: 'red' }}
+                            />
+                          </Form.Item>
+                        </div>
+                      ))}
+                      {/* 
                       <Form.Item>
                         {ss.documents.map((doc) => (
                           <div
@@ -398,6 +463,7 @@ class TabPane extends Component {
                             <Input
                               placeholder="Enter title for documents"
                               name={`title${doc.id}`}
+                              defaultValue={doc.title}
                               onChange={(event) =>
                                 this.handleChangeDoc(
                                   ss.id,
@@ -411,6 +477,7 @@ class TabPane extends Component {
                               placeholder="Enter link to your document"
                               className="ml-2 mr-2"
                               name={`url${doc.id}`}
+                              defaultValue={doc.url}
                               onChange={(event) =>
                                 this.handleChangeDoc(
                                   ss.id,
@@ -428,7 +495,7 @@ class TabPane extends Component {
                             />
                           </div>
                         ))}
-                      </Form.Item>
+                      </Form.Item> */}
 
                       <Button
                         className="mt-1"

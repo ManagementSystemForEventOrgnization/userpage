@@ -113,9 +113,15 @@ class CategoryDetailPage extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     const { getListEvent, match } = this.props;
-    if (prevProps.match.match.params.id !== match.match.params.id) {
-      const categoryEventId = localStorage.getItem('currentCategory');
-      getListEvent({ categoryEventId });
+    const path = match.match.params.id;
+    const categoryEventId = localStorage.getItem('currentCategory');
+
+    if (prevProps.match.match.params.id !== path) {
+      if (path === 'all-events') {
+        getListEvent();
+      } else {
+        getListEvent({ categoryEventId });
+      }
       this.setState({
         categoryEventId,
         txtSearch: '',
@@ -309,12 +315,13 @@ class CategoryDetailPage extends React.Component {
           <Header />
           <NavBar />
         </div>
+
         <Banner
           category={match.match.params.id.toUpperCase()}
           handleSearch={this.handleSearch}
         />
 
-        <div className="row p-5 mt-5">
+        <div className="row  pl-5 pr-5 mt-5">
           <div className="col ">
             <RangePicker
               style={{ width: '100%', height: '30px' }}
@@ -335,12 +342,16 @@ class CategoryDetailPage extends React.Component {
               <Option>Free</Option>
             </Select>
           </div>
+
+          <Link to="/event-list/all-events">
+            <Button>View All Event</Button>
+          </Link>
         </div>
 
         {hlpending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-          <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
+          <div className="list-event mt-2 mb-5  " style={{ marginTop: '5%' }}>
             {this.renderEvents()}
           </div>
         )}
