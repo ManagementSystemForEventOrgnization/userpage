@@ -59,7 +59,7 @@ class SignUp extends React.Component {
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
     return (
-      <div className="login">
+      <div className="login-page">
         <div className=" row">
           <Link to="/" className="col ">
             <img src={urlIMG} alt="logo" />

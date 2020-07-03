@@ -16,7 +16,6 @@
 @import 'componentStyles/Orgnization.scss';
 @import 'componentStyles/CreateEvent.scss';
 @import 'componentStyles/BannerBlock.scss';
-@import 'componentStyles/OrderTicket.scss';
 @import 'componentStyles/BankAccount.scss';
 @import 'componentStyles/ProfileInfor.scss';
 
@@ -45,8 +44,8 @@
 @import 'componentStyles/CreditCard.scss';
 @import 'componentStyles/ManageEvent.scss';
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,800;1,900&display=swap');
+
 body {
-  @import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
-// min-height: 300px;
-  font-family: 'Slabo 30px', serif !important;
+  font-family: 'Montserrat', sans-serif;
 }

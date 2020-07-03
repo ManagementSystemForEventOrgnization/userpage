@@ -14,7 +14,7 @@ const BannerState = (props) => ({
         fontWeight: 'bolder',
         fontSize: 54,
         textAlign: 'center',
-        fontFamily: 'Anton',
+        fontFamily: 'Montserrat',
         transform: 'capitalize',
         lineText: 80,
       },

@@ -217,6 +217,7 @@ class EditGeneral extends Component {
       isFirstLoad,
       updateSuccess,
     } = this.state;
+
     return (
       <div>
         {loading ? (

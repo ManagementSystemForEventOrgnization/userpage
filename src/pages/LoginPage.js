@@ -26,6 +26,7 @@ class LoginPage extends React.Component {
   };
 
   responseGoogle = (response) => {
+    console.log(response);
     const { loginWithGoogle } = this.props;
     loginWithGoogle(response.profileObj);
   };
@@ -140,8 +141,10 @@ class LoginPage extends React.Component {
               <GoogleLogin
                 clientId={clientID}
                 buttonText="Login with Google"
-                onSuccess={this.responseGoogle}
-                onFailure={this.responseGoogle}
+                onSuccess={() => {
+                  this.responseGoogle();
+                }}
+                // onFailure={() => this.responseGoogle()}
                 cookiePolicy={'single_host_origin'}
                 icon={true}
                 className="button-login-google"

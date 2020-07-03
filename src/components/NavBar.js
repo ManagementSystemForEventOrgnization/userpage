@@ -11,8 +11,10 @@ class NavBar extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getCategories } = this.props;
-    getCategories();
+    const { getCategories, categoriesList } = this.props;
+    if (categoriesList.length === 0) {
+      getCategories();
+    }
   };
 
   render() {

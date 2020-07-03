@@ -187,7 +187,7 @@ class EventInfor extends Component {
         <Tabs activeKey={activeKey} onTabClick={this.handleClickTab}>
           <TabPane
             tab={
-              <span className="p-5">
+              <span className="pl-5 pr-5 ml-5 mr-5">
                 <SettingTwoTone />
                 What
               </span>
@@ -221,7 +221,7 @@ class EventInfor extends Component {
 
           <TabPane
             tab={
-              <span className="p-5">
+              <span className="pl-5 pr-5 ml-5 mr-5">
                 <HourglassTwoTone />
                 When
               </span>
@@ -266,15 +266,6 @@ const mapStateToProps = (state) => ({
   categories: state.event.categories,
   pending: state.event.pending,
   errMessage: state.event.errMessage,
-
-  //   nameEvent: state.event.nameEvent,
-  //   typeOfEvent: state.event.typeOfEvent,
-  //   category: state.event.category,
-  //   session: state.event.session,
-  //   isSellTicket: state.event.isSellTicket,
-  //   webAddress: state.event.webAddress,
-  //   banner: state.event.banner,
-  //   ticket: state.event.ticket,
 });
 
 const mapDispatchToProps = (dispatch) => ({

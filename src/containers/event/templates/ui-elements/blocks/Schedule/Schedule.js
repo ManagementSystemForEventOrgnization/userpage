@@ -11,42 +11,20 @@ import PaddingAndMargin from '../../shares/PaddingAndMargin';
 import ChangeColorModal from '../../shares/ChangeColorModal';
 
 import { eventActions } from 'action/event.action';
-import { ScheduleState } from '../../stateInit/ScheduleState';
+import { ScheduleConstant } from '../../stateInit/ScheduleState';
 import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
 import TextBlock from '../../atoms/Text';
 import TransferType from 'containers/user/BankAccount/TransferType';
-
-const titleStyle = {
-  fontWeight: 'bold',
-  fontSize: '20px',
-  color: 'blue',
-};
-
-const calendar = {
-  border: '#f7bdbd solid 1px',
-  width: '83px',
-  height: '90px',
-  textAlign: 'center',
-  fontSize: '15px',
-  fontWeight: 'bold',
-  borderRadius: '3px',
-};
-
-const monthStyle = {
-  background: 'red',
-  fontWeight: 'bolder',
-  borderRadius: '3px',
-};
 
 class Schedule1 extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, openDrawer: false }
       : {
-          ...ScheduleState(this.props, 1),
+          ...ScheduleConstant.ScheduleState(this.props, 1),
           apply: false,
           openDrawer: false,
         };
@@ -85,6 +63,7 @@ class Schedule1 extends Component {
       [valueParam]: newValue,
     });
   }
+
   handleChangeContent = (type, idTem, value) => {
     const { content } = this.state;
     let item = content.find((ele) => ele.id === idTem);
@@ -227,8 +206,8 @@ class Schedule1 extends Component {
           this.handleFailure(ssId, err);
         });
     } else {
-      const { ticket } = this.props;
-      if (ticket.price !== 0) {
+      const { isSellTicket } = this.props;
+      if (isSellTicket === 'Yes' || isSellTicket === true) {
         this.setState({
           openDrawer: true,
           currSsId: ssId,
@@ -292,8 +271,7 @@ class Schedule1 extends Component {
     }
   };
 
-  render() {
-    // need to refactor
+  getCustomStyle = () => {
     const {
       margin,
       padding,
@@ -305,15 +283,8 @@ class Schedule1 extends Component {
       transform,
       color,
       fontWeight,
-      content,
-      visible,
-      openDrawer,
-      currSsId,
-      canceled,
-      scheduleName,
     } = this.state;
 
-    const { key, editable, leftModal, ticket, eventId, status } = this.props;
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -335,7 +306,39 @@ class Schedule1 extends Component {
       fontWeight: fontWeight,
       width: '100 %',
     };
-    console.log(content);
+
+    return divStyle;
+  };
+
+  render() {
+    // need to refactor
+    const {
+      content,
+      visible,
+      openDrawer,
+      currSsId,
+      canceled,
+      scheduleName,
+      fontSize,
+      lineText,
+      letterSpacing,
+      padding,
+      margin,
+      color,
+      background,
+    } = this.state;
+
+    const {
+      key,
+      editable,
+      leftModal,
+      ticket,
+      eventId,
+      status,
+      isSellTicket,
+    } = this.props;
+
+    const divStyle = this.getCustomStyle();
 
     return (
       <div className="p-5 child-block" key={key}>
@@ -354,8 +357,8 @@ class Schedule1 extends Component {
                 key={ss.id}
               >
                 <div className=" col-md-3">
-                  <div style={calendar} className="mb-2 p-1">
-                    <p style={monthStyle} className="p-1">
+                  <div style={ScheduleConstant.calendar} className="mb-2 p-1">
+                    <p style={ScheduleConstant.monthStyle} className="p-1">
                       {moment(ss.time).format('MMM')}
                     </p>
                     <p>{moment(ss.time).format('D')}</p>
@@ -370,7 +373,7 @@ class Schedule1 extends Component {
                     content={ss.name}
                     editable={editable}
                     child={true}
-                    newStyle={titleStyle}
+                    newStyle={ScheduleConstant.titleStyle}
                     handleChangeSchedule={(value) =>
                       this.handleChangeContent('name', ss.id, value)
                     }
@@ -436,9 +439,9 @@ class Schedule1 extends Component {
                       >
                         {this.isApplied(ss.id)
                           ? 'Cancel this session'
-                          : ticket.isSellTicket
-                          ? 'Buy Ticket'
-                          : 'Register free'}
+                          : !isSellTicket || isSellTicket === 'No'
+                          ? 'Register free'
+                          : 'Buy Ticket '}
                       </Button>
                     )
                   ) : (
@@ -456,9 +459,9 @@ class Schedule1 extends Component {
                     >
                       {this.isApplied(ss.id)
                         ? 'Cancel this session'
-                        : ticket.price !== 0
-                        ? 'Buy Ticket'
-                        : 'Register free'}
+                        : !isSellTicket || isSellTicket === 'No'
+                        ? 'Register free'
+                        : 'Buy Ticket '}
                     </Button>
                   )}
                 </div>
@@ -484,14 +487,7 @@ class Schedule1 extends Component {
           <h6>Let's complete some last steps.</h6>
           <p>
             You have to pay{' '}
-            <b
-              style={{
-                fontSize: '17px',
-                color: 'blue',
-                fontWeight: 'bolder',
-                textShadow: '0 0 3px #fb2020',
-              }}
-            >
+            <b style={ScheduleConstant.moneyStyle}>
               {ticket.price - ticket.price * ticket.discount}
             </b>{' '}
             VND
@@ -549,7 +545,7 @@ class Schedule1 extends Component {
               }
             />
           </div>
-          \{' '}
+
           <div className="d-flex mt-5 pl-2">
             <ChangeColorModal
               title="Change Text Color"

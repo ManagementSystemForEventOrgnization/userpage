@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Menu, Modal, Tabs, Input, Button } from 'antd';
 import { connect } from 'react-redux';
-import { EditTwoTone, PlusOutlined } from '@ant-design/icons';
+import { EditTwoTone, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { eventActions } from 'action/event.action';
 import { Link } from 'react-router-dom';
 
@@ -96,6 +96,7 @@ class Header extends Component {
     const index = pages.findIndex((item) => item.id === currentItem.id);
     const newPages = [...pages];
     const newChildId = uuid();
+
     if (currentItem.child.length === 0) {
       newPages[index].child.push({
         id: newChildId,
@@ -109,6 +110,21 @@ class Header extends Component {
       });
       changePages(newPages, currentPage);
     }
+  };
+
+  handleRemoveChild = (currentItem, childItem) => {
+    const { pages, changePages, currentPage } = this.props;
+    const index = pages.findIndex((item) => item.id === currentItem.id);
+    let newPages = [...pages];
+
+    const childIndex = currentItem.child.indexOf(
+      (item) => item.id === childItem.id
+    );
+    currentItem.child.splice(childIndex, 1);
+    newPages[index] = currentItem;
+    if (currentItem.child.length === 0) {
+      changePages(newPages, currentItem.id);
+    } else changePages(newPages, currentPage);
   };
 
   handleChangeHeaderItem = (value, child) => {
@@ -289,6 +305,14 @@ class Header extends Component {
                             onChange={(e) =>
                               this.handleChangeHeaderItem(e.target.value, item)
                             }
+                          />
+
+                          <DeleteOutlined
+                            className="ml-5 mt-1"
+                            onClick={() =>
+                              this.handleRemoveChild(currentItem, item)
+                            }
+                            style={{ fontSize: '20px', color: 'red' }}
                           />
                         </div>
                       ))}
