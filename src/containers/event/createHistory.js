@@ -281,6 +281,19 @@ class CreateHistory extends React.Component {
     this.setState({ sessionEvent });
   };
 
+  showCancelConfirm = () => {
+    const { idEventCancel } = this.state;
+    const { cancelEvent } = this.props;
+
+    cancelEvent(idEventCancel);
+
+    this.setState({
+      isSecondLoad: false,
+      isSuccess: false,
+      isupdate: false,
+    });
+  };
+
   renderMenu = (item) => {
     const menu = (
       <Menu key={`menu${item._id}`}>
@@ -325,17 +338,64 @@ class CreateHistory extends React.Component {
     return menu;
   };
 
-  showCancelConfirm = () => {
-    const { idEventCancel } = this.state;
-    const { cancelEvent } = this.props;
+  renderTypeMenu = () => {
+    return (
+      <Menu mode="inline" style={menuStyle}>
+        <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
+          ALL
+        </Menu.Item>
+        <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
+          Draft
+        </Menu.Item>
+        <Menu.Item key="3" onClick={() => this.onChangeStatus('WAITING')}>
+          Waiting
+        </Menu.Item>
+        <Menu.Item key="4" onClick={() => this.onChangeStatus('PUBLIC')}>
+          Public
+        </Menu.Item>
+        <Menu.Item key="5" onClick={() => this.onChangeStatus('EDITED')}>
+          Edited
+        </Menu.Item>
 
-    cancelEvent(idEventCancel);
+        <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
+          Cancel
+        </Menu.Item>
+      </Menu>
+    );
+  };
 
-    this.setState({
-      isSecondLoad: false,
-      isSuccess: false,
-      isupdate: false,
-    });
+  renderTypeEvent = () => {
+    return (
+      <div className="mt-3 ml-5" style={{ color: 'white' }}>
+        <Radio.Group
+          name="radiogroup"
+          style={{ color: 'white' }}
+          defaultValue="Public"
+          onChange={this.onChaneValue}
+        >
+          <Radio
+            style={{
+              color: 'black',
+              fontWeight: 400,
+              fontSize: '18px',
+            }}
+            value="Private"
+          >
+            Private
+          </Radio>
+          <Radio
+            style={{
+              color: 'black',
+              fontWeight: 400,
+              fontSize: '18px',
+            }}
+            value="Public"
+          >
+            Public
+          </Radio>
+        </Radio.Group>
+      </div>
+    );
   };
 
   render() {
@@ -353,15 +413,15 @@ class CreateHistory extends React.Component {
     let { listEvent } = this.state;
     listEvent = isupdate ? [...listEvent, ...arrEvent] : [...arrEvent];
 
-    console.log('arrEvent', this.props.arrEvent);
     return (
       <div className="history">
         <div
           style={titleStyle}
           className="d-flex align-items-center justify-content-center"
         >
-          Manage Created Event
+          Manage Created Events
         </div>
+
         <Row className="mt-2 pl-3 pr-5">
           <Col span={18} push={6}>
             <div>
@@ -375,39 +435,7 @@ class CreateHistory extends React.Component {
                   />
                 </div>
               </div>
-              {this.state.isRadio ? (
-                ' '
-              ) : (
-                <div className="mt-3 ml-5" style={{ color: 'white' }}>
-                  <Radio.Group
-                    name="radiogroup"
-                    style={{ color: 'white' }}
-                    defaultValue="Public"
-                    onChange={this.onChaneValue}
-                  >
-                    <Radio
-                      style={{
-                        color: 'black',
-                        fontWeight: 400,
-                        fontSize: '18px',
-                      }}
-                      value="Private"
-                    >
-                      Private
-                    </Radio>
-                    <Radio
-                      style={{
-                        color: 'black',
-                        fontWeight: 400,
-                        fontSize: '18px',
-                      }}
-                      value="Public"
-                    >
-                      Public
-                    </Radio>
-                  </Radio.Group>
-                </div>
-              )}
+              {this.state.isRadio ? ' ' : this.renderTypeEvent()}
               {pending ? (
                 <Skeleton
                   className="mt-2"
@@ -481,7 +509,6 @@ class CreateHistory extends React.Component {
                                         className="ml-3"
                                         style={{ fontWeight: 'bold' }}
                                       >
-                                        {' '}
                                         {this.sumDiscount(
                                           item.ticket.price,
                                           item.ticket.discount
@@ -520,11 +547,9 @@ class CreateHistory extends React.Component {
                                 textTransform: 'uppercase',
                               }}
                             >
-                              {' '}
                               {item.name}
                             </h5>
                             <div>
-                              {' '}
                               {((item.session && item.session.length) || 1) ===
                               1 ? (
                                 ''
@@ -573,27 +598,7 @@ class CreateHistory extends React.Component {
           </Col>
 
           <Col span={4} pull={18}>
-            <Menu mode="inline" style={menuStyle}>
-              <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
-                ALL
-              </Menu.Item>
-              <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
-                Draft
-              </Menu.Item>
-              <Menu.Item key="3" onClick={() => this.onChangeStatus('WAITING')}>
-                Waiting
-              </Menu.Item>
-              <Menu.Item key="4" onClick={() => this.onChangeStatus('PUBLIC')}>
-                Public
-              </Menu.Item>
-              <Menu.Item key="5" onClick={() => this.onChangeStatus('EDITED')}>
-                Edited
-              </Menu.Item>
-
-              <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
-                Cancel
-              </Menu.Item>
-            </Menu>
+            {this.renderTypeMenu()}
           </Col>
         </Row>
 

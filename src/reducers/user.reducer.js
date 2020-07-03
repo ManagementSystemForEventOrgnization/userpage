@@ -15,7 +15,6 @@ const initialState = {
   chatHistory: [],
   listCard: [{}],
   historyPayment: [],
-  historyEvent: [],
   deleteEvent: [],
   successDe: false,
   eventDelete: null,

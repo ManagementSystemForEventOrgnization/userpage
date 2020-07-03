@@ -258,6 +258,7 @@ const event = (state = initialState, action) => {
         status: action.event.status,
         system: editSite ? action.page : [],
         currentPage: getCurrentPage(action.header.pages, action.index),
+        isSellTicket: action.event.isSellTicket,
 
         // update event infor
       };

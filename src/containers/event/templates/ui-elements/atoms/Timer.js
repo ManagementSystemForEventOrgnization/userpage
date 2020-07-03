@@ -147,25 +147,71 @@ class Timer extends React.Component {
           width: '100%',
         };
 
+    const countDownStyle = {
+      backgroundColor: '#18478b',
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '25px',
+      borderRadius: ' 6px',
+    };
+    const timeStyle = {
+      fontWeight: 'bolder',
+      fontSize: '35px',
+    };
     return (
       <div className="child-block" key={this.props.key}>
         <div key={key} style={divStyle} className="d-flex ">
-          <div className="row border  flex-fill mr-1 p-2">
-            <div className="col">
-              <h2> {this.state.days} </h2>
-              days
+          <div
+            className="d-flex justify-content-around  border  flex-fill mr-1 p-2 pl-5 pr-5"
+            style={countDownStyle}
+          >
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: 'yellow',
+                }}
+              >
+                {' '}
+                {this.state.days}{' '}
+              </h2>
+              DAYS
             </div>
-            <div className="col">
-              <h2> {this.state.hours}</h2>
-              hours
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#ff5808',
+                }}
+              >
+                {' '}
+                {this.state.hours}
+              </h2>
+              HOURS
             </div>
-            <div className="col">
-              <h2> {this.state.minutes}</h2>
-              minutes
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#0df3e8',
+                }}
+              >
+                {' '}
+                {this.state.minutes}
+              </h2>
+              MINUTES
             </div>
-            <div className="col">
-              <h2> {this.state.seconds}</h2>
-              seconds
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#08ff26',
+                }}
+              >
+                {' '}
+                {this.state.seconds}
+              </h2>
+              SECONDS
             </div>
           </div>
 

@@ -19,9 +19,9 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...TextState(this.props),
-        focus: false,
-      };
+          ...TextState(this.props),
+          focus: false,
+        };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -67,7 +67,7 @@ class TextsBlock extends React.Component {
       handleChangeSponsor,
       handleChangeContact,
       handleChangeFooter,
-      handleChangeSchedule
+      handleChangeSchedule,
     } = this.props;
 
     this.setState({
@@ -94,12 +94,9 @@ class TextsBlock extends React.Component {
         handleChangeItem(value);
       } else if (handleChangeFooter) {
         handleChangeFooter(value);
-
       } else if (handleChangeSchedule) {
-        handleChangeSchedule(content)
-      }
-
-      else this.handleStoreBlock();
+        handleChangeSchedule(content);
+      } else this.handleStoreBlock();
     }, 3000);
   };
 
@@ -151,7 +148,7 @@ class TextsBlock extends React.Component {
   };
 
   render() {
-    const { leftModal, child, editable, editUrl } = this.props;
+    const { leftModal, child, editable, editUrl, newStyle } = this.props;
     const {
       visible,
       content,
@@ -206,14 +203,17 @@ class TextsBlock extends React.Component {
           <TextArea
             autoSize
             value={content}
-            style={{ ...inputStyle, ...divStyle }}
+            style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-              {content}
-            </div>
-          )}
+          <div
+            onClick={this.onClick}
+            style={{ ...divStyle, ...inputStyle, ...newStyle }}
+          >
+            {content}
+          </div>
+        )}
         {child && editable && (
           <EditFilled
             className="edit-text"
