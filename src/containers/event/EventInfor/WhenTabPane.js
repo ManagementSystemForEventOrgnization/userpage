@@ -241,8 +241,6 @@ class TabPane extends Component {
       color: 'blue',
     };
 
-    console.log(session);
-
     return (
       <div className="row container justify-content-md-center">
         <div className={count === 0 ? 'col-md-auto ' : 'col-6 col-md-6 pl-5'}>
@@ -338,12 +336,15 @@ class TabPane extends Component {
                           <Form.Item>
                             <RangePicker
                               defaultValue={
-                                item
+                                item.from && item.to
                                   ? [
                                       moment(item.from, 'HH:mm:ss'),
                                       moment(item.to, 'HH:mm:ss'),
                                     ]
-                                  : []
+                                  : [
+                                      moment().startOf('day'),
+                                      moment().startOf('day'),
+                                    ]
                               }
                               onChange={(time, timeString) =>
                                 this.handleChangeTime(
@@ -452,50 +453,6 @@ class TabPane extends Component {
                           </Form.Item>
                         </div>
                       ))}
-                      {/* 
-                      <Form.Item>
-                        {ss.documents.map((doc) => (
-                          <div
-                            className="d-flex mt-1"
-                            key={doc.id}
-                            style={{ width: '530px' }}
-                          >
-                            <Input
-                              placeholder="Enter title for documents"
-                              name={`title${doc.id}`}
-                              defaultValue={doc.title}
-                              onChange={(event) =>
-                                this.handleChangeDoc(
-                                  ss.id,
-                                  doc.id,
-                                  'title',
-                                  event.target.value
-                                )
-                              }
-                            />
-                            <Input
-                              placeholder="Enter link to your document"
-                              className="ml-2 mr-2"
-                              name={`url${doc.id}`}
-                              defaultValue={doc.url}
-                              onChange={(event) =>
-                                this.handleChangeDoc(
-                                  ss.id,
-                                  doc.id,
-                                  'url',
-                                  event.target.value
-                                )
-                              }
-                            />
-                            <DeleteOutlined
-                              onClick={() =>
-                                this.handleDeleteDocs(ss.id, doc.id)
-                              }
-                              style={{ fontSize: '20px', color: 'red' }}
-                            />
-                          </div>
-                        ))}
-                      </Form.Item> */}
 
                       <Button
                         className="mt-1"

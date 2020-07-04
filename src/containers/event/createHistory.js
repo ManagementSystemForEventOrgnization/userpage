@@ -425,16 +425,14 @@ class CreateHistory extends React.Component {
         <Row className="mt-2 pl-3 pr-5">
           <Col span={18} push={6}>
             <div>
-              <div className="row">
-                <div className="col p-2     ">
-                  <Search
-                    enterButton
-                    size="large"
-                    placeholder="input search text"
-                    onSearch={(value) => this.onChangeSearch(value)}
-                  />
-                </div>
-              </div>
+              <Search
+                className="p-2"
+                enterButton
+                size="large"
+                placeholder="input search text"
+                onSearch={(value) => this.onChangeSearch(value)}
+              />
+
               {this.state.isRadio ? ' ' : this.renderTypeEvent()}
               {pending ? (
                 <Skeleton
