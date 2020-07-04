@@ -45,7 +45,6 @@ const getEventDetail = (eventId, index, editSite) => {
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
 
           let blocks = !rows.length ? [] : rows;
-          console.log(event);
           dispatch(success(blocks, header[0], index, event));
           resolve();
         })
@@ -551,9 +550,20 @@ const getEventInfoUsingID = (eventId, cb) => {
         eventId,
       },
     })
-      .then((res) => cb(res.data.result.event))
+      .then((res) => {
+        cb(res.data.result.event);
+        dispatch(request(res.data.result.event, res.data.result.countComment));
+      })
       .catch((err) => cb());
   };
+
+  function request(eventInfo, countComment) {
+    return {
+      type: eventConstants.GET_EVENT_INFO,
+      eventInfo,
+      countComment,
+    };
+  }
 };
 
 const getComment = (eventId, pageNumber, numberRecord) => {

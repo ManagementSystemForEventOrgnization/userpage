@@ -15,7 +15,7 @@ class ImageBlock extends React.Component {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, visible: false }
       : {
           ...ImageState(this.props),
         };

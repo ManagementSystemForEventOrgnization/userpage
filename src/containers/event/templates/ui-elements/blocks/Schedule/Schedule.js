@@ -115,12 +115,6 @@ class Schedule1 extends Component {
     }
   };
 
-  isApplied = (idSession) => {
-    const { content } = this.state;
-    const index = content.findIndex((item) => item.id === idSession);
-    return content[index].status && content[index].status === 'JOINED' ? 1 : 0;
-  };
-
   warning = (msg) => {
     message.warning(msg || 'OPPs! Something is wrong');
   };
@@ -221,8 +215,10 @@ class Schedule1 extends Component {
   };
 
   handleCloseDrawer = () => {
+    const { content } = this.state;
     this.setState({
       openDrawer: false,
+      content: content.map((item) => ({ ...item, pending: false })),
     });
   };
 
@@ -263,6 +259,14 @@ class Schedule1 extends Component {
     };
 
     return divStyle;
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.session !== this.props.session) {
+      this.setState({
+        content: this.props.session.map((ss) => ({ ...ss, pending: false })),
+      });
+    }
   };
 
   render() {
@@ -346,7 +350,7 @@ class Schedule1 extends Component {
                 </div>
 
                 <div className="col-md-3">
-                  {editable && status !== 'PUBLIC' ? (
+                  {editable || status !== 'PUBLIC' ? (
                     <Button
                       icon={<CalendarOutlined />}
                       type="primary"

@@ -221,9 +221,20 @@ class CreateEvent extends React.Component {
       },
     ];
 
+    const editSite = localStorage.getItem('editSite');
+    const currentIndex = localStorage.getItem('currentIndex');
+    const newBlockList = editSite
+      ? [
+          ...system.slice(0, currentIndex),
+          blocks,
+          ...system.slice(currentIndex + 1, system.length),
+        ]
+      : [...system, blocks];
+
     saveEvent(
       webAddress || localStorage.getItem('webAddress'),
-      [...system, blocks],
+      // [...system, blocks],
+      newBlockList,
       header,
       isPreview
     )
