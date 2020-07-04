@@ -14,12 +14,20 @@ import ChangeColorModal from './templates/ui-elements/shares/ChangeColorModal';
 const { TabPane } = Tabs;
 const { SubMenu } = Menu;
 
+const iconStyle = {
+  fontSize: '20px',
+};
+
+const inputInModalStyle = {
+  width: '200px',
+};
+
 class Header extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, isCollapsed: false }
       : {
           ...HeaderState(this.props),
           isCollapsed: false,
@@ -44,11 +52,11 @@ class Header extends Component {
     });
   }
 
-  checkActive = (child) => {
-    const { currentPage } = this.props;
-    const result = child.findIndex((item) => item.id === currentPage);
-    return result === -1 ? true : false;
-  };
+  //   checkActive = (child) => {
+  //     const { currentPage } = this.props;
+  //     const result = child.findIndex((item) => item.id === currentPage);
+  //     return result === -1 ? true : false;
+  //   };
 
   openModal = () => this.setState({ isCollapsed: true });
 
@@ -147,13 +155,8 @@ class Header extends Component {
     this.setState(currentItem);
   };
 
-  render() {
-    const { pages, currentPage, editable, pending } = this.props;
-    const { currentItem } = this.state;
-    const id = this.props.webAddress || localStorage.getItem('webAddress');
-
+  getCustomStyle = () => {
     const {
-      isCollapsed,
       fontSize,
       lineText,
       letterSpacing,
@@ -165,13 +168,6 @@ class Header extends Component {
       transform,
       fontWeight,
     } = this.state;
-    const iconStyle = {
-      fontSize: '20px',
-    };
-
-    const inputInModalStyle = {
-      width: '200px',
-    };
 
     const divStyle = {
       marginTop: `${margin[0]}%`,
@@ -194,6 +190,26 @@ class Header extends Component {
       fontWeight: fontWeight,
       width: '100 %',
     };
+    return divStyle;
+  };
+
+  render() {
+    const { pages, currentPage, editable, pending } = this.props;
+    const { currentItem } = this.state;
+    const id = this.props.webAddress || localStorage.getItem('webAddress');
+
+    const {
+      isCollapsed,
+      fontSize,
+      lineText,
+      letterSpacing,
+      padding,
+      margin,
+      color,
+      background,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
 
     return (
       <div className="d-flex">
@@ -209,7 +225,6 @@ class Header extends Component {
                 <Menu.Item
                   key={item.id}
                   onClick={() => this.handleClickMenuItem(item)}
-                  //   disabled={editable && item.id !== currentPage}
                 >
                   {editable ? (
                     item.title
@@ -223,11 +238,7 @@ class Header extends Component {
                   )}
                 </Menu.Item>
               ) : (
-                <SubMenu
-                  key={item.id}
-                  title={<span>{item.title}</span>}
-                  //   disabled={editable && this.checkActive(item.child)}
-                >
+                <SubMenu key={item.id} title={<span>{item.title}</span>}>
                   {item.child.map((child) => (
                     <Menu.Item
                       key={child.id}
@@ -385,6 +396,7 @@ const mapStateToProps = (state) => ({
   currentPage: state.event.currentPage,
   webAddress: state.event.webAddress,
   pending: state.event.pending,
+  currentIndex: state.event.currentIndex,
 });
 
 const mapDispatchToProps = (dispatch) => ({

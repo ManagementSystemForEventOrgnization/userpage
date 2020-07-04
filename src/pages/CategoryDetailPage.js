@@ -105,6 +105,10 @@ class CategoryDetailPage extends React.Component {
     getListEvent(dataSent);
   };
 
+  componentWillMount = () => {
+    localStorage.removeItem('currentCategory');
+  };
+
   componentDidUpdate = (prevProps) => {
     const { getListEvent, match } = this.props;
     const path = match.match.params.id;

@@ -86,19 +86,8 @@ class GeneralBanner extends Component {
     setTimeout(this.handleStoreBlock(), 3000);
   };
 
-  render() {
-    const {
-      url,
-      bgColor,
-      visible,
-      opacity,
-      margin,
-      padding,
-      content,
-    } = this.state;
-
-    const { type, editable, status } = this.props;
-
+  getCustomStyle = () => {
+    const { url, margin, padding } = this.state;
     const style = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -116,6 +105,23 @@ class GeneralBanner extends Component {
       objectFit: 'cover',
       width: '100%',
     };
+    return style;
+  };
+
+  render() {
+    const {
+      url,
+      bgColor,
+      visible,
+      opacity,
+      margin,
+      padding,
+      content,
+    } = this.state;
+
+    const { type, editable, status } = this.props;
+
+    const style = this.getCustomStyle();
 
     const bg = {
       position: 'absolute',

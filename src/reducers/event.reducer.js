@@ -70,6 +70,8 @@ const initialState = {
 
   hightLightFinishLoading: false,
   upcomingFinishLoading: false,
+
+  currentIndex: localStorage.getItem('currentIndex' || 0),
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -264,7 +266,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
-      console.log(action.err);
       return {
         ...state,
         errMessage: action.err,

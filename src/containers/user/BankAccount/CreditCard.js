@@ -56,8 +56,8 @@ class CreditCard extends Component {
       handleApply,
       eventId,
       handleFinishPayment,
-      changeStatus,
       changeStatusType,
+      handleUpdateSessionStatus,
     } = this.props;
     const key = 'setdefault';
     message.loading({ content: 'Checking...', key });
@@ -79,13 +79,15 @@ class CreditCard extends Component {
           handleApply(eventId, temp, 'CREDIT_CARD')
             .then((res) => {
               message.success('Payment success !!!');
+              handleUpdateSessionStatus();
+
               setTimeout(() => {
-                changeStatus();
                 changeStatusType();
                 handleFinishPayment();
               }, 1000);
             })
             .catch((err) => {
+              handleUpdateSessionStatus();
               if (err.response) {
                 const { data } = err.response;
                 message.error(
