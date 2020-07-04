@@ -26,16 +26,12 @@ const netPriceStyle = { fontWeight: 'bold' };
 
 class EventCard extends Component {
   percentDiscount = (discount) => {
-    let newDiscount = discount * 100;
-    let percent = `-${newDiscount}%`;
+    let percent = `-${discount}%`;
     return percent;
   };
 
   sumDiscount = (ticket, discount) => {
-    let newDiscount = 1 - discount;
-    let sum = newDiscount * ticket;
-    let money = `${sum} VNĐ `;
-    return money;
+    return `${ticket - (ticket * discount) / 100} VNĐ `;
   };
 
   render() {
@@ -90,7 +86,7 @@ class EventCard extends Component {
           </div>
 
           <div>
-            {eventInfo.ticket ? (
+            {eventInfo.isSellTicket ? (
               <div className="d-flex ">
                 {eventInfo.ticket.discount ? (
                   <div className="d-flex ">

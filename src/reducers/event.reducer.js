@@ -70,6 +70,8 @@ const initialState = {
 
   hightLightFinishLoading: false,
   upcomingFinishLoading: false,
+
+  currentIndex: localStorage.getItem('currentIndex' || 0),
 };
 
 const getIndexPage = (pages, currentPage) => {
