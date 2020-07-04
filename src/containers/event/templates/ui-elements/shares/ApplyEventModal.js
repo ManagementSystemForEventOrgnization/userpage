@@ -152,7 +152,6 @@ class ApplyEventModal extends Component {
   render() {
     const { session, openDrawer, currSsId, canceled } = this.state;
     const { ticket, id } = this.props;
-    console.log(canceled);
     return (
       <div>
         {session.map((ss) => (

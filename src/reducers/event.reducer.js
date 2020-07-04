@@ -264,7 +264,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
-      console.log(action.err);
       return {
         ...state,
         errMessage: action.err,

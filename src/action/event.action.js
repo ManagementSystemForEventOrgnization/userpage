@@ -45,6 +45,7 @@ const getEventDetail = (eventId, index, editSite) => {
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
 
           let blocks = !rows.length ? [] : rows;
+          console.log(event);
           dispatch(success(blocks, header[0], index, event));
           resolve();
         })
@@ -169,6 +170,7 @@ const updatePage = (route, innerHtml, editable) => {
     };
   }
 };
+
 const changeCurrentPage = (id) => {
   return (dispatch) => {
     return dispatch(request(id));
@@ -542,6 +544,18 @@ const getEventInfo = (urlWeb) => {
   }
 };
 
+const getEventInfoUsingID = (eventId, cb) => {
+  return (dispatch) => {
+    API.get('/api/get_event_inf', {
+      params: {
+        eventId,
+      },
+    })
+      .then((res) => cb(res.data.result.event))
+      .catch((err) => cb());
+  };
+};
+
 const getComment = (eventId, pageNumber, numberRecord) => {
   return (dispatch) => {
     API.get('/api/comment/get_list', {
@@ -600,6 +614,7 @@ const saveComment = (eventId, content) => {
     };
   }
 };
+
 const getUserJoinEvent = (dataSent, callback) => {
   return (dispatch) => {
     API.get(`/api/get_user_join_event`, {
@@ -665,6 +680,7 @@ const cancelEvent = (eventId, sessionIds) => {
     };
   }
 };
+
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -674,14 +690,17 @@ export const eventActions = {
   changePages,
   getUserJoinEvent,
   prepareForCreateEvent,
+
   getEventDetail,
   getListEventUpComing,
   getEventEdit,
   getEventInfo,
+  getEventInfoUsingID,
 
   saveEvent,
   savePage,
   updatePage,
+
   getPreviousPage,
   getListEvent,
   getHomeData,

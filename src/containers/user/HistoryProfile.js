@@ -183,7 +183,7 @@ class HistoryProfile extends React.Component {
 const mapStateToProps = (state) => ({
   // map state of store to props
   categories: state.event.categories,
-  arrEvent: state.user.arrEvent,
+  arrEvent: state.user.registeredEvents,
   pending: state.user.pending,
 });
 

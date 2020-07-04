@@ -9,9 +9,13 @@ const initialState = {
   showCheckCode: false,
   showVerifyForgotPassword: false,
   notiPageNumber: 0,
-  arrEvent: [],
+
+  registeredEvents: [],
+  createdEvents: [],
+
   notifications: [],
   numUnreadNotification: 0,
+
   chatHistory: [],
   listCard: [{}],
   historyPayment: [],
@@ -396,7 +400,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_SUCCESS:
       return {
         ...state,
-        arrEvent: action.arrEvent,
+        registeredEvents: action.arrEvent,
         pending: false,
         errMessage: null,
       };
@@ -432,7 +436,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
       return {
         ...state,
-        arrEvent: action.arrEvent,
+        createdEvents: action.arrEvent,
         pending: false,
         errMessage: null,
       };
@@ -487,7 +491,9 @@ const user = (state = initialState, action) => {
         penDelet: false,
         deleteEvent: action.deEvent,
         successDe: true,
-        arrEvent: [...state.arrEvent.filter((e) => e._id !== action.eventId)],
+        createdEvents: [
+          ...state.createdEvents.filter((e) => e._id !== action.eventId),
+        ],
       };
 
     default:

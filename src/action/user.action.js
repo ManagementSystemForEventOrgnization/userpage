@@ -599,8 +599,8 @@ const getChatHistory = (sender) => {
     };
   }
 };
+
 const deleteEvent = (eventId) => {
-  console.log('eggga', eventId);
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/delete/event`, {
@@ -626,7 +626,6 @@ const deleteEvent = (eventId) => {
     };
   }
   function success(deEvent, eventId) {
-    console.log('123', eventId);
     return {
       type: userConstants.DELETE_EVENT_SUCCESS,
       deEvent,

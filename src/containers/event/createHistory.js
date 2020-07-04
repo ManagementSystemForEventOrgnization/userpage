@@ -686,7 +686,7 @@ class CreateHistory extends React.Component {
 const mapStateToProps = (state) => ({
   // map state of store to props
   categories: state.event.categories,
-  arrEvent: state.user.arrEvent,
+  arrEvent: state.user.createdEvents,
   pending: state.user.pending,
   pend: state.event.pending,
   errMessage: state.event.errMessage,
