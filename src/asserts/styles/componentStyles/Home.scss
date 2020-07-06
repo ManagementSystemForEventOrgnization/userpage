@@ -50,7 +50,6 @@
       color: #ff4d4f;
       z-index: 19;
       font-size: 20px;
-      font-family: 'Montserrat', sans-serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -84,22 +83,6 @@
       background: rgb(255, 52, 37);
     }
 
-    .ticket1 {
-      font-weight: 500;
-    }
-
-    .orgnization {
-      width: 100%;
-    }
-
-    .explore {
-      background: url('https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg')
-        center fixed;
-      height: 200px;
-      text-align: center;
-      padding: 50px;
-    }
-
     .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
       height: 40px !important;
       border-radius: 5px !important;
@@ -131,7 +114,6 @@
       // color: rgb(255, 255, 255);
       z-index: 7;
       font-size: 30px;
-      font-family: 'Montserrat', sans-serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -175,18 +157,6 @@
       color: white;
       background: rgb(255, 52, 37);
     }
-
-    .ticket1 {
-      font-weight: 500;
-
-      position: absolute;
-      top: 55%;
-      font-weight: 500;
-
-      text-align: center;
-
-      color: whitesmoke;
-    }
   }
 }
 
@@ -207,28 +177,28 @@
   text-align: center;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  border-radius: 8px;
-}
+// ::-webkit-scrollbar {
+//   width: 8px;
+//   border-radius: 8px;
+// }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 8px;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   background: #f1f1f1;
+//   border-radius: 8px;
+// }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 8px;
-}
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   background: #888;
+//   border-radius: 8px;
+// }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-  border-radius: 8px;
-}
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+//   background: #555;
+//   border-radius: 8px;
+// }
 
 .more-menu {
   height: 100px;

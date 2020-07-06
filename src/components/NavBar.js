@@ -21,7 +21,7 @@ class NavBar extends React.Component {
     const { categoriesList } = this.props;
     const categories = categoriesList || [];
     return (
-      <div className="shadow mb-4">
+      <div className="shadow" style={{ marginTop: '4%' }}>
         <Menu onClick={this.handleClick} mode="horizontal">
           {categories.length === 0 ? (
             <Skeleton.Input

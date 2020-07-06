@@ -79,19 +79,8 @@ class EventDescription extends Component {
     setTimeout(this.handleStoreBlock(), 3000);
   };
 
-  render() {
-    const {
-      collapse,
-      padding,
-      url,
-      bgColor,
-      opacity,
-      margin,
-      content,
-    } = this.state;
-
-    const { type, editable } = this.props;
-
+  getCustomStyle = () => {
+    const { padding, url, bgColor, margin } = this.state;
     const style = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -111,15 +100,37 @@ class EventDescription extends Component {
       backgroundColor: url ? 'none' : bgColor,
     };
 
+    return style;
+  };
+
+  getBGCustomStyle = () => {
+    const { opacity, bgColor } = this.state;
     const bg = {
       position: 'absolute',
       left: '0',
       top: '0',
       width: '100%',
       height: '100%',
-      opacity: opacity,
+      opacity,
       backgroundColor: bgColor,
     };
+    return bg;
+  };
+
+  render() {
+    const {
+      collapse,
+      padding,
+      url,
+      bgColor,
+      opacity,
+      margin,
+      content,
+    } = this.state;
+
+    const { type, editable } = this.props;
+    const style = this.getCustomStyle();
+    const bg = this.getBGCustomStyle();
 
     return (
       <div className="child-block d-flex">

@@ -10,7 +10,6 @@ const CARD_OPTIONS = {
       iconColor: '#c4f0ff',
       color: '#fff',
       fontWeight: 500,
-      fontFamily: 'Montserrat',
       fontSize: '16px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': {

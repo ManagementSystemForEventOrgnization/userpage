@@ -6,8 +6,6 @@ import moment from 'moment';
 import 'react-multi-carousel/lib/styles.css';
 import Carousel from 'react-multi-carousel';
 
-import Header from 'containers/share/_layout/Header';
-import Footer from 'containers/share/_layout/Footer';
 import Banner from 'components/Banner';
 import Orgnization from 'components/Orgnization';
 import NavBar from 'components/NavBar';
@@ -22,7 +20,6 @@ const HIGHT = {
   color: '333333',
   fontWeight: '700',
   fontSize: '36px',
-  fontFamily: `Montserrat`,
 
   marginBottom: '20px',
   textTransform: 'capitalize',
@@ -156,10 +153,7 @@ class HomePage extends Component {
     const { hightLightFinishLoading, upcomingFinishLoading } = this.props;
     return (
       <div className="homepage">
-        <div className="fixed-top">
-          <Header />
-          <NavBar />
-        </div>
+        <NavBar />
         <Banner />
         <div style={{ marginTop: '10%' }}>
           <h1 style={HIGHT}> Highlight Event</h1>
@@ -222,7 +216,6 @@ class HomePage extends Component {
             </Button>
           </Link>
         </div>
-        <Footer />
       </div>
     );
   }

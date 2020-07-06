@@ -29,17 +29,17 @@ class Banner extends React.Component {
             {isLogined ? (
               <Link to="/prepare">
                 <Button
-                  type="danger"
                   icon={<StarFilled />}
                   size="large"
                   onClick={this.showModal}
+                  type="primary"
                 >
                   Create Event Now
                 </Button>
               </Link>
             ) : (
               <Link to="/login">
-                <Button type="danger" icon={<StarFilled />} size="large">
+                <Button type="primary" icon={<StarFilled />} size="large">
                   Login To Expore Now
                 </Button>
               </Link>

@@ -42,6 +42,7 @@ class Header extends React.Component {
           <Link to="" className="nav-link active web-name mr-5">
             EVENT IN YOUR HAND
           </Link>
+
           <div className="nav-link ml-auto user-nav">
             {isLogined ? (
               <div className="d-flex  mr-5">

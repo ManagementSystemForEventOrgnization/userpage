@@ -1,32 +1,10 @@
 const HeaderState = (props) => ({
   visible: false,
-  menuName: [
-    {
-      id: 1,
-      title: 'home',
-      url: '/',
-      items: [],
-    },
-    {
-      id: 2,
-      title: 'about',
-      items: [
-        { id: 1, name: 'ca nhac', url: '/canhac' },
-        { id: 2, name: 'the thao', url: '/thethao' },
-      ],
-    },
-    {
-      id: 3,
-      title: 'schedule',
-      url: '/schedule',
-      items: [],
-    },
-  ],
 
   selectedItem: '',
-  margin: [1, 1, 1, 1],
+  margin: [0, 1, 1, 1],
   padding: [1, 1, 1, 1],
-  background: 'none',
+  background: 'white',
   fontSize: props.newStyle
     ? props.newStyle.fontSize
       ? props.newStyle.fontSize
@@ -43,8 +21,8 @@ const HeaderState = (props) => ({
   color: props.newStyle
     ? props.newStyle.color
       ? props.newStyle.color
-      : 'black'
-    : 'black',
+      : '#333333'
+    : '#333333',
   fontWeight: props.newStyle
     ? props.newStyle.fontWeight
       ? props.newStyle.fontWeight

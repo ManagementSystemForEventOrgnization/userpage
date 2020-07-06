@@ -105,6 +105,29 @@ class ImageBlock extends React.Component {
     }
   };
 
+  getCustomStyle = () => {
+    const { margin, padding, borderRadius } = this.state;
+
+    const imageStyle = {
+      //   width: `${width}%`,
+      //   height: `${height}vh`,
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      borderRadius: borderRadius,
+      objectFit: 'contain',
+      maxWidth: '100%',
+      maxHeight: '100%',
+    };
+
+    return imageStyle;
+  };
+
   render() {
     const {
       uploadedFileCloudinaryUrl,
@@ -115,32 +138,15 @@ class ImageBlock extends React.Component {
       borderRadius,
     } = this.state;
 
-    const { leftModal, editable, child } = this.props;
-
-    const imageStyle = {
-      width: `${width}%`,
-      height: `${height}vh`,
-      marginTop: `${margin[0]}%`,
-      marginLeft: `${margin[1]}%`,
-      marginRight: `${margin[2]}%`,
-      marginBottom: `${margin[3]}%`,
-      paddingTop: `${padding[0]}%`,
-      paddingLeft: `${padding[1]}%`,
-      paddingRight: `${padding[2]}%`,
-      paddingBottom: `${padding[3]}%`,
-      borderRadius: borderRadius,
-      objectFit: 'cover',
-
-      maxWidth: '100%',
-      maxHeight: '100%',
-    };
+    const { leftModal, editable, child, newStyle } = this.props;
+    const imageStyle = this.getCustomStyle();
 
     return (
       <div className="image-block child-block d-flex">
         <img
-          style={imageStyle}
+          style={newStyle ? newStyle : imageStyle}
           alt="img"
-          className="border border-light"
+          className={newStyle ? ' mr-5' : 'border border-light'}
           src={uploadedFileCloudinaryUrl}
           onClick={this.handlleClick}
         />

@@ -95,7 +95,7 @@ class EventDetail extends React.Component {
           </div>
         ) : (
           <div>
-            <div className="mt-5">{this.renderHeader()}</div>
+            <div className="fixed-top">{this.renderHeader()}</div>
 
             {blocks.map((item) => this.renderBlocks(item))}
           </div>

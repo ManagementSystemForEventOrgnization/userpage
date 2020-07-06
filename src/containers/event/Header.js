@@ -10,7 +10,7 @@ import EditText from './templates/ui-elements/shares/EditText';
 import { HeaderState } from './templates/ui-elements/stateInit/HeaderState';
 import PaddingAndMargin from './templates/ui-elements/shares/PaddingAndMargin';
 import ChangeColorModal from './templates/ui-elements/shares/ChangeColorModal';
-
+import ImageBlock from './templates/ui-elements/atoms/Image';
 const { TabPane } = Tabs;
 const { SubMenu } = Menu;
 
@@ -51,12 +51,6 @@ class Header extends Component {
       [valueParam]: newValue,
     });
   }
-
-  //   checkActive = (child) => {
-  //     const { currentPage } = this.props;
-  //     const result = child.findIndex((item) => item.id === currentPage);
-  //     return result === -1 ? true : false;
-  //   };
 
   openModal = () => this.setState({ isCollapsed: true });
 
@@ -189,6 +183,7 @@ class Header extends Component {
       textTransform: transform,
       fontWeight: fontWeight,
       width: '100 %',
+      height: '90px',
     };
     return divStyle;
   };
@@ -210,56 +205,76 @@ class Header extends Component {
     } = this.state;
 
     const divStyle = this.getCustomStyle();
+    const logoStyle = {
+      objectFit: 'cover',
+      marginRight: '5%',
+      border: 'none',
+    };
 
     return (
       <div className="d-flex">
         {!pending && (
-          <Menu
-            mode="horizontal"
-            style={divStyle}
-            selectedKeys={currentPage}
-            className="flex-fill"
-          >
-            {pages.map((item) =>
-              item.child.length === 0 ? (
-                <Menu.Item
-                  key={item.id}
-                  onClick={() => this.handleClickMenuItem(item)}
-                >
-                  {editable ? (
-                    item.title
-                  ) : (
-                    <Link
-                      to={`/event/${id}/${item.title}`}
-                      onClick={() => this.handleClickMenuItem(item)}
-                    >
-                      {item.title}
-                    </Link>
-                  )}
-                </Menu.Item>
-              ) : (
-                <SubMenu key={item.id} title={<span>{item.title}</span>}>
-                  {item.child.map((child) => (
-                    <Menu.Item
-                      key={child.id}
-                      onClick={() => this.handleClickMenuItem(child)}
-                    >
-                      {editable ? (
-                        child.title
-                      ) : (
-                        <Link
-                          to={`/event/${id}/${child.title}`}
-                          onClick={() => this.handleClickMenuItem(child)}
-                        >
-                          {child.title}
-                        </Link>
-                      )}
-                    </Menu.Item>
-                  ))}
-                </SubMenu>
-              )
-            )}
-          </Menu>
+          <div className="d-flex flex-fill" style={divStyle}>
+            <ImageBlock
+              url={
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png'
+              }
+              newStyle={logoStyle}
+              editable={editable}
+              child={true}
+            />
+
+            <Menu
+              mode="horizontal"
+              selectedKeys={currentPage}
+              className="flex-fill ml-5"
+              style={{
+                color: '#333333',
+                fontWeight: '600',
+                fontSize: '20px',
+              }}
+            >
+              {pages.map((item) =>
+                item.child.length === 0 ? (
+                  <Menu.Item
+                    key={item.id}
+                    onClick={() => this.handleClickMenuItem(item)}
+                  >
+                    {editable ? (
+                      item.title
+                    ) : (
+                      <Link
+                        to={`/event/${id}/${item.title}`}
+                        onClick={() => this.handleClickMenuItem(item)}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
+                  </Menu.Item>
+                ) : (
+                  <SubMenu key={item.id} title={<span>{item.title}</span>}>
+                    {item.child.map((child) => (
+                      <Menu.Item
+                        key={child.id}
+                        onClick={() => this.handleClickMenuItem(child)}
+                      >
+                        {editable ? (
+                          child.title
+                        ) : (
+                          <Link
+                            to={`/event/${id}/${child.title}`}
+                            onClick={() => this.handleClickMenuItem(child)}
+                          >
+                            {child.title}
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                )
+              )}
+            </Menu>
+          </div>
         )}
 
         {editable && (

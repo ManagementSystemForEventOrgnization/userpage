@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', Sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 0px;
@@ -9,7 +9,7 @@ body {
 }
 
 code {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', Sans-serif;
 }
 
 #root {

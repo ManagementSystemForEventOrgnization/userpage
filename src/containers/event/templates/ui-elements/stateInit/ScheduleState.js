@@ -40,7 +40,7 @@ const ScheduleState = (props, first) => ({
 
 const titleStyle = {
   fontWeight: 'bold',
-  fontSize: '20px',
+  fontSize: 20,
   color: 'blue',
 };
 
@@ -49,7 +49,7 @@ const calendar = {
   width: '83px',
   height: '90px',
   textAlign: 'center',
-  fontSize: '15px',
+  fontSize: 15,
   fontWeight: 'bold',
   borderRadius: '3px',
 };

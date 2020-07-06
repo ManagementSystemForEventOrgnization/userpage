@@ -147,11 +147,8 @@ class TextsBlock extends React.Component {
     this.handleStoreBlock();
   };
 
-  render() {
-    const { leftModal, child, editable, editUrl, newStyle } = this.props;
+  getCustomStyle = () => {
     const {
-      visible,
-      content,
       margin,
       padding,
       background,
@@ -162,9 +159,7 @@ class TextsBlock extends React.Component {
       transform,
       color,
       fontWeight,
-      focus,
     } = this.state;
-
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -180,7 +175,32 @@ class TextsBlock extends React.Component {
       textTransform: transform,
       width: '100%',
       alignContent: 'center',
+      color,
+      fontWeight,
+      fontSize: `${fontSize}px`,
+      background,
     };
+
+    return divStyle;
+  };
+
+  render() {
+    const { leftModal, child, editable, editUrl, newStyle } = this.props;
+    const {
+      visible,
+      content,
+      margin,
+      padding,
+      background,
+      fontSize,
+      lineText,
+      letterSpacing,
+      color,
+      fontWeight,
+      focus,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
 
     const inputStyle = {
       background: background,
@@ -207,12 +227,12 @@ class TextsBlock extends React.Component {
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-          <div
+          <p
             onClick={this.onClick}
             style={{ ...divStyle, ...inputStyle, ...newStyle }}
           >
             {content}
-          </div>
+          </p>
         )}
         {child && editable && (
           <EditFilled

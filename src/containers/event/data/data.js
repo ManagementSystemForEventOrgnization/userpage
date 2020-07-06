@@ -116,12 +116,7 @@ export const blockList = {
     <MapWithImage key={id} editable={editable} style={style} id={id} />
   ),
   countdown: ({ editable, style, id }) => (
-    <CountDownBlock
-      key={id}
-      editable={editable}
-      style={style}
-      id={id}
-    />
+    <CountDownBlock key={id} editable={editable} style={style} id={id} />
   ),
   video1: ({ editable, style, id }) => (
     <Video1 key={id} editable={editable} style={style} id={id} />
@@ -133,18 +128,10 @@ export const blockList = {
   sponsor1: ({ editable, style, id }) => (
     <Sponsor1Block key={id} editable={editable} style={style} id={id} />
   ),
-  sponsor2: ({ key, editable, style, id }) => (
-    <Sponsor1Block key={key} editable={editable} style={style} id={id} />
-  ),
-  photo1: ({ editable, style, id }) => (
-    <ImageBlock key={id} editable={editable} style={style} id={id} />
-  ),
   photo2: ({ editable, style, id }) => (
     <Photo key={id} editable={editable} style={style} id={id} />
   ),
-  // contactUs1: ({ editable, style, id }) => (
-  //   <ContactUs1 key={id} editable={editable} style={style} id={id} />
-  // ),
+
   contactUs2: ({ editable, style, id }) => (
     <ContactUs2 key={id} editable={editable} style={style} id={id} />
   ),
@@ -154,9 +141,6 @@ export const blockList = {
   footer2: ({ editable, style, id }) => (
     <Footer2 key={id} editable={editable} style={style} id={id} />
   ),
-  // icon: ({ editable, style, id }) => (
-  //   <IconSocial key={id} editable={editable} style={style} id={id} />
-  // ),
   comment: ({ editable, style, id }) => (
     <Comment key={id} editable={editable} style={style} id={id} />
   ),

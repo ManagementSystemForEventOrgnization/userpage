@@ -131,7 +131,7 @@ class Sponsor1Block extends Component {
     const { sponsor, nameBlockStyle, nameBlock } = this.state;
     const { editable } = this.props;
     const listSponsorStyle = {
-      background: '#eaeaea6b',
+      //   background: '#eaeaea6b',
       padding: '2%',
       marginBottom: '2%',
     };

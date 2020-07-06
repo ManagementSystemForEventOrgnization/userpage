@@ -4,8 +4,6 @@ import { Button, Select, DatePicker, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import Header from 'containers/share/_layout/Header';
-import Footer from 'containers/share/_layout/Footer';
 import Banner from 'components/Banner';
 import NavBar from 'components/NavBar';
 import EventCard from 'components/EventCard';
@@ -191,10 +189,7 @@ class CategoryDetailPage extends React.Component {
         className="category-detail homepage"
         style={{ backgroundColor: '#f1f1f1' }}
       >
-        <div className="fixed-top">
-          <Header />
-          <NavBar />
-        </div>
+        <NavBar />
 
         <Banner
           category={match.match.params.id.toUpperCase()}
@@ -235,7 +230,6 @@ class CategoryDetailPage extends React.Component {
             {this.renderEvents()}
           </div>
         )}
-        <Footer />
       </div>
     );
   }
