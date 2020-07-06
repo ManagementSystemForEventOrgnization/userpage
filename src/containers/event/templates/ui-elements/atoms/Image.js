@@ -150,6 +150,7 @@ class ImageBlock extends React.Component {
           src={uploadedFileCloudinaryUrl}
           onClick={this.handlleClick}
         />
+
         {editable && !child && (
           <div className="ml-auto">
             <IconsHandle

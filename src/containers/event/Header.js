@@ -189,9 +189,9 @@ class Header extends Component {
   };
 
   render() {
-    const { pages, currentPage, editable, pending } = this.props;
+    const { pages, currentPage, editable, pending, webAddress } = this.props;
     const { currentItem } = this.state;
-    const id = this.props.webAddress || localStorage.getItem('webAddress');
+    const id = webAddress || localStorage.getItem('webAddress');
 
     const {
       isCollapsed,

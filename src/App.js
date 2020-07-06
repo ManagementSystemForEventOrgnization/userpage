@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Router } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-multi-carousel/lib/styles.css';
@@ -7,7 +8,9 @@ import 'react-multi-carousel/lib/styles.css';
 
 import 'react-chat-widget/lib/styles.css';
 
-import WrappRouter from './routers/WrapRouter';
+// import WrappRouter from './routers/WrapRouter';
+import BaseRoute from './routers/BaseRoute';
+import history from 'utils/history';
 
 class App extends Component {
   componentDidMount() {
@@ -20,7 +23,11 @@ class App extends Component {
   }
 
   render() {
-    return <WrappRouter />;
+    return (
+      <Router history={history}>
+        <BaseRoute />
+      </Router>
+    );
   }
 }
 

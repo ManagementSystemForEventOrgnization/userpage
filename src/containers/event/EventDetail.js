@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Spin } from 'antd';
 
 import { eventActions } from 'action/event.action';
 import { blockList } from './data/data';
@@ -85,14 +86,13 @@ class EventDetail extends React.Component {
   render() {
     const { blocks, pending } = this.props;
 
-    const src =
-      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592392417/LoadingGif/Animation_that_matters_adding_value_to_your_interface_aektko.gif';
     return (
       <div className="pl-5 pr-5  event-detail">
         {pending ? (
-          <div className="loading-gif d-flex justify-content-center pt-2">
-            <img src={src} alt="loading" />
-          </div>
+          <Spin
+            className="loading-gif d-flex justify-content-center pt-2"
+            size="large"
+          />
         ) : (
           <div>
             <div className="fixed-top">{this.renderHeader()}</div>
