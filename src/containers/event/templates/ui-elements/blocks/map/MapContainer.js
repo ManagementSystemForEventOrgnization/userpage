@@ -67,7 +67,7 @@ const MapWithImage = (props) => {
     }
   };
 
-  const { editable, session, type } = props;
+  const { editable, session, type, id } = props;
 
   const divStyle = {
     display: 'inlineBock',
@@ -92,6 +92,7 @@ const MapWithImage = (props) => {
     <div
       className={type ? 'child-block p-2 mb-5 ' : 'child-block d-flex mb-5'}
       style={divStyle}
+      key={id}
     >
       <Map
         google={props.google}

@@ -71,18 +71,9 @@ class footer2 extends Component {
     }
   };
 
-  render() {
-    const { editable, leftModal } = this.props;
-    const {
-      collapse,
-      padding,
-      url,
-      bgColor,
-      opacity,
-      margin,
-      normalText,
-    } = this.state;
-    const style = {
+  getCustomStyle = () => {
+    const { margin, padding, url, bgColor } = this.state;
+    return {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -100,7 +91,11 @@ class footer2 extends Component {
 
       width: '100%',
     };
-    const bg = {
+  };
+
+  getBGStyle = () => {
+    const { opacity, bgColor } = this.state;
+    return {
       position: 'absolute',
       left: '0',
       top: '0',
@@ -109,9 +104,23 @@ class footer2 extends Component {
       opacity: opacity,
       backgroundColor: bgColor,
     };
+  };
+  render() {
+    const { editable, leftModal, id } = this.props;
+    const {
+      collapse,
+      padding,
+      url,
+      bgColor,
+      opacity,
+      margin,
+      normalText,
+    } = this.state;
+    const style = this.getCustomStyle();
+    const bg = this.getBGStyle();
 
     return (
-      <div className="child-block d-flex  " style={{ height: 300 }}>
+      <div className="child-block d-flex  " style={{ height: 300 }} key={id}>
         <div className=" child-block" style={style}>
           {url && <div style={bg}></div>}
 

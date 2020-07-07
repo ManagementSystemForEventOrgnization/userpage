@@ -123,8 +123,8 @@ class Timer extends React.Component {
     }
   };
 
-  render() {
-    const { key, style, editable } = this.props;
+  getCustomStyle = () => {
+    const { style } = this.props;
     const {
       topButton,
       leftButton,
@@ -133,6 +133,7 @@ class Timer extends React.Component {
       positionButton,
       backgroundColor,
     } = this.state;
+
     const divStyle = style
       ? style
       : {
@@ -147,20 +148,37 @@ class Timer extends React.Component {
           width: '100%',
         };
 
-    const countDownStyle = {
+    return divStyle;
+  };
+
+  getCoundownStyle = () => {
+    return {
       backgroundColor: '#18478b',
       color: 'white',
       fontWeight: 'bold',
       fontSize: '25px',
       borderRadius: ' 6px',
     };
-    const timeStyle = {
+  };
+
+  getTimeStyle = () => {
+    return {
       fontWeight: 'bolder',
       fontSize: '35px',
     };
+  };
+
+  render() {
+    const { id, style, editable } = this.props;
+    const { topButton, leftButton, rightButton, bottomButton } = this.state;
+
+    const divStyle = this.getCustomStyle();
+    const countDownStyle = this.getCoundownStyle();
+    const timeStyle = this.getTimeStyle();
+
     return (
       <div className="child-block" key={this.props.key}>
-        <div key={key} style={divStyle} className="d-flex ">
+        <div key={id} style={divStyle} className="d-flex ">
           <div
             className="d-flex justify-content-around  border  flex-fill mr-1 p-2 pl-5 pr-5"
             style={countDownStyle}

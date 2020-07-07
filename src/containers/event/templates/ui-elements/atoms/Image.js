@@ -106,11 +106,18 @@ class ImageBlock extends React.Component {
   };
 
   getCustomStyle = () => {
-    const { margin, padding, borderRadius } = this.state;
+    const {
+      margin,
+      padding,
+      borderRadius,
+      width,
+      height,
+      objectFit,
+    } = this.state;
 
     const imageStyle = {
-      //   width: `${width}%`,
-      //   height: `${height}vh`,
+      width: `${width}%`,
+      height: `${height}vh`,
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -120,7 +127,7 @@ class ImageBlock extends React.Component {
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
       borderRadius: borderRadius,
-      objectFit: 'contain',
+      objectFit,
       maxWidth: '100%',
       maxHeight: '100%',
     };
@@ -138,11 +145,11 @@ class ImageBlock extends React.Component {
       borderRadius,
     } = this.state;
 
-    const { leftModal, editable, child, newStyle } = this.props;
+    const { leftModal, editable, child, newStyle, id } = this.props;
     const imageStyle = this.getCustomStyle();
 
     return (
-      <div className="image-block child-block d-flex">
+      <div className="image-block child-block d-flex" key={id}>
         <img
           style={newStyle ? newStyle : imageStyle}
           alt="img"

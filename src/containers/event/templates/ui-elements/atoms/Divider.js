@@ -65,11 +65,11 @@ class DividersBlock extends React.Component {
   };
 
   render() {
-    const { orientationList, styleFormat, content } = this.state;
+    const { orientationList, styleFormat, content, id } = this.state;
     const { editable } = this.props;
 
     return (
-      <div className=" child-block d-flex">
+      <div className=" child-block d-flex" key={id}>
         <div className="mt-2 flex-full">
           <Divider orientation={styleFormat}>{content} </Divider>
         </div>

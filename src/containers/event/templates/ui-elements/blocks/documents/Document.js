@@ -120,6 +120,21 @@ class Document extends Component {
     }
   };
 
+  getCustomStyle = () => {
+    const { margin, padding, background } = this.state;
+    return {
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      background,
+    };
+  };
+
   render() {
     const {
       session,
@@ -131,22 +146,12 @@ class Document extends Component {
       collapse,
       background,
     } = this.state;
-    const { editable } = this.props;
+    const { editable, id } = this.props;
 
-    const style = {
-      marginTop: `${margin[0]}%`,
-      marginLeft: `${margin[1]}%`,
-      marginRight: `${margin[2]}%`,
-      marginBottom: `${margin[3]}%`,
-      paddingTop: `${padding[0]}%`,
-      paddingLeft: `${padding[1]}%`,
-      paddingRight: `${padding[2]}%`,
-      paddingBottom: `${padding[3]}%`,
-      background,
-    };
+    const style = this.getCustomStyle();
 
     return (
-      <div className="child-block d-flex " style={style}>
+      <div className="child-block d-flex " style={style} key={id}>
         <div className="mb-2 pl-2 pt-2" style={{ width: '80%' }}>
           {session.map((ss) => (
             <div key={ss.id}>

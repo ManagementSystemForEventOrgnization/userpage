@@ -117,9 +117,14 @@ class GeneralBanner extends Component {
     const style = this.getCustomStyle();
 
     return (
-      <div className=" child-block d-flex">
-        <div style={style}>
-          <ImageBlock editable={editable} url={url} child={true} />
+      <div className=" child-block d-flex" style={style}>
+        <div style={style} className="flex-fill">
+          <ImageBlock
+            editable={editable}
+            url={url}
+            child={true}
+            objectFit="cover"
+          />
           <Text
             content={content.title.value}
             child={true}

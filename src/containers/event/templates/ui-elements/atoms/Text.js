@@ -184,8 +184,23 @@ class TextsBlock extends React.Component {
     return divStyle;
   };
 
+  getInputStyle = () => {
+    const { background, color, fontWeight, fontSize } = this.state;
+
+    const inputStyle = {
+      background,
+      border: 'none',
+      color: color,
+
+      fontWeight,
+      fontSize: `${fontSize}px`,
+      overflowY: 'hidden',
+    };
+    return inputStyle;
+  };
+
   render() {
-    const { leftModal, child, editable, editUrl, newStyle } = this.props;
+    const { leftModal, child, editable, editUrl, newStyle, id } = this.props;
     const {
       visible,
       content,
@@ -196,29 +211,18 @@ class TextsBlock extends React.Component {
       lineText,
       letterSpacing,
       color,
-      fontWeight,
       focus,
     } = this.state;
 
     const divStyle = this.getCustomStyle();
-
-    const inputStyle = {
-      background: background,
-      border: 'none',
-      color: color,
-
-      fontWeight: fontWeight,
-      fontSize: `${fontSize}px`,
-      overflowY: 'hidden',
-    };
-
+    const inputStyle = this.getInputStyle();
     const editIconStyle = {
       fontSize: '18px',
       color: '#1890ff',
     };
 
     return (
-      <div className=" child-block    d-flex text-block">
+      <div className=" child-block    d-flex text-block" key={id}>
         {focus && editable ? (
           <TextArea
             autoSize
@@ -234,6 +238,7 @@ class TextsBlock extends React.Component {
             {content}
           </p>
         )}
+
         {child && editable && (
           <EditFilled
             className="edit-text"
@@ -243,14 +248,13 @@ class TextsBlock extends React.Component {
         )}
 
         {editable && !child && (
-          <div className="ml-auto">
-            <IconsHandle
-              collapseModal={this.openModal}
-              handleDuplicate={this.handleDuplicate}
-              handleDelete={this.handleDelete}
-            />
-          </div>
+          <IconsHandle
+            collapseModal={this.openModal}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
         )}
+
         {editable && (
           <Modal
             title="Text"

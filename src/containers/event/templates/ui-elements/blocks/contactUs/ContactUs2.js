@@ -78,25 +78,10 @@ class ContactUs2 extends Component {
     setTimeout(this.handleStoreBlock(), 2000);
   };
 
-  render() {
-    const { editable } = this.props;
-    const {
-      margin,
-      padding,
-      textAlign,
-      phone,
-      email,
-      isCollapsed,
-      color,
-      background,
-    } = this.state;
+  getCustomStyle = () => {
+    const { margin, padding, textAlign, color, background } = this.state;
 
-    const iconStyle = {
-      fontSize: '40px',
-      color: `${color}`,
-    };
-
-    const blockStyle = {
+    return {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -109,6 +94,26 @@ class ContactUs2 extends Component {
       color,
       background,
     };
+  };
+
+  render() {
+    const { editable } = this.props;
+    const {
+      margin,
+      padding,
+      phone,
+      email,
+      isCollapsed,
+      color,
+      background,
+    } = this.state;
+
+    const iconStyle = {
+      fontSize: '40px',
+      color: `${color}`,
+    };
+
+    const blockStyle = this.getCustomStyle();
 
     return (
       <div className="child-block d-flex" style={blockStyle}>

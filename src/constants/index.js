@@ -239,6 +239,11 @@ export const routeConstant = {
       exact: true,
       main: CreateHistoryEventPage,
     },
+    {
+      path: '/create',
+      exact: true,
+      main: CreateEventPage,
+    },
 
     //
   ],
@@ -271,11 +276,6 @@ export const routeConstant = {
       main: SignUpPage,
     },
 
-    {
-      path: '/create',
-      exact: true,
-      main: CreateEventPage,
-    },
     {
       path: '/preview/:id',
       exact: true,

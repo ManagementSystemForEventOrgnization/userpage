@@ -287,7 +287,7 @@ class Schedule1 extends Component {
     } = this.state;
 
     const {
-      key,
+      id,
       editable,
       leftModal,
       ticket,
@@ -299,7 +299,7 @@ class Schedule1 extends Component {
     const divStyle = this.getCustomStyle();
 
     return (
-      <div className="p-5 child-block" key={key}>
+      <div className="p-5 child-block" key={id}>
         <TextBlock
           content={scheduleName}
           editable={editable}
@@ -337,7 +337,7 @@ class Schedule1 extends Component {
                     }
                   />
 
-                  <p className="mt-4" style={{ fontSize: '14px' }}>
+                  <div className="mt-4" style={{ fontSize: '14px' }}>
                     <TextBlock
                       content={ss.address.location}
                       editable={editable}
@@ -346,7 +346,7 @@ class Schedule1 extends Component {
                         this.handleChangeContent('location', ss.id, value)
                       }
                     />
-                  </p>
+                  </div>
                 </div>
 
                 <div className="col-md-3">

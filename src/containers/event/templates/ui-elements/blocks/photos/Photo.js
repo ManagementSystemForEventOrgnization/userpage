@@ -112,6 +112,7 @@ class Photo extends Component {
           editable={editable}
           child={true}
           height={height}
+          objectFit="contain"
           handleChangeItemGallery={(value) => {
             this.handleChangeUrlUpload(item.id, 'url', value);
           }}
@@ -139,11 +140,11 @@ class Photo extends Component {
 
   render() {
     const { list } = this.state;
-    const { editable } = this.props;
+    const { editable, id } = this.props;
     const style = this.getCustomStyle();
 
     return (
-      <div className="d-flex child-block p-5" style={style}>
+      <div className="d-flex child-block p-5" style={style} key={id}>
         <div className="row d-flex justify-content-around ">
           {list.map((item) => this.renderList(item))}
         </div>
