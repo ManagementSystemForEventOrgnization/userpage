@@ -4,8 +4,21 @@ import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 
 import DayPicker, { DateUtils } from 'react-day-picker';
-import { TimePicker, Input, Button, Form, InputNumber, Collapse } from 'antd';
-import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
+import {
+  TimePicker,
+  Input,
+  Button,
+  Form,
+  InputNumber,
+  Collapse,
+  Tooltip,
+  Upload,
+} from 'antd';
+import {
+  PlusCircleTwoTone,
+  DeleteOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
@@ -234,6 +247,11 @@ class TabPane extends Component {
     return;
   };
 
+  handleUploadFiles = (file, fileList) => {
+    console.log(file);
+    console.log(fileList);
+  };
+
   render() {
     const { selectedDays, session } = this.state;
     const count = selectedDays.length;
@@ -454,18 +472,36 @@ class TabPane extends Component {
                         </div>
                       ))}
 
-                      <Button
-                        className="mt-1"
-                        onClick={() => this.handleAddDocs(ss.id)}
-                        icon={
-                          <PlusCircleTwoTone
+                      <div className="mt-1 d-flex">
+                        <Button
+                          className="mr-3"
+                          onClick={() => this.handleAddDocs(ss.id)}
+                          icon={
+                            <PlusCircleTwoTone
+                              style={{ fontSize: '20px', color: '#eb2f96' }}
+                              className="mr-2"
+                            />
+                          }
+                        >
+                          Add link
+                        </Button>
+                        <Tooltip title="Upload multiple files">
+                          <UploadOutlined
+                            type="button"
                             style={{ fontSize: '20px', color: '#eb2f96' }}
-                            className="mr-2"
                           />
-                        }
-                      >
-                        Add link
-                      </Button>
+                        </Tooltip>
+
+                        <Upload
+                          beforeUpload={this.handleUploadFiles}
+                          multiple
+                          accept="png/jpg/pdf"
+                        >
+                          <Button>
+                            <UploadOutlined /> Upload multiple files
+                          </Button>
+                        </Upload>
+                      </div>
                     </Panel>
 
                     <Panel header="Image detail for this location" key="4">
