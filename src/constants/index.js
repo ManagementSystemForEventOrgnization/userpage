@@ -1,3 +1,24 @@
+import HomePage from 'pages/HomePage';
+import AboutUs from 'pages/AboutUsPage';
+
+import MyEventsPage from 'pages/MyEventsPage';
+
+import UserEventPage from 'pages/UserEventPage';
+import PrepareForCreateEvent from 'pages/PrepareForCreateEvent';
+import ManageEventPage from 'pages/ManageEventPage';
+import CreateHistoryEventPage from 'pages/CreateHistoryEvent';
+
+import CategoryDetailPage from 'pages/CategoryDetailPage';
+import EventDetailPage from 'pages/EventDetailPage';
+
+import LoginPage from 'pages/LoginPage';
+import SignUpPage from 'pages/SignUpPage';
+import ForgotPasswordPage from 'pages/ForgotPasswordPage';
+
+import CreateEventPage from 'pages/CreateEventPage';
+import PreviewEvent from 'containers/event/PreviewEvent';
+import NotFoundPage from 'pages/NotFoundPage';
+
 export const userConstants = {
   REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
   REGISTER_SUCCESS: 'USERS_REGISTER_SUCCESS',
@@ -143,8 +164,6 @@ export const eventConstants = {
   SAVE_COMMENT_SUCCESS: 'SAVE_COMMENT_SUCCESS',
   SAVE_COMMNET_FAILURE: 'SAVE_COMMNET_FAILURE',
 
-
-
   CANCEL_EVENT_REQUEST: 'CANCEL_EVENT_REQUEST',
   CANCEL_EVENT_SUCCESS: ' CANCEL_EVENT_SUCCESS',
   CANCEL_EVENT_FAILURE: 'CANCEL_EVENT_FAILURE',
@@ -176,4 +195,103 @@ export const notificationTypeConstants = {
     'https://res.cloudinary.com/eventinyourhand/image/upload/v1592035642/NotifyIcon/icons8-tear_off_calendar_snrtfo.png',
   FINISH_EVENT: 'FINISH_EVENT',
   UNKNOW: 'UNKNOW',
+};
+
+export const layoutConstants = {
+  BASE_LAYOUT: 'BASE_LAYOUT',
+  NO_LAYOUT: 'NO_LAYOUT',
+};
+
+export const routeConstant = {
+  routes: [
+    {
+      path: '/',
+      exact: true,
+      main: HomePage,
+    },
+    {
+      path: '/about-us',
+      exact: true,
+      main: AboutUs,
+    },
+    {
+      path: '/event-list/:id',
+      exact: false,
+      main: CategoryDetailPage,
+    },
+    {
+      path: '/profile',
+      exact: true,
+      main: MyEventsPage,
+    },
+    {
+      path: '/manage/:id',
+      exact: true,
+      main: ManageEventPage,
+    },
+    {
+      path: '/registered-event',
+      exact: true,
+      main: UserEventPage,
+    },
+    {
+      path: '/created-event',
+      exact: true,
+      main: CreateHistoryEventPage,
+    },
+
+    //
+  ],
+
+  route1: [
+    {
+      path: '/prepare',
+      exact: true,
+      main: PrepareForCreateEvent,
+    },
+
+    {
+      path: '/event/:id',
+      exact: true,
+      main: EventDetailPage,
+    },
+    {
+      path: '/event/:id/:name',
+      exact: true,
+      main: EventDetailPage,
+    },
+    {
+      path: '/login',
+      exact: true,
+      main: LoginPage,
+    },
+    {
+      path: '/signup',
+      exact: true,
+      main: SignUpPage,
+    },
+
+    {
+      path: '/create',
+      exact: true,
+      main: CreateEventPage,
+    },
+    {
+      path: '/preview/:id',
+      exact: true,
+      main: PreviewEvent,
+    },
+
+    {
+      path: '/forgotpassword',
+      exact: true,
+      main: ForgotPasswordPage,
+    },
+
+    {
+      path: '',
+      exact: true,
+      main: NotFoundPage,
+    },
+  ],
 };

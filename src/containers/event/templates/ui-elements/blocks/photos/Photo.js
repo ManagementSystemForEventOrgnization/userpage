@@ -120,9 +120,8 @@ class Photo extends Component {
     );
   };
 
-  render() {
-    const { margin, padding, list } = this.state;
-    const { editable } = this.props;
+  getCustomStyle = () => {
+    const { margin, padding } = this.state;
 
     const style = {
       marginTop: `${margin[0]}%`,
@@ -133,8 +132,15 @@ class Photo extends Component {
       paddingLeft: `${padding[1]}%`,
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
-      background: '#eaeaea6b',
+      //background: '#eaeaea6b',
     };
+    return style;
+  };
+
+  render() {
+    const { list } = this.state;
+    const { editable } = this.props;
+    const style = this.getCustomStyle();
 
     return (
       <div className="d-flex child-block p-5" style={style}>

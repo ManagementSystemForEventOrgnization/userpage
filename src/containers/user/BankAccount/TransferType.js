@@ -17,32 +17,38 @@ class TransferType extends React.Component {
       eventId,
       currSsId,
       handleFinishPayment,
-      changeStatus,
       handleApply,
+      handleUpdateSessionStatus,
     } = this.props;
+
     if (currSsId) {
       const temp = [];
       temp.push(currSsId);
-      handleFinishPayment();
 
       handleApply(eventId, temp, 'ZALOPAY')
         .then((res) => {
-          changeStatus();
+          handleFinishPayment();
           window.open(res.orderurl, '_blank');
+          handleUpdateSessionStatus();
         })
-        .catch((err) => console.log(err));
+        .catch(handleUpdateSessionStatus());
     }
   };
 
   render() {
-    const { currSsId, eventId, handleFinishPayment, changeStatus } = this.props;
+    const {
+      currSsId,
+      eventId,
+      handleFinishPayment,
+      handleUpdateSessionStatus,
+    } = this.props;
 
     return this.state.creditCard ? (
       <CreditCard
         currSsId={currSsId}
         eventId={eventId}
         handleFinishPayment={handleFinishPayment}
-        changeStatus={changeStatus}
+        handleUpdateSessionStatus={handleUpdateSessionStatus}
         changeStatusType={() => this.setState({ creditCard: false })}
       />
     ) : (

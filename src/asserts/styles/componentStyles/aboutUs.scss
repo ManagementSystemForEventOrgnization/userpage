@@ -4,7 +4,7 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-        height: 550px;
+        height: 600px;
         width: 100%;
         top: 50%;
         padding: 15%;
@@ -13,5 +13,48 @@
         height: 380px !important ;
         width: 100%;
         object-fit: cover;
+    }
+    .title {
+        display: none;
+        text-align: center;
+        margin-top: -60%;
+        .title-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            font-weight: bolder;
+            color: black;
+            z-index: 19;
+            font-size: 28px;
+            text-transform: uppercase;
+            visibility: inherit;
+            opacity: 1;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform-origin: 50% 50% 0px;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+        .title-time {
+            color: black;
+            font-weight: bolder;
+            text-align: center !important;
+            z-index: 19;
+            font-size: 18px;
+            visibility: inherit;
+            opacity: 1;
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform-origin: 50% 50% 0px;
+            white-space: nowrap;
+        }
+    }
+    &:hover {
+        opacity: 0.9;
+        transform: scale(1.03);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+
+        cursor: pointer;
+        .title {
+            display: block;
+        }
     }
 }

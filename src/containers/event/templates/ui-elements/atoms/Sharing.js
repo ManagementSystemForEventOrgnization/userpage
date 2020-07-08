@@ -18,7 +18,7 @@ class Sharing extends Component {
     super(props);
     const { style } = props;
     this.state = style
-      ? { ...style }
+      ? { ...style, collapse: false }
       : {
           icons: ['Facebook', 'Email'],
           collapse: false,

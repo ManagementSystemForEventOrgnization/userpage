@@ -146,7 +146,10 @@ class Video2 extends React.Component {
           </div>
         ) : (
           <div style={{ textAlign: 'center', width: '100%' }}>
-            <img src="/not-found.jpg" alt="not-found" />
+            <img
+              src="https://res.cloudinary.com/eventinyourhand/image/upload/v1593323532/publics/not-found_ytto2w.jpg"
+              alt="not-found"
+            />
           </div>
         )}
         {editable && (

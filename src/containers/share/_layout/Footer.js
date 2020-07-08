@@ -24,7 +24,7 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <div className=" footer p-3   " style={{ marginTop: '15%' }}>
+      <div className=" footer pl-5 pr-5   " style={{ marginTop: '15%' }}>
         <div className="row">
           <div className="col">
             <b>Hotline</b>

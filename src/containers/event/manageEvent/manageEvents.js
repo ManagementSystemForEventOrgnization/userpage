@@ -150,11 +150,14 @@ class ManageEvent extends React.Component {
     return (
       <>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="General Information" key="1">
+          <TabPane
+            tab={<span className="pl-5 pr-5">General Information</span>}
+            key="1"
+          >
             <EditGeneral />
           </TabPane>
 
-          <TabPane tab="Participant" key="2">
+          <TabPane tab={<span className="pl-5 pr-5">Participant</span>} key="2">
             <Table dataSource={userJoinEvent} pagination={10}>
               <ColumnGroup
                 title="FullName "

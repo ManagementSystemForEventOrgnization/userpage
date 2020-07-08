@@ -1,4 +1,4 @@
-import API from 'config/axious.config';
+import API from './axious.config';
 
 const applyEvent = (eventId, sessionIds, payType) => {
   return (dispatch) => {
@@ -44,7 +44,7 @@ const handleRePay = (eventId, payType, sessionIds, cb) => {
       payType,
     })
       .then((res) => {
-        cb(res.data, 1);
+        cb(res.data.resultOrder, 1);
       })
       .catch((err) => {
         cb(err, 0);

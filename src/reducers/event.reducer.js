@@ -5,17 +5,17 @@ import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
 const initialBlocks = [
-  dataTest[1].value[0], //banner
-  //...dataTest[0].value,
-  dataTest[2].value[2], // event description
+  ...dataTest[1].value, //banner
+  ...dataTest[0].value,
+  dataTest[2].value[0], // event description
   ...dataTest[13].value, //list of link documents
-  dataTest[3].value[0], // speaker, card
+  ...dataTest[3].value, // speaker, card
   ...dataTest[4].value, // schedule
   dataTest[5].value[1], //map
   ...dataTest[6].value, // countdown
   dataTest[7].value[1], // video
-  dataTest[8].value[0], // sponsors
-  dataTest[9].value[0], //gallery
+  ...dataTest[8].value, // sponsors
+  ...dataTest[9].value, //gallery
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
@@ -40,7 +40,7 @@ const initialState = {
   pending: false,
   id: '',
   ticket: {
-    price: 0,
+    price: 15000,
     discount: 0,
   },
   status: 'DRAFT',
@@ -70,6 +70,8 @@ const initialState = {
 
   hightLightFinishLoading: false,
   upcomingFinishLoading: false,
+
+  currentIndex: localStorage.getItem('currentIndex' || 0),
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -258,12 +260,12 @@ const event = (state = initialState, action) => {
         status: action.event.status,
         system: editSite ? action.page : [],
         currentPage: getCurrentPage(action.header.pages, action.index),
+        isSellTicket: action.event.isSellTicket,
 
         // update event infor
       };
 
     case eventConstants.GET_EVENT_DETAIL_FAILURE:
-      console.log(action.err);
       return {
         ...state,
         errMessage: action.err,
@@ -307,7 +309,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_LIST_EVENT_REQUEST:
       return {
         ...state,
-        hightLightFinishLoading: true
+        hightLightFinishLoading: true,
       };
     case eventConstants.GET_LIST_EVENT_SUCCESS:
       return {
@@ -363,10 +365,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-              ...state.system.slice(0, nextId - 1),
-              action.blocks,
-              ...state.system.slice(nextId, state.system.length),
-            ],
+                ...state.system.slice(0, nextId - 1),
+                action.blocks,
+                ...state.system.slice(nextId, state.system.length),
+              ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
@@ -444,7 +446,6 @@ const event = (state = initialState, action) => {
         comments: [...action.comment, ...state.comments],
       };
 
-    
     case eventConstants.CANCEL_EVENT_REQUEST:
       return {
         ...state,

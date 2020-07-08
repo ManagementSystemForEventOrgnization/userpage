@@ -11,7 +11,6 @@
   }
 
   .list-event {
-    // background: url('/bg-1.jpg') center fixed;
     height: 100%;
 
     .orgnization {
@@ -19,7 +18,8 @@
     }
 
     .explore {
-      background: url("/bg-3.jpg") center fixed;
+      background: url('https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg')
+        center fixed;
       height: 200px;
       text-align: center;
       padding: 50px;
@@ -50,7 +50,6 @@
       color: #ff4d4f;
       z-index: 19;
       font-size: 20px;
-      font-family: "Times New Roman", Times, serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -77,26 +76,11 @@
       font-weight: 500;
       position: absolute;
       top: 2px;
-      left: "10%";
+      left: '10%';
       right: 10px;
       border-radius: 10px 10px 10px 30px;
       color: white;
       background: rgb(255, 52, 37);
-    }
-
-    .ticket1 {
-      font-weight: 500;
-    }
-
-    .orgnization {
-      width: 100%;
-    }
-
-    .explore {
-      background: url("/bg-3.jpg") center fixed;
-    height: 200px;
-      text-align: center;
-      padding: 50px;
     }
 
     .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
@@ -130,7 +114,6 @@
       // color: rgb(255, 255, 255);
       z-index: 7;
       font-size: 30px;
-      font-family: "Times New Roman", Times, serif;
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
@@ -168,23 +151,11 @@
       // font-size: 20px;
       position: absolute;
       top: 5px;
-      left: "10%";
+      left: '10%';
       right: 1px;
       border-radius: 10px 10px 10px 30px;
       color: white;
       background: rgb(255, 52, 37);
-    }
-
-    .ticket1 {
-      font-weight: 500;
-
-      position: absolute;
-      top: 55%;
-      font-weight: 500;
-
-      text-align: center;
-
-      color: whitesmoke;
     }
   }
 }
@@ -205,30 +176,6 @@
   width: 100%;
   text-align: center;
 }
-
-::-webkit-scrollbar {
-  width: 8px;
-  border-radius: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 8px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 8px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-  border-radius: 8px;
-}
-
 .more-menu {
   height: 100px;
   width: 103px;
@@ -237,8 +184,7 @@
   background: #e4e1e1;
   padding: 0px;
   font-size: 10px;
-
-  .more-item {
+  H .more-item {
     padding: 0px;
     margin: 0px;
     font-size: 10px;

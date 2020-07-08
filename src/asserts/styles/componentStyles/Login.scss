@@ -1,15 +1,33 @@
 .login-page {
-  //background: linear-gradient(to right, #9292f1, #e1ebea);
+  // background: url("https://res.cloudinary.com/dwt4njhmt/image/upload/v1594193604/eclipse-2666089_1920_w1ml2n.jpg");
+  // background-image: linear-gradient(#6082b6, #87ceeb, #5d76a9);
+  background-image: url(https://static.ticketbox.vn/site/global/content-v2/img/home-search-bg-01.jpg);
+  height: 100vh;
 
-  padding-left: 25%;
-  padding-right: 25%;
+  width: 100%;
 
-  margin-top: 10%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  .login {
+    padding-left: 25%;
+    padding-right: 25%;
 
+    // margin-top: 10%;
+  }
+  .form {
+    // background-image: linear-gradient(#87ceeb, #6a5acd, #1e2952);
+    background: #f2f2f2;
+    opacity: 0.8;
+    border-radius: 10px;
+  }
   .website-name {
     font-size: 25px;
     font-weight: bold;
     text-align: center;
+    color: black;
+    margin-top: 10px;
   }
 
   .error-message {
@@ -37,10 +55,11 @@
   }
 
   .notification {
-    color: #999;
-    font-size: 22px;
+    color: black;
+    font-size: 20px;
     line-height: 32px;
   }
+
   .changePassword {
     width: 100% !important;
     border-radius: 5px !important;
@@ -48,5 +67,46 @@
   }
   .inputStyle {
     height: 40px !important;
+    border-radius: 10px;
+    color: black;
+  }
+  .loginStyle {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+  }
+  .title-color {
+    color: black;
+  }
+  .title-name {
+    text-align: left;
+    z-index: 6;
+    white-space: nowrap;
+    font-size: 30px;
+    line-height: 50x;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    visibility: inherit;
+    transition: none 0s ease 0s;
+    text-align: inherit;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
+    min-height: 0px;
+    min-width: 0px;
+    max-height: none;
+    max-width: none;
+    opacity: 1;
+    transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    transform-origin: 50% 50% 0px;
+  }
+  .ant-btn-primary[disabled] {
+    background-color: #1890ff !important;
+    border-color: #1890ff !important;
+    color: white !important;
   }
 }

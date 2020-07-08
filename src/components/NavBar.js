@@ -11,14 +11,17 @@ class NavBar extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getCategories } = this.props;
-    getCategories();
+    const { getCategories, categoriesList } = this.props;
+    if (categoriesList.length === 0) {
+      getCategories();
+    }
   };
 
   render() {
-    const { categories } = this.props;
+    const { categoriesList } = this.props;
+    const categories = categoriesList || [];
     return (
-      <div className="shadow mb-4">
+      <div className="shadow" style={{ marginTop: '4%' }}>
         <Menu onClick={this.handleClick} mode="horizontal">
           {categories.length === 0 ? (
             <Skeleton.Input
@@ -27,21 +30,21 @@ class NavBar extends React.Component {
               size="large"
             />
           ) : (
-              categories.map((item) => {
-                const newName = item.name.toLowerCase().replace(/\s/g, '');
-                const url = `/event-list/${newName}`;
-                return !item.isDelete ? (
-                  <Menu.Item
-                    key={item._id}
-                    onClick={() => this.handleClickItem(item._id)}
-                  >
-                    <Link to={url}>{item.name}</Link>
-                  </Menu.Item>
-                ) : (
-                    ''
-                  );
-              })
-            )}
+            categories.map((item) => {
+              const newName = item.name.toLowerCase().replace(/\s/g, '');
+              const url = `/event-list/${newName}`;
+              return !item.isDelete ? (
+                <Menu.Item
+                  key={item._id}
+                  onClick={() => this.handleClickItem(item._id)}
+                >
+                  <Link to={url}>{item.name}</Link>
+                </Menu.Item>
+              ) : (
+                ''
+              );
+            })
+          )}
         </Menu>
       </div>
     );
@@ -50,7 +53,7 @@ class NavBar extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.event.categories,
+    categoriesList: state.event.categories,
   };
 };
 

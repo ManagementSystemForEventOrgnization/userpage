@@ -10,7 +10,7 @@ import {
 import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
-// import { titleBlockStyle } from '../../../constants/atom.constant';
+import { titleBlockStyle } from '../../../constants/atom.constant';
 
 const high = 20;
 const iconStyle = {
@@ -131,7 +131,7 @@ class Sponsor1Block extends Component {
     const { sponsor, nameBlockStyle, nameBlock } = this.state;
     const { editable } = this.props;
     const listSponsorStyle = {
-      background: '#eaeaea6b',
+      //   background: '#eaeaea6b',
       padding: '2%',
       marginBottom: '2%',
     };
@@ -143,7 +143,7 @@ class Sponsor1Block extends Component {
             content={nameBlock}
             child={true}
             editable={editable}
-            newStyle={{ ...nameBlockStyle }}
+            newStyle={{ ...nameBlockStyle, ...titleBlockStyle }}
             handleChangeSponsor={this.handleChangeSponsor}
           />
 

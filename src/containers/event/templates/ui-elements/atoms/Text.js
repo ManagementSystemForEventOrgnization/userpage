@@ -19,9 +19,9 @@ class TextsBlock extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...TextState(this.props),
-        focus: false,
-      };
+          ...TextState(this.props),
+          focus: false,
+        };
   }
 
   onChangeValue(newValue, valueParam) {
@@ -67,7 +67,7 @@ class TextsBlock extends React.Component {
       handleChangeSponsor,
       handleChangeContact,
       handleChangeFooter,
-      handleChangeSchedule
+      handleChangeSchedule,
     } = this.props;
 
     this.setState({
@@ -94,12 +94,9 @@ class TextsBlock extends React.Component {
         handleChangeItem(value);
       } else if (handleChangeFooter) {
         handleChangeFooter(value);
-
       } else if (handleChangeSchedule) {
-        handleChangeSchedule(content)
-      }
-
-      else this.handleStoreBlock();
+        handleChangeSchedule(content);
+      } else this.handleStoreBlock();
     }, 3000);
   };
 
@@ -150,11 +147,8 @@ class TextsBlock extends React.Component {
     this.handleStoreBlock();
   };
 
-  render() {
-    const { leftModal, child, editable, editUrl } = this.props;
+  getCustomStyle = () => {
     const {
-      visible,
-      content,
       margin,
       padding,
       background,
@@ -165,9 +159,7 @@ class TextsBlock extends React.Component {
       transform,
       color,
       fontWeight,
-      focus,
     } = this.state;
-
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -183,7 +175,32 @@ class TextsBlock extends React.Component {
       textTransform: transform,
       width: '100%',
       alignContent: 'center',
+      color,
+      fontWeight,
+      fontSize: `${fontSize}px`,
+      background,
     };
+
+    return divStyle;
+  };
+
+  render() {
+    const { leftModal, child, editable, editUrl, newStyle } = this.props;
+    const {
+      visible,
+      content,
+      margin,
+      padding,
+      background,
+      fontSize,
+      lineText,
+      letterSpacing,
+      color,
+      fontWeight,
+      focus,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
 
     const inputStyle = {
       background: background,
@@ -206,14 +223,17 @@ class TextsBlock extends React.Component {
           <TextArea
             autoSize
             value={content}
-            style={{ ...inputStyle, ...divStyle }}
+            style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-            <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
-              {content}
-            </div>
-          )}
+          <p
+            onClick={this.onClick}
+            style={{ ...divStyle, ...inputStyle, ...newStyle }}
+          >
+            {content}
+          </p>
+        )}
         {child && editable && (
           <EditFilled
             className="edit-text"

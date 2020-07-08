@@ -4,13 +4,13 @@ const defaultTitle = {
   value: 'Title',
   style: {
     fontWeight: 'bolder',
-    fontSize: '40',
+    fontSize: 40,
   },
 };
 const defaultDescription = {
   value: exampleText,
   style: {
-    fontSize: '20',
+    fontSize: 20,
   },
 };
 
