@@ -3,7 +3,8 @@ import GeneralCard from './card';
 
 class card1 extends Component {
   render() {
-    return <GeneralCard {...this.props} type={1} />;
+    const { id } = this.props;
+    return <GeneralCard {...this.props} type={1} key={id} />;
   }
 }
 

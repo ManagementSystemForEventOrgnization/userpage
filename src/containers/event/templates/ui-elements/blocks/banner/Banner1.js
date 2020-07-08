@@ -4,9 +4,14 @@ import ImageBlock from '../../atoms/Image';
 
 class Banner1 extends Component {
   render() {
-    const { editable } = this.props;
+    const { editable, id } = this.props;
     return (
-      <ImageBlock editable={editable} url={this.props.banner} {...this.props} />
+      <ImageBlock
+        editable={editable}
+        url={this.props.banner}
+        key={id}
+        {...this.props}
+      />
     );
   }
 }

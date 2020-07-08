@@ -196,6 +196,22 @@ class CommentEvent extends Component {
     });
   };
 
+  getCustomStyle = () => {
+    const { margin, padding, color, background } = this.state;
+    return {
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+      color,
+      background,
+    };
+  };
+
   render() {
     const {
       margin,
@@ -206,21 +222,9 @@ class CommentEvent extends Component {
       color,
       background,
     } = this.state;
-    const { editable, submitting, comments } = this.props;
+    const { editable, submitting, comments, id } = this.props;
     const commentList = this.configComment(comments);
-    const style = {
-      marginTop: `${margin[0]}%`,
-      marginLeft: `${margin[1]}%`,
-      marginRight: `${margin[2]}%`,
-      marginBottom: `${margin[3]}%`,
-      paddingTop: `${padding[0]}%`,
-      paddingLeft: `${padding[1]}%`,
-      paddingRight: `${padding[2]}%`,
-      paddingBottom: `${padding[3]}%`,
-
-      color,
-      background,
-    };
+    const style = this.getCustomStyle();
 
     const loadMore = {
       color: '#1890ff',
@@ -228,7 +232,7 @@ class CommentEvent extends Component {
     };
 
     return (
-      <div className="d-flex child-block" style={style}>
+      <div className="d-flex child-block" style={style} key={id}>
         <div style={{ width: '100%' }}>
           {isLogined ? (
             <Comment

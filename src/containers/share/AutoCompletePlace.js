@@ -3,6 +3,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import { GoogleApiWrapper } from 'google-maps-react';
+
 import { Input } from 'antd';
 
 class AutoCompletePlace extends React.Component {
@@ -84,4 +86,8 @@ class AutoCompletePlace extends React.Component {
   }
 }
 
-export default AutoCompletePlace;
+const AutoCompletePlaceCPN = GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_DIRECTION_KEY,
+})(AutoCompletePlace);
+
+export default AutoCompletePlaceCPN;

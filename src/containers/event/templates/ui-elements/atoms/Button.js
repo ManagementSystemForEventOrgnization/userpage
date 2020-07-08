@@ -110,15 +110,12 @@ class ButtonBlock extends React.Component {
     this.handleStoreBlock();
   };
 
-  render() {
-    const { key, editable, child, leftModal } = this.props;
+  getCustomStyle = () => {
     const {
-      content,
       borderWidthButton,
       borderColorButton,
       margin,
       padding,
-      isButton,
       background,
       fontSize,
       lineText,
@@ -128,7 +125,6 @@ class ButtonBlock extends React.Component {
       color,
       borderRadius,
       fontWeight,
-      isDesign,
       borderStyle,
       whiteSpace,
       display,
@@ -136,12 +132,7 @@ class ButtonBlock extends React.Component {
       height,
       alignContent,
     } = this.state;
-
-    const divStyle = {
-      textAlign: textAlign,
-      fontSize: fontSize,
-    };
-    const styleButton = {
+    return {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -170,13 +161,35 @@ class ButtonBlock extends React.Component {
       touchAction,
       height,
     };
+  };
+  render() {
+    const { id, editable, child, leftModal } = this.props;
+    const {
+      content,
+      borderWidthButton,
+      borderColorButton,
+      margin,
+      padding,
+      isButton,
+      background,
+      fontSize,
+      lineText,
+      letterSpacing,
+      textAlign,
+      color,
+      borderRadius,
+      isDesign,
+    } = this.state;
 
+    const divStyle = {
+      textAlign: textAlign,
+      fontSize: fontSize,
+    };
+    const styleButton = this.getCustomStyle();
     return (
-      <div className="button-block  child-block" style={divStyle}>
+      <div className="button-block  child-block" style={divStyle} key={id}>
         <div className="d-flex justify-content-center">
-          <div></div>
           <Button
-            key={key}
             className="ml-3"
             style={styleButton}
             value={isButton}

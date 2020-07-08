@@ -115,10 +115,7 @@ class TimelineBlock extends Component {
     }
   };
 
-  render() {
-    const { editable } = this.props;
-    const { session } = this.state;
-
+  getCustomStyle = () => {
     const {
       margin,
       padding,
@@ -130,10 +127,9 @@ class TimelineBlock extends Component {
       transform,
       color,
       fontWeight,
-      visible,
     } = this.state;
 
-    const divStyle = {
+    return {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -154,7 +150,24 @@ class TimelineBlock extends Component {
       fontWeight: fontWeight,
       width: '100 %',
     };
+  };
 
+  render() {
+    const { editable } = this.props;
+    const { session } = this.state;
+
+    const {
+      margin,
+      padding,
+      background,
+      fontSize,
+      lineText,
+      letterSpacing,
+      color,
+      visible,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
     return (
       <div className="child-block  p-5">
         <h2 style={titleBlockStyle}>Timeline</h2>

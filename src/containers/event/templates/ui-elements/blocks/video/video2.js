@@ -102,21 +102,10 @@ class Video2 extends React.Component {
     }
   };
 
-  render() {
-    const {
-      uploadedFileCloudinaryUrl,
-      width,
-      height,
-      margin,
-      padding,
-      borderRadius,
-      isShowNotFound,
-      txtInput,
-    } = this.state;
+  getCustomStyle = () => {
+    const { width, height, margin, padding, borderRadius } = this.state;
 
-    const { leftModal, editable } = this.props;
-
-    const videoStyle = {
+    return {
       width: `${width}%`,
       height: `${height}vh`,
       marginTop: `${margin[0]}%`,
@@ -131,13 +120,29 @@ class Video2 extends React.Component {
       maxWidth: '100%',
       maxHeight: '100%',
     };
+  };
+
+  render() {
+    const {
+      uploadedFileCloudinaryUrl,
+      width,
+      height,
+      margin,
+      padding,
+      isShowNotFound,
+      txtInput,
+    } = this.state;
+
+    const { leftModal, editable } = this.props;
+
+    const videoStyle = this.getCustomStyle();
 
     return (
       <div className=" child-block  d-flex">
         {isShowNotFound ? (
           <div style={videoStyle}>
             <ReactPlayer
-              url={uploadedFileCloudinaryUrl}
+              url={`https:${uploadedFileCloudinaryUrl}`}
               //   playing={playing}
               controls={true}
               style={videoStyle}
