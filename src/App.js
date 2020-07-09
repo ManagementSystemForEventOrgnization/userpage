@@ -9,11 +9,13 @@ import 'react-chat-widget/lib/styles.css';
 // import WrappRouter from './routers/WrapRouter';
 import BaseRoute from './routers/BaseRoute';
 import history from 'utils/history';
+import GA from 'utils/GoogleAnalytics';
 
 class App extends Component {
   render() {
     return (
       <Router history={history}>
+        {GA.init() && <GA.RouteTracker />}
         <BaseRoute />
       </Router>
     );
