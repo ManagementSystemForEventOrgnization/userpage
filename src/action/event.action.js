@@ -2,6 +2,7 @@ import API from './axious.config';
 import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
+import axios from 'axios';
 
 const getHomeData = () => {
   return (dispatch) =>
@@ -207,6 +208,39 @@ const storeHeaderStyle = (style) => {
       headerStyle,
     };
   }
+};
+
+const uploadFiles = (fileList) => {
+  const files = new FormData();
+
+  fileList.map((item) => files.append('file', item));
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'POST',
+      url: '/api/upload',
+      data: files,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        resolve(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        reject(err);
+      });
+  });
+};
+
+const deleteUploadedFile = (url_del, cb) => {
+  API.post('/api/delete_file', url_del)
+    .then(() => {
+      cb();
+    })
+    .catch((err) => {
+      cb(err);
+    });
 };
 
 const prepareForCreateEvent = (
@@ -700,6 +734,9 @@ export const eventActions = {
   changePages,
   getUserJoinEvent,
   prepareForCreateEvent,
+
+  uploadFiles,
+  deleteUploadedFile,
 
   getEventDetail,
   getListEventUpComing,

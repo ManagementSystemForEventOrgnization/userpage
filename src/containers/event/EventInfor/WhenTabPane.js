@@ -11,17 +11,13 @@ import {
   Form,
   InputNumber,
   Collapse,
-  Tooltip,
-  Upload,
+  message,
 } from 'antd';
-import {
-  PlusCircleTwoTone,
-  DeleteOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
+import { PlusCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 
 import AutoCompletePlace from '../../share/AutoCompletePlace';
 import UploadImage from '../templates/ui-elements/shares/UploadImage';
+import { eventActions } from 'action/event.action';
 
 const { RangePicker } = TimePicker;
 const { Panel } = Collapse;
@@ -220,10 +216,26 @@ class TabPane extends Component {
       const indexItem = session[indexSS].documents.findIndex(
         (item) => item.id === idDoc
       );
-      session[indexSS].documents.splice(indexItem, 1);
-      this.setState({
-        session,
-      });
+      const currDocument = session[indexSS].documents[indexItem];
+      if (currDocument.upload) {
+        eventActions.deleteUploadedFile(currDocument.url, (data) => {
+          if (data) {
+            message.error('Delete failed!');
+          } else {
+            message.success('Delete success !');
+            session[indexSS].documents.splice(indexItem, 1);
+            this.setState({
+              session,
+            });
+          }
+        });
+      } else {
+        session[indexSS].documents.splice(indexItem, 1);
+        this.setState({
+          session,
+        });
+      }
+
       onChange('session', session);
     }
   };
@@ -247,9 +259,34 @@ class TabPane extends Component {
     return;
   };
 
-  handleUploadFiles = (file, fileList) => {
-    console.log(file);
-    console.log(fileList);
+  onChangeHandler = (e, id) => {
+    const fileList = e.target.files;
+    const files = [];
+    if (fileList.length >= 12) {
+      message.warn('You cannot upload more than 12 files');
+    } else {
+      const { session } = this.state;
+      const { onChange } = this.props;
+      const index = session.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        for (let i = 0; i < fileList.length; i++) {
+          files.push(fileList[i]);
+        }
+        eventActions.uploadFiles(files).then((data) => {
+          data.map((item) =>
+            session[index].documents.push({
+              id: uuid(),
+              url: item.url,
+              title: item.title,
+              upload: true,
+            })
+          );
+
+          this.setState({ session });
+        });
+        onChange();
+      }
+    }
   };
 
   render() {
@@ -459,6 +496,7 @@ class TabPane extends Component {
                                   event.target.value
                                 )
                               }
+                              disabled={doc.upload}
                             />
                           </Form.Item>
                           <Form.Item>
@@ -485,22 +523,13 @@ class TabPane extends Component {
                         >
                           Add link
                         </Button>
-                        <Tooltip title="Upload multiple files">
-                          <UploadOutlined
-                            type="button"
-                            style={{ fontSize: '20px', color: '#eb2f96' }}
-                          />
-                        </Tooltip>
 
-                        <Upload
-                          beforeUpload={this.handleUploadFiles}
+                        <input
+                          type="file"
                           multiple
-                          accept="png/jpg/pdf"
-                        >
-                          <Button>
-                            <UploadOutlined /> Upload multiple files
-                          </Button>
-                        </Upload>
+                          accept="application/pdf"
+                          onChange={(e) => this.onChangeHandler(e, ss.id)}
+                        />
                       </div>
                     </Panel>
 
