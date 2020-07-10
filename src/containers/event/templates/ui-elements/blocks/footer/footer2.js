@@ -8,6 +8,7 @@ import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 
 import { FooterState } from '../../stateInit/FooterState';
 import { eventActions } from 'action/event.action';
+// import { Link } from 'react-router-dom';
 
 class footer2 extends Component {
   constructor(props) {
@@ -125,15 +126,17 @@ class footer2 extends Component {
           {url && <div style={bg}></div>}
 
           <div style={{ padding: '6%' }}>
-            <TextsBlock
-              content={normalText.value}
-              child={true}
-              newStyle={normalText.style}
-              editable={editable}
-              handleChangeFooter={(value) =>
-                this.onChangeStyle('normalText', value)
-              }
-            />
+            {
+              <TextsBlock
+                content={normalText.value}
+                child={true}
+                newStyle={normalText.style}
+                editable={editable}
+                handleChangeFooter={(value) =>
+                  this.onChangeStyle('normalText', value)
+                }
+              />
+            }
           </div>
         </div>
         {editable && (

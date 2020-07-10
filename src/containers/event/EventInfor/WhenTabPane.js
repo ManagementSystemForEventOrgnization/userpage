@@ -456,7 +456,7 @@ class TabPane extends Component {
                       {ss.documents.map((doc) => (
                         <div className="d-flex mt-1" key={doc.id}>
                           <Form.Item
-                            name="Title documents"
+                            // name="Title documents"
                             rules={[
                               {
                                 required: true,
@@ -478,7 +478,7 @@ class TabPane extends Component {
                           </Form.Item>
                           <Form.Item
                             className="ml-1 mr-2"
-                            name="Url documents"
+                            // name="Url documents"
                             rules={[
                               {
                                 required: true,
