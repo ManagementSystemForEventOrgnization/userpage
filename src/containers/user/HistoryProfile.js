@@ -164,7 +164,7 @@ class HistoryProfile extends React.Component {
                           ) : (
                               <Button className="ml-1 mt-1 ticket" key={item._id}>
                                 Free
-                              </Button>
+                          </Button>
                             )}
 
                           {item.bannerUrl && (
@@ -199,7 +199,7 @@ class HistoryProfile extends React.Component {
                           ) : (
                               <p className="ml-2" style={{ fontWeight: 'bold' }}>
                                 + {item.session.length - 1}more events
-                              </p>
+                          </p>
                             )}
                         </div>
                       </div>
@@ -234,13 +234,13 @@ class HistoryProfile extends React.Component {
                                   style={{ fontWeight: 'bold' }}
                                 >
                                   {item.ticket.price} VNĐ
-                                </p>
+                            </p>
                               )}
                           </div>
                         ) : (
                             <p style={{ fontWeight: 'bold' }} className="ml-1  ">
                               0 VNĐ
-                            </p>
+                        </p>
                           )}
                       </div>
 
@@ -270,7 +270,7 @@ class HistoryProfile extends React.Component {
                   onClick={this.onLoadMore}
                 >
                   Load More
-                </Button>
+              </Button>
               )}
             </div>
           )}

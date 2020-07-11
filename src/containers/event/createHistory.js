@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import QRCodes from '../user/QRCode'
 
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -26,6 +27,7 @@ import {
   SettingOutlined,
   CloseOutlined,
   CheckCircleFilled,
+  QrcodeOutlined
 } from '@ant-design/icons';
 import { userActions } from 'action/user.action';
 import { eventActions } from 'action/event.action';
@@ -56,6 +58,7 @@ class CreateHistory extends React.Component {
       isShowCancel: false,
       isRadio: true,
       isSuccess: true,
+      isOpenQrCode: false
     };
   }
   componentDidMount = () => {
@@ -308,6 +311,17 @@ class CreateHistory extends React.Component {
   };
 
   renderMenu = (item) => {
+    const qrCodes = (sess, eventId) => (
+      <Menu>
+        {sess.map((item, key) => (
+          <Menu.Item key={key}>
+            {console.log(item)}
+            <QRCodes QrValue={eventId + item._id} day={item.day} title={"Session: " + item.joinNumber} />
+          </Menu.Item>
+        ))}
+
+      </Menu>
+    );
     const menu = (
       <Menu key={`menu${item._id}`}>
         <Menu.Item onClick={() => this.handleEditSite(item.urlWeb, item._id)}>
@@ -344,6 +358,14 @@ class CreateHistory extends React.Component {
               Cancel event
             </p>
           </div>
+        </Menu.Item>
+        <Menu.Item >
+          <Dropdown overlay={qrCodes(item.session, item._id)}>
+
+            <p style={{ fontWeight: 'bolder' }}>
+              <QrcodeOutlined className="mr-3" />  QR Code
+            </p>
+          </Dropdown>
         </Menu.Item>
       </Menu>
     );
