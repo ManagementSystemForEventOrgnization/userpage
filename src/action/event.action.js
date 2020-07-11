@@ -725,6 +725,7 @@ const cancelEvent = (eventId, sessionIds) => {
   }
 };
 
+
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,

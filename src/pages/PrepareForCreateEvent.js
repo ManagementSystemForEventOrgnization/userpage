@@ -9,7 +9,7 @@ class PrepareForCreateEvent extends Component {
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
     return (
-      <div className="pt-3 pl-5 pr-5">
+      <div className="pt-3 pl-5 pr-5 background">
         <div className="d-flex justify-content-center">
           <Link to="/">
             <img alt="logo" src={urlIMG} />

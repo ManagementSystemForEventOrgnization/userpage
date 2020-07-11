@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import AboutUs from 'pages/AboutUs'
 
 function mapStateToProps(state) {
   return {};
@@ -7,7 +8,12 @@ function mapStateToProps(state) {
 
 class AboutUsPage extends Component {
   render() {
-    return <div></div>;
+    return <div>
+
+
+      <AboutUs />
+
+    </div>;
   }
 }
 

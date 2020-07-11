@@ -534,7 +534,7 @@ const getListNotification = (pageNumber, numberRecord) => {
 
 const getNumUnreadNotification = () => {
   return (dispatch) => {
-    API.get('/api/getBadgeNumber')
+    API.get('/transfer/getBadgeNumber')
       .then((res) => {
         const { result } = res.data;
         dispatch(success(result));

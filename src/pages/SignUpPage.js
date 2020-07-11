@@ -58,129 +58,131 @@ class SignUp extends React.Component {
     const urlIMG =
       'https://res.cloudinary.com/dklfyelhm/image/upload/v1584932729/Event/hand_iind0n.png';
 
+
     return (
       <div className="login-page">
-        <div className=" row">
-          <Link to="/" className="col ">
-            <img src={urlIMG} alt="logo" />
+        <div className=" row login">
+          <Link to="/" className=" col-sm-6 col-md-6 mt-5 ">
+            <img src={urlIMG} alt="logo" style={{ width: '90%' }} />
           </Link>
-          <div className="col">
-            <p className="website-name">Event in your hand</p>
+          <div className=" col-sm-6 col-md-6 mt-5 form">
+            <p className="website-name">Sign Up</p>
 
             {showCheckCode && !isFirstLoad ? (
               <CheckCode />
             ) : (
-              <Form className="mt-4" form={this.form}>
-                <Form.Item>
-                  {!isFirstLoad && message && (
-                    <div className="error-message mt-2 mb-2">{message}</div>
-                  )}
-                </Form.Item>
+                <Form className="mt-4" form={this.form}>
+                  <Form.Item>
+                    {!isFirstLoad && message && (
+                      <div className="error-message mt-2 mb-2">{message}</div>
+                    )}
+                  </Form.Item>
 
-                <Form.Item
-                  name="fullname"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input
-                    className="inputStyle"
+                  <Form.Item
                     name="fullname"
-                    value={fullname}
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Fullname"
-                  />
-                </Form.Item>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="inputStyle"
+                      name="fullname"
+                      value={fullname}
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      placeholder="Fullname"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input
-                    className="inputStyle"
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    value={email}
+                  <Form.Item
                     name="email"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    placeholder="Email"
-                  />
-                </Form.Item>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="inputStyle"
+                      prefix={<MailOutlined className="site-form-item-icon" />}
+                      value={email}
+                      name="email"
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      placeholder="Email"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    className="inputStyle"
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
+                  <Form.Item
                     name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    placeholder="Password"
-                  />
-                </Form.Item>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      className="inputStyle"
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      placeholder="Password"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  name="retypePassword"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    className="inputStyle"
-                    prefix={<UnlockOutlined className="site-form-item-icon" />}
-                    type="password"
+                  <Form.Item
                     name="retypePassword"
-                    value={retypePassword}
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    placeholder="Retype password"
-                  />
-                </Form.Item>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      className="inputStyle"
+                      prefix={<UnlockOutlined className="site-form-item-icon" />}
+                      type="password"
+                      name="retypePassword"
+                      value={retypePassword}
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      placeholder="Retype password"
+                    />
+                  </Form.Item>
 
-                <Form.Item shouldUpdate>
-                  {() => (
-                    <div style={{ textAlign: 'center' }}>
-                      <Button
-                        className=" mt-2 changePassword"
-                        block
-                        type="primary"
-                        htmlType="submit "
-                        onClick={this.handleSignup}
-                        disabled={!active}
-                        loading={pending}
-                      >
-                        Register
+                  <Form.Item shouldUpdate>
+                    {() => (
+                      <div style={{ textAlign: 'center' }}>
+                        <Button
+                          className=" mt-2 changePassword"
+                          block
+                          type="primary"
+                          htmlType="submit "
+                          onClick={this.handleSignup}
+                          disabled={!active}
+                          loading={pending}
+                          style={{ width: '100%', height: '40px', borderRadius: '10px', color: 'black', fontWeight: 'bold' }}
+                        >
+                          Register
                       </Button>
-                    </div>
-                  )}
-                </Form.Item>
+                      </div>
+                    )}
+                  </Form.Item>
 
-                <p className="mt-2" style={{ textAlign: 'center' }}>
-                  You had account?{' '}
-                  <span>
-                    <Link to="/login">Login </Link>
-                  </span>{' '}
-                </p>
-              </Form>
-            )}
+                  <p className="mt-2" style={{ textAlign: 'center', color: 'black' }}>
+                    You had account?{' '}
+                    <span>
+                      <Link to="/login">Login </Link>
+                    </span>{' '}
+                  </p>
+                </Form>
+              )}
           </div>
         </div>
       </div>
