@@ -22,6 +22,18 @@ const inputInModalStyle = {
   width: '200px',
 };
 
+const logoStyle = {
+  objectFit: 'cover',
+  marginRight: '5%',
+  border: 'none',
+};
+
+const menuHeaderStyle = {
+  color: '#333333',
+  fontWeight: '600',
+  fontSize: '20px',
+};
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -62,14 +74,17 @@ class Header extends Component {
 
   handleClickMenuItem = (item) => {
     const { changeCurrentPage } = this.props;
+    // console.log(item);
     changeCurrentPage(item.id);
   };
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.currentPage !== this.props.currentPage) {
-      this.currentItem();
-    }
-  };
+  //   componentDidUpdate = (prevProps) => {
+  //     console.log('Prev: ', prevProps.currentPage);
+
+  //     if (prevProps.currentPage !== this.props.currentPage) {
+  //       this.currentItem();
+  //     }
+  //   };
 
   currentItem = () => {
     const { currentPage, pages } = this.props;
@@ -205,11 +220,6 @@ class Header extends Component {
     } = this.state;
 
     const divStyle = this.getCustomStyle();
-    const logoStyle = {
-      objectFit: 'cover',
-      marginRight: '5%',
-      border: 'none',
-    };
 
     return (
       <div className="d-flex">
@@ -228,11 +238,7 @@ class Header extends Component {
               mode="horizontal"
               selectedKeys={currentPage}
               className="flex-fill ml-5"
-              style={{
-                color: '#333333',
-                fontWeight: '600',
-                fontSize: '20px',
-              }}
+              style={menuHeaderStyle}
             >
               {pages.map((item) =>
                 item.child.length === 0 ? (

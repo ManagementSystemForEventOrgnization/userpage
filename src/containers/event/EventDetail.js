@@ -76,7 +76,7 @@ class EventDetail extends React.Component {
       prevProps.currentIndex !== undefined &&
       prevProps.currentIndex !== this.props.currentIndex
     ) {
-      localStorage.setItem('currentIndex', this.props.currentIndex);
+      //   localStorage.setItem('currentIndex', this.props.currentIndex);
 
       const { id, name } = this.props.match.match.params;
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);

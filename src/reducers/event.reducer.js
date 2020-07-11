@@ -407,6 +407,10 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.CHANGE_CURRENT_PAGE:
+      localStorage.setItem(
+        'currentIndex',
+        getIndexPage(state.pages, action.currentPage)
+      );
       return {
         ...state,
         currentPage: action.currentPage,
