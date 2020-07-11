@@ -7,6 +7,7 @@ import UploadImage from '../shares/UploadImage';
 import { ImageState } from '../stateInit/ImageState';
 import { eventActions } from 'action/event.action';
 import IconsHandle from '../shares/IconsHandle';
+import history from 'utils/history';
 
 const { TabPane } = Tabs;
 
@@ -94,7 +95,7 @@ class ImageBlock extends React.Component {
   };
 
   handlleClick = () => {
-    const { child, editable } = this.props;
+    const { child, editable, logo } = this.props;
 
     if (child && editable) {
       const { visible } = this.state;
@@ -102,6 +103,11 @@ class ImageBlock extends React.Component {
       this.setState({
         visible: !visible,
       });
+    } else {
+      if (logo) {
+        const { webAddress } = this.props;
+        history.push(`/event/${webAddress}`);
+      }
     }
   };
 
@@ -145,18 +151,29 @@ class ImageBlock extends React.Component {
       borderRadius,
     } = this.state;
 
-    const { leftModal, editable, child, newStyle, id } = this.props;
+    const { leftModal, editable, child, newStyle, id, logo } = this.props;
     const imageStyle = this.getCustomStyle();
 
     return (
       <div className="image-block child-block d-flex" key={id}>
-        <img
-          style={newStyle ? newStyle : imageStyle}
-          alt="img"
-          className={newStyle ? ' mr-5' : 'border border-light'}
-          src={uploadedFileCloudinaryUrl}
-          onClick={this.handlleClick}
-        />
+        {logo ? (
+          <img
+            style={newStyle || imageStyle}
+            alt="img"
+            className={newStyle ? ' mr-5' : 'border border-light'}
+            src={uploadedFileCloudinaryUrl}
+            onClick={this.handlleClick}
+            type="button"
+          />
+        ) : (
+          <img
+            style={newStyle || imageStyle}
+            alt="img"
+            className={newStyle ? ' mr-5' : 'border border-light'}
+            src={uploadedFileCloudinaryUrl}
+            onClick={this.handlleClick}
+          />
+        )}
 
         {editable && !child && (
           <div className="ml-auto">

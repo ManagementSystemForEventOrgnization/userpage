@@ -132,6 +132,7 @@ class footer2 extends Component {
                 child={true}
                 newStyle={normalText.style}
                 editable={editable}
+                footer={true}
                 handleChangeFooter={(value) =>
                   this.onChangeStyle('normalText', value)
                 }

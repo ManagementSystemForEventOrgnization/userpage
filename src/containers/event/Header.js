@@ -217,7 +217,6 @@ class Header extends Component {
     } = this.state;
 
     const divStyle = this.getCustomStyle();
-
     return (
       <div className="d-flex">
         {!pending && (
@@ -229,6 +228,8 @@ class Header extends Component {
               newStyle={logoStyle}
               editable={editable}
               child={true}
+              logo={true}
+              webAddress={id}
             />
 
             <Menu
