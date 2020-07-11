@@ -99,24 +99,55 @@ const getIndexPage = (pages, currentPage) => {
   return count;
 };
 
-const getCurrentPage = (pages, index) => {
+// const getCurrentPage = (pages, index) => {
+//   const editSite = localStorage.getItem('editSite');
+//   const currentIndex = localStorage.getItem('currentIndex');
+
+//   if (editSite || index === 0) {
+//     if (pages[0].child.length === 0) return pages[0].id;
+//     return pages[0].child[0].id;
+//   } else {
+//     let count = 0;
+//     for (let i in pages) {
+//       if (pages[i].child === 0) {
+//         if (count === index) return pages[i].id;
+//       } else {
+//         for (let j in pages[i].child) {
+//           if (count === index) return pages[i].child[j].id;
+//           count++;
+//         }
+//       }
+//       count++;
+//     }
+//   }
+// };
+
+const getId = (temp, indexT) => {
+  let lengthTemp = temp.length;
+  let lengthChild = 0;
+
   const editSite = localStorage.getItem('editSite');
 
-  if (editSite || index === 0) {
-    if (pages[0].child.length === 0) return pages[0].id;
-    return pages[0].child[0].id;
-  } else {
-    let count = 0;
-    for (let i in pages) {
-      if (pages[i].child === 0) {
-        if (count === index) return pages[i].id;
-      } else {
-        for (let j in pages[i].child) {
-          if (count === index) return pages[i].child[j].id;
-          count++;
-        }
+  if (editSite || indexT === 0) {
+    if (temp[0].child.length === 0) return temp[0].id;
+    return temp[0].child[0].id;
+  }
+
+  for (let i = 0; i < +lengthTemp; i++) {
+    let elem = temp[i];
+    let child = elem.child;
+    lengthChild = child.length;
+
+    if (lengthChild) {
+      if (child[indexT]) {
+        return child[indexT].id;
       }
-      count++;
+      indexT = indexT - lengthChild;
+    } else {
+      if (!indexT) {
+        return elem.id;
+      }
+      indexT = indexT - 1;
     }
   }
 };
@@ -258,7 +289,8 @@ const event = (state = initialState, action) => {
         ticket: action.event.ticket,
         status: action.event.status,
         system: editSite ? action.page : [],
-        currentPage: getCurrentPage(action.header.pages, action.index),
+        currentPage: getId(action.header.pages, action.index), //THIS
+        //  currentPage: state.currentIndex
         isSellTicket: action.event.isSellTicket,
 
         // update event infor
@@ -373,10 +405,6 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
-      //   console.log(action.currentPage);
-      //   console.log(state.pages);
-      //   console.log(getIndexPage(state.pages, action.currentPage));
-      //   console.log(state.system);
       return {
         ...state,
         currentPage: action.currentPage,
@@ -411,10 +439,14 @@ const event = (state = initialState, action) => {
         'currentIndex',
         getIndexPage(state.pages, action.currentPage)
       );
+
       return {
         ...state,
         currentPage: action.currentPage,
         currentIndex: getIndexPage(state.pages, action.currentPage),
+        blocks:
+          state.system[getIndexPage(state.pages, action.currentPage)] ||
+          initialBlocks,
       };
 
     case eventConstants.CHANGE_PAGES:

@@ -50,59 +50,69 @@ class ForgotPassword extends React.Component {
             <img alt="logo" src={urlIMG} style={{ width: '90%' }} />
           </Link>
 
-          <div className=" col-sm-6 col-md-6 mt-5 form">
+          <div
+            className=" col-sm-6 col-md-6 mt-5 form"
+            // style={{ marginBottom: '8%' }}
+          >
             <p className="website-name ">Password reset</p>
 
             {showVerifyForgotPassword && !isFirstLoad ? (
               <VerifyPassword />
             ) : (
-                <Form className="mt-2" form={this.form}>
-                  <p className="notification" >
-                    We'll send you password reset instructions to your email
-                    address.
+              <Form className="mt-2" form={this.form}>
+                <p className="notification">
+                  We'll send you password reset instructions to your email
+                  address.
                 </p>
-                  <Form.Item>
-                    {!isFirstLoad && message && (
-                      <div className="error-message mt-2 mb-2">{message}</div>
-                    )}
-                  </Form.Item>
+                <Form.Item>
+                  {!isFirstLoad && message && (
+                    <div className="error-message mt-2 mb-2">{message}</div>
+                  )}
+                </Form.Item>
 
-                  <Form.Item
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    className="inputStyle"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    value={email}
                     name="email"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="inputStyle"
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      value={email}
-                      name="email"
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                      placeholder="Email"
-                    />
-                  </Form.Item>
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    placeholder="Email"
+                  />
+                </Form.Item>
 
-                  <Form.Item shouldUpdate>
-                    {() => (
-                      <Button
-                        type="primary"
-                        className=" mt-2 changePassword"
-                        loading={pending}
-                        disabled={!activeEmail}
-                        htmlType="submit"
-                        onClick={this.handleSendEmail}
-                        style={{ width: '100%', height: '40px', borderRadius: '10px', color: 'black', fontWeight: 'bold' }} d
-                      >
-                        Reset my password
-                      </Button>
-                    )}
-                  </Form.Item>
-                </Form>
-              )}
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      type="primary"
+                      className=" mt-2 changePassword"
+                      loading={pending}
+                      disabled={!activeEmail}
+                      htmlType="submit"
+                      onClick={this.handleSendEmail}
+                      style={{
+                        width: '100%',
+                        height: '40px',
+                        borderRadius: '10px',
+                        color: 'black',
+                        fontWeight: 'bold',
+                      }}
+                      d
+                    >
+                      Reset my password
+                    </Button>
+                  )}
+                </Form.Item>
+              </Form>
+            )}
           </div>
         </div>
       </div>

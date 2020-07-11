@@ -11,7 +11,7 @@ class EventDetail extends React.Component {
     this.state = {
       dropList: props.blocks,
       currentPage: props.currentPage,
-      currentIndex: props.match.match.params.name || props.currentIndex,
+      currentIndex: props.currentIndex,
       webAddress:
         props.match.match.params.id || localStorage.getItem('webAddress'),
     };
@@ -39,7 +39,6 @@ class EventDetail extends React.Component {
   componentDidMount = () => {
     const { getEventDetail } = this.props;
     const { webAddress, currentIndex } = this.state;
-    console.log(currentIndex);
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
     getEventDetail(webAddress, index)
@@ -82,6 +81,10 @@ class EventDetail extends React.Component {
       const { id, name } = this.props.match.match.params;
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
+  };
+
+  componentWillUnmount = () => {
+    localStorage.removeItem('currentId');
   };
 
   render() {

@@ -157,8 +157,6 @@ class CardBlock extends React.Component {
     const { list } = this.state;
     const { editable, type } = this.props;
     return (
-      // need to map style
-
       <div className="d-flex  mt-3 mb-3 p-2">
         {type === 1 ? (
           <div className="row d-flex justify-content-around child-block">
