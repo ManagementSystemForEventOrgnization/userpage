@@ -7,7 +7,7 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import QRCode from 'containers/user/QRCode';
+import QRCodes from 'containers/user/QRCode';
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +55,7 @@ class ProfilePage extends Component {
             {tab === "1" && <UpdateProfileInfor />}
             {tab === "2" && <BankAccount />}
             {tab === "3" && <TransactionHistory />}
-            {tab === "4" && <QRCode />}
+            {tab === "4" && <QRCodes QrValue={this.props.userInfo._id ? this.props.userInfo._id : ""} />}
           </div>
         </div>
       </div>
@@ -66,6 +66,7 @@ class ProfilePage extends Component {
 const mapStateToProps = (state) => {
   return {
     pending: state.user.pending,
+    userInfo: state.user.userInfo,
     errMessage: state.user.errMessage,
   };
 };
