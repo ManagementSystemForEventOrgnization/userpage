@@ -78,13 +78,14 @@ class Header extends Component {
     changeCurrentPage(item.id);
   };
 
-  //   componentDidUpdate = (prevProps) => {
-  //     console.log('Prev: ', prevProps.currentPage);
+  // componentDidUpdate = (prevProps) => {
+  //   console.log('Prev: ', prevProps.currentPage);
+  //   console.log(this.props.currentIndex);
 
-  //     if (prevProps.currentPage !== this.props.currentPage) {
-  //       this.currentItem();
-  //     }
-  //   };
+  //   // if (prevProps.currentPage !== this.props.currentPage) {
+  //   //   this.currentItem();
+  //   // }
+  // };
 
   currentItem = () => {
     const { currentPage, pages } = this.props;

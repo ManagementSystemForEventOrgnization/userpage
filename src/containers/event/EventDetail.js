@@ -39,6 +39,7 @@ class EventDetail extends React.Component {
   componentDidMount = () => {
     const { getEventDetail } = this.props;
     const { webAddress, currentIndex } = this.state;
+    console.log(currentIndex);
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
 
     getEventDetail(webAddress, index)
