@@ -17,12 +17,13 @@ class Header extends React.Component {
   }
 
   componentDidMount = () => {
-    const { getNumUnreadNotification, isLogined } = this.props;
-    if (isLogined) {
+    // nó bị call trước khi nhận đc data về hay qq gì á méo bie
+    const { getNumUnreadNotification, isLogined, pending } = this.props;
+    if (isLogined && !pending) {
       getNumUnreadNotification();
     }
   };
-
+  // r giờ sao trên kia nó vẫn cso mà call api k k có cái req.usser
   handleVisibleChange = (visible) => {
     const { isLogined } = this.props;
     if (isLogined) {
@@ -97,6 +98,7 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   isLogined: state.user.isLogined,
   numUnreadNotification: state.user.numUnreadNotification,
+  pending: state.user.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({

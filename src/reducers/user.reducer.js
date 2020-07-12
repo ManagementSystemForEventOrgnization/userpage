@@ -454,6 +454,15 @@ const user = (state = initialState, action) => {
         numUnreadNotification: action.numUnreadNotification,
       };
 
+    case userConstants.GET_UNREADNOTIFICATION_FAILURE:
+      localStorage.removeItem('isLogined');
+      localStorage.removeItem('username');
+      localStorage.removeItem('avatar');
+      return {
+        ...state,
+        isLogined: false,
+      };
+
     case userConstants.SET_READ_NOTIFICATION:
       return {
         ...state,
