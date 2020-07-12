@@ -39,13 +39,13 @@ class Header extends React.Component {
     return (
       <div className="head ">
         <nav className="nav header ">
-          <Link to="" className="nav-link active web-name mr-5">
+          <Link to="" className="nav-link active web-name ">
             EVENT IN YOUR HAND
           </Link>
 
-          <div className="nav-link ml-auto user-nav">
+          <div className="nav-link ml-auto user-nav notification">
             {isLogined ? (
-              <div className="d-flex  mr-5">
+              <div className="d-flex  ">
                 <Popover
                   title="Notifications"
                   style={{ width: 1000 }}
@@ -67,26 +67,26 @@ class Header extends React.Component {
                       <BellOutlined style={{ fontSize: 23 }} />
                     </Badge>
                   ) : (
-                    <div type="button">
-                      <BellOutlined style={{ fontSize: 20 }} />
-                    </div>
-                  )}
+                      <div type="button">
+                        <BellOutlined style={{ fontSize: 20 }} />
+                      </div>
+                    )}
                 </Popover>
 
                 <UserNav />
               </div>
             ) : (
-              <div className="d-flex">
-                <Link className="mr-4 login" to="/login">
-                  Login
+                <div className="d-flex">
+                  <Link className="mr-4 login" to="/login">
+                    Login
                 </Link>
-                <Link to="/signup" className=" mr-3 register">
-                  <Button size="large" type="danger">
-                    Register for free
+                  <Link to="/signup" className=" mr-3 register">
+                    <Button size="large" type="danger">
+                      Register for free
                   </Button>
-                </Link>
-              </div>
-            )}
+                  </Link>
+                </div>
+              )}
           </div>
         </nav>
       </div>
