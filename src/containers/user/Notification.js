@@ -4,7 +4,6 @@ import { CheckCircleTwoTone, DeleteOutlined } from '@ant-design/icons';
 // import reqwest from 'reqwest';
 
 import InfiniteScroll from 'react-infinite-scroller';
-import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { userActions } from 'action/user.action';
@@ -28,12 +27,9 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-    console.log("componentDidMount")
     const { getListNotification } = this.props;
     getListNotification();
-  }
-
-
+  };
 
   loadMoreNotification = () => {
     if (this.props.isLoadedMore) {
@@ -49,8 +45,8 @@ class Notification extends Component {
     this.setState({
       loading: true,
     });
-    page = 1
-    this.props.getListNotification(page)
+    page = 1;
+    this.props.getListNotification(page);
     this.setState({
       loading: false,
     });
@@ -72,7 +68,7 @@ class Notification extends Component {
   };
 
   handleDeleleNotification = (notificationId) => {
-    if (this.state.data.length == 5) {
+    if (this.state.data.length === 5) {
       this.loadMoreNotification();
     }
     const { data } = this.state;
@@ -144,11 +140,23 @@ class Notification extends Component {
           <div className="d-flex">
             <List.Item.Meta avatar={<Avatar src={item.url} />} />
             {item.isRead ? (
-              <div onClick={() => item.linkTo.urlWeb ? window.location.replace(item.linkTo.urlWeb) : window.location.replace("http://localhost:3000/my-events")} >
+              <div
+                onClick={() =>
+                  item.linkTo.urlWeb
+                    ? window.location.replace(item.linkTo.urlWeb)
+                    : window.location.replace('http://localhost:3000/my-events')
+                }
+              >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-                <h6 onClick={() => this.handleMarkAsRead(item._id) || item.linkTo.urlWeb ? window.location.replace(item.linkTo.urlWeb) : window.location.replace("http://localhost:3000/my-events")} >
+                <h6
+                  onClick={() =>
+                    this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                      ? window.location.replace(item.linkTo.urlWeb)
+                      : window.location.replace('http://localhost:3000/my-events')
+                  }
+                >
                   {this.getNameSender(item.title, item.users_sender.fullName)}
                 </h6>
               )}
@@ -222,7 +230,7 @@ class Notification extends Component {
 
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
-  isLoadedMore: state.user.isLoadedMore
+  isLoadedMore: state.user.isLoadedMore,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -231,7 +239,6 @@ const mapDispatchToProps = (dispatch) => ({
   setReadNotification: (id) => dispatch(userActions.setReadNotification(id)),
   setDeleteNotification: (id) =>
     dispatch(userActions.setDeleteNotification(id)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

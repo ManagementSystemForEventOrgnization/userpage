@@ -51,10 +51,10 @@ class IconBlock extends React.Component {
 
   render() {
     const { iconNameList, styleFormat } = this.state;
-    const { editable } = this.props;
+    const { editable, id } = this.props;
 
     return (
-      <div className="child-block">
+      <div className="child-block" key={id}>
         <div
           className="mt-2"
           onClick={() => this.onChangeValue(true, 'isDesign')}

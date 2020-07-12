@@ -9,13 +9,21 @@ const initialState = {
   showCheckCode: false,
   showVerifyForgotPassword: false,
   notiPageNumber: 0,
-  arrEvent: [],
+
+  registeredEvents: [],
+  createdEvents: [],
+
   notifications: [],
   numUnreadNotification: 0,
+
   chatHistory: [],
   listCard: [{}],
   historyPayment: [],
-  historyEvent: [],
+  deleteEvent: [],
+  successDe: false,
+  eventDelete: null,
+  penDelet: false,
+  errDelete: ' ',
 };
 
 const user = (state = initialState, action) => {
@@ -392,7 +400,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_SUCCESS:
       return {
         ...state,
-        arrEvent: action.arrEvent,
+        registeredEvents: action.arrEvent,
         pending: false,
         errMessage: null,
       };
@@ -407,7 +415,10 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         isLoadedMore: action.notifications.length === 10 ? true : false,
-        notifications: action.notiPageNumber === 1 ? [...action.notifications] : [...state.notifications, ...action.notifications],
+        notifications:
+          action.notiPageNumber === 1
+            ? [...action.notifications]
+            : [...state.notifications, ...action.notifications],
         errMessage: null,
       };
 
@@ -425,7 +436,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
       return {
         ...state,
-        arrEvent: action.arrEvent,
+        createdEvents: action.arrEvent,
         pending: false,
         errMessage: null,
       };
@@ -451,13 +462,38 @@ const user = (state = initialState, action) => {
     case userConstants.DELETE_NOTIFICATION:
       return {
         ...state,
-        notifications: [...state.notifications.filter(item => item._id !== action.delNotificationId)]
+        notifications: [
+          ...state.notifications.filter(
+            (item) => item._id !== action.delNotificationId
+          ),
+        ],
       };
 
     case userConstants.GET_CHAT_HISTORY:
       return {
         ...state,
         chatHistory: action.chatHistory,
+      };
+    case userConstants.DELETE_EVENT_REQUEST:
+      return {
+        ...state,
+        penDelet: true,
+      };
+    case userConstants.DELETE_EVENT_FAILURE:
+      return {
+        ...state,
+        penDelet: false,
+        errDelete: action.error,
+      };
+    case userConstants.DELETE_EVENT_SUCCESS:
+      return {
+        ...state,
+        penDelet: false,
+        deleteEvent: action.deEvent,
+        successDe: true,
+        createdEvents: [
+          ...state.createdEvents.filter((e) => e._id !== action.eventId),
+        ],
       };
 
     default:

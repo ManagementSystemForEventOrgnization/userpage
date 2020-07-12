@@ -32,7 +32,7 @@ class UserNav extends Component {
             </li>
 
             <li>
-              <Link to="/my-events" className="link">
+              <Link to="/profile" className="link">
                 <ProfileOutlined className="mr-2 icon" />
                 Profile
               </Link>

@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import Header from '../containers/share/_layout/Header';
 import ManageEvent from '../containers/event/manageEvent/manageEvents';
 // import { eventActions } from 'action/event.action';
 
 class ManageEventPage extends Component {
-  // componentDidMount = () => {
-  //   this.props.getEventInfo(localStorage.getItem('webAddress'));
-  //   this.props.getCategories();
-  // };
-
   render() {
     const { banner, nameEvent } = this.props;
     return (
       <div>
-        <div className="fixed-top">
-          <Header />
-        </div>
         <div className="manageEvent">
           <div className="card-container">
             <div className="site-card-border-less-wrapper">

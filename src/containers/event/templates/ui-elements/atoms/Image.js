@@ -15,7 +15,7 @@ class ImageBlock extends React.Component {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, visible: false }
       : {
           ...ImageState(this.props),
         };
@@ -105,17 +105,15 @@ class ImageBlock extends React.Component {
     }
   };
 
-  render() {
+  getCustomStyle = () => {
     const {
-      uploadedFileCloudinaryUrl,
-      width,
-      height,
       margin,
       padding,
       borderRadius,
+      width,
+      height,
+      objectFit,
     } = this.state;
-
-    const { leftModal, editable, child } = this.props;
 
     const imageStyle = {
       width: `${width}%`,
@@ -129,21 +127,37 @@ class ImageBlock extends React.Component {
       paddingRight: `${padding[2]}%`,
       paddingBottom: `${padding[3]}%`,
       borderRadius: borderRadius,
-      objectFit: 'cover',
-
+      objectFit,
       maxWidth: '100%',
       maxHeight: '100%',
     };
 
+    return imageStyle;
+  };
+
+  render() {
+    const {
+      uploadedFileCloudinaryUrl,
+      width,
+      height,
+      margin,
+      padding,
+      borderRadius,
+    } = this.state;
+
+    const { leftModal, editable, child, newStyle, id } = this.props;
+    const imageStyle = this.getCustomStyle();
+
     return (
-      <div className="image-block child-block d-flex">
+      <div className="image-block child-block d-flex" key={id}>
         <img
-          style={imageStyle}
+          style={newStyle ? newStyle : imageStyle}
           alt="img"
-          className="border border-light"
+          className={newStyle ? ' mr-5' : 'border border-light'}
           src={uploadedFileCloudinaryUrl}
           onClick={this.handlleClick}
         />
+
         {editable && !child && (
           <div className="ml-auto">
             <IconsHandle

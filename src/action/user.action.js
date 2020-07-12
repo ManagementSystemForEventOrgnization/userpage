@@ -8,6 +8,7 @@ const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@
 const login = (email, password) => {
   return (dispatch) => {
     dispatch(request());
+    console.log(email, password);
     API.post(`/api/login`, {
       email,
       password,
@@ -20,7 +21,9 @@ const login = (email, password) => {
           } else history.push('/');
         }
       })
-      .catch((error) => handleCatch(dispatch, failure, error));
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
   };
 
   function request() {
@@ -518,8 +521,11 @@ const getListNotification = (pageNumber, numberRecord) => {
   };
 
   function success(notifications, pageNumber) {
-    return { type: userConstants.GET_LIST_NOTIFICATION_SUCCESS, notifications, notiPageNumber: pageNumber };
-
+    return {
+      type: userConstants.GET_LIST_NOTIFICATION_SUCCESS,
+      notifications,
+      notiPageNumber: pageNumber,
+    };
   }
   function failure(error) {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
@@ -528,12 +534,12 @@ const getListNotification = (pageNumber, numberRecord) => {
 
 const getNumUnreadNotification = () => {
   return (dispatch) => {
-    API.get('/api/getBadgeNumber')
+    API.get('/transfer/getBadgeNumber')
       .then((res) => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function success(numUnreadNotification) {
@@ -570,14 +576,14 @@ const setDeleteNotification = (notificationId) => {
   function success(notificationId) {
     return {
       type: userConstants.DELETE_NOTIFICATION,
-      delNotificationId: notificationId
+      delNotificationId: notificationId,
     };
   }
 };
 
 const getChatHistory = (sender) => {
   return (dispatch) => {
-    API.get('api/chat/get_list', {
+    API.get('/api/chat/get_list', {
       params: {
         sender,
       },
@@ -590,6 +596,46 @@ const getChatHistory = (sender) => {
     return {
       type: userConstants.GET_CHAT_HISTORY,
       chatHistory,
+    };
+  }
+};
+
+const deleteEvent = (eventId) => {
+  return (dispatch) => {
+    dispatch(request());
+    API.post(`/api/delete/event`, {
+      eventId,
+    })
+      .then((res) => {
+        dispatch(success(res.data.result, eventId));
+      })
+      .catch((error) => {
+        const { data } = error.response;
+
+        if (data.error) {
+          return dispatch(
+            failure(data.error.message) || 'OOPs! something wrong'
+          );
+        }
+        return dispatch(failure(error) || 'OOPs! something wrong');
+      });
+  };
+  function request() {
+    return {
+      type: userConstants.DELETE_EVENT_REQUEST,
+    };
+  }
+  function success(deEvent, eventId) {
+    return {
+      type: userConstants.DELETE_EVENT_SUCCESS,
+      deEvent,
+      eventId,
+    };
+  }
+  function failure(error) {
+    return {
+      type: userConstants.DELETE_EVENT_FAILURE,
+      error,
     };
   }
 };
@@ -619,4 +665,5 @@ export const userActions = {
   postCardDefault,
   setReadNotification,
   setDeleteNotification,
+  deleteEvent,
 };

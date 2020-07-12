@@ -6,6 +6,7 @@ import Text from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
 import ApplyEventModal from '../../shares/ApplyEventModal';
+import ImageBlock from '../../atoms/Image';
 
 import { eventActions } from 'action/event.action';
 import history from 'utils/history';
@@ -86,6 +87,21 @@ class GeneralBanner extends Component {
     setTimeout(this.handleStoreBlock(), 3000);
   };
 
+  getCustomStyle = () => {
+    const { margin, padding } = this.state;
+    const style = {
+      marginTop: `${margin[0]}%`,
+      marginLeft: `${margin[1]}%`,
+      marginRight: `${margin[2]}%`,
+      marginBottom: `${margin[3]}%`,
+      paddingTop: `${padding[0]}%`,
+      paddingLeft: `${padding[1]}%`,
+      paddingRight: `${padding[2]}%`,
+      paddingBottom: `${padding[3]}%`,
+    };
+    return style;
+  };
+
   render() {
     const {
       url,
@@ -98,66 +114,37 @@ class GeneralBanner extends Component {
     } = this.state;
 
     const { type, editable, status } = this.props;
-
-    const style = {
-      marginTop: `${margin[0]}%`,
-      marginLeft: `${margin[1]}%`,
-      marginRight: `${margin[2]}%`,
-      marginBottom: `${margin[3]}%`,
-      paddingTop: `${padding[0]}%`,
-      paddingLeft: `${padding[1]}%`,
-      paddingRight: `${padding[2]}%`,
-      paddingBottom: `${padding[3]}%`,
-
-      position: 'relative',
-      backgroundImage: url ? `url(${url})` : 'white',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      objectFit: 'cover',
-      width: '100%',
-    };
-
-    const bg = {
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '100%',
-      height: '100%',
-      opacity: opacity,
-      backgroundColor: bgColor,
-    };
+    const style = this.getCustomStyle();
 
     return (
-      <div className=" child-block d-flex">
-        <div style={style}>
-          {url && <div style={bg}></div>}
+      <div className=" child-block d-flex" style={style}>
+        <div style={style} className="flex-fill">
+          <ImageBlock
+            editable={editable}
+            url={url}
+            child={true}
+            objectFit="cover"
+          />
+          <Text
+            content={content.title.value}
+            child={true}
+            editable={editable}
+            newStyle={content.title.style}
+            changeContent={(value) => this.handleChangeContent('title', value)}
+          />
+          <hr
+            style={{ borderTop: '2px solid #8585e6', margin: '0 10% 0 10%' }}
+          />
 
-          <div className="row">
-            <div className="col-sm-12">
-              <Text
-                content={content.title.value}
-                child={true}
-                editable={editable}
-                newStyle={content.title.style}
-                changeContent={(value) =>
-                  this.handleChangeContent('title', value)
-                }
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <Text
-                content={content.description.value}
-                editable={editable}
-                child={true}
-                newStyle={content.description.style}
-                changeContent={(value) =>
-                  this.handleChangeContent('description', value)
-                }
-              />
-            </div>
-          </div>
+          <Text
+            content={content.description.value}
+            editable={editable}
+            child={true}
+            newStyle={content.description.style}
+            changeContent={(value) =>
+              this.handleChangeContent('description', value)
+            }
+          />
 
           {type === 3 && (
             <div className="text-center mt-2">

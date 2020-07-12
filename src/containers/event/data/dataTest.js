@@ -32,8 +32,6 @@ import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 import Footer1 from '../templates/ui-elements/blocks/footer/footer1';
 import Footer2 from '../templates/ui-elements/blocks/footer/footer2';
 
-// import IconSocial from '../templates/ui-elements/blocks/Social/social';
-
 import Video1 from '../templates/ui-elements/blocks/video/video1';
 
 import Video2 from '../templates/ui-elements/blocks/video/video2';

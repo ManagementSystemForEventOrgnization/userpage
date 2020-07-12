@@ -10,13 +10,13 @@ import {
   Tabs,
   Card,
   Skeleton,
-  message,
   Button,
   Menu,
   Row,
   Col,
   Dropdown,
   Modal,
+  Alert,
   Radio,
 } from 'antd';
 
@@ -34,6 +34,24 @@ import { eventActions } from 'action/event.action';
 
 const { Search } = Input;
 const { TabPane } = Tabs;
+
+const titleStyle = {
+  height: '300px',
+  width: '100%',
+  color: 'white',
+  fontSize: '40px',
+  fontWeight: '700',
+  backgroundImage:
+    'url(https://static.ticketbox.vn/site/global/content-v2/img/home-search-bg-01.jpg)',
+};
+
+const menuStyle = {
+  borderRadius: '8px',
+  color: 'white',
+  fontWeight: 'bold',
+  fontSize: '18px',
+  background: 'linear-gradient(to right, rgb(20, 81, 220), rgb(144, 202, 199))',
+};
 
 class CreateHistory extends React.Component {
   constructor(props) {
@@ -58,13 +76,19 @@ class CreateHistory extends React.Component {
       isShowCancel: false,
       isRadio: true,
       isSuccess: true,
-      isOpenQrCode: false
+      isOpenQrCode: false,
+      list: [],
+      isDeleteMess: true,
+      isdeletSucces: true
     };
   }
+
   componentDidMount = () => {
-    const { getCreateHistory, getCategories } = this.props;
+    const { getCreateHistory, getCategories, categories } = this.props;
     getCreateHistory();
-    getCategories();
+    if (categories.length === 0) {
+      getCategories();
+    }
   };
 
   handleChange = (categoryEventId) => {
@@ -98,33 +122,34 @@ class CreateHistory extends React.Component {
   };
 
   onLoadMore = () => {
-    const { getCreateHistory } = this.props;
+    const { getCreateHistory, arrEvent } = this.props;
     const { listEvent } = this.state;
 
     let index = Math.round(listEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
     getCreateHistory(dataSent);
-    // let Event = [...listEvent, ...arrEvent];
+    //  let Event = [...listEvent, ...arrEvent];
 
-    // this.setState({ listEvent: Event });
-    this.state({ isupate: true });
+    this.setState({ isupdate: true, listEvent: [...arrEvent] });
   };
+
   onFocusCancel = () => {
     this.setState({
       isSuccess: true,
-    })
-  }
+    });
+  };
 
   onChangeSearch = (value) => {
     const { getCreateHistory } = this.props;
     this.setState({
-      txtSearch: value
+      txtSearch: value,
     });
     let dataSent = {};
     dataSent.txtSearch = value;
 
     getCreateHistory(dataSent);
+    this.setState({ isupdate: false });
   };
 
   onChange = (pageNumber) => {
@@ -146,7 +171,7 @@ class CreateHistory extends React.Component {
   isCancelEvent = () => {
     this.setState({
       isShowCancel: false,
-      isSuccess: true
+      isSuccess: true,
     });
   };
 
@@ -168,12 +193,6 @@ class CreateHistory extends React.Component {
     let money = `${sum} VNĐ `;
 
     return money;
-  };
-
-  percentDiscount = (discount) => {
-    let newDiscount = discount * 100;
-    let percent = `-${newDiscount}%`;
-    return percent;
   };
 
   onChangeStatus = (value) => {
@@ -210,58 +229,15 @@ class CreateHistory extends React.Component {
   };
 
   showDeleteConfirm = () => {
-    const { deleteEvent, arrEvent } = this.props;
+    const { deleteEvent } = this.props;
     const { eventId } = this.state;
-
-    deleteEvent(eventId, (res) => {
-      if (!res) {
-        message.success({
-          content: (
-            <p
-              style={{
-                marginTop: '25%',
-                zIndex: 100000,
-              }}
-            >
-              <CheckCircleFilled
-                className="mr-3"
-                style={{
-                  color: 'green',
-                }}
-              />
-              Delete Success
-            </p>
-          ),
-        });
-      } else {
-        message.error({
-          content: (
-            <p
-              style={{
-                marginTop: '25%',
-                zIndex: 100000,
-                color: 'red',
-              }}
-            >
-              {res.error.message}
-            </p>
-          ),
-        });
-      }
+    // this.setState({ confirmLoading: true })
+    deleteEvent(eventId);
+    this.setState({
+      isDeleteMess: false,
+      isupdate: false,
+      isdeletSucces: false,
     });
-
-    let receiver = arrEvent.filter(
-      (e) => e._id !== eventId && ((s) => s.status === 'DELETE')
-    );
-
-    setTimeout(
-      this.setState({
-        isfirstLoad: false,
-        listEvent: receiver,
-        visible: false,
-      }),
-      3000
-    );
   };
 
   isShowDelete = (eventId) => {
@@ -274,6 +250,8 @@ class CreateHistory extends React.Component {
   showModal = () => {
     this.setState({
       visible: false,
+      isDeleteMess: true,
+      isdeletSucces: true
     });
   };
 
@@ -294,6 +272,7 @@ class CreateHistory extends React.Component {
       dataSent.typeOfEvent = e.target.value;
       getCreateHistory(dataSent);
     }
+    this.setState({ isupdate: false });
   };
 
   cancelSessionEvent = (idSession) => {
@@ -306,8 +285,21 @@ class CreateHistory extends React.Component {
 
     if (currIndex !== -1) {
       sessionEvent[currIndex].isCancel = true;
-      this.setState({ sessionEvent });
     }
+    this.setState({ sessionEvent });
+  };
+
+  showCancelConfirm = () => {
+    const { idEventCancel } = this.state;
+    const { cancelEvent } = this.props;
+
+    cancelEvent(idEventCancel);
+
+    this.setState({
+      isSecondLoad: false,
+      isSuccess: false,
+      isupdate: false,
+    });
   };
 
   renderMenu = (item) => {
@@ -327,7 +319,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.handleEditSite(item.urlWeb, item._id)}>
           <Link to="/create" className="d-flex">
             <EditOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Edit site
             </p>
           </Link>
@@ -336,7 +328,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.isShowDelete(item._id)}>
           <div className="d-flex">
             <DeleteOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Delete event
             </p>
           </div>
@@ -345,7 +337,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.handleURL(item.urlWeb)}>
           <Link to={`/manage/${item._id}`} className="d-flex">
             <SettingOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               Manage event
             </p>
           </Link>
@@ -353,7 +345,7 @@ class CreateHistory extends React.Component {
         <Menu.Item onClick={() => this.showCancelEvent(item._id, item.session)}>
           <div className="d-flex">
             <CloseOutlined />
-            <p style={{ fontWeight: 'bolder' }} className="ml-3">
+            <p style={{ fontWeight: 'bold' }} className="ml-3">
               {' '}
               Cancel event
             </p>
@@ -373,100 +365,102 @@ class CreateHistory extends React.Component {
     return menu;
   };
 
-  showCancelConfirm = () => {
-    const { idEventCancel, sessionEvent } = this.state;
-    const { cancelEvent, arrEvent } = this.props;
+  renderTypeMenu = () => {
+    return (
+      <Menu mode="inline" style={menuStyle}>
+        <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
+          ALL
+        </Menu.Item>
+        <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
+          Draft
+        </Menu.Item>
+        <Menu.Item key="3" onClick={() => this.onChangeStatus('WAITING')}>
+          Waiting
+        </Menu.Item>
+        <Menu.Item key="4" onClick={() => this.onChangeStatus('PUBLIC')}>
+          Public
+        </Menu.Item>
+        <Menu.Item key="5" onClick={() => this.onChangeStatus('EDITED')}>
+          Edited
+        </Menu.Item>
 
-    cancelEvent(idEventCancel);
-    let receiver = arrEvent.filter(
-      (e) => e._id !== idEventCancel && ((s) => s.status === 'CANCEL')
+        <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
+          Cancel
+        </Menu.Item>
+      </Menu>
     );
-    console.log("33", sessionEvent)
-    //  let currIndex = sessionEvent.find((ss) => ss.isCancel === false);
-    // console.log('2', currIndex);
+  };
 
-    // if (currIndex !== -1) {
-    //   sessionEvent[currIndex].isCancel = true;
-    // }
-
-    this.setState({
-      isSecondLoad: false,
-      listEvent: receiver,
-      isSuccess: false,
-      // sessionEvent: sessionEvent
-
-
-    });
+  renderTypeEvent = () => {
+    return (
+      <div className="mt-3 ml-5" style={{ color: 'white' }}>
+        <Radio.Group
+          name="radiogroup"
+          style={{ color: 'white' }}
+          defaultValue="Public"
+          onChange={this.onChaneValue}
+        >
+          <Radio
+            style={{
+              color: 'black',
+              fontWeight: 400,
+              fontSize: '18px',
+            }}
+            value="Private"
+          >
+            Private
+          </Radio>
+          <Radio
+            style={{
+              color: 'black',
+              fontWeight: 400,
+              fontSize: '18px',
+            }}
+            value="Public"
+          >
+            Public
+          </Radio>
+        </Radio.Group>
+      </div>
+    );
   };
 
   render() {
-    const { sessionEvent, isSuccess, isupate } = this.state;
-    const { pending, arrEvent, err, pendCancel, cancelSession } = this.props;
+    const { sessionEvent, isSuccess, isupdate, isDeleteMess, isdeletSucces } = this.state;
+    const {
+      pending,
+      arrEvent,
+      err,
+      pendCancel,
+      cancelSession,
+      errDelete,
+      penDelet, successDe
+    } = this.props;
+    // console.log('arrEvent', arrEvent);
     let { listEvent } = this.state;
-    listEvent = isupate ? [...listEvent, arrEvent] : [...arrEvent];
+    listEvent = isupdate ? [...listEvent, ...arrEvent] : [...arrEvent];
 
     return (
       <div className="history">
         <div
-          style={{
-            height: '40px',
-            width: '100%',
-            opacity: '1',
-            color: 'white',
-            textAlign: 'center',
-            fontSize: '25px',
-            background: 'rgb(12, 105, 126)',
-            fontWeight: '700',
-          }}
+          style={titleStyle}
+          className="d-flex align-items-center justify-content-center"
         >
-          Manage Created Event
+          Manage Created Events
         </div>
-        <Row className="mt-5">
+
+        <Row className="mt-2 pl-3 pr-5">
           <Col span={18} push={6}>
             <div>
-              <div className="row">
-                <div className="col p-5">
-                  <Search
-                    enterButton
-                    size="large"
-                    placeholder="input search text"
-                    onSearch={(value) => this.onChangeSearch(value)}
-                  />
-                </div>
-              </div>
-              {this.state.isRadio ? (
-                ' '
-              ) : (
-                <div className="mt-3 ml-5" style={{ color: 'white' }}>
-                  <Radio.Group
-                    name="radiogroup"
-                    style={{ color: 'white' }}
-                    defaultValue="Public"
-                    onChange={this.onChaneValue}
-                  >
-                    <Radio
-                      style={{
-                        color: 'black',
-                        fontWeight: 400,
-                        fontSize: '18px',
-                      }}
-                      value="Private"
-                    >
-                      Private
-                    </Radio>
-                    <Radio
-                      style={{
-                        color: 'black',
-                        fontWeight: 400,
-                        fontSize: '18px',
-                      }}
-                      value="Public"
-                    >
-                      Public
-                    </Radio>
-                  </Radio.Group>
-                </div>
-              )}
+              <Search
+                className="p-2"
+                enterButton
+                size="large"
+                placeholder="input search text"
+                onSearch={(value) => this.onChangeSearch(value)}
+              />
+
+              {this.state.isRadio ? ' ' : this.renderTypeEvent()}
               {pending ? (
                 <Skeleton
                   className="mt-2"
@@ -475,144 +469,141 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                <div className="row p-5 ">
-                  {listEvent.map((item) => (
-                    <div
-                      className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
-                      key={item._id}
-                    >
-                      <Card
-                        className="event-cart "
-                        cover={
-                          <div>
-                            <Dropdown
-                              overlay={this.renderMenu(item)}
-                              placement="bottomLeft"
-                            >
-                              <Button className="ml-1 mt-1 ticket">
-                                Action
-                              </Button>
-                            </Dropdown>
-
-                            {item.bannerUrl && (
-                              <img
-                                className="img-baner"
-                                alt="example"
-                                src={item.bannerUrl}
-                              />
-                            )}
-                          </div>
-                        }
+                  <div className="row p-2 ">
+                    {listEvent.map((item) => (
+                      <div
+                        className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
+                        key={item._id}
                       >
-                        <div className="row">
-                          <div className="d-flex col ">
-                            <p
-                              className="ml-2"
-                              style={{
-                                fontWeight: 'bold',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {moment(
-                                (item.session &&
-                                  item.session[0] &&
-                                  item.session[0].day) ||
-                                  new Date().toLocaleDateString()
-                              ).format('DD/MM/YYYY ')}
-                            </p>
-                          </div>
-                          <div className="d-flex col ">
+                        <Card
+                          className="event-cart "
+                          cover={
                             <div>
-                              {item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <div className="d-flex ">
-                                      <p
-                                        style={{
-                                          textDecoration: 'line-through',
-                                          fontWeight: 'bold',
-                                        }}
-                                        className="ml-1 "
-                                      >
-                                        {item.ticket.price}
-                                      </p>
-                                      <p
-                                        className="ml-3"
-                                        style={{ fontWeight: 'bold' }}
-                                      >
-                                        {' '}
-                                        {this.sumDiscount(
-                                          item.ticket.price,
-                                          item.ticket.discount
-                                        )}
-                                      </p>
-                                      <div className="col">
-                                        <h4>{item.status}</h4>
+                              <Dropdown
+                                overlay={this.renderMenu(item)}
+                                placement="bottomLeft"
+                              >
+                                <Button className="ml-1 mt-1 ticket">
+                                  Action
+                              </Button>
+                              </Dropdown>
+
+                              {item.bannerUrl && (
+                                <img
+                                  className="img-baner"
+                                  alt="example"
+                                  src={item.bannerUrl}
+                                />
+                              )}
+                            </div>
+                          }
+                        >
+                          <div className="row">
+                            <div className="d-flex col ">
+                              <p
+                                className="ml-2"
+                                style={{
+                                  fontWeight: 'bold',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {moment(
+                                  (item.session &&
+                                    item.session[0] &&
+                                    item.session[0].day) ||
+                                  new Date().toLocaleDateString()
+                                ).format('DD/MM/YYYY ')}
+                              </p>
+                            </div>
+                            <div className="d-flex col ">
+                              <div>
+                                {item.ticket ? (
+                                  <div className="d-flex ">
+                                    {item.ticket.discount ? (
+                                      <div className="d-flex ">
+                                        <p
+                                          style={{
+                                            textDecoration: 'line-through',
+                                            fontWeight: 'bold',
+                                          }}
+                                          className="ml-1 "
+                                        >
+                                          {item.ticket.price}
+                                        </p>
+                                        <p
+                                          className="ml-3"
+                                          style={{ fontWeight: 'bold' }}
+                                        >
+                                          {this.sumDiscount(
+                                            item.ticket.price,
+                                            item.ticket.discount
+                                          )}
+                                        </p>
+                                        <div className="col">
+                                          <h4>{item.status}</h4>
+                                        </div>
                                       </div>
-                                    </div>
-                                  ) : (
+                                    ) : (
+                                        <p
+                                          className=" mt-1 "
+                                          style={{ fontWeight: 'bold' }}
+                                        >
+                                          {item.ticket.price} VNĐ
+                                        </p>
+                                      )}
+                                  </div>
+                                ) : (
                                     <p
-                                      className=" mt-1 "
                                       style={{ fontWeight: 'bold' }}
+                                      className="ml-1  "
                                     >
-                                      {item.ticket.price} VNĐ
+                                      0 VNĐ
                                     </p>
                                   )}
-                                </div>
-                              ) : (
-                                <p
-                                  style={{ fontWeight: 'bold' }}
-                                  className="ml-1  "
-                                >
-                                  0 VNĐ
-                                </p>
-                              )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <Link to={`/event/${item.urlWeb}`}>
+                          <Link to={`/event/${item.urlWeb}`}>
+                            <div className="d-flex ">
+                              <h5
+                                className="ml-2 line-clamp "
+                                style={{
+                                  fontWeight: 'bold',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {item.name}
+                              </h5>
+                              <div>
+                                {((item.session && item.session.length) || 1) ===
+                                  1 ? (
+                                    ''
+                                  ) : (
+                                    <p
+                                      className="ml-2"
+                                      style={{ fontWeight: 'bold' }}
+                                    >
+                                      + {item.session.length - 1}more events
+                                    </p>
+                                  )}
+                              </div>
+                            </div>
+                          </Link>
                           <div className="d-flex ">
-                            <h5
-                              className="ml-2 line-clamp "
-                              style={{
-                                fontWeight: 'bold',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {' '}
-                              {item.name}
-                            </h5>
-                            <div>
-                              {' '}
-                              {((item.session && item.session.length) || 1) ===
-                              1 ? (
-                                ''
-                              ) : (
-                                <p
-                                  className="ml-2"
-                                  style={{ fontWeight: 'bold' }}
-                                >
-                                  + {item.session.length - 1}more events
-                                </p>
-                              )}
+                            <EnvironmentOutlined className="mt-1" />
+                            <div className="d-flex ">
+                              <p className="ml-2 address ">
+                                {item.session &&
+                                  item.session[0] &&
+                                  item.session[0].address.location}
+                              </p>
                             </div>
                           </div>
-                        </Link>
-                        <div className="d-flex ">
-                          <EnvironmentOutlined className="mt-1" />
-                          <div className="d-flex ">
-                            <p className="ml-2 address ">
-                              {item.session &&
-                                item.session[0] &&
-                                item.session[0].address.location}
-                            </p>
-                          </div>
-                        </div>
-                      </Card>
-                    </div>
-                  ))}
-                </div>
-              )}
+                        </Card>
+                      </div>
+                    ))}
+                  </div>
+                )}
               {this.ableToLoadMore(arrEvent.length) && (
                 <Button
                   style={{
@@ -631,37 +622,8 @@ class CreateHistory extends React.Component {
             </div>
           </Col>
 
-          <Col className="fixed-left" span={4} pull={18}>
-            <Menu
-              mode="inline"
-              style={{
-                borderRadius: '8px',
-                color: 'white',
-                fontWeight: 'bolder',
-                fontSize: '30px',
-                background: 'rgb(12, 105, 126)',
-              }}
-            >
-              <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
-                ALL
-              </Menu.Item>
-              <Menu.Item key="2" onClick={() => this.onChangeStatus('DRAFT')}>
-                Draft
-              </Menu.Item>
-              <Menu.Item key="3" onClick={() => this.onChangeStatus('WAITING')}>
-                Waiting
-              </Menu.Item>
-              <Menu.Item key="4" onClick={() => this.onChangeStatus('PUBLIC')}>
-                Public
-              </Menu.Item>
-              <Menu.Item key="5" onClick={() => this.onChangeStatus('EDITED')}>
-                Edited
-              </Menu.Item>
-
-              <Menu.Item key="6" onClick={() => this.onChangeStatus('CANCEL')}>
-                Cancel
-              </Menu.Item>
-            </Menu>
+          <Col span={4} pull={18}>
+            {this.renderTypeMenu()}
           </Col>
         </Row>
 
@@ -673,13 +635,21 @@ class CreateHistory extends React.Component {
           cancelText="No"
           onOk={this.showDeleteConfirm}
           onCancel={this.showModal}
-          confirmLoading={this.state.confirmLoading}
-        ></Modal>
+          // footer={null}
+          confirmLoading={penDelet}
+        >
+          {!isDeleteMess && errDelete && (
+            <h6 style={{ color: 'red' }}>{errDelete}</h6>
+          )}
+          {
+            !isdeletSucces && successDe &&
+            <Alert message="you delete success in event " type="success" showIcon />
+          }
+        </Modal>
         <Modal
           title="Cancel Event"
           visible={this.state.isShowCancel}
           onOk={this.isCancelEvent}
-
           onCancel={this.isCancelEvent}
         >
           {!this.state.isSecondLoad && err && (
@@ -690,9 +660,9 @@ class CreateHistory extends React.Component {
           )}
 
           <Tabs>
-            <TabPane tab="Cancel all event" key="1" >
-              <div className="d-flex" >
-                <p style={{ fontWeight: 600, fontSize: '18px' }} >
+            <TabPane tab="Cancel all event" key="1">
+              <div className="d-flex">
+                <p style={{ fontWeight: 600, fontSize: '18px' }}>
                   Are you sure cancel all session this event?
                 </p>
 
@@ -707,8 +677,8 @@ class CreateHistory extends React.Component {
                 </Button>
               </div>
             </TabPane>
-            <TabPane tab="Cancel  Session" key="2"  >
-              <p style={{ fontWeight: 600, fontSize: '18px' }} >
+            <TabPane tab="Cancel  Session" key="2">
+              <p style={{ fontWeight: 600, fontSize: '18px' }}>
                 Are you sure cancel a session this event?
               </p>
               {sessionEvent.map((item) => (
@@ -728,7 +698,6 @@ class CreateHistory extends React.Component {
                   <div className="col">
                     <Button
                       shape="circle"
-
                       disabled={item.isCancel}
                       onClick={() => this.cancelSessionEvent(item.id)}
                     >
@@ -748,21 +717,23 @@ class CreateHistory extends React.Component {
 const mapStateToProps = (state) => ({
   // map state of store to props
   categories: state.event.categories,
-  arrEvent: state.user.arrEvent,
+  arrEvent: state.user.createdEvents,
   pending: state.user.pending,
   pend: state.event.pending,
   errMessage: state.event.errMessage,
   err: state.event.errCancel,
   pendCancel: state.event.pendCancel,
   cancelSession: state.event.cancelSession,
-  successDe: state.event.successDe,
+  successDe: state.user.successDe,
+  errDelete: state.user.errDelete,
+  penDelet: state.user.penDelet,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCreateHistory: (dataSent) =>
     dispatch(userActions.getCreateHistory(dataSent)),
   getCategories: () => dispatch(eventActions.getCategories()),
-  deleteEvent: (eventId, cb) => dispatch(eventActions.deleteEvent(eventId, cb)),
+  deleteEvent: (eventId) => dispatch(userActions.deleteEvent(eventId)),
   cancelEvent: (eventId, sessionIds) =>
     dispatch(eventActions.cancelEvent(eventId, sessionIds)),
 });

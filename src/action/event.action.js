@@ -2,6 +2,7 @@ import API from './axious.config';
 import { eventConstants } from '../constants/index';
 import history from '../utils/history';
 import handleCatch from './middleware';
+import axios from 'axios';
 
 const getHomeData = () => {
   return (dispatch) =>
@@ -40,11 +41,12 @@ const getEventDetail = (eventId, index, editSite) => {
       })
         .then((res) => {
           const { rows, header, event } = res.data.result;
-          // console.log(res.data.result);
           localStorage.setItem('currentIndex', index);
           localStorage.setItem('currentId', res.data.result.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
-          dispatch(success(rows, header[0], index, event));
+
+          let blocks = !rows.length ? [] : rows;
+          dispatch(success(blocks, header[0], index, event));
           resolve();
         })
         .catch((err) => {
@@ -168,6 +170,7 @@ const updatePage = (route, innerHtml, editable) => {
     };
   }
 };
+
 const changeCurrentPage = (id) => {
   return (dispatch) => {
     return dispatch(request(id));
@@ -207,6 +210,39 @@ const storeHeaderStyle = (style) => {
   }
 };
 
+const uploadFiles = (fileList) => {
+  const files = new FormData();
+
+  fileList.map((item) => files.append('file', item));
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'POST',
+      url: '/api/upload',
+      data: files,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        resolve(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        reject(err);
+      });
+  });
+};
+
+const deleteUploadedFile = (url_del, cb) => {
+  API.post('/api/delete_file', url_del)
+    .then(() => {
+      cb();
+    })
+    .catch((err) => {
+      cb(err);
+    });
+};
+
 const prepareForCreateEvent = (
   nameEvent,
   typeOfEvent,
@@ -220,7 +256,7 @@ const prepareForCreateEvent = (
   return (dispatch) => {
     dispatch(request());
     const domain = process.env.REACT_APP_DOMAIN_EVENT;
-    API.post('api/save/event', {
+    API.post('/api/save/event', {
       name: nameEvent,
       typeOfEvent,
       category,
@@ -410,6 +446,7 @@ const deleteBlock = (id) => {
 
 const getListEvent = (sentData) => {
   return (dispatch) => {
+    dispatch(request());
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
@@ -422,7 +459,11 @@ const getListEvent = (sentData) => {
         dispatch(failure());
       });
   };
-
+  function request() {
+    return {
+      type: eventConstants.GET_LIST_EVENT_REQUEST,
+    };
+  }
   function success(hlEvent) {
     return {
       type: eventConstants.GET_LIST_EVENT_SUCCESS,
@@ -536,6 +577,29 @@ const getEventInfo = (urlWeb) => {
   }
 };
 
+const getEventInfoUsingID = (eventId, cb) => {
+  return (dispatch) => {
+    API.get('/api/get_event_inf', {
+      params: {
+        eventId,
+      },
+    })
+      .then((res) => {
+        cb(res.data.result.event);
+        dispatch(request(res.data.result.event, res.data.result.countComment));
+      })
+      .catch((err) => cb());
+  };
+
+  function request(eventInfo, countComment) {
+    return {
+      type: eventConstants.GET_EVENT_INFO,
+      eventInfo,
+      countComment,
+    };
+  }
+};
+
 const getComment = (eventId, pageNumber, numberRecord) => {
   return (dispatch) => {
     API.get('/api/comment/get_list', {
@@ -594,6 +658,7 @@ const saveComment = (eventId, content) => {
     };
   }
 };
+
 const getUserJoinEvent = (dataSent, callback) => {
   return (dispatch) => {
     API.get(`/api/get_user_join_event`, {
@@ -617,46 +682,6 @@ const getUserJoinEvent = (dataSent, callback) => {
   function failure() {
     return {
       type: eventConstants.GET_USER_JOIN_EVENT_FAILURE,
-    };
-  }
-};
-const deleteEvent = (eventId, cb) => {
-  return (dispatch) => {
-    dispatch(request());
-    API.post(`/api/delete/event`, {
-      eventId,
-    })
-      .then((res) => {
-        dispatch(success(res.data.result));
-        cb();
-      })
-      .catch((error) => {
-        const { data } = error.response;
-
-        cb(data);
-        if (data.error) {
-          return dispatch(
-            failure(data.error.message) || 'OOPs! something wrong'
-          );
-        }
-        return dispatch(failure(error) || 'OOPs! something wrong');
-      });
-  };
-  function request() {
-    return {
-      type: eventConstants.DELETE_EVENT_REQUEST,
-    };
-  }
-  function success(deleteEvent) {
-    return {
-      type: eventConstants.DELETE_EVENT_SUCCESS,
-      deleteEvent,
-    };
-  }
-  function failure(error) {
-    return {
-      type: eventConstants.DELETE_EVENT_FAILURE,
-      error,
     };
   }
 };
@@ -699,6 +724,8 @@ const cancelEvent = (eventId, sessionIds) => {
     };
   }
 };
+
+
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -708,21 +735,27 @@ export const eventActions = {
   changePages,
   getUserJoinEvent,
   prepareForCreateEvent,
+
+  uploadFiles,
+  deleteUploadedFile,
+
   getEventDetail,
   getListEventUpComing,
   getEventEdit,
   getEventInfo,
+  getEventInfoUsingID,
 
   saveEvent,
   savePage,
   updatePage,
+
   getPreviousPage,
   getListEvent,
   getHomeData,
 
   getComment,
   saveComment,
-  deleteEvent,
+
   cancelEvent,
 
   changeCurrentPage,

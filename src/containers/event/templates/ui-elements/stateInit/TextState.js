@@ -15,7 +15,6 @@ const TextState = (props) => ({
       ? props.newStyle.fontSize
       : 20
     : 20,
-  fonts: 'Slabo 27px',
 
   lineText: 127,
   letterSpacing: 0,
@@ -32,8 +31,8 @@ const TextState = (props) => ({
   color: props.newStyle
     ? props.newStyle.color
       ? props.newStyle.color
-      : 'black'
-    : 'black',
+      : '#333333'
+    : '#333333',
   fontWeight: props.newStyle
     ? props.newStyle.fontWeight
       ? props.newStyle.fontWeight

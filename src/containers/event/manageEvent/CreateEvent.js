@@ -13,7 +13,6 @@ import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
 
 import DropContainer from '../templates/DropContainer';
-import Header from 'containers/share/_layout/Header';
 import MenuBlockList from '../MenuBlockList';
 import NavigationMenu from '../NavigationMenu';
 import EditableHeader from '../Header';
@@ -108,6 +107,10 @@ class CreateEvent extends React.Component {
     } else {
       this.setState({ loading: false });
     }
+  };
+
+  componentWillUnmount = () => {
+    localStorage.removeItem('editSite');
   };
 
   componentDidUpdate = (prevProps) => {
@@ -217,9 +220,20 @@ class CreateEvent extends React.Component {
       },
     ];
 
+    const editSite = localStorage.getItem('editSite');
+    const currentIndex = localStorage.getItem('currentIndex');
+    const newBlockList = editSite
+      ? [
+          ...system.slice(0, currentIndex),
+          blocks,
+          ...system.slice(currentIndex + 1, system.length),
+        ]
+      : [...system, blocks];
+
     saveEvent(
       webAddress || localStorage.getItem('webAddress'),
-      [...system, blocks],
+      // [...system, blocks],
+      newBlockList,
       header,
       isPreview
     )
@@ -325,9 +339,6 @@ class CreateEvent extends React.Component {
 
     return (
       <div className=" create-event">
-        <div className="fixed-top ">
-          <Header />
-        </div>
         {loading ? (
           <div className="loading-gif d-flex justify-content-center">
             <img src={src} alt="loading" style={{ width: '60%' }} />

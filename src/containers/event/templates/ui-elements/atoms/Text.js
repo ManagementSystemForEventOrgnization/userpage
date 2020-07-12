@@ -67,6 +67,7 @@ class TextsBlock extends React.Component {
       handleChangeSponsor,
       handleChangeContact,
       handleChangeFooter,
+      handleChangeSchedule,
     } = this.props;
 
     this.setState({
@@ -93,6 +94,8 @@ class TextsBlock extends React.Component {
         handleChangeItem(value);
       } else if (handleChangeFooter) {
         handleChangeFooter(value);
+      } else if (handleChangeSchedule) {
+        handleChangeSchedule(content);
       } else this.handleStoreBlock();
     }, 3000);
   };
@@ -144,11 +147,8 @@ class TextsBlock extends React.Component {
     this.handleStoreBlock();
   };
 
-  render() {
-    const { leftModal, child, editable, editUrl } = this.props;
+  getCustomStyle = () => {
     const {
-      visible,
-      content,
       margin,
       padding,
       background,
@@ -159,9 +159,7 @@ class TextsBlock extends React.Component {
       transform,
       color,
       fontWeight,
-      focus,
     } = this.state;
-
     const divStyle = {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
@@ -177,37 +175,70 @@ class TextsBlock extends React.Component {
       textTransform: transform,
       width: '100%',
       alignContent: 'center',
+      color,
+      fontWeight,
+      fontSize: `${fontSize}px`,
+      background,
     };
 
+    return divStyle;
+  };
+
+  getInputStyle = () => {
+    const { background, color, fontWeight, fontSize } = this.state;
+
     const inputStyle = {
-      background: background,
+      background,
       border: 'none',
       color: color,
 
-      fontWeight: fontWeight,
+      fontWeight,
       fontSize: `${fontSize}px`,
       overflowY: 'hidden',
     };
+    return inputStyle;
+  };
 
+  render() {
+    const { leftModal, child, editable, editUrl, newStyle, id } = this.props;
+    const {
+      visible,
+      content,
+      margin,
+      padding,
+      background,
+      fontSize,
+      lineText,
+      letterSpacing,
+      color,
+      focus,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
+    const inputStyle = this.getInputStyle();
     const editIconStyle = {
       fontSize: '18px',
       color: '#1890ff',
     };
 
     return (
-      <div className=" child-block    d-flex text-block">
+      <div className=" child-block    d-flex text-block" key={id}>
         {focus && editable ? (
           <TextArea
             autoSize
             value={content}
-            style={{ ...inputStyle, ...divStyle }}
+            style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
         ) : (
-          <div onClick={this.onClick} style={{ ...divStyle, ...inputStyle }}>
+          <p
+            onClick={this.onClick}
+            style={{ ...divStyle, ...inputStyle, ...newStyle }}
+          >
             {content}
-          </div>
+          </p>
         )}
+
         {child && editable && (
           <EditFilled
             className="edit-text"
@@ -217,14 +248,13 @@ class TextsBlock extends React.Component {
         )}
 
         {editable && !child && (
-          <div className="ml-auto">
-            <IconsHandle
-              collapseModal={this.openModal}
-              handleDuplicate={this.handleDuplicate}
-              handleDelete={this.handleDelete}
-            />
-          </div>
+          <IconsHandle
+            collapseModal={this.openModal}
+            handleDuplicate={this.handleDuplicate}
+            handleDelete={this.handleDelete}
+          />
         )}
+
         {editable && (
           <Modal
             title="Text"

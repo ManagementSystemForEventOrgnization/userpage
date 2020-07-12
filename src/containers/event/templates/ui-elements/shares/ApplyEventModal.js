@@ -4,6 +4,8 @@ import { Button, message, Drawer } from 'antd';
 import moment from 'moment';
 import { applyEventActions } from 'action/applyEvent';
 import TransferType from 'containers/user/BankAccount/TransferType';
+import { eventActions } from 'action/event.action';
+
 class ApplyEventModal extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,7 @@ class ApplyEventModal extends Component {
       openDrawer: false,
       openChildDrawer: false,
       currSsId: '',
+      canceled: false,
     };
   }
 
@@ -27,13 +30,8 @@ class ApplyEventModal extends Component {
     message.warning(msg || 'OPPs! Something is wrong');
   };
 
-  success = (isApplied) => {
-    message.success(`${isApplied ? 'Apply' : 'Cancel'} session successfully`);
-  };
-
-  handleSuccess = (type, ssId) => {
-    this.success(type);
-    this.changeStatusSS(ssId, type);
+  success = (type) => {
+    message.success(`${!type ? 'Apply' : 'Cancel'} session successfully`);
   };
 
   handleFailure = (ssId, err) => {
@@ -54,62 +52,92 @@ class ApplyEventModal extends Component {
     }
   };
 
-  changeStatusSS = (idSession, status) => {
-    let { session } = this.state;
-    let index = session.findIndex((ss) => ss.id === idSession);
-
-    if (index !== -1) {
-      session[index].status = status ? 'JOINED' : 'CANCEL';
-      session[index].pending = false;
-      this.setState({ session });
-    }
-  };
-
   handleCloseDrawer = () => {
+    const { session } = this.state;
     this.setState({
       openDrawer: false,
+      session: session.map((ss) => ({ ...ss, pending: false })),
     });
   };
 
-  handleClick = (ssId) => {
-    const { handleApply, handleCancel, id } = this.props;
-    const temp = [];
+  handleUpdateSessionStatus = () => {
+    const { handleGetEventInfo, id } = this.props;
+    handleGetEventInfo(id, (eventInfo) => {
+      if (!eventInfo) {
+      } else {
+        this.setState({
+          session: eventInfo.session.map((item) => ({
+            ...item,
+            pending: false,
+            status: item.status || 'error',
+          })),
+        });
+      }
+    });
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.session !== this.props.session) {
+      this.setState({
+        session: this.props.session.map((ss) => ({ ...ss, pending: false })),
+      });
+    }
+  };
+  handleClick = (ssId, type) => {
+    const { id, handleCancel, handleRePay, handleApply } = this.props;
+    const { session } = this.state;
+    const index = session.findIndex((ss) => ss.id === ssId);
+
+    let temp = [];
     temp.push(ssId);
 
-    if (this.isApplied(ssId)) {
-      this.changeLoadingSS(ssId);
+    this.changeLoadingSS(ssId);
 
-      handleCancel(id, temp)
-        .then((res) => {
-          this.handleSuccess(0, ssId);
-        })
-        .catch((err) => {
-          this.handleFailure(ssId, err);
-        });
-    } else {
-      const { ticket } = this.props;
-      if (ticket.price !== 0) {
+    if (type === 'APPLY') {
+      const { isSellTicket } = this.props;
+
+      if (isSellTicket === 'Yes' || isSellTicket === true) {
         this.setState({
           openDrawer: true,
           currSsId: ssId,
         });
       } else {
-        this.changeLoadingSS(ssId);
-
         handleApply(id, temp)
           .then((res) => {
-            this.handleSuccess(1, ssId);
+            this.handleUpdateSessionStatus();
+            this.success(0);
           })
           .catch((err) => {
             this.handleFailure(ssId, err);
           });
       }
+    } else if (type === 'CANCEL') {
+      handleCancel(id, temp)
+        .then((res) => {
+          this.handleUpdateSessionStatus();
+          this.success(1);
+        })
+        .catch((err) => {
+          this.handleFailure(ssId, err);
+        });
+    } else {
+      handleRePay(id, session[index].paymentId.payType, temp, (res, type) => {
+        if (type === 1) {
+          window.open(res.orderurl, '_blank');
+          this.handleUpdateSessionStatus();
+        } else {
+          if (res.response) {
+            const { data } = res.response;
+            message.error(data.error.message);
+          } else message.error('RePay fail !');
+        }
+      });
     }
   };
 
   render() {
     const { session, openDrawer, currSsId } = this.state;
-    const { ticket, id } = this.props;
+    const { ticket, id, isSellTicket } = this.props;
     return (
       <div>
         {session.map((ss) => (
@@ -117,13 +145,61 @@ class ApplyEventModal extends Component {
             <p>
               {moment(ss.day).format('LLL')} - {ss.name}
             </p>
-            <Button
-              onClick={() => this.handleClick(ss.id)}
-              loading={ss.pending}
-              type={this.isApplied(ss.id) ? 'danger' : 'primary'}
-            >
-              {this.isApplied(ss.id) ? 'Cancel' : 'Register'}
-            </Button>
+            {!ss.paymentId ? (
+              ss.status === 'JOINED' ? (
+                <Button
+                  type="primary"
+                  className="mt-2"
+                  disabled={ss.isCancel}
+                  loading={ss.pending}
+                  onClick={() => this.handleClick(ss.id, 'CANCEL')}
+                >
+                  Cancel Session
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  className="mt-2"
+                  disabled={ss.isCancel}
+                  loading={ss.pending}
+                  onClick={() => this.handleClick(ss.id, 'APPLY')}
+                >
+                  {!isSellTicket || isSellTicket === 'No'
+                    ? 'Register free'
+                    : 'Buy Ticket '}
+                </Button>
+              )
+            ) : ss.paymentId.status === 'PAID' ? (
+              <Button
+                type="primary"
+                className="mt-2"
+                loading={ss.pending}
+                disabled={ss.isCancel}
+                onClick={() => this.handleClick(ss.id, 'CANCEL')}
+              >
+                Cancel this session
+              </Button>
+            ) : (
+              <div className="d-flex">
+                <Button
+                  onClick={() => this.handleClick(ss.id, 'REPAY')}
+                  type="primary"
+                  className="mr-2"
+                  disabled={ss.isCancel}
+                >
+                  RePay
+                </Button>
+
+                <Button
+                  onClick={() => this.handleClick(ss.id, 'CANCEL')}
+                  disabled={ss.isCancel}
+                  type="danger"
+                  loading={ss.pending}
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
           </div>
         ))}
 
@@ -155,7 +231,7 @@ class ApplyEventModal extends Component {
             currSsId={currSsId}
             eventId={id}
             handleFinishPayment={this.handleCloseDrawer}
-            changeStatus={() => this.changeStatusSS(currSsId, 1)}
+            handleUpdateSessionStatus={this.handleUpdateSessionStatus}
           />
         </Drawer>
       </div>
@@ -167,6 +243,7 @@ const mapStateToProps = (state) => ({
   session: state.event.session,
   id: state.event.id,
   ticket: state.event.ticket,
+  isSellTicket: state.event.isSellTicket,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -174,6 +251,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(applyEventActions.applyEvent(eventId, sessionIds)),
   handleCancel: (eventId, sessionIds) =>
     dispatch(applyEventActions.cancelEvent(eventId, sessionIds)),
+
+  handleRePay: (eventId, payType, sessionIds, cb) =>
+    dispatch(applyEventActions.handleRePay(eventId, payType, sessionIds, cb)),
+
+  handleGetEventInfo: (eventId, cb) =>
+    dispatch(eventActions.getEventInfoUsingID(eventId, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplyEventModal);

@@ -17,66 +17,72 @@ class TransferType extends React.Component {
       eventId,
       currSsId,
       handleFinishPayment,
-      //   changeStatus,
       handleApply,
+      handleUpdateSessionStatus,
     } = this.props;
+
     if (currSsId) {
       const temp = [];
       temp.push(currSsId);
-      handleFinishPayment();
 
       handleApply(eventId, temp, 'ZALOPAY')
         .then((res) => {
-          console.log(res);
+          handleFinishPayment();
           window.open(res.orderurl, '_blank');
+          handleUpdateSessionStatus();
         })
-        .catch((err) => console.log(err));
+        .catch(handleUpdateSessionStatus());
     }
   };
 
   render() {
-    const { currSsId, eventId, handleFinishPayment, changeStatus } = this.props;
+    const {
+      currSsId,
+      eventId,
+      handleFinishPayment,
+      handleUpdateSessionStatus,
+    } = this.props;
 
     return this.state.creditCard ? (
       <CreditCard
         currSsId={currSsId}
         eventId={eventId}
         handleFinishPayment={handleFinishPayment}
-        changeStatus={changeStatus}
+        handleUpdateSessionStatus={handleUpdateSessionStatus}
         changeStatusType={() => this.setState({ creditCard: false })}
       />
     ) : (
       <div className="transfer_type">
         <h3 className=" w3-text-teal text-center mt-5 mb-5">
           <u>
-            <i class="fa fa-money" aria-hidden="true"></i> Select your transfer{' '}
-            <i class="fa fa-money" aria-hidden="true"></i>
+            <i className="fa fa-money" aria-hidden="true"></i> Select your
+            transfer <i className="fa fa-money" aria-hidden="true"></i>
           </u>
         </h3>
-        <div class="cards-list">
-          <div class="card 1" onClick={this.onZaloPay}>
-            <div class="card_image">
+        <div className="cards-list">
+          <div className="card 1" onClick={this.onZaloPay}>
+            <div className="card_image">
               <img
                 src="http://agiletech.vn/wp-content/uploads/2019/06/agiletechvietnam-zalopay.png"
                 alt="zalo-pay"
               />
             </div>
-            <div class="card_title title-black">
+            <div className="card_title title-black">
               <p>Zalo Pay</p>
             </div>
           </div>
 
           <div
-            class="card 2"
+            className="card 2"
             onClick={() => this.setState({ creditCard: true })}
           >
-            <div class="card_image">
+            <div className="card_image">
               <img
                 src="https://media2.giphy.com/media/H6iNB0pUucgYKR4KFV/giphy.gif"
                 alt="credit-card-type"
               />
             </div>
-            <div class="card_title title-black">
+            <div className="card_title title-black">
               <p>Credit Card</p>
             </div>
           </div>

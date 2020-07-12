@@ -16,23 +16,21 @@ class Timer extends React.Component {
     this.state = style
       ? { ...style }
       : {
-        ...TimerState(this.props),
-      };
+          ...TimerState(this.props),
+        };
   }
 
   componentDidMount() {
-
-    let startCount = ""
+    let startCount = '';
     const currentDay = new Date();
-    this.props.session.forEach(infor => {
+    this.props.session.forEach((infor) => {
       if (new Date(infor.day) > currentDay) {
-        startCount = infor.day
-        return
+        startCount = infor.day;
+        return;
       }
     });
 
-    if (startCount === "")
-      return
+    if (startCount === '') return;
     this.setState({
       ...this.calculateTimeLeft(startCount),
     });
@@ -50,7 +48,6 @@ class Timer extends React.Component {
   }
 
   calculateTimeLeft = (startCount) => {
-
     const difference = +new Date(startCount) - +new Date();
     let timeLeft = {};
 
@@ -126,8 +123,8 @@ class Timer extends React.Component {
     }
   };
 
-  render() {
-    const { key, style, editable } = this.props;
+  getCustomStyle = () => {
+    const { style } = this.props;
     const {
       topButton,
       leftButton,
@@ -136,39 +133,103 @@ class Timer extends React.Component {
       positionButton,
       backgroundColor,
     } = this.state;
+
     const divStyle = style
       ? style
       : {
-        position: positionButton,
-        top: topButton,
-        marginLeft: leftButton,
-        marginRight: rightButton,
-        marginTop: topButton,
-        marginBottom: bottomButton,
-        alignContent: 'center',
-        backgroundColor,
-        width: '100%',
-      };
+          position: positionButton,
+          top: topButton,
+          marginLeft: leftButton,
+          marginRight: rightButton,
+          marginTop: topButton,
+          marginBottom: bottomButton,
+          alignContent: 'center',
+          backgroundColor,
+          width: '100%',
+        };
+
+    return divStyle;
+  };
+
+  getCoundownStyle = () => {
+    return {
+      backgroundColor: '#18478b',
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '25px',
+      borderRadius: ' 6px',
+    };
+  };
+
+  getTimeStyle = () => {
+    return {
+      fontWeight: 'bolder',
+      fontSize: '35px',
+    };
+  };
+
+  render() {
+    const { id, style, editable } = this.props;
+    const { topButton, leftButton, rightButton, bottomButton } = this.state;
+
+    const divStyle = this.getCustomStyle();
+    const countDownStyle = this.getCoundownStyle();
+    const timeStyle = this.getTimeStyle();
 
     return (
-      <div className="container child-block" key={this.props.key}>
-        <div key={key} style={divStyle} className="d-flex ">
-          <div className="row border border-primary  flex-fill mr-1">
-            <div className="col">
-              <h2> {this.state.days} </h2>
-              days
+      <div className="child-block" key={this.props.key}>
+        <div key={id} style={divStyle} className="d-flex ">
+          <div
+            className="d-flex justify-content-around  border  flex-fill mr-1 p-2 pl-5 pr-5"
+            style={countDownStyle}
+          >
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: 'yellow',
+                }}
+              >
+                {' '}
+                {this.state.days}{' '}
+              </h2>
+              DAYS
             </div>
-            <div className="col">
-              <h2> {this.state.hours}</h2>
-              hours
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#ff5808',
+                }}
+              >
+                {' '}
+                {this.state.hours}
+              </h2>
+              HOURS
             </div>
-            <div className="col">
-              <h2> {this.state.minutes}</h2>
-              minutes
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#0df3e8',
+                }}
+              >
+                {' '}
+                {this.state.minutes}
+              </h2>
+              MINUTES
             </div>
-            <div className="col">
-              <h2> {this.state.seconds}</h2>
-              seconds
+            <div className="">
+              <h2
+                style={{
+                  ...timeStyle,
+                  color: '#08ff26',
+                }}
+              >
+                {' '}
+                {this.state.seconds}
+              </h2>
+              SECONDS
             </div>
           </div>
 

@@ -10,7 +10,7 @@ import {
 import ImageBlock from '../../atoms/Image';
 import TextBlock from '../../atoms/Text';
 import { eventActions } from 'action/event.action';
-// import { titleBlockStyle } from '../../../constants/atom.constant';
+import { titleBlockStyle } from '../../../constants/atom.constant';
 
 const high = 20;
 const iconStyle = {
@@ -129,21 +129,21 @@ class Sponsor1Block extends Component {
       padding: '10px',
     };
     const { sponsor, nameBlockStyle, nameBlock } = this.state;
-    const { editable } = this.props;
+    const { editable, id } = this.props;
     const listSponsorStyle = {
-      background: '#eaeaea6b',
+      //   background: '#eaeaea6b',
       padding: '2%',
       marginBottom: '2%',
     };
 
     return (
-      <div className="d-flex child-block" style={style}>
+      <div className="d-flex child-block" style={style} key={id}>
         <div style={style} className="container">
           <TextBlock
             content={nameBlock}
             child={true}
             editable={editable}
-            newStyle={{ ...nameBlockStyle }}
+            newStyle={{ ...nameBlockStyle, ...titleBlockStyle }}
             handleChangeSponsor={this.handleChangeSponsor}
           />
 
@@ -161,6 +161,7 @@ class Sponsor1Block extends Component {
                     editable={editable}
                     height={high}
                     // borderRadius={true}
+                    objectFit="contain"
                     child={true}
                     handleChangeItemSponsor={(value) => {
                       this.handleChangeUrlUpload(item.id, 'url', value);

@@ -19,8 +19,7 @@ const plainOptions = ['Yes', 'No'];
 const { Panel } = Collapse;
 
 class TabPane extends Component {
-  handleChange = (e) => {
-    const { name, value } = e.target;
+  handleChange = (name, value) => {
     const { onChange } = this.props;
     onChange(name, value);
   };
@@ -38,8 +37,7 @@ class TabPane extends Component {
   };
 
   render() {
-    const { typeOfEvent, banner, ticket } = this.props;
-    const isSellTicket = this.props.isSellTicket ? 'Yes' : 'No';
+    const { typeOfEvent, banner, ticket, isSellTicket } = this.props;
     return (
       <div className="p-5">
         <Form {...layout} name="control-ref">
@@ -53,7 +51,7 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={typeOfEvents}
-              onChange={this.handleChange}
+              onChange={(e) => this.handleChange('typeOfEvent', e.target.value)}
               value={typeOfEvent}
             />
           </Form.Item>
@@ -72,7 +70,9 @@ class TabPane extends Component {
           >
             <Radio.Group
               options={plainOptions}
-              onChange={this.handleChange}
+              onChange={(e) =>
+                this.handleChange('isSellTicket', e.target.value)
+              }
               value={isSellTicket}
             />
             {isSellTicket === 'Yes' || isSellTicket === true ? (
@@ -86,7 +86,7 @@ class TabPane extends Component {
                     <p className="mr-5">Price : </p>
                     <InputNumber
                       defaultValue={ticket.price}
-                      min={0}
+                      min={15000}
                       formatter={(value) => `${value}VND`}
                       parser={(value) => value.replace('VND', '')}
                       onChange={(value) =>

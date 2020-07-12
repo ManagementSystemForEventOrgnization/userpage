@@ -1,8 +1,8 @@
 const BannerState = (props) => ({
   url: props.banner || '/bg-3.jpg',
   visible: false,
-  margin: [1, 1, 1, 1],
-  padding: [10, 5, 5, 10],
+  margin: [1, 0, 0, 1],
+  padding: [0, 0, 0, 0],
 
   opacity: 0.6,
   bgColor: '#ECE7DF',
@@ -14,7 +14,6 @@ const BannerState = (props) => ({
         fontWeight: 'bolder',
         fontSize: 54,
         textAlign: 'center',
-        fontFamily: 'Anton',
         transform: 'capitalize',
         lineText: 80,
       },

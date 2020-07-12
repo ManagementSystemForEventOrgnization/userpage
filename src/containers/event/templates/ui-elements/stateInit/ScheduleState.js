@@ -32,13 +32,44 @@ const ScheduleState = (props, first) => ({
   scheduleName: 'Sessions',
 
   content: props.session.map((item) => ({
-    id: item.id,
-    time: item.day,
-    limitNumber: item.limitNumber,
-    name: item.name,
-    location: item.address.location,
+    ...item,
     pending: false,
     status: item.status || 'error',
   })),
 });
-export { ScheduleState };
+
+const titleStyle = {
+  fontWeight: 'bold',
+  fontSize: 20,
+  color: 'blue',
+};
+
+const calendar = {
+  border: '#f7bdbd solid 1px',
+  width: '83px',
+  height: '90px',
+  textAlign: 'center',
+  fontSize: 15,
+  fontWeight: 'bold',
+  borderRadius: '3px',
+};
+
+const monthStyle = {
+  background: 'red',
+  fontWeight: 'bolder',
+  borderRadius: '3px',
+};
+
+const moneyStyle = {
+  fontSize: '17px',
+  color: 'blue',
+  fontWeight: 'bolder',
+  textShadow: '0 0 3px #fb2020',
+};
+export const ScheduleConstant = {
+  ScheduleState,
+  titleStyle,
+  calendar,
+  moneyStyle,
+  monthStyle,
+};

@@ -1,4 +1,4 @@
-import API from 'config/axious.config';
+import API from './axious.config';
 
 const applyEvent = (eventId, sessionIds, payType) => {
   return (dispatch) => {
@@ -33,6 +33,22 @@ const cancelEvent = (eventId, sessionIds) => {
         })
         .catch((err) => reject(err));
     });
+  };
+};
+
+const handleRePay = (eventId, payType, sessionIds, cb) => {
+  return (dispatch) => {
+    API.post('/api/prepayEvent', {
+      eventId,
+      sessionIds,
+      payType,
+    })
+      .then((res) => {
+        cb(res.data.resultOrder, 1);
+      })
+      .catch((err) => {
+        cb(err, 0);
+      });
   };
 };
 
@@ -90,6 +106,7 @@ const reportUser = (userId, cause, eventId) => {
 export const applyEventActions = {
   applyEvent,
   cancelEvent,
+  handleRePay,
   verifyEventMember,
   rejectEventMember,
   reportUser,

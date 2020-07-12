@@ -5,8 +5,22 @@ import { FooterState } from '../../stateInit/FooterState';
 import TextsBlock from '../../atoms/Text';
 import IconsHandle from '../../shares/IconsHandle';
 import ChangeParentBlockStyle from '../../shares/ChangeParentBlockStyle';
-import IconsSocial from '../Social/social';
 import { eventActions } from 'action/event.action';
+
+const titleStyle = {
+  color: 'white',
+};
+
+const styleRow = {
+  padding: '6%',
+};
+
+const styleButton = {
+  textAlign: 'left',
+  color: 'white',
+  borderColor: 'white',
+  borderWidth: '0px',
+};
 
 class footer1 extends Component {
   constructor(props) {
@@ -70,10 +84,10 @@ class footer1 extends Component {
     }
   };
 
-  render() {
-    const { editable } = this.props;
-    const { collapse, padding, url, bgColor, opacity, margin } = this.state;
-    const style = {
+  getCustomStyle = () => {
+    const { padding, url, bgColor, margin } = this.state;
+
+    return {
       marginTop: `${margin[0]}%`,
       marginLeft: `${margin[1]}%`,
       marginRight: `${margin[2]}%`,
@@ -91,32 +105,28 @@ class footer1 extends Component {
 
       width: '100%',
     };
-    const bg = {
+  };
+
+  getBGStyle = () => {
+    const { opacity, bgColor } = this.state;
+    return {
       position: 'absolute',
       left: '0',
       top: '0',
       width: '100%',
       height: '100%',
-      opacity: opacity,
+      opacity,
       backgroundColor: bgColor,
     };
-    const titleStyle = {
-      color: 'white',
-    };
-
-    const styleRow = {
-      padding: '6%',
-    };
-
-    const styleButton = {
-      textAlign: 'left',
-      color: 'white',
-      borderColor: 'white',
-      borderWidth: '0px',
-    };
+  };
+  render() {
+    const { editable, id } = this.props;
+    const { collapse, padding, url, bgColor, opacity, margin } = this.state;
+    const style = this.getCustomStyle();
+    const bg = this.getBGStyle();
 
     return (
-      <div className="child-block d-flex  " style={{ height: 300 }}>
+      <div className="child-block d-flex  " style={{ height: 300 }} key={id}>
         <div style={style}>
           {url && <div style={bg}></div>}
           <div className="row  " style={styleRow}>
@@ -152,7 +162,6 @@ class footer1 extends Component {
                 newStyle={titleStyle}
                 editable={editable}
               />
-              <IconsSocial />
             </div>
           </div>
         </div>

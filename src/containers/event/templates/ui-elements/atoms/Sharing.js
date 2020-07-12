@@ -18,7 +18,7 @@ class Sharing extends Component {
     super(props);
     const { style } = props;
     this.state = style
-      ? { ...style }
+      ? { ...style, collapse: false }
       : {
           icons: ['Facebook', 'Email'],
           collapse: false,
@@ -87,9 +87,9 @@ class Sharing extends Component {
 
   render() {
     const { icons, collapse, title, url, size } = this.state;
-    const { editable } = this.props;
+    const { editable, id } = this.props;
     return (
-      <div className="child-block">
+      <div className="child-block" key={id}>
         <h5 style={titleBlockStyle}>Share to social media</h5>
         <hr />
         <div className="d-flex flex-wrap pl-3 pr-3 ">

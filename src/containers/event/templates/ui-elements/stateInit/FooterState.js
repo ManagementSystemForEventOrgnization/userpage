@@ -1,7 +1,7 @@
 const FooterState = (props) => ({
   collapse: false,
   margin: [1, 1, 1, 1],
-  padding: [7, 1, 1, 7],
+  padding: [7, 0, 0, 7],
   url: '',
   bgColor: '#23282d',
   opacity: 0.3,

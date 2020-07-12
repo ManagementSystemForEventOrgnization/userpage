@@ -31,27 +31,22 @@ class EventInfor extends Component {
   constructor(props) {
     // get category
     super(props);
-    const {
-      nameEvent,
-      typeOfEvent,
-      category,
-      session,
-      isSellTicket,
-      webAddress,
-      banner,
-      ticket,
-    } = props;
 
     this.state = {
-      nameEvent,
-      typeOfEvent,
-      category,
-      session,
-      isSellTicket,
-      webAddress,
+      nameEvent: '',
+      typeOfEvent: 'Public',
+      category: '',
+      session: [],
+      isSellTicket: 'No',
+      webAddress: '',
       isFirstLoad: true,
-      banner,
-      ticket,
+      banner:
+        'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg',
+
+      ticket: {
+        price: 15000,
+        discount: 0,
+      },
       activeKey: '1',
       customMessage: '',
     };
@@ -192,7 +187,7 @@ class EventInfor extends Component {
         <Tabs activeKey={activeKey} onTabClick={this.handleClickTab}>
           <TabPane
             tab={
-              <span className="p-5">
+              <span className="pl-5 pr-5 ml-5 mr-5">
                 <SettingTwoTone />
                 What
               </span>
@@ -226,7 +221,7 @@ class EventInfor extends Component {
 
           <TabPane
             tab={
-              <span className="p-5">
+              <span className="pl-5 pr-5 ml-5 mr-5">
                 <HourglassTwoTone />
                 When
               </span>
@@ -271,15 +266,6 @@ const mapStateToProps = (state) => ({
   categories: state.event.categories,
   pending: state.event.pending,
   errMessage: state.event.errMessage,
-
-  nameEvent: state.event.nameEvent,
-  typeOfEvent: state.event.typeOfEvent,
-  category: state.event.category,
-  session: state.event.session,
-  isSellTicket: state.event.isSellTicket,
-  webAddress: state.event.webAddress,
-  banner: state.event.banner,
-  ticket: state.event.ticket,
 });
 
 const mapDispatchToProps = (dispatch) => ({

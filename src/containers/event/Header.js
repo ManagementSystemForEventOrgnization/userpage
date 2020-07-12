@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Menu, Modal, Tabs, Input, Button } from 'antd';
 import { connect } from 'react-redux';
-import { EditTwoTone, PlusOutlined } from '@ant-design/icons';
+import { EditTwoTone, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { eventActions } from 'action/event.action';
 import { Link } from 'react-router-dom';
 
@@ -10,16 +10,24 @@ import EditText from './templates/ui-elements/shares/EditText';
 import { HeaderState } from './templates/ui-elements/stateInit/HeaderState';
 import PaddingAndMargin from './templates/ui-elements/shares/PaddingAndMargin';
 import ChangeColorModal from './templates/ui-elements/shares/ChangeColorModal';
-
+import ImageBlock from './templates/ui-elements/atoms/Image';
 const { TabPane } = Tabs;
 const { SubMenu } = Menu;
+
+const iconStyle = {
+  fontSize: '20px',
+};
+
+const inputInModalStyle = {
+  width: '200px',
+};
 
 class Header extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style }
+      ? { ...style, isCollapsed: false }
       : {
           ...HeaderState(this.props),
           isCollapsed: false,
@@ -43,12 +51,6 @@ class Header extends Component {
       [valueParam]: newValue,
     });
   }
-
-  checkActive = (child) => {
-    const { currentPage } = this.props;
-    const result = child.findIndex((item) => item.id === currentPage);
-    return result === -1 ? true : false;
-  };
 
   openModal = () => this.setState({ isCollapsed: true });
 
@@ -96,6 +98,7 @@ class Header extends Component {
     const index = pages.findIndex((item) => item.id === currentItem.id);
     const newPages = [...pages];
     const newChildId = uuid();
+
     if (currentItem.child.length === 0) {
       newPages[index].child.push({
         id: newChildId,
@@ -109,6 +112,21 @@ class Header extends Component {
       });
       changePages(newPages, currentPage);
     }
+  };
+
+  handleRemoveChild = (currentItem, childItem) => {
+    const { pages, changePages, currentPage } = this.props;
+    const index = pages.findIndex((item) => item.id === currentItem.id);
+    let newPages = [...pages];
+
+    const childIndex = currentItem.child.indexOf(
+      (item) => item.id === childItem.id
+    );
+    currentItem.child.splice(childIndex, 1);
+    newPages[index] = currentItem;
+    if (currentItem.child.length === 0) {
+      changePages(newPages, currentItem.id);
+    } else changePages(newPages, currentPage);
   };
 
   handleChangeHeaderItem = (value, child) => {
@@ -131,13 +149,8 @@ class Header extends Component {
     this.setState(currentItem);
   };
 
-  render() {
-    const { pages, currentPage, editable, pending } = this.props;
-    const { currentItem } = this.state;
-    const id = this.props.webAddress || localStorage.getItem('webAddress');
-
+  getCustomStyle = () => {
     const {
-      isCollapsed,
       fontSize,
       lineText,
       letterSpacing,
@@ -149,13 +162,6 @@ class Header extends Component {
       transform,
       fontWeight,
     } = this.state;
-    const iconStyle = {
-      fontSize: '20px',
-    };
-
-    const inputInModalStyle = {
-      width: '200px',
-    };
 
     const divStyle = {
       marginTop: `${margin[0]}%`,
@@ -177,58 +183,98 @@ class Header extends Component {
       textTransform: transform,
       fontWeight: fontWeight,
       width: '100 %',
+      height: '90px',
+    };
+    return divStyle;
+  };
+
+  render() {
+    const { pages, currentPage, editable, pending, webAddress } = this.props;
+    const { currentItem } = this.state;
+    const id = webAddress || localStorage.getItem('webAddress');
+
+    const {
+      isCollapsed,
+      fontSize,
+      lineText,
+      letterSpacing,
+      padding,
+      margin,
+      color,
+      background,
+    } = this.state;
+
+    const divStyle = this.getCustomStyle();
+    const logoStyle = {
+      objectFit: 'cover',
+      marginRight: '5%',
+      border: 'none',
     };
 
     return (
       <div className="d-flex">
         {!pending && (
-          <Menu
-            mode="horizontal"
-            style={divStyle}
-            selectedKeys={currentPage}
-            className="flex-fill"
-          >
-            {pages.map((item) =>
-              item.child.length === 0 ? (
-                <Menu.Item
-                  key={item.id}
-                  disabled={editable && item.id !== currentPage}
-                >
-                  {editable ? (
-                    item.title
-                  ) : (
-                    <Link
-                      to={`/event/${id}/${item.title}`}
-                      onClick={() => this.handleClickMenuItem(item)}
-                    >
-                      {item.title}
-                    </Link>
-                  )}
-                </Menu.Item>
-              ) : (
-                <SubMenu
-                  key={item.id}
-                  title={<span>{item.title}</span>}
-                  disabled={editable && this.checkActive(item.child)}
-                >
-                  {item.child.map((child) => (
-                    <Menu.Item key={child.id}>
-                      {editable ? (
-                        child.title
-                      ) : (
-                        <Link
-                          to={`/event/${id}/${child.title}`}
-                          onClick={() => this.handleClickMenuItem(child)}
-                        >
-                          {child.title}
-                        </Link>
-                      )}
-                    </Menu.Item>
-                  ))}
-                </SubMenu>
-              )
-            )}
-          </Menu>
+          <div className="d-flex flex-fill" style={divStyle}>
+            <ImageBlock
+              url={
+                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png'
+              }
+              newStyle={logoStyle}
+              editable={editable}
+              child={true}
+            />
+
+            <Menu
+              mode="horizontal"
+              selectedKeys={currentPage}
+              className="flex-fill ml-5"
+              style={{
+                color: '#333333',
+                fontWeight: '600',
+                fontSize: '20px',
+              }}
+            >
+              {pages.map((item) =>
+                item.child.length === 0 ? (
+                  <Menu.Item
+                    key={item.id}
+                    onClick={() => this.handleClickMenuItem(item)}
+                  >
+                    {editable ? (
+                      item.title
+                    ) : (
+                      <Link
+                        to={`/event/${id}/${item.title}`}
+                        onClick={() => this.handleClickMenuItem(item)}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
+                  </Menu.Item>
+                ) : (
+                  <SubMenu key={item.id} title={<span>{item.title}</span>}>
+                    {item.child.map((child) => (
+                      <Menu.Item
+                        key={child.id}
+                        onClick={() => this.handleClickMenuItem(child)}
+                      >
+                        {editable ? (
+                          child.title
+                        ) : (
+                          <Link
+                            to={`/event/${id}/${child.title}`}
+                            onClick={() => this.handleClickMenuItem(child)}
+                          >
+                            {child.title}
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                )
+              )}
+            </Menu>
+          </div>
         )}
 
         {editable && (
@@ -285,6 +331,14 @@ class Header extends Component {
                             onChange={(e) =>
                               this.handleChangeHeaderItem(e.target.value, item)
                             }
+                          />
+
+                          <DeleteOutlined
+                            className="ml-5 mt-1"
+                            onClick={() =>
+                              this.handleRemoveChild(currentItem, item)
+                            }
+                            style={{ fontSize: '20px', color: 'red' }}
                           />
                         </div>
                       ))}
@@ -357,6 +411,7 @@ const mapStateToProps = (state) => ({
   currentPage: state.event.currentPage,
   webAddress: state.event.webAddress,
   pending: state.event.pending,
+  currentIndex: state.event.currentIndex,
 });
 
 const mapDispatchToProps = (dispatch) => ({

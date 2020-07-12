@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from 'action/user.action';
 import { Spin } from 'antd';
-import Header from 'containers/share/_layout/Header';
+
 import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
@@ -12,11 +12,11 @@ class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: "1",
+      tab: '1',
     };
   }
   componentDidMount = () => {
-    if (this.state.tab === "1") {
+    if (this.state.tab === '1') {
       const { getCurrentUser } = this.props;
       getCurrentUser();
     }
@@ -32,9 +32,6 @@ class ProfilePage extends Component {
     const { tab } = this.state;
     return (
       <div>
-        <div className="fixed-top">
-          <Header />
-        </div>
         <div className="ProfileInfor mt-5 p-3 row">
           <div className=" col-sm-3">
             <ProfileInfor moveTab={moveTab} />
