@@ -13,25 +13,7 @@ class DropContainer extends React.Component {
     };
   }
 
-  renderEditedBlock = (item, match, editable) => {
-    const param =
-      Object.keys(item.style).length !== 0
-        ? {
-            id: item.id,
-            style: item.style,
-            editable,
-            match,
-          }
-        : {
-            id: item.id,
-            editable,
-            match,
-          };
-
-    return blockList[item.type](param);
-  };
-
-  renderItem = (item, match, editable, update) => {
+  renderItem = (item, match, editable) => {
     const param =
       item.style && Object.keys(item.style).length !== 0
         ? {
@@ -50,19 +32,12 @@ class DropContainer extends React.Component {
             type: item.type,
           };
 
-    return update ? blockList[item.type](param) : item.options(param);
-  };
-
-  handleChangeTextArea = (e) => {
-    this.setState({
-      inputText: e.target.value,
-    });
+    return blockList[item.type](param);
   };
 
   render() {
     const { match, editable, blocks, storeBlocksWhenCreateEvent } = this.props;
 
-    const update = true;
     return (
       <div className="drop-container pl-5 pr-5">
         <ReactSortable
@@ -79,7 +54,7 @@ class DropContainer extends React.Component {
           list={blocks}
           setList={storeBlocksWhenCreateEvent}
         >
-          {blocks.map((item) => this.renderItem(item, match, editable, update))}
+          {blocks.map((item) => this.renderItem(item, match, editable))}
         </ReactSortable>
       </div>
     );
@@ -93,8 +68,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeBlocksWhenCreateEvent: (blocks) =>
     dispatch(eventActions.storeBlocksWhenCreateEvent(blocks)),
-
-  getEventEdit: (id, route) => dispatch(eventActions.getEventEdit(id, route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropContainer);

@@ -16,6 +16,7 @@ class ProfilePage extends Component {
       tab: '1',
     };
   }
+
   componentDidMount = () => {
     if (this.state.tab === '1') {
       const { getCurrentUser } = this.props;
@@ -32,29 +33,27 @@ class ProfilePage extends Component {
 
     const { tab } = this.state;
     return (
-      <div>
-        <div className="ProfileInfor mt-5 p-3 row">
-          <div className=" col-sm-3">
-            <ProfileInfor moveTab={moveTab} />
-          </div>
-          <div className=" col-sm-9">
-            {this.props.pending && (
-              <Spin
-                tip="Loading..."
-                size="large"
-                style={{
-                  position: 'absolute',
-                  marginTop: '100px',
-                }}
-              >
-                {' '}
-              </Spin>
-            )}
-            {tab === '1' && <UpdateProfileInfor />}
-            {tab === '2' && <BankAccount />}
-            {tab === '3' && <TransactionHistory />}
-            {tab === '4' && <QRCode />}
-          </div>
+      <div className="ProfileInfor mt-5 p-3 row">
+        <div className=" col-sm-3">
+          <ProfileInfor moveTab={moveTab} />
+        </div>
+        <div className=" col-sm-9">
+          {this.props.pending && (
+            <Spin
+              tip="Loading..."
+              size="large"
+              style={{
+                position: 'absolute',
+                marginTop: '100px',
+              }}
+            >
+              {' '}
+            </Spin>
+          )}
+          {tab === '1' && <UpdateProfileInfor />}
+          {tab === '2' && <BankAccount />}
+          {tab === '3' && <TransactionHistory />}
+          {tab === '4' && <QRCode />}
         </div>
       </div>
     );

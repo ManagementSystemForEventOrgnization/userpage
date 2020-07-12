@@ -74,18 +74,14 @@ class Header extends Component {
 
   handleClickMenuItem = (item) => {
     const { changeCurrentPage } = this.props;
-    // console.log(item);
     changeCurrentPage(item.id);
   };
 
-  // componentDidUpdate = (prevProps) => {
-  //   console.log('Prev: ', prevProps.currentPage);
-  //   console.log(this.props.currentIndex);
-
-  //   // if (prevProps.currentPage !== this.props.currentPage) {
-  //   //   this.currentItem();
-  //   // }
-  // };
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      this.currentItem();
+    }
+  };
 
   currentItem = () => {
     const { currentPage, pages } = this.props;
@@ -221,7 +217,6 @@ class Header extends Component {
     } = this.state;
 
     const divStyle = this.getCustomStyle();
-
     return (
       <div className="d-flex">
         {!pending && (
@@ -233,6 +228,8 @@ class Header extends Component {
               newStyle={logoStyle}
               editable={editable}
               child={true}
+              logo={true}
+              webAddress={id}
             />
 
             <Menu

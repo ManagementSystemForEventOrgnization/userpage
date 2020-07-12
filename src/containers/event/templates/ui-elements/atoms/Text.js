@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Input } from 'antd';
 import { EditFilled } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 import EditText from '../shares/EditText';
 import PaddingAndMargin from '../shares/PaddingAndMargin';
@@ -140,6 +141,7 @@ class TextsBlock extends React.Component {
   openModal = () => {
     this.setState({ visible: true });
   };
+
   closeModal = () => {
     this.setState({
       visible: false,
@@ -200,7 +202,15 @@ class TextsBlock extends React.Component {
   };
 
   render() {
-    const { leftModal, child, editable, editUrl, newStyle, id } = this.props;
+    const {
+      leftModal,
+      child,
+      editable,
+      editUrl,
+      newStyle,
+      id,
+      footer,
+    } = this.props;
     const {
       visible,
       content,
@@ -230,6 +240,10 @@ class TextsBlock extends React.Component {
             style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
+        ) : footer ? (
+          <Link to="/" style={{ ...divStyle, ...inputStyle, ...newStyle }}>
+            <p>{content}</p>
+          </Link>
         ) : (
           <p
             onClick={this.onClick}

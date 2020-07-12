@@ -81,7 +81,7 @@ class Chat extends Component {
 
   componentDidUpdate = (prevProps) => {
     const { chatHistory } = this.props;
-    if (prevProps.chatHistory) {
+    if (prevProps.chatHistory && chatHistory) {
       if (prevProps.chatHistory.length === 0 && chatHistory.length > 0) {
         this.renderChatHistory(chatHistory);
       }

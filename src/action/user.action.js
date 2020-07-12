@@ -70,22 +70,10 @@ const requestForgotPassword = (email) => {
         email,
       })
         .then((res) => {
-          if (res.status === 200) {
-            dispatch(success());
-          } else {
-            dispatch(
-              failure(res.data.error.message || 'OOPs! something wrong')
-            );
-          }
+          dispatch(success());
         })
         .catch((error) => {
-          const { data } = error.response;
-          if (data.error) {
-            return dispatch(
-              failure(data.error.message) || 'OOPs! something wrong'
-            );
-          }
-          return dispatch(failure(error) || 'OOPs! something wrong');
+          handleCatch(dispatch, failure, error);
         });
     }
   };
@@ -182,11 +170,8 @@ const checkCode = (token) => {
         if (history.action === 'PUSH') {
           history.goBack();
         } else history.push('/');
-
-        // history.push('/');
       })
       .catch((error) => {
-        console.log(error);
         handleCatch(dispatch, failure, error);
       });
   };
@@ -382,12 +367,12 @@ const postCardDefault = (cardId, callBack) => {
       cardId,
     })
       .then((res) => {
-        dispatch(success(res.data.result));
         callBack();
+        dispatch(success(res.data.result));
       })
       .catch((error) => {
-        handleCatch(dispatch, failure, error);
         callBack(error);
+        handleCatch(dispatch, failure, error);
       });
   };
 
@@ -409,12 +394,12 @@ const delCardDefault = (cardId, callBack) => {
       cardId,
     })
       .then((res) => {
-        dispatch(success(res.data.result, cardId));
         callBack();
+        dispatch(success(res.data.result, cardId));
       })
       .catch((error) => {
-        handleCatch(dispatch, failure, error);
         callBack(error);
+        handleCatch(dispatch, failure, error);
       });
   };
 
@@ -531,21 +516,30 @@ const getListNotification = (pageNumber, numberRecord) => {
     return { type: userConstants.GET_LIST_NOTIFICATION_FAILURE, error };
   }
 };
-
+// chỗ nào call api anyf
 const getNumUnreadNotification = () => {
   return (dispatch) => {
-    API.get('/transfer/getBadgeNumber')
+    API.get('/api/getBadgeNumber')
       .then((res) => {
         const { result } = res.data;
         dispatch(success(result));
       })
-      .catch((err) => {});
+      .catch((error) => {
+        handleCatch(dispatch, failure, error);
+      });
   };
 
   function success(numUnreadNotification) {
     return {
       type: userConstants.GET_UNREADNOTIFICATION,
       numUnreadNotification,
+    };
+  }
+
+  function failure(err) {
+    return {
+      type: userConstants.GET_UNREADNOTIFICATION_FAILURE,
+      err,
     };
   }
 };
@@ -610,14 +604,7 @@ const deleteEvent = (eventId) => {
         dispatch(success(res.data.result, eventId));
       })
       .catch((error) => {
-        const { data } = error.response;
-
-        if (data.error) {
-          return dispatch(
-            failure(data.error.message) || 'OOPs! something wrong'
-          );
-        }
-        return dispatch(failure(error) || 'OOPs! something wrong');
+        handleCatch(dispatch, failure, error);
       });
   };
   function request() {

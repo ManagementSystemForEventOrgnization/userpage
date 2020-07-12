@@ -38,6 +38,18 @@ const seeAllButton = {
   borderColor: 'var(--eds-ui-500,#a9a8b3)',
   borderRadius: '4px',
 };
+const aboutButton = {
+  marginLeft: '40%',
+  marginTop: '5%',
+  marginBottom: '10%',
+  width: '100%',
+  height: '50px',
+  fontWeight: 'bolder',
+  fontSize: '25px',
+  borderWidth: '3px',
+  borderColor: 'var(--eds-ui-500,#a9a8b3)',
+  borderRadius: '4px',
+};
 
 class HomePage extends Component {
   constructor(props) {
@@ -101,8 +113,8 @@ class HomePage extends Component {
                       {item.session.length === 1 ? (
                         ''
                       ) : (
-                        <p>+ {item.session.length - 1}more events</p>
-                      )}
+                          <p>+ {item.session.length - 1}more events</p>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -112,14 +124,14 @@ class HomePage extends Component {
         </Carousel>
       </div>
     ) : (
-      <div style={{ textAlign: 'center' }}>
-        <p>No highlight event at this time</p>
-        <img
-          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-          alt="no-high-light"
-        />
-      </div>
-    );
+        <div style={{ textAlign: 'center' }}>
+          <p>No highlight event at this time</p>
+          <img
+            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+            alt="no-high-light"
+          />
+        </div>
+      );
   };
 
   renderUpcomingEvent = () => {
@@ -139,14 +151,14 @@ class HomePage extends Component {
         ))}
       </div>
     ) : (
-      <div style={{ textAlign: 'center' }}>
-        <p>No upcoming event at this time</p>
-        <img
-          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
-          alt="no-upcoming"
-        />
-      </div>
-    );
+        <div style={{ textAlign: 'center' }}>
+          <p>No upcoming event at this time</p>
+          <img
+            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767124/LoadingGif/download_cojul1.gif"
+            alt="no-upcoming"
+          />
+        </div>
+      );
   };
 
   render() {
@@ -169,8 +181,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-            this.renderHighLightEvent()
-          )}
+              this.renderHighLightEvent()
+            )}
         </div>
         <div className="list-event mt-5 mb-5  " style={{ marginTop: '5%' }}>
           <div className="up-coming pl-2">
@@ -190,8 +202,8 @@ class HomePage extends Component {
               />
             </div>
           ) : (
-            this.renderUpcomingEvent()
-          )}
+              this.renderUpcomingEvent()
+            )}
         </div>
         <hr></hr>' '{' '}
         <Link to="/event-list/all-events">
@@ -211,12 +223,12 @@ class HomePage extends Component {
         <hr />
         <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
           <Link to="/about-us">
-            <Button size="large" type="primary">
+            <Button style={aboutButton}>
               About Us
             </Button>
           </Link>
         </div>
-      </div>
+      </div >
     );
   }
 }

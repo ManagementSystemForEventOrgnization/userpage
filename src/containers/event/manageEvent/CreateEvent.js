@@ -280,9 +280,6 @@ class CreateEvent extends React.Component {
     const { pages, handlePreviousPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
-
-    // console.log(pages);
-    // console.log(currentIndex);
     window.scrollTo(0, 0);
 
     if (pages[currentIndex].child.length === 0) {
@@ -290,9 +287,6 @@ class CreateEvent extends React.Component {
     } else {
       newPageId = this.getPreviousChildId();
     }
-
-    // console.log(newPageId);
-
     handlePreviousPage(newPageId);
   };
 

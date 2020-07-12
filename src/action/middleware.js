@@ -3,6 +3,7 @@ import history from '../utils/history';
 const handleCatch = (dispatch, call, err) => {
   if (err.response) {
     const { data, status } = err.response;
+    console.log(status);
     if (data.error) {
       dispatch(call(data.error.message));
       if (status !== 600) {

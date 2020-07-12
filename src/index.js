@@ -1,4 +1,4 @@
-import './setupProxy';
+//import './setupProxy';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
