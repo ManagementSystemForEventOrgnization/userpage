@@ -103,10 +103,6 @@ class CategoryDetailPage extends React.Component {
     getListEvent(dataSent);
   };
 
-  UNSAFE_componentWillMount = () => {
-    localStorage.removeItem('currentCategory');
-  };
-
   componentDidUpdate = (prevProps) => {
     const { getListEvent, match } = this.props;
     const path = match.match.params.id;
