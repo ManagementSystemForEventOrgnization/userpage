@@ -17,6 +17,7 @@ import {
   Modal,
   Alert,
   Radio,
+  message
 } from 'antd';
 
 import {
@@ -217,7 +218,7 @@ class CreateHistory extends React.Component {
     localStorage.setItem('currentId', eventId);
     localStorage.setItem('editSite', url);
 
-    // history.push('/create');
+
   };
 
   handleURL = (url) => {
@@ -227,13 +228,29 @@ class CreateHistory extends React.Component {
   showDeleteConfirm = () => {
     const { deleteEvent } = this.props;
     const { eventId } = this.state;
-    // this.setState({ confirmLoading: true })
-    deleteEvent(eventId);
-    this.setState({
-      isDeleteMess: false,
-      isupdate: false,
-      isdeletSucces: false,
-    });
+
+    deleteEvent(eventId).then(res => {
+
+      this.setState({
+        isDeleteMess: false,
+        isupdate: false,
+        isdeletSucces: false,
+        visible: false
+      });
+      message.success({
+        content: 'you have deleted a event',
+        className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        },
+      });
+
+    }).catch(error => {
+      console.log(error);
+    }
+
+    )
+
   };
 
   isShowDelete = (eventId) => {
@@ -453,141 +470,141 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                <div className="row p-2 ">
-                  {listEvent.map((item) => (
-                    <div
-                      className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
-                      key={item._id}
-                    >
-                      <Card
-                        className="event-cart "
-                        cover={
-                          <div>
-                            <Dropdown
-                              overlay={this.renderMenu(item)}
-                              placement="bottomLeft"
-                            >
-                              <Button className="ml-1 mt-1 ticket">
-                                Action
-                              </Button>
-                            </Dropdown>
-
-                            {item.bannerUrl && (
-                              <img
-                                className="img-baner"
-                                alt="example"
-                                src={item.bannerUrl}
-                              />
-                            )}
-                          </div>
-                        }
+                  <div className="row p-2 ">
+                    {listEvent.map((item) => (
+                      <div
+                        className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
+                        key={item._id}
                       >
-                        <div className="row">
-                          <div className="d-flex col ">
-                            <p
-                              className="ml-2"
-                              style={{
-                                fontWeight: 'bold',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {moment(
-                                (item.session &&
-                                  item.session[0] &&
-                                  item.session[0].day) ||
-                                  new Date().toLocaleDateString()
-                              ).format('DD/MM/YYYY ')}
-                            </p>
-                          </div>
-                          <div className="d-flex col ">
+                        <Card
+                          className="event-cart "
+                          cover={
                             <div>
-                              {item.ticket ? (
-                                <div className="d-flex ">
-                                  {item.ticket.discount ? (
-                                    <div className="d-flex ">
-                                      <p
-                                        style={{
-                                          textDecoration: 'line-through',
-                                          fontWeight: 'bold',
-                                        }}
-                                        className="ml-1 "
-                                      >
-                                        {item.ticket.price}
-                                      </p>
-                                      <p
-                                        className="ml-3"
-                                        style={{ fontWeight: 'bold' }}
-                                      >
-                                        {this.sumDiscount(
-                                          item.ticket.price,
-                                          item.ticket.discount
-                                        )}
-                                      </p>
-                                      <div className="col">
-                                        <h4>{item.status}</h4>
+                              <Dropdown
+                                overlay={this.renderMenu(item)}
+                                placement="bottomLeft"
+                              >
+                                <Button className="ml-1 mt-1 ticket">
+                                  Action
+                              </Button>
+                              </Dropdown>
+
+                              {item.bannerUrl && (
+                                <img
+                                  className="img-baner"
+                                  alt="example"
+                                  src={item.bannerUrl}
+                                />
+                              )}
+                            </div>
+                          }
+                        >
+                          <div className="row">
+                            <div className="d-flex col ">
+                              <p
+                                className="ml-2"
+                                style={{
+                                  fontWeight: 'bold',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {moment(
+                                  (item.session &&
+                                    item.session[0] &&
+                                    item.session[0].day) ||
+                                  new Date().toLocaleDateString()
+                                ).format('DD/MM/YYYY ')}
+                              </p>
+                            </div>
+                            <div className="d-flex col ">
+                              <div>
+                                {item.ticket ? (
+                                  <div className="d-flex ">
+                                    {item.ticket.discount ? (
+                                      <div className="d-flex ">
+                                        <p
+                                          style={{
+                                            textDecoration: 'line-through',
+                                            fontWeight: 'bold',
+                                          }}
+                                          className="ml-1 "
+                                        >
+                                          {item.ticket.price}
+                                        </p>
+                                        <p
+                                          className="ml-3"
+                                          style={{ fontWeight: 'bold' }}
+                                        >
+                                          {this.sumDiscount(
+                                            item.ticket.price,
+                                            item.ticket.discount
+                                          )}
+                                        </p>
+                                        <div className="col">
+                                          <h4>{item.status}</h4>
+                                        </div>
                                       </div>
-                                    </div>
-                                  ) : (
+                                    ) : (
+                                        <p
+                                          className=" mt-1 "
+                                          style={{ fontWeight: 'bold' }}
+                                        >
+                                          {item.ticket.price} VNĐ
+                                        </p>
+                                      )}
+                                  </div>
+                                ) : (
                                     <p
-                                      className=" mt-1 "
                                       style={{ fontWeight: 'bold' }}
+                                      className="ml-1  "
                                     >
-                                      {item.ticket.price} VNĐ
+                                      0 VNĐ
                                     </p>
                                   )}
-                                </div>
-                              ) : (
-                                <p
-                                  style={{ fontWeight: 'bold' }}
-                                  className="ml-1  "
-                                >
-                                  0 VNĐ
-                                </p>
-                              )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <Link to={`/event/${item.urlWeb}`}>
+                          <Link to={`/event/${item.urlWeb}`}>
+                            <div className="d-flex ">
+                              <h5
+                                className="ml-2 line-clamp "
+                                style={{
+                                  fontWeight: 'bold',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {item.name}
+                              </h5>
+                              <div>
+                                {((item.session && item.session.length) || 1) ===
+                                  1 ? (
+                                    ''
+                                  ) : (
+                                    <p
+                                      className="ml-2"
+                                      style={{ fontWeight: 'bold' }}
+                                    >
+                                      + {item.session.length - 1}more events
+                                    </p>
+                                  )}
+                              </div>
+                            </div>
+                          </Link>
                           <div className="d-flex ">
-                            <h5
-                              className="ml-2 line-clamp "
-                              style={{
-                                fontWeight: 'bold',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {item.name}
-                            </h5>
-                            <div>
-                              {((item.session && item.session.length) || 1) ===
-                              1 ? (
-                                ''
-                              ) : (
-                                <p
-                                  className="ml-2"
-                                  style={{ fontWeight: 'bold' }}
-                                >
-                                  + {item.session.length - 1}more events
-                                </p>
-                              )}
+                            <EnvironmentOutlined className="mt-1" />
+                            <div className="d-flex ">
+                              <p className="ml-2 address ">
+                                {item.session &&
+                                  item.session[0] &&
+                                  item.session[0].address.location}
+                              </p>
                             </div>
                           </div>
-                        </Link>
-                        <div className="d-flex ">
-                          <EnvironmentOutlined className="mt-1" />
-                          <div className="d-flex ">
-                            <p className="ml-2 address ">
-                              {item.session &&
-                                item.session[0] &&
-                                item.session[0].address.location}
-                            </p>
-                          </div>
-                        </div>
-                      </Card>
-                    </div>
-                  ))}
-                </div>
-              )}
+                        </Card>
+                      </div>
+                    ))}
+                  </div>
+                )}
               {this.ableToLoadMore(arrEvent.length) && (
                 <Button
                   style={{

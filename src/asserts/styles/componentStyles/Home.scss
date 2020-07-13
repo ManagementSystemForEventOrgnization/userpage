@@ -1,5 +1,4 @@
 .homepage {
-  background: #f1f1f1;
   h1 {
     text-align: center;
     margin-top: 30px;
@@ -16,6 +15,14 @@
 
     .orgnization {
       width: 100%;
+    }
+
+    .explore {
+      background: url("https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg")
+        center fixed;
+      height: 200px;
+      text-align: center;
+      padding: 50px;
     }
 
     .line-clamp {
@@ -69,7 +76,7 @@
       font-weight: 500;
       position: absolute;
       top: 2px;
-      left: '10%';
+      left: "10%";
       right: 10px;
       border-radius: 10px 10px 10px 30px;
       color: white;
@@ -110,6 +117,7 @@
       text-transform: uppercase;
       visibility: inherit;
       opacity: 1;
+
       transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
       transform-origin: 50% 50% 0px;
       white-space: nowrap;
@@ -144,7 +152,7 @@
       // font-size: 20px;
       position: absolute;
       top: 5px;
-      left: '10%';
+      left: "10%";
       right: 1px;
       border-radius: 10px 10px 10px 30px;
       color: white;
@@ -207,6 +215,9 @@
       }
     }
   }
+}
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  height: 40px !important;
 }
 
 .item-image {
