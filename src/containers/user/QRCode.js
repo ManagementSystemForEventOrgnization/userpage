@@ -1,24 +1,20 @@
 import React, { Component } from 'react'
-import QRious from "qrious";
 import { connect } from 'react-redux';
+import QRCode from 'qrcode.react'
 
+class QRCodes extends Component {
 
-class QRCode extends Component {
-
-    componentDidMount() {
-        if (this.props.userInfo)
-            new QRious({
-                element: document.getElementById("qr-div"),
-                value: this.props.userInfo._id
-            });
-    }
     render() {
+
         return (
             <div className="shadow p-3 mb-5 bg-white rounded  mb-5 mt-5 p-5 border rounded bg-secondary">
                 <div className="d-flex justify-content-center pt-5">
                     <div>
-                        <h4 className="w3-text-teal">QR Code:</h4>
-                        <canvas id="qr-div" style={{ minWidth: 250, minHeight: 250, marginTop: 30, marginBottom: 50 }} />
+                        <h4 className="w3-text-teal">{this.props.title ? this.props.title : "QR Code: "}</h4>
+                        <div style={{ maxWidth: '250px' }}>
+                            {this.props.day && <div><b>Date:</b>  {new Date(this.props.day).toLocaleString()}</div>}
+                        </div>
+                        {this.props.QrValue && <QRCode style={{ minWidth: 250, minHeight: 250, marginTop: 30, marginBottom: 50 }} value={this.props.QrValue} />}
                     </div>
                     <br />
                 </div>
@@ -31,9 +27,8 @@ class QRCode extends Component {
 const mapStateToProps = (state) => {
     return {
         pending: state.user.pending,
-        userInfo: state.user.userInfo,
         errMessage: state.user.errMessage,
     };
 };
 
-export default connect(mapStateToProps, null)(QRCode);
+export default connect(mapStateToProps, null)(QRCodes);
