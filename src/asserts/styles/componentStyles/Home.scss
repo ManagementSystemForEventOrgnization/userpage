@@ -18,7 +18,7 @@
     }
 
     .explore {
-      background: url('https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg')
+      background: url("https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg")
         center fixed;
       height: 200px;
       text-align: center;
@@ -76,7 +76,7 @@
       font-weight: 500;
       position: absolute;
       top: 2px;
-      left: '10%';
+      left: "10%";
       right: 10px;
       border-radius: 10px 10px 10px 30px;
       color: white;
@@ -98,6 +98,9 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       font-weight: 500 !important;
+    }
+    .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+      height: 40px !important;
     }
 
     .line-clamp1 {
@@ -151,7 +154,7 @@
       // font-size: 20px;
       position: absolute;
       top: 5px;
-      left: '10%';
+      left: "10%";
       right: 1px;
       border-radius: 10px 10px 10px 30px;
       color: white;
