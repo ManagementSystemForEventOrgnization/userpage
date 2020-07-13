@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
 import { userActions } from 'action/user.action';
 import { notificationTypeConstants } from 'constants/index';
+import history from 'utils/history';
 
 const timeStyle = {
   fontSize: '10px',
@@ -62,9 +63,10 @@ class Notification extends Component {
   };
 
   getNameSender = (title, username) => {
+    if (!username) return title;
     const start = title.indexOf('{');
     const end = title.indexOf('}');
-    return title.replace(title.slice(start, end + 1), username);
+    return title.replace(title.slice(start, end + 1), username) || '';
   };
 
   handleDeleleNotification = (notificationId) => {
@@ -144,22 +146,22 @@ class Notification extends Component {
                 onClick={() =>
                   item.linkTo.urlWeb
                     ? window.location.replace(item.linkTo.urlWeb)
-                    : window.location.replace('http://localhost:3000/my-events')
+                    : history.push('/profile')
                 }
               >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-                <h6
-                  onClick={() =>
-                    this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
-                      ? window.location.replace(item.linkTo.urlWeb)
-                      : window.location.replace('http://localhost:3000/my-events')
-                  }
-                >
-                  {this.getNameSender(item.title, item.users_sender.fullName)}
-                </h6>
-              )}
+              <h6
+                onClick={() =>
+                  this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                    ? window.location.replace(item.linkTo.urlWeb)
+                    : history.push('/profile')
+                }
+              >
+                {this.getNameSender(item.title, item.users_sender.fullName)}
+              </h6>
+            )}
           </div>
 
           <div className="d-flex">
