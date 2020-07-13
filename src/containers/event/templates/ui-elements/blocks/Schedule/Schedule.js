@@ -16,7 +16,7 @@ import { applyEventActions } from 'action/applyEvent';
 import { titleBlockStyle } from '../../../constants/atom.constant';
 import TextBlock from '../../atoms/Text';
 import TransferType from 'containers/user/BankAccount/TransferType';
-
+import history from 'utils/history';
 class Schedule1 extends Component {
   constructor(props) {
     super(props);
@@ -158,59 +158,64 @@ class Schedule1 extends Component {
   };
 
   onClickButton = (ssId, type) => {
-    const { eventId, handleCancel, handleRePay, handleApply } = this.props;
-    const { content } = this.state;
-    const index = content.findIndex((ss) => ss.id === ssId);
+    const isLogined = localStorage.getItem('isLogined');
+    if (!isLogined) {
+      history.push('/login');
+    } else {
+      const { eventId, handleCancel, handleRePay, handleApply } = this.props;
+      const { content } = this.state;
+      const index = content.findIndex((ss) => ss.id === ssId);
 
-    let temp = [];
-    temp.push(ssId);
+      let temp = [];
+      temp.push(ssId);
 
-    this.changeLoadingSS(ssId);
+      this.changeLoadingSS(ssId);
 
-    if (type === 'APPLY') {
-      const { isSellTicket } = this.props;
+      if (type === 'APPLY') {
+        const { isSellTicket } = this.props;
 
-      if (isSellTicket === 'Yes' || isSellTicket === true) {
-        this.setState({
-          openDrawer: true,
-          currSsId: ssId,
-        });
-      } else {
-        handleApply(eventId, temp)
+        if (isSellTicket === 'Yes' || isSellTicket === true) {
+          this.setState({
+            openDrawer: true,
+            currSsId: ssId,
+          });
+        } else {
+          handleApply(eventId, temp)
+            .then((res) => {
+              this.handleUpdateSessionStatus();
+              this.success(0);
+            })
+            .catch((err) => {
+              this.handleFailure(ssId, err);
+            });
+        }
+      } else if (type === 'CANCEL') {
+        handleCancel(eventId, temp)
           .then((res) => {
             this.handleUpdateSessionStatus();
-            this.success(0);
+            this.success(1);
           })
           .catch((err) => {
             this.handleFailure(ssId, err);
           });
-      }
-    } else if (type === 'CANCEL') {
-      handleCancel(eventId, temp)
-        .then((res) => {
-          this.handleUpdateSessionStatus();
-          this.success(1);
-        })
-        .catch((err) => {
-          this.handleFailure(ssId, err);
-        });
-    } else {
-      handleRePay(
-        eventId,
-        content[index].paymentId.payType,
-        temp,
-        (res, type) => {
-          if (type === 1) {
-            window.open(res.orderurl, '_blank');
-            this.handleUpdateSessionStatus();
-          } else {
-            if (res.response) {
-              const { data } = res.response;
-              message.error(data.error.message);
-            } else message.error('RePay fail !');
+      } else {
+        handleRePay(
+          eventId,
+          content[index].paymentId.payType,
+          temp,
+          (res, type) => {
+            if (type === 1) {
+              window.open(res.orderurl, '_blank');
+              this.handleUpdateSessionStatus();
+            } else {
+              if (res.response) {
+                const { data } = res.response;
+                message.error(data.error.message);
+              } else message.error('RePay fail !');
+            }
           }
-        }
-      );
+        );
+      }
     }
   };
 

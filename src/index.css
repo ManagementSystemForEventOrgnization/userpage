@@ -6,6 +6,8 @@ body {
   padding: 0px;
 
   /* //max-height: 500vh; */
+
+  overflow-x: hidden !important;
 }
 
 code {

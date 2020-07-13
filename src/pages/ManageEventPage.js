@@ -10,15 +10,17 @@ class ManageEventPage extends Component {
       <div>
         <div className="manageEvent">
           <div className="card-container">
-            <div className="site-card-border-less-wrapper">
-              <div className="row   ">
+            <div className="site-card-border-less-wrapper" >
+              <div className="row   " style={{ padding: '8%' }}>
                 <div className="col">
-                  <img className="image" src={banner} alt="logo" />
+                  <img className="image" src={banner} alt="logo"
+                    style={{ width: '100%' }}
+                  />
                 </div>
-                <div className="col" style={{ padding: '8%', color: 'white' }}>
-                  <h1 style={{ color: 'white', textAlign: 'center' }}>
+                <div className="col" >
+                  <h2 style={{ color: 'black', textAlign: 'center', marginTop: '25%' }}>
                     {nameEvent}
-                  </h1>
+                  </h2>
                 </div>
               </div>
             </div>

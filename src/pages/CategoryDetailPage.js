@@ -103,10 +103,6 @@ class CategoryDetailPage extends React.Component {
     getListEvent(dataSent);
   };
 
-  UNSAFE_componentWillMount = () => {
-    localStorage.removeItem('currentCategory');
-  };
-
   componentDidUpdate = (prevProps) => {
     const { getListEvent, match } = this.props;
     const path = match.match.params.id;
@@ -170,15 +166,15 @@ class CategoryDetailPage extends React.Component {
         )}
       </div>
     ) : (
-      <div style={{ textAlign: 'center' }}>
-        <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
-        <hr />
-        <img
-          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-          alt="no-high-light"
-        />
-      </div>
-    );
+        <div style={{ textAlign: 'center' }}>
+          <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
+          <hr />
+          <img
+            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+            alt="no-high-light"
+          />
+        </div>
+      );
   };
 
   render() {
@@ -186,7 +182,7 @@ class CategoryDetailPage extends React.Component {
 
     return (
       <div
-        className="category-detail homepage"
+        className=" homepage"
         style={{ backgroundColor: '#f1f1f1' }}
       >
         <NavBar />
@@ -199,7 +195,7 @@ class CategoryDetailPage extends React.Component {
         <div className="row  pl-5 pr-5 mt-5">
           <div className="col ">
             <RangePicker
-              style={{ width: '100%', height: '30px' }}
+              style={{ width: '100%', height: '40px' }}
               format="YYYY-MM-DD "
               onChange={this.onChangeDates}
               onOk={this.onOk}
@@ -212,24 +208,23 @@ class CategoryDetailPage extends React.Component {
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChangeFee}
             >
-              {/* <Option>All Fares</Option> */}
               <Option value="true">Cost</Option>
               <Option>Free</Option>
             </Select>
           </div>
 
           <Link to="/event-list/all-events">
-            <Button>View All Event</Button>
+            <Button style={{ height: '40px' }}>View All Event</Button>
           </Link>
         </div>
 
         {hlpending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-          <div className="list-event mt-2 mb-5  " style={{ marginTop: '5%' }}>
-            {this.renderEvents()}
-          </div>
-        )}
+            <div className="list-event mt-2 mb-5  " style={{ marginTop: '5%' }}>
+              {this.renderEvents()}
+            </div>
+          )}
       </div>
     );
   }

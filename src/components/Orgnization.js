@@ -38,13 +38,19 @@ const orgnizations = [
 class Orgnization extends React.Component {
   render() {
     return (
-      <div className="d-flex justify-content-between mt-3 mb-4 pl-5">
+      <div className="d-flex justify-content-between mt-3 mb-4 pl-5 pr-5">
         {orgnizations.map((orgnization, index) => (
-          <div className="orgnization" key={index}>
+          <a
+            href="http://hcmus.edu.vn/"
+            target="_blank"
+            className="orgnization"
+            rel="noopener noreferrer"
+            key={index}
+          >
             <Avatar src={orgnization.src} size={160} />
             <p className="name">{orgnization.name}</p>
             <p className="description">{orgnization.description}</p>
-          </div>
+          </a>
         ))}
       </div>
     );

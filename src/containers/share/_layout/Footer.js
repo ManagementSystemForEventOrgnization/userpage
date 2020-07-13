@@ -1,11 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  PhoneOutlined,
-  AppleOutlined,
-  AndroidOutlined,
-  MobileOutlined,
-  DesktopOutlined,
   FacebookOutlined,
   GoogleOutlined,
   SkypeOutlined,
@@ -23,129 +18,103 @@ class Footer extends React.Component {
   }
 
   render() {
+    const src =
+      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1594562886/logo-khtn_full_eixg1j.png';
     return (
-      <div className=" footer  ">
-        <div className="row pr-5 pl-5" style={{ marginTop: '10%' }}>
-          <div className="col">
-            <b>Hotline</b>
-            <div>
-              <label>Hồ Chí Minh: Thứ 2- thứ 6 (8:30 - 18:30)</label>
-
-              <b>
-                {' '}
-                <PhoneOutlined /> 09124625
-              </b>
-            </div>
-          </div>
-
-          <div className="col">
-            <b>Email hỗ trợ </b>
-            <div> datn.qlsk@gmail.com</div>
-          </div>
-          <div className="col">
-            <b>Hotline </b>
-            <div>Dễ dàng - Tiện lợi - Bảo mật cao</div>
-          </div>
-          <div className="col">
-            <b>Hotline hỗ trợ</b>
-            <div>Trường Đại học Khoa học Tự Nhiên</div>
-          </div>
-        </div>
-        <hr></hr>
-        <div className="row">
-          <div className="col ml-4">
-            <div>
-              <b>Platform</b>
-              <div className="row">
-                <Link to="" className="col iconCard">
-                  <div className="row">
-                    <AppleOutlined className="icon col-2" />
-                    <label className="iconText col-8">
-                      <p>AVAILABLE ON</p>
-                      <p>APP STORE</p>
-                    </label>
+      <div className="footer-background">
+        <div className="footer-transbox">
+          <div className="footer-content container">
+            <div className="row">
+              <div className="col-lg-4 col-sm-12 content-col">
+                <p className="footer-inline" style={{ fontWeight: 'bolder' }}>
+                  EVENT IN YOUR HAND
+                </p>
+                <img src={src} alt="logo" style={{ width: '100%' }} />
+              </div>
+              <div className="col-lg-2 col-md-4 col-sm-6 content-col">
+                <p className="footer-inline">Development</p>
+                <p>Phan Thị Mai</p>
+                <p>Nguyễn Thị Hồng Mơ</p>
+                <p>Nguyễn Thanh Nhựt</p>
+                <p>Hoàng Thị Hoài Nhi</p>
+                <p>Nguyễn Văn Sang </p>
+                <p>Tạ Thị Tú Phi</p>
+              </div>
+              <div className="col-lg-3 col-md-4 col-sm-6 content-col">
+                <p className="footer-inline">Customer Support</p>
+                <p>Create Event</p>
+                <p>Manage Event</p>
+                <p>Payment </p>
+                <p>Join Event</p>
+              </div>
+              <div className="col-lg-3 col-md-4 col-sm-12 content-col">
+                <div className="flexContainer">
+                  <p className="footer-space footer-inline ">Follow Us</p>
+                  <div>
+                    <Link to="/">
+                      <Button
+                        style={{
+                          background: '#3B5998',
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
+                        }}
+                        shape="circle"
+                        icon={
+                          <FacebookOutlined className=" fa-facebook social-network-icon" />
+                        }
+                      />
+                    </Link>
+                    <Link to="/">
+                      <Button
+                        className="sizeButton"
+                        style={{
+                          background: '#4e92df',
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
+                        }}
+                        shape="circle"
+                        icon={
+                          <SkypeOutlined className=" fa-twitter social-network-icon" />
+                        }
+                      />
+                      <Button
+                        style={{
+                          background: '#EA4335',
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
+                        }}
+                        shape="circle"
+                        icon={
+                          <GoogleOutlined className=" fa-google social-network-icon" />
+                        }
+                      />
+                    </Link>
+                    <Link to="/">
+                      <Button
+                        style={{
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
+                        }}
+                        shape="circle"
+                        icon={
+                          <InstagramOutlined className=" fa-instagram social-network-icon" />
+                        }
+                      />
+                    </Link>
                   </div>
-                </Link>
-                <Link to="" className="col iconCard">
-                  <div className="row">
-                    <AndroidOutlined className="icon col-2" />
-                    <label className="iconText col-8">
-                      <p>AVAILABLE ON</p>
-                      <p>GOOGLE PLAY</p>
-                    </label>
-                  </div>
-                </Link>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col ml-4">
-            <div>
-              <b>Application</b>
-
+            <hr className="footer-hr" />
+            <div className="footer-below">
               <div className="row">
-                <Link to="" className="col iconCard">
-                  <div className="row">
-                    <DesktopOutlined className="icon col-2" />
-                    <label className="iconText col-8">
-                      <p>AVAILABLE ON</p>
-                      <p>DESTOP APP</p>
-                    </label>
-                  </div>
-                </Link>
-                <Link to="" className="col iconCard">
-                  <div className="row">
-                    <MobileOutlined className="icon col-2" />
-                    <label className="iconText col-8">
-                      <p>AVAILABLE ON</p>
-                      <p>MOBILE APP</p>
-                    </label>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <b style={{ fontWeight: 'bold' }}>Follow Us</b>
-            <div>
-              <Button
-                style={{ background: '#3B5998' }}
-                shape="circle"
-                icon={
-                  <FacebookOutlined className=" fa-facebook social-network-icon" />
-                }
-              />
-              <Button
-                style={{ background: '#4e92df' }}
-                shape="circle"
-                icon={
-                  <SkypeOutlined className=" fa-twitter social-network-icon" />
-                }
-              />
-              <Button
-                style={{ background: '#EA4335' }}
-                shape="circle"
-                icon={
-                  <GoogleOutlined className=" fa-google social-network-icon" />
-                }
-              />
-              <Button
-                shape="circle"
-                icon={
-                  <InstagramOutlined className=" fa-instagram social-network-icon" />
-                }
-              />
-            </div>
-          </div>
-          <div className="col mb-3">
-            <b>Language</b>
-            <div>
-              <div style={{ display: 'flex' }}>
-                <p>
-                  <span className="control-icon vietnamese-icon"></span>
-                </p>
-                <p>
-                  <span className="control-icon uk-icon ml-3"></span>
-                </p>
+                <div className="col-lg-4 col-md-8 col-sm-6">
+                  <p>Copyright © 2020 Trường Đại Học Khoa Học Tự Nhiên </p>
+                </div>
               </div>
             </div>
           </div>

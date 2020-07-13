@@ -12,7 +12,7 @@ class AboutUs extends Component {
       id: 1,
       avatar: src5,
       name: "Nguyễn Thanh Nhựt",
-      mssv: '17123',
+      mssv: '1612478',
     },
     {
       id: 2,

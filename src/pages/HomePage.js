@@ -38,6 +38,18 @@ const seeAllButton = {
   borderColor: 'var(--eds-ui-500,#a9a8b3)',
   borderRadius: '4px',
 };
+const aboutButton = {
+  marginLeft: '40%',
+  marginTop: '5%',
+  marginBottom: '10%',
+  width: '100%',
+  height: '50px',
+  fontWeight: 'bolder',
+  fontSize: '25px',
+  borderWidth: '3px',
+  borderColor: 'var(--eds-ui-500,#a9a8b3)',
+  borderRadius: '4px',
+};
 
 class HomePage extends Component {
   constructor(props) {
@@ -209,11 +221,9 @@ class HomePage extends Component {
         </div>
         <Chat />
         <hr />
-        <div className="explore d-flex justify-content-center mt-5 mb-5  p-5">
+        <div className=" d-flex justify-content-center mt-5 ">
           <Link to="/about-us">
-            <Button size="large" type="primary">
-              About Us
-            </Button>
+            <Button style={aboutButton}>About Us</Button>
           </Link>
         </div>
       </div>
