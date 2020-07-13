@@ -18,14 +18,17 @@ class Footer extends React.Component {
   }
 
   render() {
-    const src = "https://res.cloudinary.com/dwt4njhmt/image/upload/v1594562886/logo-khtn_full_eixg1j.png";
+    const src =
+      'https://res.cloudinary.com/dwt4njhmt/image/upload/v1594562886/logo-khtn_full_eixg1j.png';
     return (
       <div className="footer-background">
         <div className="footer-transbox">
           <div className="footer-content container">
             <div className="row">
               <div className="col-lg-4 col-sm-12 content-col">
-                <p className="footer-inline" style={{ fontWeight: 'bolder' }}>EVENT IN YOUR HAND</p>
+                <p className="footer-inline" style={{ fontWeight: 'bolder' }}>
+                  EVENT IN YOUR HAND
+                </p>
                 <img src={src} alt="logo" style={{ width: '100%' }} />
               </div>
               <div className="col-lg-2 col-md-4 col-sm-6 content-col">
@@ -43,19 +46,18 @@ class Footer extends React.Component {
                 <p>Manage Event</p>
                 <p>Payment </p>
                 <p>Join Event</p>
-
               </div>
               <div className="col-lg-3 col-md-4 col-sm-12 content-col">
-
                 <div className="flexContainer">
                   <p className="footer-space footer-inline ">Follow Us</p>
                   <div>
                     <Link to="/">
                       <Button
                         style={{
-                          background: '#3B5998', margin: "5px",
-                          width: " 36px",
-                          height: "36px"
+                          background: '#3B5998',
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
                         }}
                         shape="circle"
                         icon={
@@ -68,9 +70,9 @@ class Footer extends React.Component {
                         className="sizeButton"
                         style={{
                           background: '#4e92df',
-                          margin: "5px",
-                          width: " 36px",
-                          height: "36px"
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
                         }}
                         shape="circle"
                         icon={
@@ -80,9 +82,9 @@ class Footer extends React.Component {
                       <Button
                         style={{
                           background: '#EA4335',
-                          margin: "5px",
-                          width: " 36px",
-                          height: "36px"
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
                         }}
                         shape="circle"
                         icon={
@@ -93,10 +95,9 @@ class Footer extends React.Component {
                     <Link to="/">
                       <Button
                         style={{
-
-                          margin: "5px",
-                          width: " 36px",
-                          height: "36px"
+                          margin: '5px',
+                          width: ' 36px',
+                          height: '36px',
                         }}
                         shape="circle"
                         icon={
@@ -118,12 +119,7 @@ class Footer extends React.Component {
             </div>
           </div>
         </div>
-      </div >
-
-
-
-
-
+      </div>
     );
   }
 }

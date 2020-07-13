@@ -17,6 +17,7 @@ import {
   Modal,
   Alert,
   Radio,
+  message
 } from 'antd';
 
 import {
@@ -75,7 +76,7 @@ class CreateHistory extends React.Component {
       isSuccess: true,
       list: [],
       isDeleteMess: true,
-      isdeletSucces: true
+      isdeletSucces: true,
     };
   }
 
@@ -217,7 +218,7 @@ class CreateHistory extends React.Component {
     localStorage.setItem('currentId', eventId);
     localStorage.setItem('editSite', url);
 
-    // history.push('/create');
+
   };
 
   handleURL = (url) => {
@@ -227,13 +228,29 @@ class CreateHistory extends React.Component {
   showDeleteConfirm = () => {
     const { deleteEvent } = this.props;
     const { eventId } = this.state;
-    // this.setState({ confirmLoading: true })
-    deleteEvent(eventId);
-    this.setState({
-      isDeleteMess: false,
-      isupdate: false,
-      isdeletSucces: false,
-    });
+
+    deleteEvent(eventId).then(res => {
+
+      this.setState({
+        isDeleteMess: false,
+        isupdate: false,
+        isdeletSucces: false,
+        visible: false
+      });
+      message.success({
+        content: 'you have deleted a event',
+        className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        },
+      });
+
+    }).catch(error => {
+      console.log(error);
+    }
+
+    )
+
   };
 
   isShowDelete = (eventId) => {
@@ -247,7 +264,7 @@ class CreateHistory extends React.Component {
     this.setState({
       visible: false,
       isDeleteMess: true,
-      isdeletSucces: true
+      isdeletSucces: true,
     });
   };
 
@@ -344,7 +361,7 @@ class CreateHistory extends React.Component {
 
   renderTypeMenu = () => {
     return (
-      <Menu mode="inline" style={menuStyle}>
+      <Menu mode="inline" style={menuStyle} defaultSelectedKeys="1">
         <Menu.Item key="1" onClick={() => this.onChangeStatus('ALL')}>
           ALL
         </Menu.Item>
@@ -403,7 +420,13 @@ class CreateHistory extends React.Component {
   };
 
   render() {
-    const { sessionEvent, isSuccess, isupdate, isDeleteMess, isdeletSucces } = this.state;
+    const {
+      sessionEvent,
+      isSuccess,
+      isupdate,
+      isDeleteMess,
+      isdeletSucces,
+    } = this.state;
     const {
       pending,
       arrEvent,
@@ -411,7 +434,8 @@ class CreateHistory extends React.Component {
       pendCancel,
       cancelSession,
       errDelete,
-      penDelet, successDe
+      penDelet,
+      successDe,
     } = this.props;
     // console.log('arrEvent', arrEvent);
     let { listEvent } = this.state;
@@ -440,7 +464,7 @@ class CreateHistory extends React.Component {
               {this.state.isRadio ? ' ' : this.renderTypeEvent()}
               {pending ? (
                 <Skeleton
-                  className="mt-2"
+                  className="mt-2 mb-5"
                   avatar
                   paragraph={{ rows: 4 }}
                   active
@@ -618,10 +642,13 @@ class CreateHistory extends React.Component {
           {!isDeleteMess && errDelete && (
             <h6 style={{ color: 'red' }}>{errDelete}</h6>
           )}
-          {
-            !isdeletSucces && successDe &&
-            <Alert message="you delete success in event " type="success" showIcon />
-          }
+          {!isdeletSucces && successDe && (
+            <Alert
+              message="you delete success in event "
+              type="success"
+              showIcon
+            />
+          )}
         </Modal>
         <Modal
           title="Cancel Event"

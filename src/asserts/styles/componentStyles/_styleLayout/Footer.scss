@@ -1,6 +1,7 @@
 .footer-background {
   background-color: #18478b;
   color: $item-color;
+  margin-top: 10%;
 
   .footer-content {
     margin-top: 7rem;
@@ -34,7 +35,7 @@
     top: 6px;
   }
 
-  .inputWithIcon input[type="text"] {
+  .inputWithIcon input[type='text'] {
     height: 50px;
   }
 
@@ -83,7 +84,14 @@
   }
 
   .fa-instagram {
-    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+    background: radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285aeb 90%
+    );
     color: white;
   }
 
@@ -92,13 +100,20 @@
     color: white;
   }
   .instagram {
-    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+    background: radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285aeb 90%
+    );
   }
   .vietnamese-icon {
-    background-image: url("../../../image/vietnam.svg");
+    background-image: url('../../../image/vietnam.svg');
   }
   .uk-icon {
-    background-image: url("../../../image/uk.svg");
+    background-image: url('../../../image/uk.svg');
   }
 
   .control-icon {

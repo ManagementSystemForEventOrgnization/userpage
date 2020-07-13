@@ -103,10 +103,6 @@ class CategoryDetailPage extends React.Component {
     getListEvent(dataSent);
   };
 
-  UNSAFE_componentWillMount = () => {
-    localStorage.removeItem('currentCategory');
-  };
-
   componentDidUpdate = (prevProps) => {
     const { getListEvent, match } = this.props;
     const path = match.match.params.id;
@@ -212,14 +208,13 @@ class CategoryDetailPage extends React.Component {
               style={{ width: '100%', height: '40px' }}
               onChange={this.handleChangeFee}
             >
-              {/* <Option>All Fares</Option> */}
               <Option value="true">Cost</Option>
               <Option>Free</Option>
             </Select>
           </div>
 
           <Link to="/event-list/all-events">
-            <Button>View All Event</Button>
+            <Button style={{ height: '40px' }}>View All Event</Button>
           </Link>
         </div>
 

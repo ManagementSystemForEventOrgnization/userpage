@@ -596,16 +596,20 @@ const getChatHistory = (sender) => {
 
 const deleteEvent = (eventId) => {
   return (dispatch) => {
-    dispatch(request());
-    API.post(`/api/delete/event`, {
-      eventId,
-    })
-      .then((res) => {
-        dispatch(success(res.data.result, eventId));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.post(`/api/delete/event`, {
+        eventId,
       })
-      .catch((error) => {
-        handleCatch(dispatch, failure, error);
-      });
+        .then((res) => {
+          dispatch(success(res.data.result, eventId));
+          resolve(res.data.result)
+        })
+        .catch((error) => {
+          handleCatch(dispatch, failure, error);
+          reject(error)
+        });
+    })
   };
   function request() {
     return {

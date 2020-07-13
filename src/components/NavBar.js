@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import { eventActions } from 'action/event.action';
 
 class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   handleClickItem = (id) => {
     localStorage.setItem('currentCategory', id);
   };
@@ -38,6 +42,7 @@ class NavBar extends React.Component {
                 <Menu.Item
                   key={item._id}
                   onClick={() => this.handleClickItem(item._id)}
+                  style={{ fontWeight: '500', fontSize: '16px' }}
                 >
                   <Link to={url}>{item.name}</Link>
                 </Menu.Item>
