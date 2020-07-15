@@ -103,7 +103,7 @@ class UploadImage extends Component {
               <div style={{ width: '300px', height: 50 }}>
                 <Dropzone
                   onDrop={this.onImageDrop}
-                  accept="application/pdf"
+                  accept="image/*"
                   multiple={false}
                 >
                   {({ getRootProps, getInputProps }) => {
