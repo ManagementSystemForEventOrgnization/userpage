@@ -106,6 +106,7 @@ class ImageBlock extends React.Component {
     } else {
       if (logo) {
         const { webAddress } = this.props;
+        localStorage.setItem('currentIndex', 0);
         history.push(`/event/${webAddress}`);
       }
     }
