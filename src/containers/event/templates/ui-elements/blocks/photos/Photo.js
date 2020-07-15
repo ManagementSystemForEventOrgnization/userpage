@@ -15,6 +15,31 @@ const iconStyle = {
   fontSize: '20px',
 };
 
+const listPhoto = [
+  {
+    url:
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658071/sponsor/hnkh_drqzna.png',
+    id: uuid(),
+  },
+
+  {
+    url:
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png',
+    id: uuid(),
+  },
+
+  {
+    url:
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/fit_baduky.png',
+    id: uuid(),
+  },
+  {
+    id: uuid(),
+    url:
+      'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/dhqg_bq799b.png',
+  },
+];
+
 class Photo extends Component {
   constructor(props) {
     super(props);
@@ -25,30 +50,7 @@ class Photo extends Component {
       : {
           margin: [1, 1, 1, 1],
           padding: [1, 1, 1, 1],
-          list: [
-            {
-              url:
-                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658071/sponsor/hnkh_drqzna.png',
-              id: uuid(),
-            },
-
-            {
-              url:
-                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png',
-              id: uuid(),
-            },
-
-            {
-              url:
-                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/fit_baduky.png',
-              id: uuid(),
-            },
-            {
-              id: uuid(),
-              url:
-                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/dhqg_bq799b.png',
-            },
-          ],
+          list: listPhoto,
         };
   }
 

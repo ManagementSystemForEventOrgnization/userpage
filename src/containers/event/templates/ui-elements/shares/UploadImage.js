@@ -20,7 +20,7 @@ class UploadImage extends Component {
 
   handleImageUpload(file) {
     const { handleImageDrop } = this.props;
-    console.log(file)
+    console.log(file);
     if (!handleImageDrop) return;
     let upload = request
       .post(CLOUDINARY_UPLOAD_URL)
@@ -120,14 +120,14 @@ class UploadImage extends Component {
             </form>
           </div>
         ) : (
-            <div className="d-flex">
-              <p>Input link</p>
-              <Input
-                value={url}
-                onChange={(e) => this.props.handleImageDrop(e.target.value)}
-              />
-            </div>
-          )}
+          <div className="d-flex">
+            <p>Input link</p>
+            <Input
+              value={url}
+              onChange={(e) => this.props.handleImageDrop(e.target.value)}
+            />
+          </div>
+        )}
       </div>
     );
   }

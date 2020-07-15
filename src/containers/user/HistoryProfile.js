@@ -156,25 +156,25 @@ class HistoryProfile extends React.Component {
         {pending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-          <div className="row p-5 ">
-            {listEvent.map((item) => (
-              <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
-                <EventCard eventInfo={item} />
-              </div>
-            ))}
-            {this.ableToLoadMore(arrEvent.length) && (
-              <Button
-                style={loadMoreStyle}
-                loading={pending}
-                type="danger"
-                shape="round"
-                onClick={this.onLoadMore}
-              >
-                Load More
+            <div className="row p-5 ">
+              {listEvent.map((item) => (
+                <div className="col-xl-4 col-lg-4 col-md-6 mt-4" key={item._id}>
+                  <EventCard eventInfo={item} />
+                </div>
+              ))}
+              {this.ableToLoadMore(arrEvent.length) && (
+                <Button
+                  style={loadMoreStyle}
+                  loading={pending}
+                  type="danger"
+                  shape="round"
+                  onClick={this.onLoadMore}
+                >
+                  Load More
               </Button>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
       </div>
     );
   }

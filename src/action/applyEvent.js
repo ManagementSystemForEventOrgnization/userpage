@@ -16,7 +16,9 @@ const applyEvent = (eventId, sessionIds, payType) => {
             resolve('true');
           }
         })
-        .catch((err) => reject(err));
+        .catch((err) => {
+          reject(err);
+        });
     });
   };
 };

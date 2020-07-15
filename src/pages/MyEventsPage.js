@@ -7,8 +7,7 @@ import ProfileInfor from 'containers/user/ProfileInfor';
 import UpdateProfileInfor from 'containers/user/UpdateProfileInfor';
 import BankAccount from 'containers/user/BankAccount';
 import TransactionHistory from 'containers/user/TransactionHistory';
-import QRCode from 'containers/user/QRCode';
-
+import QRCodes from 'containers/user/QRCode';
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -33,27 +32,33 @@ class ProfilePage extends Component {
 
     const { tab } = this.state;
     return (
-      <div className="ProfileInfor mt-5 p-3 row">
-        <div className=" col-sm-3">
-          <ProfileInfor moveTab={moveTab} />
-        </div>
-        <div className=" col-sm-9">
-          {this.props.pending && (
-            <Spin
-              tip="Loading..."
-              size="large"
-              style={{
-                position: 'absolute',
-                marginTop: '100px',
-              }}
-            >
-              {' '}
-            </Spin>
-          )}
-          {tab === '1' && <UpdateProfileInfor />}
-          {tab === '2' && <BankAccount />}
-          {tab === '3' && <TransactionHistory />}
-          {tab === '4' && <QRCode />}
+      <div>
+        <div className="ProfileInfor mt-5 p-3 row">
+          <div className=" col-sm-3">
+            <ProfileInfor moveTab={moveTab} />
+          </div>
+          <div className=" col-sm-9">
+            {this.props.pending && (
+              <Spin
+                tip="Loading..."
+                size="large"
+                style={{
+                  position: 'absolute',
+                  marginTop: '100px',
+                }}
+              >
+                {' '}
+              </Spin>
+            )}
+            {tab === '1' && <UpdateProfileInfor />}
+            {tab === '2' && <BankAccount />}
+            {tab === '3' && <TransactionHistory />}
+            {tab === '4' && (
+              <QRCodes
+                QrValue={this.props.userInfo._id ? this.props.userInfo._id : ''}
+              />
+            )}
+          </div>
         </div>
       </div>
     );
@@ -63,6 +68,7 @@ class ProfilePage extends Component {
 const mapStateToProps = (state) => {
   return {
     pending: state.user.pending,
+    userInfo: state.user.userInfo,
     errMessage: state.user.errMessage,
   };
 };
