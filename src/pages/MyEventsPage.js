@@ -23,19 +23,19 @@ class ProfilePage extends Component {
     }
   };
 
-  render() {
-    const moveTab = (tabNumber) => {
-      this.setState({
-        tab: tabNumber,
-      });
-    };
+  moveTab = (tabNumber) => {
+    this.setState({
+      tab: tabNumber,
+    });
+  };
 
+  render() {
     const { tab } = this.state;
     return (
       <div>
         <div className="ProfileInfor mt-5 p-3 row">
           <div className=" col-sm-3">
-            <ProfileInfor moveTab={moveTab} />
+            <ProfileInfor moveTab={this.moveTab} />
           </div>
           <div className=" col-sm-9">
             {this.props.pending && (

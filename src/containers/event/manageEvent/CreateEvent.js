@@ -11,6 +11,7 @@ import {
 
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
+import history from 'utils/history';
 
 import DropContainer from '../templates/DropContainer';
 import MenuBlockList from '../MenuBlockList';
@@ -106,6 +107,7 @@ class CreateEvent extends React.Component {
         );
     } else {
       this.setState({ loading: false });
+      history.push('/');
     }
   };
 

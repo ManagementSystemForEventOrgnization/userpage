@@ -6,7 +6,7 @@ import { eventConstants } from 'constants/index';
 const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[2], //banner
-  ...dataTest[0].value,
+  //...dataTest[0].value,
   dataTest[2].value[0], // event description
   ...dataTest[13].value, //list of link documents
   ...dataTest[3].value, // speaker, card
@@ -19,7 +19,7 @@ const initialBlocks = [
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
-  dataTest[11].value[1], // footer,
+  ...dataTest[11].value, // footer,
 ];
 
 const bannerUrl =

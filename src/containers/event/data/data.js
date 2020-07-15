@@ -27,7 +27,6 @@ import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
 
 import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 
-import Footer1 from '../templates/ui-elements/blocks/footer/footer1';
 import Footer2 from '../templates/ui-elements/blocks/footer/footer2';
 
 import Video1 from '../templates/ui-elements/blocks/video/video1';
@@ -133,9 +132,7 @@ export const blockList = {
   contactUs2: ({ editable, style, id }) => (
     <ContactUs2 key={id} editable={editable} style={style} id={id} />
   ),
-  footer1: ({ editable, style, id }) => (
-    <Footer1 key={id} editable={editable} style={style} id={id} />
-  ),
+
   footer2: ({ editable, style, id }) => (
     <Footer2 key={id} editable={editable} style={style} id={id} />
   ),

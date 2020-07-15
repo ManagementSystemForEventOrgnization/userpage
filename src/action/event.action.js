@@ -255,7 +255,10 @@ const prepareForCreateEvent = (
 ) => {
   return (dispatch) => {
     dispatch(request());
-    const domain = process.env.REACT_APP_DOMAIN_EVENT;
+    const domain =
+      process.env.NODE_ENV === 'production'
+        ? process.env.REACT_APP_DOMAIN_EVENT_DEPLOY
+        : process.env.REACT_APP_DOMAIN_EVENT;
     API.post('/api/save/event', {
       name: nameEvent,
       typeOfEvent,
@@ -724,7 +727,6 @@ const cancelEvent = (eventId, sessionIds) => {
     };
   }
 };
-
 
 export const eventActions = {
   storeBlocksWhenCreateEvent,

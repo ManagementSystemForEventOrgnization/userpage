@@ -29,7 +29,6 @@ import Card2 from '../templates/ui-elements/blocks/cardSpeaker/card2';
 
 import Sponsor1Block from '../templates/ui-elements/blocks/sponsor/sponsor1';
 
-import Footer1 from '../templates/ui-elements/blocks/footer/footer1';
 import Footer2 from '../templates/ui-elements/blocks/footer/footer2';
 
 import Video1 from '../templates/ui-elements/blocks/video/video1';
@@ -397,14 +396,6 @@ export default [
     value: [
       {
         child: 'Footer1',
-        type: 'footer1',
-        style: {},
-        options: ({ editable, style, id }) => (
-          <Footer1 key={id} editable={editable} style={style} id={id} />
-        ),
-      },
-      {
-        child: 'Footer2',
         type: 'footer2',
         style: {},
         options: ({ editable, style, id }) => (

@@ -240,7 +240,7 @@ class TextsBlock extends React.Component {
             style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
-        ) : footer ? (
+        ) : footer && !editable ? (
           <Link to="/" style={{ ...divStyle, ...inputStyle, ...newStyle }}>
             <p>{content}</p>
           </Link>
