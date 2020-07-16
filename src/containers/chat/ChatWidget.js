@@ -72,15 +72,17 @@ class Chat extends Component {
     });
   };
 
-  renderChatHistory = (chatHistory) =>
-    chatHistory.map((item) =>
-      item.sender === 'admin'
-        ? addResponseMessage(item.content)
-        : addUserMessage(item.content)
-    );
+  renderChatHistory = (chatHistory) => {
+    for (let i = chatHistory.length - 1; i >= 0; i--) {
+      if (chatHistory[i].sender === 'admin') {
+        addResponseMessage(chatHistory[i].content);
+      } else addUserMessage(chatHistory[i].content);
+    }
+  };
 
   componentDidUpdate = (prevProps) => {
     const { chatHistory } = this.props;
+
     if (prevProps.chatHistory && chatHistory) {
       if (prevProps.chatHistory.length === 0 && chatHistory.length > 0) {
         this.renderChatHistory(chatHistory);

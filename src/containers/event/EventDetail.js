@@ -100,8 +100,13 @@ class EventDetail extends React.Component {
         ) : (
           <div>
             <div className="fixed-top">{this.renderHeader()}</div>
-
-            {blocks.map((item) => this.renderBlocks(item))}
+            <div
+              style={{
+                marginTop: '5%',
+              }}
+            >
+              {blocks.map((item) => this.renderBlocks(item))}
+            </div>
           </div>
         )}
       </div>

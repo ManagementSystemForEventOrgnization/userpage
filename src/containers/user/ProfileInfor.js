@@ -96,7 +96,7 @@ class UpdateProfileInfor extends Component {
             <div className="w3-display-container">
               <img
                 src={userInfor.avatar}
-                style={{ width: '100%' }}
+                style={{ objectFit: 'contain' }}
                 alt="Avatar"
               />
               <div className="w3-display-bottomleft w3-container w3-text-black">
@@ -225,7 +225,7 @@ class UpdateProfileInfor extends Component {
               </p>
             </div>
           </div>
-          <br />
+          {/* <br /> */}
           {/* End Left Column */}
         </div>
 

@@ -12,9 +12,13 @@ import { userActions } from '../../action/user.action';
 
 class UserNav extends Component {
   render() {
-    const { logout } = this.props;
-    const username = localStorage.getItem('username');
-    const avatar = localStorage.getItem('avatar');
+    const { logout, userInfo } = this.props;
+
+    const username =
+      userInfo && userInfo.username
+        ? userInfo.username
+        : localStorage.getItem('username');
+    const avatar = userInfo ? userInfo.avatar : localStorage.getItem('avatar');
     return (
       <div className="user-nav ">
         <input type="checkbox" id="menu" />
@@ -66,7 +70,7 @@ class UserNav extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.userInfo,
+    userInfo: state.user.userInfo,
   };
 };
 

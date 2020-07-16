@@ -200,14 +200,13 @@ class Notification extends Component {
           hasMore={!loading}
           useWindow={false}
         >
-          {/* <a className="float-right" onClick={() => this.handleLoadLatest}><i className="fa fa-arrow-up" aria-hidden="true"></i></a> */}
           <p
             type="button"
             className="fa-fw w3-margin-right w3-text-teal"
             style={{ width: '100px' }}
             onClick={() => this.handleLoadLatest()}
           >
-            Load more <i className="fa fa-arrow-up" aria-hidden="true"></i>
+            Refresh<i className="fa fa-arrow-up" aria-hidden="true"></i>
           </p>
           {loading && (
             <div className="demo-loading-container">
@@ -217,13 +216,7 @@ class Notification extends Component {
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
-          >
-            {/* {loading && (
-              <div className="demo-loading-container">
-                <Spin />
-              </div>
-            )} */}
-          </List>
+          ></List>
         </InfiniteScroll>
       </div>
     );

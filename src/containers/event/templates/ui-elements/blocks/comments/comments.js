@@ -23,7 +23,6 @@ const iconStyle = {
   fontSize: '20px',
 };
 
-const isLogined = localStorage.getItem('isLogined');
 const username = localStorage.getItem('username');
 const avatar = localStorage.getItem('avatar');
 
@@ -114,30 +113,36 @@ class CommentEvent extends Component {
 
     saveComment(eventId, value);
 
-    newComment = newComment
-      ? [
-          {
-            author: localStorage.getItem('username'),
-            avatar,
-            content: <p style={{ color: this.state.color }}>{value}</p>,
-            datetime: moment().format('LLLL'),
-          },
-          ...newComment,
-        ]
-      : [
-          {
-            author: localStorage.getItem('username'),
-            avatar,
-            content: <p style={{ color: this.state.color }}>{value}</p>,
-            datetime: moment().format('LLLL'),
-          },
-        ];
     setTimeout(() => {
       this.setState({
         value: '',
-        newComment,
       });
     }, 1000);
+
+    // newComment = newComment
+    //   ? [
+    //       {
+    //         author: localStorage.getItem('username'),
+    //         avatar,
+    //         content: <p style={{ color: this.state.color }}>{value}</p>,
+    //         datetime: moment().format('LLLL'),
+    //       },
+    //       ...newComment,
+    //     ]
+    //   : [
+    //       {
+    //         author: localStorage.getItem('username'),
+    //         avatar,
+    //         content: <p style={{ color: this.state.color }}>{value}</p>,
+    //         datetime: moment().format('LLLL'),
+    //       },
+    //     ];
+    // setTimeout(() => {
+    //   this.setState({
+    //     value: '',
+    //     newComment,
+    //   });
+    // }, 1000);
   };
 
   handleChange = (e) => {
@@ -222,7 +227,14 @@ class CommentEvent extends Component {
       color,
       background,
     } = this.state;
-    const { editable, submitting, comments, id } = this.props;
+    const {
+      editable,
+      submitting,
+      comments,
+      id,
+      isLogined,
+      userInfo,
+    } = this.props;
     const commentList = this.configComment(comments);
     const style = this.getCustomStyle();
 
@@ -234,9 +246,14 @@ class CommentEvent extends Component {
     return (
       <div className="d-flex child-block" style={style} key={id}>
         <div style={{ width: '100%' }}>
-          {isLogined ? (
+          {isLogined || localStorage.getItem('isLogined') ? (
             <Comment
-              avatar={<Avatar src={avatar} alt={username} />}
+              avatar={
+                <Avatar
+                  src={userInfo.avatar || avatar}
+                  alt={userInfo.username || username}
+                />
+              }
               content={
                 <Form>
                   <Form.Item>
@@ -333,6 +350,7 @@ const mapStateToProps = (state) => ({
   eventId: state.event.id,
   submitting: state.event.submitting,
   countComment: state.event.countComment,
+  isLogined: state.user.isLogined,
 });
 
 const mapDispatchToProps = (dispatch) => ({

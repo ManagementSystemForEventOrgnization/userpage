@@ -4,7 +4,7 @@ const initialState = {
   isLogined: localStorage.getItem('isLogined'),
   errMessage: null,
   pending: false,
-  userInfo: null,
+  userInfo: {},
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
@@ -40,7 +40,7 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._id);
+      localStorage.setItem('userId', action.user._iCLGd);
 
       return {
         ...state,
@@ -297,10 +297,13 @@ const user = (state = initialState, action) => {
         pending: true,
       };
     case userConstants.UPDATE_USER_PROFILE_SUCESS:
+      localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('username', action.userInfo.fullName);
       return {
         ...state,
         pending: false,
         userInfo: action.user,
+        errMessage: null,
       };
     case userConstants.UPDATE_USER_PROFILE_FAILURE:
       return {

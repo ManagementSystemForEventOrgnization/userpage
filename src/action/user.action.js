@@ -8,7 +8,6 @@ const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@
 const login = (email, password) => {
   return (dispatch) => {
     dispatch(request());
-    console.log(email, password);
     API.post(`/api/login`, {
       email,
       password,
@@ -228,6 +227,7 @@ const onUpdateUserProfile = (userInfor) => {
       ...userInfor,
     })
       .then((res) => {
+        console.log(res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -603,13 +603,13 @@ const deleteEvent = (eventId) => {
       })
         .then((res) => {
           dispatch(success(res.data.result, eventId));
-          resolve(res.data.result)
+          resolve(res.data.result);
         })
         .catch((error) => {
           handleCatch(dispatch, failure, error);
-          reject(error)
+          reject(error);
         });
-    })
+    });
   };
   function request() {
     return {
@@ -637,24 +637,27 @@ export const userActions = {
   register,
   checkCode,
   logout,
+
   getCurrentUser,
   onUpdateUserProfile,
-  forgotPassword,
-  requestForgotPassword,
-  get_History,
-  getListNotification,
-  getBankAccount,
   onUpdateBankInfor,
-  getCreateHistory,
-  getNumUnreadNotification,
-  getChatHistory,
   onChangePassword,
   addPaymentCard,
-  getListCardPayment,
+
+  forgotPassword,
+  requestForgotPassword,
   delCardDefault,
-  getHistoryPayment,
   postCardDefault,
   setReadNotification,
   setDeleteNotification,
   deleteEvent,
+
+  get_History,
+  getListNotification,
+  getBankAccount,
+  getCreateHistory,
+  getNumUnreadNotification,
+  getChatHistory,
+  getListCardPayment,
+  getHistoryPayment,
 };
