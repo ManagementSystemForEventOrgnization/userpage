@@ -13,12 +13,18 @@ import { userActions } from '../../action/user.action';
 class UserNav extends Component {
   render() {
     const { logout, userInfo } = this.props;
+    console.log('userInfor : ', userInfo);
+    console.log(localStorage.getItem('username'));
 
     const username =
       userInfo && userInfo.username
         ? userInfo.username
         : localStorage.getItem('username');
-    const avatar = userInfo ? userInfo.avatar : localStorage.getItem('avatar');
+
+    const avatar =
+      userInfo && userInfo.avatar
+        ? userInfo.avatar
+        : localStorage.getItem('avatar');
     return (
       <div className="user-nav ">
         <input type="checkbox" id="menu" />

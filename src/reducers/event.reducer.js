@@ -71,6 +71,10 @@ const initialState = {
   upcomingFinishLoading: false,
 
   currentIndex: localStorage.getItem('currentIndex' || 0),
+  domain:
+    process.env.NODE_ENV === 'development'
+      ? process.env.REACT_APP_DOMAIN_EVENT
+      : process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -317,6 +321,7 @@ const event = (state = initialState, action) => {
 
         countComment: action.countComment,
         status: action.eventInfo.status,
+        domain: action.eventInfo.domain,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:

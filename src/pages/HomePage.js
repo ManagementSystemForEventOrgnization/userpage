@@ -69,6 +69,7 @@ class HomePage extends Component {
     sentData.type = type;
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(sentData);
+    window.scrollTo(0, 0);
   };
 
   renderHighLightEvent = () => {

@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Button, Divider, List, Drawer, Input, Tag, Modal } from 'antd';
+import {
+  Button,
+  Divider,
+  List,
+  Drawer,
+  Input,
+  Tag,
+  Modal,
+  message,
+} from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
@@ -69,6 +78,33 @@ class Document extends Component {
       title: '',
       url: '',
     });
+  };
+
+  onChangeHandler = (e) => {
+    const fileList = e.target.files;
+    const files = [];
+    if (fileList.length >= 12) {
+      message.warn('You cannot upload more than 12 files');
+    } else {
+      let { currentSS } = this.state;
+
+      for (let i = 0; i < fileList.length; i++) {
+        files.push(fileList[i]);
+      }
+      eventActions.uploadFiles(files).then((data) => {
+        data.map((item) =>
+          currentSS.documents.push({
+            id: uuid(),
+            url: item.url,
+            title: item.title,
+            upload: true,
+          })
+        );
+        this.setState({
+          currentSS,
+        });
+      });
+    }
   };
 
   handleChangeInput = (type, value) => {
@@ -265,6 +301,13 @@ class Document extends Component {
                   </Tag>
                 </List.Item>
               )}
+            />
+            <input
+              type="file"
+              multiple
+              accept="application/pdf"
+              className="mt-3"
+              onChange={this.onChangeHandler}
             />
             <div className="d-flex   p-5 ">
               <Input

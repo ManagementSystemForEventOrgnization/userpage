@@ -40,7 +40,7 @@ const user = (state = initialState, action) => {
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._iCLGd);
+      localStorage.setItem('userId', action.user._id);
 
       return {
         ...state,
@@ -144,6 +144,7 @@ const user = (state = initialState, action) => {
         userInfo: null,
         isLogined: false,
         pending: false,
+        chatHistory: [],
       };
 
     case userConstants.GET_CURRENT_USER_REQUEST:
