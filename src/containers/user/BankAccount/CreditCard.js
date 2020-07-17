@@ -130,7 +130,6 @@ class CreditCard extends Component {
         </div>
         <p className="card__number">**** **** **** {cardInfor.last4}</p>
         <div className="card__dates">
-          {/* <span className="card__dates--first">09/16</span> */}
           <span className="card__dates--second">
             {cardInfor.exp_month}/{cardInfor.exp_year}
           </span>
@@ -145,8 +144,7 @@ class CreditCard extends Component {
       </div>
 
       <div
-        className="d-flex justify-content-center mt-5 pl-5"
-        style={{ marginTop: '10% !important' }}
+        className="d-flex justify-content-center card-method"
       >
         <p
           className="mr-5"
@@ -165,10 +163,10 @@ class CreditCard extends Component {
   );
 
   VisaCard = (cardInfor = {}) => (
-    <div className="p-1 row">
+    <div className=" p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
-        className="visa_card  ml-5"
+        className="visa_card mr-auto"
       >
         <div className="panel">
           <div className="card card--front">
@@ -186,9 +184,8 @@ class CreditCard extends Component {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center card-method">
         <p
-          className="mr-5"
           type="button"
           onClick={() => this.handlePay(cardInfor.id)}
         >
@@ -196,7 +193,7 @@ class CreditCard extends Component {
           Pay by this card
         </p>
         <p onClick={() => this.handleDeleteCard(cardInfor.id)} type="button">
-          <DeleteFilled className="mr-1" style={{ color: 'red' }} />
+          <DeleteFilled className="ml-5" style={{ color: 'red' }} />
           Delete this card
         </p>
       </div>
@@ -238,11 +235,11 @@ class CreditCard extends Component {
       <div className="container credit-card">
         <div className="row ml-5 pl-5">
           {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
-          this.props.listCard === undefined ? (
-            <BankCard />
-          ) : (
-            this.ListCard(this.props.listCard)
-          )}
+            this.props.listCard === undefined ? (
+              <BankCard />
+            ) : (
+              this.ListCard(this.props.listCard)
+            )}
         </div>
         <div className="addCard d-flex justify-content-center mb-5 ">
           {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&
