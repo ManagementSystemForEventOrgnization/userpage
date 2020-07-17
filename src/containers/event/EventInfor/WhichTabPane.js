@@ -39,7 +39,7 @@ class TabPane extends Component {
   render() {
     const { typeOfEvent, banner, ticket, isSellTicket } = this.props;
     return (
-      <div className="p-5">
+      <div className="p-5 " >
         <Form {...layout} name="control-ref">
           <Form.Item
             label="Type of event "

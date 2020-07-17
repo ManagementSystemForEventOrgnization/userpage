@@ -297,7 +297,7 @@ class TabPane extends Component {
     };
 
     return (
-      <div className="row container justify-content-md-center">
+      <div className="row container justify-content-md-center ">
         <div className={count === 0 ? 'col-md-auto ' : 'col-6 col-md-6 pl-5'}>
           <h5 className="mt-3 mb-3">Choose day(s) for the session(s)</h5>
           <DayPicker

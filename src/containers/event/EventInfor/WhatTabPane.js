@@ -38,7 +38,7 @@ class TabPane extends Component {
       <Form
         {...layout}
         name="control-ref"
-        className="pt-5" style={{ fontSize: '24px', fontWeight: 500 }}
+        className="pt-5 " style={{ fontSize: '24px', fontWeight: 500 }}
         initialValues={{ nameEvent, webAddress }}
       >
         <Form.Item
@@ -50,7 +50,7 @@ class TabPane extends Component {
             },
           ]}
         >
-          <Input 
+          <Input
             onChange={(e) => this.handleChange(e.target.value, 'nameEvent')}
           />
         </Form.Item>

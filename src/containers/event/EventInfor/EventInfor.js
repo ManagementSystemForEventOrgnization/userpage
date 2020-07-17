@@ -199,16 +199,16 @@ class EventInfor extends Component {
             }}
           >
             <Collapse defaultActiveKey="1">
-              <Panel header="Basic information" key="1" >
-                <div >
-                  <What
-                    onChange={this.onChange}
-                    nameEvent={nameEvent}
-                    category={category}
-                    webAddress={webAddress}
-                    categories={categories}
-                  />
-                </div>
+              <Panel header="Basic information" key="1"  >
+
+                <What
+                  onChange={this.onChange}
+                  nameEvent={nameEvent}
+                  category={category}
+                  webAddress={webAddress}
+                  categories={categories}
+                />
+
               </Panel>
               <Panel header="More information" key="2">
                 <Which
