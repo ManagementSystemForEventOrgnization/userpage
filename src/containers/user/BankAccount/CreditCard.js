@@ -166,7 +166,7 @@ class CreditCard extends Component {
     <div className=" p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
-        className="visa_card mr-auto"
+        className="visa_card"
       >
         <div className="panel">
           <div className="card card--front">
