@@ -227,7 +227,6 @@ const onUpdateUserProfile = (userInfor) => {
       ...userInfor,
     })
       .then((res) => {
-        console.log(res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));

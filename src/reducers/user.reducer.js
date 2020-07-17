@@ -299,7 +299,7 @@ const user = (state = initialState, action) => {
       };
     case userConstants.UPDATE_USER_PROFILE_SUCESS:
       localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('username', action.userInfo.fullName);
+      localStorage.setItem('username', action.user.fullName);
       return {
         ...state,
         pending: false,

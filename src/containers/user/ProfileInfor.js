@@ -136,7 +136,7 @@ class UpdateProfileInfor extends Component {
                   Profile
                   <u className="ml-auto">
                     <small
-                      className="float-right"
+                      className="float-right btn-link"
                       id="1"
                       onClick={(e) => this.props.moveTab(e.target.id)}
                     >
@@ -173,7 +173,7 @@ class UpdateProfileInfor extends Component {
                   Bank Account{' '}
                   <u className="ml-auto">
                     <small
-                      className="float-right"
+                      className="float-right btn-link"
                       id="2"
                       onClick={(e) => this.props.moveTab(e.target.id)}
                     >
@@ -190,7 +190,7 @@ class UpdateProfileInfor extends Component {
                   History Payment
                   <u className="ml-auto">
                     <small
-                      className="float-right"
+                      className="float-right btn-link"
                       id="3"
                       onClick={(e) => this.props.moveTab(e.target.id)}
                     >
@@ -210,7 +210,7 @@ class UpdateProfileInfor extends Component {
                   QRCode{' '}
                   <u className="ml-auto">
                     <small
-                      className="float-right"
+                      className="float-right btn-link"
                       id="4"
                       onClick={(e) => this.props.moveTab(e.target.id)}
                     >
