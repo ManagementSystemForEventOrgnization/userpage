@@ -52,45 +52,43 @@ class TransferType extends React.Component {
         changeStatusType={() => this.setState({ creditCard: false })}
       />
     ) : (
-        <div className="transfer_type " >
-          <h3 className=" w3-text-teal text-center mt-5 mb-5">
-            <u>
-              <i className="fa fa-money" aria-hidden="true"></i> Select your
+      <div className="transfer_type ">
+        <h3 className=" w3-text-teal text-center mt-5 mb-5">
+          <u>
+            <i className="fa fa-money" aria-hidden="true"></i> Select your
             transfer <i className="fa fa-money" aria-hidden="true"></i>
-            </u>
-          </h3>
-          <div className="cards-list">
-            <div className="card 1" onClick={this.onZaloPay}>
-              <div className="card_image" style={{ width: '50%', height: '50%' }}>
-                <img
-                  src="http://agiletech.vn/wp-content/uploads/2019/06/agiletechvietnam-zalopay.png"
-                  alt="zalo-pay"
-                  style={{ width: '50%', height: '50%' }}
-                />
-              </div>
-              <div className="card_title title-black">
-                <p>Zalo Pay</p>
-              </div>
+          </u>
+        </h3>
+        <div className="cards-list">
+          <div className="card 1" onClick={this.onZaloPay}>
+            <div className="card_image">
+              <img
+                src="http://agiletech.vn/wp-content/uploads/2019/06/agiletechvietnam-zalopay.png"
+                alt="zalo-pay"
+              />
             </div>
+            <div className="card_title title-black">
+              <p>Zalo Pay</p>
+            </div>
+          </div>
 
-            <div
-              className="card 2"
-              onClick={() => this.setState({ creditCard: true })}
-            >
-              <div className="card_image" style={{ width: '50%', height: '50%' }}>
-                <img
-                  src="https://media2.giphy.com/media/H6iNB0pUucgYKR4KFV/giphy.gif"
-                  alt="credit-card-type"
-                  style={{ width: '50%', height: '50%' }}
-                />
-              </div>
-              <div className="card_title title-black">
-                <p>Credit Card</p>
-              </div>
+          <div
+            className="card 2"
+            onClick={() => this.setState({ creditCard: true })}
+          >
+            <div className="card_image">
+              <img
+                src="https://media2.giphy.com/media/H6iNB0pUucgYKR4KFV/giphy.gif"
+                alt="credit-card-type"
+              />
+            </div>
+            <div className="card_title title-black">
+              <p>Credit Card</p>
             </div>
           </div>
         </div>
-      );
+      </div>
+    );
   }
 }
 

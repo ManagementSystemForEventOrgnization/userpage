@@ -110,7 +110,7 @@ class CreditCard extends Component {
   };
 
   MasterCard = (cardInfor = {}) => (
-    <div className="p-1">
+    <div className="p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
         className=" card"
@@ -144,7 +144,10 @@ class CreditCard extends Component {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div
+        className="d-flex justify-content-center mt-5 pl-5"
+        style={{ marginTop: '10% !important' }}
+      >
         <p
           className="mr-5"
           type="button"
@@ -162,10 +165,10 @@ class CreditCard extends Component {
   );
 
   VisaCard = (cardInfor = {}) => (
-    <div className="p-1">
+    <div className="p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
-        className="visa_card col ml-5"
+        className="visa_card  ml-5"
       >
         <div className="panel">
           <div className="card card--front">
@@ -213,6 +216,7 @@ class CreditCard extends Component {
         width={600}
         closable={false}
         visible={this.state.isOpenAddCard}
+        style={{ zIndex: '5001' }}
         onClose={() => this.setState({ isOpenAddCard: false })}
       >
         <BankCard />
@@ -234,11 +238,11 @@ class CreditCard extends Component {
       <div className="container credit-card">
         <div className="row ml-5 pl-5">
           {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
-            this.props.listCard === undefined ? (
-              <BankCard />
-            ) : (
-              this.ListCard(this.props.listCard)
-            )}
+          this.props.listCard === undefined ? (
+            <BankCard />
+          ) : (
+            this.ListCard(this.props.listCard)
+          )}
         </div>
         <div className="addCard d-flex justify-content-center mb-5 ">
           {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&
