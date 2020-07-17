@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Drawer, message } from 'antd';
+import { Button, Drawer, message, Spin } from 'antd';
 import {
   PlusCircleOutlined,
   CreditCardFilled,
@@ -68,7 +68,7 @@ class CreditCard extends Component {
         message.success({
           content: 'Set card default  success !!!',
           key,
-          duration: 2,
+          duration: 0,
         });
 
         if (currSsId) {
@@ -233,6 +233,11 @@ class CreditCard extends Component {
   render() {
     return (
       <div className="container credit-card">
+        {this.props.pending && (
+          <div className="demo-loading-container">
+            <Spin tip="loading..." size="large" style={{ width: "50px" }} />
+          </div>
+        )}
         <div className="row ml-5 pl-5">
           {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
             this.props.listCard === undefined ? (
@@ -257,6 +262,7 @@ const mapStateToProps = (state) => {
     success: state.user.success,
     CardSuccess: state.user.CardSuccess,
     getListCardSucces: state.user.getListCardSucces,
+    pending: state.user.pending
   };
 };
 
