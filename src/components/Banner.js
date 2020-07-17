@@ -12,7 +12,7 @@ class Banner extends React.Component {
       <div className="banner">
         {category ? (
           <>
-            <div className="title-name mb-5">{category}</div>
+            {/* <div className="title-name mb-5">{category}</div> */}
             <Search
               placeholder="input search text"
               onSearch={(value) => handleSearch(value)}
@@ -21,31 +21,31 @@ class Banner extends React.Component {
             />
           </>
         ) : (
-          <>
-            <div className="title-name">EVENT IN YOUR HAND</div>
-            <div className=" title-h2">
-              Be easier to create and organize event{' '}
-            </div>
-            {isLogined ? (
-              <Link to="/prepare">
-                <Button
-                  icon={<StarFilled />}
-                  size="large"
-                  onClick={this.showModal}
-                  type="primary"
-                >
-                  Create Event Now
+            <>
+              <div className="title-name">EVENT IN YOUR HAND</div>
+              <div className=" title-h2">
+                Be easier to create and organize event{' '}
+              </div>
+              {isLogined ? (
+                <Link to="/prepare">
+                  <Button
+                    icon={<StarFilled />}
+                    size="large"
+                    onClick={this.showModal}
+                    type="primary"
+                  >
+                    Create Event Now
                 </Button>
-              </Link>
-            ) : (
-              <Link to="/login">
-                <Button type="primary" icon={<StarFilled />} size="large">
-                  Login To Expore Now
+                </Link>
+              ) : (
+                  <Link to="/login">
+                    <Button type="primary" icon={<StarFilled />} size="large">
+                      Login To Expore Now
                 </Button>
-              </Link>
-            )}
-          </>
-        )}
+                  </Link>
+                )}
+            </>
+          )}
       </div>
     );
   }

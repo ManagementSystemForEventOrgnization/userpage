@@ -1,7 +1,7 @@
 const proxy = require('http-proxy-middleware').createProxyMiddleware;
 
 const proxyName = 'http://localhost:5000';
-// const proxyName = 'https://event-orgnization.herokuapp.com';
+//const proxyName = 'https://event-orgnization.herokuapp.com';
 
 // JWToken
 // basic authorization

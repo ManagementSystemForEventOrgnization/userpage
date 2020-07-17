@@ -19,7 +19,7 @@ class PrepareForCreateEvent extends Component {
         <EventInfor />
       </div>
     );
-  }
+}
 }
 
 export default PrepareForCreateEvent;
