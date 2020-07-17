@@ -83,27 +83,6 @@ class ManageEvent extends React.Component {
     });
   };
 
-  onApproveMember = (joinUserId, sessionIds) => {
-    const { verifyEventMember, match } = this.props;
-    let id = match.match.params.id;
-    verifyEventMember(joinUserId, id, sessionIds)
-      .then((res) => {
-        this.setState({
-          background: 'green',
-        });
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        if (data.error) {
-          notification.error({
-            message: data.error.message,
-            style: {
-              marginTop: '20%',
-            },
-          });
-        }
-      });
-  };
 
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
@@ -186,8 +165,8 @@ class ManageEvent extends React.Component {
                           <FileDoneOutlined style={{ fontSize: '17px' }} />
                         </Button>
                       ) : (
-                        ' '
-                      )
+                          ' '
+                        )
                     )}
                   </div>
                 )}
@@ -279,16 +258,8 @@ class ManageEvent extends React.Component {
                 dataIndex="id"
                 key="action"
                 render={(id) => (
+
                   <div className="row">
-                    <div className="col">
-                      <Button
-                        style={{ background }}
-                        onClick={() => this.onApproveMember(joinEvent._id, id)}
-                        shape="circle"
-                      >
-                        <CheckOutlined style={{ fontSize: '15px' }} />{' '}
-                      </Button>
-                    </div>
                     <div className="col">
                       <Button
                         style={{ background: this.state.backReject }}
@@ -301,6 +272,8 @@ class ManageEvent extends React.Component {
                       </Button>
                     </div>
                   </div>
+
+
                 )}
               />
             </Table>
@@ -318,10 +291,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
-  verifyEventMember: (joinUserId, eventId, sessionIds) =>
-    dispatch(
-      applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)
-    ),
+
   rejectEventMember: (joinUserId, eventId, sessionIds) =>
     dispatch(
       applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)

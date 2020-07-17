@@ -234,11 +234,11 @@ class CreditCard extends Component {
       <div className="container credit-card">
         <div className="row ml-5 pl-5">
           {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
-          this.props.listCard === undefined ? (
-            <BankCard />
-          ) : (
-            this.ListCard(this.props.listCard)
-          )}
+            this.props.listCard === undefined ? (
+              <BankCard />
+            ) : (
+              this.ListCard(this.props.listCard)
+            )}
         </div>
         <div className="addCard d-flex justify-content-center mb-5 ">
           {JSON.stringify(this.props.listCard) !== JSON.stringify([]) &&

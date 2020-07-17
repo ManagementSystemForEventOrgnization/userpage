@@ -54,22 +54,7 @@ const handleRePay = (eventId, payType, sessionIds, cb) => {
   };
 };
 
-const verifyEventMember = (joinUserId, eventId, sessionId) => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      API.post('/api/verifyEventMember', {
-        eventId,
-        sessionId,
-        joinUserId,
-      })
-        .then((res) => {
-          resolve('true');
-          console.log(res.data.result);
-        })
-        .catch((err) => reject(err));
-    });
-  };
-};
+
 
 const rejectEventMember = (joinUserId, eventId, sessionId) => {
   return (dispatch) => {
@@ -109,7 +94,6 @@ export const applyEventActions = {
   applyEvent,
   cancelEvent,
   handleRePay,
-  verifyEventMember,
   rejectEventMember,
   reportUser,
 };

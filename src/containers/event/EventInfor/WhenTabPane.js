@@ -307,7 +307,7 @@ class TabPane extends Component {
         </div>
 
         {count !== 0 && (
-          <div className="col-6 col-md-6" {...layout}>
+          <div className="col-6 col-md-6" {...layout} style={{ fontSize: '24px', fontWeight: 500 }}>
             <h5 className="mt-3 mb-3">Fill information for each session</h5>
             {session.map((ss, index) => (
               <div className="mt-2" key={ss.id}>
@@ -349,6 +349,7 @@ class TabPane extends Component {
                         ]}
                       >
                         <InputNumber
+                        style={{ height: '40px' }}
                           min={1}
                           onChange={(value) =>
                             this.handleChangeQuantity(ss.id, value)
@@ -393,13 +394,13 @@ class TabPane extends Component {
                               defaultValue={
                                 item.from && item.to
                                   ? [
-                                      moment(item.from, 'HH:mm:ss'),
-                                      moment(item.to, 'HH:mm:ss'),
-                                    ]
+                                    moment(item.from, 'HH:mm:ss'),
+                                    moment(item.to, 'HH:mm:ss'),
+                                  ]
                                   : [
-                                      moment().startOf('day'),
-                                      moment().startOf('day'),
-                                    ]
+                                    moment().startOf('day'),
+                                    moment().startOf('day'),
+                                  ]
                               }
                               onChange={(time, timeString) =>
                                 this.handleChangeTime(
@@ -414,6 +415,7 @@ class TabPane extends Component {
                           </Form.Item>
                           <Form.Item>
                             <Input
+                            style={{ height: '40px' }}
                               placeholder="description"
                               name={`desc${item.id}`}
                               defaultValue={item.description}
@@ -440,6 +442,7 @@ class TabPane extends Component {
 
                       <Button
                         className="mt-1"
+
                         onClick={() => this.handleAddTime(ss.id)}
                         icon={
                           <PlusCircleTwoTone
@@ -486,6 +489,7 @@ class TabPane extends Component {
                             ]}
                           >
                             <Input
+                            
                               placeholder="Enter link to your document"
                               defaultValue={doc.url}
                               onChange={(event) =>
