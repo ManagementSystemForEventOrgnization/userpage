@@ -43,14 +43,8 @@ class Notification extends Component {
   };
 
   handleLoadLatest = () => {
-    this.setState({
-      loading: true,
-    });
     page = 1;
     this.props.getListNotification(page);
-    this.setState({
-      loading: false,
-    });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -152,16 +146,16 @@ class Notification extends Component {
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-              <h6
-                onClick={() =>
-                  this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
-                    ? window.location.replace(item.linkTo.urlWeb)
-                    : history.push('/profile')
-                }
-              >
-                {this.getNameSender(item.title, item.users_sender.fullName)}
-              </h6>
-            )}
+                <h6
+                  onClick={() =>
+                    this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                      ? window.location.replace(item.linkTo.urlWeb)
+                      : history.push('/profile')
+                  }
+                >
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </h6>
+              )}
           </div>
 
           <div className="d-flex">
@@ -208,7 +202,7 @@ class Notification extends Component {
           >
             Refresh<i className="fa fa-arrow-up" aria-hidden="true"></i>
           </p>
-          {loading && (
+          {this.props.pending && (
             <div className="demo-loading-container">
               <Spin />
             </div>
@@ -226,6 +220,7 @@ class Notification extends Component {
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
   isLoadedMore: state.user.isLoadedMore,
+  pending: state.user.pending
 });
 
 const mapDispatchToProps = (dispatch) => ({

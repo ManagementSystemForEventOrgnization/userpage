@@ -488,7 +488,7 @@ const getCreateHistory = (dataSent) => {
   }
 };
 
-const getListNotification = (pageNumber, numberRecord) => {
+const getListNotification = (pageNumber = 1, numberRecord) => {
   return (dispatch) => {
     API.get('/api/getListNotification', {
       params: {
