@@ -26,17 +26,17 @@ class Document extends Component {
     this.state = style
       ? { ...style, visible: false, collapse: false }
       : {
-          session: session.map((ss) => ({ ...ss, open: false })),
-          visible: false,
-          document: [],
-          currentSS: {},
-          title: '',
-          url: '',
-          collapse: false,
-          padding: [1, 1, 1, 1],
-          margin: [1, 1, 1, 1],
-          background: 'none',
-        };
+        session: session.map((ss) => ({ ...ss, open: false })),
+        visible: false,
+        document: [],
+        currentSS: {},
+        title: '',
+        url: '',
+        collapse: false,
+        padding: [1, 1, 1, 1],
+        margin: [1, 1, 1, 1],
+        background: 'none',
+      };
   }
 
   openModal = (id) => {
@@ -84,7 +84,15 @@ class Document extends Component {
     const fileList = e.target.files;
     const files = [];
     if (fileList.length >= 12) {
-      message.warn('You cannot upload more than 12 files');
+      message.warn({
+        content: 'You cannot upload more than 12 files',
+        style: {
+          marginTop: '20vh',
+          fontSize: '16px',
+          fontWeight: 'bold'
+
+        },
+      });
     } else {
       let { currentSS } = this.state;
 
@@ -209,11 +217,11 @@ class Document extends Component {
                     style={{ fontSize: '25px' }}
                   />
                 ) : (
-                  <DownOutlined
-                    className="ml-auto"
-                    style={{ fontSize: '25px' }}
-                  />
-                )}
+                    <DownOutlined
+                      className="ml-auto"
+                      style={{ fontSize: '25px' }}
+                    />
+                  )}
               </div>
               {ss.open && (
                 <div className="p-5">

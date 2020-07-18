@@ -116,11 +116,28 @@ class Schedule1 extends Component {
   };
 
   warning = (msg) => {
-    message.warning(msg || 'OPPs! Something is wrong');
+
+    message.warn({
+      content: msg || 'OPPs! Something is wrong',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold'
+
+      },
+    });
   };
 
   success = (type) => {
-    message.success(`${!type ? 'Apply' : 'Cancel'} session successfully`);
+    message.success({
+      content: `${!type ? 'Apply' : 'Cancel'} session successfully`,
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold'
+
+      },
+    });
   };
 
   changeLoadingSS = (idSession) => {
@@ -210,8 +227,25 @@ class Schedule1 extends Component {
             } else {
               if (res.response) {
                 const { data } = res.response;
-                message.error(data.error.message);
-              } else message.error('RePay fail !');
+                message.error({
+                  content: data.error.message,
+                  style: {
+                    marginTop: '20vh',
+                    fontSize: '16px',
+                    fontWeight: 'bold'
+
+                  },
+                });
+
+              } else message.error({
+                content: 'Repay fail',
+                style: {
+                  marginTop: '20vh',
+                  fontSize: '16px',
+                  fontWeight: 'bold'
+
+                },
+              });
             }
           }
         );

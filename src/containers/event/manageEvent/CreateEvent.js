@@ -5,8 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { Popover, message } from 'antd';
 import {
   QuestionCircleTwoTone,
-  CheckCircleFilled,
-  CloseCircleFilled,
+
 } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -175,33 +174,29 @@ class CreateEvent extends React.Component {
   };
 
   error = (msg) => {
+
     message.error({
-      content: (
-        <p style={{ marginTop: '25%' }}>
-          <CloseCircleFilled className="mr-3" style={{ color: 'red' }} />
-          OPPs! Something is wrong !
-        </p>
-      ),
+      content: 'OPPs! Something is wrong !',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold'
+
+      },
     });
   };
 
   success = (msg) => {
+
+
     message.success({
-      content: (
-        <p
-          style={{
-            marginTop: '25%',
-          }}
-        >
-          <CheckCircleFilled
-            className="mr-3"
-            style={{
-              color: 'green',
-            }}
-          />
-          Save Success
-        </p>
-      ),
+      content: 'Save success',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold'
+
+      },
     });
   };
 
@@ -227,10 +222,10 @@ class CreateEvent extends React.Component {
     const currentIndex = localStorage.getItem('currentIndex');
     const newBlockList = editSite
       ? [
-          ...system.slice(0, currentIndex),
-          blocks,
-          ...system.slice(currentIndex + 1, system.length),
-        ]
+        ...system.slice(0, currentIndex),
+        blocks,
+        ...system.slice(currentIndex + 1, system.length),
+      ]
       : [...system, blocks];
 
     saveEvent(
@@ -341,85 +336,85 @@ class CreateEvent extends React.Component {
             <img src={src} alt="loading" style={{ width: '60%' }} />
           </div>
         ) : (
-          <div>
-            <div className="d-flex flex-row-reverse">
-              <Button
-                className="mr-5 ml-1"
-                variant="primary"
-                onClick={() => this.handleSaveEvent(false)}
-                disabled={pending}
-              >
-                Request Publish
+            <div>
+              <div className="d-flex flex-row-reverse">
+                <Button
+                  className="mr-5 ml-1"
+                  variant="primary"
+                  onClick={() => this.handleSaveEvent(false)}
+                  disabled={pending}
+                >
+                  Request Publish
               </Button>
 
-              <Button
-                className="mr-2 ml-2"
-                variant="success"
-                onClick={() => this.handleSaveEvent(true)}
-                disabled={pending}
-              >
-                Save Draft
+                <Button
+                  className="mr-2 ml-2"
+                  variant="success"
+                  onClick={() => this.handleSaveEvent(true)}
+                  disabled={pending}
+                >
+                  Save Draft
               </Button>
 
-              <Button
-                variant="success"
-                onClick={() => this.handleSaveEvent(true, true)}
-              >
-                Preview
+                <Button
+                  variant="success"
+                  onClick={() => this.handleSaveEvent(true, true)}
+                >
+                  Preview
               </Button>
 
-              <Popover
-                content={content}
-                title="Help"
-                trigger="click"
-                placement="bottomLeft"
-              >
-                <QuestionCircleTwoTone style={inconStyle} />
-              </Popover>
-            </div>
+                <Popover
+                  content={content}
+                  title="Help"
+                  trigger="click"
+                  placement="bottomLeft"
+                >
+                  <QuestionCircleTwoTone style={inconStyle} />
+                </Popover>
+              </div>
 
-            <div className="d-flex">
-              <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
+              <div className="d-flex">
+                <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
 
-              <div
-                className={
-                  collapsed
-                    ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
-                    : ' mt-1 drop-area  mb-5 p-3 ml-auto'
-                }
-              >
-                <div id="header-block">
-                  <EditableHeader editable={editable} />
+                <div
+                  className={
+                    collapsed
+                      ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
+                      : ' mt-1 drop-area  mb-5 p-3 ml-auto'
+                  }
+                >
+                  <div id="header-block">
+                    <EditableHeader editable={editable} />
 
-                  <div className="d-flex">
-                    <p className="mr-2">Current page : </p>
-                    <NavigationMenu />
+                    <div className="d-flex">
+                      <p className="mr-2">Current page : </p>
+                      <NavigationMenu />
+                    </div>
                   </div>
+                  <DropContainer match={match} editable={editable} />
                 </div>
-                <DropContainer match={match} editable={editable} />
+              </div>
+
+              <div className="d-flex   flex-row-reverse mr-5 mb-5">
+                <Button
+                  variant="info"
+                  className="mr-1 ml-1"
+                  onClick={this.onHandleNext}
+                >
+                  Next Page
+              </Button>
+
+                <Button
+                  variant="secondary"
+                  className="mr-1 ml-1"
+                  onClick={this.handleBack}
+                  disabled={this.isDisablePrevious()}
+                >
+                  Previous Page
+              </Button>
               </div>
             </div>
-
-            <div className="d-flex   flex-row-reverse mr-5 mb-5">
-              <Button
-                variant="info"
-                className="mr-1 ml-1"
-                onClick={this.onHandleNext}
-              >
-                Next Page
-              </Button>
-
-              <Button
-                variant="secondary"
-                className="mr-1 ml-1"
-                onClick={this.handleBack}
-                disabled={this.isDisablePrevious()}
-              >
-                Previous Page
-              </Button>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }

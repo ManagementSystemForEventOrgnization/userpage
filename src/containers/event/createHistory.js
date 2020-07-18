@@ -239,10 +239,9 @@ class CreateHistory extends React.Component {
       });
       message.success({
         content: 'you have deleted a event',
-        className: 'custom-class',
         style: {
           marginTop: '20vh',
-          fontSize: '18px',
+          fontSize: '16px',
           fontWeight: 'bold'
 
         },
@@ -252,10 +251,9 @@ class CreateHistory extends React.Component {
       console.log(error.response.data.error.message)
       message.error({
         content: error.response.data.error.message,
-        className: 'custom-class',
         style: {
           marginTop: '20vh',
-          fontSize: '18px',
+          fontSize: '16px',
           fontWeight: 'bold'
         },
       });
