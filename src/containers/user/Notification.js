@@ -156,7 +156,7 @@ class Notification extends Component {
                       : history.push('/profile')
                   }
                 >
-                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                  <b>  {this.getNameSender(item.title, item.users_sender.fullName)}</b>
                 </h6>
               )}
           </div>
