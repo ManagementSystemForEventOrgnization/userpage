@@ -187,10 +187,8 @@ class CreateHistory extends React.Component {
 
   sumDiscount = (ticket, discount) => {
     let newDiscount = 100 - discount;
-
     let sum = (newDiscount * ticket) / 100;
     let money = `${sum} VNĐ `;
-
     return money;
   };
 
@@ -676,6 +674,7 @@ class CreateHistory extends React.Component {
           // footer={null}
           confirmLoading={penDelet}
         >
+
         </Modal>
         <Modal
           title="Cancel Event"
