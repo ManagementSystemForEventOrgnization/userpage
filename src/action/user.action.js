@@ -490,6 +490,7 @@ const getCreateHistory = (dataSent) => {
 
 const getListNotification = (pageNumber = 1, numberRecord) => {
   return (dispatch) => {
+    dispatch(request());
     API.get('/api/getListNotification', {
       params: {
         pageNumber,
@@ -504,6 +505,9 @@ const getListNotification = (pageNumber = 1, numberRecord) => {
       });
   };
 
+  function request() {
+    return { type: userConstants.GET_LIST_NOTIFICATION_REQUEST };
+  }
   function success(notifications, pageNumber) {
     return {
       type: userConstants.GET_LIST_NOTIFICATION_SUCCESS,

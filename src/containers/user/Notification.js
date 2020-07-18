@@ -14,7 +14,7 @@ const timeStyle = {
   fontSize: '10px',
 };
 
-let page = 2;
+let page = 1;
 
 class Notification extends Component {
   constructor(props) {
@@ -28,17 +28,19 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-    const { getListNotification } = this.props;
-    getListNotification();
+    if (page === 1) {
+      const { getListNotification } = this.props;
+      getListNotification();
+    }
   };
 
   loadMoreNotification = () => {
     if (this.props.isLoadedMore) {
+      page += 1;
       this.setState({
         loading: true,
       });
       this.props.getListNotification(page);
-      page += 1;
     }
   };
 
@@ -48,6 +50,7 @@ class Notification extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
+
     if (this.props.notifications.length !== prevState.data.length) {
       this.setState({
         data: [...this.props.notifications],
@@ -187,6 +190,11 @@ class Notification extends Component {
     const { data, loading } = this.state;
     return (
       <div className="demo-infinite-container">
+        {this.props.pending && (
+          <div className="demo-loading-container">
+            <Spin />
+          </div>
+        )}
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
@@ -194,19 +202,15 @@ class Notification extends Component {
           hasMore={!loading}
           useWindow={false}
         >
-          <p
+          <button
             type="button"
-            className="fa-fw w3-margin-right w3-text-teal"
+            className="btn btn-link"
             style={{ width: '100px' }}
             onClick={() => this.handleLoadLatest()}
+            disabled={this.props.pending}
           >
             Refresh<i className="fa fa-arrow-up" aria-hidden="true"></i>
-          </p>
-          {this.props.pending && (
-            <div className="demo-loading-container">
-              <Spin />
-            </div>
-          )}
+          </button>
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}

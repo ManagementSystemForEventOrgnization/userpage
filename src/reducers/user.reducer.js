@@ -415,6 +415,11 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: action.error,
       };
+    case userConstants.GET_LIST_NOTIFICATION_REQUEST:
+      return {
+        ...state,
+        pending: true
+      }
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
