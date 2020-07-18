@@ -46,7 +46,7 @@ export default class App extends React.Component {
 
         <div className={collapsed ? 'menu-hide ' : 'menu-show '}>
           {dataTest.map((blockList) => (
-            <Menu key={blockList.name} mode="inline">
+            <Menu key={blockList.name} mode="inline" style={{ fontSize: '13px', fontWeight: 500 }}>
               <SubMenu
                 key={blockList.name}
                 title={
