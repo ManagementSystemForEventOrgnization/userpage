@@ -401,10 +401,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId - 1),
-                action.blocks,
-                ...state.system.slice(nextId, state.system.length),
-              ],
+              ...state.system.slice(0, nextId - 1),
+              action.blocks,
+              ...state.system.slice(nextId, state.system.length),
+            ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
@@ -467,6 +467,11 @@ const event = (state = initialState, action) => {
         comments: [...state.comments, ...action.comments],
       };
 
+    case eventConstants.CLEAR_COMMENT:
+      return {
+        ...state,
+        comments: []
+      }
     case eventConstants.SAVE_COMMENT:
       return {
         ...state,

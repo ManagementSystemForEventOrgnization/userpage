@@ -209,7 +209,7 @@ class Notification extends Component {
             onClick={() => this.handleLoadLatest()}
             disabled={this.props.pending}
           >
-            Refresh<i className="fa fa-arrow-up" aria-hidden="true"></i>
+            Reload <i className="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
           <List
             dataSource={data}
