@@ -22,16 +22,16 @@ class EventDetail extends React.Component {
     const param =
       item.style && Object.keys(item.style).length !== 0
         ? {
-            id: item.id,
-            style: item.style,
-            editable: false,
-            match,
-          }
+          id: item.id,
+          style: item.style,
+          editable: false,
+          match,
+        }
         : {
-            id: item.id,
-            editable: false,
-            match,
-          };
+          id: item.id,
+          editable: false,
+          match,
+        };
 
     return blockList[item.type](param);
   };
@@ -47,27 +47,27 @@ class EventDetail extends React.Component {
         const eventId = localStorage.getItem('currentId');
         getComment(id || eventId);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   renderHeader = () => {
     const { pages, headerStyle, editable, match } = this.props;
     const param = headerStyle
       ? {
-          id: 'header',
-          editable,
-          match,
-          pages,
-          currentPage: pages[0].id,
-        }
+        id: 'header',
+        editable,
+        match,
+        pages,
+        currentPage: pages[0].id,
+      }
       : {
-          id: 'header',
-          editable,
-          style: headerStyle,
-          match,
-          pages,
-          currentPage: pages[0].id,
-        };
+        id: 'header',
+        editable,
+        style: headerStyle,
+        match,
+        pages,
+        currentPage: pages[0].id,
+      };
     return blockList['header'](param);
   };
 
@@ -98,17 +98,17 @@ class EventDetail extends React.Component {
             size="large"
           />
         ) : (
-          <div>
-            <div className="fixed-top">{this.renderHeader()}</div>
-            <div
-              style={{
-                marginTop: '5%',
-              }}
-            >
-              {blocks.map((item) => this.renderBlocks(item))}
+            <div>
+              <div className="fixed-top">{this.renderHeader()}</div>
+              <div
+                style={{
+                  marginTop: '5%',
+                }}
+              >
+                {blocks.map((item) => this.renderBlocks(item))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }

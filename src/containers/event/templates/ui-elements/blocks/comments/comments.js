@@ -60,8 +60,6 @@ class CommentEvent extends Component {
   };
 
   componentDidMount = () => {
-    this.props.clearComment();
-
     const { eventId } = this.state;
     this.socket.on(`cmt-${eventId || this.props.eventId}`, (data) => {
       let { newComment } = this.state;
@@ -363,7 +361,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.saveComment(eventId, content)),
   getComment: (eventId, pageNumber, numberRecord) =>
     dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
-  clearComment: () => dispatch(eventActions.clearComment())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentEvent);

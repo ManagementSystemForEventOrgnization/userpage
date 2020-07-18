@@ -603,7 +603,7 @@ const getEventInfoUsingID = (eventId, cb) => {
   }
 };
 
-const getComment = (eventId, pageNumber, numberRecord) => {
+const getComment = (eventId, pageNumber = 1, numberRecord) => {
   return (dispatch) => {
     API.get('/api/comment/get_list', {
       params: {
@@ -624,21 +624,10 @@ const getComment = (eventId, pageNumber, numberRecord) => {
     return {
       type: eventConstants.GET_COMMENT,
       comments,
+      cmtPageNumber: pageNumber
     };
   }
 };
-
-const clearComment = () => {
-  return (dispatch) => {
-    dispatch(clear())
-  };
-
-  function clear() {
-    return {
-      type: eventConstants.CLEAR_COMMENT
-    }
-  }
-}
 
 const saveComment = (eventId, content) => {
   return (dispatch) => {
@@ -770,7 +759,6 @@ export const eventActions = {
 
   getComment,
   saveComment,
-  clearComment,
 
   cancelEvent,
 

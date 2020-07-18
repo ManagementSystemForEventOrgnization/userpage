@@ -464,14 +464,9 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_COMMENT:
       return {
         ...state,
-        comments: [...state.comments, ...action.comments],
+        comments: action.cmtPageNumber === 1 ? [...action.comments] : [...state.comments, ...action.comments],
       };
 
-    case eventConstants.CLEAR_COMMENT:
-      return {
-        ...state,
-        comments: []
-      }
     case eventConstants.SAVE_COMMENT:
       return {
         ...state,
