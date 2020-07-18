@@ -450,7 +450,7 @@ class Schedule1 extends Component {
           <p>
             You have to pay{' '}
             <b style={ScheduleConstant.moneyStyle}>
-              {ticket.price - ticket.price * ticket.discount}
+              {ticket.price - (ticket.price * ticket.discount) / 100}
             </b>{' '}
             VND
           </p>

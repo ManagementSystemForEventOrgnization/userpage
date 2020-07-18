@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as EmailValidator from 'email-validator';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Select, DatePicker, message } from 'antd';
+import { Form, Input, Button, Select, DatePicker } from 'antd';
 import { userActions } from 'action/user.action';
 import UploadImage from '../../containers/event/templates/ui-elements/shares/UploadImage';
 const { Option } = Select;
