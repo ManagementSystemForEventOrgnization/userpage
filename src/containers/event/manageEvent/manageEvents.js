@@ -15,7 +15,6 @@ import {
   FileDoneOutlined,
   CloseOutlined,
   DeleteOutlined,
-  CheckOutlined,
 } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -29,7 +28,7 @@ class ManageEvent extends React.Component {
     super(props);
     this.state = {
       joinUser: [],
-      txtCause: ' ',
+      txtCause: '',
       visible: false,
       joinEvent: [],
       background: '',
@@ -83,7 +82,6 @@ class ManageEvent extends React.Component {
     });
   };
 
-
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
@@ -124,7 +122,7 @@ class ManageEvent extends React.Component {
 
   render() {
     const { userJoinEvent } = this.props;
-    const { txtCause, joinEvent, background } = this.state;
+    const { txtCause, joinEvent } = this.state;
 
     return (
       <>
@@ -165,8 +163,8 @@ class ManageEvent extends React.Component {
                           <FileDoneOutlined style={{ fontSize: '17px' }} />
                         </Button>
                       ) : (
-                          ' '
-                        )
+                        ' '
+                      )
                     )}
                   </div>
                 )}
@@ -258,7 +256,6 @@ class ManageEvent extends React.Component {
                 dataIndex="id"
                 key="action"
                 render={(id) => (
-
                   <div className="row">
                     <div className="col">
                       <Button
@@ -272,8 +269,6 @@ class ManageEvent extends React.Component {
                       </Button>
                     </div>
                   </div>
-
-
                 )}
               />
             </Table>

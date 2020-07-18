@@ -567,7 +567,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     });
   };
 
@@ -616,8 +616,9 @@ const getComment = (eventId, pageNumber, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
+
 
   function request(comments) {
     return {
@@ -626,6 +627,18 @@ const getComment = (eventId, pageNumber, numberRecord) => {
     };
   }
 };
+
+const clearComment = () => {
+  return (dispatch) => {
+    dispatch(clear())
+  };
+
+  function clear() {
+    return {
+      type: eventConstants.CLEAR_COMMENT
+    }
+  }
+}
 
 const saveComment = (eventId, content) => {
   return (dispatch) => {
@@ -757,6 +770,7 @@ export const eventActions = {
 
   getComment,
   saveComment,
+  clearComment,
 
   cancelEvent,
 

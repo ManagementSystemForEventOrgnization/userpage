@@ -227,7 +227,6 @@ const onUpdateUserProfile = (userInfor) => {
       ...userInfor,
     })
       .then((res) => {
-        console.log(res.data.result);
         dispatch(success(res.data.result));
       })
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -489,8 +488,9 @@ const getCreateHistory = (dataSent) => {
   }
 };
 
-const getListNotification = (pageNumber, numberRecord) => {
+const getListNotification = (pageNumber = 1, numberRecord) => {
   return (dispatch) => {
+    dispatch(request());
     API.get('/api/getListNotification', {
       params: {
         pageNumber,
@@ -505,6 +505,9 @@ const getListNotification = (pageNumber, numberRecord) => {
       });
   };
 
+  function request() {
+    return { type: userConstants.GET_LIST_NOTIFICATION_REQUEST };
+  }
   function success(notifications, pageNumber) {
     return {
       type: userConstants.GET_LIST_NOTIFICATION_SUCCESS,

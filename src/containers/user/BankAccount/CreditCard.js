@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Drawer, message } from 'antd';
+import { Button, Drawer, message, Spin } from 'antd';
 import {
   PlusCircleOutlined,
   CreditCardFilled,
@@ -68,7 +68,7 @@ class CreditCard extends Component {
         message.success({
           content: 'Set card default  success !!!',
           key,
-          duration: 2,
+          duration: 0,
         });
 
         if (currSsId) {
@@ -110,7 +110,7 @@ class CreditCard extends Component {
   };
 
   MasterCard = (cardInfor = {}) => (
-    <div className="p-1">
+    <div className="p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
         className=" card"
@@ -130,7 +130,6 @@ class CreditCard extends Component {
         </div>
         <p className="card__number">**** **** **** {cardInfor.last4}</p>
         <div className="card__dates">
-          {/* <span className="card__dates--first">09/16</span> */}
           <span className="card__dates--second">
             {cardInfor.exp_month}/{cardInfor.exp_year}
           </span>
@@ -144,7 +143,9 @@ class CreditCard extends Component {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div
+        className="d-flex justify-content-center card-method"
+      >
         <p
           className="mr-5"
           type="button"
@@ -162,10 +163,10 @@ class CreditCard extends Component {
   );
 
   VisaCard = (cardInfor = {}) => (
-    <div className="p-1">
+    <div className=" p-1 row">
       <div
         onClick={() => this.setState({ visible: true, isShowNotice: false })}
-        className="visa_card col ml-5"
+        className="visa_card"
       >
         <div className="panel">
           <div className="card card--front">
@@ -183,9 +184,8 @@ class CreditCard extends Component {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center card-method">
         <p
-          className="mr-5"
           type="button"
           onClick={() => this.handlePay(cardInfor.id)}
         >
@@ -193,7 +193,7 @@ class CreditCard extends Component {
           Pay by this card
         </p>
         <p onClick={() => this.handleDeleteCard(cardInfor.id)} type="button">
-          <DeleteFilled className="mr-1" style={{ color: 'red' }} />
+          <DeleteFilled className="ml-5" style={{ color: 'red' }} />
           Delete this card
         </p>
       </div>
@@ -213,6 +213,7 @@ class CreditCard extends Component {
         width={600}
         closable={false}
         visible={this.state.isOpenAddCard}
+        style={{ zIndex: '5001' }}
         onClose={() => this.setState({ isOpenAddCard: false })}
       >
         <BankCard />
@@ -232,6 +233,11 @@ class CreditCard extends Component {
   render() {
     return (
       <div className="container credit-card">
+        {this.props.pending && (
+          <div className="demo-loading-container">
+            <Spin tip="loading..." size="large" style={{ width: "50px" }} />
+          </div>
+        )}
         <div className="row ml-5 pl-5">
           {JSON.stringify(this.props.listCard) === JSON.stringify([]) ||
             this.props.listCard === undefined ? (
@@ -256,6 +262,7 @@ const mapStateToProps = (state) => {
     success: state.user.success,
     CardSuccess: state.user.CardSuccess,
     getListCardSucces: state.user.getListCardSucces,
+    pending: state.user.pending
   };
 };
 

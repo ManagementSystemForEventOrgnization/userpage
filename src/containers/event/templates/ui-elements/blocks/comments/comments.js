@@ -35,17 +35,17 @@ class CommentEvent extends Component {
     this.state = style
       ? { ...style, newComment: [], isCollapsed: false }
       : {
-          margin: [1, 1, 1, 1],
-          padding: [1, 1, 1, 1],
-          list: [1, 2, 3, 4],
-          value: '',
-          content: '',
-          eventId: eventId || localStorage.getItem('currentId'),
-          newComment: [],
-          isCollapsed: false,
-          background: 'none',
-          color: 'black',
-        };
+        margin: [1, 1, 1, 1],
+        padding: [1, 1, 1, 1],
+        list: [1, 2, 3, 4],
+        value: '',
+        content: '',
+        eventId: eventId || localStorage.getItem('currentId'),
+        newComment: [],
+        isCollapsed: false,
+        background: 'none',
+        color: 'black',
+      };
   }
 
   configComment = (comments) => {
@@ -60,30 +60,32 @@ class CommentEvent extends Component {
   };
 
   componentDidMount = () => {
+    this.props.clearComment();
+
     const { eventId } = this.state;
     this.socket.on(`cmt-${eventId || this.props.eventId}`, (data) => {
       let { newComment } = this.state;
 
       newComment = newComment
         ? [
-            {
-              author: data.userId.fullName,
-              avatar: data.userId.avatar,
-              content: (
-                <p style={{ color: this.state.color }}>{data.content}</p>
-              ),
-              datetime: moment(data.createAt).format('LLLL'),
-            },
-            ...newComment,
-          ]
+          {
+            author: data.userId.fullName,
+            avatar: data.userId.avatar,
+            content: (
+              <p style={{ color: this.state.color }}>{data.content}</p>
+            ),
+            datetime: moment(data.createAt).format('LLLL'),
+          },
+          ...newComment,
+        ]
         : [
-            {
-              author: data.userId.fullName,
-              avatar: data.userId.avatar,
-              content: <p>{data.content}</p>,
-              datetime: moment(data.createAt).format('LLLL'),
-            },
-          ];
+          {
+            author: data.userId.fullName,
+            avatar: data.userId.avatar,
+            content: <p>{data.content}</p>,
+            datetime: moment(data.createAt).format('LLLL'),
+          },
+        ];
 
       setTimeout(
         this.setState({
@@ -277,10 +279,10 @@ class CommentEvent extends Component {
               }
             />
           ) : (
-            <Link to="/login">
-              <Button>Login to add comments</Button>
-            </Link>
-          )}
+              <Link to="/login">
+                <Button>Login to add comments</Button>
+              </Link>
+            )}
 
           <hr />
           {newComment.length > 0 && <CommentList comments={newComment} />}
@@ -361,6 +363,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(eventActions.saveComment(eventId, content)),
   getComment: (eventId, pageNumber, numberRecord) =>
     dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
+  clearComment: () => dispatch(eventActions.clearComment())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentEvent);

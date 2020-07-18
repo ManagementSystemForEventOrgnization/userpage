@@ -299,7 +299,7 @@ const user = (state = initialState, action) => {
       };
     case userConstants.UPDATE_USER_PROFILE_SUCESS:
       localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('username', action.userInfo.fullName);
+      localStorage.setItem('username', action.user.fullName);
       return {
         ...state,
         pending: false,
@@ -415,9 +415,15 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: action.error,
       };
+    case userConstants.GET_LIST_NOTIFICATION_REQUEST:
+      return {
+        ...state,
+        pending: true
+      }
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
+        pending: false,
         isLoadedMore: action.notifications.length === 10 ? true : false,
         notifications:
           action.notiPageNumber === 1
@@ -429,6 +435,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_FAILURE:
       return {
         ...state,
+        pending: false,
         errMessage: action.error,
       };
     case userConstants.GET_HISTORY_CREATE_REQUEST:
