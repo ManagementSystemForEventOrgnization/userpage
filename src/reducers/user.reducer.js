@@ -37,10 +37,12 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
-      localStorage.setItem('isLogined', true);
-      localStorage.setItem('username', action.user.fullName);
-      localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._id);
+      if (action.user.isActive) {
+        localStorage.setItem('isLogined', true);
+        localStorage.setItem('username', action.user.fullName);
+        localStorage.setItem('avatar', action.user.avatar);
+        localStorage.setItem('userId', action.user._id);
+      }
 
       return {
         ...state,
@@ -418,8 +420,8 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_REQUEST:
       return {
         ...state,
-        pending: true
-      }
+        pending: true,
+      };
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,

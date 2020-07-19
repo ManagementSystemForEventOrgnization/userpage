@@ -14,6 +14,7 @@ const login = (email, password) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
+
         if (res.data.result.isActive) {
           if (history.action === 'PUSH') {
             history.goBack();
