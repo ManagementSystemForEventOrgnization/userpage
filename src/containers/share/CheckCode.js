@@ -39,7 +39,7 @@ class CheckCode extends React.Component {
 
     const disactive = !isFirstLoad || !code.trim();
     return (
-      <div className="col mt-5 check-code">
+      <div className="col  check-code" style={{ marginTop: '10%' }}>
         <p className="notify-enter-code">
           Hãy nhập mã code(đã được gửi trong gmail) để xác nhận tài khoản{' '}
         </p>
@@ -47,8 +47,9 @@ class CheckCode extends React.Component {
           <div className="error-message mt-2 mb-2">{message}</div>
         )}
 
-        <div className=" mt-3 d-flex flex-row">
+        <div className=" mt-3 ">
           <Input
+            style={{ marginTop: '15%', height: '40px', borderRadius: '10px' }}
             value={code}
             name="code"
             onChange={this.onChange}
@@ -57,7 +58,10 @@ class CheckCode extends React.Component {
           />
 
           <Button
-            size="large"
+            style={{
+              width: '100%', height: '40px', borderRadius: '10px', marginTop: '10%',
+              color: 'black', fontWeight: 'bold'
+            }}
             type="primary"
             disabled={disactive}
             loading={pending}

@@ -65,95 +65,97 @@ class LoginPage extends React.Component {
             <p className="website-name mt-5">Login</p>
 
             {active === false ? (
-              <CheckCode />
+              <div style={{ marginBottom: '60%' }}>
+                <CheckCode />
+              </div>
             ) : (
-              <Form className="mt-2">
-                <Form.Item>
-                  {!isFirstLoad && message && (
-                    <div className="error-message mt-2 mb-2">{message}</div>
-                  )}
-                </Form.Item>
+                <Form className="mt-2">
+                  <Form.Item>
+                    {!isFirstLoad && message && (
+                      <div className="error-message mt-2 mb-2">{message}</div>
+                    )}
+                  </Form.Item>
 
-                <Form.Item
-                  name="Email"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input
-                    className="inputStyle"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    value={email}
-                    name="email"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    placeholder="Email"
-                  />
-                </Form.Item>
+                  <Form.Item
+                    name="Email"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="inputStyle"
+                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      value={email}
+                      name="email"
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      placeholder="Email"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    className="inputStyle"
-                    value={password}
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
+                  <Form.Item
                     name="password"
-                    placeholder="Password"
-                  />
-                </Form.Item>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      className="inputStyle"
+                      value={password}
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                    />
+                  </Form.Item>
 
-                <Form.Item shouldUpdate>
-                  {() => (
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className=" mt-4 loginStyle"
-                      loading={pending}
-                      disabled={!activeEmail}
-                      onClick={this.handleLogin}
-                    >
-                      Login
-                    </Button>
-                  )}
-                </Form.Item>
+                  <Form.Item shouldUpdate>
+                    {() => (
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className=" mt-4 loginStyle"
+                        loading={pending}
+                        disabled={!activeEmail}
+                        onClick={this.handleLogin}
+                      >
+                        Login
+                      </Button>
+                    )}
+                  </Form.Item>
 
-                <Link to="/forgotpassword" style={{ float: 'right' }}>
-                  Forgot password?
+                  <Link to="/forgotpassword" style={{ float: 'right' }}>
+                    Forgot password?
                 </Link>
 
-                <p className="title-color" style={{ textAlign: 'center' }}>
-                  OR
+                  <p className="title-color" style={{ textAlign: 'center' }}>
+                    OR
                 </p>
-                <GoogleLogin
-                  clientId={clientID}
-                  buttonText="Login with Google"
-                  onSuccess={(response) => {
-                    this.responseGoogle(response);
-                  }}
-                  onFailure={(response) => this.responseGoogle(response)}
-                  cookiePolicy={'single_host_origin'}
-                  icon={true}
-                  className="button-login-google"
-                />
-                <p className="mt-2 title-color" style={{ textAlign: 'center' }}>
-                  You don't have any account ?{' '}
-                  <span>
-                    <Link to="/signup">Register Now</Link>
-                  </span>{' '}
-                </p>
-              </Form>
-            )}
+                  <GoogleLogin
+                    clientId={clientID}
+                    buttonText="Login with Google"
+                    onSuccess={(response) => {
+                      this.responseGoogle(response);
+                    }}
+                    onFailure={(response) => this.responseGoogle(response)}
+                    cookiePolicy={'single_host_origin'}
+                    icon={true}
+                    className="button-login-google"
+                  />
+                  <p className="mt-2 title-color" style={{ textAlign: 'center' }}>
+                    You don't have any account ?{' '}
+                    <span>
+                      <Link to="/signup">Register Now</Link>
+                    </span>{' '}
+                  </p>
+                </Form>
+              )}
           </div>
         </div>
       </div>
