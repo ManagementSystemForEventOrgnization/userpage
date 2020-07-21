@@ -173,8 +173,9 @@ class ProfileInfor extends Component {
       <div className="ProfileInfor shadow p-3 mb-5 bg-white rounded p-3 border">
         {this.errorHandle()}
         {/* start form */}
-        <div className="col">
+        <div className="col" >
           <UploadImage
+
             url={userInfor.avatar}
             handleImageDrop={(value) => {
               this.setState({

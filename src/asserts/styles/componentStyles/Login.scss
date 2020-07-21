@@ -1,5 +1,5 @@
 .login-page {
-  background-image: url(https://res.cloudinary.com/dwt4njhmt/image/upload/v1595175028/gradient-green-blue-linear-1920x1080-c2-008b8b-87ceeb-a-315-f-14_vhu1g8.png);
+  background-image: url(https://res.cloudinary.com/dwt4njhmt/image/upload/v1595311868/light-blue-background_bme7ql.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -10,17 +10,14 @@
     padding-left: 25%;
     padding-right: 25%;
     padding-bottom: 5%;
-
-    // margin-top: 10%;
   }
 
   .form {
     // background-image: linear-gradient(#87ceeb, #6a5acd, #1e2952);
     background: #f2f2f2;
-    opacity: 0.8;
+
+    z-index: 1000;
     border-radius: 10px;
-    // width: 100%;
-    // height: 100%;
     padding: 3%;
   }
   .website-name {
