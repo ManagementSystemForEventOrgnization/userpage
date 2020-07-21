@@ -49,7 +49,7 @@ class CheckCode extends React.Component {
 
         <div className=" mt-3 ">
           <Input
-            style={{ marginTop: '15%', height: '40px', borderRadius: '10px' }}
+            style={{ marginTop: '10%', height: '40px', borderRadius: '10px' }}
             value={code}
             name="code"
             onChange={this.onChange}

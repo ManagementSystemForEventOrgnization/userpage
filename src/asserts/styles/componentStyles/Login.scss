@@ -1,11 +1,8 @@
 .login-page {
-  // background-image: url(https://res.cloudinary.com/dwt4njhmt/image/upload/v1595311868/light-blue-background_bme7ql.jpg);
-  // background-position: center;
-  // background-size: cover;
-  // background-repeat: no-repeat;
   background-color: #18478b;
   height: auto;
   margin: 0;
+  padding: 0;
   object-fit: cover;
   .login {
     padding-left: 25%;
@@ -20,6 +17,7 @@
     z-index: 1000;
     border-radius: 10px;
     padding: 3%;
+    margin-bottom: 20%;
   }
   .website-name {
     font-size: 25px;

@@ -65,7 +65,7 @@ class LoginPage extends React.Component {
             <p className="website-name mt-5">Login</p>
 
             {active === false ? (
-              <div style={{ marginBottom: '60%' }}>
+              <div style={{ marginBottom: '10%' }}>
                 <CheckCode />
               </div>
             ) : (
