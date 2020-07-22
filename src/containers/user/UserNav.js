@@ -13,8 +13,6 @@ import { userActions } from '../../action/user.action';
 class UserNav extends Component {
   render() {
     const { logout, userInfo } = this.props;
-    console.log('userInfor : ', userInfo);
-    console.log(localStorage.getItem('username'));
 
     const username =
       userInfo && userInfo.username

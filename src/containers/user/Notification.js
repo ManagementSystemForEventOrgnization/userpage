@@ -50,7 +50,6 @@ class Notification extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (this.props.notifications.length !== prevState.data.length) {
       this.setState({
         data: [...this.props.notifications],
@@ -149,16 +148,18 @@ class Notification extends Component {
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-                <h6
-                  onClick={() =>
-                    this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
-                      ? window.location.replace(item.linkTo.urlWeb)
-                      : history.push('/profile')
-                  }
-                >
-                  <b>  {this.getNameSender(item.title, item.users_sender.fullName)}</b>
-                </h6>
-              )}
+              <h6
+                onClick={() =>
+                  this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                    ? window.location.replace(item.linkTo.urlWeb)
+                    : history.push('/profile')
+                }
+              >
+                <b>
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </b>
+              </h6>
+            )}
           </div>
 
           <div className="d-flex">
@@ -169,6 +170,7 @@ class Notification extends Component {
               {!item.isRead && (
                 <Tooltip title="Mask as read" className="mr-2">
                   <CheckCircleTwoTone
+                    type="button"
                     onClick={() => this.handleMarkAsRead(item._id)}
                   />
                 </Tooltip>
@@ -176,6 +178,7 @@ class Notification extends Component {
 
               <Tooltip title="Delete">
                 <DeleteOutlined
+                  type="button"
                   onClick={() => this.handleDeleleNotification(item._id)}
                 />
               </Tooltip>
@@ -209,7 +212,8 @@ class Notification extends Component {
             onClick={() => this.handleLoadLatest()}
             disabled={this.props.pending}
           >
-            Reload <i className="fa fa-arrow-up" aria-hidden="true"></i>
+            Reload
+            <i className="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
           <List
             dataSource={data}
@@ -224,7 +228,7 @@ class Notification extends Component {
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
   isLoadedMore: state.user.isLoadedMore,
-  pending: state.user.pending
+  pending: state.user.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({

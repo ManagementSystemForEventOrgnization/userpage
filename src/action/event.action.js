@@ -414,6 +414,10 @@ const updateEventInfo = (
 };
 
 const storeBlocksWhenCreateEvent = (blocks) => {
+  // console.log('==============CHANGES==================');
+  // console.log(blocks);
+  // console.log('================================');
+
   return (dispatch) => {
     dispatch(request(blocks));
   };
@@ -567,7 +571,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -616,15 +620,14 @@ const getComment = (eventId, pageNumber = 1, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
-
 
   function request(comments) {
     return {
       type: eventConstants.GET_COMMENT,
       comments,
-      cmtPageNumber: pageNumber
+      cmtPageNumber: pageNumber,
     };
   }
 };

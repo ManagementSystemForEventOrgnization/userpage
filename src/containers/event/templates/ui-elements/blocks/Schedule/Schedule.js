@@ -24,10 +24,10 @@ class Schedule1 extends Component {
     this.state = style
       ? { ...style, openDrawer: false }
       : {
-        ...ScheduleConstant.ScheduleState(this.props, 1),
-        apply: false,
-        openDrawer: false,
-      };
+          ...ScheduleConstant.ScheduleState(this.props, 1),
+          apply: false,
+          openDrawer: false,
+        };
   }
 
   openModal = () => {
@@ -116,14 +116,12 @@ class Schedule1 extends Component {
   };
 
   warning = (msg) => {
-
     message.warn({
       content: msg || 'OPPs! Something is wrong',
       style: {
         marginTop: '20vh',
         fontSize: '16px',
-        fontWeight: 'bold'
-
+        fontWeight: 'bold',
       },
     });
   };
@@ -134,8 +132,7 @@ class Schedule1 extends Component {
       style: {
         marginTop: '20vh',
         fontSize: '16px',
-        fontWeight: 'bold'
-
+        fontWeight: 'bold',
       },
     });
   };
@@ -232,20 +229,18 @@ class Schedule1 extends Component {
                   style: {
                     marginTop: '20vh',
                     fontSize: '16px',
-                    fontWeight: 'bold'
-
+                    fontWeight: 'bold',
                   },
                 });
-
-              } else message.error({
-                content: 'Repay fail',
-                style: {
-                  marginTop: '20vh',
-                  fontSize: '16px',
-                  fontWeight: 'bold'
-
-                },
-              });
+              } else
+                message.error({
+                  content: 'Repay fail',
+                  style: {
+                    marginTop: '20vh',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                });
             }
           }
         );
@@ -336,8 +331,6 @@ class Schedule1 extends Component {
     } = this.props;
 
     const divStyle = this.getCustomStyle();
-    console.log("conten", content
-    );
 
     return (
       <div className="p-5 child-block" key={id}>
@@ -415,19 +408,19 @@ class Schedule1 extends Component {
                         Cancel Session
                       </Button>
                     ) : (
-                        <Button
-                          icon={<CalendarOutlined />}
-                          type="primary"
-                          className="mt-2"
-                          disabled={ss.isCancel}
-                          loading={ss.pending}
-                          onClick={() => this.onClickButton(ss.id, 'APPLY')}
-                        >
-                          {!isSellTicket || isSellTicket === 'No'
-                            ? 'Register free'
-                            : 'Buy Ticket '}
-                        </Button>
-                      )
+                      <Button
+                        icon={<CalendarOutlined />}
+                        type="primary"
+                        className="mt-2"
+                        disabled={ss.isCancel}
+                        loading={ss.pending}
+                        onClick={() => this.onClickButton(ss.id, 'APPLY')}
+                      >
+                        {!isSellTicket || isSellTicket === 'No'
+                          ? 'Register free'
+                          : 'Buy Ticket '}
+                      </Button>
+                    )
                   ) : ss.paymentId.status === 'PAID' ? (
                     <Button
                       icon={<CalendarOutlined />}
@@ -440,26 +433,26 @@ class Schedule1 extends Component {
                       Cancel this session
                     </Button>
                   ) : (
-                          <div className="d-flex">
-                            <Button
-                              onClick={() => this.onClickButton(ss.id, 'REPAY')}
-                              type="primary"
-                              className="mr-2"
-                              disabled={ss.isCancel}
-                            >
-                              RePay
+                    <div className="d-flex">
+                      <Button
+                        onClick={() => this.onClickButton(ss.id, 'REPAY')}
+                        type="primary"
+                        className="mr-2"
+                        disabled={ss.isCancel}
+                      >
+                        RePay
                       </Button>
 
-                            <Button
-                              onClick={() => this.onClickButton(ss.id, 'CANCEL')}
-                              disabled={ss.isCancel}
-                              type="danger"
-                              loading={ss.pending}
-                            >
-                              Cancel
+                      <Button
+                        onClick={() => this.onClickButton(ss.id, 'CANCEL')}
+                        disabled={ss.isCancel}
+                        type="danger"
+                        loading={ss.pending}
+                      >
+                        Cancel
                       </Button>
-                          </div>
-                        )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

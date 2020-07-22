@@ -199,9 +199,15 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.get(`/api/current_user`)
+    API.get(`/api/current_user`, {
+      headers: configHeader,
+    })
       .then((res) => {
         dispatch(success(res.data.result));
       })
@@ -222,10 +228,15 @@ const getCurrentUser = () => {
 };
 
 const onUpdateUserProfile = (userInfor) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/updateInfo`, {
       ...userInfor,
+      headers: configHeader,
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -245,9 +256,15 @@ const onUpdateUserProfile = (userInfor) => {
 };
 
 const getBankAccount = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.get(`/api/user/bank_inf`)
+    API.get(`/api/user/bank_inf`, {
+      headers: configHeader,
+    })
       .then((res) => {
         dispatch(success(res.data.result.bank));
       })
@@ -268,10 +285,15 @@ const getBankAccount = () => {
 };
 
 const onUpdateBankInfor = (bankInfor) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
     API.post(`/api/user/update_bank_inf`, {
       ...bankInfor,
+      headers: configHeader,
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -291,11 +313,21 @@ const onUpdateBankInfor = (bankInfor) => {
 };
 
 const onChangePassword = (passwords) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/updatePassword`, {
-      ...passwords,
-    })
+    API.post(
+      `/api/updatePassword`,
+      {
+        ...passwords,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         dispatch(success(res.data.result));
       })
@@ -314,11 +346,21 @@ const onChangePassword = (passwords) => {
 };
 
 const addPaymentCard = (cardToken) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/add_card`, {
-      cardToken,
-    })
+    API.post(
+      `/api/add_card`,
+      {
+        cardToken,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         dispatch(success(res.data.result));
       })
@@ -337,9 +379,15 @@ const addPaymentCard = (cardToken) => {
 };
 
 const getListCardPayment = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.get(`/api/get_listcard`)
+    API.get(`/api/get_listcard`, {
+      headers: configHeader,
+    })
       .then((res) => {
         // console.log(res.data);
         dispatch(success(res.data.result));
@@ -361,11 +409,21 @@ const getListCardPayment = () => {
 };
 
 const postCardDefault = (cardId, callBack) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/set_card_default`, {
-      cardId,
-    })
+    API.post(
+      `/api/set_card_default`,
+      {
+        cardId,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         callBack();
         dispatch(success(res.data.result));
@@ -388,11 +446,21 @@ const postCardDefault = (cardId, callBack) => {
 };
 
 const delCardDefault = (cardId, callBack) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/del_card`, {
-      cardId,
-    })
+    API.post(
+      `/api/del_card`,
+      {
+        cardId,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         callBack();
         dispatch(success(res.data.result, cardId));
@@ -415,12 +483,17 @@ const delCardDefault = (cardId, callBack) => {
 };
 
 const getHistoryPayment = (numberRecord = 16) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/payment_history/`, {
       params: {
         numberRecord,
       },
+      headers: configHeader,
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -442,11 +515,16 @@ const getHistoryPayment = (numberRecord = 16) => {
 };
 
 const get_History = (dataSent) => {
+  const accessToken = localStorage.getItem('accessToken');
+
   return (dispatch) => {
     dispatch(request());
 
     API.get(`/api/user/get_history_take_part_in`, {
       params: dataSent,
+      headers: {
+        Authorization: accessToken,
+      },
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -466,10 +544,15 @@ const get_History = (dataSent) => {
 };
 
 const getCreateHistory = (dataSent) => {
+  const accessToken = localStorage.getItem('accessToken');
+
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/user/historyCreate`, {
       params: dataSent,
+      headers: {
+        Authorization: accessToken,
+      },
     })
       .then((res) => {
         dispatch(success(res.data.result));
@@ -490,12 +573,17 @@ const getCreateHistory = (dataSent) => {
 };
 
 const getListNotification = (pageNumber = 1, numberRecord) => {
+  const accessToken = localStorage.getItem('accessToken');
+
   return (dispatch) => {
     dispatch(request());
     API.get('/api/getListNotification', {
       params: {
         pageNumber,
         numberRecord,
+      },
+      headers: {
+        Authorization: accessToken,
       },
     })
       .then((res) => {
@@ -522,8 +610,13 @@ const getListNotification = (pageNumber = 1, numberRecord) => {
 };
 // chỗ nào call api anyf
 const getNumUnreadNotification = () => {
+  const accessToken = localStorage.getItem('accessToken');
   return (dispatch) => {
-    API.get('/api/getBadgeNumber')
+    API.get('/api/getBadgeNumber', {
+      headers: {
+        Authorization: accessToken,
+      },
+    })
       .then((res) => {
         const { result } = res.data;
         dispatch(success(result));
@@ -549,8 +642,20 @@ const getNumUnreadNotification = () => {
 };
 
 const setReadNotification = (notificationId) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
-    API.post('/api/setReadNotification', { notificationId }).then((res) => {
+    API.post(
+      '/api/setReadNotification',
+      {
+        notificationId,
+      },
+      {
+        headers: configHeader,
+      }
+    ).then((res) => {
       dispatch(success());
     });
   };
@@ -563,10 +668,21 @@ const setReadNotification = (notificationId) => {
 };
 
 const setDeleteNotification = (notificationId) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
-    API.post('/api/setDeleteNotification', {
-      notificationId,
-    }).then((res) => {
+    API.post(
+      '/api/setDeleteNotification',
+      {
+        notificationId,
+      },
+      {
+        headers: configHeader,
+      }
+    ).then((res) => {
       dispatch(success(notificationId));
     });
   };
@@ -580,11 +696,17 @@ const setDeleteNotification = (notificationId) => {
 };
 
 const getChatHistory = (sender) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+  console.log(sender);
   return (dispatch) => {
     API.get('/api/chat/get_list', {
       params: {
         sender,
       },
+      headers: configHeader,
     }).then((res) => {
       dispatch(success(res.data.result));
     });
@@ -599,12 +721,23 @@ const getChatHistory = (sender) => {
 };
 
 const deleteEvent = (eventId) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       dispatch(request());
-      API.post(`/api/delete/event`, {
-        eventId,
-      })
+      API.post(
+        `/api/delete/event`,
+        {
+          eventId,
+        },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           dispatch(success(res.data.result, eventId));
           resolve(res.data.result);

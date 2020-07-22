@@ -88,9 +88,8 @@ class UploadImage extends Component {
                   {url && (
                     <img
                       style={{
-                        // width: '450px',
+                        width: '450px',
                         opacity: pending ? '0.3' : '1',
-                        objectFit: 'contain',
                       }}
                       alt="img"
                       src={url}

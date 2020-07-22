@@ -17,14 +17,12 @@ class Header extends React.Component {
   }
 
   componentDidMount = () => {
-    // nó bị call trước khi nhận đc data về hay qq gì á méo bie
     const { getNumUnreadNotification, isLogined, pending } = this.props;
     if (isLogined && !pending) {
       getNumUnreadNotification();
     }
   };
 
-  // r giờ sao trên kia nó vẫn cso mà call api k k có cái req.usser
   handleVisibleChange = (visible) => {
     const { isLogined } = this.props;
     if (isLogined) {
@@ -65,11 +63,11 @@ class Header extends React.Component {
                       className="mt-2"
                       type="button"
                     >
-                      <BellOutlined style={{ fontSize: 23 }} />
+                      <BellOutlined style={{ fontSize: 23 }} type="button" />
                     </Badge>
                   ) : (
                     <div type="button">
-                      <BellOutlined style={{ fontSize: 20 }} />
+                      <BellOutlined style={{ fontSize: 20 }} type="button" />
                     </div>
                   )}
                 </Popover>

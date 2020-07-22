@@ -37,8 +37,10 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
+      console.log(action.user);
       if (action.user.isActive) {
         localStorage.setItem('isLogined', true);
+        localStorage.setItem('accessToken', action.user.accessToken.token);
         localStorage.setItem('username', action.user.fullName);
         localStorage.setItem('avatar', action.user.avatar);
         localStorage.setItem('userId', action.user._id);
@@ -62,6 +64,7 @@ const user = (state = initialState, action) => {
 
     case userConstants.LOGIN_GOOGLE_SUCCESS:
       localStorage.setItem('isLogined', true);
+      localStorage.setItem('accessToken', action.user.accessToken);
       localStorage.setItem('username', action.user.fullName);
       localStorage.setItem('avatar', action.user.avatar);
       localStorage.setItem('userId', action.user._id);
@@ -112,6 +115,7 @@ const user = (state = initialState, action) => {
       };
     case userConstants.CHECK_CODE_SUCCESS:
       localStorage.setItem('isLogined', true);
+      localStorage.setItem('accessToken', action.user.accessToken);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
       localStorage.setItem('userId', state.userInfo._id);
@@ -137,6 +141,7 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('userId');
       localStorage.removeItem('currentSocket');
       localStorage.removeItem('currentIndex');
+      localStorage.removeItem('accessToken');
 
       localStorage.removeItem('currentId');
       localStorage.removeItem('webAddress');
@@ -471,6 +476,8 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('isLogined');
       localStorage.removeItem('username');
       localStorage.removeItem('avatar');
+      localStorage.removeItem('accessToken');
+
       return {
         ...state,
         isLogined: false,
