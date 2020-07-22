@@ -158,12 +158,18 @@ const register = (email, password, fullName) => {
 };
 
 const checkCode = (token) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     dispatch(request());
     API.get(`/api/verifyToken`, {
       params: {
         token,
       },
+      headers: configHeader,
     })
       .then((res) => {
         dispatch(success());
@@ -187,7 +193,14 @@ const checkCode = (token) => {
 };
 
 const logout = () => {
-  API.get(`/api/logout`);
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
+  API.get(`/api/logout`, {
+    headers: configHeader,
+  });
   return (dispatch) => {
     dispatch(request());
     history.push('/');

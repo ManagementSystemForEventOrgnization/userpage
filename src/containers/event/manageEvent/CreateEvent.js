@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
 import { Popover, message } from 'antd';
-import {
-  QuestionCircleTwoTone,
-
-} from '@ant-design/icons';
+import { QuestionCircleTwoTone } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
@@ -72,30 +69,16 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getEventInfo, getEventDetail } = this.props;
+    const { getEventInfo, getEventDetailEdit } = this.props;
     const urlWeb = localStorage.getItem('webAddress');
     const editSite = localStorage.getItem('editSite');
-
-    if (urlWeb) {
-      getEventInfo(urlWeb)
+    //getEventDetail
+    if (editSite && urlWeb) {
+      getEventDetailEdit(urlWeb, 0, true)
         .then(() => {
-          if (editSite) {
-            getEventDetail(urlWeb, 0, true).then(() => {
-              this.setState({
-                loading: false,
-              });
-            });
-          } else {
-            this.setState({
-              loading: false,
-            });
-          }
-
           this.setState({
             loading: false,
           });
-
-          // this.getCurrentIndex();
         })
         .catch((err) =>
           this.setState({
@@ -103,9 +86,53 @@ class CreateEvent extends React.Component {
           })
         );
     } else {
-      this.setState({ loading: false });
-      history.push('/');
+      if (urlWeb) {
+        getEventInfo(urlWeb)
+          .then(() => {
+            this.setState({
+              loading: false,
+            });
+          })
+          .catch((err) =>
+            this.setState({
+              loading: false,
+            })
+          );
+      } else {
+        history.push('/');
+      }
     }
+
+    // if (urlWeb) {
+    //   getEventInfo(urlWeb)
+    //     .then(() => {
+    //       if (editSite) {
+    //         getEventDetail(urlWeb, 0, true).then(() => {
+    //           this.setState({
+    //             loading: false,
+    //           });
+    //         });
+    //       } else {
+    //         this.setState({
+    //           loading: false,
+    //         });
+    //       }
+
+    //       this.setState({
+    //         loading: false,
+    //       });
+
+    //       // this.getCurrentIndex();
+    //     })
+    //     .catch((err) =>
+    //       this.setState({
+    //         loading: false,
+    //       })
+    //     );
+    // } else {
+    //   this.setState({ loading: false });
+    //   history.push('/');
+    // }
 
     window.scrollTo(0, 0);
   };
@@ -174,28 +201,23 @@ class CreateEvent extends React.Component {
   };
 
   error = (msg) => {
-
     message.error({
       content: 'OPPs! Something is wrong !',
       style: {
         marginTop: '20vh',
         fontSize: '16px',
-        fontWeight: 'bold'
-
+        fontWeight: 'bold',
       },
     });
   };
 
   success = (msg) => {
-
-
     message.success({
       content: 'Save success',
       style: {
         marginTop: '20vh',
         fontSize: '16px',
-        fontWeight: 'bold'
-
+        fontWeight: 'bold',
       },
     });
   };
@@ -222,10 +244,10 @@ class CreateEvent extends React.Component {
     const currentIndex = localStorage.getItem('currentIndex');
     const newBlockList = editSite
       ? [
-        ...system.slice(0, currentIndex),
-        blocks,
-        ...system.slice(currentIndex + 1, system.length),
-      ]
+          ...system.slice(0, currentIndex),
+          blocks,
+          ...system.slice(currentIndex + 1, system.length),
+        ]
       : [...system, blocks];
 
     saveEvent(
@@ -336,85 +358,85 @@ class CreateEvent extends React.Component {
             <img src={src} alt="loading" style={{ width: '60%' }} />
           </div>
         ) : (
-            <div>
-              <div className="d-flex flex-row-reverse">
-                <Button
-                  className="mr-5 ml-1"
-                  variant="primary"
-                  onClick={() => this.handleSaveEvent(false)}
-                  disabled={pending}
-                >
-                  Request Publish
+          <div>
+            <div className="d-flex flex-row-reverse">
+              <Button
+                className="mr-5 ml-1"
+                variant="primary"
+                onClick={() => this.handleSaveEvent(false)}
+                disabled={pending}
+              >
+                Request Publish
               </Button>
 
-                <Button
-                  className="mr-2 ml-2"
-                  variant="success"
-                  onClick={() => this.handleSaveEvent(true)}
-                  disabled={pending}
-                >
-                  Save Draft
+              <Button
+                className="mr-2 ml-2"
+                variant="success"
+                onClick={() => this.handleSaveEvent(true)}
+                disabled={pending}
+              >
+                Save Draft
               </Button>
 
-                <Button
-                  variant="success"
-                  onClick={() => this.handleSaveEvent(true, true)}
-                >
-                  Preview
+              <Button
+                variant="success"
+                onClick={() => this.handleSaveEvent(true, true)}
+              >
+                Preview
               </Button>
 
-                <Popover
-                  content={content}
-                  title="Help"
-                  trigger="click"
-                  placement="bottomLeft"
-                >
-                  <QuestionCircleTwoTone style={inconStyle} />
-                </Popover>
-              </div>
+              <Popover
+                content={content}
+                title="Help"
+                trigger="click"
+                placement="bottomLeft"
+              >
+                <QuestionCircleTwoTone style={inconStyle} />
+              </Popover>
+            </div>
 
-              <div className="d-flex">
-                <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
+            <div className="d-flex">
+              <MenuBlockList toggleCollapsed={this.toggleCollapsed} />
 
-                <div
-                  className={
-                    collapsed
-                      ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
-                      : ' mt-1 drop-area  mb-5 p-3 ml-auto'
-                  }
-                >
-                  <div id="header-block">
-                    <EditableHeader editable={editable} />
+              <div
+                className={
+                  collapsed
+                    ? '  mt-1 drop-area  mb-5 move-right p-3 ml-auto'
+                    : ' mt-1 drop-area  mb-5 p-3 ml-auto'
+                }
+              >
+                <div id="header-block">
+                  <EditableHeader editable={editable} />
 
-                    <div className="d-flex">
-                      <p className="mr-2">Current page : </p>
-                      <NavigationMenu />
-                    </div>
+                  <div className="d-flex">
+                    <p className="mr-2">Current page : </p>
+                    <NavigationMenu />
                   </div>
-                  <DropContainer match={match} editable={editable} />
                 </div>
-              </div>
-
-              <div className="d-flex   flex-row-reverse mr-5 mb-5">
-                <Button
-                  variant="info"
-                  className="mr-1 ml-1"
-                  onClick={this.onHandleNext}
-                >
-                  Next Page
-              </Button>
-
-                <Button
-                  variant="secondary"
-                  className="mr-1 ml-1"
-                  onClick={this.handleBack}
-                  disabled={this.isDisablePrevious()}
-                >
-                  Previous Page
-              </Button>
+                <DropContainer match={match} editable={editable} />
               </div>
             </div>
-          )}
+
+            <div className="d-flex   flex-row-reverse mr-5 mb-5">
+              <Button
+                variant="info"
+                className="mr-1 ml-1"
+                onClick={this.onHandleNext}
+              >
+                Next Page
+              </Button>
+
+              <Button
+                variant="secondary"
+                className="mr-1 ml-1"
+                onClick={this.handleBack}
+                disabled={this.isDisablePrevious()}
+              >
+                Previous Page
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -448,6 +470,8 @@ const mapDispatchToProps = (dispatch) => ({
   getEventInfo: (eventId) => dispatch(eventActions.getEventInfo(eventId)),
   getEventDetail: (eventId, index, editSite) =>
     dispatch(eventActions.getEventDetail(eventId, index, editSite)),
+  getEventDetailEdit: (eventId, index, editSite) =>
+    dispatch(eventActions.getEventDetailEdit(eventId, index, editSite)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

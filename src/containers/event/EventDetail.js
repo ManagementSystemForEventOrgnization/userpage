@@ -22,52 +22,58 @@ class EventDetail extends React.Component {
     const param =
       item.style && Object.keys(item.style).length !== 0
         ? {
-          id: item.id,
-          style: item.style,
-          editable: false,
-          match,
-        }
+            id: item.id,
+            style: item.style,
+            editable: false,
+            match,
+          }
         : {
-          id: item.id,
-          editable: false,
-          match,
-        };
+            id: item.id,
+            editable: false,
+            match,
+          };
 
     return blockList[item.type](param);
   };
 
   componentDidMount = () => {
-    const { getEventDetail } = this.props;
+    const { getEventDetail, getComment, handleGetEventInfo } = this.props;
     const { webAddress, currentIndex } = this.state;
     const index = currentIndex ? +localStorage.getItem('currentIndex') : 0;
+    const isLogined = localStorage.getItem('isLogined');
+    const eventId = localStorage.getItem('currentId');
 
-    getEventDetail(webAddress, index)
-      .then(() => {
-        const { getComment, id } = this.props;
-        const eventId = localStorage.getItem('currentId');
-        getComment(id || eventId);
-      })
-      .catch((err) => { });
+    if (isLogined) {
+      getEventDetail(webAddress, index).then(() => {
+        handleGetEventInfo(eventId, () => {
+          getComment(eventId);
+        });
+      });
+    } else {
+      getEventDetail(webAddress, index).then(() => {
+        getComment(eventId);
+      });
+    }
   };
 
   renderHeader = () => {
     const { pages, headerStyle, editable, match } = this.props;
     const param = headerStyle
       ? {
-        id: 'header',
-        editable,
-        match,
-        pages,
-        currentPage: pages[0].id,
-      }
+          id: 'header',
+          editable,
+          match,
+          pages,
+          currentPage: pages[0].id,
+        }
       : {
-        id: 'header',
-        editable,
-        style: headerStyle,
-        match,
-        pages,
-        currentPage: pages[0].id,
-      };
+          id: 'header',
+          editable,
+          style: headerStyle,
+          match,
+          pages,
+          currentPage: pages[0].id,
+        };
     return blockList['header'](param);
   };
 
@@ -98,17 +104,17 @@ class EventDetail extends React.Component {
             size="large"
           />
         ) : (
-            <div>
-              <div className="fixed-top">{this.renderHeader()}</div>
-              <div
-                style={{
-                  marginTop: '5%',
-                }}
-              >
-                {blocks.map((item) => this.renderBlocks(item))}
-              </div>
+          <div>
+            <div className="fixed-top">{this.renderHeader()}</div>
+            <div
+              style={{
+                marginTop: '5%',
+              }}
+            >
+              {blocks.map((item) => this.renderBlocks(item))}
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }
@@ -130,6 +136,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   getComment: (eventId, pageNumber, numberRecord) =>
     dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
+
+  handleGetEventInfo: (eventId, cb) =>
+    dispatch(eventActions.getEventInfoUsingID(eventId, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
