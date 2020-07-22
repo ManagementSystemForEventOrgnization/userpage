@@ -31,7 +31,6 @@ class DropContainer extends React.Component {
     //   type: item.type,
     // }
 
-    console.log(item);
     const param =
       item.style && Object.keys(item.style).length !== 0
         ? {

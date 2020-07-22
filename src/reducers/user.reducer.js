@@ -37,7 +37,6 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
-      console.log(action.user);
       if (action.user.isActive) {
         localStorage.setItem('isLogined', true);
         localStorage.setItem('accessToken', action.user.accessToken.token);
@@ -63,12 +62,13 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_GOOGLE_SUCCESS:
-      localStorage.setItem('isLogined', true);
-      localStorage.setItem('accessToken', action.user.accessToken);
-      localStorage.setItem('username', action.user.fullName);
-      localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._id);
-
+      if (action.user.isActive) {
+        localStorage.setItem('isLogined', true);
+        localStorage.setItem('accessToken', action.user.accessToken.token);
+        localStorage.setItem('username', action.user.fullName);
+        localStorage.setItem('avatar', action.user.avatar);
+        localStorage.setItem('userId', action.user._id);
+      }
       return {
         ...state,
         userInfo: action.user,

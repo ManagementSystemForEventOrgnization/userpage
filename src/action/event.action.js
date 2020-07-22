@@ -80,6 +80,58 @@ const getEventDetail = (eventId, index, editSite) => {
   }
 };
 
+const getEventDetailEdit = (eventId, index, editSite) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get('/event_edit', {
+        params: {
+          eventId,
+          index,
+          editSite,
+        },
+      })
+        .then((res) => {
+          const { rows, header, event } = res.data.result;
+          localStorage.setItem('currentIndex', index);
+          localStorage.setItem('currentId', res.data.result.eventId);
+          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
+
+          let blocks = !rows.length ? [] : rows;
+          dispatch(success(blocks, header[0], index, event));
+          resolve();
+        })
+        .catch((err) => {
+          handleCatch(dispatch, failure, err);
+          reject(err);
+        });
+    });
+  };
+
+  function request() {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_REQUEST,
+    };
+  }
+
+  function success(page, header, index, event) {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
+      page,
+      header,
+      index,
+      event,
+    };
+  }
+
+  function failure(err) {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_FAILURE,
+      err,
+    };
+  }
+};
+
 const getEventEdit = (eventId, route) => {
   return (dispatch) => {
     API.get(`/api/getPageEventEdit`, {
@@ -751,6 +803,7 @@ export const eventActions = {
   getEventEdit,
   getEventInfo,
   getEventInfoUsingID,
+  getEventDetailEdit,
 
   saveEvent,
   savePage,
