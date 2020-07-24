@@ -415,7 +415,6 @@ const mapStateToProps = (state) => ({
   currentPage: state.event.currentPage,
   webAddress: state.event.webAddress,
   pending: state.event.pending,
-  currentIndex: state.event.currentIndex,
 });
 
 const mapDispatchToProps = (dispatch) => ({

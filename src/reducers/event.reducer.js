@@ -26,6 +26,7 @@ const bannerUrl =
   'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
 
 const initialState = {
+  pendingEvent: false,
   nameEvent: '',
   typeOfEvent: 'Public',
   category: '',
@@ -71,10 +72,7 @@ const initialState = {
   upcomingFinishLoading: false,
 
   currentIndex: localStorage.getItem('currentIndex' || 0),
-  domain:
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DOMAIN_EVENT
-      : process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
+  domain: process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -273,7 +271,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_DETAIL_REQUEST:
       return {
         ...state,
-        pending: true,
+        pendingEvent: true,
       };
 
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
@@ -281,7 +279,7 @@ const event = (state = initialState, action) => {
 
       return {
         ...state,
-        pending: false,
+        pendingEvent: false,
         blocks: editSite ? action.page[0] : action.page,
         pages: action.header.pages,
         headerStyle: action.header.style,
@@ -304,7 +302,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         errMessage: action.err,
-        pending: false,
+        pendingEvent: true,
       };
 
     case eventConstants.GET_EVENT_INFO:

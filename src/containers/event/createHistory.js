@@ -17,7 +17,7 @@ import {
   Dropdown,
   Modal,
   Radio,
-  message
+  message,
 } from 'antd';
 
 import {
@@ -217,8 +217,6 @@ class CreateHistory extends React.Component {
     localStorage.setItem('webAddress', url);
     localStorage.setItem('currentId', eventId);
     localStorage.setItem('editSite', url);
-
-
   };
 
   handleURL = (url) => {
@@ -229,44 +227,39 @@ class CreateHistory extends React.Component {
     const { deleteEvent } = this.props;
     const { eventId } = this.state;
 
-    deleteEvent(eventId).then(res => {
+    deleteEvent(eventId)
+      .then((res) => {
+        this.setState({
+          isDeleteMess: false,
+          isupdate: false,
+          isdeletSucces: false,
+          visible: false,
+        });
+        message.success({
+          content: 'you have deleted a event',
+          style: {
+            marginTop: '20vh',
+            fontSize: '16px',
+            fontWeight: 'bold',
+          },
+        });
+      })
+      .catch((error) => {
+        // console.log(error.response.data.error.message)
+        message.error({
+          content: error.response.data.error.message,
+          style: {
+            marginTop: '20vh',
+            fontSize: '16px',
+            fontWeight: 'bold',
+          },
+        });
 
-      this.setState({
-        isDeleteMess: false,
-        isupdate: false,
-        isdeletSucces: false,
-        visible: false
+        // console.log(error);
+        this.setState({
+          visible: false,
+        });
       });
-      message.success({
-        content: 'you have deleted a event',
-        style: {
-          marginTop: '20vh',
-          fontSize: '16px',
-          fontWeight: 'bold'
-
-        },
-      });
-
-    }).catch(error => {
-      console.log(error.response.data.error.message)
-      message.error({
-        content: error.response.data.error.message,
-        style: {
-          marginTop: '20vh',
-          fontSize: '16px',
-          fontWeight: 'bold'
-        },
-      });
-
-      console.log(error);
-      this.setState({
-
-        visible: false
-      });
-    }
-
-    )
-
   };
 
   isShowDelete = (eventId) => {
@@ -336,7 +329,7 @@ class CreateHistory extends React.Component {
       <Menu>
         {sess.map((item, key) => (
           <Menu.Item key={key}>
-            {console.log(item)}
+            {/* {console.log(item)} */}
             <QRCodes
               QrValue={eventId + item._id}
               day={item.day}
@@ -457,11 +450,7 @@ class CreateHistory extends React.Component {
   };
 
   render() {
-    const {
-      sessionEvent,
-      isSuccess,
-      isupdate,
-    } = this.state;
+    const { sessionEvent, isSuccess, isupdate } = this.state;
     const {
       pending,
       arrEvent,
@@ -503,141 +492,141 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                  <div className="row p-2 ">
-                    {listEvent.map((item) => (
-                      <div
-                        className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
-                        key={item._id}
-                      >
-                        <Card
-                          className="event-cart "
-                          cover={
-                            <div>
-                              <Dropdown
-                                overlay={this.renderMenu(item)}
-                                placement="bottomLeft"
-                              >
-                                <Button className="ml-1 mt-1 ticket">
-                                  Action
+                <div className="row p-2 ">
+                  {listEvent.map((item) => (
+                    <div
+                      className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
+                      key={item._id}
+                    >
+                      <Card
+                        className="event-cart "
+                        cover={
+                          <div>
+                            <Dropdown
+                              overlay={this.renderMenu(item)}
+                              placement="bottomLeft"
+                            >
+                              <Button className="ml-1 mt-1 ticket">
+                                Action
                               </Button>
-                              </Dropdown>
+                            </Dropdown>
 
-                              {item.bannerUrl && (
-                                <img
-                                  className="img-baner"
-                                  alt="example"
-                                  src={item.bannerUrl}
-                                />
-                              )}
-                            </div>
-                          }
-                        >
-                          <div className="row">
-                            <div className="d-flex col ">
-                              <p
-                                className="ml-2"
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {moment(
-                                  (item.session &&
-                                    item.session[0] &&
-                                    item.session[0].day) ||
-                                  new Date().toLocaleDateString()
-                                ).format('DD/MM/YYYY ')}
-                              </p>
-                            </div>
-                            <div className="d-flex col ">
-                              <div>
-                                {item.ticket ? (
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ? (
-                                      <div className="d-flex ">
-                                        <p
-                                          style={{
-                                            textDecoration: 'line-through',
-                                            fontWeight: 'bold',
-                                          }}
-                                          className="ml-1 "
-                                        >
-                                          {item.ticket.price}
-                                        </p>
-                                        <p
-                                          className="ml-3"
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {this.sumDiscount(
-                                            item.ticket.price,
-                                            item.ticket.discount
-                                          )}
-                                        </p>
-                                        <div className="col">
-                                          <h4>{item.status}</h4>
-                                        </div>
-                                      </div>
-                                    ) : (
-                                        <p
-                                          className=" mt-1 "
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {item.ticket.price} VNĐ
-                                        </p>
-                                      )}
-                                  </div>
-                                ) : (
-                                    <p
-                                      style={{ fontWeight: 'bold' }}
-                                      className="ml-1  "
-                                    >
-                                      0 VNĐ
-                                    </p>
-                                  )}
-                              </div>
-                            </div>
+                            {item.bannerUrl && (
+                              <img
+                                className="img-baner"
+                                alt="example"
+                                src={item.bannerUrl}
+                              />
+                            )}
                           </div>
-                          <Link to={`/event/${item.urlWeb}`}>
-                            <div className="d-flex ">
-                              <h5
-                                className="ml-2 line-clamp "
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {item.name}
-                              </h5>
-                              <div>
-                                {((item.session && item.session.length) || 1) ===
-                                  1 ? (
-                                    ''
+                        }
+                      >
+                        <div className="row">
+                          <div className="d-flex col ">
+                            <p
+                              className="ml-2"
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {moment(
+                                (item.session &&
+                                  item.session[0] &&
+                                  item.session[0].day) ||
+                                  new Date().toLocaleDateString()
+                              ).format('DD/MM/YYYY ')}
+                            </p>
+                          </div>
+                          <div className="d-flex col ">
+                            <div>
+                              {item.ticket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ? (
+                                    <div className="d-flex ">
+                                      <p
+                                        style={{
+                                          textDecoration: 'line-through',
+                                          fontWeight: 'bold',
+                                        }}
+                                        className="ml-1 "
+                                      >
+                                        {item.ticket.price}
+                                      </p>
+                                      <p
+                                        className="ml-3"
+                                        style={{ fontWeight: 'bold' }}
+                                      >
+                                        {this.sumDiscount(
+                                          item.ticket.price,
+                                          item.ticket.discount
+                                        )}
+                                      </p>
+                                      <div className="col">
+                                        <h4>{item.status}</h4>
+                                      </div>
+                                    </div>
                                   ) : (
                                     <p
-                                      className="ml-2"
+                                      className=" mt-1 "
                                       style={{ fontWeight: 'bold' }}
                                     >
-                                      + {item.session.length - 1}more events
+                                      {item.ticket.price} VNĐ
                                     </p>
                                   )}
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="d-flex ">
-                            <EnvironmentOutlined className="mt-1" />
-                            <div className="d-flex ">
-                              <p className="ml-2 address ">
-                                {item.session &&
-                                  item.session[0] &&
-                                  item.session[0].address.location}
-                              </p>
+                                </div>
+                              ) : (
+                                <p
+                                  style={{ fontWeight: 'bold' }}
+                                  className="ml-1  "
+                                >
+                                  0 VNĐ
+                                </p>
+                              )}
                             </div>
                           </div>
-                        </Card>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        </div>
+                        <Link to={`/event/${item.urlWeb}`}>
+                          <div className="d-flex ">
+                            <h5
+                              className="ml-2 line-clamp "
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {item.name}
+                            </h5>
+                            <div>
+                              {((item.session && item.session.length) || 1) ===
+                              1 ? (
+                                ''
+                              ) : (
+                                <p
+                                  className="ml-2"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  + {item.session.length - 1}more events
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                        <div className="d-flex ">
+                          <EnvironmentOutlined className="mt-1" />
+                          <div className="d-flex ">
+                            <p className="ml-2 address ">
+                              {item.session &&
+                                item.session[0] &&
+                                item.session[0].address.location}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              )}
               {this.ableToLoadMore(arrEvent.length) && (
                 <Button
                   style={{
@@ -671,9 +660,7 @@ class CreateHistory extends React.Component {
           onCancel={this.showModal}
           // footer={null}
           confirmLoading={penDelet}
-        >
-
-        </Modal>
+        ></Modal>
         <Modal
           title="Cancel Event"
           visible={this.state.isShowCancel}

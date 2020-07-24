@@ -19,10 +19,16 @@ class UserNav extends Component {
         ? userInfo.username
         : localStorage.getItem('username');
 
+    // const avatar =
+    //   userInfo && userInfo.avatar
+    //     ? userInfo.avatar
+    //     : localStorage.getItem('avatar');
+
     const avatar =
-      userInfo && userInfo.avatar
-        ? userInfo.avatar
-        : localStorage.getItem('avatar');
+      userInfo && userInfo.avatar === '/avata.png'
+        ? localStorage.getItem('avatar')
+        : userInfo.avatar;
+
     return (
       <div className="user-nav ">
         <input type="checkbox" id="menu" />

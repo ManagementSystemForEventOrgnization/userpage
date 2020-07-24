@@ -91,7 +91,6 @@ class BankAccount extends Component {
     const { bankInfor } = this.state;
     const { pending } = this.props;
     const onFinish = (values) => {
-      console.log(values);
       const { onUpdateBankInfor } = this.props;
       const { bankInfor } = this.state;
 
@@ -148,7 +147,7 @@ class BankAccount extends Component {
               disabled={
                 (this.state.isSaved && !this.props.pending) ||
                 JSON.stringify(this.state.bankInfor) ===
-                JSON.stringify(fistValuebankInfor) ||
+                  JSON.stringify(fistValuebankInfor) ||
                 this.state.isEmpty
               }
               loading={pending}

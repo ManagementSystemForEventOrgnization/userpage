@@ -1,12 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
 
 import { routeConstant } from 'constants/index';
 import NoLayout from './NoLayout';
 import BaseLayout from './BaseLayout';
 import WrapRoute from './WrapRouter';
-// import Homepage from 'pages/HomePage';
 
 class BaseRoute extends React.Component {
   render() {
@@ -35,10 +33,4 @@ class BaseRoute extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isLogined: state.user.isLogined,
-  };
-};
-
-export default connect(mapStateToProps, null)(BaseRoute);
+export default BaseRoute;

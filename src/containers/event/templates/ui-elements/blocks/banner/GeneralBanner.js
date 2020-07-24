@@ -17,7 +17,6 @@ class GeneralBanner extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    console.log(style);
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }

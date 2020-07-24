@@ -40,18 +40,19 @@ const getEventDetail = (eventId, index, editSite) => {
         },
       })
         .then((res) => {
-          const { rows, header, event } = res.data.result;
-          localStorage.setItem('currentIndex', index);
-          localStorage.setItem('currentId', res.data.result.eventId);
-          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
+          const { rows, header, event, eventId } = res.data.result;
+
+          // localStorage.setItem('currentIndex', index);
+          // localStorage.setItem('currentId', res.data.result.eventId);
+          // localStorage.setItem('webAddress', res.data.result.event.urlWeb);
 
           let blocks = !rows.length ? [] : rows;
           dispatch(success(blocks, header[0], index, event));
-          resolve();
+          resolve(eventId);
         })
         .catch((err) => {
           handleCatch(dispatch, failure, err);
-          reject(err);
+          reject();
         });
     });
   };
@@ -241,7 +242,7 @@ const uploadFiles = (fileList) => {
         resolve(res.data.result);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         reject(err);
       });
   });
@@ -295,7 +296,7 @@ const prepareForCreateEvent = (
     )
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
-        console.log('TEST PREPARE : ', res.data.result);
+        // console.log('TEST PREPARE : ', res.data.result);
         localStorage.setItem('currentId', _id);
         localStorage.setItem('webAddress', urlWeb);
         dispatch(
@@ -634,8 +635,6 @@ const getEventInfoUsingID = (eventId, cb) => {
   };
 
   return (dispatch) => {
-    console.log(eventId);
-
     API.get('/api/get_event_info_app', {
       params: {
         eventId,

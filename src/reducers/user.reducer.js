@@ -37,11 +37,15 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
+      const avatarUser =
+        action.user.avatar === '/avata.png'
+          ? 'https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg'
+          : action.user.avatar;
       if (action.user.isActive) {
         localStorage.setItem('isLogined', true);
         localStorage.setItem('accessToken', action.user.accessToken.token);
         localStorage.setItem('username', action.user.fullName);
-        localStorage.setItem('avatar', action.user.avatar);
+        localStorage.setItem('avatar', avatarUser);
         localStorage.setItem('userId', action.user._id);
       }
 
