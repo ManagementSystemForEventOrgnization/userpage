@@ -50,7 +50,7 @@ class ForgotPassword extends React.Component {
             <img alt="logo" src={urlIMG} style={{ width: '90%' }} />
           </Link>
 
-          <div className=" col-sm-6 col-md-6 mt-5 form" style={{ marginBottom: '20%' }}>
+          <div className=" col-sm-6 col-md-6 mt-5 form" >
             <p className="website-name ">Password reset</p>
 
             {showVerifyForgotPassword && !isFirstLoad ? (

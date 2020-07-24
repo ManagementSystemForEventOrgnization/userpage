@@ -41,7 +41,7 @@ class CheckCode extends React.Component {
     return (
       <div className="col  check-code" style={{ marginTop: '10%' }}>
         <p className="notify-enter-code">
-          Hãy nhập mã code(đã được gửi trong gmail) để xác nhận tài khoản{' '}
+          Enter code(sent in email) to activate your account
         </p>
         {!isFirstLoad && message && (
           <div className="error-message mt-2 mb-2">{message}</div>
@@ -54,7 +54,7 @@ class CheckCode extends React.Component {
             name="code"
             onChange={this.onChange}
             onFocus={this.onFocus}
-            placeholder="Nhập mã code xác nhận  ..."
+            placeholder="Enter code to confirm  ..."
           />
 
           <Button
@@ -68,7 +68,7 @@ class CheckCode extends React.Component {
             htmlType="submit"
             onClick={this.handleSendOTP}
           >
-            Xác nhận
+            Confirm
           </Button>
         </div>
       </div>

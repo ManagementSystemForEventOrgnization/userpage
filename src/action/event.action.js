@@ -614,7 +614,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     });
   };
 
@@ -671,7 +671,7 @@ const getComment = (eventId, pageNumber = 1, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function request(comments) {
@@ -756,19 +756,27 @@ const getUserJoinEvent = (dataSent, callback) => {
   }
 };
 
-const cancelEvent = (eventId, sessionIds) => {
+const cancelEvent = (eventId, sessionId) => {
   const accessToken = localStorage.getItem('accessToken');
   const configHeader = {
     Authorization: accessToken,
   };
+  let data = {};
+  if (sessionId) {
+    let sessionIds = [];
+    sessionIds.push(sessionId);
+    data = { eventId, sessionIds }
+  } else {
+    data = { eventId }
+  }
+
+
   return (dispatch) => {
     dispatch(request());
     API.post(
       `/api/cancelEvent`,
-      {
-        eventId,
-        sessionIds,
-      },
+      data
+      ,
       {
         headers: configHeader,
       }

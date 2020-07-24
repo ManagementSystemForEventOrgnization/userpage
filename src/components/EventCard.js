@@ -44,19 +44,19 @@ class EventCard extends Component {
           cover={
             <div>
               {eventInfo.isSellTicket === true ||
-              eventInfo.isSellTicket === 'Yes' ? (
-                <div className="d-flex ">
-                  {eventInfo.ticket.discount ? (
-                    <Button className="ml-1 mt-1 ticket">
-                      {this.percentDiscount(eventInfo.ticket.discount)}
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              ) : (
-                <Button className="ml-1 mt-1 ticket">Free</Button>
-              )}
+                eventInfo.isSellTicket === 'Yes' ? (
+                  <div className="d-flex ">
+                    {eventInfo.ticket.discount ? (
+                      <Button className="ml-1 mt-1 ticket">
+                        {this.percentDiscount(eventInfo.ticket.discount)}
+                      </Button>
+                    ) : (
+                        ''
+                      )}
+                  </div>
+                ) : (
+                  <Button className="ml-1 mt-1 ticket">Free</Button>
+                )}
               {eventInfo.bannerUrl && (
                 <img className="img " alt="example" src={eventInfo.bannerUrl} />
               )}
@@ -67,9 +67,12 @@ class EventCard extends Component {
             <p className="col" style={categoryStyle}>
               {category.name}
             </p>
-            <p className="ml-2 col" style={timeStyle}>
-              {moment(eventInfo.session[0].day).format('DD/MM/YYYY ')}
-            </p>
+            {eventInfo.session[0] &&
+              <p className="ml-2 col" style={timeStyle}>
+                {moment(eventInfo.session[0].day).format('DD/MM/YYYY ')}
+              </p>
+            }
+
           </div>
 
           <div className="d-flex ">
@@ -78,10 +81,10 @@ class EventCard extends Component {
               {eventInfo.session.length === 1 ? (
                 ''
               ) : (
-                <p className="ml-2" style={{ fontWeight: 'bold' }}>
-                  + {eventInfo.session.length - 1}more events
-                </p>
-              )}
+                  <p className="ml-2" style={{ fontWeight: 'bold' }}>
+                    + {eventInfo.session.length - 1}more events
+                  </p>
+                )}
             </div>
           </div>
 
@@ -101,23 +104,25 @@ class EventCard extends Component {
                     </p>
                   </div>
                 ) : (
-                  <p className=" mt-1 " style={netPriceStyle}>
-                    {eventInfo.ticket.price} VNĐ
-                  </p>
-                )}
+                    <p className=" mt-1 " style={netPriceStyle}>
+                      {eventInfo.ticket.price} VNĐ
+                    </p>
+                  )}
               </div>
             ) : (
-              <p style={netPriceStyle} className="ml-1  ">
-                0 VNĐ
-              </p>
-            )}
+                <p style={netPriceStyle} className="ml-1  ">
+                  0 VNĐ
+                </p>
+              )}
           </div>
 
           <div className="d-flex ">
             <EnvironmentOutlined className="mt-1" />
-            <p className="ml-2 address ">
-              {eventInfo.session[0].address.location}
-            </p>
+            {eventInfo.session[0] &&
+              <p className="ml-2 address ">
+                {eventInfo.session[0].address.location}
+              </p>
+            }
           </div>
         </Card>
       </Link>

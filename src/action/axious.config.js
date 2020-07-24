@@ -3,6 +3,6 @@ require('dotenv').config();
 
 export default axios.create({
   baseURL: process.env.REACT_APP_BASE_URL_DEPLOY,
-  // baseURL: process.env.REACT_APP_BASE_URL,
+  //baseURL: process.env.REACT_APP_BASE_URL,
   withCredentials: true,
 });

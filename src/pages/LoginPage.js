@@ -62,10 +62,10 @@ class LoginPage extends React.Component {
           </div>
 
           <div className=" col-sm-6 col-md-6 mt-5  form ">
-            <p className="website-name mt-5">Login</p>
+            <p className="website-name ">Login</p>
 
             {active === false ? (
-              <div style={{ marginBottom: '10%' }}>
+              <div >
                 <CheckCode />
               </div>
             ) : (
