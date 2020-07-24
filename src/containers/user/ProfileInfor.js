@@ -88,6 +88,7 @@ class UpdateProfileInfor extends Component {
 
   render() {
     const { userInfor } = this.state;
+    console.log(userInfor.avatar);
 
     return (
       <div>
@@ -95,7 +96,11 @@ class UpdateProfileInfor extends Component {
           <div className="w3-white w3-text-grey w3-card-4">
             <div className="w3-display-container">
               <img
-                src={userInfor.avatar}
+                src={
+                  userInfor.avatar === '/avata.png'
+                    ? localStorage.getItem('avatar')
+                    : userInfor.avatar
+                }
                 style={{ objectFit: 'contain', width: '100%' }}
                 alt="Avatar"
               />
