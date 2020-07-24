@@ -121,7 +121,6 @@ const user = (state = initialState, action) => {
       };
     case userConstants.CHECK_CODE_SUCCESS:
       localStorage.setItem('isLogined', true);
-      // localStorage.setItem('accessToken', action.user.accessToken);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
       localStorage.setItem('userId', state.userInfo._id);
