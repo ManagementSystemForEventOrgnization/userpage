@@ -53,6 +53,10 @@ class GeneralBanner extends Component {
     });
   };
 
+  componentDidMount = () => {
+    this.handleStoreBlock();
+  };
+
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;

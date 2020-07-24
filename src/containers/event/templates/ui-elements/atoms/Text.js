@@ -18,10 +18,11 @@ class TextsBlock extends React.Component {
     super(props);
     const { style } = this.props;
     this.state = style
-      ? { ...style, focus: false }
+      ? { ...style, focus: false, visible: false }
       : {
           ...TextState(this.props),
           focus: false,
+          visible: false,
         };
   }
 

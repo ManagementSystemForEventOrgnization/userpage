@@ -13,10 +13,11 @@ class DividersBlock extends React.Component {
     const { style } = this.props;
 
     this.state = style
-      ? { ...style }
+      ? { ...style, isDesign: false }
       : {
           ...DividerState(orientation),
           content: 'Text',
+          isDesign: false,
         };
   }
 

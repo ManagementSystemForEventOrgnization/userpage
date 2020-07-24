@@ -41,14 +41,11 @@ const getEventDetail = (eventId, index, editSite) => {
       })
         .then((res) => {
           const { rows, header, event, eventId } = res.data.result;
-
-          // localStorage.setItem('currentIndex', index);
-          // localStorage.setItem('currentId', res.data.result.eventId);
-          // localStorage.setItem('webAddress', res.data.result.event.urlWeb);
-
-          let blocks = !rows.length ? [] : rows;
-          dispatch(success(blocks, header[0], index, event));
-          resolve(eventId);
+          if (rows) {
+            let blocks = !rows.length ? [] : rows;
+            dispatch(success(blocks, header[0], index, event));
+            resolve(eventId);
+          } else reject();
         })
         .catch((err) => {
           handleCatch(dispatch, failure, err);
@@ -448,10 +445,6 @@ const updateEventInfo = (
 };
 
 const storeBlocksWhenCreateEvent = (blocks) => {
-  // console.log('==============CHANGES==================');
-  // console.log(blocks);
-  // console.log('================================');
-
   return (dispatch) => {
     dispatch(request(blocks));
   };
@@ -615,7 +608,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -670,7 +663,7 @@ const getComment = (eventId, pageNumber = 1, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
@@ -764,22 +757,16 @@ const cancelEvent = (eventId, sessionId) => {
   if (sessionId) {
     let sessionIds = [];
     sessionIds.push(sessionId);
-    data = { eventId, sessionIds }
+    data = { eventId, sessionIds };
   } else {
-    data = { eventId }
+    data = { eventId };
   }
-
 
   return (dispatch) => {
     dispatch(request());
-    API.post(
-      `/api/cancelEvent`,
-      data
-      ,
-      {
-        headers: configHeader,
-      }
-    )
+    API.post(`/api/cancelEvent`, data, {
+      headers: configHeader,
+    })
       .then((res) => {
         dispatch(success(res.data.result));
       })

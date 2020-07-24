@@ -102,38 +102,6 @@ class CreateEvent extends React.Component {
         history.push('/');
       }
     }
-
-    // if (urlWeb) {
-    //   getEventInfo(urlWeb)
-    //     .then(() => {
-    //       if (editSite) {
-    //         getEventDetail(urlWeb, 0, true).then(() => {
-    //           this.setState({
-    //             loading: false,
-    //           });
-    //         });
-    //       } else {
-    //         this.setState({
-    //           loading: false,
-    //         });
-    //       }
-
-    //       this.setState({
-    //         loading: false,
-    //       });
-
-    //       // this.getCurrentIndex();
-    //     })
-    //     .catch((err) =>
-    //       this.setState({
-    //         loading: false,
-    //       })
-    //     );
-    // } else {
-    //   this.setState({ loading: false });
-    //   history.push('/');
-    // }
-
     window.scrollTo(0, 0);
   };
 
@@ -158,6 +126,8 @@ class CreateEvent extends React.Component {
     const { pages, handleChangeHeader, blocks, currentPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
+    console.log('HANDLE NEXT : ', pages);
+    window.scrollTo(0, 0);
     this.setState({
       loading: true,
     });
@@ -197,8 +167,6 @@ class CreateEvent extends React.Component {
     this.setState({
       loading: false,
     });
-
-    window.scrollTo(0, 0);
   };
 
   error = (msg) => {
@@ -231,6 +199,7 @@ class CreateEvent extends React.Component {
       saveEvent,
       headerStyle,
       webAddress,
+      currentIndex,
     } = this.props;
 
     const header = [
@@ -242,7 +211,6 @@ class CreateEvent extends React.Component {
     ];
 
     const editSite = localStorage.getItem('editSite');
-    const currentIndex = localStorage.getItem('currentIndex');
     const newBlockList = editSite
       ? [
           ...system.slice(0, currentIndex),
@@ -250,6 +218,8 @@ class CreateEvent extends React.Component {
           ...system.slice(currentIndex + 1, system.length),
         ]
       : [...system, blocks];
+
+    // new block list ?
 
     saveEvent(
       webAddress || localStorage.getItem('webAddress'),
@@ -301,6 +271,8 @@ class CreateEvent extends React.Component {
     const { pages, handlePreviousPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
+    window.scrollTo(0, 0);
+    console.log('HANDLE BACK : ', pages);
 
     if (pages[currentIndex].child.length === 0) {
       newPageId = this.getPreviousId();
@@ -308,7 +280,7 @@ class CreateEvent extends React.Component {
       newPageId = this.getPreviousChildId();
     }
     handlePreviousPage(newPageId);
-    window.scrollTo(0, 0);
+    // handleChangeHeader(pages, currentPage, blocks);
   };
 
   isDisablePrevious = () => {
@@ -331,15 +303,17 @@ class CreateEvent extends React.Component {
 
     const content = (
       <div className="p-3">
-        Create event : Drag each block from menu to below container. <br />
-        Menu for Event : Click edit icon to change each item of menu. <br />
-        Next Page : Move to next page in Menu.
+        <b>Create event </b>: Drag each block from menu to below container.{' '}
         <br />
-        Previous Page : Move to previous page in Menu.
+        <b> Menu for Event </b> : Click edit icon to change each item of menu.{' '}
         <br />
-        Public :Public this page event.
+        <b> Next Page </b> : Move to next page in Menu.
         <br />
-        Preview : Preview this page event. <br />
+        <b>Previous Page </b> : Move to previous page in Menu.
+        <br />
+        <b>Public </b> :Public this page event.
+        <br />
+        <b>Preview </b> : Preview this page event. <br />
       </div>
     );
 
@@ -454,9 +428,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  savePage: (eventId, blocks, header, isPreview) =>
-    dispatch(eventActions.savePage(eventId, blocks, header, isPreview)),
-
   getCurrentUser: () => dispatch(userActions.getCurrentUser()),
 
   handleChangeHeader: (pages, currentPage, blocks) =>
