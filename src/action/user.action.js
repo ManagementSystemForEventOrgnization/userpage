@@ -14,10 +14,11 @@ const login = (email, password) => {
     })
       .then((res) => {
         dispatch(success(res.data.result));
-
+        const webAddress = localStorage.getItem('webAddress');
         if (res.data.result.isActive) {
-          if (history.action === 'PUSH') {
-            history.goBack();
+          if (history.action === 'PUSH' && webAddress) {
+            // history.goBack();
+            history.push(`event/${webAddress}`);
           } else history.push('/');
         }
       })
@@ -43,9 +44,11 @@ const loginWithGoogle = (profile) => {
       profile,
     })
       .then((res) => {
+        const webAddress = localStorage.getItem('webAddress');
         dispatch(success(res.data.result));
-        if (history.action === 'PUSH') {
-          history.goBack();
+        if (history.action === 'PUSH' && webAddress) {
+          // history.goBack();
+          history.push(`event/${webAddress}`);
         } else history.push('/');
       })
       .catch((err) => handleCatch(dispatch, failure, err));
@@ -172,13 +175,12 @@ const checkCode = (token) => {
       headers: configHeader,
     })
       .then((res) => {
-        console.log("res", res);
         dispatch(success());
-        
-        if (history.action === 'PUSH') {
-          history.goBack();
+        const webAddress = localStorage.getItem('webAddress');
+        if (history.action === 'PUSH' && webAddress) {
+          // history.goBack();
+          history.push(`/event/${webAddress}`);
         } else history.push('/');
-
       })
       .catch((error) => {
         handleCatch(dispatch, failure, error);
