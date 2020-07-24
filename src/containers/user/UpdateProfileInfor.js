@@ -168,12 +168,14 @@ class ProfileInfor extends Component {
       '/' +
       birthday.getUTCFullYear()
     ).toString();
+
     return (
       <div className="ProfileInfor shadow p-3 mb-5 bg-white rounded p-3 border">
         {this.errorHandle()}
         {/* start form */}
-        <div className="col">
+        <div className="col" >
           <UploadImage
+
             url={userInfor.avatar}
             handleImageDrop={(value) => {
               this.setState({
@@ -371,7 +373,7 @@ class ProfileInfor extends Component {
                     !(this.state.orgPhone || userInfor.orgPhone === '') ||
                     JSON.stringify(this.state.userInfor) ===
                     JSON.stringify(fistValueUserInfor) ||
-                    (this.state.isSaved && !this.props.pending)
+                    (this.state.isSaved && !this.props.pending && this.state.uploadImage)
                   }
                   onClick={(value) => this.onSave(value)}
                   loading={pending}

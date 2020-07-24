@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Modal, Button } from 'antd';
-import ChangePassword from './ChangePassword'
+import ChangePassword from './ChangePassword';
 class UpdateProfileInfor extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +26,7 @@ class UpdateProfileInfor extends Component {
       visible: false,
       percentOfPersonalInfor: 0,
       percenOfOrgInfor: 0,
-      isShowModel: false
+      isShowModel: false,
     };
 
     this.updatePercentInfor = this.updatePercentInfor.bind(this);
@@ -97,7 +96,7 @@ class UpdateProfileInfor extends Component {
             <div className="w3-display-container">
               <img
                 src={userInfor.avatar}
-                style={{ width: '100%' }}
+                style={{ objectFit: 'contain', width: '100%' }}
                 alt="Avatar"
               />
               <div className="w3-display-bottomleft w3-container w3-text-black">
@@ -121,15 +120,31 @@ class UpdateProfileInfor extends Component {
                 <i className="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal" />
                 {userInfor.phone}
               </p>
-              <Button className="border-0 text-primary" onClick={() => this.setState({ isShowModel: true })}><u><i className="fa fa-key ml-2" aria-hidden="true"></i> change password</u> </Button>
+              <Button
+                className="border-0 text-primary"
+                onClick={() => this.setState({ isShowModel: true })}
+              >
+                <u>
+                  <i className="fa fa-key ml-2" aria-hidden="true"></i> change
+                  password
+                </u>{' '}
+              </Button>
               <hr />
               <p className="w3-large">
-                <Link to="#">
-                  <b>
-                    <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
-                    Profile <u> <small className="float-right" id="1" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit <i className="fa fa-pencil" aria-hidden="true"></i></small></u>
-                  </b>
-                </Link>
+                <b type="button" className="d-flex">
+                  <i className="fa fa-asterisk fa-fw w3-margin-right w3-text-teal" />
+                  Profile
+                  <u className="ml-auto">
+                    <small
+                      className="float-right btn-link"
+                      id="1"
+                      onClick={(e) => this.props.moveTab(e.target.id)}
+                    >
+                      click here to edit
+                      <i className="fa fa-pencil" aria-hidden="true"></i>
+                    </small>
+                  </u>
+                </b>
               </p>
               <p>Personal Information (%)</p>
               <div className="w3-light-grey w3-round-xlarge w3-small">
@@ -153,34 +168,64 @@ class UpdateProfileInfor extends Component {
               </div>
               <hr />
               <p className="w3-large w3-text-theme">
-                <Link to="#">
-                  <b>
-                    <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
-                    Bank Account <u> <small className="float-right" id="2" onClick={(e) => this.props.moveTab(e.target.id)}>click here to edit<i className="fa fa-pencil" aria-hidden="true"></i></small></u>
-                  </b>
-                </Link>
+                <b type="button" className="d-flex">
+                  <i className="fa fa-credit-card-alt fa-fw w3-margin-right w3-text-teal" />
+                  Bank Account{' '}
+                  <u className="ml-auto">
+                    <small
+                      className="float-right btn-link"
+                      id="2"
+                      onClick={(e) => this.props.moveTab(e.target.id)}
+                    >
+                      click here to edit
+                      <i className="fa fa-pencil" aria-hidden="true"></i>
+                    </small>
+                  </u>
+                </b>
               </p>
               <hr />
               <p className="w3-large w3-text-theme">
-                <Link to="#">
-                  <b>
-                    <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
-                    History Payment <u> <small className="float-right" id="3" onClick={(e) => this.props.moveTab(e.target.id)}>detail <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small></u>
-                  </b>
-                </Link>
+                <b type="button" className="d-flex">
+                  <i className="fa fa-history fa-fw w3-margin-right w3-text-teal" />
+                  History Payment
+                  <u className="ml-auto">
+                    <small
+                      className="float-right btn-link"
+                      id="3"
+                      onClick={(e) => this.props.moveTab(e.target.id)}
+                    >
+                      detail
+                      <i
+                        className="fa fa-long-arrow-right"
+                        aria-hidden="true"
+                      ></i>
+                    </small>
+                  </u>
+                </b>
               </p>
               <hr />
               <p className="w3-large w3-text-theme">
-                <Link to="#">
-                  <b>
-                    <i className="fa fa-qrcode fa-fw w3-margin-right w3-text-teal" />
-                    QRCode <u> <small className="float-right" id="4" onClick={(e) => this.props.moveTab(e.target.id)}>detail <i className="fa fa-long-arrow-right" aria-hidden="true"></i></small></u>
-                  </b>
-                </Link>
+                <b type="button" className="d-flex">
+                  <i className="fa fa-qrcode fa-fw w3-margin-right w3-text-teal" />
+                  QRCode{' '}
+                  <u className="ml-auto">
+                    <small
+                      className="float-right btn-link"
+                      id="4"
+                      onClick={(e) => this.props.moveTab(e.target.id)}
+                    >
+                      detail{' '}
+                      <i
+                        className="fa fa-long-arrow-right"
+                        aria-hidden="true"
+                      ></i>
+                    </small>
+                  </u>
+                </b>
               </p>
             </div>
           </div>
-          <br />
+          {/* <br /> */}
           {/* End Left Column */}
         </div>
 
@@ -192,8 +237,7 @@ class UpdateProfileInfor extends Component {
         >
           <ChangePassword />
         </Modal>
-
-      </div >
+      </div>
     );
   }
 }

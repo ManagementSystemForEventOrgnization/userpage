@@ -16,14 +16,14 @@ const { Option } = Select;
 class Sharing extends Component {
   constructor(props) {
     super(props);
-    const { style } = props;
+    const { style, domain, webAddress, nameEvent } = props;
     this.state = style
       ? { ...style, collapse: false }
       : {
           icons: ['Facebook', 'Email'],
           collapse: false,
-          url: 'http://github.com',
-          title: 'Github',
+          url: domain + webAddress,
+          title: nameEvent,
           size: 45,
         };
   }
@@ -223,6 +223,9 @@ class Sharing extends Component {
 
 const mapStateToProps = (state) => ({
   blocks: state.event.blocks,
+  domain: state.event.domain,
+  webAddress: state.event.webAddress,
+  nameEvent: state.event.nameEvent,
 });
 
 const mapDispatchToProps = (dispatch) => ({

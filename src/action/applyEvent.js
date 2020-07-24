@@ -1,14 +1,25 @@
 import API from './axious.config';
 
 const applyEvent = (eventId, sessionIds, payType) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       // dispatch(request());
-      API.post('/api/joinEvent', {
-        eventId,
-        sessionIds,
-        payType,
-      })
+      API.post(
+        '/api/joinEvent',
+        {
+          eventId,
+          sessionIds,
+          payType,
+        },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           if (payType !== 'CREDIT_CARD') {
             resolve(res.data.resultOrder);
@@ -24,12 +35,22 @@ const applyEvent = (eventId, sessionIds, payType) => {
 };
 
 const cancelEvent = (eventId, sessionIds) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      API.post('/api/cancelEvent', {
-        eventId,
-        sessionIds,
-      })
+      API.post(
+        '/api/cancelEvent',
+        {
+          eventId,
+          sessionIds,
+        },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           resolve('true');
         })
@@ -39,12 +60,22 @@ const cancelEvent = (eventId, sessionIds) => {
 };
 
 const handleRePay = (eventId, payType, sessionIds, cb) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
-    API.post('/api/prepayEvent', {
-      eventId,
-      sessionIds,
-      payType,
-    })
+    API.post(
+      '/api/prepayEvent',
+      {
+        eventId,
+        sessionIds,
+        payType,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         cb(res.data.resultOrder, 1);
       })
@@ -54,31 +85,25 @@ const handleRePay = (eventId, payType, sessionIds, cb) => {
   };
 };
 
-const verifyEventMember = (joinUserId, eventId, sessionId) => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      API.post('/api/verifyEventMember', {
-        eventId,
-        sessionId,
-        joinUserId,
-      })
-        .then((res) => {
-          resolve('true');
-          console.log(res.data.result);
-        })
-        .catch((err) => reject(err));
-    });
-  };
-};
-
 const rejectEventMember = (joinUserId, eventId, sessionId) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      API.post('/api/rejectEventMenber', {
-        eventId,
-        sessionId,
-        joinUserId,
-      })
+      API.post(
+        '/api/rejectEventMenber',
+        {
+          eventId,
+          sessionId,
+          joinUserId,
+        },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           resolve('true');
           console.log(res.data.result);
@@ -89,13 +114,23 @@ const rejectEventMember = (joinUserId, eventId, sessionId) => {
 };
 
 const reportUser = (userId, cause, eventId) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      API.post('/api/user/reported', {
-        userId,
-        cause,
-        eventId,
-      })
+      API.post(
+        '/api/user/reported',
+        {
+          userId,
+          cause,
+          eventId,
+        },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           resolve('true');
           console.log(res.data.result);
@@ -109,7 +144,6 @@ export const applyEventActions = {
   applyEvent,
   cancelEvent,
   handleRePay,
-  verifyEventMember,
   rejectEventMember,
   reportUser,
 };

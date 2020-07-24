@@ -80,30 +80,58 @@ const getEventDetail = (eventId, index, editSite) => {
   }
 };
 
-const getEventEdit = (eventId, route) => {
+const getEventDetailEdit = (eventId, index, editSite) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
-    API.get(`/api/getPageEventEdit`, {
-      params: {
-        eventId,
-        route,
-      },
-    })
-      .then((res) => {
-        dispatch(success(res.data.result[0].rows));
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get('/api/event_edit', {
+        params: {
+          eventId,
+          index,
+          editSite,
+        },
+        headers: configHeader,
       })
-      .catch((err) => handleCatch(dispatch, failure, err));
+        .then((res) => {
+          const { rows, header, event } = res.data.result;
+          localStorage.setItem('currentIndex', index);
+          localStorage.setItem('currentId', res.data.result.eventId);
+          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
+
+          let blocks = !rows.length ? [] : rows;
+          dispatch(success(blocks, header[0], index, event));
+          resolve();
+        })
+        .catch((err) => {
+          handleCatch(dispatch, failure, err);
+          reject(err);
+        });
+    });
   };
 
-  function success(page) {
+  function request() {
     return {
-      type: eventConstants.GET_EVENT_EDIT,
+      type: eventConstants.GET_EVENT_DETAIL_REQUEST,
+    };
+  }
+
+  function success(page, header, index, event) {
+    return {
+      type: eventConstants.GET_EVENT_DETAIL_SUCCESS,
       page,
+      header,
+      index,
+      event,
     };
   }
 
   function failure(err) {
     return {
-      type: eventConstants.GET_EVENT_EDIT_FAILURE,
+      type: eventConstants.GET_EVENT_DETAIL_FAILURE,
       err,
     };
   }
@@ -153,20 +181,6 @@ const getPreviousPage = (currentPage) => {
     return {
       type: eventConstants.GET_PREVIOUS_PAGE,
       currentPage,
-    };
-  }
-};
-
-const updatePage = (route, innerHtml, editable) => {
-  return (dispatch) => {
-    dispatch(request(route, innerHtml, editable));
-  };
-  function request(route, innerHtml, editable) {
-    return {
-      type: eventConstants.UPDATE_PAGE,
-      route,
-      innerHtml,
-      editable,
     };
   }
 };
@@ -253,20 +267,32 @@ const prepareForCreateEvent = (
   bannerUrl,
   ticket
 ) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     dispatch(request());
-    const domain = process.env.REACT_APP_DOMAIN_EVENT;
-    API.post('/api/save/event', {
-      name: nameEvent,
-      typeOfEvent,
-      category,
-      urlWeb: webAddress,
-      session,
-      isSellTicket: isSellTicket === 'Yes' ? true : false,
-      bannerUrl,
-      ticket,
-      domain,
-    })
+    const domain = process.env.REACT_APP_DOMAIN_EVENT_DEPLOY;
+
+    API.post(
+      '/api/save/event',
+      {
+        name: nameEvent,
+        typeOfEvent,
+        category,
+        urlWeb: webAddress,
+        session,
+        isSellTicket: isSellTicket === 'Yes' ? true : false,
+        bannerUrl,
+        ticket,
+        domain,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
         console.log('TEST PREPARE : ', res.data.result);
@@ -338,21 +364,31 @@ const updateEventInfo = (
   ticket,
   cb
 ) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    const domain = process.env.REACT_APP_DOMAIN_EVENT;
-    API.post('/api/update/event', {
-      eventId,
-      name: nameEvent,
-      typeOfEvent,
-      category,
-      urlWeb: webAddress,
-      session,
-      isSellTicket: isSellTicket === 'Yes' ? true : false,
-      bannerUrl,
-      ticket,
-      domain,
-    })
+    const domain = process.env.REACT_APP_DOMAIN_EVENT_DEPLOY;
+    API.post(
+      '/api/update/event',
+      {
+        eventId,
+        name: nameEvent,
+        typeOfEvent,
+        category,
+        urlWeb: webAddress,
+        session,
+        isSellTicket: isSellTicket === 'Yes' ? true : false,
+        bannerUrl,
+        ticket,
+        domain,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         const { _id } = res.data.result;
 
@@ -411,6 +447,10 @@ const updateEventInfo = (
 };
 
 const storeBlocksWhenCreateEvent = (blocks) => {
+  // console.log('==============CHANGES==================');
+  // console.log(blocks);
+  // console.log('================================');
+
   return (dispatch) => {
     dispatch(request(blocks));
   };
@@ -506,12 +546,22 @@ const getListEventUpComing = (pageNumber, numberRecord) => {
 };
 
 const saveEvent = (id, blocks, header, isPreview) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   const eventId = id || localStorage.getItem('webAddress');
 
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       dispatch(request());
-      API.post('/api/save/page_event', { eventId, blocks, header, isPreview })
+      API.post(
+        '/api/save/page_event',
+        { eventId, blocks, header, isPreview },
+        {
+          headers: configHeader,
+        }
+      )
         .then((res) => {
           dispatch(success());
           localStorage.removeItem('currentIndex');
@@ -578,11 +628,19 @@ const getEventInfo = (urlWeb) => {
 };
 
 const getEventInfoUsingID = (eventId, cb) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
-    API.get('/api/get_event_inf', {
+    console.log(eventId);
+
+    API.get('/api/get_event_info_app', {
       params: {
         eventId,
       },
+      headers: configHeader,
     })
       .then((res) => {
         cb(res.data.result.event);
@@ -600,7 +658,7 @@ const getEventInfoUsingID = (eventId, cb) => {
   }
 };
 
-const getComment = (eventId, pageNumber, numberRecord) => {
+const getComment = (eventId, pageNumber = 1, numberRecord) => {
   return (dispatch) => {
     API.get('/api/comment/get_list', {
       params: {
@@ -620,17 +678,29 @@ const getComment = (eventId, pageNumber, numberRecord) => {
     return {
       type: eventConstants.GET_COMMENT,
       comments,
+      cmtPageNumber: pageNumber,
     };
   }
 };
 
 const saveComment = (eventId, content) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
+
   return (dispatch) => {
     dispatch(request());
-    API.post('/api/comment/save', {
-      eventId,
-      content,
-    })
+    API.post(
+      '/api/comment/save',
+      {
+        eventId,
+        content,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         const { result } = res.data;
         dispatch(success(result));
@@ -687,23 +757,27 @@ const getUserJoinEvent = (dataSent, callback) => {
 };
 
 const cancelEvent = (eventId, sessionIds) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const configHeader = {
+    Authorization: accessToken,
+  };
   return (dispatch) => {
     dispatch(request());
-    API.post(`/api/cancelEvent`, {
-      eventId,
-      sessionIds,
-    })
+    API.post(
+      `/api/cancelEvent`,
+      {
+        eventId,
+        sessionIds,
+      },
+      {
+        headers: configHeader,
+      }
+    )
       .then((res) => {
         dispatch(success(res.data.result));
       })
       .catch((error) => {
-        const { data } = error.response;
-        if (data.error) {
-          return dispatch(
-            failure(data.error.message) || 'OOPs! something wrong'
-          );
-        }
-        return dispatch(failure(error) || 'OOPs! something wrong');
+        handleCatch(dispatch, failure, error);
       });
   };
   function request() {
@@ -725,7 +799,6 @@ const cancelEvent = (eventId, sessionIds) => {
   }
 };
 
-
 export const eventActions = {
   storeBlocksWhenCreateEvent,
   getCategories,
@@ -741,13 +814,12 @@ export const eventActions = {
 
   getEventDetail,
   getListEventUpComing,
-  getEventEdit,
   getEventInfo,
   getEventInfoUsingID,
+  getEventDetailEdit,
 
   saveEvent,
   savePage,
-  updatePage,
 
   getPreviousPage,
   getListEvent,

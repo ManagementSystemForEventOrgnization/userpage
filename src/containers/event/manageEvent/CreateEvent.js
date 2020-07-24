@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { v4 as uuid } from 'uuid';
 import { Popover, message } from 'antd';
-import {
-  QuestionCircleTwoTone,
-  CheckCircleFilled,
-  CloseCircleFilled,
-} from '@ant-design/icons';
+import { QuestionCircleTwoTone } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
 import { userActions } from 'action/user.action';
+import history from 'utils/history';
 
 import DropContainer from '../templates/DropContainer';
 import MenuBlockList from '../MenuBlockList';
@@ -72,32 +69,16 @@ class CreateEvent extends React.Component {
   };
 
   componentDidMount = () => {
-    const { getEventInfo, getEventDetail } = this.props;
+    const { getEventInfo, getEventDetailEdit } = this.props;
     const urlWeb = localStorage.getItem('webAddress');
     const editSite = localStorage.getItem('editSite');
-
-    window.scrollTo(0, 0);
-
-    if (urlWeb) {
-      getEventInfo(urlWeb)
+    //getEventDetail
+    if (editSite && urlWeb) {
+      getEventDetailEdit(urlWeb, 0, true)
         .then(() => {
-          if (editSite) {
-            getEventDetail(urlWeb, 0, true).then(() => {
-              this.setState({
-                loading: false,
-              });
-            });
-          } else {
-            this.setState({
-              loading: false,
-            });
-          }
-
           this.setState({
             loading: false,
           });
-
-          // this.getCurrentIndex();
         })
         .catch((err) =>
           this.setState({
@@ -105,8 +86,55 @@ class CreateEvent extends React.Component {
           })
         );
     } else {
-      this.setState({ loading: false });
+      if (urlWeb) {
+        getEventInfo(urlWeb)
+          .then(() => {
+            this.setState({
+              loading: false,
+            });
+          })
+          .catch((err) =>
+            this.setState({
+              loading: false,
+            })
+          );
+      } else {
+        history.push('/');
+      }
     }
+
+    // if (urlWeb) {
+    //   getEventInfo(urlWeb)
+    //     .then(() => {
+    //       if (editSite) {
+    //         getEventDetail(urlWeb, 0, true).then(() => {
+    //           this.setState({
+    //             loading: false,
+    //           });
+    //         });
+    //       } else {
+    //         this.setState({
+    //           loading: false,
+    //         });
+    //       }
+
+    //       this.setState({
+    //         loading: false,
+    //       });
+
+    //       // this.getCurrentIndex();
+    //     })
+    //     .catch((err) =>
+    //       this.setState({
+    //         loading: false,
+    //       })
+    //     );
+    // } else {
+    //   this.setState({ loading: false });
+    //   history.push('/');
+    // }
+
+    window.scrollTo(0, 0);
   };
 
   componentWillUnmount = () => {
@@ -132,7 +160,6 @@ class CreateEvent extends React.Component {
     this.setState({
       loading: true,
     });
-    window.scrollTo(0, 0);
 
     if (currentIndex === pages.length - 1) {
       if (pages[currentIndex].child.length === 0) {
@@ -169,36 +196,29 @@ class CreateEvent extends React.Component {
     this.setState({
       loading: false,
     });
+
+    window.scrollTo(0, 0);
   };
 
   error = (msg) => {
     message.error({
-      content: (
-        <p style={{ marginTop: '25%' }}>
-          <CloseCircleFilled className="mr-3" style={{ color: 'red' }} />
-          OPPs! Something is wrong !
-        </p>
-      ),
+      content: 'OPPs! Something is wrong !',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold',
+      },
     });
   };
 
   success = (msg) => {
     message.success({
-      content: (
-        <p
-          style={{
-            marginTop: '25%',
-          }}
-        >
-          <CheckCircleFilled
-            className="mr-3"
-            style={{
-              color: 'green',
-            }}
-          />
-          Save Success
-        </p>
-      ),
+      content: 'Save success',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold',
+      },
     });
   };
 
@@ -280,7 +300,6 @@ class CreateEvent extends React.Component {
     const { pages, handlePreviousPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
-    window.scrollTo(0, 0);
 
     if (pages[currentIndex].child.length === 0) {
       newPageId = this.getPreviousId();
@@ -288,6 +307,7 @@ class CreateEvent extends React.Component {
       newPageId = this.getPreviousChildId();
     }
     handlePreviousPage(newPageId);
+    window.scrollTo(0, 0);
   };
 
   isDisablePrevious = () => {
@@ -450,6 +470,8 @@ const mapDispatchToProps = (dispatch) => ({
   getEventInfo: (eventId) => dispatch(eventActions.getEventInfo(eventId)),
   getEventDetail: (eventId, index, editSite) =>
     dispatch(eventActions.getEventDetail(eventId, index, editSite)),
+  getEventDetailEdit: (eventId, index, editSite) =>
+    dispatch(eventActions.getEventDetailEdit(eventId, index, editSite)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

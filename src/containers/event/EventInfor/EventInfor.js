@@ -184,8 +184,9 @@ class EventInfor extends Component {
           <div style={errorStyle}>{errMessage || customMessage}</div>
         )}
 
-        <Tabs activeKey={activeKey} onTabClick={this.handleClickTab}>
+        <Tabs activeKey={activeKey} onTabClick={this.handleClickTab} style={{ fontSize: '24px', fontWeight: 500 }}  >
           <TabPane
+
             tab={
               <span className="pl-5 pr-5 ml-5 mr-5">
                 <SettingTwoTone />
@@ -198,7 +199,8 @@ class EventInfor extends Component {
             }}
           >
             <Collapse defaultActiveKey="1">
-              <Panel header="Basic information" key="1">
+              <Panel header="Basic information" key="1"  >
+
                 <What
                   onChange={this.onChange}
                   nameEvent={nameEvent}
@@ -206,6 +208,7 @@ class EventInfor extends Component {
                   webAddress={webAddress}
                   categories={categories}
                 />
+
               </Panel>
               <Panel header="More information" key="2">
                 <Which

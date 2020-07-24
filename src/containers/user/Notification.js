@@ -14,7 +14,7 @@ const timeStyle = {
   fontSize: '10px',
 };
 
-let page = 2;
+let page = 1;
 
 class Notification extends Component {
   constructor(props) {
@@ -28,29 +28,25 @@ class Notification extends Component {
   }
 
   componentDidMount = () => {
-    const { getListNotification } = this.props;
-    getListNotification();
+    if (page === 1) {
+      const { getListNotification } = this.props;
+      getListNotification();
+    }
   };
 
   loadMoreNotification = () => {
     if (this.props.isLoadedMore) {
+      page += 1;
       this.setState({
         loading: true,
       });
       this.props.getListNotification(page);
-      page += 1;
     }
   };
 
   handleLoadLatest = () => {
-    this.setState({
-      loading: true,
-    });
     page = 1;
     this.props.getListNotification(page);
-    this.setState({
-      loading: false,
-    });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -159,7 +155,9 @@ class Notification extends Component {
                     : history.push('/profile')
                 }
               >
-                {this.getNameSender(item.title, item.users_sender.fullName)}
+                <b>
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </b>
               </h6>
             )}
           </div>
@@ -172,6 +170,7 @@ class Notification extends Component {
               {!item.isRead && (
                 <Tooltip title="Mask as read" className="mr-2">
                   <CheckCircleTwoTone
+                    type="button"
                     onClick={() => this.handleMarkAsRead(item._id)}
                   />
                 </Tooltip>
@@ -179,6 +178,7 @@ class Notification extends Component {
 
               <Tooltip title="Delete">
                 <DeleteOutlined
+                  type="button"
                   onClick={() => this.handleDeleleNotification(item._id)}
                 />
               </Tooltip>
@@ -193,6 +193,11 @@ class Notification extends Component {
     const { data, loading } = this.state;
     return (
       <div className="demo-infinite-container">
+        {this.props.pending && (
+          <div className="demo-loading-container">
+            <Spin />
+          </div>
+        )}
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
@@ -200,30 +205,20 @@ class Notification extends Component {
           hasMore={!loading}
           useWindow={false}
         >
-          {/* <a className="float-right" onClick={() => this.handleLoadLatest}><i className="fa fa-arrow-up" aria-hidden="true"></i></a> */}
-          <p
+          <button
             type="button"
-            className="fa-fw w3-margin-right w3-text-teal"
+            className="btn btn-link"
             style={{ width: '100px' }}
             onClick={() => this.handleLoadLatest()}
+            disabled={this.props.pending}
           >
-            Load more <i className="fa fa-arrow-up" aria-hidden="true"></i>
-          </p>
-          {loading && (
-            <div className="demo-loading-container">
-              <Spin />
-            </div>
-          )}
+            Reload
+            <i className="fa fa-arrow-up" aria-hidden="true"></i>
+          </button>
           <List
             dataSource={data}
             renderItem={(item) => this.renderNotification(item)}
-          >
-            {/* {loading && (
-              <div className="demo-loading-container">
-                <Spin />
-              </div>
-            )} */}
-          </List>
+          ></List>
         </InfiniteScroll>
       </div>
     );
@@ -233,6 +228,7 @@ class Notification extends Component {
 const mapStateToProps = (state) => ({
   notifications: state.user.notifications,
   isLoadedMore: state.user.isLoadedMore,
+  pending: state.user.pending,
 });
 
 const mapDispatchToProps = (dispatch) => ({

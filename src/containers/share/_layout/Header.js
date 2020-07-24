@@ -17,18 +17,16 @@ class Header extends React.Component {
   }
 
   componentDidMount = () => {
-    // nó bị call trước khi nhận đc data về hay qq gì á méo bie
     const { getNumUnreadNotification, isLogined, pending } = this.props;
     if (isLogined && !pending) {
       getNumUnreadNotification();
     }
   };
-  // r giờ sao trên kia nó vẫn cso mà call api k k có cái req.usser
+
   handleVisibleChange = (visible) => {
     const { isLogined } = this.props;
     if (isLogined) {
-      this.setState({ visible, open: !this.state.open });
-      this.props.getNumUnreadNotification();
+      this.setState({ visible, open: true });
     }
   };
 
@@ -65,29 +63,29 @@ class Header extends React.Component {
                       className="mt-2"
                       type="button"
                     >
-                      <BellOutlined style={{ fontSize: 23 }} />
+                      <BellOutlined style={{ fontSize: 23 }} type="button" />
                     </Badge>
                   ) : (
-                      <div type="button">
-                        <BellOutlined style={{ fontSize: 20 }} />
-                      </div>
-                    )}
+                    <div type="button">
+                      <BellOutlined style={{ fontSize: 20 }} type="button" />
+                    </div>
+                  )}
                 </Popover>
 
                 <UserNav />
               </div>
             ) : (
-                <div className="d-flex">
-                  <Link className="mr-4 login" to="/login">
-                    Login
+              <div className="d-flex">
+                <Link className="mr-4 login" to="/login">
+                  Login
                 </Link>
-                  <Link to="/signup" className=" mr-3 register">
-                    <Button size="large" type="danger">
-                      Register for free
+                <Link to="/signup" className=" mr-3 register">
+                  <Button size="large" type="danger">
+                    Register for free
                   </Button>
-                  </Link>
-                </div>
-              )}
+                </Link>
+              </div>
+            )}
           </div>
         </nav>
       </div>

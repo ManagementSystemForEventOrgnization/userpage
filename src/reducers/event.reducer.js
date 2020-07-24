@@ -6,7 +6,7 @@ import { eventConstants } from 'constants/index';
 const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[2], //banner
-  ...dataTest[0].value,
+  //...dataTest[0].value,
   dataTest[2].value[0], // event description
   ...dataTest[13].value, //list of link documents
   ...dataTest[3].value, // speaker, card
@@ -19,7 +19,7 @@ const initialBlocks = [
   dataTest[14].value[0], //sharing
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
-  dataTest[11].value[1], // footer,
+  ...dataTest[11].value, // footer,
 ];
 
 const bannerUrl =
@@ -71,6 +71,10 @@ const initialState = {
   upcomingFinishLoading: false,
 
   currentIndex: localStorage.getItem('currentIndex' || 0),
+  domain:
+    process.env.NODE_ENV === 'development'
+      ? process.env.REACT_APP_DOMAIN_EVENT
+      : process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -317,6 +321,7 @@ const event = (state = initialState, action) => {
 
         countComment: action.countComment,
         status: action.eventInfo.status,
+        domain: action.eventInfo.domain,
       };
 
     case eventConstants.SAVE_EVENT_DETAIL:
@@ -396,10 +401,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId - 1),
-                action.blocks,
-                ...state.system.slice(nextId, state.system.length),
-              ],
+              ...state.system.slice(0, nextId - 1),
+              action.blocks,
+              ...state.system.slice(nextId, state.system.length),
+            ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
@@ -459,7 +464,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_COMMENT:
       return {
         ...state,
-        comments: [...state.comments, ...action.comments],
+        comments: action.cmtPageNumber === 1 ? [...action.comments] : [...state.comments, ...action.comments],
       };
 
     case eventConstants.SAVE_COMMENT:

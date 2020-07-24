@@ -15,7 +15,6 @@ import {
   FileDoneOutlined,
   CloseOutlined,
   DeleteOutlined,
-  CheckOutlined,
 } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -29,7 +28,7 @@ class ManageEvent extends React.Component {
     super(props);
     this.state = {
       joinUser: [],
-      txtCause: ' ',
+      txtCause: '',
       visible: false,
       joinEvent: [],
       background: '',
@@ -83,28 +82,6 @@ class ManageEvent extends React.Component {
     });
   };
 
-  onApproveMember = (joinUserId, sessionIds) => {
-    const { verifyEventMember, match } = this.props;
-    let id = match.match.params.id;
-    verifyEventMember(joinUserId, id, sessionIds)
-      .then((res) => {
-        this.setState({
-          background: 'green',
-        });
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        if (data.error) {
-          notification.error({
-            message: data.error.message,
-            style: {
-              marginTop: '20%',
-            },
-          });
-        }
-      });
-  };
-
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
     let id = match.match.params.id;
@@ -145,7 +122,7 @@ class ManageEvent extends React.Component {
 
   render() {
     const { userJoinEvent } = this.props;
-    const { txtCause, joinEvent, background } = this.state;
+    const { txtCause, joinEvent } = this.state;
 
     return (
       <>
@@ -282,15 +259,6 @@ class ManageEvent extends React.Component {
                   <div className="row">
                     <div className="col">
                       <Button
-                        style={{ background }}
-                        onClick={() => this.onApproveMember(joinEvent._id, id)}
-                        shape="circle"
-                      >
-                        <CheckOutlined style={{ fontSize: '15px' }} />{' '}
-                      </Button>
-                    </div>
-                    <div className="col">
-                      <Button
                         style={{ background: this.state.backReject }}
                         onClick={() =>
                           this.onRejectEventMember(joinEvent._id, id)
@@ -318,10 +286,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getUserJoinEvent: (dataSent, callback) =>
     dispatch(eventActions.getUserJoinEvent(dataSent, callback)),
-  verifyEventMember: (joinUserId, eventId, sessionIds) =>
-    dispatch(
-      applyEventActions.verifyEventMember(joinUserId, eventId, sessionIds)
-    ),
+
   rejectEventMember: (joinUserId, eventId, sessionIds) =>
     dispatch(
       applyEventActions.rejectEventMember(joinUserId, eventId, sessionIds)

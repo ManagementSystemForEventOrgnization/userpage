@@ -4,7 +4,7 @@ const initialState = {
   isLogined: localStorage.getItem('isLogined'),
   errMessage: null,
   pending: false,
-  userInfo: null,
+  userInfo: {},
   active: null,
   showCheckCode: false,
   showVerifyForgotPassword: false,
@@ -37,10 +37,13 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_SUCCESS:
-      localStorage.setItem('isLogined', true);
-      localStorage.setItem('username', action.user.fullName);
-      localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._id);
+      if (action.user.isActive) {
+        localStorage.setItem('isLogined', true);
+        localStorage.setItem('accessToken', action.user.accessToken.token);
+        localStorage.setItem('username', action.user.fullName);
+        localStorage.setItem('avatar', action.user.avatar);
+        localStorage.setItem('userId', action.user._id);
+      }
 
       return {
         ...state,
@@ -59,11 +62,13 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.LOGIN_GOOGLE_SUCCESS:
-      localStorage.setItem('isLogined', true);
-      localStorage.setItem('username', action.user.fullName);
-      localStorage.setItem('avatar', action.user.avatar);
-      localStorage.setItem('userId', action.user._id);
-
+      if (action.user.isActive) {
+        localStorage.setItem('isLogined', true);
+        localStorage.setItem('accessToken', action.user.accessToken.token);
+        localStorage.setItem('username', action.user.fullName);
+        localStorage.setItem('avatar', action.user.avatar);
+        localStorage.setItem('userId', action.user._id);
+      }
       return {
         ...state,
         userInfo: action.user,
@@ -88,6 +93,8 @@ const user = (state = initialState, action) => {
       };
 
     case userConstants.REGISTER_SUCCESS:
+      localStorage.setItem('accessToken', action.user.accessToken.token);
+
       return {
         ...state,
         pending: false,
@@ -110,6 +117,7 @@ const user = (state = initialState, action) => {
       };
     case userConstants.CHECK_CODE_SUCCESS:
       localStorage.setItem('isLogined', true);
+      // localStorage.setItem('accessToken', action.user.accessToken);
       localStorage.setItem('username', state.userInfo.fullName);
       localStorage.setItem('avatar', state.userInfo.avatar);
       localStorage.setItem('userId', state.userInfo._id);
@@ -135,6 +143,7 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('userId');
       localStorage.removeItem('currentSocket');
       localStorage.removeItem('currentIndex');
+      localStorage.removeItem('accessToken');
 
       localStorage.removeItem('currentId');
       localStorage.removeItem('webAddress');
@@ -144,6 +153,7 @@ const user = (state = initialState, action) => {
         userInfo: null,
         isLogined: false,
         pending: false,
+        chatHistory: [],
       };
 
     case userConstants.GET_CURRENT_USER_REQUEST:
@@ -297,10 +307,13 @@ const user = (state = initialState, action) => {
         pending: true,
       };
     case userConstants.UPDATE_USER_PROFILE_SUCESS:
+      localStorage.setItem('avatar', action.user.avatar);
+      localStorage.setItem('username', action.user.fullName);
       return {
         ...state,
         pending: false,
         userInfo: action.user,
+        errMessage: null,
       };
     case userConstants.UPDATE_USER_PROFILE_FAILURE:
       return {
@@ -411,9 +424,15 @@ const user = (state = initialState, action) => {
         pending: true,
         errMessage: action.error,
       };
+    case userConstants.GET_LIST_NOTIFICATION_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
     case userConstants.GET_LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
+        pending: false,
         isLoadedMore: action.notifications.length === 10 ? true : false,
         notifications:
           action.notiPageNumber === 1
@@ -425,6 +444,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_LIST_NOTIFICATION_FAILURE:
       return {
         ...state,
+        pending: false,
         errMessage: action.error,
       };
     case userConstants.GET_HISTORY_CREATE_REQUEST:
@@ -458,6 +478,8 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('isLogined');
       localStorage.removeItem('username');
       localStorage.removeItem('avatar');
+      localStorage.removeItem('accessToken');
+
       return {
         ...state,
         isLogined: false,

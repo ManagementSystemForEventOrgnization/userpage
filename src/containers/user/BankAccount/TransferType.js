@@ -52,7 +52,7 @@ class TransferType extends React.Component {
         changeStatusType={() => this.setState({ creditCard: false })}
       />
     ) : (
-      <div className="transfer_type">
+      <div className="transfer_type ">
         <h3 className=" w3-text-teal text-center mt-5 mb-5">
           <u>
             <i className="fa fa-money" aria-hidden="true"></i> Select your

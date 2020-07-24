@@ -27,7 +27,15 @@ class ApplyEventModal extends Component {
   };
 
   warning = (msg) => {
-    message.warning(msg || 'OPPs! Something is wrong');
+    message.warning({
+      content: msg || 'OPPs! Something is wrong',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold'
+
+      },
+    });
   };
 
   success = (type) => {
@@ -128,8 +136,24 @@ class ApplyEventModal extends Component {
         } else {
           if (res.response) {
             const { data } = res.response;
-            message.error(data.error.message);
-          } else message.error('RePay fail !');
+            message.error({
+              content: data.error.message,
+              style: {
+                marginTop: '20vh',
+                fontSize: '16px',
+                fontWeight: 'bold'
+
+              },
+            });
+          } else message.error({
+            content: 'Repay fail',
+            style: {
+              marginTop: '20vh',
+              fontSize: '16px',
+              fontWeight: 'bold'
+
+            },
+          });
         }
       });
     }
@@ -139,9 +163,9 @@ class ApplyEventModal extends Component {
     const { session, openDrawer, currSsId } = this.state;
     const { ticket, id, isSellTicket } = this.props;
     return (
-      <div>
+      <div className="ml-2 mr-2">
         {session.map((ss) => (
-          <div key={ss.id} className="d-flex justify-content-around">
+          <div key={ss.id} className="d-flex justify-content-between">
             <p>
               {moment(ss.day).format('LLL')} - {ss.name}
             </p>
@@ -157,18 +181,18 @@ class ApplyEventModal extends Component {
                   Cancel Session
                 </Button>
               ) : (
-                <Button
-                  type="primary"
-                  className="mt-2"
-                  disabled={ss.isCancel}
-                  loading={ss.pending}
-                  onClick={() => this.handleClick(ss.id, 'APPLY')}
-                >
-                  {!isSellTicket || isSellTicket === 'No'
-                    ? 'Register free'
-                    : 'Buy Ticket '}
-                </Button>
-              )
+                  <Button
+                    type="primary"
+                    className="mt-2"
+                    disabled={ss.isCancel}
+                    loading={ss.pending}
+                    onClick={() => this.handleClick(ss.id, 'APPLY')}
+                  >
+                    {!isSellTicket || isSellTicket === 'No'
+                      ? 'Register free'
+                      : 'Buy Ticket '}
+                  </Button>
+                )
             ) : ss.paymentId.status === 'PAID' ? (
               <Button
                 type="primary"
@@ -180,26 +204,26 @@ class ApplyEventModal extends Component {
                 Cancel this session
               </Button>
             ) : (
-              <div className="d-flex">
-                <Button
-                  onClick={() => this.handleClick(ss.id, 'REPAY')}
-                  type="primary"
-                  className="mr-2"
-                  disabled={ss.isCancel}
-                >
-                  RePay
+                  <div className="d-flex">
+                    <Button
+                      onClick={() => this.handleClick(ss.id, 'REPAY')}
+                      type="primary"
+                      className="mr-2"
+                      disabled={ss.isCancel}
+                    >
+                      RePay
                 </Button>
 
-                <Button
-                  onClick={() => this.handleClick(ss.id, 'CANCEL')}
-                  disabled={ss.isCancel}
-                  type="danger"
-                  loading={ss.pending}
-                >
-                  Cancel
+                    <Button
+                      onClick={() => this.handleClick(ss.id, 'CANCEL')}
+                      disabled={ss.isCancel}
+                      type="danger"
+                      loading={ss.pending}
+                    >
+                      Cancel
                 </Button>
-              </div>
-            )}
+                  </div>
+                )}
           </div>
         ))}
 
@@ -209,6 +233,7 @@ class ApplyEventModal extends Component {
           closable={false}
           onClose={this.handleCloseDrawer}
           visible={openDrawer}
+          style={{ zIndex: '5000' }}
         >
           <h6>Let's complete some last steps.</h6>
           <p>
@@ -221,7 +246,7 @@ class ApplyEventModal extends Component {
                 textShadow: '0 0 3px #fb2020',
               }}
             >
-              {ticket.price - ticket.price * ticket.discount}
+              {ticket.price - (ticket.price * ticket.discount) / 100}
             </b>{' '}
             VND
           </p>

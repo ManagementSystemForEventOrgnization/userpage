@@ -17,6 +17,7 @@ class GeneralBanner extends Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
+    console.log(style);
     this.state =
       style && Object.keys(style).length !== 0
         ? { ...style, visible: false }
@@ -27,6 +28,7 @@ class GeneralBanner extends Component {
   }
 
   openModal = () => this.setState({ visible: true });
+
   closeModal = () => {
     this.setState({ visible: false });
     this.handleStoreBlock();
@@ -82,7 +84,6 @@ class GeneralBanner extends Component {
   handleChangeContent = (type, value) => {
     let { content } = this.state;
     content[type] = value;
-
     this.setState(content);
     setTimeout(this.handleStoreBlock(), 3000);
   };

@@ -17,8 +17,9 @@ class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
+    console.log('TEXT STYLE', style);
     this.state = style
-      ? { ...style }
+      ? { ...style, focus: false }
       : {
           ...TextState(this.props),
           focus: false,
@@ -240,7 +241,7 @@ class TextsBlock extends React.Component {
             style={{ ...inputStyle, ...divStyle, ...newStyle }}
             onChange={(e) => this.handleEditorChange(e.target.value)}
           />
-        ) : footer ? (
+        ) : footer && !editable ? (
           <Link to="/" style={{ ...divStyle, ...inputStyle, ...newStyle }}>
             <p>{content}</p>
           </Link>

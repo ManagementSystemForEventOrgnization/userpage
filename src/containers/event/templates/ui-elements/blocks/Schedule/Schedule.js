@@ -116,11 +116,25 @@ class Schedule1 extends Component {
   };
 
   warning = (msg) => {
-    message.warning(msg || 'OPPs! Something is wrong');
+    message.warn({
+      content: msg || 'OPPs! Something is wrong',
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold',
+      },
+    });
   };
 
   success = (type) => {
-    message.success(`${!type ? 'Apply' : 'Cancel'} session successfully`);
+    message.success({
+      content: `${!type ? 'Apply' : 'Cancel'} session successfully`,
+      style: {
+        marginTop: '20vh',
+        fontSize: '16px',
+        fontWeight: 'bold',
+      },
+    });
   };
 
   changeLoadingSS = (idSession) => {
@@ -210,8 +224,23 @@ class Schedule1 extends Component {
             } else {
               if (res.response) {
                 const { data } = res.response;
-                message.error(data.error.message);
-              } else message.error('RePay fail !');
+                message.error({
+                  content: data.error.message,
+                  style: {
+                    marginTop: '20vh',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                });
+              } else
+                message.error({
+                  content: 'Repay fail',
+                  style: {
+                    marginTop: '20vh',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                });
             }
           }
         );
@@ -322,11 +351,11 @@ class Schedule1 extends Component {
                 <div className=" col-md-3">
                   <div style={ScheduleConstant.calendar} className="mb-2 p-1">
                     <p style={ScheduleConstant.monthStyle} className="p-1">
-                      {moment(ss.time).format('MMM')}
+                      {moment(ss.day).format('MMM')}
                     </p>
-                    <p>{moment(ss.time).format('D')}</p>
+                    <p>{moment(ss.day).format('D')}</p>
                     <p style={{ fontSize: '13px' }}>
-                      {moment(ss.time).format('dddd')}
+                      {moment(ss.day).format('dddd')}
                     </p>
                   </div>
                 </div>
@@ -448,7 +477,7 @@ class Schedule1 extends Component {
           <p>
             You have to pay{' '}
             <b style={ScheduleConstant.moneyStyle}>
-              {ticket.price - ticket.price * ticket.discount}
+              {ticket.price - (ticket.price * ticket.discount) / 100}
             </b>{' '}
             VND
           </p>
