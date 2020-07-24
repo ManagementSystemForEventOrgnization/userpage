@@ -24,10 +24,7 @@ class UserNav extends Component {
     //     ? userInfo.avatar
     //     : localStorage.getItem('avatar');
 
-    const avatar =
-      userInfo && userInfo.avatar === '/avata.png'
-        ? localStorage.getItem('avatar')
-        : userInfo.avatar;
+    const avatar = localStorage.getItem('avatar');
 
     return (
       <div className="user-nav ">

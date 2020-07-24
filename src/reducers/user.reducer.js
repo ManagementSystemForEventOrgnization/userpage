@@ -120,9 +120,13 @@ const user = (state = initialState, action) => {
         errMessage: null,
       };
     case userConstants.CHECK_CODE_SUCCESS:
+      const avatarUserNew =
+        state.userInfo.avatar === '/avata.png'
+          ? 'https://res.cloudinary.com/eventinyourhand/image/upload/v1593323314/publics/bg-3_pir7z6.jpg'
+          : state.userInfo.avatar;
       localStorage.setItem('isLogined', true);
       localStorage.setItem('username', state.userInfo.fullName);
-      localStorage.setItem('avatar', state.userInfo.avatar);
+      localStorage.setItem('avatar', avatarUserNew);
       localStorage.setItem('userId', state.userInfo._id);
 
       return {
