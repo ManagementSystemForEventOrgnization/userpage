@@ -46,7 +46,7 @@ class VerifyPassword extends React.Component {
     return (
       <div className="col check-code">
         <p className="notify-enter-code">
-          Hãy nhập mã code(đã được gửi trong gmail) để xác nhận tài khoản{' '}
+          Enter code(sent in email) to activate your account
         </p>
         {!isFirstLoad && message && (
           <div className="error-message mt-2 mb-2">{message}</div>

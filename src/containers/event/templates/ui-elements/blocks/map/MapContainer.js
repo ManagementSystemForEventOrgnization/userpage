@@ -98,8 +98,8 @@ const MapWithImage = (props) => {
         google={props.google}
         containerStyle={mapStyle}
         initialCenter={{
-          lat: +session[0].address.map.lat,
-          lng: +session[0].address.map.lng,
+          lat: session[0] ? +session[0].address.map.lat : 40.854885,
+          lng: session[0] ? +session[0].address.map.lng : -88.081807,
         }}
         zoom={12}
       >

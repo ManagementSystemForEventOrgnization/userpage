@@ -679,6 +679,7 @@ class CreateHistory extends React.Component {
           visible={this.state.isShowCancel}
           onOk={this.isCancelEvent}
           onCancel={this.isCancelEvent}
+          footer={[]}
         >
           {!this.state.isSecondLoad && err && (
             <h6 style={{ color: 'red' }}>{err}</h6>
@@ -688,24 +689,7 @@ class CreateHistory extends React.Component {
           )}
 
           <Tabs>
-            <TabPane tab="Cancel all event" key="1">
-              <div className="d-flex">
-                <p style={{ fontWeight: 600, fontSize: '18px' }}>
-                  Are you sure cancel all session this event?
-                </p>
-
-                <Button
-                  loading={pendCancel}
-                  shape="circle"
-                  className="ml-2"
-                  type="dashed"
-                  onClick={this.showCancelConfirm}
-                >
-                  <DeleteOutlined />
-                </Button>
-              </div>
-            </TabPane>
-            <TabPane tab="Cancel  Session" key="2">
+            <TabPane tab="Cancel  Session" key="1">
               <p style={{ fontWeight: 600, fontSize: '18px' }}>
                 Are you sure cancel a session this event?
               </p>
@@ -729,12 +713,33 @@ class CreateHistory extends React.Component {
                       disabled={item.isCancel}
                       onClick={() => this.cancelSessionEvent(item.id)}
                     >
-                      <DeleteOutlined />
+                      <CloseOutlined />
                     </Button>
                   </div>
                 </div>
               ))}
             </TabPane>
+
+            <TabPane tab="Cancel all event" key="2">
+              <div className="d-flex">
+                <p style={{ fontWeight: 600, fontSize: '18px' }}>
+                  Are you sure cancel all session this event?
+                </p>
+
+                <Button
+                  loading={pendCancel}
+                  shape="circle"
+                  className="ml-2"
+                  type="dashed"
+                  onClick={this.showCancelConfirm}
+                >
+                  <CloseOutlined />
+                </Button>
+              </div>
+            </TabPane>
+
+
+
           </Tabs>
         </Modal>
       </div>

@@ -69,7 +69,7 @@ class SignUp extends React.Component {
             <p className="website-name">Sign Up</p>
 
             {showCheckCode && !isFirstLoad ? (
-              <div style={{ marginBottom: '10%' }}>
+              <div >
                 <CheckCode />
               </div>
 
