@@ -8,28 +8,28 @@ const SpeakerState = (props) => ({
       title: "Speaker's name",
       description: 'This is description of speaker',
       url:
-        'https://res.cloudinary.com/eventinyourhand/image/upload/v1592394437/speaker/100501386_1940094316123694_852542048954220544_o_g72pzq.jpg',
+        'http://1.bp.blogspot.com/-FM4eKKmWTSs/TpOQAttKlSI/AAAAAAAAABA/EowEr4W1DzI/s1600/steve-jobs.jpg',
     },
     {
       id: uuid(),
       title: "Speaker's name",
       description: 'This is description of speaker',
       url:
-        'https://res.cloudinary.com/eventinyourhand/image/upload/v1592394437/speaker/42199567_1524708617630355_1125638278909788160_o_s1sjkh.jpg',
+        'http://1.bp.blogspot.com/-o16ik-B_FcE/Tq1-W_OpEfI/AAAAAAAAA4o/6RclKXCjjCc/s1600/Bill+Gates+I.jpg',
     },
     {
       id: uuid(),
       title: "Speaker's name",
       description: 'This is description of speaker',
       url:
-        'https://res.cloudinary.com/eventinyourhand/image/upload/v1592394437/speaker/93781173_1739777956165158_8205945755320451072_n_rig7c8.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/a/a9/Enabling_eCommerce-_Small_Enterprises%2C_Global_Players_%2839008130265%29_%28cropped%29.jpg',
     },
     {
       id: uuid(),
       title: "Speaker's name",
       description: 'This is description of speaker',
       url:
-        'https://res.cloudinary.com/eventinyourhand/image/upload/v1592394437/speaker/93910148_2959126340847909_8552171504366780416_o_cnw2np.jpg',
+        'http://tctechcrunch2011.files.wordpress.com/2012/09/mark.jpeg',
     },
   ],
 
