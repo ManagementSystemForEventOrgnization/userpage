@@ -331,7 +331,7 @@ class CreateHistory extends React.Component {
           <Menu.Item key={key}>
             {/* {console.log(item)} */}
             <QRCodes
-              QrValue={eventId + item._id}
+              QrValue={eventId + item.id}
               day={item.day}
               title={'Session: ' + item.joinNumber}
             />
