@@ -141,25 +141,25 @@ class Notification extends Component {
               <div
                 onClick={() =>
                   item.linkTo.urlWeb
-                    ? window.location.replace(item.linkTo.urlWeb)
+                    ? history.push(`/event/${item.linkTo.urlWeb}`)
                     : history.push('/profile')
                 }
               >
                 {this.getNameSender(item.title, item.users_sender.fullName)}
               </div>
             ) : (
-                <h6
-                  onClick={() =>
-                    this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
-                      ? window.location.replace(item.linkTo.urlWeb)
-                      : history.push('/profile')
-                  }
-                >
-                  <b>
-                    {this.getNameSender(item.title, item.users_sender.fullName)}
-                  </b>
-                </h6>
-              )}
+              <h6
+                onClick={() =>
+                  this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
+                    ? history.push(`/event/${item.linkTo.urlWeb}`)
+                    : history.push('/profile')
+                }
+              >
+                <b>
+                  {this.getNameSender(item.title, item.users_sender.fullName)}
+                </b>
+              </h6>
+            )}
           </div>
 
           <div className="d-flex">
