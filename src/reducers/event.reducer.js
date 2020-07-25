@@ -7,19 +7,19 @@ const initialPageId = uuid();
 const initialBlocks = [
   dataTest[1].value[2], //banner
   //...dataTest[0].value,
-  //dataTest[2].value[0], // event description
+  dataTest[2].value[0], // event description
   // ...dataTest[13].value, //list of link documents
   // ...dataTest[3].value, // speaker, card
   //dataTest[4].value[1], // schedule
-  // dataTest[5].value[1], //map
-  // ...dataTest[6].value, // countdown
+  dataTest[5].value[1], //map
+  ...dataTest[6].value, // countdown
   // dataTest[7].value[1], // video
   // ...dataTest[8].value, // sponsors
   // ...dataTest[9].value, //gallery
-  // dataTest[14].value[0], //sharing
+  dataTest[14].value[0], //sharing
   // ...dataTest[10].value, //contact us
-  // ...dataTest[12].value, //comment
-  //...dataTest[11].value, // footer,
+  ...dataTest[12].value, //comment
+  ...dataTest[11].value, // footer,
 ];
 
 const bannerUrl =

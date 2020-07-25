@@ -21,7 +21,7 @@ class Footer extends React.Component {
     const src =
       'https://res.cloudinary.com/dwt4njhmt/image/upload/v1594562886/logo-khtn_full_eixg1j.png';
     return (
-      <div className="footer-background">
+      <div className="footer-background" style={{ marginTop: '5%' }}>
         <div className="footer-transbox">
           <div className="footer-content container">
             <div className="row">
