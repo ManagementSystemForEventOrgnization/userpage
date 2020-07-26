@@ -610,7 +610,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     });
   };
 
@@ -665,7 +665,7 @@ const getComment = (eventId, pageNumber = 1, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   function request(comments) {
@@ -725,22 +725,29 @@ const saveComment = (eventId, content) => {
 
 const getUserJoinEvent = (dataSent, callback) => {
   return (dispatch) => {
+    dispatch(request());
     API.get(`/api/get_user_join_event`, {
       params: dataSent,
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, dataSent));
         callback(res.data.result);
       })
       .catch((error) => {
         handleCatch(dispatch, failure, error);
       });
   };
-
-  function success(userJoinEvent) {
+  function request() {
+    return {
+      type: eventConstants.GET_USER_JOIN_EVENT_REQUEST,
+    };
+  }
+  function success(userJoinEvent, dataSent) {
+    console.log("dataSent", dataSent);
     return {
       type: eventConstants.GET_USER_JOIN_EVENT_SUCCESS,
       userJoinEvent,
+      dataSent
     };
   }
   function failure() {

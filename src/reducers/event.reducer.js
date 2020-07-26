@@ -20,6 +20,7 @@ const arrTemp = [
   ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
   ...dataTest[11].value, // footer,
+
 ];
 let initialBlocks = () => {
   return arrTemp.map((item) => ({ ...item, id: uuid() }));
@@ -57,6 +58,7 @@ const initialState = {
   cancelSession: false,
   successDe: false,
   penListEvent: false,
+  pendJoinUser: false,
 
   pages: [
     {
@@ -345,14 +347,23 @@ const event = (state = initialState, action) => {
         hlEvent: [],
         hightLightFinishLoading: false,
       };
-    case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
+    case eventConstants.GET_USER_JOIN_EVENT_REQUEST:
       return {
         ...state,
-        userJoinEvent: action.userJoinEvent || [],
+        pendJoinUser: true,
+
+      };
+    case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
+      console.log(action.dataSent)
+      return {
+        ...state,
+        pendJoinUser: false,
+        userJoinEvent: action.dataSent.pageNumber === 1 ? [...action.userJoinEvent] : [...state.userJoinEvent, ...action.userJoinEvent],
       };
     case eventConstants.GET_USER_JOIN_EVENT_FAILURE:
       return {
         ...state,
+        pendJoinUser: false,
         userJoinEvent: [],
       };
     case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:
@@ -388,10 +399,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId - 1),
-                action.blocks,
-                ...state.system.slice(nextId, state.system.length),
-              ],
+              ...state.system.slice(0, nextId - 1),
+              action.blocks,
+              ...state.system.slice(nextId, state.system.length),
+            ],
         pages: action.pages,
         currentPage: action.currentPage,
       };

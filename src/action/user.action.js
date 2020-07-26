@@ -573,7 +573,7 @@ const getCreateHistory = (dataSent) => {
       },
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, dataSent));
       })
       .then()
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -582,8 +582,8 @@ const getCreateHistory = (dataSent) => {
     return { type: userConstants.GET_HISTORY_CREATE_REQUEST };
   }
 
-  function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent };
+  function success(arrEvent, dataSent) {
+    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent, dataSent };
   }
   function failure(error) {
     return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };
@@ -785,6 +785,55 @@ const deleteEvent = (eventId) => {
   }
 };
 
+
+const getStatistics = (startDate , endDate , eventId = null) => {
+  const accessToken = localStorage.getItem('accessToken');
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get(
+        `/api/user/report_revenus`,
+        {
+          params: {
+            startDate,
+            endDate,
+            eventId,
+          },
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
+        .then((res) => {
+          dispatch(success(res.data.result, eventId));
+          resolve(res.data);
+        })
+        .catch((error) => {
+          handleCatch(dispatch, failure, error);
+          reject(error);
+        });
+    });
+  };
+  function request() {
+    return {
+      type: userConstants.GET_STATISTICS_REQUEST,
+    };
+  }
+  function success(data, eventId) {
+    return {
+      type: userConstants.GET_STATISTICS_SUCCESS,
+      data,
+      eventId,
+    };
+  }
+  function failure(error) {
+    return {
+      type: userConstants.GET_STATISTICS_FAILURE,
+      error,
+    };
+  }
+};
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -814,4 +863,8 @@ export const userActions = {
   getChatHistory,
   getListCardPayment,
   getHistoryPayment,
+  getStatistics
 };
+
+
+//http://localhost:5000/api/user/report_revenus?startDate=2020-06-26&endDate=2020-07-26
