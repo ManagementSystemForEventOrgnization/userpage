@@ -122,12 +122,17 @@ class CreateEvent extends React.Component {
     });
   };
 
+  scrollTop = () => {
+    const root = document.querySelector('#root');
+    root.scrollTop = 0;
+  };
+
   onHandleNext = () => {
     const { pages, handleChangeHeader, blocks, currentPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
-    console.log('HANDLE NEXT : ', pages);
-    window.scrollTo(0, 0);
+    this.scrollTop();
+
     this.setState({
       loading: true,
     });
@@ -271,8 +276,8 @@ class CreateEvent extends React.Component {
     const { pages, handlePreviousPage } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
-    window.scrollTo(0, 0);
-    console.log('HANDLE BACK : ', pages);
+
+    this.scrollTop();
 
     if (pages[currentIndex].child.length === 0) {
       newPageId = this.getPreviousId();

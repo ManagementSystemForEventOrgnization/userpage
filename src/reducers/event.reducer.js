@@ -4,23 +4,26 @@ import dataTest from 'containers/event/data/dataTest';
 import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
-const initialBlocks = [
+const arrTemp = [
   dataTest[1].value[2], //banner
-  //...dataTest[0].value,
-  dataTest[2].value[0], // event description
+  // dataTest[0].value[1],
+  // dataTest[2].value[0], // event description
   // ...dataTest[13].value, //list of link documents
   // ...dataTest[3].value, // speaker, card
   //dataTest[4].value[1], // schedule
-  dataTest[5].value[1], //map
-  ...dataTest[6].value, // countdown
+  //dataTest[5].value[1], //map
+  //  ...dataTest[6].value, // countdown
   // dataTest[7].value[1], // video
   // ...dataTest[8].value, // sponsors
   // ...dataTest[9].value, //gallery
-  dataTest[14].value[0], //sharing
+  //dataTest[14].value[0], //sharing
   // ...dataTest[10].value, //contact us
-  ...dataTest[12].value, //comment
+  //...dataTest[12].value, //comment
   ...dataTest[11].value, // footer,
 ];
+let initialBlocks = () => {
+  return arrTemp.map((item) => ({ ...item, id: uuid() }));
+};
 
 const bannerUrl =
   'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
@@ -34,7 +37,7 @@ const initialState = {
   session: [],
   isSellTicket: 'No',
   webAddress: '',
-  blocks: [...initialBlocks],
+  blocks: initialBlocks(),
   categories: [],
   errMessage: '',
   pending: false,
@@ -181,7 +184,7 @@ const event = (state = initialState, action) => {
             child: [],
           },
         ],
-        blocks: initialBlocks,
+        blocks: initialBlocks(),
       };
 
     case eventConstants.PREPARE_FOR_CREATE_EVENT_FAILURE:
@@ -397,11 +400,12 @@ const event = (state = initialState, action) => {
 
     case eventConstants.SAVE_PAGE: // pages, currentPage, blocks
       const nextId = getIndexPage(state.pages, action.currentPage);
+      console.log(nextId);
       return {
         ...state,
         blocks:
           nextId >= state.system.length
-            ? [...initialBlocks]
+            ? initialBlocks()
             : state.system[nextId],
         system:
           nextId > state.system.length
@@ -451,13 +455,15 @@ const event = (state = initialState, action) => {
         getIndexPage(state.pages, action.currentPage)
       );
 
+      console.log(getIndexPage(state.pages, action.currentPage));
+
       return {
         ...state,
         currentPage: action.currentPage,
         currentIndex: getIndexPage(state.pages, action.currentPage),
         blocks:
           state.system[getIndexPage(state.pages, action.currentPage)] ||
-          initialBlocks,
+          initialBlocks(),
       };
 
     case eventConstants.CHANGE_PAGES:

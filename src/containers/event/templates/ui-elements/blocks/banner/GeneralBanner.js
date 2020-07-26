@@ -61,6 +61,8 @@ class GeneralBanner extends Component {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;
     let item = blocks.find((ele) => ele.id === id);
+
+    console.log(id);
     if (item) {
       const index = blocks.indexOf(item);
       item.style = currentStyle;
