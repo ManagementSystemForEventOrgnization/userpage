@@ -230,7 +230,7 @@ class Statistics extends Component {
                         <p className="ml-5 "
                             key={index} style={{ margin: 0 }}>{item.name} - {record.amountSession &&
                                 <span>{formatter.format(record.amountSession[index].total)}</span>}
-                            <DoubleRightOutlined style={{ fontSize: '17px' }} onClick={() => this.showModal(record, item, record.amountSession[index].total)} /> </p>),
+                            <DoubleRightOutlined className="ml-4" style={{ fontSize: '17px' }} onClick={() => this.showModal(record, item, record.amountSession[index].total)} /> </p>),
 
 
                     rowExpandable: record => record.name !== 'Not Expandable',
