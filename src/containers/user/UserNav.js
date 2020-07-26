@@ -61,6 +61,12 @@ class UserNav extends Component {
                 Created Events
               </Link>
             </li>
+            <li>
+              <Link to="/statistics" className="link">
+                <CalendarOutlined className="mr-2 icon" />
+                Statistics Events
+              </Link>
+            </li>
 
             <li onClick={logout}>
               <div className="link">

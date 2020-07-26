@@ -18,6 +18,7 @@ import ForgotPasswordPage from 'pages/ForgotPasswordPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import PreviewEvent from 'containers/event/PreviewEvent';
 import NotFoundPage from 'pages/NotFoundPage';
+import StatisticsPage from 'pages/StatisticsPage';
 
 export const userConstants = {
   REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
@@ -107,6 +108,10 @@ export const userConstants = {
   DELETE_EVENT_SUCCESS: ' DELETE_EVENT_SUCCESS',
   DELETE_EVENT_FAILURE: 'DELETE_EVENT_FAILURE',
 
+  GET_LIST_PAYMENT_SESSION_REQUEST: 'USERS_LIST_PAYMENT_SESSION_REQUEST',
+  GET_LIST_PAYMENT_SESSION_SUCCESS: 'USERS_LIST_PAYMENT_SESSION_SUCCESS',
+  GET_LIST_PAYMENT_SESSION_FAILURE: 'USERS_LIST_PAYMENT_SESSION_FAILURE',
+
   LOGOUT: 'LOGOUT',
 };
 
@@ -169,6 +174,7 @@ export const eventConstants = {
   CANCEL_EVENT_REQUEST: 'CANCEL_EVENT_REQUEST',
   CANCEL_EVENT_SUCCESS: ' CANCEL_EVENT_SUCCESS',
   CANCEL_EVENT_FAILURE: 'CANCEL_EVENT_FAILURE',
+
 };
 
 export const applyEventConstants = {
@@ -225,6 +231,11 @@ export const routeConstant = {
       path: '/profile',
       exact: true,
       main: MyEventsPage,
+    },
+    {
+      path: '/statistics',
+      exact: true,
+      main: StatisticsPage,
     },
     {
       path: '/manage/:id',

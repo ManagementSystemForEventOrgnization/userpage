@@ -6,6 +6,7 @@ import LoginPage from './LoginPage';
 import SignUpPage from './SignUpPage';
 import ProfilePage from './ProfilePage';
 import UserEventPage from './UserEventPage';
+import StatisticsPage from './StatisticsPage';
 
 export const page = {
     HomePage,
@@ -15,5 +16,7 @@ export const page = {
     LoginPage,
     SignUpPage,
     ProfilePage,
-    UserEventPage
+    UserEventPage,
+    StatisticsPage
+
 }

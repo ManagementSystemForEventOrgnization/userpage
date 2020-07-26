@@ -785,6 +785,36 @@ const deleteEvent = (eventId) => {
   }
 };
 
+const getListPaymentSession = (dataSent) => {
+  const accessToken = localStorage.getItem('accessToken');
+
+  return (dispatch) => {
+    dispatch(request());
+    API.get(`/api/user/list_payment_session`, {
+      params: dataSent,
+      headers: {
+        Authorization: accessToken,
+      },
+    })
+      .then((res) => {
+        dispatch(success(res.data.result, dataSent));
+      })
+      .then()
+      .catch((error) => handleCatch(dispatch, failure, error));
+  };
+  function request() {
+    return { type: userConstants.GET_LIST_PAYMENT_SESSION_REQUEST };
+  }
+
+  function success(listPaySession, dataSent) {
+    return { type: userConstants.GET_LIST_PAYMENT_SESSION_SUCCESS, listPaySession, dataSent };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_LIST_PAYMENT_SESSION_FAILURE, error };
+  }
+};
+
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -805,7 +835,7 @@ export const userActions = {
   setReadNotification,
   setDeleteNotification,
   deleteEvent,
-
+  getListPaymentSession,
   get_History,
   getListNotification,
   getBankAccount,

@@ -24,6 +24,8 @@ const initialState = {
   eventDelete: null,
   penDelet: false,
   errDelete: ' ',
+  listPaySession: [],
+  pendPaySession: false,
 };
 
 const user = (state = initialState, action) => {
@@ -473,6 +475,25 @@ const user = (state = initialState, action) => {
         ...state,
         pending: true,
         errMessage: action.error,
+      };
+    case userConstants.GET_LIST_PAYMENT_SESSION_REQUEST:
+      return {
+        ...state,
+
+        pendPaySession: true,
+      };
+    case userConstants.GET_LIST_PAYMENT_SESSION_SUCCESS:
+      return {
+        ...state,
+        listPaySession: action.listPaySession,
+        pendPaySession: false
+
+      };
+
+    case userConstants.GET_LIST_PAYMENT_SESSION_FAILURE:
+      return {
+        ...state,
+        pendPaySession: false
       };
 
     case userConstants.GET_UNREADNOTIFICATION:
