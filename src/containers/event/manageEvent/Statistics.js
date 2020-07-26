@@ -3,9 +3,10 @@ import React, { Component } from 'react'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_dataviz from "@amcharts/amcharts4/themes/dataviz";
 import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
-import { Table, Spin, Tabs } from 'antd';
+import { Table, Spin, Tabs, Radio } from 'antd';
 
 am4core.useTheme(am4themes_animated);
 
@@ -49,7 +50,8 @@ class Statistics extends Component {
         this.state = {
             statisticsData: [],
             total: { SumAmount: 0 },
-            isEmpty: false
+            isEmpty: false,
+            chartType: 0
         }
     }
     componentDidMount() {
@@ -57,7 +59,6 @@ class Statistics extends Component {
             this.setState({ statisticsData: this.props.statisticsData })
             this.statistic()
         })
-
     }
 
     componentWillUnmount() {
@@ -66,24 +67,62 @@ class Statistics extends Component {
         }
     }
 
-    statistic(value = this.state.statisticsData) {
+    statistic(value = this.state.statisticsData, type = this.state.chartType) {
+
         if (value === undefined || value.length == 0) {
-            value = [{ name: "there is no data", SumAmount: "100%" }]
+            value = [{ name: "there is no record", SumAmount: "0" }]
             this.setState({ isEmpty: true })
         }
         else
             this.setState({ isEmpty: false })
 
-        let chart1 = am4core.create("chartdiv1", am4charts.PieChart);
+        if (type === 0) {
+            let chart1 = am4core.create("chartdiv", am4charts.PieChart);
 
-        let series1 = chart1.series.push(new am4charts.PieSeries());
-        series1.dataFields.value = "SumAmount";
-        series1.dataFields.category = "name";
+            let series1 = chart1.series.push(new am4charts.PieSeries());
+            series1.dataFields.value = "SumAmount";
+            series1.dataFields.category = "name";
 
-        // Add data
-        chart1.data = value
+            // Add data
+            chart1.data = value
 
-        chart1.legend = new am4charts.Legend();
+            chart1.legend = new am4charts.Legend();
+        }
+        else {
+
+
+            am4core.useTheme(am4themes_animated);
+            am4core.useTheme(am4themes_dataviz);
+
+            // Create chart instance
+            var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+            // Add data
+            chart.data = value
+
+            // Create axes
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "name";
+            categoryAxis.title.text = "Your event(s)";
+            categoryAxis.renderer.grid.template.location = 0;
+            categoryAxis.renderer.minGridDistance = 10;
+
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.title.text = "Expenditure (M)";
+
+            // Create series
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.dataFields.valueY = "SumAmount";
+            series.dataFields.categoryX = "name";
+            series.name = "total amount";
+            series.tooltipText = "{name}: [bold]{valueY}[/] VND";
+            series.stacked = true;
+
+            chart.cursor = new am4charts.XYCursor();
+            //--
+
+        }
+
 
         var sum = value !== [] && value.reduce(function (previousValue, currentValue) {
             return { SumAmount: previousValue.SumAmount + currentValue.SumAmount }
@@ -92,13 +131,17 @@ class Statistics extends Component {
         this.setState({
             total: sum
         })
+
+
+        //---
     }
 
     onChangeStatistics(key) {
         let value = this.props.statisticsData;
-    
+
         if (key == 2) {
             value = this.props.statisticsData.filter(item => item.paymentId != undefined)
+            // this.setState({chartType: 1})
         }
         if (key == 3) {
             value = this.props.statisticsData.filter(item => item.paymentId == undefined)
@@ -109,6 +152,13 @@ class Statistics extends Component {
 
 
     render() {
+        const onChangeChartType = e => {
+            this.setState({
+                chartType: e.target.value,
+            });
+            this.statistic(this.state.statisticsData, e.target.value)
+
+        };
         const tableData = (dataResource) => <div className="pt-5 border">
             <Table rowKey="_id"
                 columns={columns}
@@ -120,8 +170,8 @@ class Statistics extends Component {
             />
         </div>
         return (
-            <div className=" p-5 mt-5">
-                <h5 style={{ color: 'red', float: 'right' }}>Total:  {this.state.total && formatter.format(this.state.total.SumAmount === "100%" ? "0" : this.state.total.SumAmount)}</h5>
+            <div className=" p-5 mt-5" >
+                <h5 style={{ color: 'red', float: 'right' }}>Total:  {this.state.total && formatter.format(this.state.total.SumAmount)}</h5>
                 <Tabs defaultActiveKey="1" onChange={(key) => this.onChangeStatistics(key)}>
                     <TabPane tab="Total Amount" key="1">
                         This is the sum of money you have sold your tickets
@@ -145,9 +195,13 @@ class Statistics extends Component {
                         {' '}
                     </Spin>
                 ) : (
-                        <div className="mt-5 ">
+                        <div className="mt-5">
                             <div className=" border">
-                                <div id="chartdiv1" style={{ width: "100%", height: "500px", marginTop: "50px" }}></div>
+                                <Radio.Group onChange={onChangeChartType} value={this.state.chartType}>
+                                    <Radio value={0}>Pie Chart</Radio>
+                                    <Radio value={1}>Column Chart</Radio>
+                                </Radio.Group>
+                                <div id="chartdiv" style={{ width: "100%", height: "500px", marginTop: "50px" }}></div>
                             </div>
                             {!this.state.isEmpty && tableData(this.state.statisticsData)}
                         </div>)}
