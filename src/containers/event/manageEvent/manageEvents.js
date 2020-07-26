@@ -285,6 +285,7 @@ class ManageEvent extends React.Component {
         <Modal
           title="User take part in  session this event"
           visible={this.state.visible}
+          style={{ overflow: 'auto', height: "100px" }}
 
           onCancel={this.handleCancel}
           footer={[
@@ -294,7 +295,7 @@ class ManageEvent extends React.Component {
         >
           <div>
             <div className="d-flex">
-              <p>Name :</p>
+              <h6>Name :</h6>
               <h6 className="ml-3">{joinEvent.fullName}</h6>
             </div>
 
@@ -351,6 +352,9 @@ class ManageEvent extends React.Component {
                 )}
               />
             </Table>
+
+
+
           </div>
         </Modal>
       </div>

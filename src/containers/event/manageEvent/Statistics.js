@@ -6,8 +6,15 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dataviz from "@amcharts/amcharts4/themes/dataviz";
 import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
-import { Table, Spin, Tabs, Radio, DatePicker } from 'antd';
+import { Table, Spin, Tabs, Radio, DatePicker, Modal, Button } from 'antd';
 import moment from 'moment';
+
+
+
+import {
+    DoubleRightOutlined,
+
+} from '@ant-design/icons';
 
 
 const { RangePicker } = DatePicker;
@@ -16,6 +23,8 @@ am4core.useTheme(am4themes_animated);
 
 const { TabPane } = Tabs;
 
+;
+const { ColumnGroup } = Table;
 var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'VND',
@@ -24,6 +33,7 @@ const columns = [
     {
         title: 'Event', dataIndex: 'bannerUrl', key: '_id' + 'bannerUrl',
         render: (bannerUrl) => <img style={{ width: '120px' }} src={bannerUrl}></img>
+
     },
     {
         title: 'Event Name', dataIndex: 'name', key: '_id' + 'name',
@@ -32,6 +42,7 @@ const columns = [
     {
         title: 'Total Amount', dataIndex: 'totalSession', key: '_id' + 'totalSession',
         render: (totalSession) => <p>{formatter.format(totalSession)}</p>
+
     },
     {
         title: 'Status',
@@ -60,7 +71,11 @@ class Statistics extends Component {
             statisticsData: [],
             total: { totalSession: 0 },
             isEmpty: false,
-            chartType: 0
+            chartType: 0,
+            visible: false,
+            events: [],
+            session: [],
+            totalSession: 0,
         }
     }
 
@@ -125,8 +140,8 @@ class Statistics extends Component {
 
         this.setState({
             total: sum
-        })
 
+        })
     }
 
     onChangeStatistics(key) {
@@ -144,14 +159,62 @@ class Statistics extends Component {
 
     onChangeDates = (dates) => {
 
-
         this.props.getStatistics(dates ? moment(dates[0]._d).format('YYYY-MM-DD') : '', dates ? moment(dates[1]._d).format('YYYY-MM-DD') : '').then(() => {
             this.setState({ statisticsData: this.props.statisticsData })
             this.statistic()
         })
     }
+    componentWillUnmount() {
+        if (this.chart1) {
+            this.chart1.dispose();
+        }
+    }
+
+
+
+    showList = (sessionId, eventId, index) => {
+        const { getListPaymentSession } = this.props;
+        console.log(this.state.sessionId, this.state.eventId);
+        let dataSent = {};
+        dataSent.sessionId = sessionId;
+        dataSent.eventId = eventId;
+        dataSent.pageNumber = index;
+        console.log(dataSent);
+        getListPaymentSession(dataSent);
+    }
+    showModal = (columns, item, total) => {
+        this.showList(item.id, columns._id, 1);
+        this.setState({
+            visible: true,
+            events: columns,
+            session: item,
+            totalSession: total,
+            isfirst: true,
+
+        });
+
+    };
+    onLoadMore = () => {
+        const { listPaySession } = this.props
+        const { events,
+            session } = this.state
+        let index = Math.round(listPaySession.length / 10) + 1;
+        this.showList(session.id, events._id, index);
+
+    };
+
+    handleCancel = e => {
+        const { listPaySession } = this.props
+        this.setState({
+            visible: false,
+        });
+
+    }
 
     render() {
+        const { listPaySession, pendPaySession, issucess } = this.props
+        const { session, totalSession } = this.state;
+
         const onChangeChartType = e => {
             this.setState({
                 chartType: e.target.value,
@@ -163,7 +226,13 @@ class Statistics extends Component {
             <Table rowKey="_id"
                 columns={columns}
                 expandable={{
-                    expandedRowRender: record => record.sessionId && record.sessionId.map((item, index) => <p className="ml-5 " key={index} style={{ margin: 0 }}>{item.name} - {record.amountSession && <span>{formatter.format(record.amountSession[index].total)}</span>} </p>),
+                    expandedRowRender: record => record.sessionId && record.sessionId.map((item, index) =>
+                        <p className="ml-5 "
+                            key={index} style={{ margin: 0 }}>{item.name} - {record.amountSession &&
+                                <span>{formatter.format(record.amountSession[index].total)}</span>}
+                            <DoubleRightOutlined style={{ fontSize: '17px' }} onClick={() => this.showModal(record, item, record.amountSession[index].total)} /> </p>),
+
+
                     rowExpandable: record => record.name !== 'Not Expandable',
                 }}
                 dataSource={dataResource}
@@ -189,6 +258,8 @@ class Statistics extends Component {
                         This is the sum of money you are still waiting from admin
     </TabPane>
                 </Tabs>
+
+
                 {this.props.pending ? (
                     <Spin
                         tip="Loading..."
@@ -211,6 +282,95 @@ class Statistics extends Component {
                             </div>
                             {!this.state.isEmpty && tableData(this.state.statisticsData)}
                         </div>)}
+
+                <div>
+                    <Modal
+                        title="Basic Modal"
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        footer={[
+                            <Button type="dashed" onClick={this.handleCancel}>close</Button>
+                        ]}
+                        width={700}
+                    >
+
+                        <div>
+                            <div className="row">
+                                <div className="col d-flex"><h6>Name:</h6>
+                                    <h6 className="ml-3 ">{session.name}</h6></div>
+                                <div className="col">
+                                    <h5 style={{ color: 'red', float: 'right' }}>Total:  {totalSession && formatter.format(totalSession)}</h5>
+                                </div>
+                            </div>
+
+                            {pendPaySession ?
+                                <Spin
+                                    tip="Loading..."
+                                    size="large"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                    }}
+                                >
+                                    {' '}
+                                </Spin>
+                                :
+                                <div>
+                                    <p
+                                        type="button"
+                                        className="fa-fw w3-margin-right w3-text-teal"
+                                        style={{ width: '100px' }}
+
+                                        onClick={() => this.onLoadMore()}
+                                    >
+                                        Load more <i className="fa fa-arrow-down" aria-hidden="true"></i>
+                                    </p>
+
+                                    <Table dataSource={listPaySession}>
+                                        <ColumnGroup
+                                            title="Full Name"
+                                            dataIndex="sender"
+                                            key="sender"
+                                            render={(sender) =>
+                                                <p>{sender.fullName}</p>
+                                            }
+                                        ></ColumnGroup>
+                                        <ColumnGroup
+                                            title="Avatar"
+                                            dataIndex="sender"
+                                            key="sender"
+                                            render={(sender) =>
+                                                sender &&
+                                                <img src={sender.avatar} alt="logo" style={{ width: '100px', height: '100px' }} />
+                                            }
+                                        ></ColumnGroup>
+                                        <ColumnGroup
+                                            title="Time Apply"
+                                            dataIndex="updatedAt"
+                                            key="createdAt"
+                                            render={(updatedAt) =>
+                                                moment(updatedAt || new Date().toLocaleDateString()).format(
+                                                    'DD/MM/YYYY '
+                                                )
+                                            }
+                                        ></ColumnGroup>
+                                        <ColumnGroup
+                                            title="Pay Type"
+                                            dataIndex="payType"
+                                            key="payType"
+                                            render={(payType) => <p>{payType}</p>}
+                                        ></ColumnGroup>
+
+                                    </Table>
+                                </div>
+
+                            }
+                        </div>
+
+
+                    </Modal>
+
+                </div>
             </div>
         );
     }
@@ -220,12 +380,18 @@ class Statistics extends Component {
 const mapStateToProps = (state) => ({
     errMessage: state.user.errMessage,
     statisticsData: state.user.statisticsData,
-    pending: state.user.pending
+    pending: state.user.pending,
+
+    listPaySession: state.user.listPaySession,
+    pendPaySession: state.user.pendPaySession,
+    issucess: state.user.issucess,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getStatistics: (startDate, endDate, eventId) =>
         dispatch(userActions.getStatistics(startDate, endDate, eventId)),
+    getListPaymentSession: (dataSent) =>
+        dispatch(userActions.getListPaymentSession(dataSent)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statistics);

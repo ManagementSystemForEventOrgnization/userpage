@@ -481,12 +481,14 @@ const user = (state = initialState, action) => {
         ...state,
 
         pendPaySession: true,
+        issucess: false
       };
     case userConstants.GET_LIST_PAYMENT_SESSION_SUCCESS:
       return {
         ...state,
-        listPaySession: action.listPaySession,
-        pendPaySession: false
+        listPaySession: action.dataSent.pageNumber === 1 ? [...action.listPaySession] : [...state.listPaySession, ...action.listPaySession],
+        pendPaySession: false,
+        issucess: true,
 
       };
 
