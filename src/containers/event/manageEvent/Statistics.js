@@ -6,7 +6,11 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dataviz from "@amcharts/amcharts4/themes/dataviz";
 import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
-import { Table, Spin, Tabs, Radio } from 'antd';
+import { Table, Spin, Tabs, Radio, DatePicker } from 'antd';
+import moment from 'moment';
+
+
+const { RangePicker } = DatePicker;
 
 am4core.useTheme(am4themes_animated);
 
@@ -54,12 +58,6 @@ class Statistics extends Component {
             chartType: 0
         }
     }
-    componentDidMount() {
-        this.props.getStatistics("2020-04-26", "2020-07-26").then(() => {
-            this.setState({ statisticsData: this.props.statisticsData })
-            this.statistic()
-        })
-    }
 
     componentWillUnmount() {
         if (this.chart1) {
@@ -83,24 +81,18 @@ class Statistics extends Component {
             series1.dataFields.value = "SumAmount";
             series1.dataFields.category = "name";
 
-            // Add data
             chart1.data = value
 
             chart1.legend = new am4charts.Legend();
         }
         else {
-
-
             am4core.useTheme(am4themes_animated);
             am4core.useTheme(am4themes_dataviz);
 
-            // Create chart instance
             var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-            // Add data
             chart.data = value
 
-            // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
             categoryAxis.dataFields.category = "name";
             categoryAxis.title.text = "Your event(s)";
@@ -119,8 +111,6 @@ class Statistics extends Component {
             series.stacked = true;
 
             chart.cursor = new am4charts.XYCursor();
-            //--
-
         }
 
 
@@ -132,8 +122,6 @@ class Statistics extends Component {
             total: sum
         })
 
-
-        //---
     }
 
     onChangeStatistics(key) {
@@ -141,7 +129,6 @@ class Statistics extends Component {
 
         if (key == 2) {
             value = this.props.statisticsData.filter(item => item.paymentId != undefined)
-            // this.setState({chartType: 1})
         }
         if (key == 3) {
             value = this.props.statisticsData.filter(item => item.paymentId == undefined)
@@ -150,6 +137,17 @@ class Statistics extends Component {
         this.statistic(value)
     }
 
+    onChangeDates = (dates) => {
+        this.setState({
+            startDate: dates ? moment(dates[0]._d).format('YYYY/MM/DD') : '',
+            endDate: dates ? moment(dates[1]._d).format('YYYY/MM/DD') : '',
+        });
+
+        this.props.getStatistics(this.state.startDate, this.state.endDate).then(() => {
+            this.setState({ statisticsData: this.props.statisticsData })
+            this.statistic()
+        })
+    }
 
     render() {
         const onChangeChartType = e => {
@@ -171,6 +169,11 @@ class Statistics extends Component {
         </div>
         return (
             <div className=" p-5 mt-5" >
+                <RangePicker
+                    style={{ width: '50%', height: '40px' }}
+                    format="YYYY-MM-DD "
+                    onChange={this.onChangeDates}
+                />
                 <h5 style={{ color: 'red', float: 'right' }}>Total:  {this.state.total && formatter.format(this.state.total.SumAmount)}</h5>
                 <Tabs defaultActiveKey="1" onChange={(key) => this.onChangeStatistics(key)}>
                     <TabPane tab="Total Amount" key="1">
