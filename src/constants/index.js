@@ -18,8 +18,9 @@ import ForgotPasswordPage from 'pages/ForgotPasswordPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import PreviewEvent from 'containers/event/PreviewEvent';
 import NotFoundPage from 'pages/NotFoundPage';
-import StatisticsPage from 'pages/StatisticsPage';
 
+
+import Statistics from '../containers/event/manageEvent/Statistics'
 export const userConstants = {
   REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
   REGISTER_SUCCESS: 'USERS_REGISTER_SUCCESS',
@@ -105,12 +106,15 @@ export const userConstants = {
   GET_CHAT_HISTORY: 'GET_CHAT_HISTORY',
 
   DELETE_EVENT_REQUEST: 'DELETE_EVENT_REQUEST',
-  DELETE_EVENT_SUCCESS: ' DELETE_EVENT_SUCCESS',
+  DELETE_EVENT_SUCCESS: 'DELETE_EVENT_SUCCESS',
   DELETE_EVENT_FAILURE: 'DELETE_EVENT_FAILURE',
 
   GET_LIST_PAYMENT_SESSION_REQUEST: 'USERS_LIST_PAYMENT_SESSION_REQUEST',
   GET_LIST_PAYMENT_SESSION_SUCCESS: 'USERS_LIST_PAYMENT_SESSION_SUCCESS',
   GET_LIST_PAYMENT_SESSION_FAILURE: 'USERS_LIST_PAYMENT_SESSION_FAILURE',
+  GET_STATISTICS_REQUEST: 'GET_STATISTICS_REQUEST',
+  GET_STATISTICS_SUCCESS: 'GET_STATISTICS_SUCCESS',
+  GET_STATISTICS_FAILURE: 'GET_STATISTICS_FAILURE',
 
   LOGOUT: 'LOGOUT',
 };
@@ -218,6 +222,11 @@ export const routeConstant = {
       main: HomePage,
     },
     {
+      path: '/statistics',
+      exact: true,
+      main: Statistics,
+    },
+    {
       path: '/about-us',
       exact: true,
       main: AboutUs,
@@ -232,11 +241,7 @@ export const routeConstant = {
       exact: true,
       main: MyEventsPage,
     },
-    {
-      path: '/statistics',
-      exact: true,
-      main: StatisticsPage,
-    },
+
     {
       path: '/manage/:id',
       exact: true,
