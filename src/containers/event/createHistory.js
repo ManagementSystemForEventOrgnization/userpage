@@ -344,7 +344,6 @@ class CreateHistory extends React.Component {
       <Menu>
         {sess.map((item, key) => (
           <Menu.Item key={key}>
-            {/* {console.log(item)} */}
             <QRCodes
               QrValue={eventId + item.id}
               day={item.day}
@@ -741,9 +740,6 @@ class CreateHistory extends React.Component {
                 </Button>
               </div>
             </TabPane>
-
-
-
           </Tabs>
         </Modal>
       </div>

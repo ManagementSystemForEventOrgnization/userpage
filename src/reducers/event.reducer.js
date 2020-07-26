@@ -4,24 +4,27 @@ import dataTest from 'containers/event/data/dataTest';
 import { eventConstants } from 'constants/index';
 
 const initialPageId = uuid();
-const initialBlocks = [
+const arrTemp = [
   dataTest[1].value[2], //banner
-  //...dataTest[0].value,
-  dataTest[2].value[0], // event description
-  // ...dataTest[13].value, //list of link documents
+  dataTest[0].value[1],
+  dataTest[2].value[1], // event description
+  ...dataTest[13].value, //list of link documents
   // ...dataTest[3].value, // speaker, card
-  //dataTest[4].value[1], // schedule
+  dataTest[4].value[1], // schedule
   dataTest[5].value[1], //map
   ...dataTest[6].value, // countdown
   // dataTest[7].value[1], // video
   // ...dataTest[8].value, // sponsors
   // ...dataTest[9].value, //gallery
   dataTest[14].value[0], //sharing
-  // ...dataTest[10].value, //contact us
+  ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
   ...dataTest[11].value, // footer,
 
 ];
+let initialBlocks = () => {
+  return arrTemp.map((item) => ({ ...item, id: uuid() }));
+};
 
 const bannerUrl =
   'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
@@ -35,7 +38,7 @@ const initialState = {
   session: [],
   isSellTicket: 'No',
   webAddress: '',
-  blocks: [...initialBlocks],
+  blocks: initialBlocks(),
   categories: [],
   errMessage: '',
   pending: false,
@@ -103,29 +106,6 @@ const getIndexPage = (pages, currentPage) => {
   return count;
 };
 
-// const getCurrentPage = (pages, index) => {
-//   const editSite = localStorage.getItem('editSite');
-//   const currentIndex = localStorage.getItem('currentIndex');
-
-//   if (editSite || index === 0) {
-//     if (pages[0].child.length === 0) return pages[0].id;
-//     return pages[0].child[0].id;
-//   } else {
-//     let count = 0;
-//     for (let i in pages) {
-//       if (pages[i].child === 0) {
-//         if (count === index) return pages[i].id;
-//       } else {
-//         for (let j in pages[i].child) {
-//           if (count === index) return pages[i].child[j].id;
-//           count++;
-//         }
-//       }
-//       count++;
-//     }
-//   }
-// };
-
 const getId = (temp, indexT) => {
   let lengthTemp = temp.length;
   let lengthChild = 0;
@@ -183,7 +163,7 @@ const event = (state = initialState, action) => {
             child: [],
           },
         ],
-        blocks: initialBlocks,
+        blocks: initialBlocks(),
       };
 
     case eventConstants.PREPARE_FOR_CREATE_EVENT_FAILURE:
@@ -408,11 +388,12 @@ const event = (state = initialState, action) => {
 
     case eventConstants.SAVE_PAGE: // pages, currentPage, blocks
       const nextId = getIndexPage(state.pages, action.currentPage);
+
       return {
         ...state,
         blocks:
           nextId >= state.system.length
-            ? [...initialBlocks]
+            ? initialBlocks()
             : state.system[nextId],
         system:
           nextId > state.system.length
@@ -427,10 +408,16 @@ const event = (state = initialState, action) => {
       };
 
     case eventConstants.GET_PREVIOUS_PAGE:
+      const prevIndex = getIndexPage(state.pages, action.currentPage) + 1;
       return {
         ...state,
         currentPage: action.currentPage,
         blocks: state.system[getIndexPage(state.pages, action.currentPage)],
+        system: [
+          ...state.system.slice(0, prevIndex),
+          action.blocks,
+          ...state.system.slice(prevIndex, state.system.length),
+        ],
       };
 
     case eventConstants.UPDATE_PAGE:
@@ -462,13 +449,20 @@ const event = (state = initialState, action) => {
         getIndexPage(state.pages, action.currentPage)
       );
 
+      let preIndex = getIndexPage(state.pages, state.currentPage);
+      let newIndex = getIndexPage(state.pages, action.currentPage);
+      let preBlocks = state.blocks;
+
       return {
         ...state,
         currentPage: action.currentPage,
-        currentIndex: getIndexPage(state.pages, action.currentPage),
-        blocks:
-          state.system[getIndexPage(state.pages, action.currentPage)] ||
-          initialBlocks,
+        currentIndex: newIndex,
+        system: [
+          ...state.system.slice(0, preIndex),
+          preBlocks,
+          ...state.system.slice(preIndex, state.system.length),
+        ],
+        blocks: state.system[newIndex] || initialBlocks(),
       };
 
     case eventConstants.CHANGE_PAGES:

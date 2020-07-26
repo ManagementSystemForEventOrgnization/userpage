@@ -26,17 +26,17 @@ class Document extends Component {
     this.state = style
       ? { ...style, visible: false, collapse: false }
       : {
-        session: session.map((ss) => ({ ...ss, open: false })),
-        visible: false,
-        document: [],
-        currentSS: {},
-        title: '',
-        url: '',
-        collapse: false,
-        padding: [1, 1, 1, 1],
-        margin: [1, 1, 1, 1],
-        background: 'none',
-      };
+          session: session.map((ss) => ({ ...ss, open: false })),
+          visible: false,
+          document: [],
+          currentSS: {},
+          title: '',
+          url: '',
+          collapse: false,
+          padding: [1, 1, 1, 1],
+          margin: [1, 1, 1, 1],
+          background: 'none',
+        };
   }
 
   openModal = (id) => {
@@ -47,13 +47,19 @@ class Document extends Component {
       currentSS: { ...item },
     });
   };
+
   cancelModal = () => this.setState({ visible: false });
+
   closeModal = () => {
     this.setState({ visible: false, currentSS: {} });
     this.handleStoreBlock();
   };
 
-  handleClickListItem = (url) => {
+  handleClickListItem = (item) => {
+    const url = item.upload
+      ? process.env.REACT_APP_BASE_URL_DEPLOY + item.url
+      : item.url;
+
     window.open(url, '_blank');
   };
 
@@ -89,8 +95,7 @@ class Document extends Component {
         style: {
           marginTop: '20vh',
           fontSize: '16px',
-          fontWeight: 'bold'
-
+          fontWeight: 'bold',
         },
       });
     } else {
@@ -217,11 +222,11 @@ class Document extends Component {
                     style={{ fontSize: '25px' }}
                   />
                 ) : (
-                    <DownOutlined
-                      className="ml-auto"
-                      style={{ fontSize: '25px' }}
-                    />
-                  )}
+                  <DownOutlined
+                    className="ml-auto"
+                    style={{ fontSize: '25px' }}
+                  />
+                )}
               </div>
               {ss.open && (
                 <div className="p-5">
@@ -234,13 +239,14 @@ class Document extends Component {
                       <List.Item
                         key={item.id}
                         className="link-document"
-                        onClick={() => this.handleClickListItem(item.url)}
+                        onClick={() => this.handleClickListItem(item)}
                       >
                         <Tag
                           color="processing"
                           className="d-flex custom-tag p-2 pl-4"
                         >
                           <h6>{item.title}</h6>
+                          {/* <h6>{item.upload ? <a href={`${process.env.REACT_APP_BASE_URL_DEPLOY}${item.url}`} >{item.title}</a> : }</h6> */}
                         </Tag>
                       </List.Item>
                     )}
@@ -299,7 +305,7 @@ class Document extends Component {
                 <List.Item
                   key={item.id}
                   className="link-document"
-                  onClick={() => this.handleClickListItem(item.url)}
+                  onClick={() => this.handleClickListItem(item)}
                 >
                   <Tag
                     color="processing"
