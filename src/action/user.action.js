@@ -815,6 +815,55 @@ const getListPaymentSession = (dataSent) => {
 };
 
 
+
+const getStatistics = (startDate, endDate, eventId = null) => {
+  const accessToken = localStorage.getItem('accessToken');
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      dispatch(request());
+      API.get(
+        `/api/user/report_revenus`,
+        {
+          params: {
+            startDate,
+            endDate,
+            eventId,
+          },
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
+        .then((res) => {
+          dispatch(success(res.data.result, eventId));
+          resolve(res.data);
+        })
+        .catch((error) => {
+          handleCatch(dispatch, failure, error);
+          reject(error);
+        });
+    });
+  };
+  function request() {
+    return {
+      type: userConstants.GET_STATISTICS_REQUEST,
+    };
+  }
+  function success(data, eventId) {
+    return {
+      type: userConstants.GET_STATISTICS_SUCCESS,
+      data,
+      eventId,
+    };
+  }
+  function failure(error) {
+    return {
+      type: userConstants.GET_STATISTICS_FAILURE,
+      error,
+    };
+  }
+};
+
 export const userActions = {
   login,
   loginWithGoogle,
@@ -844,4 +893,8 @@ export const userActions = {
   getChatHistory,
   getListCardPayment,
   getHistoryPayment,
+  getStatistics
 };
+
+
+//http://localhost:5000/api/user/report_revenus?startDate=2020-06-26&endDate=2020-07-26
