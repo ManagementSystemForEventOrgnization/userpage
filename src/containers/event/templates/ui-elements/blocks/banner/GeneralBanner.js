@@ -53,16 +53,15 @@ class GeneralBanner extends Component {
     });
   };
 
-  componentDidMount = () => {
-    this.handleStoreBlock();
-  };
+  // componentDidMount = () => {
+  //   this.handleStoreBlock();
+  // };
 
   handleStoreBlock = () => {
     const { blocks, storeBlocksWhenCreateEvent, id } = this.props;
     const currentStyle = this.state;
     let item = blocks.find((ele) => ele.id === id);
 
-    console.log(id);
     if (item) {
       const index = blocks.indexOf(item);
       item.style = currentStyle;
@@ -121,6 +120,8 @@ class GeneralBanner extends Component {
 
     const { type, editable, status } = this.props;
     const style = this.getCustomStyle();
+
+    console.log(this.props.banner);
 
     return (
       <div className=" child-block d-flex" style={style}>

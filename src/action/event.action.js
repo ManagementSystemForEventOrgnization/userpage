@@ -96,6 +96,7 @@ const getEventDetailEdit = (eventId, index, editSite) => {
       })
         .then((res) => {
           const { rows, header, event } = res.data.result;
+          console.log(res.data.result);
           localStorage.setItem('currentIndex', index);
           localStorage.setItem('currentId', res.data.result.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
@@ -171,14 +172,15 @@ const savePage = (pages, currentPage, blocks) => {
   }
 };
 
-const getPreviousPage = (currentPage) => {
+const getPreviousPage = (currentPage, blocks) => {
   return (dispatch) => {
-    dispatch(request(currentPage));
+    dispatch(request(currentPage, blocks));
   };
-  function request(currentPage) {
+  function request(currentPage, blocks) {
     return {
       type: eventConstants.GET_PREVIOUS_PAGE,
       currentPage,
+      blocks,
     };
   }
 };
@@ -229,7 +231,7 @@ const uploadFiles = (fileList) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'POST',
-      url: '/api/upload',
+      url: `${process.env.REACT_APP_BASE_URL_DEPLOY}api/upload`,
       data: files,
       headers: {
         'Content-Type': 'multipart/form-data',

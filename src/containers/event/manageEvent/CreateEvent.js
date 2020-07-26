@@ -73,6 +73,7 @@ class CreateEvent extends React.Component {
     const urlWeb = localStorage.getItem('webAddress');
     const editSite = localStorage.getItem('editSite');
     //getEventDetail
+
     if (editSite && urlWeb) {
       getEventDetailEdit(urlWeb, 0, true)
         .then(() => {
@@ -273,7 +274,7 @@ class CreateEvent extends React.Component {
   };
 
   handleBack = () => {
-    const { pages, handlePreviousPage } = this.props;
+    const { pages, handlePreviousPage, blocks } = this.props;
     const { currentIndex } = this.state;
     let newPageId = '';
 
@@ -284,7 +285,7 @@ class CreateEvent extends React.Component {
     } else {
       newPageId = this.getPreviousChildId();
     }
-    handlePreviousPage(newPageId);
+    handlePreviousPage(newPageId, blocks);
     // handleChangeHeader(pages, currentPage, blocks);
   };
 
@@ -438,8 +439,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleChangeHeader: (pages, currentPage, blocks) =>
     dispatch(eventActions.savePage(pages, currentPage, blocks)),
 
-  handlePreviousPage: (currentPage) =>
-    dispatch(eventActions.getPreviousPage(currentPage)),
+  handlePreviousPage: (currentPage, blocks) =>
+    dispatch(eventActions.getPreviousPage(currentPage, blocks)),
 
   saveEvent: (eventId, blocks, header, isPreview) =>
     dispatch(eventActions.saveEvent(eventId, blocks, header, isPreview)),
