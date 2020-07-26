@@ -84,7 +84,9 @@ class CreateHistory extends React.Component {
 
   componentDidMount = () => {
     const { getCreateHistory, getCategories, categories } = this.props;
-    getCreateHistory();
+    let dataSent = {};
+    dataSent.pageNumber = 1;
+    getCreateHistory(dataSent);
     if (categories.length === 0) {
       getCategories();
     }
@@ -122,15 +124,25 @@ class CreateHistory extends React.Component {
 
   onLoadMore = () => {
     const { getCreateHistory, arrEvent } = this.props;
-    const { listEvent } = this.state;
+    const { statusEvent } = this.state;
 
-    let index = Math.round(listEvent.length / 10) + 1;
+    let index = Math.round(arrEvent.length / 10) + 1;
+    if (statusEvent !== "All") {
+
+      let dataSent = {};
+      dataSent.pageNumber = index;
+      dataSent.status = statusEvent;
+      getCreateHistory(dataSent);
+
+
+    }
     let dataSent = {};
     dataSent.pageNumber = index;
     getCreateHistory(dataSent);
-    //  let Event = [...listEvent, ...arrEvent];
 
-    this.setState({ isupdate: true, listEvent: [...arrEvent] });
+
+
+
   };
 
   onFocusCancel = () => {
@@ -146,6 +158,7 @@ class CreateHistory extends React.Component {
     });
     let dataSent = {};
     dataSent.txtSearch = value;
+    dataSent.pageNumber = 1;
 
     getCreateHistory(dataSent);
     this.setState({ isupdate: false });
@@ -164,7 +177,7 @@ class CreateHistory extends React.Component {
       pageNumber: number,
     });
 
-    setTimeout(this.handleFilter(), 3000);
+
   };
 
   isCancelEvent = () => {
@@ -294,11 +307,13 @@ class CreateHistory extends React.Component {
     if (statusEvent === 'All') {
       let data = {};
       data.typeOfEvent = e.target.value;
+      data.pageNumber = 1;
       getCreateHistory(data);
     } else {
       let dataSent = {};
       dataSent.status = statusEvent;
       dataSent.typeOfEvent = e.target.value;
+      dataSent.pageNumber = 1;
       getCreateHistory(dataSent);
     }
     this.setState({ isupdate: false });
@@ -460,7 +475,6 @@ class CreateHistory extends React.Component {
     const {
       sessionEvent,
       isSuccess,
-      isupdate,
     } = this.state;
     const {
       pending,
@@ -470,9 +484,7 @@ class CreateHistory extends React.Component {
       cancelSession,
       penDelet,
     } = this.props;
-    // console.log('arrEvent', arrEvent);
-    let { listEvent } = this.state;
-    listEvent = isupdate ? [...listEvent, ...arrEvent] : [...arrEvent];
+
 
     return (
       <div className="history">
@@ -504,7 +516,7 @@ class CreateHistory extends React.Component {
                 />
               ) : (
                   <div className="row p-2 ">
-                    {listEvent.map((item) => (
+                    {arrEvent.map((item) => (
                       <div
                         className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
                         key={item._id}
@@ -551,7 +563,7 @@ class CreateHistory extends React.Component {
                             </div>
                             <div className="d-flex col ">
                               <div>
-                                {item.ticket ? (
+                                {item.isSellTicket ? (
                                   <div className="d-flex ">
                                     {item.ticket.discount ? (
                                       <div className="d-flex ">
@@ -573,9 +585,6 @@ class CreateHistory extends React.Component {
                                             item.ticket.discount
                                           )}
                                         </p>
-                                        <div className="col">
-                                          <h4>{item.status}</h4>
-                                        </div>
                                       </div>
                                     ) : (
                                         <p
@@ -677,9 +686,10 @@ class CreateHistory extends React.Component {
         <Modal
           title="Cancel Event"
           visible={this.state.isShowCancel}
-          onOk={this.isCancelEvent}
           onCancel={this.isCancelEvent}
-          footer={[]}
+          footer={[
+            <Button type="dashed" onClick={this.isCancelEvent}>close</Button>
+          ]}
         >
           {!this.state.isSecondLoad && err && (
             <h6 style={{ color: 'red' }}>{err}</h6>

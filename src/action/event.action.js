@@ -735,7 +735,7 @@ const getUserJoinEvent = (dataSent, callback) => {
       params: dataSent,
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, dataSent));
         callback(res.data.result);
       })
       .catch((error) => {
@@ -743,10 +743,12 @@ const getUserJoinEvent = (dataSent, callback) => {
       });
   };
 
-  function success(userJoinEvent) {
+  function success(userJoinEvent, dataSent) {
+    console.log("dataSent", dataSent);
     return {
       type: eventConstants.GET_USER_JOIN_EVENT_SUCCESS,
       userJoinEvent,
+      dataSent
     };
   }
   function failure() {

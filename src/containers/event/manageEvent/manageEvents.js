@@ -12,9 +12,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import {
-  FileDoneOutlined,
+  DoubleRightOutlined,
   CloseOutlined,
-  DeleteOutlined,
 } from '@ant-design/icons';
 
 import { eventActions } from 'action/event.action';
@@ -63,14 +62,15 @@ class ManageEvent extends React.Component {
     this.setState({
       visible: false,
     });
+
   };
 
   componentDidMount = () => {
     const { getUserJoinEvent, match } = this.props;
-
     let id = match.match.params.id;
     let dataSent = {};
     dataSent.eventId = id;
+    dataSent.pageNumber = 1;
     getUserJoinEvent(dataSent, (data) => {
       this.setState({
         joinUser: data.map((item) => ({
@@ -84,18 +84,30 @@ class ManageEvent extends React.Component {
 
   onRejectEventMember = (joinUserId, sessionIds) => {
     const { rejectEventMember, match } = this.props;
+    const { joinEvent } = this.state;
     let id = match.match.params.id;
     rejectEventMember(joinUserId, id, sessionIds)
       .then((res) => {
-        this.setState({
-          backReject: 'red',
+        notification.success({
+          message: "you reject success",
+          style: {
+            marginTop: '20%',
+          },
         });
+
+
+        let ss = joinEvent.session.filter(s => s.id !== sessionIds)
+        joinEvent.session = ss;
+        console.log("joinEvent", joinEvent);
+        this.setState({
+          joinEvent: joinEvent
+        })
       })
       .catch((err) => {
-        const { data } = err.response;
-        if (data.error) {
+        // const { data } = err.response;
+        if (err.response.data.error) {
           notification.error({
-            message: data.error.message,
+            message: err.response.data.error.message,
             style: {
               marginTop: '20%',
             },
@@ -108,12 +120,51 @@ class ManageEvent extends React.Component {
     const { txtCause } = this.state;
     const { reportUser, match } = this.props;
     let id = match.match.params.id;
-    reportUser(userId, txtCause, id);
-    this.setState({
-      backDelete: true,
-    });
+    reportUser(userId, txtCause, id)
+      .then((res) => {
+        notification.success({
+          message: "you report user success",
+          style: {
+            marginTop: '20%',
+          },
+        })
+      }).catch((err) => {
+        if (err.response.data.error) {
+          notification.error({
+            message: err.response.data.error.message,
+            style: {
+              marginTop: '20%',
+            },
+          });
+        }
+      });
+
+  };
+  ableToLoadMore = (count) => {
+    if (count === 0) return false;
+
+    if (count === 10) return true;
+    return count % 10 === 0;
   };
 
+  onLoadMore = () => {
+    const { getUserJoinEvent, match, userJoinEvent } = this.props;
+    let index = Math.round(userJoinEvent.length / 10) + 1;
+    let id = match.match.params.id;
+    let dataSent = {};
+    dataSent.eventId = id;
+    dataSent.pageNumber = index;
+    getUserJoinEvent(dataSent, (data) => {
+      this.setState({
+        joinUser: data.map((item) => ({
+          userId: item._id,
+          sessions: item.session.map((ss) => ({ sessionId: ss.id })),
+          eventId: id,
+        })),
+      });
+    });
+
+  };
   onChangeCause = (e) => {
     this.setState({
       txtCause: e.target.value,
@@ -125,7 +176,8 @@ class ManageEvent extends React.Component {
     const { txtCause, joinEvent } = this.state;
 
     return (
-      <>
+      <div className="container">
+
         <Tabs defaultActiveKey="1">
           <TabPane
             tab={<span className="pl-5 pr-5">General Information</span>}
@@ -135,7 +187,16 @@ class ManageEvent extends React.Component {
           </TabPane>
 
           <TabPane tab={<span className="pl-5 pr-5">Participant</span>} key="2">
-            <Table dataSource={userJoinEvent} pagination={10}>
+
+            <p
+              type="button"
+              className="fa-fw w3-margin-right w3-text-teal"
+              style={{ width: '100px' }}
+              onClick={() => this.onLoadMore()}
+            >
+              Load more <i className="fa fa-arrow-down" aria-hidden="true"></i>
+            </p>
+            <Table dataSource={userJoinEvent} >
               <ColumnGroup
                 title="FullName "
                 dataIndex="fullName"
@@ -160,11 +221,11 @@ class ManageEvent extends React.Component {
                           shape="circle"
                         >
                           {' '}
-                          <FileDoneOutlined style={{ fontSize: '17px' }} />
+                          <DoubleRightOutlined style={{ fontSize: '17px' }} />
                         </Button>
                       ) : (
-                        ' '
-                      )
+                          ' '
+                        )
                     )}
                   </div>
                 )}
@@ -192,25 +253,30 @@ class ManageEvent extends React.Component {
                       cancelText="No"
                     >
                       <Button
-                        type="danger"
+
                         disabled={this.state.backDelete}
                         shape="circle"
                       >
-                        <DeleteOutlined style={{ fontSize: '15px' }} />
+                        <CloseOutlined style={{ fontSize: '15px' }} />
                       </Button>
                     </Popconfirm>
                   </div>
                 )}
               ></ColumnGroup>
             </Table>
+
           </TabPane>
+
         </Tabs>
 
         <Modal
           title="User take part in  session this event"
           visible={this.state.visible}
-          onOk={this.handleOk}
+
           onCancel={this.handleCancel}
+          footer={[
+            <Button type="dashed" onClick={this.handleCancel}>close</Button>
+          ]}
           width={700}
         >
           <div>
@@ -274,7 +340,7 @@ class ManageEvent extends React.Component {
             </Table>
           </div>
         </Modal>
-      </>
+      </div>
     );
   }
 }

@@ -360,9 +360,10 @@ const event = (state = initialState, action) => {
         hightLightFinishLoading: false,
       };
     case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
+      console.log(action.dataSent)
       return {
         ...state,
-        userJoinEvent: action.userJoinEvent || [],
+        userJoinEvent: action.dataSent.pageNumber === 1 ? [...action.userJoinEvent] : [...state.userJoinEvent, ...action.userJoinEvent],
       };
     case eventConstants.GET_USER_JOIN_EVENT_FAILURE:
       return {
@@ -401,10 +402,10 @@ const event = (state = initialState, action) => {
           nextId > state.system.length
             ? [...state.system, action.blocks]
             : [
-                ...state.system.slice(0, nextId - 1),
-                action.blocks,
-                ...state.system.slice(nextId, state.system.length),
-              ],
+              ...state.system.slice(0, nextId - 1),
+              action.blocks,
+              ...state.system.slice(nextId, state.system.length),
+            ],
         pages: action.pages,
         currentPage: action.currentPage,
       };
