@@ -573,7 +573,7 @@ const getCreateHistory = (dataSent) => {
       },
     })
       .then((res) => {
-        dispatch(success(res.data.result));
+        dispatch(success(res.data.result, dataSent));
       })
       .then()
       .catch((error) => handleCatch(dispatch, failure, error));
@@ -582,8 +582,8 @@ const getCreateHistory = (dataSent) => {
     return { type: userConstants.GET_HISTORY_CREATE_REQUEST };
   }
 
-  function success(arrEvent) {
-    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent };
+  function success(arrEvent, dataSent) {
+    return { type: userConstants.GET_HISTORY_CREATE_SUCCESS, arrEvent, dataSent };
   }
   function failure(error) {
     return { type: userConstants.GET_HISTORY_CREATE_FAILURE, error };

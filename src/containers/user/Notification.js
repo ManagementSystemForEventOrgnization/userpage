@@ -141,7 +141,7 @@ class Notification extends Component {
               <div
                 onClick={() =>
                   item.linkTo.urlWeb
-                    ? window.location.replace(item.linkTo.urlWeb)
+                    ? history.push(`/event/${item.linkTo.urlWeb}`)
                     : history.push('/profile')
                 }
               >
@@ -151,7 +151,7 @@ class Notification extends Component {
                 <h6
                   onClick={() =>
                     this.handleMarkAsRead(item._id) || item.linkTo.urlWeb
-                      ? window.location.replace(item.linkTo.urlWeb)
+                      ? history.push(`/event/${item.linkTo.urlWeb}`)
                       : history.push('/profile')
                   }
                 >

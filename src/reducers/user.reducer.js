@@ -463,7 +463,7 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
       return {
         ...state,
-        createdEvents: action.arrEvent,
+        createdEvents: action.dataSent.pageNumber === 1 ? [...action.arrEvent] : [...state.createdEvents, ...action.arrEvent],
         pending: false,
         errMessage: null,
       };

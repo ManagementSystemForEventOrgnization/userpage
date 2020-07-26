@@ -31,7 +31,7 @@ class EventDetailPage extends Component {
 
     if (isLogined) {
       getEventDetail(webAddress, index).then((eventId) => {
-        handleGetEventInfo(eventId, () => {});
+        handleGetEventInfo(eventId, () => { });
         getComment(eventId);
       });
     } else {
@@ -42,7 +42,7 @@ class EventDetailPage extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.currentIndex != this.props.currentIndex) {
+    if (prevProps.currentIndex !== this.props.currentIndex) {
       const { id, name } = this.props.match.match.params;
       this.props.getEventDetail(id, name ? this.props.currentIndex : 0);
     }
@@ -65,8 +65,8 @@ class EventDetailPage extends Component {
         ) : errMessage ? (
           <NotFoundPage />
         ) : (
-          <EventDetail {...this.props}></EventDetail>
-        )}
+              <EventDetail {...this.props}></EventDetail>
+            )}
       </>
     );
   }

@@ -88,7 +88,7 @@ class GeneralBanner extends Component {
     let { content } = this.state;
     content[type] = value;
     this.setState(content);
-    setTimeout(this.handleStoreBlock(), 3000);
+    setTimeout(this.handleStoreBlock(), 1000);
   };
 
   getCustomStyle = () => {
