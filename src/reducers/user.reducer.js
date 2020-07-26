@@ -15,7 +15,7 @@ const initialState = {
 
   notifications: [],
   numUnreadNotification: 0,
-
+  statisticsData: [],
   chatHistory: [],
   listCard: [{}],
   historyPayment: [],
@@ -532,6 +532,28 @@ const user = (state = initialState, action) => {
         createdEvents: [
           ...state.createdEvents.filter((e) => e._id !== action.eventId),
         ],
+      };
+
+    //---
+
+    case userConstants.GET_STATISTICS_REQUEST:
+      return {
+        ...state,
+        pending: true,
+      };
+    case userConstants.GET_STATISTICS_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        errMessage: action.error,
+        success: null
+      };
+    case userConstants.GET_STATISTICS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        success: true,
+        statisticsData: action.data
       };
 
     default:
