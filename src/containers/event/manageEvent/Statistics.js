@@ -53,7 +53,7 @@ class Statistics extends Component {
         super(props)
         this.state = {
             statisticsData: [],
-            total: { SumAmount: 0 },
+            total: { totalSession: 0 },
             isEmpty: false,
             chartType: 0
         }
@@ -68,7 +68,7 @@ class Statistics extends Component {
     statistic(value = this.state.statisticsData, type = this.state.chartType) {
 
         if (value === undefined || value.length == 0) {
-            value = [{ name: "there is no record", SumAmount: "0" }]
+            value = [{ name: "there is no record", totalSession: "0" }]
             this.setState({ isEmpty: true })
         }
         else
@@ -78,7 +78,7 @@ class Statistics extends Component {
             let chart1 = am4core.create("chartdiv", am4charts.PieChart);
 
             let series1 = chart1.series.push(new am4charts.PieSeries());
-            series1.dataFields.value = "SumAmount";
+            series1.dataFields.value = "totalSession";
             series1.dataFields.category = "name";
 
             chart1.data = value
@@ -104,7 +104,7 @@ class Statistics extends Component {
 
             // Create series
             var series = chart.series.push(new am4charts.ColumnSeries());
-            series.dataFields.valueY = "SumAmount";
+            series.dataFields.valueY = "totalSession";
             series.dataFields.categoryX = "name";
             series.name = "total amount";
             series.tooltipText = "{name}: [bold]{valueY}[/] VND";
@@ -115,7 +115,7 @@ class Statistics extends Component {
 
 
         var sum = value !== [] && value.reduce(function (previousValue, currentValue) {
-            return { SumAmount: previousValue.SumAmount + currentValue.SumAmount }
+            return { totalSession: previousValue.totalSession + currentValue.totalSession }
         });
 
         this.setState({
@@ -138,12 +138,9 @@ class Statistics extends Component {
     }
 
     onChangeDates = (dates) => {
-        this.setState({
-            startDate: dates ? moment(dates[0]._d).format('YYYY/MM/DD') : '',
-            endDate: dates ? moment(dates[1]._d).format('YYYY/MM/DD') : '',
-        });
 
-        this.props.getStatistics(this.state.startDate, this.state.endDate).then(() => {
+
+        this.props.getStatistics(dates ? moment(dates[0]._d).format('YYYY-MM-DD') : '', dates ? moment(dates[1]._d).format('YYYY-MM-DD') : '').then(() => {
             this.setState({ statisticsData: this.props.statisticsData })
             this.statistic()
         })
@@ -169,13 +166,14 @@ class Statistics extends Component {
         </div>
         return (
             <div className=" p-5 mt-5" >
+                <div> <b>Choose your date:</b></div>
                 <RangePicker
                     style={{ width: '50%', height: '40px' }}
                     format="YYYY-MM-DD "
                     onChange={this.onChangeDates}
                 />
-                <h5 style={{ color: 'red', float: 'right' }}>Total:  {this.state.total && formatter.format(this.state.total.SumAmount)}</h5>
-                <Tabs defaultActiveKey="1" onChange={(key) => this.onChangeStatistics(key)}>
+                <h5 style={{ color: 'red', float: 'right' }}>Total:  {this.state.total && formatter.format(this.state.total.totalSession)}</h5>
+                <Tabs defaultActiveKey="1" onChange={(key) => this.onChangeStatistics(key)} className="mt-5">
                     <TabPane tab="Total Amount" key="1">
                         This is the sum of money you have sold your tickets
     </TabPane>
@@ -199,7 +197,7 @@ class Statistics extends Component {
                     </Spin>
                 ) : (
                         <div className="mt-5">
-                            <div className=" border">
+                            <div >
                                 <Radio.Group onChange={onChangeChartType} value={this.state.chartType}>
                                     <Radio value={0}>Pie Chart</Radio>
                                     <Radio value={1}>Column Chart</Radio>

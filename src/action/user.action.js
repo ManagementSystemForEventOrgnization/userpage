@@ -786,24 +786,22 @@ const deleteEvent = (eventId) => {
 };
 
 
-const getStatistics = (startDate, endDate, eventId = null) => {
+const getStatistics = (startDate , endDate , eventId = null) => {
   const accessToken = localStorage.getItem('accessToken');
-  const configHeader = {
-    Authorization: accessToken,
-  };
-
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       dispatch(request());
       API.get(
         `/api/user/report_revenus`,
         {
+          params: {
+            startDate,
+            endDate,
+            eventId,
+          },
           headers: {
             Authorization: accessToken,
           },
-          startDate,
-          endDate,
-          eventId,
         }
       )
         .then((res) => {
