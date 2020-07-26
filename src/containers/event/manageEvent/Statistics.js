@@ -8,6 +8,7 @@ import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
 import { Table, Spin, Tabs, Radio, DatePicker } from 'antd';
 import moment from 'moment';
+import { Link } from 'react-router-dom'
 
 
 const { RangePicker } = DatePicker;
@@ -23,7 +24,7 @@ var formatter = new Intl.NumberFormat('en-US', {
 const columns = [
     {
         title: 'Event', dataIndex: 'bannerUrl', key: '_id' + 'bannerUrl',
-        render: (bannerUrl) => <img style={{ width: '50px' }} src={bannerUrl}></img>,
+        render: (bannerUrl) => <img style={{ width: '120px' }} src={bannerUrl}></img>,
     },
     {
         title: 'Event Name', dataIndex: 'name', key: '_id' + 'name',
@@ -45,6 +46,11 @@ const columns = [
                 </div>
             )
         },
+
+    },
+    {
+        title: 'Link web', dataIndex: 'urlWeb', key: '_id' + 'urlWeb',
+        render: (urlWeb) => <a href={process.env.REACT_APP_DOMAIN_EVENT_DEPLOY + urlWeb}>go to web => </a>
     },
 ];
 
