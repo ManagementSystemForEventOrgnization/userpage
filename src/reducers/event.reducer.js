@@ -10,9 +10,9 @@ const initialBlocks = [
   dataTest[2].value[0], // event description
   // ...dataTest[13].value, //list of link documents
   // ...dataTest[3].value, // speaker, card
-  dataTest[4].value[1], // schedule
-  // dataTest[5].value[1], //map
-  // ...dataTest[6].value, // countdown
+  //dataTest[4].value[1], // schedule
+  dataTest[5].value[1], //map
+  ...dataTest[6].value, // countdown
   // dataTest[7].value[1], // video
   // ...dataTest[8].value, // sponsors
   // ...dataTest[9].value, //gallery
@@ -20,12 +20,14 @@ const initialBlocks = [
   // ...dataTest[10].value, //contact us
   ...dataTest[12].value, //comment
   ...dataTest[11].value, // footer,
+
 ];
 
 const bannerUrl =
   'https://res.cloudinary.com/eventinyourhand/image/upload/v1592538982/banner_trgqw7.jpg';
 
 const initialState = {
+  pendingEvent: false,
   nameEvent: '',
   typeOfEvent: 'Public',
   category: '',
@@ -53,6 +55,7 @@ const initialState = {
   cancelSession: false,
   successDe: false,
   penListEvent: false,
+  pendJoinUser: false,
 
   pages: [
     {
@@ -71,10 +74,7 @@ const initialState = {
   upcomingFinishLoading: false,
 
   currentIndex: localStorage.getItem('currentIndex' || 0),
-  domain:
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_DOMAIN_EVENT
-      : process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
+  domain: process.env.REACT_APP_DOMAIN_EVENT_DEPLOY,
 };
 
 const getIndexPage = (pages, currentPage) => {
@@ -176,6 +176,14 @@ const event = (state = initialState, action) => {
         session: action.session,
         category: action.category,
         isSellTicket: action.isSellTicket,
+        pages: [
+          {
+            id: initialPageId,
+            title: 'Home',
+            child: [],
+          },
+        ],
+        blocks: initialBlocks,
       };
 
     case eventConstants.PREPARE_FOR_CREATE_EVENT_FAILURE:
@@ -273,7 +281,7 @@ const event = (state = initialState, action) => {
     case eventConstants.GET_EVENT_DETAIL_REQUEST:
       return {
         ...state,
-        pending: true,
+        pendingEvent: true,
       };
 
     case eventConstants.GET_EVENT_DETAIL_SUCCESS:
@@ -281,7 +289,7 @@ const event = (state = initialState, action) => {
 
       return {
         ...state,
-        pending: false,
+        pendingEvent: false,
         blocks: editSite ? action.page[0] : action.page,
         pages: action.header.pages,
         headerStyle: action.header.style,
@@ -304,7 +312,7 @@ const event = (state = initialState, action) => {
       return {
         ...state,
         errMessage: action.err,
-        pending: false,
+        pendingEvent: true,
       };
 
     case eventConstants.GET_EVENT_INFO:
@@ -359,15 +367,23 @@ const event = (state = initialState, action) => {
         hlEvent: [],
         hightLightFinishLoading: false,
       };
+    case eventConstants.GET_USER_JOIN_EVENT_REQUEST:
+      return {
+        ...state,
+        pendJoinUser: true,
+
+      };
     case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
       console.log(action.dataSent)
       return {
         ...state,
+        pendJoinUser: false,
         userJoinEvent: action.dataSent.pageNumber === 1 ? [...action.userJoinEvent] : [...state.userJoinEvent, ...action.userJoinEvent],
       };
     case eventConstants.GET_USER_JOIN_EVENT_FAILURE:
       return {
         ...state,
+        pendJoinUser: false,
         userJoinEvent: [],
       };
     case eventConstants.GET_LIST_EVENT_COMING_UP_SUCCESS:

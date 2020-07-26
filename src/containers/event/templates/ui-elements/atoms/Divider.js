@@ -13,10 +13,11 @@ class DividersBlock extends React.Component {
     const { style } = this.props;
 
     this.state = style
-      ? { ...style }
+      ? { ...style, isDesign: false }
       : {
           ...DividerState(orientation),
           content: 'Text',
+          isDesign: false,
         };
   }
 
@@ -42,7 +43,7 @@ class DividersBlock extends React.Component {
 
   // common function
   onChangeValue(newValue, valueParam) {
-    console.log(newValue);
+    // console.log(newValue);
     this.setState({
       [valueParam]: newValue,
     });

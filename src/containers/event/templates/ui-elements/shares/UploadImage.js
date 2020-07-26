@@ -20,7 +20,7 @@ class UploadImage extends Component {
 
   handleImageUpload(file) {
     const { handleImageDrop } = this.props;
-    console.log(file);
+
     if (!handleImageDrop) return;
     let upload = request
       .post(CLOUDINARY_UPLOAD_URL)

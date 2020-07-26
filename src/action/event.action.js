@@ -40,18 +40,16 @@ const getEventDetail = (eventId, index, editSite) => {
         },
       })
         .then((res) => {
-          const { rows, header, event } = res.data.result;
-          localStorage.setItem('currentIndex', index);
-          localStorage.setItem('currentId', res.data.result.eventId);
-          localStorage.setItem('webAddress', res.data.result.event.urlWeb);
-
-          let blocks = !rows.length ? [] : rows;
-          dispatch(success(blocks, header[0], index, event));
-          resolve();
+          const { rows, header, event, eventId } = res.data.result;
+          if (rows) {
+            let blocks = !rows.length ? [] : rows;
+            dispatch(success(blocks, header[0], index, event));
+            resolve(eventId);
+          } else reject();
         })
         .catch((err) => {
           handleCatch(dispatch, failure, err);
-          reject(err);
+          reject();
         });
     });
   };
@@ -241,7 +239,7 @@ const uploadFiles = (fileList) => {
         resolve(res.data.result);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         reject(err);
       });
   });
@@ -295,7 +293,7 @@ const prepareForCreateEvent = (
     )
       .then((res) => {
         const { _id, urlWeb } = res.data.result;
-        console.log('TEST PREPARE : ', res.data.result);
+        // console.log('TEST PREPARE : ', res.data.result);
         localStorage.setItem('currentId', _id);
         localStorage.setItem('webAddress', urlWeb);
         dispatch(
@@ -447,10 +445,6 @@ const updateEventInfo = (
 };
 
 const storeBlocksWhenCreateEvent = (blocks) => {
-  // console.log('==============CHANGES==================');
-  // console.log(blocks);
-  // console.log('================================');
-
   return (dispatch) => {
     dispatch(request(blocks));
   };
@@ -634,8 +628,6 @@ const getEventInfoUsingID = (eventId, cb) => {
   };
 
   return (dispatch) => {
-    console.log(eventId);
-
     API.get('/api/get_event_info_app', {
       params: {
         eventId,
@@ -731,6 +723,7 @@ const saveComment = (eventId, content) => {
 
 const getUserJoinEvent = (dataSent, callback) => {
   return (dispatch) => {
+    dispatch(request());
     API.get(`/api/get_user_join_event`, {
       params: dataSent,
     })
@@ -742,7 +735,11 @@ const getUserJoinEvent = (dataSent, callback) => {
         handleCatch(dispatch, failure, error);
       });
   };
-
+  function request() {
+    return {
+      type: eventConstants.GET_USER_JOIN_EVENT_REQUEST,
+    };
+  }
   function success(userJoinEvent, dataSent) {
     console.log("dataSent", dataSent);
     return {
@@ -767,22 +764,16 @@ const cancelEvent = (eventId, sessionId) => {
   if (sessionId) {
     let sessionIds = [];
     sessionIds.push(sessionId);
-    data = { eventId, sessionIds }
+    data = { eventId, sessionIds };
   } else {
-    data = { eventId }
+    data = { eventId };
   }
-
 
   return (dispatch) => {
     dispatch(request());
-    API.post(
-      `/api/cancelEvent`,
-      data
-      ,
-      {
-        headers: configHeader,
-      }
-    )
+    API.post(`/api/cancelEvent`, data, {
+      headers: configHeader,
+    })
       .then((res) => {
         dispatch(success(res.data.result));
       })

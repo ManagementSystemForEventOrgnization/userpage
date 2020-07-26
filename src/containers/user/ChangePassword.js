@@ -32,7 +32,6 @@ class ChangePassword extends Component {
 
   render() {
     const onFinish = (values) => {
-      console.log('Success:', values);
       this.setState({
         ...values,
       });

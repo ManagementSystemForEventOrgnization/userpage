@@ -69,7 +69,7 @@ class LoginPage extends React.Component {
                 <CheckCode />
               </div>
             ) : (
-                <Form className="mt-2">
+                <Form className="mt-2 ">
                   <Form.Item>
                     {!isFirstLoad && message && (
                       <div className="error-message mt-2 mb-2">{message}</div>
@@ -115,7 +115,7 @@ class LoginPage extends React.Component {
                     />
                   </Form.Item>
 
-                  <Form.Item shouldUpdate>
+                  <Form.Item shouldUpdate className="mb-0">
                     {() => (
                       <Button
                         type="primary"
@@ -129,14 +129,11 @@ class LoginPage extends React.Component {
                       </Button>
                     )}
                   </Form.Item>
-
-                  <Link to="/forgotpassword" style={{ float: 'right' }}>
+                  <span x> <Link to="/forgotpassword" style={{ float: 'right' }}>
                     Forgot password?
-                </Link>
+                </Link></span>
 
-                  <p className="title-color" style={{ textAlign: 'center' }}>
-                    OR
-                </p>
+
                   <GoogleLogin
                     clientId={clientID}
                     buttonText="Login with Google"
@@ -146,7 +143,7 @@ class LoginPage extends React.Component {
                     onFailure={(response) => this.responseGoogle(response)}
                     cookiePolicy={'single_host_origin'}
                     icon={true}
-                    className="button-login-google"
+                    className="button-login-google mt-3"
                   />
                   <p className="mt-2 title-color" style={{ textAlign: 'center' }}>
                     You don't have any account ?{' '}

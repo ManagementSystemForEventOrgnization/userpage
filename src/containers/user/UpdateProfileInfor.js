@@ -173,10 +173,13 @@ class ProfileInfor extends Component {
       <div className="ProfileInfor shadow p-3 mb-5 bg-white rounded p-3 border">
         {this.errorHandle()}
         {/* start form */}
-        <div className="col" >
+        <div className="col">
           <UploadImage
-
-            url={userInfor.avatar}
+            url={
+              userInfor.avatar === '/avata.png'
+                ? localStorage.getItem('avatar')
+                : userInfor.avatar
+            }
             handleImageDrop={(value) => {
               this.setState({
                 userInfor: { ...this.state.userInfor, avatar: value },
@@ -227,8 +230,8 @@ class ProfileInfor extends Component {
             {this.state.phone || userInfor.phone === '' ? (
               <div></div>
             ) : (
-                <div className="text-danger">Invalid Phone Number</div>
-              )}
+              <div className="text-danger">Invalid Phone Number</div>
+            )}
           </Form.Item>
 
           <div className="row pl-2 pr-2 mb-2">
@@ -326,8 +329,8 @@ class ProfileInfor extends Component {
             {this.state.orgPhone || userInfor.orgPhone === '' ? (
               <div></div>
             ) : (
-                <div className="text-danger">Invalid Phone Number</div>
-              )}
+              <div className="text-danger">Invalid Phone Number</div>
+            )}
           </Form.Item>
 
           <Form.Item>
@@ -343,8 +346,8 @@ class ProfileInfor extends Component {
             {this.state.validEmail || this.state.userInfor.orgEmail === '' ? (
               <div></div>
             ) : (
-                <div className="text-danger">Invalid Email</div>
-              )}
+              <div className="text-danger">Invalid Email</div>
+            )}
           </Form.Item>
 
           <Form.Item>
@@ -372,8 +375,10 @@ class ProfileInfor extends Component {
                     !(this.state.phone || userInfor.phone === '') ||
                     !(this.state.orgPhone || userInfor.orgPhone === '') ||
                     JSON.stringify(this.state.userInfor) ===
-                    JSON.stringify(fistValueUserInfor) ||
-                    (this.state.isSaved && !this.props.pending && this.state.uploadImage)
+                      JSON.stringify(fistValueUserInfor) ||
+                    (this.state.isSaved &&
+                      !this.props.pending &&
+                      this.state.uploadImage)
                   }
                   onClick={(value) => this.onSave(value)}
                   loading={pending}

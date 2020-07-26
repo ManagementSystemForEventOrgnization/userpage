@@ -17,7 +17,7 @@ import {
   Dropdown,
   Modal,
   Radio,
-  message
+  message,
 } from 'antd';
 
 import {
@@ -230,8 +230,6 @@ class CreateHistory extends React.Component {
     localStorage.setItem('webAddress', url);
     localStorage.setItem('currentId', eventId);
     localStorage.setItem('editSite', url);
-
-
   };
 
   handleURL = (url) => {
@@ -242,44 +240,39 @@ class CreateHistory extends React.Component {
     const { deleteEvent } = this.props;
     const { eventId } = this.state;
 
-    deleteEvent(eventId).then(res => {
+    deleteEvent(eventId)
+      .then((res) => {
+        this.setState({
+          isDeleteMess: false,
+          isupdate: false,
+          isdeletSucces: false,
+          visible: false,
+        });
+        message.success({
+          content: 'you have deleted a event',
+          style: {
+            marginTop: '20vh',
+            fontSize: '16px',
+            fontWeight: 'bold',
+          },
+        });
+      })
+      .catch((error) => {
+        // console.log(error.response.data.error.message)
+        message.error({
+          content: error.response.data.error.message,
+          style: {
+            marginTop: '20vh',
+            fontSize: '16px',
+            fontWeight: 'bold',
+          },
+        });
 
-      this.setState({
-        isDeleteMess: false,
-        isupdate: false,
-        isdeletSucces: false,
-        visible: false
+        // console.log(error);
+        this.setState({
+          visible: false,
+        });
       });
-      message.success({
-        content: 'you have deleted a event',
-        style: {
-          marginTop: '20vh',
-          fontSize: '16px',
-          fontWeight: 'bold'
-
-        },
-      });
-
-    }).catch(error => {
-      console.log(error.response.data.error.message)
-      message.error({
-        content: error.response.data.error.message,
-        style: {
-          marginTop: '20vh',
-          fontSize: '16px',
-          fontWeight: 'bold'
-        },
-      });
-
-      console.log(error);
-      this.setState({
-
-        visible: false
-      });
-    }
-
-    )
-
   };
 
   isShowDelete = (eventId) => {
@@ -351,9 +344,9 @@ class CreateHistory extends React.Component {
       <Menu>
         {sess.map((item, key) => (
           <Menu.Item key={key}>
-            {console.log(item)}
+            {/* {console.log(item)} */}
             <QRCodes
-              QrValue={eventId + item._id}
+              QrValue={eventId + item.id}
               day={item.day}
               title={'Session: ' + item.joinNumber}
             />
@@ -606,6 +599,7 @@ class CreateHistory extends React.Component {
                               </div>
                             </div>
                           </div>
+
                           <Link to={`/event/${item.urlWeb}`}>
                             <div className="d-flex ">
                               <h5
@@ -642,6 +636,8 @@ class CreateHistory extends React.Component {
                               </p>
                             </div>
                           </div>
+
+
                         </Card>
                       </div>
                     ))}
@@ -680,9 +676,7 @@ class CreateHistory extends React.Component {
           onCancel={this.showModal}
           // footer={null}
           confirmLoading={penDelet}
-        >
-
-        </Modal>
+        ></Modal>
         <Modal
           title="Cancel Event"
           visible={this.state.isShowCancel}

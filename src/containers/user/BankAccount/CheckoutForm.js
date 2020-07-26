@@ -78,7 +78,6 @@ class CheckoutForm extends React.Component {
 
       const result = await stripe.createToken(card);
 
-      console.log('token', result);
       if (result.error) {
         this.setState({
           error: result.error.message,

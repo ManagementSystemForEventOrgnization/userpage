@@ -17,12 +17,12 @@ class TextsBlock extends React.Component {
   constructor(props) {
     super(props);
     const { style } = this.props;
-    console.log('TEXT STYLE', style);
     this.state = style
-      ? { ...style, focus: false }
+      ? { ...style, focus: false, visible: false }
       : {
           ...TextState(this.props),
           focus: false,
+          visible: false,
         };
   }
 

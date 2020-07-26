@@ -7,6 +7,7 @@ import {
   Input,
   Modal,
   notification,
+  Spin
 } from 'antd';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -172,7 +173,7 @@ class ManageEvent extends React.Component {
   };
 
   render() {
-    const { userJoinEvent } = this.props;
+    const { userJoinEvent, pendJoinUser } = this.props;
     const { txtCause, joinEvent } = this.state;
 
     return (
@@ -187,11 +188,23 @@ class ManageEvent extends React.Component {
           </TabPane>
 
           <TabPane tab={<span className="pl-5 pr-5">Participant</span>} key="2">
-
+            {pendJoinUser && (
+              <Spin
+                tip="Loading..."
+                size="large"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                }}
+              >
+                {' '}
+              </Spin>
+            )}
             <p
               type="button"
               className="fa-fw w3-margin-right w3-text-teal"
               style={{ width: '100px' }}
+
               onClick={() => this.onLoadMore()}
             >
               Load more <i className="fa fa-arrow-down" aria-hidden="true"></i>
@@ -347,6 +360,7 @@ class ManageEvent extends React.Component {
 const mapStateToProps = (state) => ({
   errMessage: state.event.errMessage,
   userJoinEvent: state.event.userJoinEvent,
+  pendJoinUser: state.event.pendJoinUser
 });
 
 const mapDispatchToProps = (dispatch) => ({

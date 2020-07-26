@@ -106,7 +106,6 @@ const rejectEventMember = (joinUserId, eventId, sessionId) => {
       )
         .then((res) => {
           resolve('true');
-          console.log(res.data.result);
         })
         .catch((err) => reject(err));
     });
@@ -133,7 +132,6 @@ const reportUser = (userId, cause, eventId) => {
       )
         .then((res) => {
           resolve('true');
-          console.log(res.data.result);
         })
         .catch((err) => reject(err));
     });

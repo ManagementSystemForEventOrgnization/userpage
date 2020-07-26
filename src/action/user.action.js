@@ -718,7 +718,6 @@ const getChatHistory = (sender) => {
   const configHeader = {
     Authorization: accessToken,
   };
-  console.log(sender);
   return (dispatch) => {
     API.get('/api/chat/get_list', {
       params: {
