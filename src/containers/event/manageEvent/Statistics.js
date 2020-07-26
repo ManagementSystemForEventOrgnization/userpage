@@ -8,7 +8,6 @@ import { userActions } from 'action/user.action';
 import { connect } from 'react-redux';
 import { Table, Spin, Tabs, Radio, DatePicker } from 'antd';
 import moment from 'moment';
-import { Link } from 'react-router-dom'
 
 
 const { RangePicker } = DatePicker;
