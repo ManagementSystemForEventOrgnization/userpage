@@ -155,7 +155,7 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('accessToken');
 
       localStorage.removeItem('currentId');
-      // localStorage.removeItem('webAddress');
+      localStorage.removeItem('webAddress');
 
       return {
         ...state,
