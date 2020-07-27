@@ -224,6 +224,12 @@ class Statistics extends Component {
       visible: false,
     });
   };
+  ableToLoadMore = (count) => {
+    if (count === 0) return false;
+
+    if (count === 10) return true;
+    return count % 10 === 0;
+  };
 
   render() {
     const { listPaySession, pendPaySession, issucess } = this.props;
@@ -334,9 +340,10 @@ class Statistics extends Component {
 
         <div>
           <Modal
-            title="Basic Modal"
+            title="Statistics Session "
             visible={this.state.visible}
             onCancel={this.handleCancel}
+            style={{ top: '10%' }}
             footer={[
               <Button type="dashed" onClick={this.handleCancel}>
                 close
@@ -344,7 +351,9 @@ class Statistics extends Component {
             ]}
             width={700}
           >
-            <div>
+            <div
+              style={{ overflow: 'auto', height: '400px', overflowX: 'hidden' }}
+            >
               <div className="row">
                 <div className="col d-flex">
                   <h6>Name:</h6>
@@ -370,16 +379,6 @@ class Statistics extends Component {
                 </Spin>
               ) : (
                 <div>
-                  <p
-                    type="button"
-                    className="fa-fw w3-margin-right w3-text-teal"
-                    style={{ width: '100px' }}
-                    onClick={() => this.onLoadMore()}
-                  >
-                    Load more{' '}
-                    <i className="fa fa-arrow-down" aria-hidden="true"></i>
-                  </p>
-
                   <Table dataSource={listPaySession}>
                     <ColumnGroup
                       title="Full Name"
@@ -412,6 +411,12 @@ class Statistics extends Component {
                       }
                     ></ColumnGroup>
                     <ColumnGroup
+                      title="Amount"
+                      dataIndex="amount"
+                      key="amount"
+                      render={(amount) => <p>{amount}</p>}
+                    ></ColumnGroup>
+                    <ColumnGroup
                       title="Pay Type"
                       dataIndex="payType"
                       key="payType"
@@ -419,6 +424,17 @@ class Statistics extends Component {
                     ></ColumnGroup>
                   </Table>
                 </div>
+              )}
+              {this.ableToLoadMore(listPaySession.length) && (
+                <p
+                  type="button"
+                  className="fa-fw w3-margin-right w3-text-teal"
+                  style={{ width: '100px' }}
+                  onClick={() => this.onLoadMore()}
+                >
+                  Load more{' '}
+                  <i className="fa fa-arrow-down" aria-hidden="true"></i>
+                </p>
               )}
             </div>
           </Modal>
