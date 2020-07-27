@@ -69,7 +69,6 @@ class ApplyEventModal extends Component {
 
   handleUpdateSessionStatus = () => {
     const { handleGetEventInfo, id } = this.props;
-    // console.log('APPLY EVENT MODAL: ', id, localStorage.getItem('currentId'));
     handleGetEventInfo(id, (eventInfo) => {
       if (!eventInfo) {
       } else {

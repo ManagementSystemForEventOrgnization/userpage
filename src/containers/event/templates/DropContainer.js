@@ -14,23 +14,6 @@ class DropContainer extends React.Component {
   }
 
   renderItem = (item, match, editable) => {
-    //console.log(item);
-    // const editSite = localStorage.getItem('editSite');
-    // const param = editSite ? {
-    //   id: item.id,
-    //   key: item.id,
-    //   style: item.style,
-    //   editable,
-    //   match,
-    //   type: item.type,
-    // } : {
-    //   id: item.id,
-    //   editable,
-    //   key: item.id,
-    //   match,
-    //   type: item.type,
-    // }
-
     const param =
       item.style && Object.keys(item.style).length !== 0
         ? {

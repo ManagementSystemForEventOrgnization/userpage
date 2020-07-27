@@ -88,7 +88,6 @@ class UpdateProfileInfor extends Component {
 
   render() {
     const { userInfor } = this.state;
-    console.log(userInfor.avatar);
 
     return (
       <div>

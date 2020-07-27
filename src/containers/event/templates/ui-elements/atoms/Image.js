@@ -53,6 +53,7 @@ class ImageBlock extends React.Component {
   };
 
   openModal = () => this.setState({ visible: true });
+
   closeModal = () => {
     this.setState({ visible: false });
     this.handleStoreBlock();

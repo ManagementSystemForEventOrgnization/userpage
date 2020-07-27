@@ -44,6 +44,7 @@ const getEventDetail = (eventId, index, editSite) => {
           if (rows) {
             let blocks = !rows.length ? [] : rows;
             dispatch(success(blocks, header[0], index, event));
+            localStorage.setItem('webAddress', event.urlWeb);
             resolve(eventId);
           } else reject();
         })

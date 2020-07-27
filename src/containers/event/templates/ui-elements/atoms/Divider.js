@@ -43,7 +43,6 @@ class DividersBlock extends React.Component {
 
   // common function
   onChangeValue(newValue, valueParam) {
-    // console.log(newValue);
     this.setState({
       [valueParam]: newValue,
     });

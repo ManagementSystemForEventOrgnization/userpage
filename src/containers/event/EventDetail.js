@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { Spin } from 'antd';
 
-import { eventActions } from 'action/event.action';
 import { blockList } from './data/data';
 
 class EventDetail extends React.Component {
@@ -11,9 +10,6 @@ class EventDetail extends React.Component {
     this.state = {
       dropList: props.blocks,
       currentPage: props.currentPage,
-      // currentIndex: props.currentIndex,
-      // webAddress:
-      //   props.match.match.params.id || localStorage.getItem('webAddress'),
     };
   }
 
@@ -83,19 +79,6 @@ const mapStateToProps = (state) => ({
   pages: state.event.pages,
   headerStyle: state.event.headerStyle,
   currentPage: state.event.currentPage,
-  // currentIndex: state.event.currentIndex,
-  //pending: state.event.pending,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getEventDetail: (eventId, index) =>
-    dispatch(eventActions.getEventDetail(eventId, index)),
-
-  getComment: (eventId, pageNumber, numberRecord) =>
-    dispatch(eventActions.getComment(eventId, pageNumber, numberRecord)),
-
-  // handleGetEventInfo: (eventId, cb) =>
-  //   dispatch(eventActions.getEventInfoUsingID(eventId, cb)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
+export default connect(mapStateToProps, null)(EventDetail);

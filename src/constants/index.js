@@ -19,7 +19,7 @@ import CreateEventPage from 'pages/CreateEventPage';
 import PreviewEvent from 'containers/event/PreviewEvent';
 import NotFoundPage from 'pages/NotFoundPage';
 
-import Statistics from '../containers/event/manageEvent/Statistics'
+import Statistics from '../containers/event/manageEvent/Statistics';
 export const userConstants = {
   REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
   REGISTER_SUCCESS: 'USERS_REGISTER_SUCCESS',
@@ -177,7 +177,6 @@ export const eventConstants = {
   CANCEL_EVENT_REQUEST: 'CANCEL_EVENT_REQUEST',
   CANCEL_EVENT_SUCCESS: ' CANCEL_EVENT_SUCCESS',
   CANCEL_EVENT_FAILURE: 'CANCEL_EVENT_FAILURE',
-
 };
 
 export const applyEventConstants = {

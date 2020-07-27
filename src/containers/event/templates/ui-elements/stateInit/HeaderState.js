@@ -1,5 +1,7 @@
 const HeaderState = (props) => ({
   visible: false,
+  urlLogo:
+    'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png',
 
   selectedItem: '',
   margin: [0, 1, 1, 1],

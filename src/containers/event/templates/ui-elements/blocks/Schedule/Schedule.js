@@ -157,7 +157,6 @@ class Schedule1 extends Component {
 
   handleUpdateSessionStatus = () => {
     const { handleGetEventInfo, eventId } = this.props;
-    // console.log('SCHEDULE: ', eventId, localStorage.getItem('currentId'));
 
     handleGetEventInfo(eventId, (eventInfo) => {
       if (!eventInfo) {

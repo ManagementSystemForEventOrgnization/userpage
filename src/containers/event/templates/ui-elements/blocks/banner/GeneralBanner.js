@@ -121,8 +121,6 @@ class GeneralBanner extends Component {
     const { type, editable, status } = this.props;
     const style = this.getCustomStyle();
 
-    console.log(this.props.banner);
-
     return (
       <div className=" child-block d-flex" style={style}>
         <div style={style} className="flex-fill">

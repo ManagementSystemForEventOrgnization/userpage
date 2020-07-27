@@ -155,7 +155,7 @@ const user = (state = initialState, action) => {
       localStorage.removeItem('accessToken');
 
       localStorage.removeItem('currentId');
-      localStorage.removeItem('webAddress');
+      // localStorage.removeItem('webAddress');
 
       return {
         ...state,
@@ -465,7 +465,10 @@ const user = (state = initialState, action) => {
     case userConstants.GET_HISTORY_CREATE_SUCCESS:
       return {
         ...state,
-        createdEvents: action.dataSent.pageNumber === 1 ? [...action.arrEvent] : [...state.createdEvents, ...action.arrEvent],
+        createdEvents:
+          action.dataSent.pageNumber === 1
+            ? [...action.arrEvent]
+            : [...state.createdEvents, ...action.arrEvent],
         pending: false,
         errMessage: null,
       };
@@ -481,21 +484,23 @@ const user = (state = initialState, action) => {
         ...state,
 
         pendPaySession: true,
-        issucess: false
+        issucess: false,
       };
     case userConstants.GET_LIST_PAYMENT_SESSION_SUCCESS:
       return {
         ...state,
-        listPaySession: action.dataSent.pageNumber === 1 ? [...action.listPaySession] : [...state.listPaySession, ...action.listPaySession],
+        listPaySession:
+          action.dataSent.pageNumber === 1
+            ? [...action.listPaySession]
+            : [...state.listPaySession, ...action.listPaySession],
         pendPaySession: false,
         issucess: true,
-
       };
 
     case userConstants.GET_LIST_PAYMENT_SESSION_FAILURE:
       return {
         ...state,
-        pendPaySession: false
+        pendPaySession: false,
       };
 
     case userConstants.GET_UNREADNOTIFICATION:
@@ -569,14 +574,14 @@ const user = (state = initialState, action) => {
         ...state,
         pending: false,
         errMessage: action.error,
-        success: null
+        success: null,
       };
     case userConstants.GET_STATISTICS_SUCCESS:
       return {
         ...state,
         pending: false,
         success: true,
-        statisticsData: action.data
+        statisticsData: action.data,
       };
 
     default:

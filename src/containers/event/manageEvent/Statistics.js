@@ -193,12 +193,12 @@ class Statistics extends Component {
 
   showList = (sessionId, eventId, index) => {
     const { getListPaymentSession } = this.props;
-    console.log(this.state.sessionId, this.state.eventId);
+
     let dataSent = {};
     dataSent.sessionId = sessionId;
     dataSent.eventId = eventId;
     dataSent.pageNumber = index;
-    console.log(dataSent);
+
     getListPaymentSession(dataSent);
   };
   showModal = (columns, item, total) => {

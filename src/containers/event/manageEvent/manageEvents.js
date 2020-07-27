@@ -94,7 +94,7 @@ class ManageEvent extends React.Component {
 
         let ss = joinEvent.session.filter((s) => s.id !== sessionIds);
         joinEvent.session = ss;
-        console.log('joinEvent', joinEvent);
+
         this.setState({
           joinEvent: joinEvent,
         });

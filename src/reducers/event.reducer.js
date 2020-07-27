@@ -283,6 +283,7 @@ const event = (state = initialState, action) => {
         currentPage: getId(action.header.pages, action.index), //THIS
         //  currentPage: state.currentIndex
         isSellTicket: action.event.isSellTicket,
+        webAddress: action.event.urlWeb,
 
         // update event infor
       };
@@ -355,7 +356,6 @@ const event = (state = initialState, action) => {
         pendJoinUser: true,
       };
     case eventConstants.GET_USER_JOIN_EVENT_SUCCESS:
-      console.log(action.dataSent);
       return {
         ...state,
         pendJoinUser: false,

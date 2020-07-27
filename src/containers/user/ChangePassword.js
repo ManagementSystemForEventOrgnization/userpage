@@ -46,9 +46,7 @@ class ChangePassword extends Component {
       }
     };
 
-    const onFinishFailed = (errorInfo) => {
-      // console.log('Failed:', errorInfo);
-    };
+    const onFinishFailed = (errorInfo) => {};
 
     return (
       <div className=" p-3 bg-white rounded">

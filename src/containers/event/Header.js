@@ -200,6 +200,14 @@ class Header extends Component {
     return divStyle;
   };
 
+  // changeLogoUrl = (url) => {
+  //   const { storeStyleHeader } = this.props;
+  //   this.setState({
+  //     urlLogo: url,
+  //   });
+  //   storeStyleHeader(this.state);
+  // };
+
   render() {
     const { pages, currentPage, editable, pending, webAddress } = this.props;
     const { currentItem } = this.state;
@@ -214,6 +222,7 @@ class Header extends Component {
       margin,
       color,
       background,
+      urlLogo,
     } = this.state;
 
     const divStyle = this.getCustomStyle();
@@ -222,14 +231,13 @@ class Header extends Component {
         {!pending && (
           <div className="d-flex flex-fill" style={divStyle}>
             <ImageBlock
-              url={
-                'https://res.cloudinary.com/eventinyourhand/image/upload/v1592658069/sponsor/git_vumynk.png'
-              }
+              url={urlLogo}
               newStyle={logoStyle}
               editable={editable}
               child={true}
               logo={true}
               webAddress={id}
+              // changeLogoUrl={this.changeLogoUrl}
             />
 
             <Menu
