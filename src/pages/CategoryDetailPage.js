@@ -38,11 +38,15 @@ class CategoryDetailPage extends React.Component {
     }
 
     if (path === 'all-events') {
-      getListEvent();
+      const sentData = {
+        pageNumber: 1,
+      };
+      getListEvent(sentData);
     } else {
       const categoryEventId = localStorage.getItem('currentCategory');
       const sentData = {
         categoryEventId,
+        pageNumber: 1,
       };
       this.setState({
         categoryEventId,
@@ -61,6 +65,7 @@ class CategoryDetailPage extends React.Component {
       categoryEventId,
       txtSearch,
       fee,
+      pageNumber: 1,
     };
 
     this.setState({
@@ -81,6 +86,7 @@ class CategoryDetailPage extends React.Component {
       startDate,
       endDate,
       fee: value === 'true',
+      pageNumber: 1,
     };
     getListEvent(sentData);
   };
@@ -99,6 +105,7 @@ class CategoryDetailPage extends React.Component {
       fee,
       categoryEventId,
       txtSearch: value,
+      pageNumber: 1,
     };
     getListEvent(dataSent);
   };
@@ -110,9 +117,16 @@ class CategoryDetailPage extends React.Component {
 
     if (prevProps.match.match.params.id !== path) {
       if (path === 'all-events') {
-        getListEvent();
+        let sentData = {
+          pageNumber: 1,
+        };
+        getListEvent(sentData);
       } else {
-        getListEvent({ categoryEventId });
+        let sentData = {
+          pageNumber: 1,
+          categoryEventId,
+        };
+        getListEvent({ sentData });
       }
       this.setState({
         categoryEventId,
@@ -131,10 +145,9 @@ class CategoryDetailPage extends React.Component {
   };
 
   onLoadMore = () => {
-    const { getListEvent } = this.props;
-    const { listEvent } = this.state;
+    const { getListEvent, hlEvent } = this.props;
 
-    let index = Math.round(listEvent.length / 10) + 1;
+    let index = Math.round(hlEvent.length / 10) + 1;
     let dataSent = {};
     dataSent.pageNumber = index;
     getListEvent(dataSent);
@@ -143,12 +156,10 @@ class CategoryDetailPage extends React.Component {
 
   renderEvents = () => {
     const { hlEvent } = this.props;
-    let { listEvent, shoulUpdate } = this.state;
-    listEvent = shoulUpdate ? [...listEvent, ...hlEvent] : [...hlEvent];
 
-    return listEvent.length > 0 ? (
+    return hlEvent.length > 0 ? (
       <div className="row p-5 ">
-        {listEvent.map((item) => (
+        {hlEvent.map((item) => (
           <div className="col-xl-4 col-lg-4 col-md-6 mt-4 " key={item._id}>
             <EventCard eventInfo={item} />
           </div>
@@ -166,25 +177,22 @@ class CategoryDetailPage extends React.Component {
         )}
       </div>
     ) : (
-        <div style={{ textAlign: 'center' }}>
-          <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
-          <hr />
-          <img
-            src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
-            alt="no-high-light"
-          />
-        </div>
-      );
+      <div style={{ textAlign: 'center' }}>
+        <h6 className="mt-5 mb-5">OPPs! We cannot find any events.</h6>
+        <hr />
+        <img
+          src="https://res.cloudinary.com/eventinyourhand/image/upload/v1592767121/LoadingGif/Free_Movement_Of_Data_umzvrl.gif"
+          alt="no-high-light"
+        />
+      </div>
+    );
   };
 
   render() {
     const { match, hlpending } = this.props;
 
     return (
-      <div
-        className=" homepage"
-        style={{ backgroundColor: '#f1f1f1' }}
-      >
+      <div className=" homepage" style={{ backgroundColor: '#f1f1f1' }}>
         <NavBar />
 
         <Banner
@@ -221,10 +229,10 @@ class CategoryDetailPage extends React.Component {
         {hlpending ? (
           <Skeleton className="mt-2" avatar paragraph={{ rows: 4 }} active />
         ) : (
-            <div className="list-event mt-2 mb-5  " style={{ marginTop: '5%' }}>
-              {this.renderEvents()}
-            </div>
-          )}
+          <div className="list-event mt-2 mb-5  " style={{ marginTop: '5%' }}>
+            {this.renderEvents()}
+          </div>
+        )}
       </div>
     );
   }

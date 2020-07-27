@@ -486,7 +486,7 @@ const getListEvent = (sentData) => {
     API.get(`/api/get_list_event`, { params: sentData })
       .then((res) => {
         if (res.status === 200) {
-          dispatch(success(res.data.result.event));
+          dispatch(success(res.data.result.event, sentData));
         } else {
           dispatch(failure());
         }
@@ -500,10 +500,11 @@ const getListEvent = (sentData) => {
       type: eventConstants.GET_LIST_EVENT_REQUEST,
     };
   }
-  function success(hlEvent) {
+  function success(hlEvent, sentData) {
     return {
       type: eventConstants.GET_LIST_EVENT_SUCCESS,
       hlEvent,
+      sentData,
     };
   }
   function failure() {
@@ -610,7 +611,7 @@ const getEventInfo = (urlWeb) => {
           localStorage.setItem('currentId', res.data.result.event.eventId);
           localStorage.setItem('webAddress', res.data.result.event.urlWeb);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   };
 
@@ -665,7 +666,7 @@ const getComment = (eventId, pageNumber = 1, numberRecord) => {
         const { result } = res.data;
         dispatch(request(result));
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   function request(comments) {
@@ -743,11 +744,11 @@ const getUserJoinEvent = (dataSent, callback) => {
     };
   }
   function success(userJoinEvent, dataSent) {
-    console.log("dataSent", dataSent);
+    console.log('dataSent', dataSent);
     return {
       type: eventConstants.GET_USER_JOIN_EVENT_SUCCESS,
       userJoinEvent,
-      dataSent
+      dataSent,
     };
   }
   function failure() {

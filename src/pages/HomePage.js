@@ -67,6 +67,7 @@ class HomePage extends Component {
     let type = 'HEIGHT_LIGHT';
     let sentData = {};
     sentData.type = type;
+    sentData.pageNumber = 1;
     getListEventUpComing(pageNumber, numberRecord);
     getListEvent(sentData);
     window.scrollTo(0, 0);
