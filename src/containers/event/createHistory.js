@@ -127,22 +127,15 @@ class CreateHistory extends React.Component {
     const { statusEvent } = this.state;
 
     let index = Math.round(arrEvent.length / 10) + 1;
-    if (statusEvent !== "All") {
-
+    if (statusEvent !== 'All') {
       let dataSent = {};
       dataSent.pageNumber = index;
       dataSent.status = statusEvent;
       getCreateHistory(dataSent);
-
-
     }
     let dataSent = {};
     dataSent.pageNumber = index;
     getCreateHistory(dataSent);
-
-
-
-
   };
 
   onFocusCancel = () => {
@@ -176,8 +169,6 @@ class CreateHistory extends React.Component {
     this.setState({
       pageNumber: number,
     });
-
-
   };
 
   isCancelEvent = () => {
@@ -211,17 +202,20 @@ class CreateHistory extends React.Component {
       statusEvent: value,
     });
 
-    let dataSent = {};
     if (value === 'ALL') {
+      let dataSent = {};
       this.setState({
         isRadio: true,
       });
-      getCreateHistory();
+      dataSent.pageNumber = 1;
+      getCreateHistory(dataSent);
     } else {
       this.setState({
         isRadio: false,
       });
+      let dataSent = {};
       dataSent.status = value;
+      dataSent.pageNumber = 1;
       getCreateHistory(dataSent);
     }
   };
@@ -464,10 +458,7 @@ class CreateHistory extends React.Component {
   };
 
   render() {
-    const {
-      sessionEvent,
-      isSuccess,
-    } = this.state;
+    const { sessionEvent, isSuccess } = this.state;
     const {
       pending,
       arrEvent,
@@ -476,7 +467,6 @@ class CreateHistory extends React.Component {
       cancelSession,
       penDelet,
     } = this.props;
-
 
     return (
       <div className="history">
@@ -507,141 +497,139 @@ class CreateHistory extends React.Component {
                   active
                 />
               ) : (
-                  <div className="row p-2 ">
-                    {arrEvent.map((item) => (
-                      <div
-                        className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
-                        key={item._id}
-                      >
-                        <Card
-                          className="event-cart "
-                          cover={
-                            <div>
-                              <Dropdown
-                                overlay={this.renderMenu(item)}
-                                placement="bottomLeft"
-                              >
-                                <Button className="ml-1 mt-1 ticket">
-                                  Action
+                <div className="row p-2 ">
+                  {arrEvent.map((item) => (
+                    <div
+                      className="col-xl-12 col-lg-12 col-md-12 mt-12 mt-5"
+                      key={item._id}
+                    >
+                      <Card
+                        className="event-cart "
+                        cover={
+                          <div>
+                            <Dropdown
+                              overlay={this.renderMenu(item)}
+                              placement="bottomLeft"
+                            >
+                              <Button className="ml-1 mt-1 ticket">
+                                Action
                               </Button>
-                              </Dropdown>
+                            </Dropdown>
 
-                              {item.bannerUrl && (
-                                <img
-                                  className="img-baner"
-                                  alt="example"
-                                  src={item.bannerUrl}
-                                />
-                              )}
-                            </div>
-                          }
-                        >
-                          <div className="row">
-                            <div className="d-flex col ">
-                              <p
-                                className="ml-2"
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {moment(
-                                  (item.session &&
-                                    item.session[0] &&
-                                    item.session[0].day) ||
-                                  new Date().toLocaleDateString()
-                                ).format('DD/MM/YYYY ')}
-                              </p>
-                            </div>
-                            <div className="d-flex col ">
-                              <div>
-                                {item.isSellTicket ? (
-                                  <div className="d-flex ">
-                                    {item.ticket.discount ? (
-                                      <div className="d-flex ">
-                                        <p
-                                          style={{
-                                            textDecoration: 'line-through',
-                                            fontWeight: 'bold',
-                                          }}
-                                          className="ml-1 "
-                                        >
-                                          {item.ticket.price}
-                                        </p>
-                                        <p
-                                          className="ml-3"
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {this.sumDiscount(
-                                            item.ticket.price,
-                                            item.ticket.discount
-                                          )}
-                                        </p>
-                                      </div>
-                                    ) : (
-                                        <p
-                                          className=" mt-1 "
-                                          style={{ fontWeight: 'bold' }}
-                                        >
-                                          {item.ticket.price} VNĐ
-                                        </p>
-                                      )}
-                                  </div>
-                                ) : (
-                                    <p
-                                      style={{ fontWeight: 'bold' }}
-                                      className="ml-1  "
-                                    >
-                                      0 VNĐ
-                                    </p>
-                                  )}
-                              </div>
-                            </div>
+                            {item.bannerUrl && (
+                              <img
+                                className="img-baner"
+                                alt="example"
+                                src={item.bannerUrl}
+                              />
+                            )}
                           </div>
-
-                          <Link to={`/event/${item.urlWeb}`}>
-                            <div className="d-flex ">
-                              <h5
-                                className="ml-2 line-clamp "
-                                style={{
-                                  fontWeight: 'bold',
-                                  textTransform: 'uppercase',
-                                }}
-                              >
-                                {item.name}
-                              </h5>
-                              <div>
-                                {((item.session && item.session.length) || 1) ===
-                                  1 ? (
-                                    ''
+                        }
+                      >
+                        <div className="row">
+                          <div className="d-flex col ">
+                            <p
+                              className="ml-2"
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {moment(
+                                (item.session &&
+                                  item.session[0] &&
+                                  item.session[0].day) ||
+                                  new Date().toLocaleDateString()
+                              ).format('DD/MM/YYYY ')}
+                            </p>
+                          </div>
+                          <div className="d-flex col ">
+                            <div>
+                              {item.isSellTicket ? (
+                                <div className="d-flex ">
+                                  {item.ticket.discount ? (
+                                    <div className="d-flex ">
+                                      <p
+                                        style={{
+                                          textDecoration: 'line-through',
+                                          fontWeight: 'bold',
+                                        }}
+                                        className="ml-1 "
+                                      >
+                                        {item.ticket.price}
+                                      </p>
+                                      <p
+                                        className="ml-3"
+                                        style={{ fontWeight: 'bold' }}
+                                      >
+                                        {this.sumDiscount(
+                                          item.ticket.price,
+                                          item.ticket.discount
+                                        )}
+                                      </p>
+                                    </div>
                                   ) : (
                                     <p
-                                      className="ml-2"
+                                      className=" mt-1 "
                                       style={{ fontWeight: 'bold' }}
                                     >
-                                      + {item.session.length - 1}more events
+                                      {item.ticket.price} VNĐ
                                     </p>
                                   )}
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="d-flex ">
-                            <EnvironmentOutlined className="mt-1" />
-                            <div className="d-flex ">
-                              <p className="ml-2 address ">
-                                {item.session &&
-                                  item.session[0] &&
-                                  item.session[0].address.location}
-                              </p>
+                                </div>
+                              ) : (
+                                <p
+                                  style={{ fontWeight: 'bold' }}
+                                  className="ml-1  "
+                                >
+                                  0 VNĐ
+                                </p>
+                              )}
                             </div>
                           </div>
+                        </div>
 
-
-                        </Card>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        <Link to={`/event/${item.urlWeb}`}>
+                          <div className="d-flex ">
+                            <h5
+                              className="ml-2 line-clamp "
+                              style={{
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {item.name}
+                            </h5>
+                            <div>
+                              {((item.session && item.session.length) || 1) ===
+                              1 ? (
+                                ''
+                              ) : (
+                                <p
+                                  className="ml-2"
+                                  style={{ fontWeight: 'bold' }}
+                                >
+                                  + {item.session.length - 1}more events
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                        <div className="d-flex ">
+                          <EnvironmentOutlined className="mt-1" />
+                          <div className="d-flex ">
+                            <p className="ml-2 address ">
+                              {item.session &&
+                                item.session[0] &&
+                                item.session[0].address.location}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              )}
               {this.ableToLoadMore(arrEvent.length) && (
                 <Button
                   style={{
@@ -681,7 +669,9 @@ class CreateHistory extends React.Component {
           visible={this.state.isShowCancel}
           onCancel={this.isCancelEvent}
           footer={[
-            <Button type="dashed" onClick={this.isCancelEvent}>close</Button>
+            <Button type="dashed" onClick={this.isCancelEvent}>
+              close
+            </Button>,
           ]}
         >
           {!this.state.isSecondLoad && err && (
